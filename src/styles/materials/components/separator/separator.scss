@@ -1,0 +1,10 @@
+@use '../../../helpers' as *;
+
+.separator {
+  display: block;
+  width: 100%;
+  height: 1px;
+  margin: 0;
+  border: 0;
+  background-color: color(border, main);
+}

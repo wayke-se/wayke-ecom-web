@@ -22,6 +22,11 @@
     cursor: not-allowed;
   }
 
+  &:focus {
+    outline: none;
+    border-color: color(border, alt);
+  }
+
   @include placeholder {
     @include font-light;
     color: color(text, alt);

@@ -50,22 +50,34 @@ class Part2 {
   render() {
     if (this.props.edit) {
       this.props.content.innerHTML = `
-      <div>
-        <div>
-          <div>Personnummer</div>
+      <div class="stack stack--2">
+        <hr class="separator" />
+      </div>
+      <div class="stack stack--2">
+        <div class="stack stack--3">
+          <div class="input-label">
+            <label for="${this.props.id}-contact-socialId" class="input-label__label">Personnummer</label>
+          </div>
           <input
             id="${this.props.id}-contact-socialId"
             value="${this.props.state.value.socialId}"
             name="socialId"
             placeholder="ÅÅÅÅMMDD-XXXX"
+            class="input-text"
           />
-          <div id="${this.props.id}-contact-socialId-error">Error</div>
+          <div id="${this.props.id}-contact-socialId-error" class="input-error">Error</div>
         </div>
-        <div>
-        <button
-          id="${this.props.id}-contact-fetch-address"
-          class="button button--full-width button--action"
-        >Hämta uppgifter</button>
+        <div class="stack stack--3">
+          <div>ALERT</div>
+        </div>
+        <div class="stack stack--3">
+          <div class="stack stack--2">
+            <button id="${this.props.id}-contact-fetch-address" class="button button--full-width button--action">Hämta uppgifter</button>
+          </div>
+          <div class="stack stack--2">
+            [ICON] Dina uppgifter lagras och sparas säkert. Läs mer i vår personsuppgiftspolicy.
+          </div>
+        </div>
       </div>
     `;
 
