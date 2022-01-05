@@ -37,14 +37,21 @@ class Part1 {
       this.props.content.innerHTML = `
       <div>
         <div>
-          <div>E-post</div>
+          <div class="input-label">
+            <label for="${this.props.id}-contact-email" class="input-label__label">E-post</label>
+            <div class="input-label__help">
+              HELP???
+            </div>
+          </div>
           <input
+            type="text"
             id="${this.props.id}-contact-email"
             value="${this.props.state.value.email}"
             name="email"
             placeholder="Ange din e-postadress"
+            class="input-text"
           />
-          <div id="${this.props.id}-contact-email-error">Error</div>
+          <div id="${this.props.id}-contact-email-error" class="input-error">Error</div>
         </div>
         <div>
         <div>Telefonnummer</div>
