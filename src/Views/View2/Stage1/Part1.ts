@@ -35,36 +35,44 @@ class Part1 {
   render() {
     if (this.props.edit) {
       this.props.content.innerHTML = `
-        <div class="stack stack--2">
-          <div class="input-label">
-            <label for="${this.props.id}-contact-email" class="input-label__label">E-post</label>
-            <div class="input-label__help">
-              HELP???
-            </div>
+        <div class="stack stack--3">
+          <h4 class="heading heading--4">Kontaktuppgifter</h4>
+          <div class="content">
+            <p>Ange din e-postadress och ditt telefonnummer.</p>
           </div>
-          <input
-            type="text"
-            id="${this.props.id}-contact-email"
-            value="${this.props.state.value.email}"
-            name="email"
-            placeholder="Ange din e-postadress"
-            class="input-text"
-          />
-          <div id="${this.props.id}-contact-email-error" class="input-error">Error</div>
         </div>
-        <div class="stack stack--2">
-          <div class="input-label">
-            <label for="${this.props.id}-contact-phone" class="input-label__label">Telefonnummer</label>
+        <div class="stack stack--3">
+          <div class="stack stack--2">
+            <div class="input-label">
+              <label for="${this.props.id}-contact-email" class="input-label__label">E-post</label>
+              <div class="input-label__help">
+                HELP???
+              </div>
+            </div>
+            <input
+              type="text"
+              id="${this.props.id}-contact-email"
+              value="${this.props.state.value.email}"
+              name="email"
+              placeholder="Ange din e-postadress"
+              class="input-text"
+            />
+            <div id="${this.props.id}-contact-email-error" class="input-error">Error</div>
           </div>
-          <input
-            type="text"
-            id="${this.props.id}-contact-phone"
-            value="${this.props.state.value.phone}"
-            name="phone"
-            placeholder="Ange ditt telefonnummer"
-            class="input-text"
-          />
-          <div id="${this.props.id}-contact-phone-error" class="input-error">Error</div>
+          <div class="stack stack--2">
+            <div class="input-label">
+              <label for="${this.props.id}-contact-phone" class="input-label__label">Telefonnummer</label>
+            </div>
+            <input
+              type="text"
+              id="${this.props.id}-contact-phone"
+              value="${this.props.state.value.phone}"
+              name="phone"
+              placeholder="Ange ditt telefonnummer"
+              class="input-text"
+            />
+            <div id="${this.props.id}-contact-phone-error" class="input-error">Error</div>
+          </div>
         </div>
       `;
 
