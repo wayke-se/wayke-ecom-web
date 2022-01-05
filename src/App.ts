@@ -1,5 +1,5 @@
-import View1 from "./Views/View1";
-import View2 from "./Views/View2";
+import View1 from './Views/View1';
+import View2 from './Views/View2';
 
 import './styles/styles.scss';
 
@@ -26,13 +26,13 @@ class App {
     };
     switch (this.state.stage) {
       case 1:
-        const stage1 = new View1({
+        new View1({
           onNext: () => this.setStage(2),
         });
         break;
 
       case 2:
-        const stage2 = new View2({
+        new View2({
           onNext: () => this.setStage(3),
         });
         break;

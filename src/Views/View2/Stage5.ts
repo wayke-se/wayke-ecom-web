@@ -1,4 +1,4 @@
-import Li from "./Li";
+import Li from './Li';
 
 interface Stage5Props {
   node: HTMLElement;
@@ -8,7 +8,7 @@ interface Stage5Props {
   onNext: () => void;
 }
 
-const ID = "wayke-view-2-stage-5";
+const ID = 'wayke-view-2-stage-5';
 
 class Stage5 {
   private props: Stage5Props;
@@ -19,20 +19,25 @@ class Stage5 {
   }
 
   render() {
-    const { li, activate, content, proceed } = Li({
+    const {
+      li: _li,
+      activate,
+      content: _content,
+      proceed,
+    } = Li({
       node: this.props.node,
       id: ID,
-      title: "Steg 5 - Försäkring",
+      title: 'Steg 5 - Försäkring',
       active: this.props.active,
     });
 
     if (this.props.canActivate) {
-      activate.addEventListener("click", () => this.props.onThis());
+      activate.addEventListener('click', () => this.props.onThis());
     } else {
-      activate.setAttribute("disabled", "");
+      activate.setAttribute('disabled', '');
     }
 
-    proceed.addEventListener("click", () => this.props.onNext());
+    proceed.addEventListener('click', () => this.props.onNext());
   }
 }
 

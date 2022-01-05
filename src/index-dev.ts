@@ -1,5 +1,5 @@
-import App from "./App";
+import App from './App';
 
-window.addEventListener("DOMContentLoaded", (_) => {
+window.addEventListener('DOMContentLoaded', (_) => {
   new App();
 });
