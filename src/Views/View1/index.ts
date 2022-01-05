@@ -1,8 +1,14 @@
+import { OrderOptionsResponse } from '@wayke-se/ecom/dist-types/orders/order-options-response';
+import { Vehicle } from '../../App';
 import { getOrder } from '../../Data/getOrder';
+import HowTo from './HowTo';
+import Item from './Item';
 
 interface View1Props {
-  id: string;
+  vehicle: Vehicle;
+  order?: OrderOptionsResponse;
   onNext: () => void;
+  updateOrder: (order: OrderOptionsResponse) => void;
 }
 
 const PROCEED_BUTTON = 'wayke-view-1-proceed';
@@ -17,6 +23,10 @@ class View1 {
   }
 
   async init() {
+    if (this.props.order) {
+      this.render();
+      return;
+    }
     const container = document.getElementById('wayke-ecom');
     if (container) {
       const button = document.querySelector<HTMLButtonElement>(`#${PROCEED_BUTTON}`);
@@ -25,7 +35,8 @@ class View1 {
         try {
           button.setAttribute('disabled', '');
           loader.style.display = '';
-          const _response = await getOrder(this.props.id);
+          const order = await getOrder(this.props.vehicle.id);
+          this.props.updateOrder(order);
           button.removeAttribute('disabled');
         } catch (e) {
           throw e;
@@ -47,6 +58,8 @@ class View1 {
           <div class="stack stack--3">
             <div id="${PROCEED_BUTTON}-loader">Laddar...</div>
           </div>
+          ${Item({ vehicle: this.props.vehicle, order: this.props.order })}
+          ${HowTo({ order: this.props.order })}
           <div class="stack stack--3">
             <button type="button" id="${PROCEED_BUTTON}" title="Gå vidare" class="button button--full-width button--action">
               <span class="button__content">Gå vidare</span>
