@@ -75,6 +75,11 @@ class Part2 {
 
       this.props.proceed.innerText = 'Hämta uppgifter';
       this.props.proceed.addEventListener('click', () => this.onFetchAddress());
+
+      const disclaimer = document.createElement('div');
+      disclaimer.innerText =
+        '[ICON] Dina uppgifter lagras och sparas säkert. Läs mer i vår personsuppgiftspolicy.';
+      this.props.proceed.parentNode?.appendChild(disclaimer);
     } else {
       this.props.content.innerHTML = `
         <div>
