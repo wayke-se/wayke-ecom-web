@@ -1,5 +1,5 @@
-import View1 from './Views/View1';
-import View2 from './Views/View2';
+import View1 from './Views/View1/index';
+import View2 from './Views/View2/index';
 
 import './styles/styles.scss';
 

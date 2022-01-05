@@ -1,4 +1,4 @@
-import Stage1 from './Stage1';
+import Stage1 from './Stage1/index';
 import Stage2 from './Stage2';
 import Stage3 from './Stage3';
 import Stage4 from './Stage4';
