@@ -1,7 +1,9 @@
-import { Contact } from '..';
+import { IAddress } from '@wayke-se/ecom';
+import { Customer } from '..';
 
 interface Part3Props {
-  contact: Contact;
+  customer: Customer;
+  address?: IAddress;
   content: HTMLDivElement;
   onEdit: () => void;
 }
@@ -17,10 +19,14 @@ class Part3 {
   render() {
     this.props.content.innerHTML = `
         <div>
-          <p><b>E-post</b>: ${this.props.contact.email}</p>
-          <p><b>Telefonnummer</b>: ${this.props.contact.telephone}</p>
-          <p><b>Personnummer</b>: ${this.props.contact.ssn}</p>
-          <p><b>Postnummer</b>: ${this.props.contact.zip}</p>
+          <p><b>E-post</b>: ${this.props.customer.email}</p>
+          <p><b>Telefonnummer</b>: ${this.props.customer.phone}</p>
+          <p><b>Personnummer</b>: ${this.props.customer.socialId}</p>
+
+          <p><b>Namn</b>: ${this.props.address?.givenName} ${this.props.address?.surname}</p>
+          <p><b>Gata</b>: ${this.props.address?.street}</p>
+          <p><b>Postnummer</b>: ${this.props.address?.postalCode}</p>
+          <p><b>Stad</b>: ${this.props.address?.city}</p>
           <button>Ändra</button>
         </div>
       `;
