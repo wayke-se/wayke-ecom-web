@@ -3,8 +3,10 @@
 
 @use 'sass:map';
 
+// Path to static font files
 $font-path: '../assets/font/';
 
+// Define fonts in this map
 $fonts: (
   light: (
     name: 'Styrene A Light',
@@ -45,6 +47,8 @@ $fonts: (
     font-weight: map.get($fonts, $font, weight);
   }
 }
+
+// Mixins used in the project for each font
 
 @mixin font-light {
   font-family: map.get($fonts, light, name), sans-serif;
