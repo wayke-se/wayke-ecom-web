@@ -24,7 +24,9 @@ class Part3 {
           <button>Ändra</button>
         </div>
       `;
-    this.props.content.querySelector('button')?.addEventListener('click', () => this.props.onEdit());
+    this.props.content
+      .querySelector('button')
+      ?.addEventListener('click', () => this.props.onEdit());
   }
 }
 

@@ -19,7 +19,12 @@ class Stage2 {
   }
 
   render() {
-    const { li, activate, content, proceed } = Li({
+    const {
+      li: _li,
+      activate,
+      content: _content,
+      proceed,
+    } = Li({
       node: this.props.node,
       id: ID,
       title: 'Steg 2 - Leverans',

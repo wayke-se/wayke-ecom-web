@@ -1,4 +1,4 @@
-import Stage1 from './Stage1';
+import Stage1 from './Stage1/index';
 import Stage2 from './Stage2';
 import Stage3 from './Stage3';
 import Stage4 from './Stage4';
@@ -22,7 +22,6 @@ export interface View2State {
   maxStage: number;
   contact: Contact;
 }
-
 
 class View2 {
   private props: View2Props;
@@ -51,7 +50,6 @@ class View2 {
       maxStage: this.state.maxStage < nextStage ? nextStage : this.state.maxStage,
     };
     this.render();
-    debugger
   }
 
   stage1Next(contact: Contact) {
@@ -59,7 +57,7 @@ class View2 {
       ...this.state,
       contact: { ...contact },
     };
-    this.setStage(2)
+    this.setStage(2);
   }
 
   render() {
@@ -71,10 +69,8 @@ class View2 {
 
       if (!node) return;
 
-      console.log(this.state.stage);
-
       new Stage1({
-        node: node,
+        node,
         canActivate: this.state.maxStage > 0,
         active: this.state.stage === 1,
         contact: this.state.contact,
@@ -82,42 +78,42 @@ class View2 {
         onNext: this.stage1Next.bind(this),
       });
       new Stage2({
-        node: node,
+        node,
         canActivate: this.state.maxStage > 1,
         active: this.state.stage === 2,
         onThis: () => this.setStage(2),
         onNext: () => this.setStage(3),
       });
       new Stage3({
-        node: node,
+        node,
         canActivate: this.state.maxStage > 2,
         active: this.state.stage === 3,
         onThis: () => this.setStage(3),
         onNext: () => this.setStage(4),
       });
       new Stage4({
-        node: node,
+        node,
         canActivate: this.state.maxStage > 3,
         active: this.state.stage === 4,
         onThis: () => this.setStage(4),
         onNext: () => this.setStage(5),
       });
       new Stage5({
-        node: node,
+        node,
         canActivate: this.state.maxStage > 4,
         active: this.state.stage === 5,
         onThis: () => this.setStage(5),
         onNext: () => this.setStage(6),
       });
       new Stage6({
-        node: node,
+        node,
         canActivate: this.state.maxStage > 5,
         active: this.state.stage === 6,
         onThis: () => this.setStage(6),
         onNext: () => this.setStage(7),
       });
       new Stage7({
-        node: node,
+        node,
         canActivate: this.state.maxStage > 6,
         active: this.state.stage === 7,
         onThis: () => this.setStage(7),
