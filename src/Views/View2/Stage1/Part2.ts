@@ -7,6 +7,7 @@ interface Stage1Part2Props {
   id: string;
   state: Stage1State;
   edit: boolean;
+  proceed: HTMLButtonElement;
   onChange: (e: Event) => void;
   onBlur: (e: Event) => void;
   onAddress: (address: IAddress) => void;
@@ -62,10 +63,6 @@ class Part2 {
           <div id="${this.props.id}-contact-socialId-error">Error</div>
         </div>
         <div>
-        <button
-          id="${this.props.id}-contact-fetch-address"
-          class="button button--full-width button--action"
-        >Hämta uppgifter</button>
       </div>
     `;
 
@@ -76,9 +73,8 @@ class Part2 {
         this.attach(socialId, 'socialId');
       }
 
-      this.props.content
-        .querySelector<HTMLButtonElement>(`#${this.props.id}-contact-fetch-address`)
-        ?.addEventListener('click', () => this.onFetchAddress());
+      this.props.proceed.innerText = 'Hämta uppgifter';
+      this.props.proceed.addEventListener('click', () => this.onFetchAddress());
     } else {
       this.props.content.innerHTML = `
         <div>

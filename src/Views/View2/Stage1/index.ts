@@ -155,9 +155,8 @@ class Stage1 {
         content,
         onEdit: () => this.props.onThis(),
       });
-      proceed.style.display = 'none';
+      proceed.remove();
     } else {
-      proceed.style.display = '';
       const content1 = document.createElement('div');
       const content2 = document.createElement('div');
       content.appendChild(content1);
@@ -181,16 +180,18 @@ class Stage1 {
       });
 
       if (this.stage === 2) {
-        proceed.style.display = 'none';
         new Part2({
           id: ID,
           content: content2,
           state: this.state,
           edit: this.stage === 2,
+          proceed,
           onChange: this.onChange.bind(this),
           onBlur: this.onBlur.bind(this),
           onAddress: this.onAddress.bind(this),
         });
+      } else {
+        proceed.addEventListener('click', () => this.onNext());
       }
     }
 
@@ -199,8 +200,6 @@ class Stage1 {
     } else {
       activate.setAttribute('disabled', '');
     }
-
-    proceed.addEventListener('click', () => this.onNext());
   }
 }
 
