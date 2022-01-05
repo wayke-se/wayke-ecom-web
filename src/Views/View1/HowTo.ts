@@ -5,9 +5,11 @@ interface HowToProps {
 }
 
 const HowTo = ({ order }: HowToProps) => `
-  <div>
-    <h2>Så här köper du bilen online</h2>
-    <p>På Wayke kan du tryggt köpa din nästa bil online. Reservera bilen genom att klicka dig igenom vårt köpflöde med följande steg:</p>
+  <div class="stack stack--3">
+    <h2 class="heading heading--4">Så här köper du bilen online</h2>
+    <div class="content">
+      <p>På Wayke kan du tryggt köpa din nästa bil online. Reservera bilen genom att klicka dig igenom vårt köpflöde med följande steg:</p>
+    </div>
     <ol>
       <li>
         <p>Dina kunduppgifter</p>
@@ -33,7 +35,7 @@ const HowTo = ({ order }: HowToProps) => `
         <p>Sammanställning och orderbekräftelse</p>
       </li>
     </ol>
-    <div>
+    <div class="content">
       <p>Efter att ordern är genomförd tar ${
         order?.getContactInformation()?.name
       } kontakt med dig så kommer ni 
