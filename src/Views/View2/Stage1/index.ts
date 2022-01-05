@@ -136,7 +136,7 @@ class Stage1 {
     const { li, activate, content, proceed } = Li({
       node: this.props.node,
       id: ID,
-      title: 'Steg 1 - Dina uppgifter',
+      title: 'Dina uppgifter',
       active: this.props.active,
     });
 

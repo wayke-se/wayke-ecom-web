@@ -16,7 +16,9 @@ const Li = ({ node, id, title, active }: LiProps) => {
 
   li.innerHTML = `
     <header class="stepper__header">
-      <h3 class="heading heading--3 no-margin">${title}</h3>
+      <h3 class="heading heading--3 no-margin">
+        Steg <span class="stepper__stage-count"></span> – ${title}
+      </h3>
     </header>
     <div class="stepper__body">
       <button id="${id}-activate">Gå till</button>
