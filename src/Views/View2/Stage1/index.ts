@@ -181,6 +181,7 @@ class Stage1 {
       });
 
       if (this.stage === 2) {
+        proceed.style.display = 'none';
         new Part2({
           id: ID,
           content: content2,

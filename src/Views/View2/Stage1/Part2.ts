@@ -62,7 +62,10 @@ class Part2 {
           <div id="${this.props.id}-contact-socialId-error">Error</div>
         </div>
         <div>
-        <button id="${this.props.id}-contact-fetch-address">Hämta uppgifter</button>
+        <button
+          id="${this.props.id}-contact-fetch-address"
+          class="button button--full-width button--action"
+        >Hämta uppgifter</button>
       </div>
     `;
 
