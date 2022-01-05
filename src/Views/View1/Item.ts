@@ -7,12 +7,14 @@ interface ItemProps {
 }
 
 const Item = ({ vehicle, order }: ItemProps) => `
-  <div>
-    <img src="${vehicle.imageUrls[0]}?spec=80x&format=webp"/>
+  <div class="stack stack--3">
+    <div style="border: 1px solid black">
+      <img src="${vehicle.imageUrls[0]}?spec=80x&format=webp"/>
 
-    <div>${order?.getContactInformation()?.name}</div>
-    <p><b>${vehicle.title}</b> ${vehicle.shortDescription}</p>
-    <p>${vehicle.price} kr</p>
+      <div>${order?.getContactInformation()?.name}</div>
+      <p><b>${vehicle.title}</b> ${vehicle.shortDescription}</p>
+      <p>${vehicle.price} kr</p>
+    </div>
   </div>
 `;
 
