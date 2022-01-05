@@ -1,0 +1,26 @@
+/// Declaration of the breakpoints used in the project.
+/// Breakpoint imports are set in styles.scss.
+
+@use 'sass:meta';
+@use 'sass:map';
+
+// Definition of breakpoints. "Less than (lt-)" breakpoints will also
+// be created in $breakpoints based on these values.
+$breakpoint-defs: (
+  sm: 600px,
+  md: 900px,
+  lg: 1200px,
+);
+
+// Map containing breakpoint media queries
+$breakpoints: ();
+
+// Assign breakpoint media queries to $breakpoints from $breakpoint-defs
+@if meta.variable-exists('breakpoint-defs') {
+  @each $name, $size in $breakpoint-defs {
+    $breakpoints: map.merge($breakpoints, ('lt-#{$name}': (max-width: $size - 1)));
+    $breakpoints: map.merge($breakpoints, ('#{$name}': (min-width: $size)));
+  }
+} @else {
+  @warn 'Map $breakpoint-defs does not exist. No breakpoint media queries will be created.';
+}
