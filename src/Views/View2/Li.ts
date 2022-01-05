@@ -10,19 +10,18 @@ const Li = ({ node, id, title, active }: LiProps) => {
   if (!li) {
     li = document.createElement('li');
     li.id = `${id}-li`;
+    li.className = 'stepper__item';
     node.appendChild(li);
   }
 
   li.style.backgroundColor = active ? 'green' : 'inherit';
 
   li.innerHTML = `
-        <div>
-          <h2>${title}</h2>
-          <button id="${id}-activate">Gå till</button>
-          <div id="${id}-content"></div>
-          <button id="${id}-proceed">Fortsätt</button>
-        </div>
-      `;
+    <h2>${title}</h2>
+    <button id="${id}-activate">Gå till</button>
+    <div id="${id}-content"></div>
+    <button id="${id}-proceed">Fortsätt</button>
+  `;
 
   const activate = li.querySelector<HTMLButtonElement>(`#${id}-activate`);
   const content = li.querySelector<HTMLDivElement>(`#${id}-content`);
