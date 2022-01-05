@@ -2,13 +2,27 @@ import View1 from './Views/View1/index';
 import View2 from './Views/View2/index';
 
 import './styles/styles.scss';
+import { OrderOptionsResponse } from '@wayke-se/ecom/dist-types/orders/order-options-response';
 
 export interface AppState {
   stage: number;
+  order?: OrderOptionsResponse;
+}
+
+export interface Vehicle {
+  id: string;
+  title: string;
+  shortDescription: string;
+  price: number;
+  imageUrl: string;
+  modelYear: number;
+  milage: number;
+  gearBox: string;
+  fuelType: string;
 }
 
 interface AppProps {
-  id: string;
+  vehicle: Vehicle;
 }
 
 const initalState = (): AppState => ({
@@ -25,6 +39,14 @@ class App {
     this.init();
   }
 
+  updateOrder(order: OrderOptionsResponse) {
+    this.state = {
+      ...this.state,
+      order,
+    };
+    this.setStage(1);
+  }
+
   setStage(nextStage: number) {
     this.state = {
       ...this.state,
@@ -33,8 +55,10 @@ class App {
     switch (this.state.stage) {
       case 1:
         new View1({
-          id: this.props.id,
+          vehicle: this.props.vehicle,
+          order: this.state.order,
           onNext: () => this.setStage(2),
+          updateOrder: this.updateOrder.bind(this),
         });
         break;
 
