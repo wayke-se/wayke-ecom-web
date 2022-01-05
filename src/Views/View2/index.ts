@@ -69,6 +69,12 @@ class View2 {
     const container = document.querySelector('#wayke-ecom');
     if (container) {
       container.innerHTML = '';
+
+      const aside = document.createElement('aside');
+      aside.className = 'aside';
+      aside.innerHTML = 'ASIDE...';
+      container.appendChild(aside);
+
       const node = document.createElement('ul');
       node.className = 'stepper';
       container.appendChild(node);

@@ -27,7 +27,7 @@ class Stage5 {
     } = Li({
       node: this.props.node,
       id: ID,
-      title: 'Steg 5 - Försäkring',
+      title: 'Försäkring',
       active: this.props.active,
     });
 

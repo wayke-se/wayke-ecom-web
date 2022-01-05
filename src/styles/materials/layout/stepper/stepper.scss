@@ -6,14 +6,15 @@
   list-style: none;
   padding: 0;
   margin: 0;
+  counter-reset: stage;
 
   &__item {
-    padding: size(4) 0;
+    counter-increment: stage;
 
     // Handle inactive state on items placed after the active
     &--is-active {
       & ~ #{$root}__item {
-        * {
+        & > * {
           opacity: 0.3;
         }
 
@@ -26,6 +27,12 @@
 
   &__header {
     text-align: center;
+  }
+
+  &__stage-count {
+    &::before {
+      content: counter(stage);
+    }
   }
 
   &__body {

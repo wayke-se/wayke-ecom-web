@@ -2,8 +2,7 @@
 
 .stepper {
   &__item {
-    & + & {
-      border-top: size(1) solid color(bg, alt);
-    }
+    padding: size(4) size(2);
+    border-top: size(1) solid color(bg, alt);
   }
 }

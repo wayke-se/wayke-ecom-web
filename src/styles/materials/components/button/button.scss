@@ -1,0 +1,58 @@
+@use 'sass:color';
+@use 'sass:math';
+@use '../../../helpers' as *;
+
+@mixin buttonTone($bg, $text) {
+  background-color: $bg;
+  color: $text;
+
+  &:not([disabled]) {
+    &:hover {
+      background-color: darken($bg, 5%);
+    } 
+  }
+}
+
+.button {
+  @include font-medium;
+  @include transform-origin(50%, 50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(size, input-height);
+  padding: size(1.5) size(3);
+  border-radius: math.div(var(size, input-height), 2);
+  font-size: 0.875rem;
+  user-select: none;
+  transition: transform 200ms ease, background-color 200ms ease;
+
+  &[disabled] {
+    opacity: 0.37;
+    cursor: not-allowed;
+  }
+
+  &:active {
+    @include transform(scale(0.97));
+  }
+
+  &--primary {
+    @include buttonTone(color(primary, main), color(primary, text));
+  }
+
+  &--action {
+    @include buttonTone(color(action, main), color(action, text));
+  }
+
+  &--full-width {
+    width: 100%;
+  }
+
+  &__content {
+    display: block;
+
+    & + & {
+      margin-left: size(1);
+      user-select: none;
+    }
+  }
+}

@@ -1,0 +1,46 @@
+@use "sass:math";
+@use "../../../helpers" as *;
+
+.hstack {
+  $root: &;
+
+  @include flex-display;
+  @include align-items(flex-start);
+
+  &--align-center {
+    @include align-items(center);
+  }
+
+  &--align-end {
+    @include align-items(flex-end);
+  }
+
+  &--equal-width {
+    #{$root}__item {
+      width: 100%;
+    }
+  }
+
+  // Create spacing modifier
+  @for $i from 1 through 4 {
+    &--spacing-#{$i} {
+      margin: size(math.div($i, -2));
+
+      & > #{$root}__item {
+        padding: size(math.div($i, 2));
+      }
+    }
+  }
+
+  &__item {
+    @include flex(0 1 auto);
+
+    &--grow {
+      @include flex-grow(1);
+    }
+
+    &--no-shrink {
+      @include flex-shrink(0);
+    }
+  }
+}
