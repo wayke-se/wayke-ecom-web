@@ -1,5 +1,6 @@
 import { IAddress } from '@wayke-se/ecom';
 import { Customer } from '..';
+import { maskSSn, maskText } from '../../../Utils/mask';
 
 interface Part3Props {
   customer: Customer;
@@ -21,12 +22,21 @@ class Part3 {
         <div>
           <p><b>E-post</b>: ${this.props.customer.email}</p>
           <p><b>Telefonnummer</b>: ${this.props.customer.phone}</p>
-          <p><b>Personnummer</b>: ${this.props.customer.socialId}</p>
+          <p><b>Personnummer</b>: ${maskSSn(this.props.customer.socialId)}</p>
 
-          <p><b>Namn</b>: ${this.props.address?.givenName} ${this.props.address?.surname}</p>
-          <p><b>Gata</b>: ${this.props.address?.street}</p>
-          <p><b>Postnummer</b>: ${this.props.address?.postalCode}</p>
-          <p><b>Stad</b>: ${this.props.address?.city}</p>
+          ${
+            this.props.address &&
+            `
+              <p><b>Namn</b>: ${maskText(this.props.address.givenName)} ${maskText(
+              this.props.address.surname
+            )}</p>
+              <p><b>Gata</b>: ${this.props.address.street}</p>
+              <p><b>Postnummer</b>: ${this.props.address.postalCode}</p>
+              <p><b>Stad</b>: ${this.props.address.city}</p>
+            `
+          }
+
+         
           <button>Ändra</button>
         </div>
       `;
