@@ -1,5 +1,6 @@
 import { IAddress } from '@wayke-se/ecom';
 import { Stage1State } from '.';
+import Alert from '../../../Components/Alert';
 import { getAddressBySsn } from '../../../Data/getAddress';
 
 interface Stage1Part2Props {
@@ -37,6 +38,9 @@ class Part2 {
   }
 
   async onFetchAddress() {
+    const errorAlert = document.querySelector<HTMLDivElement>(`#${this.props.id}-fetch-error`);
+    if (!errorAlert) return;
+    errorAlert.style.display = 'none';
     try {
       if (this.props.state.validation.socialId) {
         const response = await getAddressBySsn(this.props.state.value.socialId);
@@ -44,7 +48,7 @@ class Part2 {
         this.props.onAddress(address);
       }
     } catch (e) {
-      throw e;
+      errorAlert.style.display = '';
     }
   }
 
@@ -57,7 +61,9 @@ class Part2 {
       <div class="stack stack--2">
         <div class="stack stack--3">
           <div class="input-label">
-            <label for="${this.props.id}-contact-socialId" class="input-label__label">Personnummer</label>
+            <label for="${
+              this.props.id
+            }-contact-socialId" class="input-label__label">Personnummer</label>
           </div>
           <input
             id="${this.props.id}-contact-socialId"
@@ -66,31 +72,30 @@ class Part2 {
             placeholder="ÅÅÅÅMMDD-XXXX"
             class="input-text"
           />
-          <div id="${this.props.id}-contact-socialId-error" class="input-error">Error</div>
+          <div id="${
+            this.props.id
+          }-contact-socialId-error" class="input-error">Ange personnummer i formatet ÅÅÅÅMMDD-XXXX</div>
         </div>
+
+        <div class="stack stack--3" style="display:none;" id="${this.props.id}-fetch-error">
+          ${Alert({
+            tone: 'error',
+            children: '<p>Tyvärr fick vi ingen träff på personnumret du angav.</p>',
+          })}
+        </div>
+        
         <div class="stack stack--3">
-          <div class="alert alert--info">
-            <div class="alert__icon">
-              <div class="alert__icon-badge">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 16 16"
-                  class="icon"
-                >
-                  <title>Ikon: info</title>
-                  <path d="M7 6h2v8H7V6zm0-4v2h2V2H7z" />
-                </svg>
-              </div>
-            </div>
-            <div class="alert__content">
+          ${Alert({
+            tone: 'info',
+            children: `
               <p>Vi kommer hämta följande uppgifter om dig:</p>
               <ul>
                 <li>Personnummer</li>
                 <li>Namn</li>
                 <li>Folkbokföringsadress</li>
               </ul>
-            </div>
-          </div>
+            `,
+          })}
         </div>
       </div>
     `;
