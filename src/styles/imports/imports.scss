@@ -7,7 +7,11 @@
 @use '../partials/base/base';
 
 // Components
+@use '../materials/components/button/button';
 @use '../materials/components/heading/heading';
+@use '../materials/components/icon/icon';
 
 // Layout
+@use '../materials/layout/hstack/hstack';
+@use '../materials/layout/stack/stack';
 @use '../materials/layout/stepper/stepper';

@@ -67,7 +67,7 @@ class View2 {
 
       const aside = document.createElement('aside');
       aside.className = 'aside';
-      aside.innerHTML = 'ASIDE...'
+      aside.innerHTML = 'ASIDE...';
       container.appendChild(aside);
 
       const node = document.createElement('ul');
