@@ -1,12 +1,67 @@
 /// This file contains font settings and exposes
 /// the fonts using mixins.
 
+@use 'sass:map';
+
+$font-path: '../assets/font/';
+
+$fonts: (
+  light: (
+    name: 'Styrene A Light',
+    file: 'StyreneA-Light-Web',
+    weight: 300,
+  ),
+  regular: (
+    name: 'Styrene A Regular',
+    file: 'StyreneA-Regular-Web',
+    weight: 400,
+  ),
+  medium: (
+    name: 'Styrene A Medium',
+    file: 'StyreneA-Medium-Web',
+    weight: 500,
+  ),
+  bold: (
+    name: 'Styrene A Bold',
+    file: 'StyreneA-Bold-Web',
+    weight: 700,
+  ),
+);
+
+// Shared properties on all fonts
+@mixin font-shared-properties {
+  font-style: normal;
+  font-stretch: normal;
+  font-display: swap;
+}
+
+// Generate @font-face for each font defined in $fonts
+@each $font in map.keys($fonts) {
+  @font-face {
+    @include font-shared-properties;
+    font-family: #{map.get($fonts, $font, name)};
+    src:  url('#{$font-path}#{map.get($fonts, $font, file)}.woff2') format('woff2'),
+          url('#{$font-path}#{map.get($fonts, $font, file)}.woff') format('woff');
+    font-weight: map.get($fonts, $font, weight);
+  }
+}
+
+@mixin font-light {
+  font-family: map.get($fonts, light, name), sans-serif;
+  font-weight: map.get($fonts, light, weight);
+}
+
 @mixin font-regular {
-  font-family: sans-serif;
-  font-weight: 400;
+  font-family: map.get($fonts, regular, name), sans-serif;
+  font-weight: map.get($fonts, regular, weight);
 }
 
 @mixin font-medium {
-  font-family: sans-serif;
-  font-weight: 500;
+  font-family: map.get($fonts, medium, name), sans-serif;
+  font-weight: map.get($fonts, medium, weight);
+}
+
+@mixin font-bold {
+  font-family: map.get($fonts, bold, name), sans-serif;
+  font-weight: map.get($fonts, bold, weight);
 }
