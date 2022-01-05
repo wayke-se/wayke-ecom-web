@@ -1,12 +1,12 @@
-const config = require("./common");
+const config = require('./common');
 
-require("esbuild").serve(
+require('esbuild').serve(
   {
-    servedir: "www",
+    servedir: 'www',
     port: 5000,
   },
   Object.assign(config, {
     entryPoints: ['src/index-dev.ts'],
-    outdir: "www/js",
+    outdir: 'www/js',
   })
 );

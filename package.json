@@ -51,5 +51,8 @@
         {}
       ]
     ]
+  },
+  "dependencies": {
+    "@wayke-se/ecom": "^3.5.2"
   }
 }
