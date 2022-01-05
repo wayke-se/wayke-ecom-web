@@ -1,0 +1,9 @@
+@use '../../../helpers' as *;
+
+.stepper {
+  &__item {
+    & + & {
+      border-top: size(1) solid color(bg, alt);
+    }
+  }
+}

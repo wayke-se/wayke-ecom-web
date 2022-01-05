@@ -65,6 +65,7 @@ class View2 {
     if (container) {
       container.innerHTML = '';
       const node = document.createElement('ul');
+      node.className = 'stepper';
       container.appendChild(node);
 
       if (!node) return;
