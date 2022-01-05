@@ -1,0 +1,18 @@
+@use '../../../helpers' as *;
+
+.timeline {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  counter-reset: timeline;
+
+  &__item {
+    margin-top: size(2);
+    counter-increment: timeline;
+
+    &::before {
+      content: counter(timeline);
+      color: red;
+    }
+  }
+}

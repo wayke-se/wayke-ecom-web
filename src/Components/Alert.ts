@@ -4,7 +4,7 @@ interface AlertProps {
 }
 
 const Alert = ({ tone, children }: AlertProps) => `
-  <div class="alert ${tone ? `alert--${tone}` : ''}">
+  <div class="alert ${tone ? `alert--${tone}` : ''}" role="alert">
     <div class="alert__icon">
       <div class="alert__icon-badge">
         <svg
