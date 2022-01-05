@@ -7,6 +7,7 @@ interface Stage1Part2Props {
   id: string;
   state: Stage1State;
   edit: boolean;
+  proceed: HTMLButtonElement;
   onChange: (e: Event) => void;
   onBlur: (e: Event) => void;
   onAddress: (address: IAddress) => void;
@@ -70,14 +71,6 @@ class Part2 {
         <div class="stack stack--3">
           <div>ALERT</div>
         </div>
-        <div class="stack stack--3">
-          <div class="stack stack--2">
-            <button id="${this.props.id}-contact-fetch-address" class="button button--full-width button--action">Hämta uppgifter</button>
-          </div>
-          <div class="stack stack--2">
-            [ICON] Dina uppgifter lagras och sparas säkert. Läs mer i vår personsuppgiftspolicy.
-          </div>
-        </div>
       </div>
     `;
 
@@ -88,9 +81,8 @@ class Part2 {
         this.attach(socialId, 'socialId');
       }
 
-      this.props.content
-        .querySelector<HTMLButtonElement>(`#${this.props.id}-contact-fetch-address`)
-        ?.addEventListener('click', () => this.onFetchAddress());
+      this.props.proceed.innerText = 'Hämta uppgifter';
+      this.props.proceed.addEventListener('click', () => this.onFetchAddress());
     } else {
       this.props.content.innerHTML = `
         <div>
