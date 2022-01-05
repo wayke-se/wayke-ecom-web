@@ -14,11 +14,11 @@
 }
 
 .button {
+  @include flex-display;
+  @include align-items(center);
+  @include justify-content(center);
   @include font-medium;
   @include transform-origin(50%, 50%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
   min-height: var(size, input-height);
   padding: size(1.5) size(3);
   border-radius: math.div(var(size, input-height), 2);

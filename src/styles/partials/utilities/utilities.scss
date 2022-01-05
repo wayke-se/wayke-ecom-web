@@ -6,3 +6,44 @@
 .no-margin {
   margin: 0;
 }
+
+// Margins
+
+$margin-sizes: (
+  1,
+  2,
+  3,
+  4,
+);
+
+@each $size in $margin-sizes {
+  .m--#{size} {
+    margin: size($size);
+  }
+
+  .m-t--#{$size} {
+    margin-top: size($size);
+  }
+
+  .m-b--#{$size} {
+    margin-bottom: size($size);
+  }
+
+  .m-l--#{$size} {
+    margin-left: size($size);
+  }
+
+  .m-r--#{$size} {
+    margin-right: size($size);
+  }
+
+  .m-x--#{$size} {
+    margin-left: size($size);
+    margin-right: size($size);
+  }
+
+  .m-y--#{$size} {
+    margin-top: size($size);
+    margin-bottom: size($size);
+  }
+}

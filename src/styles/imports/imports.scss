@@ -7,7 +7,9 @@
 @use '../partials/base/base';
 
 // Components
+@use '../materials/components/alert/alert';
 @use '../materials/components/button/button';
+@use '../materials/components/content/content';
 @use '../materials/components/heading/heading';
 @use '../materials/components/icon/icon';
 @use '../materials/components/input-error/input-error';

@@ -35,7 +35,7 @@ export interface Stage1State {
 }
 
 interface Elements {
-  li?: HTMLLIElement;
+  li?: HTMLDivElement;
   activate?: HTMLButtonElement;
   content1?: HTMLDivElement;
   content2?: HTMLDivElement;

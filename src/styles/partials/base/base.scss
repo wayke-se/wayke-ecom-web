@@ -16,7 +16,7 @@ html {
 }
 
 body {
-  @include font-regular;
+  @include font-light;
   margin: 0;
   background-color: color(bg, main);
   font-size: var(font, size, regular);

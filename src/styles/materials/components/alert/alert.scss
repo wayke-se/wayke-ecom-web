@@ -1,5 +1,84 @@
 @use '../../../helpers' as *;
 
+@mixin alertTone($root, $bg, $text, $iconBg, $iconText) {
+  background-color: $bg;
+  color: $text;
+
+  #{$root}__icon-badge {
+    background-color: $iconBg;
+    color: $iconText;
+  }
+}
+
 .alert {
-  color: red;
+  $root: &;
+  $icon-size: size(3);
+  $content-size: var(font, size, small);
+  $content-line-height: var(font, line-height, main);
+
+  @include alertTone($root, color(bg, alt), color(text, main), darken(color(bg, alt), 5%), color(text, main));
+  @include flex-display;
+  padding: size(1.5);
+  border-radius: var(size, border-radius);
+
+  &--success {
+    @include alertTone($root, color(ui, success, alt), color(text, main), color(ui, success, main), color(ui, success, text));
+  }
+
+  &--warning {
+    @include alertTone($root, color(ui, warning, alt), color(text, main), color(ui, warning, main), color(ui, warning, text));
+  }
+
+  &--error {
+    @include alertTone($root, color(ui, error, alt), color(text, main), color(ui, error, main), color(ui, error, text));
+  }
+
+  &--info {
+    @include alertTone($root, color(ui, info, alt), color(text, main), color(ui, info, main), color(ui, info, text));
+  }
+
+  &__icon {
+    @include flex-shrink(0);
+    padding-right: size(1);
+  }
+
+  &__icon-badge {
+    @include flex-display;
+    @include align-items(center);
+    @include justify-content(center);
+    width: $icon-size;
+    height: $icon-size;
+    margin-top: calc(($icon-size - $content-size * $content-line-height) / -2);
+    border-radius: 50%;
+    font-size: var(font, size, small);
+  }
+
+  &__content {
+    @include flex(1 1 auto);
+    min-width: 0;
+    font-size: $content-size;
+    line-height: $content-line-height;
+
+    p,
+    ul,
+    ol {
+      margin: size(1.5) 0;
+    }
+
+    ul,
+    ol {
+      padding: 0;
+      list-style-position: inside;
+    }
+
+    > * {
+      &:first-child {
+        margin-top: 0;
+      }
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
 }

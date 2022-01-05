@@ -6,9 +6,9 @@ interface LiProps {
 }
 
 const Li = ({ node, id, title, active }: LiProps) => {
-  let li = node.querySelector<HTMLLIElement>(`#${id}-li`);
+  let li = node.querySelector<HTMLDivElement>(`#${id}-li`);
   if (!li) {
-    li = document.createElement('li');
+    li = document.createElement('div');
     li.id = `${id}-li`;
     li.className = active ? 'stepper__item stepper__item--is-active' : 'stepper__item';
     node.appendChild(li);

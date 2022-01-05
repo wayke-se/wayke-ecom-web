@@ -1,8 +1,8 @@
 @use '../../../helpers' as *;
 
 .input-label {
-  display: flex;
-  align-items: center;
+  @include flex-display;
+  @include align-items(center);
   
   &:not(.no-margin) {
     margin-bottom: size(0.5);

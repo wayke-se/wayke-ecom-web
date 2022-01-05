@@ -23,5 +23,9 @@
 
   &--4 {
     font-size: 1rem;
+
+    &:not(.no-margin) {
+      margin-bottom: size(1);
+    }
   }
 }
