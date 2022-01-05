@@ -19,6 +19,6 @@ input,
 select,
 textarea {
   @include focus {
-    outline: 2px solid color(focus, main);
+    outline: 2px solid color(text, main);
   }
 }
