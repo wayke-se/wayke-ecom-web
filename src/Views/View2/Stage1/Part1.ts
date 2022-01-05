@@ -35,8 +35,7 @@ class Part1 {
   render() {
     if (this.props.edit) {
       this.props.content.innerHTML = `
-      <div>
-        <div>
+        <div class="stack stack--2">
           <div class="input-label">
             <label for="${this.props.id}-contact-email" class="input-label__label">E-post</label>
             <div class="input-label__help">
@@ -53,18 +52,21 @@ class Part1 {
           />
           <div id="${this.props.id}-contact-email-error" class="input-error">Error</div>
         </div>
-        <div>
-        <div>Telefonnummer</div>
+        <div class="stack stack--2">
+          <div class="input-label">
+            <label for="${this.props.id}-contact-phone" class="input-label__label">Telefonnummer</label>
+          </div>
           <input
+            type="text"
             id="${this.props.id}-contact-phone"
             value="${this.props.state.value.phone}"
             name="phone"
             placeholder="Ange ditt telefonnummer"
+            class="input-text"
           />
-          <div id="${this.props.id}-contact-phone-error">Error</div>
+          <div id="${this.props.id}-contact-phone-error" class="input-error">Error</div>
         </div>
-      </div>
-    `;
+      `;
 
       const email = this.props.content.querySelector<HTMLInputElement>(
         `#${this.props.id}-contact-email`
@@ -82,7 +84,7 @@ class Part1 {
       }
     } else {
       this.props.content.innerHTML = `
-        <div>
+        <div class="stack stack--2">
           <p><b>E-post</b>: ${this.props.state.value.email}</p>
           <p><b>Telefonnummer</b>: ${this.props.state.value.phone}</p>
         </div>

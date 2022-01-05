@@ -51,18 +51,26 @@ class Part2 {
   render() {
     if (this.props.edit) {
       this.props.content.innerHTML = `
-      <div>
-        <div>
-          <div>Personnummer</div>
+      <div class="stack stack--2">
+        <hr class="separator" />
+      </div>
+      <div class="stack stack--2">
+        <div class="stack stack--3">
+          <div class="input-label">
+            <label for="${this.props.id}-contact-socialId" class="input-label__label">Personnummer</label>
+          </div>
           <input
             id="${this.props.id}-contact-socialId"
             value="${this.props.state.value.socialId}"
             name="socialId"
             placeholder="ÅÅÅÅMMDD-XXXX"
+            class="input-text"
           />
-          <div id="${this.props.id}-contact-socialId-error">Error</div>
+          <div id="${this.props.id}-contact-socialId-error" class="input-error">Error</div>
         </div>
-        <div>
+        <div class="stack stack--3">
+          <div>ALERT</div>
+        </div>
       </div>
     `;
 
