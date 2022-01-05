@@ -1,11 +1,34 @@
 @use '../../../helpers' as *;
 
 .stepper {
+  $root: &;
+
   list-style: none;
   padding: 0;
   margin: 0;
 
   &__item {
     padding: size(4) 0;
+
+    // Handle inactive state on items placed after the active
+    &--is-active {
+      & ~ #{$root}__item {
+        * {
+          opacity: 0.3;
+        }
+
+        #{$root}__body {
+          display: none;
+        }
+      }
+    }
+  }
+
+  &__header {
+    text-align: center;
+  }
+
+  &__body {
+    margin-top: size(4);
   }
 }
