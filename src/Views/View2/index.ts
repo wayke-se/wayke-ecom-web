@@ -23,7 +23,6 @@ export interface View2State {
   contact: Contact;
 }
 
-const PROCEED_BUTTON = 'wayke-view-2-proceed';
 
 class View2 {
   private props: View2Props;
@@ -52,6 +51,7 @@ class View2 {
       maxStage: this.state.maxStage < nextStage ? nextStage : this.state.maxStage,
     };
     this.render();
+    debugger
   }
 
   stage1Next(contact: Contact) {
@@ -78,7 +78,6 @@ class View2 {
         canActivate: this.state.maxStage > 0,
         active: this.state.stage === 1,
         contact: this.state.contact,
-        currentStage: this.state.stage,
         onThis: () => this.setStage(1),
         onNext: this.stage1Next.bind(this),
       });

@@ -17,7 +17,6 @@ interface Stage1Props {
   active?: boolean;
   canActivate?: boolean;
   contact: Contact;
-  currentStage: number;
   onThis: () => void;
   onNext: (contact: Contact) => void;
 }
@@ -92,12 +91,10 @@ class Stage1 {
 
     this.state.interact[name] = true;
     this.state.validation[name] = validation[name](this.state.value[name]);
-    console.log(this.state);
     this.update();
   }
 
   update() {
-    console.log('update', this.state);
     Object.keys(this.state.value).forEach((_key) => {
       const key = _key as keyof Contact;
       const element =
