@@ -2,7 +2,7 @@ interface View1Props {
   onNext: () => void;
 }
 
-const PROCEED_BUTTON = "wayke-view-1-proceed";
+const PROCEED_BUTTON = 'wayke-view-1-proceed';
 
 class View1 {
   private props: View1Props;
@@ -13,7 +13,7 @@ class View1 {
   }
 
   render() {
-    const container = document.getElementById("wayke-ecom");
+    const container = document.getElementById('wayke-ecom');
     if (container) {
       container.innerHTML = `
         <div>
@@ -22,7 +22,7 @@ class View1 {
       `;
       container
         .querySelector(`#${PROCEED_BUTTON}`)
-        ?.addEventListener("click", () => this.props.onNext());
+        ?.addEventListener('click', () => this.props.onNext());
     }
   }
 }
