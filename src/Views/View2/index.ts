@@ -78,6 +78,7 @@ class View2 {
         canActivate: this.state.maxStage > 0,
         active: this.state.stage === 1,
         contact: this.state.contact,
+        currentStage: this.state.stage,
         onThis: () => this.setStage(1),
         onNext: this.stage1Next.bind(this),
       });

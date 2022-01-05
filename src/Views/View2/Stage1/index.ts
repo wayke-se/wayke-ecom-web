@@ -3,12 +3,13 @@ import { validationMethods } from '../../../Utils/validationMethods';
 import Li from '../Li';
 import Part1 from './Part1';
 import Part2 from './Part2';
+import Part3 from './Part3';
 
 const validation = {
   email: validationMethods.requiredEmail,
   telephone: validationMethods.requiredTelephone,
-  ssn: () => true,
-  zip: () => true,
+  ssn: validationMethods.requiredSsn,
+  zip: validationMethods.requiredZip,
 };
 
 interface Stage1Props {
@@ -16,6 +17,7 @@ interface Stage1Props {
   active?: boolean;
   canActivate?: boolean;
   contact: Contact;
+  currentStage: number;
   onThis: () => void;
   onNext: (contact: Contact) => void;
 }
@@ -66,8 +68,8 @@ class Stage1 {
       validation: {
         email: validation.email(props.contact.email),
         telephone: validation.telephone(props.contact.telephone),
-        ssn: true,
-        zip: true,
+        ssn: validation.ssn(props.contact.ssn),
+        zip: validation.zip(props.contact.zip),
       },
       interact: { email: false, telephone: false, ssn: false, zip: false },
     };
@@ -114,7 +116,13 @@ class Stage1 {
 
   onNext() {
     if (this.stage === 2) {
-      this.props.onNext(this.state.value);
+      if (!this.state.validation.ssn || !this.state.validation.zip) {
+        this.state.interact.ssn = true;
+        this.state.interact.zip = true;
+        this.render();
+      } else {
+        this.props.onNext(this.state.value);
+      }
     } else {
       if (!this.state.validation.email || !this.state.validation.telephone) {
         this.state.interact.email = true;
@@ -135,37 +143,45 @@ class Stage1 {
       active: this.props.active,
     });
 
-    const content1 = document.createElement('div');
-    const content2 = document.createElement('div');
-    content.appendChild(content1);
-    content.appendChild(content2);
+    if (!this.props.active) {
+      new Part3({
+        contact: this.state.value,
+        content,
+        onEdit: () => this.props.onThis(),
+      });
+    } else {
+      const content1 = document.createElement('div');
+      const content2 = document.createElement('div');
+      content.appendChild(content1);
+      content.appendChild(content2);
 
-    this.elements = {
-      li,
-      activate,
-      content1,
-      content2,
-      proceed,
-    };
+      this.elements = {
+        li,
+        activate,
+        content1,
+        content2,
+        proceed,
+      };
 
-    new Part1({
-      id: ID,
-      content: content1,
-      state: this.state,
-      edit: this.stage === 1,
-      onChange: this.onChange.bind(this),
-      onBlur: this.onBlur.bind(this),
-    });
-
-    if (this.stage === 2) {
-      new Part2({
+      new Part1({
         id: ID,
-        content: content2,
+        content: content1,
         state: this.state,
-        edit: this.stage === 2,
+        edit: this.stage === 1,
         onChange: this.onChange.bind(this),
         onBlur: this.onBlur.bind(this),
       });
+
+      if (this.stage === 2) {
+        new Part2({
+          id: ID,
+          content: content2,
+          state: this.state,
+          edit: this.stage === 2,
+          onChange: this.onChange.bind(this),
+          onBlur: this.onBlur.bind(this),
+        });
+      }
     }
 
     if (this.props.canActivate) {
