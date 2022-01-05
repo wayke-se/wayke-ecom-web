@@ -1,0 +1,72 @@
+/// All colors used across the projects should be declared in this file.
+/// Use colors declared in $color-defs in _definitions.scss and give them
+/// an abstract name in $colors. The colors are then fetched using the color() function.
+
+@use 'sass:map';
+@use '_definitions' as *;
+
+// This map is used to declare variables to use for colors
+$colors: (
+  primary: (
+    main: color-defs(blue-dark),
+    text: color-defs(white),
+  ),
+  secondary: (
+    main: color-defs(teal),
+    text: color-defs(black),
+  ),
+  bg: (
+    main: color-defs(white),
+    alt: color-defs(gray-light),
+  ),
+  text: (
+    main: color-defs(black),
+    alt: color-defs(gray-dark),
+  ),
+  link: (
+    main: color-defs(blue),
+  ),
+  border: (
+    main: color-defs(gray),
+  ),
+  focus: (
+    main: color-defs(blue),
+  ),
+  disabled: (
+    bg: color-defs(gray-light),
+    text: color-defs(gray-dark),
+  ),
+  ui: (
+    success: (
+      main: color-defs(ui, green),
+      alt: color-defs(ui, green-light),
+      text: color-defs(ui, green-dark),
+    ),
+    error: (
+      main: color-defs(ui, red),
+      alt: color-defs(ui, red-light),
+      text: color-defs(ui, red-dark),
+    ),
+    warning: (
+      main: color-defs(ui, yellow),
+      alt: color-defs(ui, yellow-light),
+      text: color-defs(ui, yellow-dark),
+    ),
+    info: (
+      main: color-defs(ui, blue),
+      alt: color-defs(ui, blue-light),
+      text: color-defs(ui, blue-dark),
+    ),
+  ),
+);
+
+// This function is used to use colors in the project
+@function color($keys...) {
+  $value: map.get($colors, $keys...);
+
+  @if not $value {
+    @error('Color "#{$keys}" does not exist in $colors.');
+  }
+
+  @return $value;
+}

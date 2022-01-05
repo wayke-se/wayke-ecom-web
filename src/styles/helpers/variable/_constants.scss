@@ -1,0 +1,29 @@
+/// Constants to use across the project
+/// Declare constants in the $constants map and fetch
+/// a constant using the const() function.
+
+@use "sass:list";
+@use 'sass:map';
+
+// Positions
+$css-positions-x: left, center, right;
+$css-positions-y: top, middle, bottom;
+$css-positions: list.join($css-positions-x, $css-positions-y, $separator: comma);
+
+// This map is used to declare constants
+$constants: (
+  css-positions-x: $css-positions-x,
+  css-positions-y: $css-positions-y,
+  css-positions: $css-positions,
+);
+
+// This function is used to use constants in the project
+@function const($keys...) {
+  $value: map.get($constants, $keys...);
+
+  @if not $value {
+    @error('Constant "#{$keys}" does not exist in $constants.');
+  }
+
+  @return $value;
+}

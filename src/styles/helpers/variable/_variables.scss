@@ -1,0 +1,53 @@
+/// Variables to use across the project.
+/// Declare variables in the $variables map and fetch
+/// a variable using the var() function.
+
+@use 'sass:map';
+@use '../function' as *;
+
+$container-max-width: 650px;
+$container-gutter: size(3);
+
+// This map is used to declare variables
+$variables: (
+  size: (
+    input-height: 50px,
+    container: (
+      max-width: $container-max-width + $container-gutter * 2,
+      gutter: $container-gutter,
+    ),
+  ),
+  font: (
+    line-height: (
+      main: 1.5,
+      alt: 1.2,
+    ),
+    size: (
+      xsmall: 0.75rem,
+      small: 0.875rem,
+      regular: 1rem,
+      large: 1.125rem,
+      xlarge: 1.5rem,
+    ),
+  ),
+  animation: (
+    duration: (
+      fast: 150ms,
+      default: 200ms,
+      slow: 300ms,
+      xslow: 400ms,
+    ),
+    cubic-bezier: cubic-bezier(0.47, 1.64, 0.41, 0.8),
+  ),
+);
+
+// This function is used to use variables in the project
+@function var($keys...) {
+  $value: map.get($variables, $keys...);
+
+  @if not $value {
+    @error('Variable "#{$keys}" does not exist in $variables.');
+  }
+
+  @return $value;
+}
