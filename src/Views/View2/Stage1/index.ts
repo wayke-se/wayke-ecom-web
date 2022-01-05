@@ -94,6 +94,23 @@ class Stage1 {
     this.update();
   }
 
+  verifyButton() {
+    if (!this.elements.proceed) return;
+    if (this.stage === 1) {
+      if (this.state.validation.email && this.state.validation.phone) {
+        this.elements.proceed.removeAttribute('disabled');
+      } else {
+        this.elements.proceed.setAttribute('disabled', '');
+      }
+    } else if (this.stage === 2) {
+      if (this.state.validation.socialId) {
+        this.elements.proceed.removeAttribute('disabled');
+      } else {
+        this.elements.proceed.setAttribute('disabled', '');
+      }
+    }
+  }
+
   update() {
     Object.keys(this.state.value).forEach((_key) => {
       const key = _key as keyof CustomerValidation;
@@ -109,6 +126,7 @@ class Stage1 {
         }
       }
     });
+    this.verifyButton();
   }
 
   onAddress(address: IAddress) {
@@ -147,6 +165,14 @@ class Stage1 {
       title: 'Dina uppgifter',
       active: this.props.active,
     });
+
+    this.elements = {
+      li,
+      activate,
+      proceed,
+    };
+
+    this.verifyButton();
 
     if (!this.props.active) {
       new Part3({
