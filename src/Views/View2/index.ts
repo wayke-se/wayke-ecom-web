@@ -75,7 +75,7 @@ class View2 {
       aside.innerHTML = 'ASIDE...';
       container.appendChild(aside);
 
-      const node = document.createElement('ul');
+      const node = document.createElement('div');
       node.className = 'stepper';
       container.appendChild(node);
 

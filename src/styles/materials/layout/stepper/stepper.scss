@@ -2,10 +2,7 @@
 
 .stepper {
   $root: &;
-
-  list-style: none;
-  padding: 0;
-  margin: 0;
+  
   counter-reset: stage;
 
   &__item {

@@ -42,7 +42,7 @@ class View1 {
       container.innerHTML = `
         <div style="padding: 32px 16px">
           <div class="stack stack--3">
-            <h3 class="header heading--3 no-margin">Vad roligt att du vill köpa denna bil!</h3>
+            <h3 class="heading heading--3 no-margin">Vad roligt att du vill köpa denna bil!</h3>
           </div>
           <div class="stack stack--3">
             <div id="${PROCEED_BUTTON}-loader">Laddar...</div>
