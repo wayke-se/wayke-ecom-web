@@ -1,0 +1,11 @@
+@use '../../../helpers' as *;
+
+.link {
+  @include font-regular;
+  color: color(link, main);
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}

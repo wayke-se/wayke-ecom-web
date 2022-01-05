@@ -13,7 +13,7 @@
 .alert {
   $root: &;
   $icon-size: size(3);
-  $content-size: var(font, size, small);
+  $content-size: var(font, size, xsmall);
   $content-line-height: var(font, line-height, main);
 
   @include alertTone($root, color(bg, alt), color(text, main), darken(color(bg, alt), 5%), color(text, main));

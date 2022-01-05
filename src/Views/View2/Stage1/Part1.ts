@@ -93,8 +93,16 @@ class Part1 {
     } else {
       this.props.content.innerHTML = `
         <div class="stack stack--2">
-          <p><b>E-post</b>: ${this.props.state.value.email}</p>
-          <p><b>Telefonnummer</b>: ${this.props.state.value.phone}</p>
+          <ul class="key-value-list">
+            <li class="key-value-list__item">
+              <div class="key-value-list__key">E-post</div>
+              <div class="key-value-list__value">${this.props.state.value.email}</div>
+            </li>
+            <li class="key-value-list__item">
+              <div class="key-value-list__key">Telefonnummer</div>
+              <div class="key-value-list__value">${this.props.state.value.phone}</div>
+            </li>
+          </ul>
         </div>
       `;
     }

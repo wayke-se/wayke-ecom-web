@@ -1,0 +1,22 @@
+@use '../../../helpers' as *;
+
+.disclaimer {
+  $icon-size: var(font, size, regular);
+  $text-size: var(font, size, xsmall);
+  $text-line-height: var(font, line-height, main);
+
+  @include flex-display;
+  @include justify-content(center);
+
+  &__icon {
+    margin-top: calc(($icon-size - $text-size * $text-line-height) / -2);
+    color: color(text, alt);
+    font-size: $icon-size;
+    padding-right: size(1);
+  }
+
+  &__text {
+    font-size: $text-size;
+    line-height: $text-line-height;
+  }
+}

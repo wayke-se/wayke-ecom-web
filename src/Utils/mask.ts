@@ -9,4 +9,4 @@ export const maskText = (text: string) => {
   return `${text.substring(0, 3)}***`;
 };
 
-export const maskSSn = (ssn: string) => `${ssn.substring(0, ssn.length - 4)}xxxx`;
+export const maskSSn = (ssn: string) => `${ssn.substring(0, ssn.length - 4)}****`;

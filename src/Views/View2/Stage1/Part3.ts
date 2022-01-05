@@ -19,27 +19,49 @@ class Part3 {
 
   render() {
     this.props.content.innerHTML = `
-        <div>
-          <p><b>E-post</b>: ${this.props.customer.email}</p>
-          <p><b>Telefonnummer</b>: ${this.props.customer.phone}</p>
-          <p><b>Personnummer</b>: ${maskSSn(this.props.customer.socialId)}</p>
-
+      <div class="stack stack--1">
+        <ul class="key-value-list">
+          <li class="key-value-list__item">
+            <div class="key-value-list__key">E-post</div>
+            <div class="key-value-list__value">${this.props.customer.email}</div>
+          </li>
+          <li class="key-value-list__item">
+            <div class="key-value-list__key">Telefonnummer</div>
+            <div class="key-value-list__value">${this.props.customer.phone}</div>
+          </li>
+          <li class="key-value-list__item">
+            <div class="key-value-list__key">Personnummer</div>
+            <div class="key-value-list__value">${maskSSn(this.props.customer.socialId)}</div>
+          </li>
           ${
             this.props.address &&
             `
-              <p><b>Namn</b>: ${maskText(this.props.address.givenName)} ${maskText(
-              this.props.address.surname
-            )}</p>
-              <p><b>Gata</b>: ${this.props.address.street}</p>
-              <p><b>Postnummer</b>: ${this.props.address.postalCode}</p>
-              <p><b>Stad</b>: ${this.props.address.city}</p>
-            `
+            <li class="key-value-list__item">
+              <div class="key-value-list__key">Namn</div>
+              <div class="key-value-list__value">${maskText(
+                this.props.address.givenName
+              )} ${maskText(this.props.address.surname)}</div>
+            </li>
+            <li class="key-value-list__item">
+              <div class="key-value-list__key">Adress</div>
+              <div class="key-value-list__value">${this.props.address.street}</div>
+            </li>
+            <li class="key-value-list__item">
+              <div class="key-value-list__key">Postnummer</div>
+              <div class="key-value-list__value">${this.props.address.postalCode}</div>
+            </li>
+            <li class="key-value-list__item">
+              <div class="key-value-list__key">Stad</div>
+              <div class="key-value-list__value">${this.props.address.city}</div>
+            </li>
+          `
           }
-
-         
-          <button>Ändra</button>
-        </div>
-      `;
+        </ul>
+      </div>
+      <div class="stack stack--1">
+        <button title="Ändra dina uppgifter" class="link">Ändra</button>
+      </div>
+    `;
     this.props.content
       .querySelector('button')
       ?.addEventListener('click', () => this.props.onEdit());

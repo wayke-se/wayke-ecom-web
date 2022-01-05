@@ -107,8 +107,8 @@ class Part2 {
 
       const disclaimer = document.createElement('div');
       disclaimer.innerHTML = `
-        <div class="m-t--2">
-          <div>
+        <div class="disclaimer m-t--2">
+          <div class="disclaimer__icon">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 16 16"
@@ -118,7 +118,7 @@ class Part2 {
               <path d="M13 6h-1V4c0-2.2-1.8-4-4-4S4 1.8 4 4v2H3c-1.1 0-2 .9-2 2v8h14V8c0-1.1-.9-2-2-2zM6 4c0-1.1.9-2 2-2s2 .9 2 2v2H6V4zm7 10H3V8h10v6z" />
             </svg>
           </div>
-          <div>Dina uppgifter lagras och sparas säkert. Läs mer i vår personsuppgiftspolicy.</div>
+          <div class="disclaimer__text">Dina uppgifter lagras och sparas säkert.<br />Läs mer i vår <a href="#" title="" class="link">personsuppgiftspolicy</a>.</div>
         </div>
       `;
       this.props.proceed.parentNode?.appendChild(disclaimer);

@@ -1,0 +1,29 @@
+@use '../../../helpers' as *;
+
+.key-value-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  &__item {
+    @include flex-display;
+    @include align-items(center);
+
+    & + & {
+      margin-top: size(1);
+    }
+  }
+
+  &__key {
+    @include flex-shrink(0);
+    @include font-bold;
+    padding-right: size(2);
+    font-size: var(font, size, xsmall);
+  }
+
+  &__value {
+    @include flex(1 1 auto);
+    font-size: var(font, size, small);
+    text-align: right;
+  }
+}
