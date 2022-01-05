@@ -1,4 +1,6 @@
+import { IAddress } from '@wayke-se/ecom';
 import { Stage1State } from '.';
+import { getAddressBySsn } from '../../../Data/getAddress';
 
 interface Stage1Part2Props {
   content: HTMLDivElement;
@@ -7,6 +9,7 @@ interface Stage1Part2Props {
   edit: boolean;
   onChange: (e: Event) => void;
   onBlur: (e: Event) => void;
+  onAddress: (address: IAddress) => void;
 }
 
 class Part2 {
@@ -17,7 +20,7 @@ class Part2 {
     this.render();
   }
 
-  attach(element: HTMLInputElement, name: 'ssn' | 'zip') {
+  attach(element: HTMLInputElement, name: 'socialId') {
     element.addEventListener('input', (e) => this.props.onChange(e));
     element.addEventListener('blur', (e) => this.props.onBlur(e));
     const emailError = this.props.content.querySelector<HTMLDivElement>(
@@ -32,6 +35,18 @@ class Part2 {
     }
   }
 
+  async onFetchAddress() {
+    try {
+      if (this.props.state.validation.socialId) {
+        const response = await getAddressBySsn(this.props.state.value.socialId);
+        const address = response.getAddress();
+        this.props.onAddress(address);
+      }
+    } catch (e) {
+      throw e;
+    }
+  }
+
   render() {
     if (this.props.edit) {
       this.props.content.innerHTML = `
@@ -39,45 +54,35 @@ class Part2 {
         <div>
           <div>Personnummer</div>
           <input
-            id="${this.props.id}-contact-ssn"
-            value="${this.props.state.value.ssn}"
-            name="ssn"
+            id="${this.props.id}-contact-socialId"
+            value="${this.props.state.value.socialId}"
+            name="socialId"
             placeholder="ÅÅÅÅMMDD-XXXX"
           />
-          <div id="${this.props.id}-contact-ssn-error">Error</div>
+          <div id="${this.props.id}-contact-socialId-error">Error</div>
         </div>
         <div>
-        <div>Postnummer</div>
-          <input
-            id="${this.props.id}-contact-zip"
-            value="${this.props.state.value.zip}"
-            name="zip"
-            placeholder="Ange ditt postnummer"
-          />
-          <div id="${this.props.id}-contact-zip-error">Error</div>
-        </div>
+        <button
+          id="${this.props.id}-contact-fetch-address"
+          class="button button--full-width button--action"
+        >Hämta uppgifter</button>
       </div>
     `;
 
-      const ssn = this.props.content.querySelector<HTMLInputElement>(
-        `#${this.props.id}-contact-ssn`
+      const socialId = this.props.content.querySelector<HTMLInputElement>(
+        `#${this.props.id}-contact-socialId`
       );
-      const zip = this.props.content.querySelector<HTMLInputElement>(
-        `#${this.props.id}-contact-zip`
-      );
-
-      if (ssn) {
-        this.attach(ssn, 'ssn');
+      if (socialId) {
+        this.attach(socialId, 'socialId');
       }
 
-      if (zip) {
-        this.attach(zip, 'zip');
-      }
+      this.props.content
+        .querySelector<HTMLButtonElement>(`#${this.props.id}-contact-fetch-address`)
+        ?.addEventListener('click', () => this.onFetchAddress());
     } else {
       this.props.content.innerHTML = `
         <div>
-          <p><b>Personnummer</b>: ${this.props.state.value.ssn}</p>
-          <p><b>Postnummer</b>: ${this.props.state.value.zip}</p>
+          <p><b>Personnummer</b>: ${this.props.state.value.socialId}</p>
         </div>
       `;
     }

@@ -1,3 +1,4 @@
+import { IAddress } from '@wayke-se/ecom';
 import Stage1 from './Stage1/index';
 import Stage2 from './Stage2';
 import Stage3 from './Stage3';
@@ -10,17 +11,19 @@ interface View2Props {
   onNext: () => void;
 }
 
-export interface Contact {
+export interface Customer {
+  givenName: string;
+  surname: string;
   email: string;
-  telephone: string;
-  ssn: string;
-  zip: string;
+  phone: string;
+  socialId: string;
 }
 
 export interface View2State {
   stage: number;
   maxStage: number;
-  contact: Contact;
+  customer: Customer;
+  address?: IAddress;
 }
 
 class View2 {
@@ -32,11 +35,12 @@ class View2 {
     this.state = {
       stage: 1,
       maxStage: 1,
-      contact: {
+      customer: {
+        givenName: '',
+        surname: '',
         email: '',
-        telephone: '',
-        zip: '',
-        ssn: '',
+        phone: '',
+        socialId: '',
       },
     };
 
@@ -52,10 +56,11 @@ class View2 {
     this.render();
   }
 
-  stage1Next(contact: Contact) {
+  stage1Next(customer: Customer, address?: IAddress) {
     this.state = {
       ...this.state,
-      contact: { ...contact },
+      customer: { ...customer },
+      address,
     };
     this.setStage(2);
   }
@@ -80,7 +85,8 @@ class View2 {
         node,
         canActivate: this.state.maxStage > 0,
         active: this.state.stage === 1,
-        contact: this.state.contact,
+        customer: this.state.customer,
+        address: this.state.address,
         onThis: () => this.setStage(1),
         onNext: this.stage1Next.bind(this),
       });

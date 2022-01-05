@@ -17,7 +17,7 @@ class Part1 {
     this.render();
   }
 
-  attach(element: HTMLInputElement, name: 'email' | 'telephone') {
+  attach(element: HTMLInputElement, name: 'email' | 'phone') {
     element.addEventListener('input', (e) => this.props.onChange(e));
     element.addEventListener('blur', (e) => this.props.onBlur(e));
     const emailError = this.props.content.querySelector<HTMLDivElement>(
@@ -56,12 +56,12 @@ class Part1 {
         <div>
         <div>Telefonnummer</div>
           <input
-            id="${this.props.id}-contact-telephone"
-            value="${this.props.state.value.telephone}"
-            name="telephone"
+            id="${this.props.id}-contact-phone"
+            value="${this.props.state.value.phone}"
+            name="phone"
             placeholder="Ange ditt telefonnummer"
           />
-          <div id="${this.props.id}-contact-telephone-error">Error</div>
+          <div id="${this.props.id}-contact-phone-error">Error</div>
         </div>
       </div>
     `;
@@ -69,22 +69,22 @@ class Part1 {
       const email = this.props.content.querySelector<HTMLInputElement>(
         `#${this.props.id}-contact-email`
       );
-      const telephone = this.props.content.querySelector<HTMLInputElement>(
-        `#${this.props.id}-contact-telephone`
+      const phone = this.props.content.querySelector<HTMLInputElement>(
+        `#${this.props.id}-contact-phone`
       );
 
       if (email) {
         this.attach(email, 'email');
       }
 
-      if (telephone) {
-        this.attach(telephone, 'telephone');
+      if (phone) {
+        this.attach(phone, 'phone');
       }
     } else {
       this.props.content.innerHTML = `
         <div>
           <p><b>E-post</b>: ${this.props.state.value.email}</p>
-          <p><b>Telefonnummer</b>: ${this.props.state.value.telephone}</p>
+          <p><b>Telefonnummer</b>: ${this.props.state.value.phone}</p>
         </div>
       `;
     }

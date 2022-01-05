@@ -1,4 +1,5 @@
-import { Contact } from '..';
+import { IAddress } from '@wayke-se/ecom';
+import { Customer } from '..';
 import { validationMethods } from '../../../Utils/validationMethods';
 import Li from '../Li';
 import Part1 from './Part1';
@@ -7,31 +8,30 @@ import Part3 from './Part3';
 
 const validation = {
   email: validationMethods.requiredEmail,
-  telephone: validationMethods.requiredTelephone,
-  ssn: validationMethods.requiredSsn,
-  zip: validationMethods.requiredZip,
+  phone: validationMethods.requiredTelephone,
+  socialId: validationMethods.requiredSsn,
 };
 
 interface Stage1Props {
   node: HTMLElement;
   active?: boolean;
   canActivate?: boolean;
-  contact: Contact;
+  customer: Customer;
+  address?: IAddress;
   onThis: () => void;
-  onNext: (contact: Contact) => void;
+  onNext: (customer: Customer, address?: IAddress) => void;
 }
 
-export interface ContactValidation {
+export interface CustomerValidation {
   email: boolean;
-  telephone: boolean;
-  ssn: boolean;
-  zip: boolean;
+  phone: boolean;
+  socialId: boolean;
 }
 
 export interface Stage1State {
-  value: Contact;
-  validation: ContactValidation;
-  interact: ContactValidation;
+  value: Customer;
+  validation: CustomerValidation;
+  interact: CustomerValidation;
 }
 
 interface Elements {
@@ -48,37 +48,37 @@ class Stage1 {
   private props: Stage1Props;
   private stage: number;
   private state: Stage1State = {
-    value: { email: '', telephone: '', ssn: '', zip: '' },
+    value: { email: '', phone: '', socialId: '', surname: '', givenName: '' },
     validation: {
       email: false,
-      telephone: false,
-      ssn: true,
-      zip: true,
+      phone: false,
+      socialId: true,
     },
-    interact: { email: false, telephone: false, ssn: false, zip: false },
+    interact: { email: false, phone: false, socialId: false },
   };
   private elements: Elements = {};
+  private address: IAddress | undefined;
 
   constructor(props: Stage1Props) {
     this.props = props;
     this.stage = 1;
     this.state = {
-      value: { ...props.contact },
+      value: { ...props.customer },
       validation: {
-        email: validation.email(props.contact.email),
-        telephone: validation.telephone(props.contact.telephone),
-        ssn: validation.ssn(props.contact.ssn),
-        zip: validation.zip(props.contact.zip),
+        email: validation.email(props.customer.email),
+        phone: validation.phone(props.customer.phone),
+        socialId: validation.socialId(props.customer.socialId),
       },
-      interact: { email: false, telephone: false, ssn: false, zip: false },
+      interact: { email: false, phone: false, socialId: false },
     };
+    this.address = props.address;
 
     this.render();
   }
 
   onChange(e: Event) {
     const currentTarget = e.currentTarget as HTMLInputElement;
-    const name = currentTarget.name as keyof Contact;
+    const name = currentTarget.name as keyof CustomerValidation;
     const value = currentTarget.value;
     this.state.value[name] = value;
     this.state.validation[name] = validation[name](value);
@@ -87,7 +87,7 @@ class Stage1 {
 
   onBlur(e: Event) {
     const currentTarget = e.currentTarget as HTMLInputElement;
-    const name = currentTarget.name as keyof Contact;
+    const name = currentTarget.name as keyof CustomerValidation;
 
     this.state.interact[name] = true;
     this.state.validation[name] = validation[name](this.state.value[name]);
@@ -96,7 +96,7 @@ class Stage1 {
 
   update() {
     Object.keys(this.state.value).forEach((_key) => {
-      const key = _key as keyof Contact;
+      const key = _key as keyof CustomerValidation;
       const element =
         this.elements?.content1?.querySelector<HTMLInputElement>(`#${ID}-contact-${key}-error`) ||
         this.elements?.content2?.querySelector<HTMLInputElement>(`#${ID}-contact-${key}-error`);
@@ -111,19 +111,27 @@ class Stage1 {
     });
   }
 
+  onAddress(address: IAddress) {
+    this.address = address;
+    this.stage = 3;
+    this.render();
+    this.props.onNext(this.state.value, this.address);
+  }
+
   onNext() {
     if (this.stage === 2) {
-      if (!this.state.validation.ssn || !this.state.validation.zip) {
-        this.state.interact.ssn = true;
-        this.state.interact.zip = true;
+      if (!this.state.validation.socialId) {
+        this.state.interact.socialId = true;
         this.render();
       } else {
         this.props.onNext(this.state.value);
       }
+    } else if (this.stage === 3) {
+      this.props.onNext(this.state.value, this.address);
     } else {
-      if (!this.state.validation.email || !this.state.validation.telephone) {
+      if (!this.state.validation.email || !this.state.validation.phone) {
         this.state.interact.email = true;
-        this.state.interact.telephone = true;
+        this.state.interact.phone = true;
         this.render();
       } else {
         this.stage = 2;
@@ -142,11 +150,14 @@ class Stage1 {
 
     if (!this.props.active) {
       new Part3({
-        contact: this.state.value,
+        customer: this.state.value,
+        address: this.address,
         content,
         onEdit: () => this.props.onThis(),
       });
+      proceed.style.display = 'none';
     } else {
+      proceed.style.display = '';
       const content1 = document.createElement('div');
       const content2 = document.createElement('div');
       content.appendChild(content1);
@@ -170,6 +181,7 @@ class Stage1 {
       });
 
       if (this.stage === 2) {
+        proceed.style.display = 'none';
         new Part2({
           id: ID,
           content: content2,
@@ -177,6 +189,7 @@ class Stage1 {
           edit: this.stage === 2,
           onChange: this.onChange.bind(this),
           onBlur: this.onBlur.bind(this),
+          onAddress: this.onAddress.bind(this),
         });
       }
     }
