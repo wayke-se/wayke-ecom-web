@@ -7,14 +7,20 @@ export interface AppState {
   stage: number;
 }
 
+interface AppProps {
+  id: string;
+}
+
 const initalState = (): AppState => ({
   stage: 1,
 });
 
 class App {
+  private props: AppProps;
   private state: AppState;
 
-  constructor() {
+  constructor(props: AppProps) {
+    this.props = props;
     this.state = initalState();
     this.init();
   }
@@ -27,6 +33,7 @@ class App {
     switch (this.state.stage) {
       case 1:
         new View1({
+          id: this.props.id,
           onNext: () => this.setStage(2),
         });
         break;
@@ -43,7 +50,7 @@ class App {
   }
 
   init() {
-    this.setStage(2);
+    this.setStage(1);
   }
 }
 

@@ -1,4 +1,7 @@
+import { getOrder } from '../../Data/getOrder';
+
 interface View1Props {
+  id: string;
   onNext: () => void;
 }
 
@@ -10,6 +13,27 @@ class View1 {
   constructor(props: View1Props) {
     this.props = props;
     this.render();
+    this.init();
+  }
+
+  async init() {
+    const container = document.getElementById('wayke-ecom');
+    if (container) {
+      const button = document.querySelector<HTMLButtonElement>(`#${PROCEED_BUTTON}`);
+      const loader = document.querySelector<HTMLDivElement>(`#${PROCEED_BUTTON}-loader`);
+      if (button && loader) {
+        try {
+          button.setAttribute('disabled', '');
+          loader.style.display = '';
+          const _response = await getOrder(this.props.id);
+          button.removeAttribute('disabled');
+        } catch (e) {
+          throw e;
+        } finally {
+          loader.style.display = 'none';
+        }
+      }
+    }
   }
 
   render() {
@@ -17,7 +41,8 @@ class View1 {
     if (container) {
       container.innerHTML = `
         <div>
-        <button id="${PROCEED_BUTTON}">Gå vidare</button>
+          <button id="${PROCEED_BUTTON}">Gå vidare</button>
+          <div id="${PROCEED_BUTTON}-loader">Laddar...</div>
         </div>
       `;
       container
