@@ -31,6 +31,7 @@ class View1 {
     if (container) {
       const button = document.querySelector<HTMLButtonElement>(`#${PROCEED_BUTTON}`);
       const loader = document.querySelector<HTMLDivElement>(`#${PROCEED_BUTTON}-loader`);
+
       if (button && loader) {
         try {
           button.setAttribute('disabled', '');
@@ -56,7 +57,7 @@ class View1 {
             <h3 class="heading heading--3 no-margin">Vad roligt att du vill köpa denna bil!</h3>
           </div>
           <div class="stack stack--3">
-            <div id="${PROCEED_BUTTON}-loader">Laddar...</div>
+            <div id="${PROCEED_BUTTON}-loader" style="display:none">Laddar...</div>
           </div>
           ${Item({ vehicle: this.props.vehicle, order: this.props.order })}
           ${HowTo({ order: this.props.order })}

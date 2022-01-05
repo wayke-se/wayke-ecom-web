@@ -1,12 +1,12 @@
 import { OrderOptionsResponse } from '@wayke-se/ecom/dist-types/orders/order-options-response';
-import { Vehicle } from '../../App';
+import { Vehicle } from '../App';
 
-interface ItemProps {
+interface ItemTileSmallProps {
   vehicle: Vehicle;
   order?: OrderOptionsResponse;
 }
 
-const Item = ({ vehicle, order }: ItemProps) => `
+const ItemTileSmall = ({ vehicle, order }: ItemTileSmallProps) => `
   <div>
     <img src="${vehicle.imageUrls[0]}?spec=80x&format=webp"/>
 
@@ -16,4 +16,4 @@ const Item = ({ vehicle, order }: ItemProps) => `
   </div>
 `;
 
-export default Item;
+export default ItemTileSmall;

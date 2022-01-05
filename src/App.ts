@@ -14,7 +14,7 @@ export interface Vehicle {
   title: string;
   shortDescription: string;
   price: number;
-  imageUrl: string;
+  imageUrls: string[];
   modelYear: number;
   milage: number;
   gearBox: string;
@@ -64,6 +64,8 @@ class App {
 
       case 2:
         new View2({
+          vehicle: this.props.vehicle,
+          order: this.state.order,
           onNext: () => this.setStage(3),
         });
         break;

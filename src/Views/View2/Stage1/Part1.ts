@@ -57,7 +57,7 @@ class Part1 {
               placeholder="Ange din e-postadress"
               class="input-text"
             />
-            <div id="${this.props.id}-contact-email-error" class="input-error">Error</div>
+            <div id="${this.props.id}-contact-email-error" class="input-error">En giltig e-postadress måste anges</div>
           </div>
           <div class="stack stack--2">
             <div class="input-label">
@@ -71,7 +71,7 @@ class Part1 {
               placeholder="Ange ditt telefonnummer"
               class="input-text"
             />
-            <div id="${this.props.id}-contact-phone-error" class="input-error">Error</div>
+            <div id="${this.props.id}-contact-phone-error" class="input-error">Ange ditt telefonnummer</div>
           </div>
         </div>
       `;

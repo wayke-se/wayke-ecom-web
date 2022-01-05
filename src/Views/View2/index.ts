@@ -1,4 +1,8 @@
 import { IAddress } from '@wayke-se/ecom';
+import { OrderOptionsResponse } from '@wayke-se/ecom/dist-types/orders/order-options-response';
+
+import { Vehicle } from '../../App';
+import ItemTileSmall from '../../Components/ItemTileSmall';
 import Stage1 from './Stage1/index';
 import Stage2 from './Stage2';
 import Stage3 from './Stage3';
@@ -8,6 +12,8 @@ import Stage6 from './Stage6';
 import Stage7 from './Stage7';
 
 interface View2Props {
+  vehicle: Vehicle;
+  order?: OrderOptionsResponse;
   onNext: () => void;
 }
 
@@ -72,7 +78,11 @@ class View2 {
 
       const aside = document.createElement('aside');
       aside.className = 'aside';
-      aside.innerHTML = 'ASIDE...';
+      aside.innerHTML = `
+        <div>
+          ${ItemTileSmall({ vehicle: this.props.vehicle, order: this.props.order })}
+        </div>
+      `;
       container.appendChild(aside);
 
       const node = document.createElement('div');

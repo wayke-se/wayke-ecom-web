@@ -44,35 +44,30 @@ interface Elements {
 
 const ID = 'wayke-view-2-stage-1';
 
+const initalState = (customer?: Customer): Stage1State => ({
+  value: customer
+    ? { ...customer }
+    : { email: '', phone: '', socialId: '', surname: '', givenName: '' },
+  validation: {
+    email: customer ? validation.email(customer.email) : false,
+    phone: customer ? validation.phone(customer.phone) : false,
+    socialId: customer ? validation.socialId(customer.socialId) : false,
+  },
+  interact: { email: false, phone: false, socialId: false },
+});
+
 class Stage1 {
   private props: Stage1Props;
   private stage: number;
-  private state: Stage1State = {
-    value: { email: '', phone: '', socialId: '', surname: '', givenName: '' },
-    validation: {
-      email: false,
-      phone: false,
-      socialId: true,
-    },
-    interact: { email: false, phone: false, socialId: false },
-  };
+  private state: Stage1State;
   private elements: Elements = {};
   private address: IAddress | undefined;
 
   constructor(props: Stage1Props) {
     this.props = props;
     this.stage = 1;
-    this.state = {
-      value: { ...props.customer },
-      validation: {
-        email: validation.email(props.customer.email),
-        phone: validation.phone(props.customer.phone),
-        socialId: validation.socialId(props.customer.socialId),
-      },
-      interact: { email: false, phone: false, socialId: false },
-    };
+    this.state = initalState(props.customer);
     this.address = props.address;
-
     this.render();
   }
 
