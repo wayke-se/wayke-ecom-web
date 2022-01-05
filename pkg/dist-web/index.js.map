@@ -1,0 +1,1 @@
+{"version":3,"file":"index.js","sources":["../dist-src/index.js"],"sourcesContent":["\"use strict\";\nconsole.log('helloaaa');\n"],"names":[],"mappings":"AACA,OAAO,CAAC,GAAG,CAAC,UAAU,CAAC"}

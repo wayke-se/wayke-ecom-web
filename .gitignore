@@ -1,0 +1,7 @@
+node_modules/
+build/
+.DS_STORE
+.cache/
+dev/
+.npmrc
+.env
