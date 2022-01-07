@@ -12,6 +12,7 @@ import Stage6 from './Stage6';
 import Stage7 from './Stage7';
 
 interface View2Props {
+  root: HTMLElement;
   vehicle: Vehicle;
   order?: OrderOptionsResponse;
   onNext: () => void;
@@ -33,7 +34,7 @@ export interface View2State {
 }
 
 class View2 {
-  private props: View2Props;
+  private readonly props: View2Props;
   private state: View2State;
 
   constructor(props: View2Props) {
@@ -72,77 +73,74 @@ class View2 {
   }
 
   render() {
-    const container = document.querySelector('#wayke-ecom');
-    if (container) {
-      container.innerHTML = '';
+    this.props.root.innerHTML = '';
 
-      const aside = document.createElement('aside');
-      aside.className = 'aside';
-      aside.innerHTML = `
+    const aside = document.createElement('aside');
+    aside.className = 'aside';
+    aside.innerHTML = `
         <div>
           ${ItemTileSmall({ vehicle: this.props.vehicle, order: this.props.order })}
         </div>
       `;
-      container.appendChild(aside);
+    this.props.root.appendChild(aside);
 
-      const node = document.createElement('div');
-      node.className = 'stepper';
-      container.appendChild(node);
+    const node = document.createElement('div');
+    node.className = 'stepper';
+    this.props.root.appendChild(node);
 
-      if (!node) return;
+    if (!node) return;
 
-      new Stage1({
-        node,
-        canActivate: this.state.maxStage > 0,
-        active: this.state.stage === 1,
-        customer: this.state.customer,
-        address: this.state.address,
-        onThis: () => this.setStage(1),
-        onNext: this.stage1Next.bind(this),
-      });
-      new Stage2({
-        node,
-        canActivate: this.state.maxStage > 1,
-        active: this.state.stage === 2,
-        onThis: () => this.setStage(2),
-        onNext: () => this.setStage(3),
-      });
-      new Stage3({
-        node,
-        canActivate: this.state.maxStage > 2,
-        active: this.state.stage === 3,
-        onThis: () => this.setStage(3),
-        onNext: () => this.setStage(4),
-      });
-      new Stage4({
-        node,
-        canActivate: this.state.maxStage > 3,
-        active: this.state.stage === 4,
-        onThis: () => this.setStage(4),
-        onNext: () => this.setStage(5),
-      });
-      new Stage5({
-        node,
-        canActivate: this.state.maxStage > 4,
-        active: this.state.stage === 5,
-        onThis: () => this.setStage(5),
-        onNext: () => this.setStage(6),
-      });
-      new Stage6({
-        node,
-        canActivate: this.state.maxStage > 5,
-        active: this.state.stage === 6,
-        onThis: () => this.setStage(6),
-        onNext: () => this.setStage(7),
-      });
-      new Stage7({
-        node,
-        canActivate: this.state.maxStage > 6,
-        active: this.state.stage === 7,
-        onThis: () => this.setStage(7),
-        onNext: () => this.setStage(8),
-      });
-    }
+    new Stage1({
+      node,
+      canActivate: this.state.maxStage > 0,
+      active: this.state.stage === 1,
+      customer: this.state.customer,
+      address: this.state.address,
+      onThis: () => this.setStage(1),
+      onNext: this.stage1Next.bind(this),
+    });
+    new Stage2({
+      node,
+      canActivate: this.state.maxStage > 1,
+      active: this.state.stage === 2,
+      onThis: () => this.setStage(2),
+      onNext: () => this.setStage(3),
+    });
+    new Stage3({
+      node,
+      canActivate: this.state.maxStage > 2,
+      active: this.state.stage === 3,
+      onThis: () => this.setStage(3),
+      onNext: () => this.setStage(4),
+    });
+    new Stage4({
+      node,
+      canActivate: this.state.maxStage > 3,
+      active: this.state.stage === 4,
+      onThis: () => this.setStage(4),
+      onNext: () => this.setStage(5),
+    });
+    new Stage5({
+      node,
+      canActivate: this.state.maxStage > 4,
+      active: this.state.stage === 5,
+      onThis: () => this.setStage(5),
+      onNext: () => this.setStage(6),
+    });
+    new Stage6({
+      node,
+      canActivate: this.state.maxStage > 5,
+      active: this.state.stage === 6,
+      onThis: () => this.setStage(6),
+      onNext: () => this.setStage(7),
+    });
+    new Stage7({
+      node,
+      canActivate: this.state.maxStage > 6,
+      active: this.state.stage === 7,
+      onThis: () => this.setStage(7),
+      onNext: () => this.setStage(8),
+    });
   }
 }
 

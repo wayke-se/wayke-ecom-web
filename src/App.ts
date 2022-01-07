@@ -32,11 +32,17 @@ const initalState = (): AppState => ({
 class App {
   private props: AppProps;
   private state: AppState;
+  private root: HTMLElement;
 
   constructor(props: AppProps) {
     this.props = props;
     this.state = initalState();
-    this.init();
+    const root = document.getElementById('wayke-ecom');
+    if (!root) {
+      throw 'Missing node';
+    }
+    this.root = root;
+    this.render();
   }
 
   updateOrder(order: OrderOptionsResponse) {
@@ -52,9 +58,14 @@ class App {
       ...this.state,
       stage: nextStage,
     };
+    this.render();
+  }
+
+  render() {
     switch (this.state.stage) {
       case 1:
         new View1({
+          root: this.root,
           vehicle: this.props.vehicle,
           order: this.state.order,
           onNext: () => this.setStage(2),
@@ -64,6 +75,7 @@ class App {
 
       case 2:
         new View2({
+          root: this.root,
           vehicle: this.props.vehicle,
           order: this.state.order,
           onNext: () => this.setStage(3),
@@ -73,10 +85,6 @@ class App {
       default:
         break;
     }
-  }
-
-  init() {
-    this.setStage(1);
   }
 }
 

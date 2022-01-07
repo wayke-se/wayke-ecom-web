@@ -5,6 +5,7 @@ import HowTo from './HowTo';
 import ItemTileLarge from '../../Components/ItemTileLarge';
 
 interface View1Props {
+  root: HTMLElement;
   vehicle: Vehicle;
   order?: OrderOptionsResponse;
   onNext: () => void;
@@ -14,7 +15,7 @@ interface View1Props {
 const PROCEED_BUTTON = 'wayke-view-1-proceed';
 
 class View1 {
-  private props: View1Props;
+  private readonly props: View1Props;
 
   constructor(props: View1Props) {
     this.props = props;
@@ -27,31 +28,26 @@ class View1 {
       this.render();
       return;
     }
-    const container = document.getElementById('wayke-ecom');
-    if (container) {
-      const button = document.querySelector<HTMLButtonElement>(`#${PROCEED_BUTTON}`);
-      const loader = document.querySelector<HTMLDivElement>(`#${PROCEED_BUTTON}-loader`);
+    const button = document.querySelector<HTMLButtonElement>(`#${PROCEED_BUTTON}`);
+    const loader = document.querySelector<HTMLDivElement>(`#${PROCEED_BUTTON}-loader`);
 
-      if (button && loader) {
-        try {
-          button.setAttribute('disabled', '');
-          loader.style.display = '';
-          const order = await getOrder(this.props.vehicle.id);
-          this.props.updateOrder(order);
-          button.removeAttribute('disabled');
-        } catch (e) {
-          throw e;
-        } finally {
-          loader.style.display = 'none';
-        }
+    if (button && loader) {
+      try {
+        button.setAttribute('disabled', '');
+        loader.style.display = '';
+        const order = await getOrder(this.props.vehicle.id);
+        this.props.updateOrder(order);
+        button.removeAttribute('disabled');
+      } catch (e) {
+        throw e;
+      } finally {
+        loader.style.display = 'none';
       }
     }
   }
 
   render() {
-    const container = document.getElementById('wayke-ecom');
-    if (container) {
-      container.innerHTML = `
+    this.props.root.innerHTML = `
         <div class="page">
           <div class="page__body">
             <div class="stack stack--3">
@@ -83,10 +79,10 @@ class View1 {
           </footer>
         </div>
       `;
-      container
-        .querySelector(`#${PROCEED_BUTTON}`)
-        ?.addEventListener('click', () => this.props.onNext());
-    }
+
+    this.props.root
+      .querySelector(`#${PROCEED_BUTTON}`)
+      ?.addEventListener('click', () => this.props.onNext());
   }
 }
 

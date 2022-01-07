@@ -2,6 +2,7 @@ import { IAddress } from '@wayke-se/ecom';
 import { Customer } from '..';
 import { validationMethods } from '../../../Utils/validationMethods';
 import Li from '../Li';
+
 import Part1 from './Part1';
 import Part2 from './Part2';
 import Part3 from './Part3';
@@ -57,7 +58,7 @@ const initalState = (customer?: Customer): Stage1State => ({
 });
 
 class Stage1 {
-  private props: Stage1Props;
+  private readonly props: Stage1Props;
   private stage: number;
   private state: Stage1State;
   private elements: Elements = {};
@@ -169,15 +170,7 @@ class Stage1 {
 
     this.verifyButton();
 
-    if (!this.props.active) {
-      new Part3({
-        customer: this.state.value,
-        address: this.address,
-        content,
-        onEdit: () => this.props.onThis(),
-      });
-      proceed.remove();
-    } else {
+    if (this.props.active) {
       const content1 = document.createElement('div');
       const content2 = document.createElement('div');
       content.appendChild(content1);
@@ -214,6 +207,14 @@ class Stage1 {
       } else {
         proceed.addEventListener('click', () => this.onNext());
       }
+    } else {
+      new Part3({
+        customer: this.state.value,
+        address: this.address,
+        content,
+        onEdit: () => this.props.onThis(),
+      });
+      proceed.remove();
     }
 
     if (this.props.canActivate) {

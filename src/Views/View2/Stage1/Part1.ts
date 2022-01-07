@@ -10,7 +10,7 @@ interface Stage1Part1Props {
 }
 
 class Part1 {
-  private props: Stage1Part1Props;
+  private readonly props: Stage1Part1Props;
 
   constructor(props: Stage1Part1Props) {
     this.props = props;
