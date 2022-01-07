@@ -4,7 +4,7 @@ import { OrderOptionsResponse } from '@wayke-se/ecom/dist-types/orders/order-opt
 import { Vehicle } from '../../App';
 import ItemTileSmall from '../../Components/ItemTileSmall';
 import Stage1 from './Stage1/index';
-import Stage2 from './Stage2';
+import Stage2 from './Stage2/index';
 import Stage3 from './Stage3';
 import Stage4 from './Stage4';
 import Stage5 from './Stage5';
@@ -30,6 +30,7 @@ export interface View2State {
   stage: number;
   maxStage: number;
   customer: Customer;
+  homeDelivery: boolean;
   address?: IAddress;
 }
 
@@ -49,6 +50,7 @@ class View2 {
         phone: '',
         socialId: '',
       },
+      homeDelivery: false,
     };
 
     this.render();
@@ -70,6 +72,14 @@ class View2 {
       address,
     };
     this.setStage(2);
+  }
+
+  stage2Next(homeDelivery: boolean) {
+    this.state = {
+      ...this.state,
+      homeDelivery,
+    };
+    this.setStage(3);
   }
 
   render() {
@@ -101,8 +111,10 @@ class View2 {
       node,
       canActivate: this.state.maxStage > 1,
       active: this.state.stage === 2,
+      order: this.props.order,
+      homeDelivery: this.state.homeDelivery,
       onThis: () => this.setStage(2),
-      onNext: () => this.setStage(3),
+      onNext: () => this.stage2Next.bind(this),
     });
     new Stage3({
       node,
