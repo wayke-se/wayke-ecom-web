@@ -34,8 +34,8 @@
       &::before {
         content: '';
         position: absolute;
-        top: math.div($badge-size, 2);
-        bottom: ($item-spacing * -1) + math.div($badge-size, -2);
+        top: calc(#{math.div($badge-size, 2)} + ((#{$badge-size} - #{$heading-font-size} * #{$heading-line-height}) / -2));
+        bottom: calc((#{$item-spacing} + (#{$heading-font-size} * #{$heading-line-height} / 2)) * -1);
         left: math.div(($badge-size - $line-width), 2);
         width: $line-width;
         background-color: color(border, main);
