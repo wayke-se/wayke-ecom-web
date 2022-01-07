@@ -2,7 +2,7 @@ import { OrderOptionsResponse } from '@wayke-se/ecom/dist-types/orders/order-opt
 import { Vehicle } from '../../App';
 import { getOrder } from '../../Data/getOrder';
 import HowTo from './HowTo';
-import Item from './Item';
+import ItemTileLarge from '../../Components/ItemTileLarge';
 
 interface View1Props {
   vehicle: Vehicle;
@@ -60,7 +60,7 @@ class View1 {
             <div class="stack stack--3" id="${PROCEED_BUTTON}-loader" style="display:none">
               <div>Laddar...</div>
             </div>
-            ${Item({ vehicle: this.props.vehicle, order: this.props.order })}
+            ${ItemTileLarge({ vehicle: this.props.vehicle, order: this.props.order })}
             ${HowTo({ order: this.props.order })}
             <div class="stack stack--3">
               <button type="button" id="${PROCEED_BUTTON}" title="Gå vidare" class="button button--full-width button--action">

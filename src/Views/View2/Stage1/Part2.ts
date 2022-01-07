@@ -43,12 +43,15 @@ class Part2 {
     errorAlert.style.display = 'none';
     try {
       if (this.props.state.validation.socialId) {
+        this.props.proceed.setAttribute('disabled', '');
         const response = await getAddressBySsn(this.props.state.value.socialId);
         const address = response.getAddress();
         this.props.onAddress(address);
       }
     } catch (e) {
       errorAlert.style.display = '';
+    } finally {
+      this.props.proceed.removeAttribute('disabled');
     }
   }
 
