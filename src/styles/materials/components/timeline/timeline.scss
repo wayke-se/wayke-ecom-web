@@ -1,18 +1,94 @@
+@use 'sass:math';
 @use '../../../helpers' as *;
 
 .timeline {
+  $root: &;
+  $badge-size: size(3);
+  $badge-final-size: size(1);
+  $line-width: 2px;
+  $item-spacing: size(2);
+  $heading-font-size: var(font, size, small);
+  $heading-line-height: var(font, line-height, main);
+
   list-style: none;
-  padding: 0;
+  padding: 0 size(2);
   margin: 0;
   counter-reset: timeline;
 
   &__item {
-    margin-top: size(2);
+    @include flex-display;
+    @include align-items(stretch);
     counter-increment: timeline;
+
+    &:not(:last-child) {
+      padding-bottom: $item-spacing;
+    }
+  }
+
+  &__stage {
+    @include flex-shrink(0);
+    position: relative;
+    padding-right: size(1.5);
+
+    #{$root}__item:not(:last-child) & {
+      &::before {
+        content: '';
+        position: absolute;
+        top: math.div($badge-size, 2);
+        bottom: ($item-spacing * -1) + math.div($badge-size, -2);
+        left: math.div(($badge-size - $line-width), 2);
+        width: $line-width;
+        background-color: color(border, main);
+        z-index: -1;
+      }
+    }
+  }
+
+  &__badge {
+    @include flex-display;
+    @include align-items(center);
+    @include justify-content(center);
+    @include font-bold;
+    width: $badge-size;
+    height: $badge-size;
+    margin-top: calc(($badge-size - $heading-font-size * $heading-line-height) / -2);
+    border-radius: 50%;
+    background-color: color(primary, alt);
+    color: color(primary, main);
+    font-size: var(font, size, small);
 
     &::before {
       content: counter(timeline);
-      color: red;
     }
+
+    #{$root}__item--final & {
+      $badge-final-spacing: math.div(($badge-size - $badge-final-size), 2);
+
+      width: $badge-final-size;
+      height: $badge-final-size;
+      margin-top: calc(($badge-final-size - $heading-font-size * $heading-line-height) / -2);
+      margin-left: $badge-final-spacing;
+      margin-right: $badge-final-spacing;
+      background-color: color(primary, main);
+
+      &::before {
+        content: none;
+      }
+    }
+  }
+
+  &__content {
+    @include flex(1 1 auto);
+  }
+
+  &__heading {
+    @include font-medium;
+    font-size: $heading-font-size;
+    line-height: $heading-line-height;
+  }
+
+  &__description {
+    margin-top: size(0.5);
+    font-size: var(font, size, xsmall);
   }
 }

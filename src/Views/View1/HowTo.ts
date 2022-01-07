@@ -14,27 +14,57 @@ const HowTo = ({ order }: HowToProps) => `
   <div class="stack stack--3">
     <ol class="timeline">
       <li class="timeline__item">
-        <p>Dina kunduppgifter</p>
-        <div>Hämtas smidigt med BankID</div>
+        <div class="timeline__stage">
+          <div class="timeline__badge"></div>
+        </div>
+        <div class="timeline__content">
+          <div class="timeline__heading">Dina kunduppgifter</div>
+          <div class="timeline__description">Hämtas smidigt med BankID [BankID_LOGO]</div>
+        </div>
       </li>
       <li class="timeline__item">
-        <p>Välj leveranssätt</p>
-        <div>Hemleverans eller hämta hos handlaren.</div>
+        <div class="timeline__stage">
+          <div class="timeline__badge"></div>
+        </div>
+        <div class="timeline__content">
+          <div class="timeline__heading">Välj leveranssätt</div>
+          <div class="timeline__description">Hemleverans eller hämta hos handlaren.</div>
+        </div>
       </li>
       <li class="timeline__item">
-        <p>Har du inbytesbil?</p>
-        <div>Få den värderad direkt online.</div>
+        <div class="timeline__stage">
+          <div class="timeline__badge"></div>
+        </div>
+        <div class="timeline__content">
+          <div class="timeline__heading">Har du inbytesbil?</div>
+          <div class="timeline__description">Få den värderad direkt online.</div>
+        </div>
       </li>
       <li class="timeline__item">
-        <p>Välj finansiering</p>
-        <div>Betala allt på en gång, delbetala och gör låneansökan direkt online flexibiliteten med att privatleasa.</div>
+        <div class="timeline__stage">
+          <div class="timeline__badge"></div>
+        </div>
+        <div class="timeline__content">
+          <div class="timeline__heading">Välj betalsätt</div>
+          <div class="timeline__description">Finansieringstillval med låneansökan online [BankID_LOGO] – svar direkt!</div>
+        </div>
       </li>
       <li class="timeline__item">
-        <p>Vill du teckna en försäkring?</p>
-        <div>Försäkra din nya bil direkt i köpflödet.</div>
+        <div class="timeline__stage">
+          <div class="timeline__badge"></div>
+        </div>
+        <div class="timeline__content">
+          <div class="timeline__heading">Vill du teckna en försäkring?</div>
+          <div class="timeline__description">Försäkra din nya bil direkt i köpflödet.</div>
+        </div>
       </li>
-      <li class="timeline__item">
-        <p>Sammanställning och orderbekräftelse</p>
+      <li class="timeline__item timeline__item--final">
+        <div class="timeline__stage">
+          <div class="timeline__badge"></div>
+        </div>
+          <div class="timeline__content">
+          <div class="timeline__heading">Sammanställning och orderbekräftelse</div>
+        </div>
       </li>
     </ol>
   </div>
