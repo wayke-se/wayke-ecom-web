@@ -8,8 +8,13 @@
 }
 
 // Spacing utility classes
+// Generates classes used to add spacing from properties defined
+// in $spacing-properties.
+// Each property can be set on a specific axis; none (all), t (top),
+// b (bottom), l (left), r (right), x (left and right) and y (top and bottom)
+// following this class name format: [PROPERTY_ABBR]-[AXIS]--[SIZE].
 
-// Properties to generate
+// Properties to generate class names for
 $spacing-properties: (
   m: margin,
   p: padding,
