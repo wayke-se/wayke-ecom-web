@@ -7,43 +7,48 @@
   margin: 0;
 }
 
-// Margins
+// Spacing utility classes
 
-$margin-sizes: (
-  1,
-  2,
-  3,
-  4,
+// Properties to generate
+$spacing-properties: (
+  m: margin,
+  p: padding,
 );
 
-@each $size in $margin-sizes {
-  .m--#{size} {
-    margin: size($size);
-  }
+// Sizes for each property
+$spacing-sizes: 1, 2, 3, 4, 5;
 
-  .m-t--#{$size} {
-    margin-top: size($size);
-  }
+// Create spacing utility classes
+@each $abbr, $property in $spacing-properties {
+  @each $size in $spacing-sizes {
+    .#{$abbr}--#{$size} {
+      #{$property}: size($size);
+    }
 
-  .m-b--#{$size} {
-    margin-bottom: size($size);
-  }
+    .#{$abbr}-t--#{$size} {
+      #{$property}-top: size($size);
+    }
 
-  .m-l--#{$size} {
-    margin-left: size($size);
-  }
+    .#{$abbr}-b--#{$size} {
+      #{$property}-bottom: size($size);
+    }
 
-  .m-r--#{$size} {
-    margin-right: size($size);
-  }
+    .#{$abbr}-l--#{$size} {
+      #{$property}-left: size($size);
+    }
 
-  .m-x--#{$size} {
-    margin-left: size($size);
-    margin-right: size($size);
-  }
+    .#{$abbr}-r--#{$size} {
+      #{$property}-right: size($size);
+    }
 
-  .m-y--#{$size} {
-    margin-top: size($size);
-    margin-bottom: size($size);
+    .#{$abbr}-x--#{$size} {
+      #{$property}-left: size($size);
+      #{$property}-right: size($size);
+    }
+
+    .#{$abbr}-y--#{$size} {
+      #{$property}-top: size($size);
+      #{$property}-bottom: size($size);
+    }
   }
 }
