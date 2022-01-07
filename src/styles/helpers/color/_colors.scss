@@ -24,6 +24,7 @@ $colors: (
   text: (
     main: color-defs(black),
     alt: color-defs(gray-dark),
+    inverted: color-defs(white),
   ),
   link: (
     main: color-defs(blue),
@@ -38,6 +39,9 @@ $colors: (
   disabled: (
     bg: color-defs(gray-light),
     text: color-defs(gray-dark),
+  ),
+  overlay: (
+    main: color-defs(black),
   ),
   ui: (
     success: (

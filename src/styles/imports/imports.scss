@@ -8,7 +8,9 @@
 
 // Components
 @use '../materials/components/alert/alert';
+@use '../materials/components/aside/aside';
 @use '../materials/components/button/button';
+@use '../materials/components/checklist/checklist';
 @use '../materials/components/content/content';
 @use '../materials/components/disclaimer/disclaimer';
 @use '../materials/components/heading/heading';
@@ -18,10 +20,13 @@
 @use '../materials/components/input-text/input-text';
 @use '../materials/components/key-value-list/key-value-list';
 @use '../materials/components/link/link';
+@use '../materials/components/preview-card/preview-card';
+@use '../materials/components/product-card/product-card';
 @use '../materials/components/separator/separator';
 @use '../materials/components/timeline/timeline';
 
 // Layout
 @use '../materials/layout/hstack/hstack';
+@use '../materials/layout/page/page';
 @use '../materials/layout/stack/stack';
 @use '../materials/layout/stepper/stepper';

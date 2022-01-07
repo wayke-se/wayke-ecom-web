@@ -1,0 +1,7 @@
+@use '../../../helpers' as *;
+
+.page {
+  &__footer {
+    background-color: color(bg, alt);
+  }
+}

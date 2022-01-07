@@ -1,7 +1,8 @@
 /// Import files using @use for styling in the breakpoint 'sm'
 
 // Components
-// @use '../materials/components/[component_name]/[component_name]-sm';
+@use '../materials/components/content/content-sm';
 
 // Layout
+@use '../materials/layout/page/page-sm';
 @use '../materials/layout/stepper/stepper-sm';

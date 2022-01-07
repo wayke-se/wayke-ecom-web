@@ -1,0 +1,73 @@
+@use '../../../helpers' as *;
+
+.preview-card {
+  @include flex-display;
+  @include align-items(stretch);
+  @include justify-content(center);
+  background-color: color(bg, alt);
+  border-radius: size(1);
+  overflow: hidden;
+
+  &__media {
+    @include flex-shrink(0);
+  }
+
+  &__image {
+    display: block;
+    width: size(9.5);
+    height: 100%;
+    object-fit: cover;
+  }
+
+  &__body {
+    @include flex(1 1 auto);
+    padding: size(1.5);
+    min-width: 0;
+  }
+
+  &__seller {
+    @include font-medium;
+    margin-bottom: size(0.25);
+    color: color(primary, main);
+    font-size: var(font, size, xsmall);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  &__heading {
+    font-size: var(font, size, small);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  &__title {
+    @include font-bold;
+  }
+
+  &__footer {
+    @include flex-display;
+    @include align-items(center);
+    margin-top: size(0.5);
+  }
+
+  &__price {
+    @include flex(1 0 auto);
+    @include font-medium;
+    font-size: var(font, size, small);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  &__branding {
+    @include flex(0 1 auto);
+    padding-left: size(2);
+  }
+
+  &__branding-logo {
+    display: block;
+    max-width: 100%;
+  }
+}

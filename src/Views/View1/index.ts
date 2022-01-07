@@ -55,7 +55,7 @@ class View1 {
         <div class="page">
           <div class="page__body">
             <div class="stack stack--3">
-              <h3 class="heading heading--3 no-margin">Vad roligt att du vill köpa denna bil!</h3>
+              <h2 class="heading heading--3 no-margin">Vad roligt att du vill köpa denna bil!</h2>
             </div>
             <div class="stack stack--3" id="${PROCEED_BUTTON}-loader" style="display:none">
               <div>Laddar...</div>
@@ -79,7 +79,13 @@ class View1 {
             </div>
           </div>
           <footer class="page__footer">
-            FOOTER...
+            <h2 class="heading heading--4">Köp online hos Wayke</h2>
+            <ul class="checklist">
+              <li class="checklist__item">Trygg hantering av personuppgifter</li>
+              <li class="checklist__item">Reservera bilen nu – betalning och avtalsskrivning sker senare med handlaren</li>
+              <li class="checklist__item">Inte bindande förrän avtal skrivits ihop med handlaren</li>
+              <li class="checklist__item">Bara kontrollerade bilar</li>
+            </ul>
           </footer>
         </div>
       `;
