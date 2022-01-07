@@ -1,0 +1,11 @@
+@use '../../../helpers' as *;
+
+.page {
+  &__body {
+    padding: size(7);
+  }
+
+  &__footer {
+    padding: size(7);
+  }
+}

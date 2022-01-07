@@ -1,0 +1,33 @@
+@use '../../../helpers' as *;
+
+.checklist {
+  $icon-height: 9px; // Magic number from svg
+  $text-font-size: var(font, size, xsmall);
+  $text-line-height: var(font, line-height, main);
+
+  list-style: none;
+  padding: 0;
+  margin: 0;
+
+  &__item {
+    @include flex-display;
+    @include align-items(stretch);
+    font-size: $text-font-size;
+    line-height: $text-line-height;
+
+    &::before {
+      @include flex-shrink(0);
+      content: '';
+      display: block;
+      width: 12px; // Magic number from svg
+      margin-right: size(2);
+      background-image: url("data:image/svg+xml,%3C%3Fxml version='1.0' encoding='utf-8'%3F%3E%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 9' xml:space='preserve'%3E%3Cpath d='m11.7 1.7-7 7c-.4.4-1 .4-1.4 0l-3-3c-.4-.4-.4-1 0-1.4s1-.4 1.4 0L4 6.6 10.3.3c.4-.4 1-.4 1.4 0 .4.4.4 1 0 1.4z' fill='%2300a997'/%3E%3C/svg%3E%0A");
+      background-repeat: no-repeat;
+      background-position: 0 calc(($icon-height - $text-font-size * $text-line-height) / -2);
+    }
+
+    & + & {
+      margin-top: size(1);
+    }
+  }
+}

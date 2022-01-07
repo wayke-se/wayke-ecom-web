@@ -7,12 +7,22 @@ interface ItemTileSmallProps {
 }
 
 const ItemTileSmall = ({ vehicle, order }: ItemTileSmallProps) => `
-  <div>
-    <img src="${vehicle.imageUrls[0]}?spec=80x&format=webp"/>
-
-    <div>${order?.getContactInformation()?.name}</div>
-    <p><b>${vehicle.title}</b> ${vehicle.shortDescription}</p>
-    <p>${vehicle.price} kr</p>
+  <div class="preview-card">
+    <div class="preview-card__media">
+      <img src="${vehicle.imageUrls[0]}?spec=200x&format=webp" alt="" class="preview-card__image" />
+    </div>
+    <div class="preview-card__body">
+      <div class="preview-card__seller">${order?.getContactInformation()?.name}</div>
+      <div class="preview-card__heading">
+        <span class="preview-card__title">${vehicle.title}</span> ${vehicle.shortDescription}
+      </div>
+      <div class="preview-card__footer">
+        <div class="preview-card__price">${vehicle.price} kr</div>
+        <div class="preview-card__branding">
+          <img src="http://placehold.it/70x13" alt="" class="preview-card__branding-logo" />
+        </div>
+      </div>
+    </div>
   </div>
 `;
 

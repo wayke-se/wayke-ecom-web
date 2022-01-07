@@ -78,9 +78,7 @@ class View2 {
     const aside = document.createElement('aside');
     aside.className = 'aside';
     aside.innerHTML = `
-        <div>
-          ${ItemTileSmall({ vehicle: this.props.vehicle, order: this.props.order })}
-        </div>
+        ${ItemTileSmall({ vehicle: this.props.vehicle, order: this.props.order })}
       `;
     this.props.root.appendChild(aside);
 
