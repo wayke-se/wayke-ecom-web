@@ -1,8 +1,9 @@
 import { OrderOptionsResponse } from '@wayke-se/ecom/dist-types/orders/order-options-response';
-import { Vehicle } from '../../App';
+
 import { getOrder } from '../../Data/getOrder';
 import HowTo from './HowTo';
 import ItemTileLarge from '../../Components/ItemTileLarge';
+import { Vehicle } from '../../@types/Vehicle';
 
 interface View1Props {
   root: HTMLElement;

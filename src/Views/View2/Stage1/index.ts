@@ -78,7 +78,7 @@ class Stage1 {
     const value = currentTarget.value;
     this.state.value[name] = value;
     this.state.validation[name] = validation[name](value);
-    this.update();
+    this.updateUiErrors();
   }
 
   onBlur(e: Event) {
@@ -87,7 +87,7 @@ class Stage1 {
 
     this.state.interact[name] = true;
     this.state.validation[name] = validation[name](this.state.value[name]);
-    this.update();
+    this.updateUiErrors();
   }
 
   verifyButton() {
@@ -107,7 +107,19 @@ class Stage1 {
     }
   }
 
-  update() {
+  updateUiError(_key: string, element: HTMLInputElement) {
+    const key = _key as keyof CustomerValidation;
+
+    if (element) {
+      if (this.state.interact[key] && !this.state.validation[key]) {
+        element.style.display = '';
+      } else {
+        element.style.display = 'none';
+      }
+    }
+  }
+
+  updateUiErrors() {
     Object.keys(this.state.value).forEach((_key) => {
       const key = _key as keyof CustomerValidation;
       const element =
@@ -115,11 +127,7 @@ class Stage1 {
         this.elements?.content2?.querySelector<HTMLInputElement>(`#${ID}-contact-${key}-error`);
 
       if (element) {
-        if (this.state.interact[key] && !this.state.validation[key]) {
-          element.style.display = '';
-        } else {
-          element.style.display = 'none';
-        }
+        this.updateUiError(key, element);
       }
     });
     this.verifyButton();

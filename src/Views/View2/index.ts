@@ -1,7 +1,7 @@
 import { IAddress } from '@wayke-se/ecom';
 import { OrderOptionsResponse } from '@wayke-se/ecom/dist-types/orders/order-options-response';
+import { Vehicle } from '../../@types/Vehicle';
 
-import { Vehicle } from '../../App';
 import ItemTileSmall from '../../Components/ItemTileSmall';
 import Stage1 from './Stage1/index';
 import Stage2 from './Stage2/index';
