@@ -55,6 +55,7 @@
 
   &__content {
     @include flex(1 1 auto);
+    @include remove-direct-child-edge-margins;
     min-width: 0;
     font-size: $content-size;
     line-height: $content-line-height;
@@ -69,16 +70,6 @@
     ol {
       padding: 0;
       list-style-position: inside;
-    }
-
-    > * {
-      &:first-child {
-        margin-top: 0;
-      }
-
-      &:last-child {
-        margin-bottom: 0;
-      }
     }
   }
 }

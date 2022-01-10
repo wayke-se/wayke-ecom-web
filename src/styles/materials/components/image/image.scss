@@ -1,0 +1,12 @@
+.image {
+  display: block;
+  max-width: 100%;
+
+  // Used to display an image inline in text
+  &--inline {
+    display: inline-block;
+    vertical-align: middle;
+    height: 1rem;
+    margin: -0.5rem 0; // Add bleed to not interfere with line height
+  }
+}

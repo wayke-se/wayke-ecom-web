@@ -1,0 +1,13 @@
+/// Custom mixins
+
+@mixin remove-direct-child-edge-margins {
+  & > * {
+    &:first-child {
+      margin-top: 0;
+    }
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
