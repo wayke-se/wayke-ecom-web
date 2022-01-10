@@ -17,8 +17,7 @@ const HowTo = ({ order }: HowToProps) => `
       <ol class="timeline">
         ${TimelineItem({
           heading: 'Dina kunduppgifter',
-          description:
-            'Hämtas smidigt med BankID <img src="../../../assets/images/bankid-logo.svg" alt="BankID logotyp" />',
+          description: 'Hämtas smidigt med BankID [BankID_LOGO]',
         })}
         ${TimelineItem({
           heading: 'Välj leveranssätt',

@@ -2,6 +2,7 @@
 
 .input-label {
   @include flex-display;
+  @include flex-wrap(wrap);
   @include align-items(center);
   
   &:not(.no-margin) {
@@ -12,10 +13,26 @@
     @include font-medium;
     color: color(text, main);
     font-size: var(font, size, xsmall);
+
+    &--required {
+      &::after {
+        content: '*';
+        margin-left: 0.25ch;
+        color: color(ui, error, text);
+      }
+    }
   }
 
   &__help {
     @include flex-shrink(0);
     margin-left: auto;
+  }
+
+  &__foldout {
+    width: 100%;
+    background-color: color(bg, alt);
+    padding: size(1.5);
+    border-radius: var(size, border-radius);
+    font-size: var(font, size, xsmall);
   }
 }

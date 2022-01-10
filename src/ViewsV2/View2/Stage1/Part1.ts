@@ -103,10 +103,11 @@ class Part1 {
       <div class="stack stack--3">
         <div class="stack stack--2">
           <div class="input-label">
-            <label for="${EMAIL_INPUT_ID}" class="input-label__label">E-post</label>
+            <label for="${EMAIL_INPUT_ID}" class="input-label__label input-label__label--required">E-post</label>
             <div class="input-label__help">
               HELP???
             </div>
+            <div class="input-label__foldout">Lorem ipsum dolor sit amet.</div>
           </div>
           <input
             type="text"
