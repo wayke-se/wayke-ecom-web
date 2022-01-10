@@ -15,7 +15,7 @@ interface Stage1Part2Props {
 }
 
 class Part2 {
-  private props: Stage1Part2Props;
+  private readonly props: Stage1Part2Props;
 
   constructor(props: Stage1Part2Props) {
     this.props = props;
@@ -99,6 +99,18 @@ class Part2 {
               </ul>
             `,
           })}
+        </div>
+        <div class="stack stack--3">
+          <wayke-alert tone="error">
+            <div slot="content">
+              <p>Vi kommer hämta följande uppgifter om dig:</p>
+              <ul>
+                <li>Personnummer</li>
+                <li>Namn</li>
+                <li>Folkbokföringsadress</li>
+              </ul>
+            </div>
+          </wayke-alert>
         </div>
       </div>
     `;

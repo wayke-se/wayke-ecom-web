@@ -2,6 +2,7 @@ import { IAddress } from '@wayke-se/ecom';
 import { Customer } from '..';
 import { validationMethods } from '../../../Utils/validationMethods';
 import Li from '../Li';
+
 import Part1 from './Part1';
 import Part2 from './Part2';
 import Part3 from './Part3';
@@ -57,7 +58,7 @@ const initalState = (customer?: Customer): Stage1State => ({
 });
 
 class Stage1 {
-  private props: Stage1Props;
+  private readonly props: Stage1Props;
   private stage: number;
   private state: Stage1State;
   private elements: Elements = {};
@@ -77,7 +78,7 @@ class Stage1 {
     const value = currentTarget.value;
     this.state.value[name] = value;
     this.state.validation[name] = validation[name](value);
-    this.update();
+    this.updateUiErrors();
   }
 
   onBlur(e: Event) {
@@ -86,7 +87,7 @@ class Stage1 {
 
     this.state.interact[name] = true;
     this.state.validation[name] = validation[name](this.state.value[name]);
-    this.update();
+    this.updateUiErrors();
   }
 
   verifyButton() {
@@ -106,7 +107,19 @@ class Stage1 {
     }
   }
 
-  update() {
+  updateUiError(_key: string, element: HTMLInputElement) {
+    const key = _key as keyof CustomerValidation;
+
+    if (element) {
+      if (this.state.interact[key] && !this.state.validation[key]) {
+        element.style.display = '';
+      } else {
+        element.style.display = 'none';
+      }
+    }
+  }
+
+  updateUiErrors() {
     Object.keys(this.state.value).forEach((_key) => {
       const key = _key as keyof CustomerValidation;
       const element =
@@ -114,11 +127,7 @@ class Stage1 {
         this.elements?.content2?.querySelector<HTMLInputElement>(`#${ID}-contact-${key}-error`);
 
       if (element) {
-        if (this.state.interact[key] && !this.state.validation[key]) {
-          element.style.display = '';
-        } else {
-          element.style.display = 'none';
-        }
+        this.updateUiError(key, element);
       }
     });
     this.verifyButton();
@@ -169,15 +178,7 @@ class Stage1 {
 
     this.verifyButton();
 
-    if (!this.props.active) {
-      new Part3({
-        customer: this.state.value,
-        address: this.address,
-        content,
-        onEdit: () => this.props.onThis(),
-      });
-      proceed.remove();
-    } else {
+    if (this.props.active) {
       const content1 = document.createElement('div');
       const content2 = document.createElement('div');
       content.appendChild(content1);
@@ -214,6 +215,14 @@ class Stage1 {
       } else {
         proceed.addEventListener('click', () => this.onNext());
       }
+    } else {
+      new Part3({
+        customer: this.state.value,
+        address: this.address,
+        content,
+        onEdit: () => this.props.onThis(),
+      });
+      proceed.remove();
     }
 
     if (this.props.canActivate) {

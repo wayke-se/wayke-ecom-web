@@ -10,7 +10,7 @@ interface Part3Props {
 }
 
 class Part3 {
-  private props: Part3Props;
+  private readonly props: Part3Props;
 
   constructor(props: Part3Props) {
     this.props = props;

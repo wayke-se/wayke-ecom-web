@@ -1,5 +1,7 @@
+type Tones = 'success' | 'warning' | 'error' | 'info';
+
 interface AlertProps {
-  tone?: 'success' | 'warning' | 'error' | 'info';
+  tone?: Tones;
   children?: string | Element;
 }
 

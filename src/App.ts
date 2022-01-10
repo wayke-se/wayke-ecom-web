@@ -1,82 +1,48 @@
-import View1 from './Views/View1/index';
-import View2 from './Views/View2/index';
-
 import './styles/styles.scss';
 import { OrderOptionsResponse } from '@wayke-se/ecom/dist-types/orders/order-options-response';
+import watch from 'redux-watch';
+
+import { Vehicle } from './@types/Vehicle';
+import View1v2 from './ViewsV2/View1';
+import store from './Redux/store';
+import View2v2 from './ViewsV2/View2';
+import { setVehicle } from './Redux/action';
 
 export interface AppState {
   stage: number;
   order?: OrderOptionsResponse;
 }
 
-export interface Vehicle {
-  id: string;
-  title: string;
-  shortDescription: string;
-  price: number;
-  imageUrls: string[];
-  modelYear: number;
-  milage: number;
-  gearBox: string;
-  fuelType: string;
-}
-
 interface AppProps {
   vehicle: Vehicle;
 }
 
-const initalState = (): AppState => ({
-  stage: 1,
-});
-
 class App {
-  private props: AppProps;
-  private state: AppState;
+  private root: HTMLElement;
+  private view: number;
 
   constructor(props: AppProps) {
-    this.props = props;
-    this.state = initalState();
-    this.init();
-  }
-
-  updateOrder(order: OrderOptionsResponse) {
-    this.state = {
-      ...this.state,
-      order,
-    };
-    this.setStage(1);
-  }
-
-  setStage(nextStage: number) {
-    this.state = {
-      ...this.state,
-      stage: nextStage,
-    };
-    switch (this.state.stage) {
-      case 1:
-        new View1({
-          vehicle: this.props.vehicle,
-          order: this.state.order,
-          onNext: () => this.setStage(2),
-          updateOrder: this.updateOrder.bind(this),
-        });
-        break;
-
-      case 2:
-        new View2({
-          vehicle: this.props.vehicle,
-          order: this.state.order,
-          onNext: () => this.setStage(3),
-        });
-        break;
-
-      default:
-        break;
+    const root = document.getElementById('wayke-ecom');
+    if (!root) {
+      throw 'Missing element with id wayke-ecom';
     }
+    this.root = root;
+
+    setVehicle(props.vehicle);
+    this.view = store.getState().view;
+
+    const w = watch(store.getState, 'view');
+    store.subscribe(
+      w((newVal: number) => {
+        this.view = newVal;
+        this.render();
+      })
+    );
+    this.render();
   }
 
-  init() {
-    this.setStage(1);
+  render() {
+    const _current = this.view === 1 ? new View1v2(this.root) : new View2v2(this.root);
   }
 }
 
