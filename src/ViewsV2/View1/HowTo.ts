@@ -1,6 +1,8 @@
 import { OrderOptionsResponse } from '@wayke-se/ecom/dist-types/orders/order-options-response';
 import TimelineItem from '../../Components/TimelineItem';
 
+import bankidLogotype from '../../assets/images/bankid-logo.svg';
+
 interface HowToProps {
   order?: OrderOptionsResponse;
 }
@@ -17,7 +19,7 @@ const HowTo = ({ order }: HowToProps) => `
       <ol class="timeline">
         ${TimelineItem({
           heading: 'Dina kunduppgifter',
-          description: 'Hämtas smidigt med BankID [BankID_LOGO]',
+          description: `Hämtas smidigt med BankID <img src="${bankidLogotype}" alt="BankID logotyp" />`,
         })}
         ${TimelineItem({
           heading: 'Välj leveranssätt',
