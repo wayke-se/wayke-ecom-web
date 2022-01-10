@@ -1,4 +1,5 @@
-import { Customer } from '../../../@types/Customer';
+import { Customer, PartialCustomer } from '../../../@types/Customer';
+import { setContactAndPhone } from '../../../Redux/action';
 import store from '../../../Redux/store';
 import { validationMethods } from '../../../Utils/validationMethods';
 
@@ -14,11 +15,6 @@ const validation = {
   email: validationMethods.requiredEmail,
   phone: validationMethods.requiredTelephone,
 };
-
-interface PartialCustomer {
-  email: string;
-  phone: string;
-}
 
 export interface PartialCustomerValidation {
   email: boolean;
@@ -107,8 +103,30 @@ class Part1 {
     }
   }
 
+  onProceed() {
+    setContactAndPhone(this.state.value);
+  }
+
   render() {
-    this.element.innerHTML = `
+    const subStage = store.getState().subStage;
+
+    if (subStage > 1) {
+      this.element.innerHTML = `
+        <div class="stack stack--2">
+          <ul class="key-value-list">
+            <li class="key-value-list__item">
+              <div class="key-value-list__key">E-post</div>
+              <div class="key-value-list__value">${this.state.value.email}</div>
+            </li>
+            <li class="key-value-list__item">
+              <div class="key-value-list__key">Telefonnummer</div>
+              <div class="key-value-list__value">${this.state.value.phone}</div>
+            </li>
+          </ul>
+        </div>
+      `;
+    } else {
+      this.element.innerHTML = `
       <div class="stack stack--3">
         <h4 class="heading heading--4">Kontaktuppgifter</h4>
         <div class="content">
@@ -165,20 +183,27 @@ class Part1 {
       </div>
     `;
 
-    const emailElement = this.element.querySelector<HTMLInputElement>(`#${EMAIL_INPUT_ID}`);
-    if (emailElement) {
-      this.attach(emailElement);
-    }
+      const emailElement = this.element.querySelector<HTMLInputElement>(`#${EMAIL_INPUT_ID}`);
+      if (emailElement) {
+        this.attach(emailElement);
+      }
 
-    const phoneELement = this.element.querySelector<HTMLInputElement>(`#${PHONE_INPUT_ID}`);
-    if (phoneELement) {
-      this.attach(phoneELement);
-    }
+      const phoneELement = this.element.querySelector<HTMLInputElement>(`#${PHONE_INPUT_ID}`);
+      if (phoneELement) {
+        this.attach(phoneELement);
+      }
 
-    Object.keys(this.state.value).forEach((key) =>
-      this.updateUiError(key as keyof PartialCustomer)
-    );
-    this.updateProceedButton();
+      Object.keys(this.state.value).forEach((key) =>
+        this.updateUiError(key as keyof PartialCustomer)
+      );
+
+      const proceed = this.element.querySelector<HTMLButtonElement>(`#${PROCEED}`);
+      if (proceed) {
+        proceed.addEventListener('click', () => this.onProceed());
+      }
+
+      this.updateProceedButton();
+    }
   }
 }
 

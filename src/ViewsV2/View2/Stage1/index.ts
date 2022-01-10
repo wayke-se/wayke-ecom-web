@@ -1,3 +1,4 @@
+import watch from 'redux-watch';
 import store from '../../../Redux/store';
 import ListItem from '../ListItem';
 import Part1 from './Part1';
@@ -8,12 +9,23 @@ class Stage1 {
 
   constructor(element: HTMLDivElement) {
     this.element = element;
+
+    const w = watch(store.getState, 'subStage');
+    store.subscribe(
+      w(() => {
+        this.localStage = store.getState().subStage;
+        this.render();
+      })
+    );
+
     this.render();
   }
 
   render() {
     const state = store.getState();
     const content = ListItem(this.element, 'Dina uppgifter', state.stage === 1);
+    content.innerHTML = '';
+
     const part1 = document.createElement('div');
     const part2 = document.createElement('div');
     const part3 = document.createElement('div');

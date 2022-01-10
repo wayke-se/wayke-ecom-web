@@ -5,3 +5,8 @@ export interface Customer {
   phone: string;
   socialId: string;
 }
+
+export interface PartialCustomer {
+  email: string;
+  phone: string;
+}
