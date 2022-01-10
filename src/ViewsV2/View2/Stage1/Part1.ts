@@ -57,6 +57,41 @@ class Part1 {
     this.render();
   }
 
+  onChange(e: Event) {
+    const currentTarget = e.currentTarget as HTMLInputElement;
+    const name = currentTarget.name as keyof PartialCustomerValidation;
+    const value = currentTarget.value;
+
+    this.state.value[name] = value;
+    this.state.validation[name] = validation[name](value);
+    this.updateUiErrors(name);
+  }
+
+  onBlur(e: Event) {
+    const currentTarget = e.currentTarget as HTMLInputElement;
+    const name = currentTarget.name as keyof PartialCustomerValidation;
+
+    this.state.interact[name] = true;
+    this.state.validation[name] = validation[name](this.state.value[name]);
+    this.updateUiErrors(name);
+  }
+
+  attach(element: HTMLInputElement) {
+    element.addEventListener('input', (e) => this.onChange(e));
+    element.addEventListener('blur', (e) => this.onBlur(e));
+  }
+
+  updateUiErrors(name: keyof PartialCustomer) {
+    const errorElement = this.element.querySelector<HTMLDivElement>(`#contact-${name}-error`);
+    if (errorElement) {
+      if (this.state.interact[name] && !this.state.validation[name]) {
+        errorElement.style.display = '';
+      } else {
+        errorElement.style.display = 'none';
+      }
+    }
+  }
+
   render() {
     this.element.innerHTML = `
       <div class="stack stack--3">
@@ -100,17 +135,19 @@ class Part1 {
       </div>
     `;
 
-    Object.keys(this.state.value).forEach((key) => {
-      const name = key as keyof PartialCustomer;
-      const errorElement = this.element.querySelector<HTMLDivElement>(`#${EMAIL_INPUT_ID}-error`);
-      if (errorElement) {
-        if (this.state.interact[name] && !this.state.validation[name]) {
-          errorElement.style.display = '';
-        } else {
-          errorElement.style.display = 'none';
-        }
-      }
-    });
+    const emailElement = this.element.querySelector<HTMLInputElement>(`#${EMAIL_INPUT_ID}`);
+    if (emailElement) {
+      this.attach(emailElement);
+    }
+
+    const phoneELement = this.element.querySelector<HTMLInputElement>(`#${PHONE_INPUT_ID}`);
+    if (phoneELement) {
+      this.attach(phoneELement);
+    }
+
+    Object.keys(this.state.value).forEach((key) =>
+      this.updateUiErrors(key as keyof PartialCustomer)
+    );
   }
 }
 
