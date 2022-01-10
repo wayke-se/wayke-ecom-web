@@ -15,6 +15,7 @@
   &__image {
     display: block;
     width: size(9.5);
+    min-height: size(9.5);
     height: 100%;
     object-fit: cover;
   }
@@ -36,7 +37,7 @@
   }
 
   &__heading {
-    font-size: var(font, size, small);
+    font-size: var(font, size, xsmall);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;

@@ -1,6 +1,8 @@
 @use '../../../helpers' as *;
 
 .input-label {
+  $root: &;
+
   @include flex-display;
   @include flex-wrap(wrap);
   @include align-items(center);
@@ -14,7 +16,11 @@
     color: color(text, main);
     font-size: var(font, size, xsmall);
 
-    &--required {
+    #{$root}--has-error & {
+      color: color(ui, error, text);
+    }
+
+    &--is-required {
       &::after {
         content: '*';
         margin-left: 0.25ch;
@@ -27,8 +33,19 @@
     @include flex-shrink(0);
     margin-left: auto;
   }
+  
+  &__help-btn {
+    font-size: 1rem;
+    color: color(primary, main);
+    transition: color 200ms ease;
+
+    &:hover {
+      color: darken(color(primary, main), 5%);
+    }
+  }
 
   &__foldout {
+    @include remove-direct-child-edge-margins;
     width: 100%;
     background-color: color(bg, alt);
     padding: size(1.5);

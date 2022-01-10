@@ -25,12 +25,6 @@ $variables: (
     ),
   ),
   animation: (
-    duration: (
-      fast: 150ms,
-      default: 200ms,
-      slow: 300ms,
-      xslow: 400ms,
-    ),
     cubic-bezier: cubic-bezier(0.47, 1.64, 0.41, 0.8),
   ),
   box-shadow: (
