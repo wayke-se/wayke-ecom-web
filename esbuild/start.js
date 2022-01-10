@@ -7,6 +7,6 @@ require('esbuild').serve(
   },
   Object.assign(config, {
     entryPoints: ['src/index-dev.ts'],
-    outdir: 'www/js',
+    outdir: 'www',
   })
 );

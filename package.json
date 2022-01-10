@@ -6,6 +6,7 @@
   "scripts": {
     "start": "node ./esbuild/start.js",
     "build:pika": "pika build",
+    "build": "node ./esbuild/dev.js",
     "clean": "rimraf build",
     "test": "npm run lint && npm run typecheck",
     "typecheck": "tsc -noEmit",
