@@ -14,7 +14,7 @@ const ListItem = (element: HTMLElement, title: string, active?: boolean) => {
 
   element.appendChild(item);
 
-  const content = document.querySelector<HTMLDivElement>('.stepper__body');
+  const content = item.querySelector<HTMLDivElement>('.stepper__body');
   if (!content) throw 'Err no element';
   return content;
 };
