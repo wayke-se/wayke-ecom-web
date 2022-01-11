@@ -22,7 +22,7 @@
   }
 
   &--4 {
-    font-size: 1rem;
+    font-size: var(font, size, regular);
 
     &:not(.no-margin) {
       margin-bottom: size(1);

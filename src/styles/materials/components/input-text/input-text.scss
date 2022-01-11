@@ -24,7 +24,7 @@
 
   &:focus {
     outline: none;
-    border-color: color(border, alt);
+    border-color: darken(color(border, main), 20%);
   }
 
   @include placeholder {

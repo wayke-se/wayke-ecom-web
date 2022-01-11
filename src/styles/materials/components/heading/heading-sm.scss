@@ -1,0 +1,11 @@
+@use '../../../helpers' as *;
+
+.heading {
+  &--3 {
+    font-size: 1.5rem;
+  }
+
+  &--4 {
+    font-size: var(font, size, large);
+  }
+}

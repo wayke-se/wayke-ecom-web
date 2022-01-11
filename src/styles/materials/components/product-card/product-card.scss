@@ -9,6 +9,7 @@
     @include grid-display;
     @include grid-template-columns(2fr 1fr);
     @include grid-template-rows(1fr 1fr);
+    gap: 1px;
   }
 
   &__media-item {
@@ -51,6 +52,7 @@
     background-color: rgba(color(overlay, main), 0.3);
     color: color(text, inverted);
     font-size: var(font, size, large);
+    user-select: none;
   }
 
   &__image {

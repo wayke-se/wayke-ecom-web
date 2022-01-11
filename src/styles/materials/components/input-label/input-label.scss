@@ -31,12 +31,14 @@
 
   &__help {
     @include flex-shrink(0);
+    position: relative; // Used to place help-btn focus above foldout
     margin-left: auto;
   }
   
   &__help-btn {
     font-size: 1rem;
     color: color(primary, main);
+    border-radius: 50%; // Used to display a round focus outline
     transition: color 200ms ease;
 
     &:hover {

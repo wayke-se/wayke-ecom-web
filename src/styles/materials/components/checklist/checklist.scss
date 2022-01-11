@@ -2,7 +2,7 @@
 
 .checklist {
   $icon-height: 9px; // Magic number from svg
-  $text-font-size: var(font, size, xsmall);
+  $text-font-size: var(font, size, regular);
   $text-line-height: var(font, line-height, main);
 
   list-style: none;

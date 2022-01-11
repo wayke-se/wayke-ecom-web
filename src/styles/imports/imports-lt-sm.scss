@@ -1,7 +1,7 @@
 /// Import files using @use for styling in the breakpoint 'lt-sm'
 
 // Components
-// @use '../materials/components/[component_name]/[component_name]-lt-sm';
+@use '../materials/components/checklist/checklist-lt-sm';
 
 // Layout
 @use '../materials/layout/page/page-lt-sm';

@@ -1,0 +1,37 @@
+@use 'sass:math';
+@use '../../../helpers' as *;
+
+.timeline {
+  $root: &;
+  $badge-size: size(3);
+  $badge-final-size: size(1);
+  $item-spacing: size(2);
+  $heading-font-size: var(font, size, regular);
+  $heading-line-height: var(font, line-height, main);
+
+  &__stage {
+    #{$root}__item:not(:last-child) & {
+      &::before {
+        top: calc(#{math.div($badge-size, 2)} + ((#{$badge-size} - #{$heading-font-size} * #{$heading-line-height}) / -2));
+        bottom: calc((#{$item-spacing} + (#{$heading-font-size} * #{$heading-line-height} / 2)) * -1);
+      }
+    }
+  }
+
+  &__badge {
+    margin-top: calc(($badge-size - $heading-font-size * $heading-line-height) / -2);
+
+    #{$root}__item--final & {
+      margin-top: calc(($badge-final-size - $heading-font-size * $heading-line-height) / -2);
+    }
+  }
+
+  &__heading {
+    font-size: $heading-font-size;
+    line-height: $heading-line-height;
+  }
+
+  &__description {
+    font-size: var(font, size, small);
+  }
+}
