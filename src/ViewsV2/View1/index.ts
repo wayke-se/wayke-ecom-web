@@ -2,7 +2,7 @@ import { OrderOptionsResponse } from '@wayke-se/ecom/dist-types/orders/order-opt
 import ItemTileLarge from '../../Components/ItemTileLarge';
 
 import { getOrder } from '../../Data/getOrder';
-import { proceedToView2 } from '../../Redux/action';
+import { proceedToView2Stage1 } from '../../Redux/action';
 import store from '../../Redux/store';
 import HowTo from './HowTo';
 
@@ -90,7 +90,7 @@ class View1v2 {
       this.proceedButton = proceedButton;
       this.proceedButton.addEventListener('click', () => {
         if (this.order) {
-          proceedToView2(this.order);
+          proceedToView2Stage1(this.order);
         }
       });
     }

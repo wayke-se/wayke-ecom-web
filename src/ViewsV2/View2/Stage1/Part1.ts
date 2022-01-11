@@ -1,4 +1,5 @@
-import { Customer } from '../../../@types/Customer';
+import { Customer, PartialCustomer } from '../../../@types/Customer';
+import { setContactAndPhone } from '../../../Redux/action';
 import store from '../../../Redux/store';
 import { validationMethods } from '../../../Utils/validationMethods';
 
@@ -8,15 +9,12 @@ const EMAIL_ERROR_ID = `${EMAIL_INPUT_ID}-error`;
 const PHONE_INPUT_ID = 'contact-phone';
 const PHONE_ERROR_ID = `${PHONE_INPUT_ID}-error`;
 
+const PROCEED = 'contact-proceed';
+
 const validation = {
   email: validationMethods.requiredEmail,
   phone: validationMethods.requiredTelephone,
 };
-
-interface PartialCustomer {
-  email: string;
-  phone: string;
-}
 
 export interface PartialCustomerValidation {
   email: boolean;
@@ -64,7 +62,8 @@ class Part1 {
 
     this.state.value[name] = value;
     this.state.validation[name] = validation[name](value);
-    this.updateUiErrors(name);
+    this.updateUiError(name);
+    this.updateProceedButton();
   }
 
   onBlur(e: Event) {
@@ -73,7 +72,8 @@ class Part1 {
 
     this.state.interact[name] = true;
     this.state.validation[name] = validation[name](this.state.value[name]);
-    this.updateUiErrors(name);
+    this.updateUiError(name);
+    this.updateProceedButton();
   }
 
   attach(element: HTMLInputElement) {
@@ -81,7 +81,7 @@ class Part1 {
     element.addEventListener('blur', (e) => this.onBlur(e));
   }
 
-  updateUiErrors(name: keyof PartialCustomer) {
+  updateUiError(name: keyof PartialCustomer) {
     const errorElement = this.element.querySelector<HTMLDivElement>(`#contact-${name}-error`);
     if (errorElement) {
       if (this.state.interact[name] && !this.state.validation[name]) {
@@ -92,8 +92,41 @@ class Part1 {
     }
   }
 
+  updateProceedButton() {
+    const proceed = this.element.querySelector<HTMLButtonElement>(`#${PROCEED}`);
+    if (proceed) {
+      if (this.state.validation.email && this.state.validation.phone) {
+        proceed.removeAttribute('disabled');
+      } else {
+        proceed.setAttribute('disabled', '');
+      }
+    }
+  }
+
+  onProceed() {
+    setContactAndPhone(this.state.value);
+  }
+
   render() {
-    this.element.innerHTML = `
+    const subStage = store.getState().subStage;
+
+    if (subStage > 1) {
+      this.element.innerHTML = `
+        <div class="stack stack--2">
+          <ul class="key-value-list">
+            <li class="key-value-list__item">
+              <div class="key-value-list__key">E-post</div>
+              <div class="key-value-list__value">${this.state.value.email}</div>
+            </li>
+            <li class="key-value-list__item">
+              <div class="key-value-list__key">Telefonnummer</div>
+              <div class="key-value-list__value">${this.state.value.phone}</div>
+            </li>
+          </ul>
+        </div>
+      `;
+    } else {
+      this.element.innerHTML = `
       <div class="stack stack--3">
         <h4 class="heading heading--4">Kontaktuppgifter</h4>
         <div class="content">
@@ -158,21 +191,44 @@ class Part1 {
           <div id="${PHONE_ERROR_ID}" class="input-error">Ange ditt telefonnummer</div>
         </div>
       </div>
+      <div class="stack stack--3">
+        <button type="button" id="${PROCEED}" title="Fortsätt till nästa steg" class="button button--full-width button--action">
+          <span class="button__content">Fortsätt</span>
+          <span class="button__content">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 16 16"
+              class="icon"
+            >
+              <title>Ikon: pil höger</title>
+              <path d="m15.2 8.8-4.8 4.8-1.7-1.7 2.7-2.7H1.2C.5 9.2 0 8.7 0 8s.5-1.2 1.2-1.2h10.2L8.7 4.1l1.7-1.7 4.8 4.8.8.8-.8.8z" />
+            </svg>
+          </span>
+        </button>
+      </div>
     `;
 
-    const emailElement = this.element.querySelector<HTMLInputElement>(`#${EMAIL_INPUT_ID}`);
-    if (emailElement) {
-      this.attach(emailElement);
-    }
+      const emailElement = this.element.querySelector<HTMLInputElement>(`#${EMAIL_INPUT_ID}`);
+      if (emailElement) {
+        this.attach(emailElement);
+      }
 
-    const phoneELement = this.element.querySelector<HTMLInputElement>(`#${PHONE_INPUT_ID}`);
-    if (phoneELement) {
-      this.attach(phoneELement);
-    }
+      const phoneELement = this.element.querySelector<HTMLInputElement>(`#${PHONE_INPUT_ID}`);
+      if (phoneELement) {
+        this.attach(phoneELement);
+      }
 
-    Object.keys(this.state.value).forEach((key) =>
-      this.updateUiErrors(key as keyof PartialCustomer)
-    );
+      Object.keys(this.state.value).forEach((key) =>
+        this.updateUiError(key as keyof PartialCustomer)
+      );
+
+      const proceed = this.element.querySelector<HTMLButtonElement>(`#${PROCEED}`);
+      if (proceed) {
+        proceed.addEventListener('click', () => this.onProceed());
+      }
+
+      this.updateProceedButton();
+    }
   }
 }
 
