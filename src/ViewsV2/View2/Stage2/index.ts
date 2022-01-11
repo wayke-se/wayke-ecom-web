@@ -1,6 +1,9 @@
 import store from '../../../Redux/store';
 import ListItem from '../ListItem';
 
+const RADIO_HOME_TRUE = 'radio-homeDelivery-true';
+const RADIO_HOME_FALSE = 'radio-homeDelivery-false';
+
 class Stage2 {
   private element: HTMLDivElement;
 
@@ -27,12 +30,12 @@ class Stage2 {
           </div>
         </div>
         <div>
-          <input type="radio" id="radio-homeDelivery-true" name="homeDelivery" value="true">
-          <label for="radio-homeDelivery-true">Hämta hos handlaren</label>
+          <input type="radio" id="${RADIO_HOME_TRUE}" name="homeDelivery" value="true">
+          <label for="${RADIO_HOME_TRUE}">Hämta hos handlaren</label>
         </div>
         <div>
-          <input type="radio" id="radio-homeDelivery-false" name="homeDelivery" value="false">
-          <label for="radio-homeDelivery-false">Hemleverans</label>
+          <input type="radio" id="${RADIO_HOME_FALSE}" name="homeDelivery" value="false">
+          <label for="${RADIO_HOME_FALSE}">Hemleverans</label>
         </div>
     `;
       content.appendChild(part);
