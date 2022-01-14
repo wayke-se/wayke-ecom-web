@@ -1,5 +1,5 @@
 import { OrderOptionsResponse } from '@wayke-se/ecom/dist-types/orders/order-options-response';
-import TimelineItem from '../../Components/TimelineItem';
+import TimelineItem from '../../Templates/TimelineItem';
 
 import bankidLogotype from '../../assets/images/bankid/bankid-logo.svg';
 

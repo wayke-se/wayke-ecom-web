@@ -1,6 +1,6 @@
 import { IAddress } from '@wayke-se/ecom';
 import { Customer, CustomerSocialId } from '../../../@types/Customer';
-import Alert from '../../../Components/Alert';
+import Alert from '../../../Templates/Alert';
 import { getAddressBySsn } from '../../../Data/getAddress';
 import { setSocialIdAndAddress } from '../../../Redux/action';
 import store from '../../../Redux/store';

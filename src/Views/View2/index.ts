@@ -1,4 +1,4 @@
-import ItemTileSmall from '../../Components/ItemTileSmall';
+import ItemTileSmall from '../../Templates/ItemTileSmall';
 import store from '../../Redux/store';
 import Stage1Customer from './Stage1Customer';
 import Stage2CentralStorage from './Stage2CentralStorage';

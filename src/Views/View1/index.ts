@@ -1,5 +1,5 @@
 import { OrderOptionsResponse } from '@wayke-se/ecom/dist-types/orders/order-options-response';
-import ItemTileLarge from '../../Components/ItemTileLarge';
+import ItemTileLarge from '../../Templates/ItemTileLarge';
 
 import { getOrder } from '../../Data/getOrder';
 import { proceedToView2Stage1 } from '../../Redux/action';

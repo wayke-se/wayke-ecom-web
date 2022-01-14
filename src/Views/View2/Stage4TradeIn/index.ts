@@ -2,7 +2,7 @@ import { editTradeIn, initTradeIn, setTradeIn } from '../../../Redux/action';
 import store from '../../../Redux/store';
 import ListItem from '../ListItem';
 import PartTradeIn from './PartTradeIn';
-import Alert from '../../../Components/Alert';
+import Alert from '../../../Templates/Alert';
 
 const TRADE_IN_YES = 'button-trade-in-yes';
 const TRADE_IN_NO = 'button-trade-in-no';

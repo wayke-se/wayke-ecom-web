@@ -1,6 +1,6 @@
 import { IVehicle } from '@wayke-se/ecom';
 import { TradeInCarData, TradeInCarDataPartial, VehicleCondition } from '../../../@types/TradeIn';
-import Alert from '../../../Components/Alert';
+import Alert from '../../../Templates/Alert';
 import { getTradeInVehicle } from '../../../Data/getTradeInVehicle';
 import { setTradeIn } from '../../../Redux/action';
 import store from '../../../Redux/store';
