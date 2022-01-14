@@ -1,4 +1,10 @@
-import { regexEmail, regexPersonalNumber, regexPhoneNumberVariant, regexZip } from './regex';
+import {
+  regexEmail,
+  regexPersonalNumber,
+  regexPhoneNumberVariant,
+  regexRegistrationNumber,
+  regexZip,
+} from './regex';
 
 export const validationMethods = {
   requiredEmail: (s: string) => {
@@ -12,5 +18,34 @@ export const validationMethods = {
   },
   requiredZip: (s: string) => {
     return regexZip.test(s);
+  },
+  requiredNumberOrStringNumberInRange: (s: string | number, from: number, to: number) => {
+    const number = parseInt(s.toString(), 10);
+    if (isNaN(number)) {
+      return false;
+    }
+
+    return number >= from && number <= to;
+  },
+  requiredRegistrationNumber: (s?: string) => {
+    if (!s) {
+      return false;
+    }
+
+    const trimmed = s.replace(' ', '');
+
+    const hasCorrectLength = trimmed.length === 6;
+    const isRegexMatch = regexRegistrationNumber.test(trimmed);
+
+    return hasCorrectLength && isRegexMatch;
+  },
+  requiredMileage: (s?: string) => {
+    return validationMethods.requiredNumberOrStringNumberInRange(s || '', 0, 80000);
+  },
+  optionalString: (s?: string) => {
+    return !!s || !s;
+  },
+  requiredCondition: (s?: string) => {
+    return ['VeryGood', 'Good', 'Ok'].includes(s || '');
   },
 };

@@ -1,7 +1,7 @@
 import store from '../../../Redux/store';
 import ListItem from '../ListItem';
 
-class Stage3 {
+class Stage2CentralStorage {
   private element: HTMLDivElement;
 
   constructor(element: HTMLDivElement) {
@@ -10,9 +10,11 @@ class Stage3 {
   }
 
   render() {
-    const state = store.getState();
-    const _content = ListItem(this.element, 'Inbytesbil', state.stage === 3);
+    const centralStorage = store.getState().centralStorage;
+    if (centralStorage) {
+      ListItem(this.element, 'Centrallager');
+    }
   }
 }
 
-export default Stage3;
+export default Stage2CentralStorage;

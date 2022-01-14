@@ -1,10 +1,10 @@
-import { restartContact } from '../../../Redux/action';
+import { editCustomer } from '../../../Redux/action';
 import store from '../../../Redux/store';
 import { maskSSn, maskText } from '../../../Utils/mask';
 
 const CHANGE_BUTTON = 'contact-change-button';
 
-class Part3 {
+class Part3CustomerSummary {
   private element: HTMLDivElement;
 
   constructor(element: HTMLDivElement) {
@@ -13,7 +13,7 @@ class Part3 {
   }
 
   onChange() {
-    restartContact();
+    editCustomer();
   }
 
   render() {
@@ -68,4 +68,4 @@ class Part3 {
   }
 }
 
-export default Part3;
+export default Part3CustomerSummary;

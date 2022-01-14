@@ -1,3 +1,4 @@
+import { IAddress } from '@wayke-se/ecom';
 import { Customer, CustomerSocialId } from '../../../@types/Customer';
 import Alert from '../../../Components/Alert';
 import { getAddressBySsn } from '../../../Data/getAddress';
@@ -19,13 +20,13 @@ export interface SocialIdValidation {
   socialId: boolean;
 }
 
-interface Part1Stage2State {
+interface Part2SocialIdState {
   value: CustomerSocialId;
   validation: SocialIdValidation;
   interact: SocialIdValidation;
 }
 
-const initalState = (customer?: Customer): Part1Stage2State => {
+const initalState = (customer?: Customer): Part2SocialIdState => {
   const value = {
     socialId: customer?.socialId || '',
   };
@@ -38,9 +39,11 @@ const initalState = (customer?: Customer): Part1Stage2State => {
   };
 };
 
-class Part2 {
+const SOCIAL_ID_CACHE: { [key: string]: IAddress | undefined } = {};
+
+class Part2SocialId {
   private element: HTMLDivElement;
-  private state: Part1Stage2State;
+  private state: Part2SocialIdState;
 
   constructor(element: HTMLDivElement) {
     this.element = element;
@@ -58,13 +61,19 @@ class Part2 {
 
     const proceed = this.element.querySelector<HTMLDivElement>(`#${PROCEED}`);
     if (proceed) {
+      const cache = SOCIAL_ID_CACHE[this.state.value.socialId];
+      if (cache) {
+        setSocialIdAndAddress(this.state.value.socialId, cache);
+        return;
+      }
+
       try {
         if (this.state.validation.socialId) {
           proceed.setAttribute('disabled', '');
           const response = await getAddressBySsn(this.state.value.socialId);
           const address = response.getAddress();
+          SOCIAL_ID_CACHE[this.state.value.socialId] = address;
           setSocialIdAndAddress(this.state.value.socialId, address);
-          // this.onAddress(address);
         }
       } catch (e) {
         errorAlert.style.display = '';
@@ -123,7 +132,7 @@ class Part2 {
   }
 
   render() {
-    const subStage = store.getState().subStage;
+    const subStage = store.getState().navigation.subStage;
 
     if (subStage > 2) {
       this.element.innerHTML = `
@@ -219,8 +228,10 @@ class Part2 {
       Object.keys(this.state.value).forEach((key) =>
         this.updateUiError(key as keyof CustomerSocialId)
       );
+
+      this.updateProceedButton();
     }
   }
 }
 
-export default Part2;
+export default Part2SocialId;

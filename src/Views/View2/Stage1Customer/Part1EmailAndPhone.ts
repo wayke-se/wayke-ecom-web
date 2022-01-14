@@ -21,13 +21,13 @@ export interface PartialCustomerValidation {
   phone: boolean;
 }
 
-interface Part1Stage1State {
+interface Part1EmailAndPhoneState {
   value: PartialCustomer;
   validation: PartialCustomerValidation;
   interact: PartialCustomerValidation;
 }
 
-const initalState = (customer?: Customer): Part1Stage1State => {
+const initalState = (customer?: Customer): Part1EmailAndPhoneState => {
   const value = {
     email: customer?.email || '',
     phone: customer?.phone || '',
@@ -42,9 +42,9 @@ const initalState = (customer?: Customer): Part1Stage1State => {
   };
 };
 
-class Part1 {
+class Part1EmailAndPhone {
   private element: HTMLDivElement;
-  private state: Part1Stage1State;
+  private state: Part1EmailAndPhoneState;
 
   constructor(element: HTMLDivElement) {
     this.element = element;
@@ -108,7 +108,7 @@ class Part1 {
   }
 
   render() {
-    const subStage = store.getState().subStage;
+    const subStage = store.getState().navigation.subStage;
 
     if (subStage > 1) {
       this.element.innerHTML = `
@@ -232,4 +232,4 @@ class Part1 {
   }
 }
 
-export default Part1;
+export default Part1EmailAndPhone;

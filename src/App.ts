@@ -3,10 +3,12 @@ import { OrderOptionsResponse } from '@wayke-se/ecom/dist-types/orders/order-opt
 import watch from 'redux-watch';
 
 import { Vehicle } from './@types/Vehicle';
-import View1v2 from './ViewsV2/View1';
 import store from './Redux/store';
-import View2v2 from './ViewsV2/View2';
 import { setVehicle } from './Redux/action';
+
+import View1 from './Views/View1';
+import View2 from './Views/View2';
+import View3Summary from './Views/View3Summary';
 
 export interface AppState {
   stage: number;
@@ -29,9 +31,9 @@ class App {
     this.root = root;
 
     setVehicle(props.vehicle);
-    this.view = store.getState().view;
+    this.view = store.getState().navigation.view;
 
-    const w = watch(store.getState, 'view');
+    const w = watch(store.getState, 'navigation.view');
     store.subscribe(
       w((newVal: number) => {
         this.view = newVal;
@@ -42,7 +44,20 @@ class App {
   }
 
   render() {
-    const _current = this.view === 1 ? new View1v2(this.root) : new View2v2(this.root);
+    this.root.innerHTML = '';
+    switch (this.view) {
+      case 1:
+        new View1(this.root);
+        break;
+      case 2:
+        new View2(this.root);
+        break;
+      case 3:
+        new View3Summary(this.root);
+        break;
+      default:
+        throw 'Unknown view...';
+    }
   }
 }
 
