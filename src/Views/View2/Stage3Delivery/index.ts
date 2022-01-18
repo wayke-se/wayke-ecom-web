@@ -1,12 +1,19 @@
+import ButtonArrowRight from '../../../Components/ButtonArrowRight';
+import InputRadioField from '../../../Components/InputRadioField';
 import { editDelivery, setHomeDelivery } from '../../../Redux/action';
 import store from '../../../Redux/store';
 import ListItem from '../ListItem';
 
-const PROCEED = 'button-home-delivery-proceed';
 const RADIO_HOME_TRUE = 'radio-home-delivery-true';
+const RADIO_HOME_TRUE_NODE = `${RADIO_HOME_TRUE}-node`;
+
 const RADIO_HOME_FALSE = 'radio-home-delivery-false';
+const RADIO_HOME_FALSE_NODE = `${RADIO_HOME_FALSE}-node`;
 
 const CHANGE_BUTTON = 'button-home-delivery-change';
+
+const PROCEED = 'button-home-delivery-proceed';
+const PROCEED_NODE = `${PROCEED}-node`;
 
 const STAGE = 3;
 
@@ -75,60 +82,46 @@ class Stage3Delivery {
           </div>
         </div>
 
-        <div>
-          <input type="radio" id="${RADIO_HOME_FALSE}" name="homeDelivery" value="false">
-          <label for="${RADIO_HOME_FALSE}">Hämta hos handlaren</label>
-        </div>
-        <div style="border: 1px solid black;">
-          <p>${contactInformation.name}</p>
-          <p>${contactInformation.address}, ${contactInformation.city}</p>
-        </div>
+        <div class="stack stack--2">
+          <div class="stack stack--3" id="${RADIO_HOME_FALSE_NODE}"></div>
 
+          <div style="border: 1px solid black;">
+            <p>${contactInformation.name}</p>
+            <p>${contactInformation.address}, ${contactInformation.city}</p>
+          </div>
 
-        <div>
-          <input type="radio" id="${RADIO_HOME_TRUE}" name="homeDelivery" value="true">
-          <label for="${RADIO_HOME_TRUE}">Hemleverans</label>
-        </div>
-        <div style="border: 1px solid black;">
-          Till din folkbokföringsadress
+          <div class="stack stack--3" id="${RADIO_HOME_TRUE_NODE}"></div>
+          <div style="border: 1px solid black;">
+            Till din folkbokföringsadress
+          </div>
         </div>
 
-        <div class="stack stack--3">
-        <button type="button" id="${PROCEED}" title="Fortsätt till nästa steg" class="button button--full-width button--action">
-          <span class="button__content">Fortsätt</span>
-          <span class="button__content">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 16 16"
-              class="icon"
-            >
-              <title>Ikon: pil höger</title>
-              <path d="m15.2 8.8-4.8 4.8-1.7-1.7 2.7-2.7H1.2C.5 9.2 0 8.7 0 8s.5-1.2 1.2-1.2h10.2L8.7 4.1l1.7-1.7 4.8 4.8.8.8-.8.8z" />
-            </svg>
-          </span>
-        </button>
-      </div>
-    `;
+        <div class="stack stack--3" id="${PROCEED_NODE}"></div>
+      `;
 
-      const radioTrue = part.querySelector<HTMLInputElement>(`#${RADIO_HOME_TRUE}`);
-      if (radioTrue) {
-        if (this.homeDelivery) {
-          radioTrue.setAttribute('checked', '');
-        }
-        radioTrue.addEventListener('click', (e) => this.onChange(e));
-      }
+      new InputRadioField(part.querySelector<HTMLInputElement>(`#${RADIO_HOME_FALSE_NODE}`), {
+        id: RADIO_HOME_TRUE,
+        name: 'homeDelivery',
+        title: 'Hämta hos handlaren',
+        value: 'false',
+        checked: !this.homeDelivery,
+        onClick: (e) => this.onChange(e),
+      });
 
-      const radioFalse = part.querySelector<HTMLInputElement>(`#${RADIO_HOME_FALSE}`);
-      if (radioFalse) {
-        if (!this.homeDelivery) {
-          radioFalse.setAttribute('checked', '');
-        }
-        radioFalse.addEventListener('click', (e) => this.onChange(e));
-      }
+      new InputRadioField(part.querySelector<HTMLInputElement>(`#${RADIO_HOME_TRUE_NODE}`), {
+        id: RADIO_HOME_FALSE,
+        name: 'homeDelivery',
+        title: 'Hemleverans',
+        value: 'true',
+        checked: this.homeDelivery,
+        onClick: (e) => this.onChange(e),
+      });
 
-      part
-        .querySelector<HTMLButtonElement>(`#${PROCEED}`)
-        ?.addEventListener('click', () => this.onProceed());
+      new ButtonArrowRight(part.querySelector<HTMLDivElement>(`#${PROCEED_NODE}`), {
+        title: 'Fortsätt',
+        id: PROCEED,
+        onClick: () => this.onProceed(),
+      });
 
       content.appendChild(part);
     }

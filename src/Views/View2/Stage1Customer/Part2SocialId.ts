@@ -63,7 +63,6 @@ class Part2SocialId {
     const errorAlert = document.querySelector<HTMLDivElement>(`#${SOCIAL_ID_FETCH_ERROR_ID}`);
     if (!errorAlert) return;
     errorAlert.style.display = 'none';
-
     const proceed = this.element.querySelector<HTMLDivElement>(`#${PROCEED}`);
     if (proceed) {
       const cache = SOCIAL_ID_CACHE[this.state.value.socialId];
@@ -133,7 +132,6 @@ class Part2SocialId {
 
   render() {
     const subStage = store.getState().navigation.subStage;
-
     if (subStage > 2) {
       const keyValueItems: { key: string; value: string }[] = [
         { key: 'Personnummer', value: this.state.value.socialId },
