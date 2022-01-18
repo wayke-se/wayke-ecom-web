@@ -1,0 +1,61 @@
+@use '../../../helpers' as *;
+
+.input-radio {
+  $root: &;
+  $icon-size: size(2);
+  $icon-margin: size(1);
+  $label-size: var(font, size, small);
+  $label-line-height: var(font, line-height, main);
+
+  &__input {
+    position: fixed;
+    left: -9999px;
+    opacity: 0;
+
+    &:checked {
+      ~ #{$root}__header {
+        #{$root}__label {
+          &::before {
+            background-color: color(bg, main);
+            box-shadow: inset 0 0 0 size(0.625) color(action, main);
+          }
+        }
+      }
+    }
+  }
+
+  &__header {
+    @include flex-display;
+    @include align-items(flex-end);
+  }
+
+  &__label {
+    @include flex(1 1 auto);
+    @include flex-display;
+    @include font-medium;
+    font-size: $label-size;
+    line-height: $label-line-height;
+    
+    &::before {
+      @include flex-shrink(0);
+      content: '';  
+      width: $icon-size;
+      height: $icon-size;
+      border-radius: 50%;
+      background-color: color(bg, alt);
+      margin-right: $icon-margin;
+      margin-top: calc(($icon-size - $label-size * $label-line-height) / -2);
+      cursor: pointer;
+    }
+  }
+
+  &__meta {
+    @include flex-shrink(0);
+    padding-left: size(2);
+  }
+
+  &__description {
+    margin-top: size(1);
+    margin-left: $icon-size + $icon-margin;
+  }
+}

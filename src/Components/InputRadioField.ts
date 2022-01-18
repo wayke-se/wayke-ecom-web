@@ -2,6 +2,8 @@ interface InputRadioFieldProps {
   title: string;
   value: string;
   name: string;
+  description?: string;
+  meta?: string;
   id: string;
   checked: boolean;
   onClick?: (e: Event) => void;
@@ -20,18 +22,32 @@ class InputRadioField {
 
   render() {
     this.element.innerHTML = `
-      <div class="input-label">
-        <label for="${this.props.id}" class="input-label__label">${this.props.title}</label>
+      <div class="input-radio" role="radio">
+        <input
+          type="radio"
+          id="${this.props.id}"
+          value="${this.props.value}"
+          name="${this.props.name}"
+          ${this.props.checked ? 'checked="true"' : ''}
+          class="input-radio__input"
+          tabindex="-1"
+        />
+        <div class="input-radio__header">
+          <label for="${this.props.id}" class="input-radio__label" tabindex="0">${
+      this.props.title
+    }</label>
+          ${this.props.meta ? `<div class="input-radio__meta">${this.props.meta}</div>` : ''}
+        </div>
+        ${
+          this.props.description
+            ? `
+          <div class="input-radio__description">
+            ${this.props.description}
+          </div>
+        `
+            : ''
+        }
       </div>
-      <input
-        type="radio"
-        id="${this.props.id}"
-        value="${this.props.value}"
-        name="${this.props.name}"
-        ${this.props.checked ? 'checked="true"' : ''}
-        class="input-radio"
-      />
-      <label for="${this.props.id}">${this.props.title}</label>
     `;
 
     const input = this.element.querySelector(`#${this.props.id}`);

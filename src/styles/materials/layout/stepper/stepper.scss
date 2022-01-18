@@ -8,21 +8,6 @@
   &__item {
     counter-increment: stage;
 
-    // Handle inactive state on items placed after the active
-    /*
-    &--is-active {
-      & ~ #{$root}__item {
-        & > * {
-          opacity: 0.3;
-        }
-
-        #{$root}__body {
-          display: none;
-        }
-      }
-    }
-    */
-
     // Current stage
     &--is-active {
       &::before {

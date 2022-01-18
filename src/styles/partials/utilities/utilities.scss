@@ -3,6 +3,10 @@
 
 @use '../../helpers' as *;
 
+.font-medium {
+  @include font-medium;
+}
+
 .no-margin {
   margin: 0;
 }
