@@ -5,12 +5,17 @@ import { getAddressBySsn } from '../../../Data/getAddress';
 import { setSocialIdAndAddress } from '../../../Redux/action';
 import store from '../../../Redux/store';
 import { validationMethods } from '../../../Utils/validationMethods';
+import KeyValueListItem from '../../../Templates/KeyValueListItem';
+import ButtonArrowRight from '../../../Components/ButtonArrowRight';
+import InputField from '../../../Components/InputField';
 
+const SOCIAL_ID_NODE = 'contact-socialId-node';
 const SOCIAL_ID_INPUT_ID = 'contact-socialId';
 const SOCIAL_ID_ERROR_ID = `${SOCIAL_ID_INPUT_ID}-error`;
 const SOCIAL_ID_FETCH_ERROR_ID = `${SOCIAL_ID_INPUT_ID}-fetch-error`;
 
 const PROCEED = `${SOCIAL_ID_INPUT_ID}-proceed`;
+const PROCEED_NODE = `${SOCIAL_ID_INPUT_ID}-proceed-node`;
 
 const validation = {
   socialId: validationMethods.requiredSsn,
@@ -126,22 +131,18 @@ class Part2SocialId {
     }
   }
 
-  attach(element: HTMLInputElement) {
-    element.addEventListener('input', (e) => this.onChange(e));
-    element.addEventListener('blur', (e) => this.onBlur(e));
-  }
-
   render() {
     const subStage = store.getState().navigation.subStage;
 
     if (subStage > 2) {
+      const keyValueItems: { key: string; value: string }[] = [
+        { key: 'Personnummer', value: this.state.value.socialId },
+      ];
+
       this.element.innerHTML = `
       <div class="stack stack--2">
         <ul class="key-value-list">
-          <li class="key-value-list__item">
-            <div class="key-value-list__key">Personnummer</div>
-            <div class="key-value-list__value">${this.state.value.socialId}</div>
-          </li>
+        ${keyValueItems.map((kv) => KeyValueListItem(kv)).join('')}
         </ul>
       </div>
       `;
@@ -151,19 +152,7 @@ class Part2SocialId {
         <hr class="separator" />
       </div>
       <div class="stack stack--2">
-        <div class="stack stack--3">
-          <div class="input-label">
-            <label for="${SOCIAL_ID_INPUT_ID}" class="input-label__label">Personnummer</label>
-          </div>
-          <input
-            id="${SOCIAL_ID_INPUT_ID}"
-            value="${this.state.value.socialId}"
-            name="socialId"
-            placeholder="ÅÅÅÅMMDD-XXXX"
-            class="input-text"
-          />
-          <div id="${SOCIAL_ID_ERROR_ID}" class="input-error">Ange personnummer i formatet ÅÅÅÅMMDD-XXXX</div>
-        </div>
+        <div class="stack stack--3" id="${SOCIAL_ID_NODE}"></div>
 
         <div class="stack stack--3" style="display:none;" id="${SOCIAL_ID_FETCH_ERROR_ID}">
           ${Alert({
@@ -199,35 +188,38 @@ class Part2SocialId {
         </div>
       </div>
       <div class="stack stack--3">
-        <button type="button" id="${PROCEED}" title="Fortsätt till nästa steg" class="button button--full-width button--action">
-          <span class="button__content">Hämta uppgifter</span>
-          <span class="button__content">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 16 16"
-              class="icon"
-            >
-              <title>Ikon: pil höger</title>
-              <path d="m15.2 8.8-4.8 4.8-1.7-1.7 2.7-2.7H1.2C.5 9.2 0 8.7 0 8s.5-1.2 1.2-1.2h10.2L8.7 4.1l1.7-1.7 4.8 4.8.8.8-.8.8z" />
-            </svg>
-          </span>
-        </button>
+        <div class="stack stack--3" id="${PROCEED_NODE}"></div>
       </div>
     `;
 
-      const emailElement = this.element.querySelector<HTMLInputElement>(`#${SOCIAL_ID_INPUT_ID}`);
-      if (emailElement) {
-        this.attach(emailElement);
-      }
-
-      const proceed = this.element.querySelector<HTMLButtonElement>(`#${PROCEED}`);
-      if (proceed) {
-        proceed.addEventListener('click', () => this.onFetchAddress());
+      const socialIdNode = this.element.querySelector<HTMLDivElement>(`#${SOCIAL_ID_NODE}`);
+      if (socialIdNode) {
+        new InputField(socialIdNode, {
+          title: 'Epost',
+          value: this.state.value.socialId,
+          id: SOCIAL_ID_INPUT_ID,
+          errorId: SOCIAL_ID_ERROR_ID,
+          error: this.state.interact.socialId && !this.state.validation.socialId,
+          errorMessage: 'Ange personnummer i formatet ÅÅÅÅMMDD-XXXX',
+          name: 'socialId',
+          placeholder: 'ÅÅÅÅMMDD-XXXX',
+          onChange: (e) => this.onChange(e),
+          onBlur: (e) => this.onBlur(e),
+        });
       }
 
       Object.keys(this.state.value).forEach((key) =>
         this.updateUiError(key as keyof CustomerSocialId)
       );
+
+      const proceedNode = this.element.querySelector<HTMLDivElement>(`#${PROCEED_NODE}`);
+      if (proceedNode) {
+        new ButtonArrowRight(proceedNode, {
+          title: 'Hämta uppgifter',
+          id: PROCEED,
+          onClick: () => this.onFetchAddress(),
+        });
+      }
 
       this.updateProceedButton();
     }

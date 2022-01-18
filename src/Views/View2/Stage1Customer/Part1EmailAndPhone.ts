@@ -4,6 +4,7 @@ import InputField from '../../../Components/InputField';
 import { setContactAndPhone } from '../../../Redux/action';
 import store from '../../../Redux/store';
 import EmailHelp from '../../../Templates/EmailHelp';
+import KeyValueListItem from '../../../Templates/KeyValueListItem';
 import { validationMethods } from '../../../Utils/validationMethods';
 
 const EMAIL_INPUT_ID = 'contact-email';
@@ -109,17 +110,15 @@ class Part1EmailAndPhone {
     const subStage = store.getState().navigation.subStage;
 
     if (subStage > 1) {
+      const keyValueItems: { key: string; value: string }[] = [
+        { key: 'E-post', value: this.state.value.email },
+        { key: 'Telefonnummer', value: this.state.value.phone },
+      ];
+
       this.element.innerHTML = `
         <div class="stack stack--2">
           <ul class="key-value-list">
-            <li class="key-value-list__item">
-              <div class="key-value-list__key">E-post</div>
-              <div class="key-value-list__value">${this.state.value.email}</div>
-            </li>
-            <li class="key-value-list__item">
-              <div class="key-value-list__key">Telefonnummer</div>
-              <div class="key-value-list__value">${this.state.value.phone}</div>
-            </li>
+            ${keyValueItems.map((kv) => KeyValueListItem(kv)).join('')}
           </ul>
         </div>
       `;
