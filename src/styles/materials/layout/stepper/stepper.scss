@@ -9,6 +9,7 @@
     counter-increment: stage;
 
     // Handle inactive state on items placed after the active
+    /*
     &--is-active {
       & ~ #{$root}__item {
         & > * {
@@ -18,6 +19,36 @@
         #{$root}__body {
           display: none;
         }
+      }
+    }
+    */
+
+    // Current stage
+    &--is-active {
+      &::before {
+        content: 'ACTIVE';
+        background: red;
+        color: white;
+      }
+    }
+
+    // Completed stage
+    &--is-complete {
+      &::before {
+        content: 'COMPLETE';
+        background: red;
+        color: white;
+      }
+    }
+
+    // Upcoming stage
+    &--is-disabled {
+      & > * {
+        opacity: 0.3;
+      }
+
+      #{$root}__body {
+        display: none;
       }
     }
   }
