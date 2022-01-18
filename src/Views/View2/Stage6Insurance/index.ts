@@ -1,3 +1,4 @@
+import watch from 'redux-watch';
 import { setInsurance, editInsurance } from '../../../Redux/action';
 import store from '../../../Redux/store';
 import ListItem from '../ListItem';
@@ -11,6 +12,11 @@ class Stage6Insurance {
 
   constructor(element: HTMLDivElement) {
     this.element = element;
+    const w = watch(store.getState, 'navigation');
+    store.subscribe(w(() => this.render()));
+    const w2 = watch(store.getState, 'edit');
+    store.subscribe(w2(() => this.render()));
+
     this.render();
   }
 
@@ -24,12 +30,12 @@ class Stage6Insurance {
 
   render() {
     const state = store.getState();
-    const content = ListItem(
-      this.element,
-      'Försäkring',
-      state.navigation.stage === STAGE,
-      state.topNavigation.stage > STAGE
-    );
+    const content = ListItem(this.element, {
+      title: 'Försäkring',
+      active: state.navigation.stage === STAGE,
+      completed: state.topNavigation.stage > STAGE,
+      id: 'insurance',
+    });
 
     const part = document.createElement('div');
 

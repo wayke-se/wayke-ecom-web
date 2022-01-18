@@ -1,21 +1,31 @@
-import { OrderOptionsResponse } from '@wayke-se/ecom/dist-types/orders/order-options-response';
 import ItemTileLarge from '../../Templates/ItemTileLarge';
 
 import { getOrder } from '../../Data/getOrder';
-import { proceedToView2Stage1 } from '../../Redux/action';
+import { proceedToView2Stage1, setOrder } from '../../Redux/action';
 import store from '../../Redux/store';
 import HowTo from './HowTo';
+import watch from 'redux-watch';
+import ButtonArrowRight from '../../Components/ButtonArrowRight';
 
 const PROCEED_BUTTON = 'wayke-view-1-proceed';
+const PROCEED_BUTTON_NODE = `${PROCEED_BUTTON}-node`;
+const PROCEED_BUTTON_LOADER = `${PROCEED_BUTTON}-loader`;
 
 class View1v2 {
   private element: Element;
-  private order?: OrderOptionsResponse;
   private loader?: HTMLDivElement;
   private proceedButton?: HTMLButtonElement;
 
   constructor(element: Element) {
     this.element = element;
+
+    const w = watch(store.getState, 'order');
+    store.subscribe(
+      w(() => {
+        this.render();
+      })
+    );
+
     this.init();
     this.render();
   }
@@ -32,7 +42,7 @@ class View1v2 {
         this.loader.style.display = '';
       }
       const order = await getOrder(state.vehicle.id);
-      this.order = order;
+      setOrder(order);
       this.proceedButton?.removeAttribute('disabled');
     } catch (e) {
       throw e;
@@ -46,6 +56,21 @@ class View1v2 {
   render() {
     const state = store.getState();
 
+    if (!state.order) {
+      this.element.innerHTML = `
+        <div class="page">
+          <div class="page__body">
+            <div class="container container--narrow">
+              <div class="stack stack--3">
+                <h2 class="heading heading--3 no-margin">Vad roligt att du vill köpa denna bil!</h2>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+      return;
+    }
+
     this.element.innerHTML = `
       <div class="page">
         <div class="page__body">
@@ -53,12 +78,14 @@ class View1v2 {
             <div class="stack stack--3">
               <h2 class="heading heading--3 no-margin">Vad roligt att du vill köpa denna bil!</h2>
             </div>
-            <div class="stack stack--3" id="${PROCEED_BUTTON}-loader">
+            <div class="stack stack--3" style="${
+              state.order ? 'display: none;' : ''
+            }" id="${PROCEED_BUTTON_LOADER}-loader">
               <div>Laddar...</div>
             </div>
             ${ItemTileLarge({ vehicle: state.vehicle, order: state.order })}
             ${HowTo({ order: state.order })}
-            <div class="stack stack--3">
+            <div class="stack stack--3" id="${PROCEED_BUTTON_NODE}">
               <button type="button" id="${PROCEED_BUTTON}" disabled="" title="Gå vidare" class="button button--full-width button--action">
                 <span class="button__content">Gå vidare</span>
                 <span class="button__content">
@@ -89,17 +116,13 @@ class View1v2 {
       </div>
     `;
 
-    const proceedButton = document.querySelector<HTMLButtonElement>(`#${PROCEED_BUTTON}`);
-    if (proceedButton) {
-      this.proceedButton = proceedButton;
-      this.proceedButton.addEventListener('click', () => {
-        if (this.order) {
-          proceedToView2Stage1(this.order);
-        }
-      });
-    }
+    new ButtonArrowRight(document.querySelector<HTMLDivElement>(`#${PROCEED_BUTTON_NODE}`), {
+      id: PROCEED_BUTTON,
+      title: 'Gå vidare',
+      onClick: () => proceedToView2Stage1(),
+    });
 
-    const loader = document.querySelector<HTMLDivElement>(`#${PROCEED_BUTTON}-loader`);
+    const loader = document.querySelector<HTMLDivElement>(`#${PROCEED_BUTTON_LOADER}`);
     if (loader) {
       this.loader = loader;
     }

@@ -6,52 +6,47 @@ import { TradeInCarData } from '../@types/TradeIn';
 import { Vehicle } from '../@types/Vehicle';
 import store from './store';
 
-export const PROCEED_TO_VIEW_2_STAGE_1 = 'PROCEED_TO_VIEW_2_STAGE_1';
-export type PROCEED_TO_VIEW_2_STAGE_1_TYPE = BaseAction<typeof PROCEED_TO_VIEW_2_STAGE_1> & {
+export const SET_ORDER = 'SET_ORDER';
+export type SET_ORDER_TYPE = BaseAction<typeof SET_ORDER> & {
   order: OrderOptionsResponse;
 };
-export const proceedToView2Stage1 = (order: OrderOptionsResponse) => {
-  store.dispatch({ type: PROCEED_TO_VIEW_2_STAGE_1, order });
-};
+export const setOrder = (order: OrderOptionsResponse) => store.dispatch({ type: SET_ORDER, order });
+
+export const PROCEED_TO_VIEW_2_STAGE_1 = 'PROCEED_TO_VIEW_2_STAGE_1';
+export type PROCEED_TO_VIEW_2_STAGE_1_TYPE = BaseAction<typeof PROCEED_TO_VIEW_2_STAGE_1>;
+export const proceedToView2Stage1 = () => store.dispatch({ type: PROCEED_TO_VIEW_2_STAGE_1 });
 
 export const SET_VEHICLE = 'SET_VEHICLE';
 export type SET_VEHICLE_TYPE = BaseAction<typeof SET_VEHICLE> & {
   vehicle: Vehicle;
 };
-export const setVehicle = (vehicle: Vehicle) => {
-  store.dispatch({ type: SET_VEHICLE, vehicle });
-};
+export const setVehicle = (vehicle: Vehicle) => store.dispatch({ type: SET_VEHICLE, vehicle });
 
 export const SET_CONTACT_EMAIL_AND_PHONE = 'SET_CONTACT_EMAIL_AND_PHONE';
 export type SET_CONTACT_EMAIL_AND_PHONE_TYPE = BaseAction<typeof SET_CONTACT_EMAIL_AND_PHONE> & {
   value: PartialCustomer;
 };
-export const setContactAndPhone = (value: PartialCustomer) => {
+export const setContactAndPhone = (value: PartialCustomer) =>
   store.dispatch({ type: SET_CONTACT_EMAIL_AND_PHONE, value });
-};
 
 export const SET_SOCIAL_ID_AND_ADDRESS = 'SET_SOCIAL_ID_AND_ADDRESS';
 export type SET_SOCIAL_ID_AND_ADDRESS_TYPE = BaseAction<typeof SET_SOCIAL_ID_AND_ADDRESS> & {
   socialId: string;
   address: IAddress;
 };
-export const setSocialIdAndAddress = (socialId: string, address: IAddress) => {
+export const setSocialIdAndAddress = (socialId: string, address: IAddress) =>
   store.dispatch({ type: SET_SOCIAL_ID_AND_ADDRESS, socialId, address });
-};
 
 export const EDIT_CUSTOMER = 'EDIT_CUSTOMER';
 export type EDIT_CUSTOMER_TYPE = BaseAction<typeof EDIT_CUSTOMER>;
-export const editCustomer = () => {
-  store.dispatch({ type: EDIT_CUSTOMER });
-};
+export const editCustomer = () => store.dispatch({ type: EDIT_CUSTOMER });
 
 export const SET_HOME_DELIVERY = 'SET_HOME_DELIVERY';
 export type SET_HOME_DELIVERY_TYPE = BaseAction<typeof SET_HOME_DELIVERY> & {
   homeDelivery: boolean;
 };
-export const setHomeDelivery = (homeDelivery: boolean) => {
+export const setHomeDelivery = (homeDelivery: boolean) =>
   store.dispatch({ type: SET_HOME_DELIVERY, homeDelivery });
-};
 
 export const EDIT_DELIVERY = 'EDIT_DELIVERY';
 export type EDIT_DELIVERY_TYPE = BaseAction<typeof EDIT_DELIVERY>;
@@ -90,6 +85,7 @@ export type EDIT_INSURANCE_TYPE = BaseAction<typeof EDIT_INSURANCE>;
 export const editInsurance = () => store.dispatch({ type: EDIT_INSURANCE });
 
 export type Action =
+  | SET_ORDER_TYPE
   | SET_VEHICLE_TYPE
   | PROCEED_TO_VIEW_2_STAGE_1_TYPE
   | SET_CONTACT_EMAIL_AND_PHONE_TYPE

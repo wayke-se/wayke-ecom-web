@@ -9,7 +9,7 @@ class Stage8Confirmation {
   }
 
   render() {
-    ListItem(this.element, 'Orderbekräftelse');
+    ListItem(this.element, { title: 'Orderbekräftelse', id: 'confirmation' });
   }
 }
 

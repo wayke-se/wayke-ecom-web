@@ -9,7 +9,7 @@ class Stage7Summary {
   }
 
   render() {
-    ListItem(this.element, 'Sammanställning');
+    ListItem(this.element, { title: 'Sammanställning', id: 'summary' });
   }
 }
 

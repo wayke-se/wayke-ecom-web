@@ -10,13 +10,17 @@ class View3Summary {
   }
 
   render() {
-    const _state = store.getState();
+    const state = store.getState();
+
+    const { order } = state;
+
+    const contactInformation = order?.getContactInformation();
     this.element.innerHTML = `
         <div>
           <h3>Sammanställning</h3>
           <p><b>Strax klart!</b></p>
-          <p>Granska och godkänn din order för att reservera bilen. Efter det kommer [handlaren] att kontakta dig för att slutföra köpet.</p>
-          <p>Köpet blir bindande först när du signerat det definitiva affärsförslaget med [handlaren]. Det är även då betalningen sker. </p>
+          <p>Granska och godkänn din order för att reservera bilen. Efter det kommer ${contactInformation?.name} att kontakta dig för att slutföra köpet.</p>
+          <p>Köpet blir bindande först när du signerat det definitiva affärsförslaget med ${contactInformation?.name}. Det är även då betalningen sker. </p>
         </div>
     `;
   }

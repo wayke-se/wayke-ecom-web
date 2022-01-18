@@ -7,6 +7,8 @@ import ButtonArrowRight from '../../../Components/ButtonArrowRight';
 import KeyValueListItem from '../../../Templates/KeyValueListItem';
 import ButtonAsLink from '../../../Components/ButtonAsLink';
 import { VehicleCondition } from '../../../@types/TradeIn';
+import { prettyNumber } from '../../../Utils/format';
+import watch from 'redux-watch';
 
 const TRADE_IN_YES = 'button-trade-in-yes';
 const TRADE_IN_YES_NODE = `${TRADE_IN_YES}-node`;
@@ -30,6 +32,11 @@ class Stage4TradeIn {
 
   constructor(element: HTMLDivElement) {
     this.element = element;
+    const w = watch(store.getState, 'navigation');
+    store.subscribe(w(() => this.render()));
+    const w2 = watch(store.getState, 'edit');
+    store.subscribe(w2(() => this.render()));
+
     this.render();
   }
 
@@ -47,12 +54,12 @@ class Stage4TradeIn {
 
   render() {
     const state = store.getState();
-    const content = ListItem(
-      this.element,
-      'Inbytesbil',
-      state.navigation.stage === STAGE,
-      state.topNavigation.stage > STAGE
-    );
+    const content = ListItem(this.element, {
+      title: 'Inbytesbil',
+      active: state.navigation.stage === STAGE,
+      completed: state.topNavigation.stage > STAGE,
+      id: 'trade-in',
+    });
     content.innerHTML = '';
 
     const part = document.createElement('div');
@@ -74,7 +81,10 @@ class Stage4TradeIn {
           });
 
         const keyValueItemsLower: { key: string; value: string }[] = [
-          { key: 'Ungefärligt värde', value: `~${state.tradeInVehicle.valuation}` },
+          {
+            key: 'Ungefärligt värde',
+            value: `~${prettyNumber(state.tradeInVehicle.valuation, { postfix: 'kr' })}`,
+          },
         ];
         part.innerHTML = `
           <div class="stack stack--1">

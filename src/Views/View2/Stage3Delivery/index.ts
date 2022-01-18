@@ -1,3 +1,4 @@
+import watch from 'redux-watch';
 import ButtonArrowRight from '../../../Components/ButtonArrowRight';
 import InputRadioField from '../../../Components/InputRadioField';
 import { editDelivery, setHomeDelivery } from '../../../Redux/action';
@@ -25,6 +26,11 @@ class Stage3Delivery {
   constructor(element: HTMLDivElement) {
     this.element = element;
 
+    const w = watch(store.getState, 'navigation');
+    store.subscribe(w(() => this.render()));
+    const w2 = watch(store.getState, 'edit');
+    store.subscribe(w2(() => this.render()));
+
     this.homeDelivery = store.getState().homeDelivery;
     this.render();
   }
@@ -50,12 +56,12 @@ class Stage3Delivery {
     const contactInformation = state.order.getContactInformation();
     if (!contactInformation) throw 'Missing dealer contact information';
 
-    const content = ListItem(
-      this.element,
-      'Leverans',
-      state.navigation.stage === STAGE,
-      state.topNavigation.stage > STAGE
-    );
+    const content = ListItem(this.element, {
+      title: 'Leverans',
+      active: state.navigation.stage === STAGE,
+      completed: state.topNavigation.stage > STAGE,
+      id: 'delivery',
+    });
 
     if (state.navigation.stage > STAGE) {
       const part = document.createElement('div');

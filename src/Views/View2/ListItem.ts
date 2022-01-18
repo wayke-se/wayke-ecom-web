@@ -1,5 +1,18 @@
-const ListItem = (element: HTMLElement, title: string, active?: boolean, completed?: boolean) => {
-  const item = document.createElement('div');
+interface ListItemProps {
+  title: string;
+  active?: boolean;
+  completed?: boolean;
+  id: string;
+}
+
+const ListItem = (element: HTMLElement, props: ListItemProps) => {
+  const { title, active, completed, id } = props;
+  const existingListItem = document.getElementById(id);
+
+  const item = existingListItem ? existingListItem : document.createElement('div');
+  if (!existingListItem) {
+    item.setAttribute('id', id);
+  }
 
   const className = ['stepper__item'];
   if (active) {
@@ -33,7 +46,9 @@ const ListItem = (element: HTMLElement, title: string, active?: boolean, complet
     <div class="stepper__body"></div>
   `;
 
-  element.appendChild(item);
+  if (!existingListItem) {
+    element.appendChild(item);
+  }
 
   const content = item.querySelector<HTMLDivElement>('.stepper__body');
   if (!content) throw 'Err no element';
