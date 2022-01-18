@@ -16,6 +16,14 @@
       #{$root}__header {
         text-align: left;
       }
+
+      #{$root}__stage {
+        display: none;
+      }
+
+      #{$root}__icon {
+        @include flex-display;
+      }
     }
 
     // Upcoming stage
@@ -31,7 +39,29 @@
   }
 
   &__header {
+    @include flex-display;
+    @include align-items(center);
     text-align: center;
+
+    .heading {
+      @include flex(1 1 auto);
+    }
+  }
+
+  &__icon {
+    $icon-size: size(3);
+
+    @include flex-shrink(0);
+    @include align-items(center);
+    @include justify-content(center);
+    display: none;
+    width: $icon-size;
+    height: $icon-size;
+    margin-right: size(1.5);
+    border-radius: 50%;
+    background-color: color(ui, success, alt);
+    color: color(ui, success, text);
+    font-size: var(font, size, xsmall);
   }
 
   &__stage-count {

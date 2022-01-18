@@ -71,7 +71,9 @@ class Stage3Delivery {
           </ul>
         </div>
         <div class="stack stack--1">
-          <button id="${CHANGE_BUTTON}" title="Ändra dina uppgifter" class="link">Ändra</button>
+          <div class="align align--end">
+            <button id="${CHANGE_BUTTON}" title="Ändra leveranssätt" class="link">Ändra</button>
+          </div>
         </div>
       `;
 
