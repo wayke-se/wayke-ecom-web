@@ -2,6 +2,7 @@ import ButtonArrowRight from '../../../Components/ButtonArrowRight';
 import InputRadioField from '../../../Components/InputRadioField';
 import { editDelivery, setHomeDelivery } from '../../../Redux/action';
 import store from '../../../Redux/store';
+import KeyValueListItem from '../../../Templates/KeyValueListItem';
 import ListItem from '../ListItem';
 
 const RADIO_HOME_TRUE = 'radio-home-delivery-true';
@@ -58,15 +59,15 @@ class Stage3Delivery {
 
     if (state.navigation.stage > STAGE) {
       const part = document.createElement('div');
+
+      const keyValueItems: { key: string; value: string }[] = [
+        { key: 'Leveranssätt', value: state.homeDelivery ? 'Hemleverans' : 'Hämta hos handlaren' },
+      ];
+
       part.innerHTML = `
         <div class="stack stack--1">
           <ul class="key-value-list">
-            <li class="key-value-list__item">
-              <div class="key-value-list__key">Leveranssätt</div>
-              <div class="key-value-list__value">${
-                state.homeDelivery ? 'Hemleverans' : 'Hämta hos handlaren'
-              }</div>
-            </li>
+            ${keyValueItems.map((kv) => KeyValueListItem(kv)).join('')}
           </ul>
         </div>
         <div class="stack stack--1">

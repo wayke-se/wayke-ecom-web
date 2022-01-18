@@ -173,9 +173,7 @@ class Part2SocialId {
           })}
         </div>
       </div>
-      <div class="stack stack--3">
-        <div class="stack stack--3" id="${PROCEED_NODE}"></div>
-      </div>
+      <div class="stack stack--3" id="${PROCEED_NODE}"></div>
     `;
 
       new InputField(this.element.querySelector<HTMLDivElement>(`#${SOCIAL_ID_NODE}`), {
