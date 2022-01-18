@@ -32,7 +32,12 @@ class Stage4TradeIn {
 
   render() {
     const state = store.getState();
-    const content = ListItem(this.element, 'Inbytesbil', state.navigation.stage === STAGE);
+    const content = ListItem(
+      this.element,
+      'Inbytesbil',
+      state.navigation.stage === STAGE,
+      state.topNavigation.stage > STAGE
+    );
     content.innerHTML = '';
 
     const part = document.createElement('div');

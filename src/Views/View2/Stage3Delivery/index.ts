@@ -49,7 +49,12 @@ class Stage3Delivery {
     const contactInformation = state.order.getContactInformation();
     if (!contactInformation) throw 'Missing dealer contact information';
 
-    const content = ListItem(this.element, 'Leverans', state.navigation.stage === STAGE);
+    const content = ListItem(
+      this.element,
+      'Leverans',
+      state.navigation.stage === STAGE,
+      state.topNavigation.stage > STAGE
+    );
 
     if (state.navigation.stage > STAGE) {
       const part = document.createElement('div');
