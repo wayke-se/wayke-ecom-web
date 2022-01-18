@@ -8,7 +8,8 @@ class ButtonAsLink {
   private element: HTMLDivElement;
   private props: ButtonAsLinkProps;
 
-  constructor(element: HTMLDivElement, props: ButtonAsLinkProps) {
+  constructor(element: HTMLDivElement | null, props: ButtonAsLinkProps) {
+    if (!element) throw `No element provided to ButtonAsLink`;
     this.element = element;
     this.props = props;
     this.render();

@@ -174,52 +174,34 @@ class Part2SocialId {
             `,
           })}
         </div>
-        <div class="stack stack--3">
-          <wayke-alert tone="error">
-            <div slot="content">
-              <p>Vi kommer hämta följande uppgifter om dig:</p>
-              <ul>
-                <li>Personnummer</li>
-                <li>Namn</li>
-                <li>Folkbokföringsadress</li>
-              </ul>
-            </div>
-          </wayke-alert>
-        </div>
       </div>
       <div class="stack stack--3">
         <div class="stack stack--3" id="${PROCEED_NODE}"></div>
       </div>
     `;
 
-      const socialIdNode = this.element.querySelector<HTMLDivElement>(`#${SOCIAL_ID_NODE}`);
-      if (socialIdNode) {
-        new InputField(socialIdNode, {
-          title: 'Epost',
-          value: this.state.value.socialId,
-          id: SOCIAL_ID_INPUT_ID,
-          errorId: SOCIAL_ID_ERROR_ID,
-          error: this.state.interact.socialId && !this.state.validation.socialId,
-          errorMessage: 'Ange personnummer i formatet ÅÅÅÅMMDD-XXXX',
-          name: 'socialId',
-          placeholder: 'ÅÅÅÅMMDD-XXXX',
-          onChange: (e) => this.onChange(e),
-          onBlur: (e) => this.onBlur(e),
-        });
-      }
+      new InputField(this.element.querySelector<HTMLDivElement>(`#${SOCIAL_ID_NODE}`), {
+        title: 'Epost',
+        value: this.state.value.socialId,
+        id: SOCIAL_ID_INPUT_ID,
+        errorId: SOCIAL_ID_ERROR_ID,
+        error: this.state.interact.socialId && !this.state.validation.socialId,
+        errorMessage: 'Ange personnummer i formatet ÅÅÅÅMMDD-XXXX',
+        name: 'socialId',
+        placeholder: 'ÅÅÅÅMMDD-XXXX',
+        onChange: (e) => this.onChange(e),
+        onBlur: (e) => this.onBlur(e),
+      });
 
       Object.keys(this.state.value).forEach((key) =>
         this.updateUiError(key as keyof CustomerSocialId)
       );
 
-      const proceedNode = this.element.querySelector<HTMLDivElement>(`#${PROCEED_NODE}`);
-      if (proceedNode) {
-        new ButtonArrowRight(proceedNode, {
-          title: 'Hämta uppgifter',
-          id: PROCEED,
-          onClick: () => this.onFetchAddress(),
-        });
-      }
+      new ButtonArrowRight(this.element.querySelector<HTMLDivElement>(`#${PROCEED_NODE}`), {
+        title: 'Hämta uppgifter',
+        id: PROCEED,
+        onClick: () => this.onFetchAddress(),
+      });
 
       this.updateProceedButton();
     }

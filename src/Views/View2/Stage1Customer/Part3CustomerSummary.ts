@@ -48,14 +48,11 @@ class Part3CustomerSummary {
       <div class="stack stack--1" id="${CHANGE_BUTTON_NODE}"></div>
     `;
 
-    const buttonNode = this.element.querySelector<HTMLDivElement>(`#${CHANGE_BUTTON_NODE}`);
-    if (buttonNode) {
-      new ButtonAsLink(buttonNode, {
-        id: CHANGE_BUTTON,
-        title: 'Ändra',
-        onClick: () => this.onChange(),
-      });
-    }
+    new ButtonAsLink(this.element.querySelector<HTMLDivElement>(`#${CHANGE_BUTTON_NODE}`), {
+      id: CHANGE_BUTTON,
+      title: 'Ändra',
+      onClick: () => this.onChange(),
+    });
   }
 }
 

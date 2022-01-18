@@ -18,7 +18,8 @@ class InputField {
   private element: HTMLDivElement;
   private props: InputFieldProps;
 
-  constructor(element: HTMLDivElement, props: InputFieldProps) {
+  constructor(element: HTMLDivElement | null, props: InputFieldProps) {
+    if (!element) throw `No element provided to InputField`;
     this.element = element;
     this.props = props;
     this.render();

@@ -140,51 +140,42 @@ class Part1EmailAndPhone {
       <div class="stack stack--3" id="${PROCEED_NODE}"></div>
     `;
 
-      const emailNode = this.element.querySelector<HTMLDivElement>(`#${EMAIL_NODE}`);
-      if (emailNode) {
-        new InputField(emailNode, {
-          title: 'Epost',
-          value: this.state.value.email,
-          id: EMAIL_INPUT_ID,
-          errorId: EMAIL_ERROR_ID,
-          error: this.state.interact.email && !this.state.validation.email,
-          errorMessage: 'En giltig e-postadress måste anges',
-          name: 'email',
-          placeholder: 'Ange din e-postadress',
-          information: EmailHelp(),
-          onChange: (e) => this.onChange(e),
-          onBlur: (e) => this.onBlur(e),
-        });
-      }
+      new InputField(this.element.querySelector<HTMLDivElement>(`#${EMAIL_NODE}`), {
+        title: 'Epost',
+        value: this.state.value.email,
+        id: EMAIL_INPUT_ID,
+        errorId: EMAIL_ERROR_ID,
+        error: this.state.interact.email && !this.state.validation.email,
+        errorMessage: 'En giltig e-postadress måste anges',
+        name: 'email',
+        placeholder: 'Ange din e-postadress',
+        information: EmailHelp(),
+        onChange: (e) => this.onChange(e),
+        onBlur: (e) => this.onBlur(e),
+      });
 
-      const phoneNode = this.element.querySelector<HTMLDivElement>(`#${PHONE_NODE}`);
-      if (phoneNode) {
-        new InputField(phoneNode, {
-          title: 'Telefonnummer',
-          value: this.state.value.phone,
-          id: PHONE_INPUT_ID,
-          errorId: PHONE_ERROR_ID,
-          error: this.state.interact.phone && !this.state.validation.phone,
-          errorMessage: 'Ange ditt telefonnummer',
-          name: 'phone',
-          placeholder: 'Ange ditt telefonnummer',
-          onChange: (e) => this.onChange(e),
-          onBlur: (e) => this.onBlur(e),
-        });
-      }
+      new InputField(this.element.querySelector<HTMLDivElement>(`#${PHONE_NODE}`), {
+        title: 'Telefonnummer',
+        value: this.state.value.phone,
+        id: PHONE_INPUT_ID,
+        errorId: PHONE_ERROR_ID,
+        error: this.state.interact.phone && !this.state.validation.phone,
+        errorMessage: 'Ange ditt telefonnummer',
+        name: 'phone',
+        placeholder: 'Ange ditt telefonnummer',
+        onChange: (e) => this.onChange(e),
+        onBlur: (e) => this.onBlur(e),
+      });
 
       Object.keys(this.state.value).forEach((key) =>
         this.updateUiError(key as keyof PartialCustomer)
       );
 
-      const proceedNode = this.element.querySelector<HTMLDivElement>(`#${PROCEED_NODE}`);
-      if (proceedNode) {
-        new ButtonArrowRight(proceedNode, {
-          title: 'Fortsätt',
-          id: PROCEED,
-          onClick: () => this.onProceed(),
-        });
-      }
+      new ButtonArrowRight(this.element.querySelector<HTMLDivElement>(`#${PROCEED_NODE}`), {
+        title: 'Fortsätt',
+        id: PROCEED,
+        onClick: () => this.onProceed(),
+      });
 
       this.updateProceedButton();
     }
