@@ -1,0 +1,11 @@
+@use '../../../helpers' as *;
+
+.page-form {
+  &__aside {
+    padding: size(4) size(2);
+  }
+
+  &__aside-heading {
+    display: none;
+  }
+}

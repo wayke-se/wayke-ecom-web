@@ -27,17 +27,31 @@ class View2v2 {
     const state = store.getState();
     this.element.innerHTML = ``;
 
-    const aside = document.createElement('aside');
-    aside.className = 'aside';
-    aside.innerHTML = `
-        ${ItemTileSmall({ vehicle: state.vehicle, order: state.order })}
-      `;
+    const pageForm = document.createElement('div');
+    pageForm.className = 'page-form';
+    this.element.appendChild(pageForm);
 
-    this.element.appendChild(aside);
+    const pageFormAside = document.createElement('aside');
+    pageFormAside.className = 'page-form__aside';
+    pageFormAside.innerHTML = `
+        <div class="page-form__aside-heading">
+          <h3 class="heading heading--4 no-margin">
+            Sammanfattning
+          </h3>
+        </div>
+        <div class="page-form__aside-content">
+          ${ItemTileSmall({ vehicle: state.vehicle, order: state.order })}
+        </div>
+      `;
+    pageForm.appendChild(pageFormAside);
+
+    const pageFormMain = document.createElement('div');
+    pageFormMain.className = 'page-form__main';
+    pageForm.appendChild(pageFormMain);
 
     const stepper = document.createElement('div');
     stepper.className = 'stepper';
-    this.element.appendChild(stepper);
+    pageFormMain.appendChild(stepper);
 
     new Stage1Customer(stepper);
     new Stage2CentralStorage(stepper);

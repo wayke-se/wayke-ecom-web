@@ -1,0 +1,24 @@
+@use '../../../helpers' as *;
+
+.page-form {
+  @include flex-display;
+  max-width: var(size, container-max-width);
+  margin: size(7) auto;
+  padding: 0 size(4);
+  
+  &__aside {
+    @include flex-shrink(0);
+    width: 40%;
+    max-width: 40%;
+    padding-left: size(4);
+  }
+
+  &__aside-heading {
+    margin-bottom: size(2);
+  }
+
+  &__main {
+    @include flex(1 1 auto);
+    order: -1;
+  }
+}

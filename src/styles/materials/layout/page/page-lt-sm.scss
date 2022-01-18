@@ -2,11 +2,11 @@
 
 .page {
   &__body {
-    padding: size(4) size(2);
+    padding: size(4) 0;
   }
 
   &__footer {
-    padding: size(4);
+    padding: size(4) 0;
     background-color: color(bg, alt);
   }
 }
