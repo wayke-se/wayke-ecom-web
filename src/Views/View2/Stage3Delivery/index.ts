@@ -71,7 +71,9 @@ class Stage3Delivery {
           </ul>
         </div>
         <div class="stack stack--1">
-          <button id="${CHANGE_BUTTON}" title="Ändra dina uppgifter" class="link">Ändra</button>
+          <div class="align align--end">
+            <button id="${CHANGE_BUTTON}" title="Ändra leveranssätt" class="link">Ändra</button>
+          </div>
         </div>
       `;
 
@@ -90,16 +92,7 @@ class Stage3Delivery {
 
         <div class="stack stack--2">
           <div class="stack stack--3" id="${RADIO_HOME_FALSE_NODE}"></div>
-
-          <div style="border: 1px solid black;">
-            <p>${contactInformation.name}</p>
-            <p>${contactInformation.address}, ${contactInformation.city}</p>
-          </div>
-
           <div class="stack stack--3" id="${RADIO_HOME_TRUE_NODE}"></div>
-          <div style="border: 1px solid black;">
-            Till din folkbokföringsadress
-          </div>
         </div>
 
         <div class="stack stack--3" id="${PROCEED_NODE}"></div>
@@ -110,6 +103,13 @@ class Stage3Delivery {
         name: 'homeDelivery',
         title: 'Hämta hos handlaren',
         value: 'false',
+        description: `
+          <div style="border: 1px solid black;">
+            <p>${contactInformation.name}</p>
+            <p>${contactInformation.address}, ${contactInformation.city}</p>
+          </div>
+        `,
+        meta: `<div class="font-medium">Gratis (???)</div>`,
         checked: !this.homeDelivery,
         onClick: (e) => this.onChange(e),
       });
@@ -119,6 +119,12 @@ class Stage3Delivery {
         name: 'homeDelivery',
         title: 'Hemleverans',
         value: 'true',
+        description: `
+          <div style="border: 1px solid black;">
+            Till din folkbokföringsadress
+          </div>
+        `,
+        meta: `<div class="font-medium">"??? kr</div>`,
         checked: this.homeDelivery,
         onClick: (e) => this.onChange(e),
       });

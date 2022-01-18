@@ -1,0 +1,17 @@
+@use '../../../helpers' as *;
+
+.align {
+  @include flex-display;
+  
+  &--start {
+    @include justify-content(flex-start);
+  }
+
+  &--center {
+    @include justify-content(center);
+  }
+
+  &--end {
+    @include justify-content(flex-end);
+  }
+}

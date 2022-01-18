@@ -44,7 +44,9 @@ class Stage5Financial {
           </ul>
         </div>
         <div class="stack stack--1">
-          <button id="${CHANGE_BUTTON}" title="Ändra dina uppgifter" class="link">Ändra</button>
+          <div class="align align--end">
+            <button id="${CHANGE_BUTTON}" title="Ändra finansiering" class="link">Ändra</button>
+          </div>
         </div>
       `;
       part.querySelector(`#${CHANGE_BUTTON}`)?.addEventListener('click', () => this.onEdit());

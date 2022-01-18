@@ -101,7 +101,9 @@ class Stage4TradeIn {
             ${keyValueItemsUpper.map((kv) => KeyValueListItem(kv)).join('')}
             </ul>
           </div>
-          <div class="stack stack--1" id="${CHANGE_BUTTON_NODE}"></div>
+          <div class="stack stack--1">
+            <div class="align align--end" id="${CHANGE_BUTTON_NODE}"></div>
+          </div>
         `;
       }
       new ButtonAsLink(part.querySelector(`#${CHANGE_BUTTON_NODE}`), {

@@ -38,7 +38,9 @@ class Stage1Customer {
     content.innerHTML = '';
 
     const part1 = document.createElement('div');
+    part1.className = 'stack stack--2';
     const part2 = document.createElement('div');
+    part2.className = 'stack stack--2';
 
     if (navigation.stage > 1 || (navigation.stage === 1 && navigation.subStage > 2)) {
       new Part3CustomerSummary(part1);

@@ -45,7 +45,9 @@ class Part3CustomerSummary {
           ${keyValueItems.map((kv) => KeyValueListItem(kv)).join('')}
         </ul>
       </div>
-      <div class="stack stack--1" id="${CHANGE_BUTTON_NODE}"></div>
+      <div class="stack stack--1">
+        <div class="align align--end" id="${CHANGE_BUTTON_NODE}"></div>
+      </div>
     `;
 
     new ButtonAsLink(this.element.querySelector<HTMLDivElement>(`#${CHANGE_BUTTON_NODE}`), {

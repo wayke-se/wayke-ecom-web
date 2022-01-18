@@ -8,36 +8,21 @@
   &__item {
     counter-increment: stage;
 
-    // Handle inactive state on items placed after the active
-    /*
-    &--is-active {
-      & ~ #{$root}__item {
-        & > * {
-          opacity: 0.3;
-        }
-
-        #{$root}__body {
-          display: none;
-        }
-      }
-    }
-    */
-
     // Current stage
-    &--is-active {
-      &::before {
-        content: 'ACTIVE';
-        background: red;
-        color: white;
-      }
-    }
+    //&--is-active {}
 
     // Completed stage
     &--is-complete {
-      &::before {
-        content: 'COMPLETE';
-        background: red;
-        color: white;
+      #{$root}__header {
+        text-align: left;
+      }
+
+      #{$root}__stage {
+        display: none;
+      }
+
+      #{$root}__icon {
+        @include flex-display;
       }
     }
 
@@ -54,7 +39,29 @@
   }
 
   &__header {
+    @include flex-display;
+    @include align-items(center);
     text-align: center;
+
+    .heading {
+      @include flex(1 1 auto);
+    }
+  }
+
+  &__icon {
+    $icon-size: size(3);
+
+    @include flex-shrink(0);
+    @include align-items(center);
+    @include justify-content(center);
+    display: none;
+    width: $icon-size;
+    height: $icon-size;
+    margin-right: size(1.5);
+    border-radius: 50%;
+    background-color: color(ui, success, alt);
+    color: color(ui, success, text);
+    font-size: var(font, size, xsmall);
   }
 
   &__stage-count {
