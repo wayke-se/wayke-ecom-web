@@ -9,20 +9,12 @@
     counter-increment: stage;
 
     // Current stage
-    &--is-active {
-      &::before {
-        content: 'ACTIVE';
-        background: red;
-        color: white;
-      }
-    }
+    //&--is-active {}
 
     // Completed stage
     &--is-complete {
-      &::before {
-        content: 'COMPLETE';
-        background: red;
-        color: white;
+      #{$root}__header {
+        text-align: left;
       }
     }
 
