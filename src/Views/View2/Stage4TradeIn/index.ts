@@ -3,10 +3,18 @@ import store from '../../../Redux/store';
 import ListItem from '../ListItem';
 import PartTradeIn from './PartTradeIn';
 import Alert from '../../../Templates/Alert';
+import ButtonArrowRight from '../../../Components/ButtonArrowRight';
+import KeyValueListItem from '../../../Templates/KeyValueListItem';
+import ButtonAsLink from '../../../Components/ButtonAsLink';
 
 const TRADE_IN_YES = 'button-trade-in-yes';
+const TRADE_IN_YES_NODE = `${TRADE_IN_YES}-node`;
+
 const TRADE_IN_NO = 'button-trade-in-no';
+const TRADE_IN_NO_NODE = `${TRADE_IN_NO}-node`;
+
 const CHANGE_BUTTON = 'button-trade-in-change';
+const CHANGE_BUTTON_NODE = `${CHANGE_BUTTON}-node`;
 
 const STAGE = 4;
 
@@ -32,43 +40,45 @@ class Stage4TradeIn {
 
   render() {
     const state = store.getState();
-    const content = ListItem(this.element, 'Inbytesbil', state.navigation.stage === STAGE);
+    const content = ListItem(
+      this.element,
+      'Inbytesbil',
+      state.navigation.stage === STAGE,
+      state.topNavigation.stage > STAGE
+    );
     content.innerHTML = '';
 
     const part = document.createElement('div');
 
     if (state.navigation.stage > STAGE) {
       if (state.tradeIn && state.tradeInVehicle) {
+        const keyValueItemsUpper: { key: string; value: string }[] = [
+          { key: 'Mätarställning', value: state.tradeIn.mileage },
+          ...(state.tradeIn.condition
+            ? [{ key: 'Bilens skick', value: state.tradeIn.condition }]
+            : []),
+          ...(state.tradeIn.description
+            ? [
+                {
+                  key: 'Beskrivning',
+                  value: `${state.tradeIn.description}`,
+                },
+              ]
+            : []),
+        ];
+
+        const keyValueItemsLower: { key: string; value: string }[] = [
+          { key: 'Ungefärligt värde', value: `~${state.tradeInVehicle.valuation}` },
+        ];
         part.innerHTML = `
           <div class="stack stack--1">
             <ul class="key-value-list">
-              <li class="key-value-list__item">
-                <div class="key-value-list__key">Mätarställning</div>
-                <div class="key-value-list__value">${state.tradeIn.mileage}</div>
-              </li>
-              <li class="key-value-list__item">
-                <div class="key-value-list__key">Bilens skick</div>
-                <div class="key-value-list__value">${state.tradeIn.condition}</div>
-              </li>
-              ${
-                state.tradeIn.description &&
-                `
-                <li class="key-value-list__item">
-                  <div class="key-value-list__key">Beskrivning</div>
-                  <div class="key-value-list__value">${state.tradeIn.description}</div>
-                </li>
-              `
-              }
+              ${keyValueItemsUpper.map((kv) => KeyValueListItem(kv)).join('')}
             </ul>
           </div>
-          <div class="stack stack--1">
-            <button id="${CHANGE_BUTTON}" title="Ändra dina uppgifter" class="link">Ändra</button>
-          </div>
+          <div class="stack stack--1" id="${CHANGE_BUTTON_NODE}"></div>
           <ul class="key-value-list">
-            <li class="key-value-list__item">
-              <div class="key-value-list__key">Ungefärligt värde</div>
-              <div class="key-value-list__value">~${state.tradeInVehicle.valuation} kr</div>
-            </li>
+            ${keyValueItemsLower.map((kv) => KeyValueListItem(kv)).join('')}
           </ul>
           ${Alert({
             tone: 'info',
@@ -78,21 +88,23 @@ class Stage4TradeIn {
         `;
         part.querySelector(`#${CHANGE_BUTTON}`)?.addEventListener('click', () => this.onEdit());
       } else {
+        const keyValueItems: { key: string; value: string }[] = [
+          { key: 'Inbytesbil', value: 'Nej' },
+        ];
         part.innerHTML = `
           <div class="stack stack--1">
             <ul class="key-value-list">
-              <li class="key-value-list__item">
-                <div class="key-value-list__key">Inbytesbil</div>
-                <div class="key-value-list__value">Nej</div>
-              </li>
+            ${keyValueItems.map((kv) => KeyValueListItem(kv)).join('')}
             </ul>
           </div>
-          <div class="stack stack--1">
-            <button id="${CHANGE_BUTTON}" title="Ändra dina uppgifter" class="link">Ändra</button>
-          </div>
+          <div class="stack stack--1" id="${CHANGE_BUTTON_NODE}"></div>
         `;
-        part.querySelector(`#${CHANGE_BUTTON}`)?.addEventListener('click', () => this.onEdit());
       }
+      new ButtonAsLink(part.querySelector(`#${CHANGE_BUTTON_NODE}`), {
+        id: CHANGE_BUTTON,
+        title: 'Ändra',
+        onClick: () => this.onEdit(),
+      });
     } else if (state.navigation.stage === STAGE) {
       if (state.wantTradeIn && state.tradeIn) {
         new PartTradeIn(part);
@@ -105,45 +117,21 @@ class Stage4TradeIn {
           </div>
         </div>
         
-        <div class="stack stack--3">
-          <button type="button" id="${TRADE_IN_YES}" title="Fortsätt till nästa steg" class="button button--full-width button--action">
-            <span class="button__content">Jag har inbytesbil</span>
-            <span class="button__content">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 16 16"
-                class="icon"
-              >
-                <title>Ikon: pil höger</title>
-                <path d="m15.2 8.8-4.8 4.8-1.7-1.7 2.7-2.7H1.2C.5 9.2 0 8.7 0 8s.5-1.2 1.2-1.2h10.2L8.7 4.1l1.7-1.7 4.8 4.8.8.8-.8.8z" />
-              </svg>
-            </span>
-          </button>
-        </div>
-        <div class="stack stack--3">
-        <button type="button" id="${TRADE_IN_NO}" title="Fortsätt till nästa steg" class="button button--full-width button--action">
-          <span class="button__content">Hoppa över detta steg</span>
-          <span class="button__content">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 16 16"
-              class="icon"
-            >
-              <title>Ikon: pil höger</title>
-              <path d="m15.2 8.8-4.8 4.8-1.7-1.7 2.7-2.7H1.2C.5 9.2 0 8.7 0 8s.5-1.2 1.2-1.2h10.2L8.7 4.1l1.7-1.7 4.8 4.8.8.8-.8.8z" />
-            </svg>
-          </span>
-        </button>
-      </div>
+        <div class="stack stack--3" id="${TRADE_IN_YES_NODE}"></div>
+        <div class="stack stack--3" id="${TRADE_IN_NO_NODE}"></div>
         `;
 
-        part
-          .querySelector<HTMLButtonElement>(`#${TRADE_IN_YES}`)
-          ?.addEventListener('click', () => this.onYesTradeIn());
+        new ButtonArrowRight(part.querySelector<HTMLDivElement>(`#${TRADE_IN_YES_NODE}`), {
+          id: TRADE_IN_YES,
+          title: 'Jag har inbytesbil',
+          onClick: () => this.onYesTradeIn(),
+        });
 
-        part
-          .querySelector<HTMLButtonElement>(`#${TRADE_IN_NO}`)
-          ?.addEventListener('click', () => this.onNoTradeIn());
+        new ButtonArrowRight(part.querySelector<HTMLDivElement>(`#${TRADE_IN_NO_NODE}`), {
+          id: TRADE_IN_NO,
+          title: 'Hoppa över detta',
+          onClick: () => this.onNoTradeIn(),
+        });
       }
     }
 

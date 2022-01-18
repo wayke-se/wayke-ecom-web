@@ -5,6 +5,7 @@ import Part1EmailAndPhone from './Part1EmailAndPhone';
 import Part2SocialId from './Part2SocialId';
 import Part3CustomerSummary from './Part3CustomerSummary';
 
+const STAGE = 1;
 class Stage1Customer {
   private element: HTMLDivElement;
 
@@ -26,9 +27,14 @@ class Stage1Customer {
 
   render() {
     const state = store.getState();
-    const { navigation } = state;
+    const { navigation, topNavigation } = state;
 
-    const content = ListItem(this.element, 'Dina uppgifter', navigation.stage === 1);
+    const content = ListItem(
+      this.element,
+      'Dina uppgifter',
+      navigation.stage === STAGE,
+      topNavigation.stage > STAGE
+    );
     content.innerHTML = '';
 
     const part1 = document.createElement('div');

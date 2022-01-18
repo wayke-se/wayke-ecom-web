@@ -24,7 +24,12 @@ class Stage5Financial {
 
   render() {
     const state = store.getState();
-    const content = ListItem(this.element, 'Finansiering', state.navigation.stage === STAGE);
+    const content = ListItem(
+      this.element,
+      'Finansiering',
+      state.navigation.stage === STAGE,
+      state.topNavigation.stage > STAGE
+    );
 
     const part = document.createElement('div');
 
