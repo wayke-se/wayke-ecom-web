@@ -20,9 +20,6 @@ class InputRadioField {
 
   render() {
     this.element.innerHTML = `
-      <div class="input-label">
-        <label for="${this.props.id}" class="input-label__label">${this.props.title}</label>
-      </div>
       <input
         type="radio"
         id="${this.props.id}"
