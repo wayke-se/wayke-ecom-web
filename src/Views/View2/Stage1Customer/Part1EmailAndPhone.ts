@@ -7,12 +7,15 @@ import EmailHelp from '../../../Templates/EmailHelp';
 import KeyValueListItem from '../../../Templates/KeyValueListItem';
 import { validationMethods } from '../../../Utils/validationMethods';
 
+const EMAIL_NODE = 'contact-email-node';
 const EMAIL_INPUT_ID = 'contact-email';
 const EMAIL_ERROR_ID = `${EMAIL_INPUT_ID}-error`;
 
+const PHONE_NODE = 'contact-phone-node';
 const PHONE_INPUT_ID = 'contact-phone';
 const PHONE_ERROR_ID = `${PHONE_INPUT_ID}-error`;
 
+const PROCEED_NODE = 'contact-proceed-node';
 const PROCEED = 'contact-proceed';
 
 const validation = {
@@ -131,13 +134,13 @@ class Part1EmailAndPhone {
         </div>
       </div>
       <div class="stack stack--3">
-        <div class="stack stack--2" id="emailNode"></div>
-        <div class="stack stack--2" id="phoneNode"></div>
+        <div class="stack stack--2" id="${EMAIL_NODE}"></div>
+        <div class="stack stack--2" id="${PHONE_NODE}"></div>
       </div>
-      <div class="stack stack--3" id="proceedNode"></div>
+      <div class="stack stack--3" id="${PROCEED_NODE}"></div>
     `;
 
-      const emailNode = this.element.querySelector<HTMLDivElement>('#emailNode');
+      const emailNode = this.element.querySelector<HTMLDivElement>(`#${EMAIL_NODE}`);
       if (emailNode) {
         new InputField(emailNode, {
           title: 'Epost',
@@ -154,7 +157,7 @@ class Part1EmailAndPhone {
         });
       }
 
-      const phoneNode = this.element.querySelector<HTMLDivElement>('#phoneNode');
+      const phoneNode = this.element.querySelector<HTMLDivElement>(`#${PHONE_NODE}`);
       if (phoneNode) {
         new InputField(phoneNode, {
           title: 'Telefonnummer',
@@ -174,7 +177,7 @@ class Part1EmailAndPhone {
         this.updateUiError(key as keyof PartialCustomer)
       );
 
-      const proceedNode = this.element.querySelector<HTMLDivElement>('#proceedNode');
+      const proceedNode = this.element.querySelector<HTMLDivElement>(`#${PROCEED_NODE}`);
       if (proceedNode) {
         new ButtonArrowRight(proceedNode, {
           title: 'Fortsätt',

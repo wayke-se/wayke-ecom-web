@@ -1,8 +1,10 @@
+import ButtonAsLink from '../../../Components/ButtonAsLink';
 import { editCustomer } from '../../../Redux/action';
 import store from '../../../Redux/store';
 import KeyValueListItem from '../../../Templates/KeyValueListItem';
 import { maskSSn, maskText } from '../../../Utils/mask';
 
+const CHANGE_BUTTON_NODE = 'contact-change-button-node';
 const CHANGE_BUTTON = 'contact-change-button';
 
 class Part3CustomerSummary {
@@ -39,17 +41,21 @@ class Part3CustomerSummary {
 
     this.element.innerHTML = `
       <div class="stack stack--1">
-          <ul class="key-value-list">
-            ${keyValueItems.map((kv) => KeyValueListItem(kv)).join('')}
-          </ul>
-        </div>
-        <div class="stack stack--1">
-          <button id="${CHANGE_BUTTON}" title="Ändra dina uppgifter" class="link">Ändra</button>
-        </div>
+        <ul class="key-value-list">
+          ${keyValueItems.map((kv) => KeyValueListItem(kv)).join('')}
+        </ul>
+      </div>
+      <div class="stack stack--1" id="${CHANGE_BUTTON_NODE}"></div>
     `;
-    this.element
-      .querySelector(`#${CHANGE_BUTTON}`)
-      ?.addEventListener('click', () => this.onChange());
+
+    const buttonNode = this.element.querySelector<HTMLDivElement>(`#${CHANGE_BUTTON_NODE}`);
+    if (buttonNode) {
+      new ButtonAsLink(buttonNode, {
+        id: CHANGE_BUTTON,
+        title: 'Ändra',
+        onClick: () => this.onChange(),
+      });
+    }
   }
 }
 
