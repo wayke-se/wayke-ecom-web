@@ -8,7 +8,10 @@
 // This map is used to declare variables
 $variables: (
   size: (
-    input-height: 48px,
+    input-height: (
+      desktop: 52px,
+      mobile: 48px,
+    ),
     border-radius: 3px,
     container-max-width: 1344px,
     container-max-width-narrow: 882px,

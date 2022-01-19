@@ -1,11 +1,10 @@
 import InputHelp from '../Templates/InputHelp';
 
-interface InputFieldProps {
+interface TextareaProps {
   title: string;
   value: string;
   name: string;
   id: string;
-  unit?: string;
   errorId: string;
   error?: boolean;
   errorMessage?: string;
@@ -15,11 +14,11 @@ interface InputFieldProps {
   onBlur?: (e: Event) => void;
 }
 
-class InputField {
+class Textarea {
   private element: HTMLDivElement;
-  private props: InputFieldProps;
+  private props: TextareaProps;
 
-  constructor(element: HTMLDivElement | null, props: InputFieldProps) {
+  constructor(element: HTMLDivElement | null, props: TextareaProps) {
     if (!element) throw `No element provided to InputField`;
     this.element = element;
     this.props = props;
@@ -43,18 +42,12 @@ class InputField {
             : ''
         }
       </div>
-      <div class="input-text">
-        <input
-          type="text"
-          id="${this.props.id}"
-          value="${this.props.value}"
-          name="${this.props.name}"
-          ${this.props.placeholder ? `placeholder="${this.props.placeholder}"` : ''}
-          
-          class="input-text__input"
-        />
-        ${this.props.unit ? `<div class="input-text__unit">${this.props.unit}</div>` : ''}
-      </div>
+      <textarea
+        id="${this.props.id}"
+        name="${this.props.name}"
+        ${this.props.placeholder ? `placeholder="${this.props.placeholder}"` : ''}
+        class="textarea"
+      >${this.props.value}</textarea>
       ${
         this.props.errorMessage &&
         ` <div id="${this.props.errorId}" class="input-error">${this.props.errorMessage}</div>`
@@ -89,4 +82,4 @@ class InputField {
   }
 }
 
-export default InputField;
+export default Textarea;

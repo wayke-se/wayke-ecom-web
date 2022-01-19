@@ -1,40 +1,67 @@
 @use '../../../helpers' as *;
 
 .input-text {
-  --input-padding: 0 #{size(1.5)};
+  --input-padding: #{size(1.5)};
+  --input-height: #{scss-var(size, input-height, mobile)};
+  --unit-font-size: #{scss-var(font, size, small)};
 
-  @include font-light;
-  display: block;
-  width: 100%;
-  height: scss-var(size, input-height);
-  padding: var(--input-padding);
-  margin: 0;
+  @include flex-display;
+  @include align-items(stretch);
+  height: var(--input-height);
   background-color: color(bg, main);
   border: 1px solid color(border, main);
   border-radius: scss-var(size, border-radius);
   box-shadow: scss-var(box-shadow, alt);
-  font-size: 16px;
-  line-height: scss-var(font, line-height, main);
-  -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
-  -webkit-appearance: none;
-  touch-action: manipulation;
-
-  &[disabled] {
-    opacity: 0.37;
-    cursor: not-allowed;
-  }
-
-  &:focus {
-    outline: none;
-    border-color: darken(color(border, main), 20%);
-  }
-
-  @include placeholder {
-    @include font-light;
-    color: color(text, alt);
-  };
 
   &--has-error {
     border-color: color(ui, error, text);
+  }
+
+  &:focus-within {
+    border-color: darken(color(border, main), 20%);
+  }
+
+  &__input {
+    @include flex(1 1 auto);
+    @include font-light;
+    display: block;
+    width: 100%;
+    padding: 0 var(--input-padding);
+    margin: 0;
+    background-color: transparent;
+    border: none;
+    border-radius: 0;
+    -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+    -webkit-appearance: none;
+    touch-action: manipulation;
+
+    &[disabled] {
+      opacity: 0.37;
+      cursor: not-allowed;
+    }
+
+    &:focus {
+      outline: none;
+    }
+
+    @include placeholder {
+      @include font-light;
+      color: color(text, alt);
+    };
+  }
+
+  &__unit {
+    @include flex-shrink(0);
+    @include flex-display;
+    @include align-items(center);
+    padding-right: var(--input-padding);
+    color: color(text, alt);
+    font-size: var(--unit-font-size);
+  }
+
+  // Registration number SVG icon placed inside `__unit`
+  &__unit-regnr-icon {
+    display: block;
+    height: size(4);
   }
 }

@@ -7,6 +7,7 @@ import store from '../../../Redux/store';
 import { validationMethods } from '../../../Utils/validationMethods';
 import ButtonArrowRight from '../../../Components/ButtonArrowRight';
 import InputField from '../../../Components/InputField';
+import Textarea from '../../../Components/Textarea';
 import InputRadioField from '../../../Components/InputRadioField';
 
 const REGISTRATION_NUMBER_INPUT_ID = 'trade-in-registrationNumber';
@@ -196,7 +197,7 @@ class PartTradeIn {
       {
         id: `radio-${VehicleCondition.Ok}`,
         value: VehicleCondition.Ok,
-        title: 'Ok skick',
+        title: 'Helt okej skick',
       },
     ];
 
@@ -241,6 +242,13 @@ class PartTradeIn {
         errorMessage: 'En giltig registreringsnummer i formatet ABC123 eller ABC12A måste anges',
         name: 'registrationNumber',
         placeholder: 'Ange registreringsnummer',
+        unit: `
+          <svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 34" class="input-text__unit-regnr-icon" aria-hidden="true">
+            <rect width="22" height="34" rx="1" fill="#458BDD"/>
+            <circle cx="11" cy="10" r="5.5" stroke="#FFF500" stroke-linejoin="round" stroke-dasharray="1 2"/>
+            <path d="M10.6707 21.692c1.392 0 2.04.564 2.28.996h1.644c-.264-1.08-1.248-2.364-3.924-2.364-2.028 0-3.408.912-3.408 2.436 0 1.536 1.2 2.34 2.904 2.508l1.512.156c.876.108 1.476.372 1.476 1.188 0 .684-.684 1.176-1.98 1.176-1.56 0-2.244-.72-2.472-1.26h-1.716c.336 1.224 1.404 2.628 4.188 2.628 2.412 0 3.624-1.116 3.624-2.652 0-1.8-1.308-2.448-3.012-2.616-.576-.06-.972-.108-1.5-.156-.888-.108-1.392-.444-1.392-1.02 0-.624.612-1.02 1.776-1.02Z" fill="#fff"/>
+          </svg>
+        `,
         onChange: (e) => this.onChange(e),
         onBlur: (e) => this.onBlur(e),
       }
@@ -255,12 +263,13 @@ class PartTradeIn {
       errorMessage: 'Ett miltal mellan 0 - 80000 mil måste anges',
       name: 'mileage',
       placeholder: 'Ange bilens miltal',
+      unit: 'mil',
       onChange: (e) => this.onChange(e),
       onBlur: (e) => this.onBlur(e),
     });
 
-    new InputField(this.element.querySelector<HTMLDivElement>(`#${DESCRIPTION_INPUT_ID_NODE}`), {
-      title: 'Beskrivning(valfritt)',
+    new Textarea(this.element.querySelector<HTMLDivElement>(`#${DESCRIPTION_INPUT_ID_NODE}`), {
+      title: 'Beskrivning (valfritt)',
       value: this.state.value.description,
       id: DESCRIPTION_INPUT_ID,
       errorId: DESCRIPTION_ERROR_ID,

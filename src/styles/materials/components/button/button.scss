@@ -19,9 +19,9 @@
   @include justify-content(center);
   @include font-medium;
   @include transform-origin(50%, 50%);
-  min-height: scss-var(size, input-height);
+  min-height: scss-var(size, input-height, mobile);
   padding: size(1.5) size(3);
-  border-radius: math.div(scss-var(size, input-height), 2);
+  border-radius: math.div(scss-var(size, input-height, mobile), 2);
   font-size: 0.875rem;
   user-select: none;
   transition: transform 200ms ease, background-color 200ms ease;

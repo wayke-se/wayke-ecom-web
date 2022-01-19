@@ -1,5 +1,7 @@
 @use '../../../helpers' as *;
 
 .input-text {
-  --input-padding: 0 #{size(2)};
+  --input-padding: #{size(2)};
+  --input-height: #{scss-var(size, input-height, desktop)};
+  --unit-font-size: #{scss-var(font, size, regular)};
 }

@@ -1,0 +1,5 @@
+@use '../../../helpers' as *;
+
+.textarea {
+  --textarea-padding: #{size(2)};
+}

@@ -60,21 +60,23 @@ class Stage5Financial {
     } else if (state.navigation.stage === STAGE) {
       part.innerHTML = `
         <div class="stack stack--3">
-          <h4 class="heading heading--4">Hur vill du finansiera din Volvo XC60?</h4>
+          <h4 class="heading heading--4 no-margin">Hur vill du finansiera din Volvo XC60?</h4>
         </div>
-        <button type="button" id="${PROCEED}" title="Fortsätt till nästa steg" class="button button--full-width button--action">
-          <span class="button__content">Fortsätt</span>
-          <span class="button__content">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 16 16"
-              class="icon"
-            >
-              <title>Ikon: pil höger</title>
-              <path d="m15.2 8.8-4.8 4.8-1.7-1.7 2.7-2.7H1.2C.5 9.2 0 8.7 0 8s.5-1.2 1.2-1.2h10.2L8.7 4.1l1.7-1.7 4.8 4.8.8.8-.8.8z" />
-            </svg>
-          </span>
-        </button>
+        <div class="stack stack--3">
+          <button type="button" id="${PROCEED}" title="Fortsätt till nästa steg" class="button button--full-width button--action">
+            <span class="button__content">Fortsätt</span>
+            <span class="button__content">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 16 16"
+                class="icon"
+              >
+                <title>Ikon: pil höger</title>
+                <path d="m15.2 8.8-4.8 4.8-1.7-1.7 2.7-2.7H1.2C.5 9.2 0 8.7 0 8s.5-1.2 1.2-1.2h10.2L8.7 4.1l1.7-1.7 4.8 4.8.8.8-.8.8z" />
+              </svg>
+            </span>
+          </button>
+        </div>
       `;
       part
         .querySelector<HTMLButtonElement>(`#${PROCEED}`)
