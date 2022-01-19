@@ -32,8 +32,8 @@ const ListItem = (element: HTMLElement, props: ListItemProps) => {
           viewBox="0 0 16 16"
           class="icon"
         >
-          <title>Ikon: pil höger</title>
-          <path d="m15.2 8.8-4.8 4.8-1.7-1.7 2.7-2.7H1.2C.5 9.2 0 8.7 0 8s.5-1.2 1.2-1.2h10.2L8.7 4.1l1.7-1.7 4.8 4.8.8.8-.8.8z" />
+          <title>Ikon: bock</title>
+          <path d="M12.3 3.3 6 9.6 3.7 7.3c-.4-.4-1-.4-1.4 0-.4.4-.4 1 0 1.4l3 3c.4.4 1 .4 1.4 0l7-7c.4-.4.4-1 0-1.4-.4-.4-1-.4-1.4 0z"/>
         </svg>
       </div>
       <h3 class="heading heading--3 no-margin">

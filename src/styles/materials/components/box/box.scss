@@ -1,0 +1,8 @@
+@use '../../../helpers' as *;
+
+.box {
+  padding: size(1.5);
+  border: 1px solid color(border, main);
+  border-radius: var(size, border-radius);
+  font-size: var(font, size, xsmall);
+}

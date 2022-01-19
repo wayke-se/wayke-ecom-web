@@ -1,0 +1,26 @@
+@use '../../../helpers' as *;
+
+.alert {
+  $root: &;
+  $icon-size: size(3);
+  $content-size: var(font, size, regular);
+  $content-line-height: var(font, line-height, main);
+
+  padding: size(2);
+
+  &__icon {
+    padding-right: size(1.5);
+  }
+
+  &__icon-badge {
+    width: $icon-size;
+    height: $icon-size;
+    margin-top: calc(($icon-size - $content-size * $content-line-height) / -2);
+    font-size: var(font, size, small);
+  }
+
+  &__content {
+    font-size: $content-size;
+    line-height: $content-line-height;
+  }
+}

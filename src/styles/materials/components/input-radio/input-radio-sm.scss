@@ -1,0 +1,21 @@
+@use '../../../helpers' as *;
+
+.input-radio {
+  $root: &;
+  $icon-size: size(2);
+  $label-size: var(font, size, regular);
+  $label-line-height: var(font, line-height, main);
+
+  &__label {
+    font-size: $label-size;
+    line-height: $label-line-height;
+    
+    &::before {
+      margin-top: calc(($icon-size - $label-size * $label-line-height) / -2);
+    }
+  }
+
+  &__description {
+    font-size: var(font, size, small);
+  }
+}

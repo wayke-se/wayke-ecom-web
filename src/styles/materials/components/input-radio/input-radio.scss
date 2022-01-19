@@ -15,6 +15,8 @@
     &:checked {
       ~ #{$root}__header {
         #{$root}__label {
+          @include font-medium;
+
           &::before {
             background-color: color(bg, main);
             box-shadow: inset 0 0 0 size(0.625) color(action, main);
@@ -32,7 +34,6 @@
   &__label {
     @include flex(1 1 auto);
     @include flex-display;
-    @include font-medium;
     font-size: $label-size;
     line-height: $label-line-height;
     
@@ -47,6 +48,13 @@
       margin-top: calc(($icon-size - $label-size * $label-line-height) / -2);
       cursor: pointer;
     }
+
+    @include focus {
+      &::before {
+        outline: 2px solid color(text, main);
+        outline-offset: 2px;
+      }
+    }
   }
 
   &__meta {
@@ -57,5 +65,6 @@
   &__description {
     margin-top: size(1);
     margin-left: $icon-size + $icon-margin;
+    font-size: var(font, size, xsmall);
   }
 }

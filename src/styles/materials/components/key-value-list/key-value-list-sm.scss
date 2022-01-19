@@ -1,0 +1,11 @@
+@use '../../../helpers' as *;
+
+.key-value-list {
+  &__key {
+    font-size: var(font, size, small);
+  }
+
+  &__value {
+    font-size: var(font, size, regular);
+  }
+}

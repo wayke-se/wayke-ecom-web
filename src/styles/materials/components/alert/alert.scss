@@ -12,9 +12,14 @@
 
 .alert {
   $root: &;
-  $icon-size: size(3);
-  $content-size: var(font, size, xsmall);
-  $content-line-height: var(font, line-height, main);
+
+  --icon-size: #{size(3)};
+  --content-size: #{var(font, size, xsmall)};
+  --content-line-height: #{var(font, line-height, main)};
+
+  //$icon-size: size(3);
+  //$content-size: var(font, size, xsmall);
+  //$content-line-height: var(font, line-height, main);
 
   @include alertTone($root, color(bg, alt), color(text, main), darken(color(bg, alt), 5%), color(text, main));
   @include flex-display;
@@ -46,9 +51,9 @@
     @include flex-display;
     @include align-items(center);
     @include justify-content(center);
-    width: $icon-size;
-    height: $icon-size;
-    margin-top: calc(($icon-size - $content-size * $content-line-height) / -2);
+    width: var(--icon-size);
+    height: var(--icon-size);
+    margin-top: calc((var(--icon-size) - var(--content-size) * var(--content-line-height)) / -2);
     border-radius: 50%;
     font-size: var(font, size, small);
   }
@@ -57,8 +62,8 @@
     @include flex(1 1 auto);
     @include remove-direct-child-edge-margins;
     min-width: 0;
-    font-size: $content-size;
-    line-height: $content-line-height;
+    font-size: var(--content-size);
+    line-height: var(--content-line-height);
 
     p,
     ul,
