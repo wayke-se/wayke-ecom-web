@@ -7,6 +7,7 @@ import {
   Action,
   PROCEED_TO_VIEW_2_STAGE_1,
   SET_CONTACT_EMAIL_AND_PHONE,
+  SET_ORDER,
   SET_VEHICLE,
   SET_SOCIAL_ID_AND_ADDRESS,
   EDIT_CUSTOMER,
@@ -84,8 +85,10 @@ const reducer = (state = initialState, action: Action): ReducerState => {
   switch (action.type) {
     case SET_VEHICLE:
       return { ...state, vehicle: action.vehicle };
+    case SET_ORDER:
+      return { ...state, order: action.order };
     case PROCEED_TO_VIEW_2_STAGE_1:
-      return { ...state, order: action.order, navigation: { view: 2, stage: 1, subStage: 1 } };
+      return { ...state, navigation: { view: 2, stage: 1, subStage: 1 } };
     case SET_CONTACT_EMAIL_AND_PHONE:
       return {
         ...state,

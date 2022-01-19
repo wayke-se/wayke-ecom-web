@@ -5,19 +5,26 @@ import { getTradeInVehicle } from '../../../Data/getTradeInVehicle';
 import { setTradeIn } from '../../../Redux/action';
 import store from '../../../Redux/store';
 import { validationMethods } from '../../../Utils/validationMethods';
+import ButtonArrowRight from '../../../Components/ButtonArrowRight';
+import InputField from '../../../Components/InputField';
+import InputRadioField from '../../../Components/InputRadioField';
 
 const REGISTRATION_NUMBER_INPUT_ID = 'trade-in-registrationNumber';
 const REGISTRATION_NUMBER_ERROR_ID = `${REGISTRATION_NUMBER_INPUT_ID}-error`;
+const REGISTRATION_NUMBER_INPUT_ID_NODE = `${REGISTRATION_NUMBER_INPUT_ID}-node`;
 
 const MILEAGE_INPUT_ID = 'trade-in-mileage';
 const MILEAGE_ERROR_ID = `${MILEAGE_INPUT_ID}-error`;
+const MILEAGE_INPUT_ID_NODE = `${MILEAGE_INPUT_ID}-node`;
 
 const DESCRIPTION_INPUT_ID = 'trade-in-description';
 const DESCRIPTION_ERROR_ID = `${DESCRIPTION_INPUT_ID}-error`;
+const DESCRIPTION_INPUT_ID_NODE = `${DESCRIPTION_ERROR_ID}-node`;
 
 const TRADE_IN_FETCH_ERROR_ID = 'trade-in-fetch-error';
 
 const PROCEED = 'trade-in-proceed';
+const PROCEED_NODE = `${PROCEED}-node`;
 
 const validation = {
   registrationNumber: validationMethods.requiredRegistrationNumber,
@@ -175,6 +182,24 @@ class PartTradeIn {
   }
 
   render() {
+    const RadioElements = [
+      {
+        id: `radio-${VehicleCondition.VeryGood}`,
+        value: VehicleCondition.VeryGood,
+        title: 'Mycket bra skick',
+      },
+      {
+        id: `radio-${VehicleCondition.Good}`,
+        value: VehicleCondition.Good,
+        title: 'Bra skick',
+      },
+      {
+        id: `radio-${VehicleCondition.Ok}`,
+        value: VehicleCondition.Ok,
+        title: 'Ok skick',
+      },
+    ];
+
     this.element.innerHTML = `
       <div class="stack stack--3">
         <h4 class="heading heading--4">Kontaktuppgifter</h4>
@@ -183,67 +208,14 @@ class PartTradeIn {
         </div>
       </div>
       <div class="stack stack--3">
+        <div class="stack stack--2" id="${REGISTRATION_NUMBER_INPUT_ID_NODE}"></div>
+        <div class="stack stack--2" id="${MILEAGE_INPUT_ID_NODE}"></div>
+        <div class="stack stack--2" id="${DESCRIPTION_INPUT_ID_NODE}"></div>
         <div class="stack stack--2">
           <div class="input-label">
-            <label for="${REGISTRATION_NUMBER_INPUT_ID}" class="input-label__label input-label__label--is-required">Registreringsnummer</label>
+            <label class="input-label__label">Bilens skick</label>
           </div>
-          <input
-            type="text"
-            id="${REGISTRATION_NUMBER_INPUT_ID}"
-            value="${this.state.value.registrationNumber}"
-            name="registrationNumber"
-            placeholder="Ange registreringsnummer"
-            class="input-text"
-          />
-          <div id="${REGISTRATION_NUMBER_ERROR_ID}" class="input-error">En giltig registreringsnummer i formatet ABC123 eller ABC12A måste anges</div>
-        </div>
-        <div class="stack stack--2">
-          <div class="input-label">
-            <label for="${MILEAGE_INPUT_ID}" class="input-label__label">Miltal</label>
-          </div>
-          <input
-            type="text"
-            id="${MILEAGE_INPUT_ID}"
-            value="${this.state.value.mileage}"
-            name="mileage"
-            placeholder="Ange bilens miltal"
-            class="input-text"
-          />
-          <div id="${MILEAGE_ERROR_ID}" class="input-error">Ett miltal mellan 0 - 80000 mil måste anges</div>
-        </div>
-        <div class="stack stack--2">
-          <div class="input-label">
-            <label for="${DESCRIPTION_INPUT_ID}" class="input-label__label">Beskrivning(valfritt)</label>
-          </div>
-          <input
-            type="text"
-            id="${DESCRIPTION_INPUT_ID}"
-            value="${this.state.value.mileage}"
-            name="mileage"
-            placeholder="Ange bilens miltal"
-            class="input-text"
-          />
-          <div id="${DESCRIPTION_ERROR_ID}" class="input-error">????</div>
-        </div>
-        <div class="stack stack--2">
-          <div>
-            <input type="radio" id="radio-${VehicleCondition.VeryGood}" name="condition" value="${
-      VehicleCondition.VeryGood
-    }">
-            <label for="radio-${VehicleCondition.VeryGood}">Mycket bra skick</label>
-          </div>
-          <div>
-            <input type="radio" id="radio-${VehicleCondition.Good}" name="condition" value="${
-      VehicleCondition.Good
-    }">
-            <label for="radio-${VehicleCondition.Good}">Bra skick</label>
-          </div>
-          <div>
-            <input type="radio" id="radio-${VehicleCondition.Ok}" name="condition" value="${
-      VehicleCondition.Ok
-    }">
-            <label for="radio-${VehicleCondition.Ok}">Bra skick</label>
-          </div>
+          ${RadioElements.map((radio) => `<div id="${radio.id}-node"></div>`).join('')}
         </div>
       </div>
 
@@ -253,62 +225,71 @@ class PartTradeIn {
           children: '<p>Tyvärr fick vi ingen träff på personnumret du angav.</p>',
         })}
       </div>
-      <div class="stack stack--3">
-        <button type="button" id="${PROCEED}" title="Fortsätt till nästa steg" class="button button--full-width button--action">
-          <span class="button__content">Gå</span>
-          <span class="button__content">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 16 16"
-              class="icon"
-            >
-              <title>Ikon: pil höger</title>
-              <path d="m15.2 8.8-4.8 4.8-1.7-1.7 2.7-2.7H1.2C.5 9.2 0 8.7 0 8s.5-1.2 1.2-1.2h10.2L8.7 4.1l1.7-1.7 4.8 4.8.8.8-.8.8z" />
-            </svg>
-          </span>
-        </button>
-      </div>
+      <div class="stack stack--3" id="${PROCEED_NODE}"></div>
     `;
 
-    const registrationNumberElement = this.element.querySelector<HTMLInputElement>(
-      `#${REGISTRATION_NUMBER_INPUT_ID}`
+    new InputField(
+      this.element.querySelector<HTMLDivElement>(`#${REGISTRATION_NUMBER_INPUT_ID_NODE}`),
+      {
+        title: 'Registreringsnummer',
+        value: this.state.value.registrationNumber,
+        id: REGISTRATION_NUMBER_INPUT_ID,
+        errorId: REGISTRATION_NUMBER_ERROR_ID,
+        error: this.state.interact.registrationNumber && !this.state.validation.registrationNumber,
+        errorMessage: 'En giltig registreringsnummer i formatet ABC123 eller ABC12A måste anges',
+        name: 'registrationNumber',
+        placeholder: 'Ange registreringsnummer',
+        onChange: (e) => this.onChange(e),
+        onBlur: (e) => this.onBlur(e),
+      }
     );
-    if (registrationNumberElement) {
-      this.attach(registrationNumberElement);
-    }
 
-    const mileageElement = this.element.querySelector<HTMLInputElement>(`#${MILEAGE_INPUT_ID}`);
-    if (mileageElement) {
-      this.attach(mileageElement);
-    }
+    new InputField(this.element.querySelector<HTMLDivElement>(`#${MILEAGE_INPUT_ID_NODE}`), {
+      title: 'Miltal',
+      value: this.state.value.mileage,
+      id: MILEAGE_INPUT_ID,
+      errorId: MILEAGE_ERROR_ID,
+      error: this.state.interact.mileage && !this.state.validation.mileage,
+      errorMessage: 'Ett miltal mellan 0 - 80000 mil måste anges',
+      name: 'mileage',
+      placeholder: 'Ange bilens miltal',
+      onChange: (e) => this.onChange(e),
+      onBlur: (e) => this.onBlur(e),
+    });
 
-    const descriptionElement = this.element.querySelector<HTMLInputElement>(
-      `#${DESCRIPTION_INPUT_ID}`
-    );
-    if (descriptionElement) {
-      this.attach(descriptionElement);
-    }
+    new InputField(this.element.querySelector<HTMLDivElement>(`#${DESCRIPTION_INPUT_ID_NODE}`), {
+      title: 'Beskrivning(valfritt)',
+      value: this.state.value.description,
+      id: DESCRIPTION_INPUT_ID,
+      errorId: DESCRIPTION_ERROR_ID,
+      error: this.state.interact.description && !this.state.validation.description,
+      errorMessage: '????',
+      name: 'description',
+      placeholder: 'Beskriv bilen',
+      onChange: (e) => this.onChange(e),
+      onBlur: (e) => this.onBlur(e),
+    });
 
-    const radioElements = this.element.querySelectorAll<HTMLInputElement>(
-      `#radio-${VehicleCondition.VeryGood}, #radio-${VehicleCondition.Good}, #radio-${VehicleCondition.Ok}`
-    );
-    if (radioElements) {
-      radioElements.forEach((radio) => {
-        if (this.state.value.condition === radio.value) {
-          radio.setAttribute('checked', '');
-        }
-        radio.addEventListener('click', (e) => this.onChangeRadio(e));
+    RadioElements.forEach((radio) => {
+      new InputRadioField(this.element.querySelector<HTMLInputElement>(`#${radio.id}-node`), {
+        id: radio.id,
+        name: 'condition',
+        title: radio.title,
+        value: radio.value,
+        checked: this.state.value.condition === radio.value,
+        onClick: (e) => this.onChangeRadio(e),
       });
-    }
+    });
 
     Object.keys(this.state.value).forEach((key) =>
       this.updateUiError(key as keyof TradeInCarDataPartial)
     );
 
-    const proceed = this.element.querySelector<HTMLButtonElement>(`#${PROCEED}`);
-    if (proceed) {
-      proceed.addEventListener('click', () => this.onFetchVehicle());
-    }
+    new ButtonArrowRight(this.element.querySelector<HTMLDivElement>(`#${PROCEED_NODE}`), {
+      title: 'Hämta uppskattat värde',
+      id: PROCEED,
+      onClick: () => this.onFetchVehicle(),
+    });
 
     this.updateProceedButton();
   }

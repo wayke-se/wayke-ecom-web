@@ -8,18 +8,21 @@ import Stage5Financial from './Stage5Financial';
 import Stage6Insurance from './Stage6Insurance';
 import Stage7Summary from './Stage7Summary';
 import Stage8Confirmation from './Stage8Confirmation';
+import watch from 'redux-watch';
 
 class View2v2 {
   private element: Element;
 
   constructor(element: Element) {
     this.element = element;
-    store.subscribe(() => {
-      const view = store.getState().navigation.view;
-      if (view === 2) {
-        this.render();
-      }
-    });
+    const w = watch(store.getState, 'navigation.view');
+    store.subscribe(
+      w((view) => {
+        if (view === 2) {
+          this.render();
+        }
+      })
+    );
     this.render();
   }
 

@@ -12,15 +12,10 @@ class Stage1Customer {
   constructor(element: HTMLDivElement) {
     this.element = element;
 
-    const w = watch(store.getState, 'navigation.subStage');
-    store.subscribe(
-      w(() => {
-        const view = store.getState().navigation.view;
-        if (view === 2) {
-          this.render();
-        }
-      })
-    );
+    const w = watch(store.getState, 'navigation');
+    store.subscribe(w(() => this.render()));
+    const w2 = watch(store.getState, 'edit');
+    store.subscribe(w2(() => this.render()));
 
     this.render();
   }
@@ -29,12 +24,12 @@ class Stage1Customer {
     const state = store.getState();
     const { navigation, topNavigation } = state;
 
-    const content = ListItem(
-      this.element,
-      'Dina uppgifter',
-      navigation.stage === STAGE,
-      topNavigation.stage > STAGE
-    );
+    const content = ListItem(this.element, {
+      title: 'Dina uppgifter',
+      active: navigation.stage === STAGE,
+      completed: topNavigation.stage > STAGE,
+      id: 'customer',
+    });
     content.innerHTML = '';
 
     const part1 = document.createElement('div');
