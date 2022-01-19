@@ -239,7 +239,7 @@ class PartTradeIn {
         id: REGISTRATION_NUMBER_INPUT_ID,
         errorId: REGISTRATION_NUMBER_ERROR_ID,
         error: this.state.interact.registrationNumber && !this.state.validation.registrationNumber,
-        errorMessage: 'En giltig registreringsnummer i formatet ABC123 eller ABC12A måste anges',
+        errorMessage: 'Ett giltig registreringsnummer i formatet ABC123 eller ABC12A måste anges.',
         name: 'registrationNumber',
         placeholder: 'Ange registreringsnummer',
         unit: `
@@ -260,7 +260,7 @@ class PartTradeIn {
       id: MILEAGE_INPUT_ID,
       errorId: MILEAGE_ERROR_ID,
       error: this.state.interact.mileage && !this.state.validation.mileage,
-      errorMessage: 'Ett miltal mellan 0 - 80000 mil måste anges',
+      errorMessage: 'Ett miltal mellan 0 till 80 000 mil måste anges.',
       name: 'mileage',
       placeholder: 'Ange bilens miltal',
       unit: 'mil',

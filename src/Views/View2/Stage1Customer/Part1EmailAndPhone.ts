@@ -146,7 +146,7 @@ class Part1EmailAndPhone {
         id: EMAIL_INPUT_ID,
         errorId: EMAIL_ERROR_ID,
         error: this.state.interact.email && !this.state.validation.email,
-        errorMessage: 'En giltig e-postadress måste anges',
+        errorMessage: 'En giltig e-postadress måste anges.',
         name: 'email',
         placeholder: 'Ange din e-postadress',
         information: EmailHelp(),
