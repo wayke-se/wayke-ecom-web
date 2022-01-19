@@ -8,8 +8,8 @@
   
   &__aside {
     @include flex-shrink(0);
-    width: 40%;
-    max-width: 40%;
+    width: 50%;
+    max-width: 50%;
     padding-left: size(4);
   }
 
