@@ -2,14 +2,14 @@
 
 .container {
   width: 100%;
-  max-width: let(size, container, max-width, main);
+  max-width: scss-var(size, container, max-width, main);
   margin-left: auto;
   margin-right: auto;
-  padding: 0 let(size, container, gutter);
-  padding-left: max(env(safe-area-inset-left), let(size, container, gutter));
-  padding-right: max(env(safe-area-inset-right), let(size, container, gutter));
+  padding: 0 scss-var(size, container, gutter);
+  padding-left: max(env(safe-area-inset-left), scss-var(size, container, gutter));
+  padding-right: max(env(safe-area-inset-right), scss-var(size, container, gutter));
 
   &--narrow {
-    max-width: let(size, container, max-width, narrow);
+    max-width: scss-var(size, container, max-width, narrow);
   }
 }

@@ -4,7 +4,7 @@
   $icon-size: 1.2em;
   $icon-margin: size(1);
   $label-size: 1em;
-  $label-line-height: let(font, line-height, main);
+  $label-line-height: scss-var(font, line-height, main);
 
   @include flex-display;
 

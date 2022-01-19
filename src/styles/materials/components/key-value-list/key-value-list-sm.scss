@@ -1,6 +1,6 @@
 @use '../../../helpers' as *;
 
 .key-value-list {
-  --key-font-size: #{let(font, size, small)};
-  --value-font-size: #{let(font, size, regular)};
+  --key-font-size: #{scss-var(font, size, small)};
+  --value-font-size: #{scss-var(font, size, regular)};
 }

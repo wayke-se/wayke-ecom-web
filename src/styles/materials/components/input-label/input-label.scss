@@ -3,6 +3,8 @@
 .input-label {
   $root: &;
 
+  --label-font-size: #{scss-var(font, size, xsmall)};
+
   @include flex-display;
   @include flex-wrap(wrap);
   @include align-items(center);
@@ -14,7 +16,7 @@
   &__label {
     @include font-medium;
     color: color(text, main);
-    font-size: let(font, size, xsmall);
+    font-size: var(--label-font-size);
 
     #{$root}--has-error & {
       color: color(ui, error, text);
@@ -51,7 +53,7 @@
     width: 100%;
     background-color: color(bg, alt);
     padding: size(1.5);
-    border-radius: let(size, border-radius);
-    font-size: let(font, size, xsmall);
+    border-radius: scss-var(size, border-radius);
+    font-size: scss-var(font, size, xsmall);
   }
 }

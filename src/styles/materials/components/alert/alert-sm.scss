@@ -1,7 +1,7 @@
 @use '../../../helpers' as *;
 
 .alert {
-  --content-size: #{let(font, size, small)};
+  --content-size: #{scss-var(font, size, small)};
 
   padding: size(2);
 

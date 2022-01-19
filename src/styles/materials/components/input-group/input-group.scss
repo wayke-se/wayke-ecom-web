@@ -1,0 +1,29 @@
+@use '../../../helpers' as *;
+
+.input-group {
+  $root: &;
+
+  --legend-font-size: #{scss-var(font, size, xsmall)};
+
+  border: 0;
+  padding: 0;
+  margin: 0;
+  min-width: 0;
+
+  &__legend {
+    @include font-medium;
+    margin-bottom: size(1);
+    color: color(text, main);
+    font-size: var(--legend-font-size);
+
+    #{$root}--has-error & {
+      color: color(ui, error, text);
+    }
+  }
+
+  &__item {
+    & + & {
+      margin-top: size(2);
+    }
+  }
+}

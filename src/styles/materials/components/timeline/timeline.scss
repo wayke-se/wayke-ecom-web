@@ -7,8 +7,8 @@
   $badge-final-size: size(1);
   $line-width: 2px;
   $item-spacing: size(2);
-  $heading-font-size: let(font, size, small);
-  $heading-line-height: let(font, line-height, main);
+  $heading-font-size: scss-var(font, size, small);
+  $heading-line-height: scss-var(font, line-height, main);
 
   list-style: none;
   padding: 0;
@@ -55,7 +55,7 @@
     border-radius: 50%;
     background-color: color(primary, alt);
     color: color(primary, main);
-    font-size: let(font, size, small);
+    font-size: scss-var(font, size, small);
 
     &::before {
       content: counter(timeline);
@@ -89,6 +89,6 @@
 
   &__description {
     margin-top: size(0.5);
-    font-size: let(font, size, xsmall);
+    font-size: scss-var(font, size, xsmall);
   }
 }

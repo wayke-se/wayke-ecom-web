@@ -3,6 +3,6 @@
 .box {
   padding: size(1.5);
   border: 1px solid color(border, main);
-  border-radius: let(size, border-radius);
-  font-size: let(font, size, xsmall);
+  border-radius: scss-var(size, border-radius);
+  font-size: scss-var(font, size, xsmall);
 }

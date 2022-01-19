@@ -30,14 +30,14 @@
     @include font-medium;
     margin-bottom: size(0.25);
     color: color(primary, main);
-    font-size: let(font, size, xsmall);
+    font-size: scss-var(font, size, xsmall);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
   }
 
   &__heading {
-    font-size: let(font, size, xsmall);
+    font-size: scss-var(font, size, xsmall);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -56,7 +56,7 @@
   &__price {
     @include flex(1 0 auto);
     @include font-medium;
-    font-size: let(font, size, small);
+    font-size: scss-var(font, size, small);
   }
 
   &__branding {

@@ -5,8 +5,8 @@
 
   --icon-size: #{size(2)};
   --icon-margin: #{size(1)};
-  --label-size: #{let(font, size, small)};
-  --label-line-height: #{let(font, line-height, main)};
+  --label-size: #{scss-var(font, size, small)};
+  --label-line-height: #{scss-var(font, line-height, main)};
 
   &__input {
     position: fixed;
@@ -66,6 +66,6 @@
   &__description {
     margin-top: size(1);
     margin-left: calc(var(--icon-size) + var(--icon-margin));
-    font-size: let(font, size, xsmall);
+    font-size: scss-var(font, size, xsmall);
   }
 }

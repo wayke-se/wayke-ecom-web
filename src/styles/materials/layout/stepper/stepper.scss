@@ -61,7 +61,7 @@
     border-radius: 50%;
     background-color: color(ui, success, alt);
     color: color(ui, success, text);
-    font-size: let(font, size, regular);
+    font-size: scss-var(font, size, regular);
   }
 
   &__stage-count {

@@ -2,7 +2,7 @@
 
 .page-form {
   @include flex-display;
-  max-width: let(size, container-max-width);
+  max-width: scss-var(size, container-max-width);
   margin: size(7) auto;
   padding: 0 size(4);
   

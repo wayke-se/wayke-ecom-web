@@ -1,7 +1,5 @@
 @use '../../../helpers' as *;
 
 .input-label {
-  &__label {
-    font-size: let(font, size, small);
-  }
+  --label-font-size: #{scss-var(font, size, small)};
 }

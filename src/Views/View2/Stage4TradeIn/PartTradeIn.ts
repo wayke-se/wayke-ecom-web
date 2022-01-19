@@ -212,10 +212,12 @@ class PartTradeIn {
         <div class="stack stack--2" id="${MILEAGE_INPUT_ID_NODE}"></div>
         <div class="stack stack--2" id="${DESCRIPTION_INPUT_ID_NODE}"></div>
         <div class="stack stack--2">
-          <div class="input-label">
-            <label class="input-label__label">Bilens skick</label>
-          </div>
-          ${RadioElements.map((radio) => `<div id="${radio.id}-node"></div>`).join('')}
+          <fieldset class="input-group">
+            <legend class="input-group__legend">Bilens skick</legend>
+            ${RadioElements.map(
+              (radio) => `<div class="input-group__item" id="${radio.id}-node"></div>`
+            ).join('')}
+          </fieldset>
         </div>
       </div>
 
