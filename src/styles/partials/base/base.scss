@@ -19,8 +19,8 @@ body {
   @include font-light;
   margin: 0;
   background-color: color(bg, main);
-  font-size: var(font, size, regular);
-  line-height: var(font, line-height, main);
+  font-size: let(font, size, regular);
+  line-height: let(font, line-height, main);
   color: color(text, main);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

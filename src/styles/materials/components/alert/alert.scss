@@ -12,19 +12,15 @@
 
 .alert {
   $root: &;
-
+  
   --icon-size: #{size(3)};
-  --content-size: #{var(font, size, xsmall)};
-  --content-line-height: #{var(font, line-height, main)};
-
-  //$icon-size: size(3);
-  //$content-size: var(font, size, xsmall);
-  //$content-line-height: var(font, line-height, main);
+  --content-size: #{let(font, size, xsmall)};
+  --content-line-height: #{let(font, line-height, main)};
 
   @include alertTone($root, color(bg, alt), color(text, main), darken(color(bg, alt), 5%), color(text, main));
   @include flex-display;
   padding: size(1.5);
-  border-radius: var(size, border-radius);
+  border-radius: let(size, border-radius);
 
   &--success {
     @include alertTone($root, color(ui, success, alt), color(text, main), color(ui, success, main), color(ui, success, text));
@@ -55,7 +51,7 @@
     height: var(--icon-size);
     margin-top: calc((var(--icon-size) - var(--content-size) * var(--content-line-height)) / -2);
     border-radius: 50%;
-    font-size: var(font, size, small);
+    font-size: let(font, size, small);
   }
 
   &__content {

@@ -6,8 +6,8 @@
   $badge-size: size(3);
   $badge-final-size: size(1);
   $item-spacing: size(2);
-  $heading-font-size: var(font, size, regular);
-  $heading-line-height: var(font, line-height, main);
+  $heading-font-size: let(font, size, regular);
+  $heading-line-height: let(font, line-height, main);
 
   &__stage {
     #{$root}__item:not(:last-child) & {
@@ -32,6 +32,6 @@
   }
 
   &__description {
-    font-size: var(font, size, small);
+    font-size: let(font, size, small);
   }
 }

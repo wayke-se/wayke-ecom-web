@@ -1,9 +1,9 @@
 @use '../../../helpers' as *;
 
 .disclaimer {
-  $icon-size: var(font, size, regular);
-  $text-size: var(font, size, xsmall);
-  $text-line-height: var(font, line-height, main);
+  $icon-size: let(font, size, regular);
+  $text-size: let(font, size, xsmall);
+  $text-line-height: let(font, line-height, main);
 
   @include flex-display;
   @include justify-content(center);

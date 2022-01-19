@@ -2,8 +2,8 @@
 
 .checklist {
   $icon-height: 9px; // Magic number from svg
-  $text-font-size: var(font, size, xsmall);
-  $text-line-height: var(font, line-height, main);
+  $text-font-size: let(font, size, xsmall);
+  $text-line-height: let(font, line-height, main);
 
   &__item {
     font-size: $text-font-size;

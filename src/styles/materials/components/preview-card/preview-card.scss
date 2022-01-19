@@ -30,14 +30,14 @@
     @include font-medium;
     margin-bottom: size(0.25);
     color: color(primary, main);
-    font-size: var(font, size, xsmall);
+    font-size: let(font, size, xsmall);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
   }
 
   &__heading {
-    font-size: var(font, size, xsmall);
+    font-size: let(font, size, xsmall);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -56,7 +56,7 @@
   &__price {
     @include flex(1 0 auto);
     @include font-medium;
-    font-size: var(font, size, small);
+    font-size: let(font, size, small);
   }
 
   &__branding {

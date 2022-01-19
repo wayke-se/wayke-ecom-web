@@ -3,7 +3,7 @@
 .heading {
   @include font-bold;
   margin: 0;
-  line-height: var(font, line-height, alt);
+  line-height: let(font, line-height, alt);
 
   &:not(.no-margin) {
     margin-bottom: size(2);
@@ -22,7 +22,7 @@
   }
 
   &--4 {
-    font-size: var(font, size, regular);
+    font-size: let(font, size, regular);
 
     &:not(.no-margin) {
       margin-bottom: size(1);

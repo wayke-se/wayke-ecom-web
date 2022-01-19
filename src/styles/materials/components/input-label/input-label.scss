@@ -14,7 +14,7 @@
   &__label {
     @include font-medium;
     color: color(text, main);
-    font-size: var(font, size, xsmall);
+    font-size: let(font, size, xsmall);
 
     #{$root}--has-error & {
       color: color(ui, error, text);
@@ -51,7 +51,7 @@
     width: 100%;
     background-color: color(bg, alt);
     padding: size(1.5);
-    border-radius: var(size, border-radius);
-    font-size: var(font, size, xsmall);
+    border-radius: let(size, border-radius);
+    font-size: let(font, size, xsmall);
   }
 }

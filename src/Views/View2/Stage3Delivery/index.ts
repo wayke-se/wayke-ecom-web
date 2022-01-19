@@ -141,7 +141,7 @@ class Stage3Delivery {
         name: 'homeDelivery',
         title: 'Hemleverans',
         value: 'true',
-        description: 'Till din folkbokföringsadress',
+        description: `<div class="box">Till din folkbokföringsadress</div>`,
         meta: `<div class="font-medium">"??? kr</div>`,
         checked: this.homeDelivery,
         onClick: (e) => this.onChange(e),

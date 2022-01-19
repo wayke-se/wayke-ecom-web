@@ -2,5 +2,5 @@
 
 .box {
   padding: size(2);
-  font-size: var(font, size, small);
+  font-size: let(font, size, small);
 }

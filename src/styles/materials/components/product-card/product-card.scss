@@ -51,7 +51,7 @@
     right: 0;
     background-color: rgba(color(overlay, main), 0.3);
     color: color(text, inverted);
-    font-size: var(font, size, large);
+    font-size: let(font, size, large);
     user-select: none;
   }
 
@@ -70,11 +70,11 @@
     @include font-medium;
     margin-bottom: size(0.5);
     color: color(primary, main);
-    font-size: var(font, size, xsmall);
+    font-size: let(font, size, xsmall);
   }
 
   &__heading {
-    font-size: var(font, size, small);
+    font-size: let(font, size, small);
   }
 
   &__title {
@@ -90,7 +90,7 @@
   &__price {
     @include flex(1 1 auto);
     @include font-medium;
-    font-size: var(font, size, small);
+    font-size: let(font, size, small);
   }
 
   &__branding {

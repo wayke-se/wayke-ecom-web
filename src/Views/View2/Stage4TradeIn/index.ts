@@ -4,6 +4,7 @@ import ListItem from '../ListItem';
 import PartTradeIn from './PartTradeIn';
 import Alert from '../../../Templates/Alert';
 import ButtonArrowRight from '../../../Components/ButtonArrowRight';
+import ButtonSkip from '../../../Components/ButtonSkip';
 import KeyValueListItem from '../../../Templates/KeyValueListItem';
 import ButtonAsLink from '../../../Components/ButtonAsLink';
 import { VehicleCondition } from '../../../@types/TradeIn';
@@ -133,8 +134,10 @@ class Stage4TradeIn {
             </div>
           </div>
           
-          <div class="stack stack--3" id="${TRADE_IN_YES_NODE}"></div>
-          <div class="stack stack--3" id="${TRADE_IN_NO_NODE}"></div>
+          <div class="stack stack--3">
+            <div class="stack stack--1" id="${TRADE_IN_YES_NODE}"></div>
+            <div class="stack stack--1" id="${TRADE_IN_NO_NODE}"></div>
+          </div>
         `;
 
         new ButtonArrowRight(part.querySelector<HTMLDivElement>(`#${TRADE_IN_YES_NODE}`), {
@@ -143,9 +146,9 @@ class Stage4TradeIn {
           onClick: () => this.onYesTradeIn(),
         });
 
-        new ButtonArrowRight(part.querySelector<HTMLDivElement>(`#${TRADE_IN_NO_NODE}`), {
+        new ButtonSkip(part.querySelector<HTMLDivElement>(`#${TRADE_IN_NO_NODE}`), {
           id: TRADE_IN_NO,
-          title: 'Hoppa över detta',
+          title: 'Hoppa över detta steg',
           onClick: () => this.onNoTradeIn(),
         });
       }

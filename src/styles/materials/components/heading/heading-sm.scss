@@ -6,6 +6,6 @@
   }
 
   &--4 {
-    font-size: var(font, size, large);
+    font-size: let(font, size, large);
   }
 }

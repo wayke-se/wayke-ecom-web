@@ -1,6 +1,9 @@
 @use '../../../helpers' as *;
 
 .key-value-list {
+  --key-font-size: #{let(font, size, xsmall)};
+  --value-font-size: #{let(font, size, small)};
+
   list-style: none;
   margin: 0;
   padding: 0;
@@ -18,12 +21,12 @@
     @include flex-shrink(0);
     @include font-bold;
     padding-right: size(2);
-    font-size: var(font, size, xsmall);
+    font-size: var(--key-font-size);
   }
 
   &__value {
     @include flex(1 1 auto);
-    font-size: var(font, size, small);
+    font-size: var(--value-font-size);
     text-align: right;
   }
 }

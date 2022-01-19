@@ -2,10 +2,11 @@
 
 .input-radio {
   $root: &;
-  $icon-size: size(2);
-  $icon-margin: size(1);
-  $label-size: var(font, size, small);
-  $label-line-height: var(font, line-height, main);
+
+  --icon-size: #{size(2)};
+  --icon-margin: #{size(1)};
+  --label-size: #{let(font, size, small)};
+  --label-line-height: #{let(font, line-height, main)};
 
   &__input {
     position: fixed;
@@ -34,18 +35,18 @@
   &__label {
     @include flex(1 1 auto);
     @include flex-display;
-    font-size: $label-size;
-    line-height: $label-line-height;
+    font-size: var(--label-size);
+    line-height: var(--label-line-height);
     
     &::before {
       @include flex-shrink(0);
       content: '';  
-      width: $icon-size;
-      height: $icon-size;
+      width: var(--icon-size);
+      height: var(--icon-size);
       border-radius: 50%;
       background-color: color(bg, alt);
-      margin-right: $icon-margin;
-      margin-top: calc(($icon-size - $label-size * $label-line-height) / -2);
+      margin-right: var(--icon-margin);
+      margin-top: calc((var(--icon-size) - var(--label-size) * var(--label-line-height)) / -2);
       cursor: pointer;
     }
 
@@ -64,7 +65,7 @@
 
   &__description {
     margin-top: size(1);
-    margin-left: $icon-size + $icon-margin;
-    font-size: var(font, size, xsmall);
+    margin-left: calc(var(--icon-size) + var(--icon-margin));
+    font-size: let(font, size, xsmall);
   }
 }
