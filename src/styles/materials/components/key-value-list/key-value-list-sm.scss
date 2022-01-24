@@ -3,4 +3,8 @@
 .key-value-list {
   --key-font-size: #{scss-var(font, size, small)};
   --value-font-size: #{scss-var(font, size, regular)};
+
+  &--large-value {
+    --value-font-size: #{scss-var(font, size, xlarge)};
+  }
 }

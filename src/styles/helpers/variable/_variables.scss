@@ -29,6 +29,7 @@ $variables: (
       alt: 1.2,
     ),
     size: (
+      xxsmall: 0.625rem,
       xsmall: 0.75rem,
       small: 0.875rem,
       regular: 1rem,
@@ -40,7 +41,7 @@ $variables: (
     cubic-bezier: cubic-bezier(0.47, 1.64, 0.41, 0.8),
   ),
   box-shadow: (
-    main: '0px 8px 10px rgba(0, 0, 0, 0.03), 0px 2px 14px rgba(0, 0, 0, 0.03), 0px 2px 5px rgba(0, 0, 0, 0.09)',
+    main: (0px 8px 10px rgba(0, 0, 0, 0.03), 0px 2px 14px rgba(0, 0, 0, 0.03), 0px 2px 5px rgba(0, 0, 0, 0.09)),
     alt: 0px 1px 2px rgba(0, 0, 0, 0.17),
   ),
 );

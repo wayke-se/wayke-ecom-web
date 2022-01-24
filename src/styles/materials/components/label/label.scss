@@ -1,0 +1,9 @@
+@use '../../../helpers' as *;
+
+.label {
+  @include font-bold;
+  font-size: scss-var(font, size, xxsmall);
+  text-transform: uppercase;
+  color: color(text, alt);
+  letter-spacing: 0.15em;
+}

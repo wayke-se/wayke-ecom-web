@@ -4,13 +4,20 @@
   --key-font-size: #{scss-var(font, size, xsmall)};
   --value-font-size: #{scss-var(font, size, small)};
 
+  $root: &;
+
   list-style: none;
   margin: 0;
   padding: 0;
 
+  &--large-value {
+    --value-font-size: #{scss-var(font, size, large)};
+
+    @include font-bold;
+  }
+
   &__item {
     @include flex-display;
-    @include align-items(center);
 
     & + & {
       margin-top: size(1);
@@ -22,11 +29,14 @@
     @include font-bold;
     padding-right: size(2);
     font-size: var(--key-font-size);
+    line-height: scss-var(font, line-height, main);
+    margin-top: calc(((var(--key-font-size) * #{scss-var(font, line-height, main)}) - (var(--value-font-size) * #{scss-var(font, line-height, main)})) / -2);
   }
 
   &__value {
     @include flex(1 1 auto);
     font-size: var(--value-font-size);
+    line-height: scss-var(font, line-height, main);
     text-align: right;
   }
 }

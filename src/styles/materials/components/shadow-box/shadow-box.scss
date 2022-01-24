@@ -1,0 +1,6 @@
+@use '../../../helpers' as *;
+
+.shadow-box {
+  padding: size(2);
+  box-shadow: scss-var(box-shadow, main);
+}

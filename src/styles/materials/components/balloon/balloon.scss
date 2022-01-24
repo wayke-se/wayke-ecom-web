@@ -1,0 +1,8 @@
+@use '../../../helpers' as *;
+
+.balloon {
+  padding: size(2);
+  background-color: color(bg, alt);
+  border-radius: size(1);
+  font-size: scss-var(font, size, small);
+}

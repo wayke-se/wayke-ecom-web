@@ -69,7 +69,7 @@ class Stage4TradeIn {
       const keyValueItemsUpper: { key: string; value: string }[] = [];
 
       if (state.tradeIn && state.tradeInVehicle) {
-        keyValueItemsUpper.push({ key: 'Mätarställning', value: state.tradeIn.mileage });
+        keyValueItemsUpper.push({ key: 'Mätarställning', value: `${state.tradeIn.mileage} mil` });
         if (state.tradeIn.condition)
           keyValueItemsUpper.push({
             key: 'Bilens skick',
@@ -84,24 +84,49 @@ class Stage4TradeIn {
         const keyValueItemsLower: { key: string; value: string }[] = [
           {
             key: 'Ungefärligt värde',
-            value: `~${prettyNumber(state.tradeInVehicle.valuation, { postfix: 'kr' })}`,
+            value: `~ ${prettyNumber(state.tradeInVehicle.valuation, { postfix: 'kr' })}`,
           },
         ];
         part.innerHTML = `
-          <div class="stack stack--1">
-            <ul class="key-value-list">
-              ${keyValueItemsUpper.map((kv) => KeyValueListItem(kv)).join('')}
-            </ul>
+          <div class="stack stack--3">
+            <div class="balloon">
+              <div class="stack stack--05">
+                <div class="label">${state.tradeIn.registrationNumber}</div>
+              </div>
+              <div class="stack stack--05">
+                <span class="font-medium">${state.tradeInVehicle.manufacturer} ${
+          state.tradeInVehicle.modelSeries
+        }</span>
+                ${state.tradeInVehicle.modelName}, ${state.tradeInVehicle.modelYear}
+              </div>
+            </div>
           </div>
-          <div class="stack stack--1" id="${CHANGE_BUTTON_NODE}"></div>
-          <ul class="key-value-list">
-            ${keyValueItemsLower.map((kv) => KeyValueListItem(kv)).join('')}
-          </ul>
-          ${Alert({
-            tone: 'info',
-            children:
-              '<b>Vi skickar med uppgifter om din inbytesbil till bilhandlaren.</b> Observera att värderingen som utförs ger ett uppskattat inbytesvärde. Det slutgiltliga värdet avgörs när handlare kan bekräfta bilens skick.',
-          })}
+          <div class="stack stack--3">
+            <div class="stack stack--1">
+              <ul class="key-value-list">
+                ${keyValueItemsUpper.map((kv) => KeyValueListItem(kv)).join('')}
+              </ul>
+            </div>
+            <div class="stack stack--1">
+              <div class="align align--end" id="${CHANGE_BUTTON_NODE}"></div>
+            </div>
+          </div>
+          <div class="stack stack--3">
+            <div class="shadow-box">
+              <div class="stack stack--2">
+                <ul class="key-value-list key-value-list--large-value">
+                  ${keyValueItemsLower.map((kv) => KeyValueListItem(kv)).join('')}
+                </ul>
+              </div>
+              <div class="stack stack--2">
+                ${Alert({
+                  tone: 'info',
+                  children:
+                    '<b>Vi skickar med uppgifter om din inbytesbil till bilhandlaren.</b> Observera att värderingen som utförs ger ett uppskattat inbytesvärde. Det slutgiltliga värdet avgörs när handlare kan bekräfta bilens skick.',
+                })}
+              </div>
+            </div>
+          </div>
         `;
         part.querySelector(`#${CHANGE_BUTTON}`)?.addEventListener('click', () => this.onEdit());
       } else {

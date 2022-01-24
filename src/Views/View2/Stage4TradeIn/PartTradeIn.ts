@@ -225,7 +225,8 @@ class PartTradeIn {
       <div class="stack stack--3" style="display:none;" id="${TRADE_IN_FETCH_ERROR_ID}">
         ${Alert({
           tone: 'error',
-          children: '<p>Tyvärr fick vi ingen träff på personnumret du angav.</p>',
+          children:
+            '<p>Tyvärr fick vi ingen träff på personnumret du angav. Vänligen kontrollera att personnummret stämmer.</p>',
         })}
       </div>
       <div class="stack stack--3" id="${PROCEED_NODE}"></div>
