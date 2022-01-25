@@ -1,6 +1,6 @@
 @use '../../../helpers' as *;
 
-.balloon {
+.#{$namespace}balloon {
   padding: size(2);
   background-color: color(bg, alt);
   border-radius: size(1);

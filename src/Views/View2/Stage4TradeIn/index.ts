@@ -89,7 +89,7 @@ class Stage4TradeIn {
         ];
         part.innerHTML = `
           <div class="waykeecom-stack waykeecom-stack--3">
-            <div class="balloon">
+            <div class="waykeecom-balloon">
               <div class="waykeecom-stack waykeecom-stack--05">
                 <div class="label">${state.tradeIn.registrationNumber}</div>
               </div>

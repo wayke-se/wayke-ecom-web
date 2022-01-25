@@ -110,7 +110,7 @@ class Stage3Delivery {
         title: 'Hämta hos handlaren',
         value: 'false',
         description: `
-          <div class="box">
+          <div class="waykeecom-box">
             <div class="icon-content">
               <div class="icon-content__icon">
                 <svg
@@ -141,7 +141,7 @@ class Stage3Delivery {
         name: 'homeDelivery',
         title: 'Hemleverans',
         value: 'true',
-        description: `<div class="box">Till din folkbokföringsadress</div>`,
+        description: `<div class="waykeecom-box">Till din folkbokföringsadress</div>`,
         meta: `<div class="waykeecom-font-medium">"??? kr</div>`,
         checked: this.homeDelivery,
         onClick: (e) => this.onChange(e),

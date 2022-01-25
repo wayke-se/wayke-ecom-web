@@ -1,6 +1,6 @@
 @use '../../../helpers' as *;
 
-.alert {
+.#{$namespace}alert {
   --content-size: #{scss-var(font, size, small)};
 
   padding: size(2);

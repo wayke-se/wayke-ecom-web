@@ -1,0 +1,26 @@
+/// Declaration of font-face.
+/// Font settings are found in helpers/font.
+
+@use 'sass:map';
+@use '../../helpers/font/fonts' as *;
+
+// Path to static font files
+$font-path: '../assets/font/';
+
+// Shared properties on all fonts
+@mixin font-shared-properties {
+  font-style: normal;
+  font-stretch: normal;
+  font-display: swap;
+}
+
+// Generate @font-face for each font defined in $fonts
+@each $font in map.keys($fonts) {
+  @font-face {
+    @include font-shared-properties;
+    font-family: #{map.get($fonts, $font, name)};
+    src:  url('#{$font-path}#{map.get($fonts, $font, file)}.woff2') format('woff2'),
+          url('#{$font-path}#{map.get($fonts, $font, file)}.woff') format('woff');
+    font-weight: map.get($fonts, $font, weight);
+  }
+}

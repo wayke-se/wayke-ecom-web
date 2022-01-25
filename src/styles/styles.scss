@@ -9,18 +9,17 @@
 @use 'helpers/breakpoint' as breakpoint;
 @use 'helpers/variable/namespace' as namespace;
 
+// Include non-breakpoint specific styling
+@include meta.load-css('imports/imports');
 
-  // Include non-breakpoint specific styling
-  @include meta.load-css('imports/imports');
-
-  // Include breakpoint specific styling
-  @each $breakpoint, $media-query in breakpoint.$breakpoints {
-    @media #{meta.inspect($media-query)} {
-      @include meta.load-css('imports/imports-#{$breakpoint}');
-    }
+// Include breakpoint specific styling
+@each $breakpoint, $media-query in breakpoint.$breakpoints {
+  @media #{meta.inspect($media-query)} {
+    @include meta.load-css('imports/imports-#{$breakpoint}');
   }
+}
 
-  // Include print styling
-  @media print {
-    @include meta.load-css('partials/print/print');
-  }
+// Include print styling
+@media print {
+  @include meta.load-css('partials/print/print');
+}

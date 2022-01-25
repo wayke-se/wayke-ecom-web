@@ -1,6 +1,6 @@
 @use '../../../helpers' as *;
 
-.box {
+.#{$namespace}box {
   padding: size(1.5);
   border: 1px solid color(border, main);
   border-radius: scss-var(size, border-radius);

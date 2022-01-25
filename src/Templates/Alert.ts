@@ -6,9 +6,9 @@ interface AlertProps {
 }
 
 const Alert = ({ tone, children }: AlertProps) => `
-  <div class="alert ${tone ? `alert--${tone}` : ''}" role="alert">
-    <div class="alert__icon">
-      <div class="alert__icon-badge">
+  <div class="waykeecom-alert ${tone ? `waykeecom-alert--${tone}` : ''}" role="alert">
+    <div class="waykeecom-alert__icon">
+      <div class="waykeecom-alert__icon-badge">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 16 16"
@@ -19,7 +19,7 @@ const Alert = ({ tone, children }: AlertProps) => `
         </svg>
       </div>
     </div>
-    <div class="alert__content">
+    <div class="waykeecom-alert__content">
      ${children}
     </div>
   </div>

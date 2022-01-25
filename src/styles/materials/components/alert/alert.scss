@@ -10,7 +10,7 @@
   }
 }
 
-.alert {
+.#{$namespace}alert {
   $root: &;
   
   --icon-size: #{size(3)};
