@@ -2,7 +2,7 @@
 
 .heading {
   &--3 {
-    font-size: 1.5rem;
+    font-size: scss-var(font, size, xxlarge);
   }
 
   &--4 {

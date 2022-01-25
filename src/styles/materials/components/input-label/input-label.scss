@@ -39,7 +39,7 @@
   }
   
   &__help-btn {
-    font-size: 1rem;
+    font-size: scss-var(font, size, regular);
     color: color(primary, main);
     border-radius: 50%; // Used to display a round focus outline
     transition: color 200ms ease;

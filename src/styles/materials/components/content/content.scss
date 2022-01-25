@@ -2,5 +2,5 @@
 
 .content {
   @include remove-direct-child-edge-margins;
-  font-size: 0.875rem;
+  font-size: scss-var(font, size, small);
 }

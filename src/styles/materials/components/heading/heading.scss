@@ -10,15 +10,15 @@
   }
 
   &--1 {
-    font-size: 2rem;
+    font-size: scss-var(font, size, xxxlarge);;
   }
 
   &--2 {
-    font-size: 1.5rem;
+    font-size: scss-var(font, size, xxlarge);
   }
 
   &--3 {
-    font-size: 1.25rem;
+    font-size: scss-var(font, size, xlarge);
   }
 
   &--4 {

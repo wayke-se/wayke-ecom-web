@@ -1,3 +1,5 @@
+@use '../../../helpers' as *;
+
 .content {
-  font-size: 1rem;
+  font-size: scss-var(font, size, regular);
 }
