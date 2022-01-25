@@ -72,13 +72,13 @@ class Stage3Delivery {
 
       part.innerHTML = `
         <div class="waykeecom-stack waykeecom-stack--1">
-          <ul class="key-value-list">
+          <ul class="waykeecom-key-value-list">
             ${keyValueItems.map((kv) => KeyValueListItem(kv)).join('')}
           </ul>
         </div>
         <div class="waykeecom-stack waykeecom-stack--1">
           <div class="waykeecom-align waykeecom-align--end">
-            <button id="${CHANGE_BUTTON}" title="Ändra leveranssätt" class="link">Ändra</button>
+            <button id="${CHANGE_BUTTON}" title="Ändra leveranssätt" class="waykeecom-link">Ändra</button>
           </div>
         </div>
       `;

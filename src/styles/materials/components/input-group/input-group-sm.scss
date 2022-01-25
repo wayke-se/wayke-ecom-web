@@ -1,5 +1,5 @@
 @use '../../../helpers' as *;
 
-.input-group {
+.#{$namespace}input-group {
   --legend-font-size: #{scss-var(font, size, small)};
 }

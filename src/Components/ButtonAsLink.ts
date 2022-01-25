@@ -17,7 +17,7 @@ class ButtonAsLink {
 
   render() {
     this.element.innerHTML = `
-      <button id="${this.props.id}" title="${this.props.title}" class="link">${this.props.title}</button>
+      <button id="${this.props.id}" title="${this.props.title}" class="waykeecom-link">${this.props.title}</button>
     `;
     if (this.props.onClick) {
       this.element

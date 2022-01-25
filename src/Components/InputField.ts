@@ -35,15 +35,17 @@ class InputField {
 
   render() {
     this.element.innerHTML = `
-      <div class="input-label">
-        <label for="${this.props.id}" class="input-label__label">${this.props.title}</label>
+      <div class="waykeecom-input-label">
+        <label for="${this.props.id}" class="waykeecom-input-label__label">${
+      this.props.title
+    }</label>
         ${
           this.props.information
             ? `${InputHelp()}${this.props.information ? this.props.information : ''}`
             : ''
         }
       </div>
-      <div class="input-text">
+      <div class="waykeecom-input-text">
         <input
           type="text"
           id="${this.props.id}"
@@ -51,13 +53,13 @@ class InputField {
           name="${this.props.name}"
           ${this.props.placeholder ? `placeholder="${this.props.placeholder}"` : ''}
           
-          class="input-text__input"
+          class="waykeecom-input-text__input"
         />
-        ${this.props.unit ? `<div class="input-text__unit">${this.props.unit}</div>` : ''}
+        ${this.props.unit ? `<div class="waykeecom-input-text__unit">${this.props.unit}</div>` : ''}
       </div>
       ${
         this.props.errorMessage &&
-        ` <div id="${this.props.errorId}" class="input-error">${this.props.errorMessage}</div>`
+        ` <div id="${this.props.errorId}" class="waykeecom-input-error">${this.props.errorMessage}</div>`
       }
     `;
 

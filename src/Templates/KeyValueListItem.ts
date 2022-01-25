@@ -4,9 +4,9 @@ interface KeyValueListItemProps {
 }
 
 const KeyValueListItem = ({ key, value }: KeyValueListItemProps) => `
-  <li class="key-value-list__item">
-    <div class="key-value-list__key">${key}</div>
-    <div class="key-value-list__value">${value}</div>
+  <li class="waykeecom-key-value-list__item">
+    <div class="waykeecom-key-value-list__key">${key}</div>
+    <div class="waykeecom-key-value-list__value">${value}</div>
   </li>
 `;
 

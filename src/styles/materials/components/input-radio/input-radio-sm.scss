@@ -1,5 +1,5 @@
 @use '../../../helpers' as *;
 
-.input-radio {
+.#{$namespace}input-radio {
   --label-size: #{scss-var(font, size, regular)};
 }

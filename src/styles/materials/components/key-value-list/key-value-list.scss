@@ -1,6 +1,6 @@
 @use '../../../helpers' as *;
 
-.key-value-list {
+.#{$namespace}key-value-list {
   --key-font-size: #{scss-var(font, size, xsmall)};
   --value-font-size: #{scss-var(font, size, small)};
 

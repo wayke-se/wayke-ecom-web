@@ -91,7 +91,7 @@ class Stage4TradeIn {
           <div class="waykeecom-stack waykeecom-stack--3">
             <div class="waykeecom-balloon">
               <div class="waykeecom-stack waykeecom-stack--05">
-                <div class="label">${state.tradeIn.registrationNumber}</div>
+                <div class="waykeecom-label">${state.tradeIn.registrationNumber}</div>
               </div>
               <div class="waykeecom-stack waykeecom-stack--05">
                 <span class="waykeecom-font-medium">${state.tradeInVehicle.manufacturer} ${
@@ -103,7 +103,7 @@ class Stage4TradeIn {
           </div>
           <div class="waykeecom-stack waykeecom-stack--3">
             <div class="waykeecom-stack waykeecom-stack--1">
-              <ul class="key-value-list">
+              <ul class="waykeecom-key-value-list">
                 ${keyValueItemsUpper.map((kv) => KeyValueListItem(kv)).join('')}
               </ul>
             </div>
@@ -112,9 +112,9 @@ class Stage4TradeIn {
             </div>
           </div>
           <div class="waykeecom-stack waykeecom-stack--3">
-            <div class="shadow-box">
+            <div class="waykeecom-shadow-box">
               <div class="waykeecom-stack waykeecom-stack--2">
-                <ul class="key-value-list key-value-list--large-value">
+                <ul class="waykeecom-key-value-list key-value-list--large-value">
                   ${keyValueItemsLower.map((kv) => KeyValueListItem(kv)).join('')}
                 </ul>
               </div>
@@ -133,7 +133,7 @@ class Stage4TradeIn {
         keyValueItemsUpper.push({ key: 'Inbytesbil', value: 'Nej' });
         part.innerHTML = `
           <div class="waykeecom-stack waykeecom-stack--1">
-            <ul class="key-value-list">
+            <ul class="waykeecom-key-value-list">
             ${keyValueItemsUpper.map((kv) => KeyValueListItem(kv)).join('')}
             </ul>
           </div>

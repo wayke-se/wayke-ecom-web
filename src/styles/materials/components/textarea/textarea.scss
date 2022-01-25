@@ -1,6 +1,6 @@
 @use '../../../helpers' as *;
 
-.textarea {
+.#{$namespace}textarea {
   --textarea-padding: #{size(1.5)};
 
   display: block;

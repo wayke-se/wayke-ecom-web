@@ -1,6 +1,6 @@
 @use '../../../helpers' as *;
 
-.product-card {
+.#{$namespace}product-card {
   background-color: color(bg, alt);
   border-radius: size(1);
   overflow: hidden;

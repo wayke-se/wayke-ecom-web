@@ -42,16 +42,16 @@ class Stage5Financial {
     if (state.navigation.stage > STAGE) {
       part.innerHTML = `
       <div class="waykeecom-stack waykeecom-stack--1">
-          <ul class="key-value-list">
-            <li class="key-value-list__item">
-              <div class="key-value-list__key">Finansiering</div>
-              <div class="key-value-list__value"></div>
+          <ul class="waykeecom-key-value-list">
+            <li class="waykeecom-key-value-list__item">
+              <div class="waykeecom-key-value-list__key">Finansiering</div>
+              <div class="waykeecom-key-value-list__value"></div>
             </li>
           </ul>
         </div>
         <div class="waykeecom-stack waykeecom-stack--1">
           <div class="waykeecom-align waykeecom-align--end">
-            <button id="${CHANGE_BUTTON}" title="Ändra finansiering" class="link">Ändra</button>
+            <button id="${CHANGE_BUTTON}" title="Ändra finansiering" class="waykeecom-link">Ändra</button>
           </div>
         </div>
       `;

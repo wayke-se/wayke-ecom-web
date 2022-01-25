@@ -1,6 +1,6 @@
 @use '../../../helpers' as *;
 
-.input-error {
+.#{$namespace}input-error {
   margin-top: size(0.5);
   color: color(ui, error, text);
   font-size: scss-var(font, size, xsmall);

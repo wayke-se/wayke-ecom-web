@@ -1,6 +1,6 @@
 @use '../../../helpers' as *;
 
-.input-radio {
+.#{$namespace}input-radio {
   $root: &;
 
   --icon-size: #{size(2)};

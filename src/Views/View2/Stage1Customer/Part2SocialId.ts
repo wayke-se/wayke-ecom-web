@@ -139,7 +139,7 @@ class Part2SocialId {
 
       this.element.innerHTML = `
       <div class="waykeecom-stack waykeecom-stack--2">
-        <ul class="key-value-list">
+        <ul class="waykeecom-key-value-list">
         ${keyValueItems.map((kv) => KeyValueListItem(kv)).join('')}
         </ul>
       </div>
@@ -147,7 +147,7 @@ class Part2SocialId {
     } else {
       this.element.innerHTML = `
       <div class="waykeecom-stack waykeecom-stack--2">
-        <hr class="separator" />
+        <hr class="waykeecom-separator" />
       </div>
       <div class="waykeecom-stack waykeecom-stack--2">
         <div class="waykeecom-stack waykeecom-stack--3" id="${SOCIAL_ID_NODE}"></div>

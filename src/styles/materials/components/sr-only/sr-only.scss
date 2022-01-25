@@ -1,4 +1,6 @@
-.sr-only {
+@use '../../../helpers' as *;
+
+.#{$namespace}sr-only {
   position: absolute;
   top: 0;
   width: 1px;

@@ -34,8 +34,10 @@ class Textarea {
 
   render() {
     this.element.innerHTML = `
-      <div class="input-label">
-        <label for="${this.props.id}" class="input-label__label">${this.props.title}</label>
+      <div class="waykeecom-input-label">
+        <label for="${this.props.id}" class="waykeecom-input-label__label">${
+      this.props.title
+    }</label>
         ${
           this.props.information
             ? `${InputHelp()}${this.props.information ? this.props.information : ''}`
@@ -46,11 +48,11 @@ class Textarea {
         id="${this.props.id}"
         name="${this.props.name}"
         ${this.props.placeholder ? `placeholder="${this.props.placeholder}"` : ''}
-        class="textarea"
+        class="waykeecom-textarea"
       >${this.props.value}</textarea>
       ${
         this.props.errorMessage &&
-        ` <div id="${this.props.errorId}" class="input-error">${this.props.errorMessage}</div>`
+        ` <div id="${this.props.errorId}" class="waykeecom-input-error">${this.props.errorMessage}</div>`
       }
     `;
 

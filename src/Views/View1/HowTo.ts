@@ -15,11 +15,11 @@ const HowTo = ({ order }: HowToProps) => `
     </div>
   </div>
   <div class="waykeecom-stack waykeecom-stack--3">
-    <div class="p--2">
-      <ol class="timeline">
+    <div class="waykeecom-p--2">
+      <ol class="waykeecom-timeline">
         ${TimelineItem({
           heading: 'Dina kunduppgifter',
-          description: `Hämtas smidigt med BankID <img src="${bankidLogotype}" alt="BankID logotyp" class="image image--inline" aria-hidden="true" />`,
+          description: `Hämtas smidigt med BankID <img src="${bankidLogotype}" alt="BankID logotyp" class="waykeecom-image waykeecom-image--inline" aria-hidden="true" />`,
         })}
         ${TimelineItem({
           heading: 'Välj leveranssätt',
@@ -31,7 +31,7 @@ const HowTo = ({ order }: HowToProps) => `
         })}
         ${TimelineItem({
           heading: 'Välj betalsätt',
-          description: `Finansieringstillval med låneansökan online <img src="${bankidLogotype}" alt="BankID logotyp" class="image image--inline" aria-hidden="true" /> – svar direkt!`,
+          description: `Finansieringstillval med låneansökan online <img src="${bankidLogotype}" alt="BankID logotyp" class="waykeecom-image waykeecom-image--inline" aria-hidden="true" /> – svar direkt!`,
         })}
         ${TimelineItem({
           heading: 'Vill du teckna en försäkring?',

@@ -1,5 +1,5 @@
 @use '../../../helpers' as *;
 
-.shadow-box {
+.#{$namespace}shadow-box {
   padding: size(3);
 }

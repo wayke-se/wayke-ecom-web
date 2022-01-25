@@ -5,13 +5,13 @@ interface TimelineItemProps {
 }
 
 const TimelineItem = ({ heading, description, final }: TimelineItemProps) => `
-  <li class="timeline__item${final ? ' timeline__item--final' : ''}">
-    <div class="timeline__stage">
-      <div class="timeline__badge"></div>
+  <li class="waykeecom-timeline__item${final ? ' timeline__item--final' : ''}">
+    <div class="waykeecom-timeline__stage">
+      <div class="waykeecom-timeline__badge"></div>
     </div>
-    <div class="timeline__content">
-      ${heading ? `<div class="timeline__heading">${heading}</div>` : ''}
-      ${description ? `<div class="timeline__description">${description}</div>` : ''}
+    <div class="waykeecom-timeline__content">
+      ${heading ? `<div class="waykeecom-timeline__heading">${heading}</div>` : ''}
+      ${description ? `<div class="waykeecom-timeline__description">${description}</div>` : ''}
     </div>
   </li>
 `;

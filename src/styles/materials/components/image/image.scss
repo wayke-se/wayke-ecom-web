@@ -1,6 +1,6 @@
 @use '../../../helpers' as *;
 
-.image {
+.#{$namespace}image {
   display: block;
   max-width: 100%;
 

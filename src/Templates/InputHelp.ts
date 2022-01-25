@@ -1,7 +1,7 @@
 const InputHelp = () => `
-  <div class="input-label__help">
-    <button class="input-label__help-btn" title="Vad betyder detta?">
-      <span class="sr-only">Visa hjälp</span>
+  <div class="waykeecom-input-label__help">
+    <button class="waykeecom-input-label__help-btn" title="Vad betyder detta?">
+      <span class="waykeecom-sr-only">Visa hjälp</span>
       <svg
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 16 16"
