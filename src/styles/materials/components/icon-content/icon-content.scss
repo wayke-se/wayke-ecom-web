@@ -1,6 +1,6 @@
 @use '../../../helpers' as *;
 
-.icon-content {
+.#{$namespace}icon-content {
   $icon-size: 1.2em;
   $icon-margin: size(1);
   $label-size: 1em;

@@ -153,8 +153,8 @@ class Stage4TradeIn {
       } else {
         part.innerHTML = `
           <div class="waykeecom-stack waykeecom-stack--3">
-            <h4 class="heading heading--4">Har du en inbytesbil?</h4>
-            <div class="content">
+            <h4 class="waykeecom-heading waykeecom-heading--4">Har du en inbytesbil?</h4>
+            <div class="waykeecom-content">
               <p>Har du en bil du vill byta in när du köper din nya bil? Här får du ett uppskattat inköpspris av oss direkt online.</p>
             </div>
           </div>

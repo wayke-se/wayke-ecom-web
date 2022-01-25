@@ -1,6 +1,6 @@
 @use '../../../helpers' as *;
 
-.disclaimer {
+.#{$namespace}disclaimer {
   $icon-size: scss-var(font, size, regular);
   $text-size: scss-var(font, size, xsmall);
   $text-line-height: scss-var(font, line-height, main);

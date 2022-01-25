@@ -1,4 +1,6 @@
-.icon {
+@use '../../../helpers' as *;
+
+.#{$namespace}icon {
   display: block;
   width: 1em;
   height: 1em;

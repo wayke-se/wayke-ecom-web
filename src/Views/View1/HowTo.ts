@@ -9,8 +9,8 @@ interface HowToProps {
 
 const HowTo = ({ order }: HowToProps) => `
   <div class="waykeecom-stack waykeecom-stack--3">
-    <h3 class="heading heading--4">Så här köper du bilen online</h3>
-    <div class="content">
+    <h3 class="waykeecom-heading waykeecom-heading--4">Så här köper du bilen online</h3>
+    <div class="waykeecom-content">
       <p>På Wayke kan du tryggt köpa din nästa bil online. Reservera bilen genom att klicka dig igenom vårt köpflöde med följande steg:</p>
     </div>
   </div>
@@ -45,7 +45,7 @@ const HowTo = ({ order }: HowToProps) => `
     </div>
   </div>
   <div class="waykeecom-stack waykeecom-stack--3">
-    <div class="content">
+    <div class="waykeecom-content">
       <p>Efter att ordern är genomförd tar ${
         order?.getContactInformation()?.name
       } kontakt med dig så kommer ni 

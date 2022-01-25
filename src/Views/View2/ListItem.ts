@@ -30,13 +30,13 @@ const ListItem = (element: HTMLElement, props: ListItemProps) => {
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 16 16"
-          class="icon"
+          class="waykeecom-icon"
         >
           <title>Ikon: bock</title>
           <path d="M12.3 3.3 6 9.6 3.7 7.3c-.4-.4-1-.4-1.4 0-.4.4-.4 1 0 1.4l3 3c.4.4 1 .4 1.4 0l7-7c.4-.4.4-1 0-1.4-.4-.4-1-.4-1.4 0z"/>
         </svg>
       </div>
-      <h3 class="heading heading--3 waykeecom-no-margin">
+      <h3 class="waykeecom-heading waykeecom-heading--3 waykeecom-no-margin">
         <span class="waykeecom-stepper__stage">
           Steg <span class="waykeecom-stepper__stage-count"></span> –
         </span>

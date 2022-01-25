@@ -13,7 +13,7 @@
   }
 }
 
-.button {
+.#{$namespace}button {
   @include flex-display;
   @include align-items(center);
   @include justify-content(center);

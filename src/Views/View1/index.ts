@@ -62,7 +62,7 @@ class View1v2 {
           <div class="waykeecom-page__body">
             <div class="waykeecom-container waykeecom-container--narrow">
               <div class="waykeecom-stack waykeecom-stack--3">
-                <h2 class="heading heading--3 waykeecom-no-margin">Vad roligt att du vill köpa denna bil!</h2>
+                <h2 class="waykeecom-heading waykeecom-heading--3 waykeecom-no-margin">Vad roligt att du vill köpa denna bil!</h2>
               </div>
             </div>
           </div>
@@ -76,7 +76,7 @@ class View1v2 {
         <div class="waykeecom-page__body">
           <div class="waykeecom-container waykeecom-container--narrow">
             <div class="waykeecom-stack waykeecom-stack--3">
-              <h2 class="heading heading--3 waykeecom-no-margin">Vad roligt att du vill köpa denna bil!</h2>
+              <h2 class="waykeecom-heading waykeecom-heading--3 waykeecom-no-margin">Vad roligt att du vill köpa denna bil!</h2>
             </div>
             <div class="waykeecom-stack waykeecom-stack--3" style="${
               state.order ? 'display: none;' : ''
@@ -86,13 +86,13 @@ class View1v2 {
             ${ItemTileLarge({ vehicle: state.vehicle, order: state.order })}
             ${HowTo({ order: state.order })}
             <div class="waykeecom-stack waykeecom-stack--3" id="${PROCEED_BUTTON_NODE}">
-              <button type="button" id="${PROCEED_BUTTON}" disabled="" title="Gå vidare" class="button button--full-width button--action">
-                <span class="button__content">Gå vidare</span>
-                <span class="button__content">
+              <button type="button" id="${PROCEED_BUTTON}" disabled="" title="Gå vidare" class="waykeecom-button waykeecom-button--full-width waykeecom-button--action">
+                <span class="waykeecom-button__content">Gå vidare</span>
+                <span class="waykeecom-button__content">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 16 16"
-                    class="icon"
+                    class="waykeecom-icon"
                   >
                     <title>Ikon: pil höger</title>
                     <path d="m15.2 8.8-4.8 4.8-1.7-1.7 2.7-2.7H1.2C.5 9.2 0 8.7 0 8s.5-1.2 1.2-1.2h10.2L8.7 4.1l1.7-1.7 4.8 4.8.8.8-.8.8z" />
@@ -104,12 +104,12 @@ class View1v2 {
         </div>
         <footer class="waykeecom-page__footer">
           <div class="waykeecom-container waykeecom-container--narrow">
-            <h2 class="heading heading--4">Köp online hos Wayke</h2>
-            <ul class="checklist">
-              <li class="checklist__item">Trygg hantering av personuppgifter</li>
-              <li class="checklist__item">Reservera bilen nu – betalning och avtalsskrivning sker senare med handlaren</li>
-              <li class="checklist__item">Inte bindande förrän avtal skrivits ihop med handlaren</li>
-              <li class="checklist__item">Bara kontrollerade bilar</li>
+            <h2 class="waykeecom-heading waykeecom-heading--4">Köp online hos Wayke</h2>
+            <ul class="waykeecom-checklist">
+              <li class="waykeecom-checklist__item">Trygg hantering av personuppgifter</li>
+              <li class="waykeecom-checklist__item">Reservera bilen nu – betalning och avtalsskrivning sker senare med handlaren</li>
+              <li class="waykeecom-checklist__item">Inte bindande förrän avtal skrivits ihop med handlaren</li>
+              <li class="waykeecom-checklist__item">Bara kontrollerade bilar</li>
             </ul>
           </div>
         </footer>

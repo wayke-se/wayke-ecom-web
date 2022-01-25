@@ -203,8 +203,8 @@ class PartTradeIn {
 
     this.element.innerHTML = `
       <div class="waykeecom-stack waykeecom-stack--3">
-        <h4 class="heading heading--4">Kontaktuppgifter</h4>
-        <div class="content">
+        <h4 class="waykeecom-heading waykeecom-heading--4">Kontaktuppgifter</h4>
+        <div class="waykeecom-content">
           <p>Ange din e-postadress och ditt telefonnummer.</p>
         </div>
       </div>
