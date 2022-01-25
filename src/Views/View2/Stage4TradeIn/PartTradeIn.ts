@@ -202,17 +202,17 @@ class PartTradeIn {
     ];
 
     this.element.innerHTML = `
-      <div class="stack stack--3">
+      <div class="waykeecom-stack waykeecom-stack--3">
         <h4 class="heading heading--4">Kontaktuppgifter</h4>
         <div class="content">
           <p>Ange din e-postadress och ditt telefonnummer.</p>
         </div>
       </div>
-      <div class="stack stack--3">
-        <div class="stack stack--2" id="${REGISTRATION_NUMBER_INPUT_ID_NODE}"></div>
-        <div class="stack stack--2" id="${MILEAGE_INPUT_ID_NODE}"></div>
-        <div class="stack stack--2" id="${DESCRIPTION_INPUT_ID_NODE}"></div>
-        <div class="stack stack--2">
+      <div class="waykeecom-stack waykeecom-stack--3">
+        <div class="waykeecom-stack waykeecom-stack--2" id="${REGISTRATION_NUMBER_INPUT_ID_NODE}"></div>
+        <div class="waykeecom-stack waykeecom-stack--2" id="${MILEAGE_INPUT_ID_NODE}"></div>
+        <div class="waykeecom-stack waykeecom-stack--2" id="${DESCRIPTION_INPUT_ID_NODE}"></div>
+        <div class="waykeecom-stack waykeecom-stack--2">
           <fieldset class="input-group">
             <legend class="input-group__legend">Bilens skick</legend>
             ${RadioElements.map(
@@ -222,14 +222,14 @@ class PartTradeIn {
         </div>
       </div>
 
-      <div class="stack stack--3" style="display:none;" id="${TRADE_IN_FETCH_ERROR_ID}">
+      <div class="waykeecom-stack waykeecom-stack--3" style="display:none;" id="${TRADE_IN_FETCH_ERROR_ID}">
         ${Alert({
           tone: 'error',
           children:
             '<p>Tyvärr fick vi ingen träff på personnumret du angav. Vänligen kontrollera att personnummret stämmer.</p>',
         })}
       </div>
-      <div class="stack stack--3" id="${PROCEED_NODE}"></div>
+      <div class="waykeecom-stack waykeecom-stack--3" id="${PROCEED_NODE}"></div>
     `;
 
     new InputField(

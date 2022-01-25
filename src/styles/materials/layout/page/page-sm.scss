@@ -1,6 +1,6 @@
 @use '../../../helpers' as *;
 
-.page {
+.#{$namespace}page {
   &__body {
     padding: size(7) 0;
   }

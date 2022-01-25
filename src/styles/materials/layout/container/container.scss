@@ -1,6 +1,6 @@
 @use '../../../helpers' as *;
 
-.container {
+.#{$namespace}container {
   width: 100%;
   max-width: scss-var(size, container, max-width, main);
   margin-left: auto;

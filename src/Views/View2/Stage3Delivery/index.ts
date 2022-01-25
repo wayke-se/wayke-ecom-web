@@ -71,13 +71,13 @@ class Stage3Delivery {
       ];
 
       part.innerHTML = `
-        <div class="stack stack--1">
+        <div class="waykeecom-stack waykeecom-stack--1">
           <ul class="key-value-list">
             ${keyValueItems.map((kv) => KeyValueListItem(kv)).join('')}
           </ul>
         </div>
-        <div class="stack stack--1">
-          <div class="align align--end">
+        <div class="waykeecom-stack waykeecom-stack--1">
+          <div class="waykeecom-align waykeecom-align--end">
             <button id="${CHANGE_BUTTON}" title="Ändra leveranssätt" class="link">Ändra</button>
           </div>
         </div>
@@ -88,7 +88,7 @@ class Stage3Delivery {
     } else if (state.navigation.stage === STAGE) {
       const part = document.createElement('div');
       part.innerHTML = `
-        <div class="stack stack--3">
+        <div class="waykeecom-stack waykeecom-stack--3">
           <h4 class="heading heading--4">Hur vill du ha din bil levererad?</h4>
           <div class="content">
             <p>Välj ifall du vill ha bilen levererad hem till dig eller ifall du vill hämta 
@@ -96,12 +96,12 @@ class Stage3Delivery {
           </div>
         </div>
 
-        <div class="stack stack--2">
-          <div class="stack stack--3" id="${RADIO_HOME_FALSE_NODE}"></div>
-          <div class="stack stack--3" id="${RADIO_HOME_TRUE_NODE}"></div>
+        <div class="waykeecom-stack waykeecom-stack--2">
+          <div class="waykeecom-stack waykeecom-stack--3" id="${RADIO_HOME_FALSE_NODE}"></div>
+          <div class="waykeecom-stack waykeecom-stack--3" id="${RADIO_HOME_TRUE_NODE}"></div>
         </div>
 
-        <div class="stack stack--3" id="${PROCEED_NODE}"></div>
+        <div class="waykeecom-stack waykeecom-stack--3" id="${PROCEED_NODE}"></div>
       `;
 
       new InputRadioField(part.querySelector<HTMLInputElement>(`#${RADIO_HOME_FALSE_NODE}`), {

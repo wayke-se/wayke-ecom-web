@@ -1,6 +1,6 @@
 @use '../../../helpers' as *;
 
-.page {
+.#{$namespace}page {
   &__footer {
     background-color: color(bg, alt);
   }

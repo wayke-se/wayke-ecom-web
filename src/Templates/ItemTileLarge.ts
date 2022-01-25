@@ -10,7 +10,7 @@ interface ItemTileLargeProps {
 }
 
 const ItemTileLarge = ({ vehicle, order }: ItemTileLargeProps) => `
-  <div class="stack stack--3">
+  <div class="waykeecom-stack waykeecom-stack--3">
     <div class="product-card">
       <div class="product-card__media">
         <div class="product-card__media-item">

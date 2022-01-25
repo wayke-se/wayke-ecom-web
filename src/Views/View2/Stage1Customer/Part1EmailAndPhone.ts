@@ -119,7 +119,7 @@ class Part1EmailAndPhone {
       ];
 
       this.element.innerHTML = `
-        <div class="stack stack--2">
+        <div class="waykeecom-stack waykeecom-stack--2">
           <ul class="key-value-list">
             ${keyValueItems.map((kv) => KeyValueListItem(kv)).join('')}
           </ul>
@@ -127,17 +127,17 @@ class Part1EmailAndPhone {
       `;
     } else {
       this.element.innerHTML = `
-      <div class="stack stack--3">
+      <div class="waykeecom-stack waykeecom-stack--3">
         <h4 class="heading heading--4">Kontaktuppgifter</h4>
         <div class="content">
           <p>Ange din e-postadress och ditt telefonnummer.</p>
         </div>
       </div>
-      <div class="stack stack--3">
-        <div class="stack stack--2" id="${EMAIL_NODE}"></div>
-        <div class="stack stack--2" id="${PHONE_NODE}"></div>
+      <div class="waykeecom-stack waykeecom-stack--3">
+        <div class="waykeecom-stack waykeecom-stack--2" id="${EMAIL_NODE}"></div>
+        <div class="waykeecom-stack waykeecom-stack--2" id="${PHONE_NODE}"></div>
       </div>
-      <div class="stack stack--3" id="${PROCEED_NODE}"></div>
+      <div class="waykeecom-stack waykeecom-stack--3" id="${PROCEED_NODE}"></div>
     `;
 
       new InputField(this.element.querySelector<HTMLDivElement>(`#${EMAIL_NODE}`), {

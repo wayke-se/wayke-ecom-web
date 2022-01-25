@@ -1,6 +1,6 @@
 @use '../../../helpers' as *;
 
-.align {
+.#{$namespace}align {
   @include flex-display;
   
   &--start {

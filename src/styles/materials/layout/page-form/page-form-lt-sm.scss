@@ -1,6 +1,6 @@
 @use '../../../helpers' as *;
 
-.page-form {
+.#{$namespace}page-form {
   &__aside {
     padding: size(4) size(2);
   }

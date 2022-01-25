@@ -138,7 +138,7 @@ class Part2SocialId {
       ];
 
       this.element.innerHTML = `
-      <div class="stack stack--2">
+      <div class="waykeecom-stack waykeecom-stack--2">
         <ul class="key-value-list">
         ${keyValueItems.map((kv) => KeyValueListItem(kv)).join('')}
         </ul>
@@ -146,20 +146,20 @@ class Part2SocialId {
       `;
     } else {
       this.element.innerHTML = `
-      <div class="stack stack--2">
+      <div class="waykeecom-stack waykeecom-stack--2">
         <hr class="separator" />
       </div>
-      <div class="stack stack--2">
-        <div class="stack stack--3" id="${SOCIAL_ID_NODE}"></div>
+      <div class="waykeecom-stack waykeecom-stack--2">
+        <div class="waykeecom-stack waykeecom-stack--3" id="${SOCIAL_ID_NODE}"></div>
 
-        <div class="stack stack--3" style="display:none;" id="${SOCIAL_ID_FETCH_ERROR_ID}">
+        <div class="waykeecom-stack waykeecom-stack--3" style="display:none;" id="${SOCIAL_ID_FETCH_ERROR_ID}">
           ${Alert({
             tone: 'error',
             children: '<p>Tyvärr fick vi ingen träff på personnumret du angav.</p>',
           })}
         </div>
         
-        <div class="stack stack--3">
+        <div class="waykeecom-stack waykeecom-stack--3">
           ${Alert({
             tone: 'info',
             children: `
@@ -173,7 +173,7 @@ class Part2SocialId {
           })}
         </div>
       </div>
-      <div class="stack stack--3" id="${PROCEED_NODE}"></div>
+      <div class="waykeecom-stack waykeecom-stack--3" id="${PROCEED_NODE}"></div>
     `;
 
       new InputField(this.element.querySelector<HTMLDivElement>(`#${SOCIAL_ID_NODE}`), {

@@ -1,6 +1,6 @@
 @use '../../../helpers' as *;
 
-.page-form {
+.#{$namespace}page-form {
   @include flex-display;
   max-width: scss-var(size, container-max-width);
   margin: size(7) auto;

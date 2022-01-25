@@ -14,19 +14,19 @@ const ListItem = (element: HTMLElement, props: ListItemProps) => {
     item.setAttribute('id', id);
   }
 
-  const className = ['stepper__item'];
+  const className = ['waykeecom-stepper__item'];
   if (active) {
-    className.push('stepper__item--is-active');
+    className.push('waykeecom-stepper__item--is-active');
   } else if (completed) {
-    className.push('stepper__item--is-complete');
+    className.push('waykeecom-stepper__item--is-complete');
   } else {
-    className.push('stepper__item--is-disabled');
+    className.push('waykeecom-stepper__item--is-disabled');
   }
 
   item.className = className.join(' ');
   item.innerHTML = `
-    <header class="stepper__header">
-      <div class="stepper__icon">
+    <header class="waykeecom-stepper__header">
+      <div class="waykeecom-stepper__icon">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 16 16"
@@ -37,20 +37,20 @@ const ListItem = (element: HTMLElement, props: ListItemProps) => {
         </svg>
       </div>
       <h3 class="heading heading--3 no-margin">
-        <span class="stepper__stage">
-          Steg <span class="stepper__stage-count"></span> –
+        <span class="waykeecom-stepper__stage">
+          Steg <span class="waykeecom-stepper__stage-count"></span> –
         </span>
         ${title}
       </h3>
     </header>
-    <div class="stepper__body"></div>
+    <div class="waykeecom-stepper__body"></div>
   `;
 
   if (!existingListItem) {
     element.appendChild(item);
   }
 
-  const content = item.querySelector<HTMLDivElement>('.stepper__body');
+  const content = item.querySelector<HTMLDivElement>('.waykeecom-stepper__body');
   if (!content) throw 'Err no element';
   return content;
 };

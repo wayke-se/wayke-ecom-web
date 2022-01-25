@@ -88,12 +88,12 @@ class Stage4TradeIn {
           },
         ];
         part.innerHTML = `
-          <div class="stack stack--3">
+          <div class="waykeecom-stack waykeecom-stack--3">
             <div class="balloon">
-              <div class="stack stack--05">
+              <div class="waykeecom-stack waykeecom-stack--05">
                 <div class="label">${state.tradeIn.registrationNumber}</div>
               </div>
-              <div class="stack stack--05">
+              <div class="waykeecom-stack waykeecom-stack--05">
                 <span class="font-medium">${state.tradeInVehicle.manufacturer} ${
           state.tradeInVehicle.modelSeries
         }</span>
@@ -101,24 +101,24 @@ class Stage4TradeIn {
               </div>
             </div>
           </div>
-          <div class="stack stack--3">
-            <div class="stack stack--1">
+          <div class="waykeecom-stack waykeecom-stack--3">
+            <div class="waykeecom-stack waykeecom-stack--1">
               <ul class="key-value-list">
                 ${keyValueItemsUpper.map((kv) => KeyValueListItem(kv)).join('')}
               </ul>
             </div>
-            <div class="stack stack--1">
-              <div class="align align--end" id="${CHANGE_BUTTON_NODE}"></div>
+            <div class="waykeecom-stack waykeecom-stack--1">
+              <div class="waykeecom-align waykeecom-align--end" id="${CHANGE_BUTTON_NODE}"></div>
             </div>
           </div>
-          <div class="stack stack--3">
+          <div class="waykeecom-stack waykeecom-stack--3">
             <div class="shadow-box">
-              <div class="stack stack--2">
+              <div class="waykeecom-stack waykeecom-stack--2">
                 <ul class="key-value-list key-value-list--large-value">
                   ${keyValueItemsLower.map((kv) => KeyValueListItem(kv)).join('')}
                 </ul>
               </div>
-              <div class="stack stack--2">
+              <div class="waykeecom-stack waykeecom-stack--2">
                 ${Alert({
                   tone: 'info',
                   children:
@@ -132,13 +132,13 @@ class Stage4TradeIn {
       } else {
         keyValueItemsUpper.push({ key: 'Inbytesbil', value: 'Nej' });
         part.innerHTML = `
-          <div class="stack stack--1">
+          <div class="waykeecom-stack waykeecom-stack--1">
             <ul class="key-value-list">
             ${keyValueItemsUpper.map((kv) => KeyValueListItem(kv)).join('')}
             </ul>
           </div>
-          <div class="stack stack--1">
-            <div class="align align--end" id="${CHANGE_BUTTON_NODE}"></div>
+          <div class="waykeecom-stack waykeecom-stack--1">
+            <div class="waykeecom-align waykeecom-align--end" id="${CHANGE_BUTTON_NODE}"></div>
           </div>
         `;
       }
@@ -152,16 +152,16 @@ class Stage4TradeIn {
         new PartTradeIn(part);
       } else {
         part.innerHTML = `
-          <div class="stack stack--3">
+          <div class="waykeecom-stack waykeecom-stack--3">
             <h4 class="heading heading--4">Har du en inbytesbil?</h4>
             <div class="content">
               <p>Har du en bil du vill byta in när du köper din nya bil? Här får du ett uppskattat inköpspris av oss direkt online.</p>
             </div>
           </div>
           
-          <div class="stack stack--3">
-            <div class="stack stack--1" id="${TRADE_IN_YES_NODE}"></div>
-            <div class="stack stack--1" id="${TRADE_IN_NO_NODE}"></div>
+          <div class="waykeecom-stack waykeecom-stack--3">
+            <div class="waykeecom-stack waykeecom-stack--1" id="${TRADE_IN_YES_NODE}"></div>
+            <div class="waykeecom-stack waykeecom-stack--1" id="${TRADE_IN_NO_NODE}"></div>
           </div>
         `;
 

@@ -8,13 +8,13 @@ interface HowToProps {
 }
 
 const HowTo = ({ order }: HowToProps) => `
-  <div class="stack stack--3">
+  <div class="waykeecom-stack waykeecom-stack--3">
     <h3 class="heading heading--4">Så här köper du bilen online</h3>
     <div class="content">
       <p>På Wayke kan du tryggt köpa din nästa bil online. Reservera bilen genom att klicka dig igenom vårt köpflöde med följande steg:</p>
     </div>
   </div>
-  <div class="stack stack--3">
+  <div class="waykeecom-stack waykeecom-stack--3">
     <div class="p--2">
       <ol class="timeline">
         ${TimelineItem({
@@ -44,7 +44,7 @@ const HowTo = ({ order }: HowToProps) => `
       </ol>
     </div>
   </div>
-  <div class="stack stack--3">
+  <div class="waykeecom-stack waykeecom-stack--3">
     <div class="content">
       <p>Efter att ordern är genomförd tar ${
         order?.getContactInformation()?.name

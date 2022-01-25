@@ -1,6 +1,6 @@
 @use '../../../helpers' as *;
 
-.stepper {
+.#{$namespace}stepper {
   $root: &;
   
   counter-reset: stage;

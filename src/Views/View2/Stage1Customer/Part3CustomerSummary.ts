@@ -40,13 +40,13 @@ class Part3CustomerSummary {
     ];
 
     this.element.innerHTML = `
-      <div class="stack stack--1">
+      <div class="waykeecom-stack waykeecom-stack--1">
         <ul class="key-value-list">
           ${keyValueItems.map((kv) => KeyValueListItem(kv)).join('')}
         </ul>
       </div>
-      <div class="stack stack--1">
-        <div class="align align--end" id="${CHANGE_BUTTON_NODE}"></div>
+      <div class="waykeecom-stack waykeecom-stack--1">
+        <div class="waykeecom-align waykeecom-align--end" id="${CHANGE_BUTTON_NODE}"></div>
       </div>
     `;
 

@@ -3,4 +3,5 @@
 /// @use '[path_to_helpers]/helpers/variables' as *;
 
 @forward '_constants' show const;
+@forward '_namespace';
 @forward '_variables' show scss-var;

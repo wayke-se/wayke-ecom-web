@@ -1,6 +1,6 @@
 @use '../../../helpers' as *;
 
-.stepper {
+.#{$namespace}stepper {
   &__item {
     padding: size(4) size(2);
     border-top: size(1) solid color(bg, alt);

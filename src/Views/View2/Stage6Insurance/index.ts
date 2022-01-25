@@ -41,7 +41,7 @@ class Stage6Insurance {
 
     if (state.navigation.stage > STAGE) {
       part.innerHTML = `
-      <div class="stack stack--1">
+      <div class="waykeecom-stack waykeecom-stack--1">
           <ul class="key-value-list">
             <li class="key-value-list__item">
               <div class="key-value-list__key">Försäkring</div>
@@ -49,8 +49,8 @@ class Stage6Insurance {
             </li>
           </ul>
         </div>
-        <div class="stack stack--1">
-          <div class="align align--end">
+        <div class="waykeecom-stack waykeecom-stack--1">
+          <div class="waykeecom-align waykeecom-align--end">
             <button id="${CHANGE_BUTTON}" title="Ändra försäkring" class="link">Ändra</button>
           </div>
         </div>
@@ -59,13 +59,13 @@ class Stage6Insurance {
       content.appendChild(part);
     } else if (state.navigation.stage === STAGE) {
       part.innerHTML = `
-        <div class="stack stack--3">
+        <div class="waykeecom-stack waykeecom-stack--3">
           <h4 class="heading heading--4">Vill du teckna en försäkring på din nya bil?</h4>
           <div class="content">
             <p>Ange din uppskattade körsträcka för att se din försäkringskostnad. Därefter presenterar vi förslag på försäkringar som passar dig och din nya bil. I både hel- och halvförsäkring ingår trafikförsäkring som är obligatoriskt att ha. Ifall du har valt att finansiera bilen med ett billån är priset du ser rabatterat.</p>
           </div>
         </div>
-        <div class="stack stack--3">
+        <div class="waykeecom-stack waykeecom-stack--3">
           <button type="button" id="${PROCEED}" title="Fortsätt till nästa steg" class="button button--full-width button--action">
             <span class="button__content">Fortsätt</span>
             <span class="button__content">

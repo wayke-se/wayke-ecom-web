@@ -58,10 +58,10 @@ class View1v2 {
 
     if (!state.order) {
       this.element.innerHTML = `
-        <div class="page">
-          <div class="page__body">
-            <div class="container container--narrow">
-              <div class="stack stack--3">
+        <div class="waykeecom-page">
+          <div class="waykeecom-page__body">
+            <div class="waykeecom-container waykeecom-container--narrow">
+              <div class="waykeecom-stack waykeecom-stack--3">
                 <h2 class="heading heading--3 no-margin">Vad roligt att du vill köpa denna bil!</h2>
               </div>
             </div>
@@ -72,20 +72,20 @@ class View1v2 {
     }
 
     this.element.innerHTML = `
-      <div class="page">
-        <div class="page__body">
-          <div class="container container--narrow">
-            <div class="stack stack--3">
+      <div class="waykeecom-page">
+        <div class="waykeecom-page__body">
+          <div class="waykeecom-container waykeecom-container--narrow">
+            <div class="waykeecom-stack waykeecom-stack--3">
               <h2 class="heading heading--3 no-margin">Vad roligt att du vill köpa denna bil!</h2>
             </div>
-            <div class="stack stack--3" style="${
+            <div class="waykeecom-stack waykeecom-stack--3" style="${
               state.order ? 'display: none;' : ''
             }" id="${PROCEED_BUTTON_LOADER}-loader">
               <div>Laddar...</div>
             </div>
             ${ItemTileLarge({ vehicle: state.vehicle, order: state.order })}
             ${HowTo({ order: state.order })}
-            <div class="stack stack--3" id="${PROCEED_BUTTON_NODE}">
+            <div class="waykeecom-stack waykeecom-stack--3" id="${PROCEED_BUTTON_NODE}">
               <button type="button" id="${PROCEED_BUTTON}" disabled="" title="Gå vidare" class="button button--full-width button--action">
                 <span class="button__content">Gå vidare</span>
                 <span class="button__content">
@@ -102,8 +102,8 @@ class View1v2 {
             </div>
           </div>
         </div>
-        <footer class="page__footer">
-          <div class="container container--narrow">
+        <footer class="waykeecom-page__footer">
+          <div class="waykeecom-container waykeecom-container--narrow">
             <h2 class="heading heading--4">Köp online hos Wayke</h2>
             <ul class="checklist">
               <li class="checklist__item">Trygg hantering av personuppgifter</li>

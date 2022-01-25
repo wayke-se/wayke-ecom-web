@@ -11,8 +11,8 @@ $stackSizes: (
 );
 
 @each $stackName, $stackVal in $stackSizes {
-  .stack--#{$stackName} {
-    & + [class*='stack--'] {
+  .#{$namespace}stack--#{$stackName} {
+    & + [class*='#{$namespace}stack--'] {
       margin-top: size($stackVal);
     }
   }

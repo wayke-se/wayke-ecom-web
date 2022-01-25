@@ -41,7 +41,7 @@ class Stage5Financial {
 
     if (state.navigation.stage > STAGE) {
       part.innerHTML = `
-      <div class="stack stack--1">
+      <div class="waykeecom-stack waykeecom-stack--1">
           <ul class="key-value-list">
             <li class="key-value-list__item">
               <div class="key-value-list__key">Finansiering</div>
@@ -49,8 +49,8 @@ class Stage5Financial {
             </li>
           </ul>
         </div>
-        <div class="stack stack--1">
-          <div class="align align--end">
+        <div class="waykeecom-stack waykeecom-stack--1">
+          <div class="waykeecom-align waykeecom-align--end">
             <button id="${CHANGE_BUTTON}" title="Ändra finansiering" class="link">Ändra</button>
           </div>
         </div>
@@ -59,10 +59,10 @@ class Stage5Financial {
       content.appendChild(part);
     } else if (state.navigation.stage === STAGE) {
       part.innerHTML = `
-        <div class="stack stack--3">
+        <div class="waykeecom-stack waykeecom-stack--3">
           <h4 class="heading heading--4 no-margin">Hur vill du finansiera din Volvo XC60?</h4>
         </div>
-        <div class="stack stack--3">
+        <div class="waykeecom-stack waykeecom-stack--3">
           <button type="button" id="${PROCEED}" title="Fortsätt till nästa steg" class="button button--full-width button--action">
             <span class="button__content">Fortsätt</span>
             <span class="button__content">
