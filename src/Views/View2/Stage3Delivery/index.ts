@@ -131,7 +131,7 @@ class Stage3Delivery {
             </div>
           </div>
         `,
-        meta: `<div class="font-medium">Gratis (???)</div>`,
+        meta: `<div class="waykeecom-font-medium">Gratis (???)</div>`,
         checked: !this.homeDelivery,
         onClick: (e) => this.onChange(e),
       });
@@ -142,7 +142,7 @@ class Stage3Delivery {
         title: 'Hemleverans',
         value: 'true',
         description: `<div class="box">Till din folkbokföringsadress</div>`,
-        meta: `<div class="font-medium">"??? kr</div>`,
+        meta: `<div class="waykeecom-font-medium">"??? kr</div>`,
         checked: this.homeDelivery,
         onClick: (e) => this.onChange(e),
       });

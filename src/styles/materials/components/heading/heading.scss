@@ -5,7 +5,7 @@
   margin: 0;
   line-height: scss-var(font, line-height, alt);
 
-  &:not(.no-margin) {
+  &:not(.#{$namespace}no-margin) {
     margin-bottom: size(2);
   }
 
@@ -24,7 +24,7 @@
   &--4 {
     font-size: scss-var(font, size, regular);
 
-    &:not(.no-margin) {
+    &:not(.#{$namespace}no-margin) {
       margin-bottom: size(1);
     }
   }

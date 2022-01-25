@@ -60,7 +60,7 @@ class Stage5Financial {
     } else if (state.navigation.stage === STAGE) {
       part.innerHTML = `
         <div class="waykeecom-stack waykeecom-stack--3">
-          <h4 class="heading heading--4 no-margin">Hur vill du finansiera din Volvo XC60?</h4>
+          <h4 class="heading heading--4 waykeecom-no-margin">Hur vill du finansiera din Volvo XC60?</h4>
         </div>
         <div class="waykeecom-stack waykeecom-stack--3">
           <button type="button" id="${PROCEED}" title="Fortsätt till nästa steg" class="button button--full-width button--action">

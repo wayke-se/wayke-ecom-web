@@ -36,7 +36,7 @@ const ListItem = (element: HTMLElement, props: ListItemProps) => {
           <path d="M12.3 3.3 6 9.6 3.7 7.3c-.4-.4-1-.4-1.4 0-.4.4-.4 1 0 1.4l3 3c.4.4 1 .4 1.4 0l7-7c.4-.4.4-1 0-1.4-.4-.4-1-.4-1.4 0z"/>
         </svg>
       </div>
-      <h3 class="heading heading--3 no-margin">
+      <h3 class="heading heading--3 waykeecom-no-margin">
         <span class="waykeecom-stepper__stage">
           Steg <span class="waykeecom-stepper__stage-count"></span> –
         </span>

@@ -94,7 +94,7 @@ class Stage4TradeIn {
                 <div class="label">${state.tradeIn.registrationNumber}</div>
               </div>
               <div class="waykeecom-stack waykeecom-stack--05">
-                <span class="font-medium">${state.tradeInVehicle.manufacturer} ${
+                <span class="waykeecom-font-medium">${state.tradeInVehicle.manufacturer} ${
           state.tradeInVehicle.modelSeries
         }</span>
                 ${state.tradeInVehicle.modelName}, ${state.tradeInVehicle.modelYear}

@@ -38,7 +38,7 @@ class View2v2 {
     pageFormAside.className = 'waykeecom-page-form__aside';
     pageFormAside.innerHTML = `
         <div class="waykeecom-page-form__aside-heading">
-          <h3 class="heading heading--4 no-margin">
+          <h3 class="heading heading--4 waykeecom-no-margin">
             Sammanfattning
           </h3>
         </div>

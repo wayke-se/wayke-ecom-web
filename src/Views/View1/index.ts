@@ -62,7 +62,7 @@ class View1v2 {
           <div class="waykeecom-page__body">
             <div class="waykeecom-container waykeecom-container--narrow">
               <div class="waykeecom-stack waykeecom-stack--3">
-                <h2 class="heading heading--3 no-margin">Vad roligt att du vill köpa denna bil!</h2>
+                <h2 class="heading heading--3 waykeecom-no-margin">Vad roligt att du vill köpa denna bil!</h2>
               </div>
             </div>
           </div>
@@ -76,7 +76,7 @@ class View1v2 {
         <div class="waykeecom-page__body">
           <div class="waykeecom-container waykeecom-container--narrow">
             <div class="waykeecom-stack waykeecom-stack--3">
-              <h2 class="heading heading--3 no-margin">Vad roligt att du vill köpa denna bil!</h2>
+              <h2 class="heading heading--3 waykeecom-no-margin">Vad roligt att du vill köpa denna bil!</h2>
             </div>
             <div class="waykeecom-stack waykeecom-stack--3" style="${
               state.order ? 'display: none;' : ''

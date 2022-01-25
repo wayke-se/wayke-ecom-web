@@ -9,7 +9,7 @@
   @include flex-wrap(wrap);
   @include align-items(center);
   
-  &:not(.no-margin) {
+  &:not(.#{$namespace}no-margin) {
     margin-bottom: size(0.5);
   }
 
