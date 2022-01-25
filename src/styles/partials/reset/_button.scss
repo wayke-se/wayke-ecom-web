@@ -2,7 +2,7 @@
 
 @use '../../helpers' as *;
 
-button {
+:where(#{$root-body} button) {
   @include flex-display;
   @include align-items(center);
   @include font-regular;

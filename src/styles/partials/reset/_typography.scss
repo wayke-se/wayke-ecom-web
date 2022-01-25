@@ -1,6 +1,10 @@
+/// Reset styling on typography elements
+
 @use '../../helpers' as *;
 
-b,
-strong {
+:where(
+  #{$root-body} b,
+  #{$root-body} strong,
+) {
   @include font-medium;
 }

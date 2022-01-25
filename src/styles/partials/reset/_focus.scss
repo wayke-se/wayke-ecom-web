@@ -3,21 +3,23 @@
 @use '../../helpers' as *;
 
 // Remove inner focus on buttons in Firefox
-::-moz-focus-inner {
+:where(#{$root-body} ::-moz-focus-inner) {
   border: none;
 }
 
 // Remove default focus outline
-:focus {
+:where(#{$root-body} :focus) {
   outline: none;
 }
 
 // Add custom default focus to focusable elements
-a,
-button,
-input,
-select,
-textarea {
+:where(
+  #{$root-body} a,
+  #{$root-body} button,
+  #{$root-body} input,
+  #{$root-body} select,
+  #{$root-body} textarea,
+) {
   @include focus {
     outline: 2px solid color(text, main);
   }

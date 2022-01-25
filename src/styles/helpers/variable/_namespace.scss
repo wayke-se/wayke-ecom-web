@@ -1,3 +1,9 @@
-// Namespace used to prefix all class names
+// Namespace used to prefix CSS
 
+// Prefix used before all classnames
+// Usage: .#{$namespace}*
 $namespace: 'waykeecom-';
+
+// Root element selector used to prefix element selectors
+// Usage: :where(#{$root-body} *)
+$root-body: '#wayke-ecom';

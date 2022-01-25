@@ -1,6 +1,8 @@
 /// Reset styling on the img element
 
-img {
+@use '../../helpers' as *;
+
+:where(#{$root-body} img) {
   a & {
     border: 0;
   }

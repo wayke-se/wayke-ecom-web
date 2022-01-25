@@ -1,5 +1,7 @@
 /// Reset styling on the iframe element
 
-iframe {
+@use '../../helpers' as *;
+
+:where(#{$root-body} iframe) {
   border: none;
 }
