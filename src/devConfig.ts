@@ -16,6 +16,7 @@ export const devConfig = {
       gearBox: 'Automat',
       fuelType: 'Bensin',
     },
+    useBankid: true,
   },
   DEFAULT: {
     vehicle: {
