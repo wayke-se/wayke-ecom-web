@@ -1,6 +1,7 @@
 interface ButtonArrowRightProps {
   title: string;
   id: string;
+  disabled?: boolean;
   onClick?: (e: Event) => void;
 }
 
@@ -17,7 +18,13 @@ class ButtonArrowRight {
 
   render() {
     this.element.innerHTML = `
-      <button type="button" id="${this.props.id}" title="${this.props.title}" class="waykeecom-button waykeecom-button--full-width waykeecom-button--action">
+      <button
+        type="button"
+        id="${this.props.id}"
+        title="${this.props.title}"
+        ${this.props.disabled && `disabled=""`}
+        class="waykeecom-button waykeecom-button--full-width waykeecom-button--action"
+      >
         <span class="waykeecom-button__content">${this.props.title}</span>
         <span class="waykeecom-button__content">
           <svg

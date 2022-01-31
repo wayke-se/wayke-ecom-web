@@ -2,6 +2,8 @@ import './styles/styles.scss';
 import { OrderOptionsResponse } from '@wayke-se/ecom/dist-types/orders/order-options-response';
 import watch from 'redux-watch';
 
+import packageJson from '../package.json';
+
 import { Vehicle } from './@types/Vehicle';
 import store from './Redux/store';
 import { setVehicle } from './Redux/action';
@@ -21,6 +23,8 @@ interface AppProps {
 
 class App {
   private root: HTMLElement;
+  private contentNode: HTMLDivElement;
+  private versionNode: HTMLDivElement;
   private view: number;
 
   constructor(props: AppProps) {
@@ -30,6 +34,19 @@ class App {
     }
     this.root = root;
 
+    const contentNode = document.createElement('div');
+    const versionNode = document.createElement('div');
+
+    versionNode.style.display = 'none';
+    versionNode.innerHTML = `${packageJson.version}`;
+
+    this.contentNode = contentNode;
+    this.versionNode = versionNode;
+
+    this.root.appendChild(contentNode);
+    this.root.appendChild(versionNode);
+
+    //setId(props.vehicle.id);
     setVehicle(props.vehicle);
     this.view = store.getState().navigation.view;
 
@@ -44,16 +61,16 @@ class App {
   }
 
   render() {
-    this.root.innerHTML = '';
+    this.contentNode.innerHTML = '';
     switch (this.view) {
       case 1:
-        new View1(this.root);
+        new View1(this.contentNode);
         break;
       case 2:
-        new View2(this.root);
+        new View2(this.contentNode);
         break;
       case 3:
-        new View3Summary(this.root);
+        new View3Summary(this.contentNode);
         break;
       default:
         throw 'Unknown view...';

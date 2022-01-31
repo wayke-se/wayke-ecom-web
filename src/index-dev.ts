@@ -19,5 +19,5 @@ window.addEventListener('DOMContentLoaded', (_) => {
 
   config.bind(newConfig);
 
-  new App(devConfig.BANKID_TRADE_IN_HOME_DELIVERY);
+  new App(devConfig.MULTIPLE_FINANCIAL);
 });

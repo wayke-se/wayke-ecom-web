@@ -6,6 +6,7 @@ import store from '../../Redux/store';
 import HowTo from './HowTo';
 import watch from 'redux-watch';
 import ButtonArrowRight from '../../Components/ButtonArrowRight';
+// import { getVehicle } from '../../Data/getVehicle';
 
 const PROCEED_BUTTON = 'wayke-view-1-proceed';
 const PROCEED_BUTTON_NODE = `${PROCEED_BUTTON}-node`;
@@ -32,6 +33,16 @@ class View1v2 {
 
   async init() {
     const state = store.getState();
+    // if (!state.id) throw 'missing wayke id';
+
+    /*
+    try {
+      const vehicle = await getVehicle(state.id);
+      setVehicle(vehicle);
+    } catch (e) {
+      throw e;
+    }
+    */
 
     if (!state.vehicle) {
       throw 'No vehicle present';

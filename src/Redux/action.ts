@@ -1,5 +1,6 @@
-import { IAddress, IVehicle } from '@wayke-se/ecom';
+import { IAddress, IVehicle, PaymentType } from '@wayke-se/ecom';
 import { OrderOptionsResponse } from '@wayke-se/ecom/dist-types/orders/order-options-response';
+import { PaymentLookupResponse } from '@wayke-se/ecom/dist-types/payments/payment-lookup-response';
 import { BaseAction } from '../@types/BaseAction';
 import { PartialCustomer } from '../@types/Customer';
 import { TradeInCarData } from '../@types/TradeIn';
@@ -15,6 +16,12 @@ export const setOrder = (order: OrderOptionsResponse) => store.dispatch({ type: 
 export const PROCEED_TO_VIEW_2_STAGE_1 = 'PROCEED_TO_VIEW_2_STAGE_1';
 export type PROCEED_TO_VIEW_2_STAGE_1_TYPE = BaseAction<typeof PROCEED_TO_VIEW_2_STAGE_1>;
 export const proceedToView2Stage1 = () => store.dispatch({ type: PROCEED_TO_VIEW_2_STAGE_1 });
+
+export const SET_ID = 'SET_ID';
+export type SET_ID_TYPE = BaseAction<typeof SET_ID> & {
+  id: string;
+};
+export const setId = (id: string) => store.dispatch({ type: SET_ID, id });
 
 export const SET_VEHICLE = 'SET_VEHICLE';
 export type SET_VEHICLE_TYPE = BaseAction<typeof SET_VEHICLE> & {
@@ -69,8 +76,18 @@ export type EDIT_TRADE_IN_TYPE = BaseAction<typeof EDIT_TRADE_IN>;
 export const editTradeIn = () => store.dispatch({ type: EDIT_TRADE_IN });
 
 export const SET_FINANCIAL = 'SET_FINANCIAL';
-export type SET_FINANCIAL_TYPE = BaseAction<typeof SET_FINANCIAL>;
-export const setFinancial = () => store.dispatch({ type: SET_FINANCIAL });
+export type SET_FINANCIAL_TYPE = BaseAction<typeof SET_FINANCIAL> & {
+  paymentType: PaymentType;
+};
+export const setFinancial = (paymentType: PaymentType) =>
+  store.dispatch({ type: SET_FINANCIAL, paymentType });
+
+export const SET_PAYMENT_LOOKUP_RESPONSE = 'SET_PAYMENT_LOOKUP_RESPONSE';
+export type SET_PAYMENT_LOOKUP_RESPONSE_TYPE = BaseAction<typeof SET_PAYMENT_LOOKUP_RESPONSE> & {
+  paymentLookupResponse: PaymentLookupResponse;
+};
+export const setPaymentLookupResponse = (paymentLookupResponse: PaymentLookupResponse) =>
+  store.dispatch({ type: SET_PAYMENT_LOOKUP_RESPONSE, paymentLookupResponse });
 
 export const EDIT_FINANCIAL = 'EDIT_FINANCIAL';
 export type EDIT_FINANCIAL_TYPE = BaseAction<typeof EDIT_FINANCIAL>;
@@ -86,6 +103,7 @@ export const editInsurance = () => store.dispatch({ type: EDIT_INSURANCE });
 
 export type Action =
   | SET_ORDER_TYPE
+  | SET_ID_TYPE
   | SET_VEHICLE_TYPE
   | PROCEED_TO_VIEW_2_STAGE_1_TYPE
   | SET_CONTACT_EMAIL_AND_PHONE_TYPE
@@ -97,6 +115,7 @@ export type Action =
   | SET_TRADE_IN_TYPE
   | EDIT_TRADE_IN_TYPE
   | SET_FINANCIAL_TYPE
+  | SET_PAYMENT_LOOKUP_RESPONSE_TYPE
   | EDIT_FINANCIAL_TYPE
   | SET_INSURANCE_TYPE
   | EDIT_INSURANCE_TYPE;

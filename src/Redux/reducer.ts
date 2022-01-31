@@ -1,5 +1,6 @@
-import { IAddress, IVehicle } from '@wayke-se/ecom';
+import { IAddress, IVehicle, PaymentType } from '@wayke-se/ecom';
 import { OrderOptionsResponse } from '@wayke-se/ecom/dist-types/orders/order-options-response';
+import { PaymentLookupResponse } from '@wayke-se/ecom/dist-types/payments/payment-lookup-response';
 import { Customer } from '../@types/Customer';
 import { TradeInCarDataPartial } from '../@types/TradeIn';
 import { Vehicle } from '../@types/Vehicle';
@@ -20,7 +21,16 @@ import {
   SET_INSURANCE,
   EDIT_INSURANCE,
   INIT_TRADE_IN,
+  SET_PAYMENT_LOOKUP_RESPONSE,
+  SET_ID,
 } from './action';
+
+let stateMock: any = {};
+try {
+  stateMock = require('../../statemock.json');
+} catch (e) {
+  stateMock = {};
+}
 
 interface Navigation {
   view: number;
@@ -29,6 +39,7 @@ interface Navigation {
 }
 
 interface ReducerState {
+  id?: string;
   topNavigation: Navigation;
   navigation: Navigation;
   vehicle?: Vehicle;
@@ -40,6 +51,8 @@ interface ReducerState {
   tradeIn?: TradeInCarDataPartial;
   tradeInVehicle?: IVehicle;
   centralStorage: boolean;
+  paymentType?: PaymentType;
+  paymentLookupResponse?: PaymentLookupResponse;
   edit: {
     customer: boolean;
     delivery: boolean;
@@ -83,12 +96,19 @@ const reducer = (state = initialState, action: Action): ReducerState => {
   let navigation: Navigation;
   next = { ...state };
   switch (action.type) {
+    case SET_ID:
+      return { ...next, id: action.id };
     case SET_VEHICLE:
       return { ...state, vehicle: action.vehicle };
     case SET_ORDER:
       return { ...state, order: action.order };
     case PROCEED_TO_VIEW_2_STAGE_1:
-      return { ...state, navigation: { view: 2, stage: 1, subStage: 1 } };
+      return {
+        ...state,
+        navigation: { view: 2, stage: 1, subStage: 1 },
+        ...stateMock,
+        order: state.order,
+      };
     case SET_CONTACT_EMAIL_AND_PHONE:
       return {
         ...state,
@@ -130,7 +150,8 @@ const reducer = (state = initialState, action: Action): ReducerState => {
           },
         };
       } else {
-        navigation = { view: 2, stage: 4, subStage: 1 };
+        const allowsTradeIn = !!next.order?.allowsTradeIn();
+        navigation = { view: 2, stage: allowsTradeIn ? 4 : 5, subStage: 1 };
         next = {
           ...state,
           navigation,
@@ -185,6 +206,7 @@ const reducer = (state = initialState, action: Action): ReducerState => {
         next = {
           ...next,
           navigation: next.topNavigation,
+          paymentType: action.paymentType,
           edit: {
             ...next.edit,
             financial: false,
@@ -199,6 +221,9 @@ const reducer = (state = initialState, action: Action): ReducerState => {
         };
       }
       return next;
+
+    case SET_PAYMENT_LOOKUP_RESPONSE:
+      return { ...next, paymentLookupResponse: action.paymentLookupResponse };
 
     case SET_INSURANCE:
       if (next.edit.delivery) {

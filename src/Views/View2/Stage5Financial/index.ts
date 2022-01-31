@@ -1,14 +1,34 @@
+import { PaymentType } from '@wayke-se/ecom';
+import { PaymentLookupResponse } from '@wayke-se/ecom/dist-types/payments/payment-lookup-response';
 import watch from 'redux-watch';
+import ButtonArrowRight from '../../../Components/ButtonArrowRight';
+import InputRadioField from '../../../Components/InputRadioField';
 import { editFinancial, setFinancial } from '../../../Redux/action';
 import store from '../../../Redux/store';
+import { prettyNumber } from '../../../Utils/format';
 import ListItem from '../ListItem';
+import Loan from './Loan';
+import Summary from './Summary';
 
 const PROCEED = 'button-financial-proceed';
+const PROCEED_NODE = `${PROCEED}-node`;
+
 const CHANGE_BUTTON = 'button-financial-change';
 const STAGE = 5;
 
+const RADIO_FINANCIAL_CASH_NODE = 'radio-financial-cash-node';
+const RADIO_FINANCIAL_CASH = 'radio-financial-cash';
+const RADIO_FINANCIAL_LOAN_NODE = 'radio-financial-loan-node';
+const RADIO_FINANCIAL_LOAN = 'radio-financial-loan';
+const RADIO_FINANCIAL_LEASE_NODE = 'radio-financial-lease-node';
+const RADIO_FINANCIAL_LEASE = 'radio-financial-lease';
+
+const PAYMENT_NODE = 'payment-node';
+
 class Stage5Financial {
   private element: HTMLDivElement;
+  private paymentType?: PaymentType;
+  private paymentLookupResponse?: PaymentLookupResponse;
 
   constructor(element: HTMLDivElement) {
     this.element = element;
@@ -16,12 +36,36 @@ class Stage5Financial {
     store.subscribe(w(() => this.render()));
     const w2 = watch(store.getState, 'edit');
     store.subscribe(w2(() => this.render()));
+    const w3 = watch(store.getState, 'paymentLookupResponse');
+    store.subscribe(
+      w3(() => {
+        const { paymentType, paymentLookupResponse } = store.getState();
+        this.paymentType = paymentType || this.paymentType;
+        this.paymentLookupResponse = paymentLookupResponse;
+        this.render();
+      })
+    );
 
+    const { paymentType, paymentLookupResponse } = store.getState();
+    this.paymentType = paymentType;
+    this.paymentLookupResponse = paymentLookupResponse;
     this.render();
   }
 
+  onChange(e: Event) {
+    const proceed = this.element.querySelector<HTMLDivElement>(`#${PROCEED}`);
+    if (!proceed) return;
+    const currentTarget = e.currentTarget as HTMLInputElement;
+    const value = currentTarget.value as PaymentType;
+    this.paymentType = value;
+    this.render();
+    proceed.removeAttribute('disabled');
+  }
+
   onProceed() {
-    setFinancial();
+    if (this.paymentType) {
+      setFinancial(this.paymentType);
+    }
   }
 
   onEdit() {
@@ -30,6 +74,11 @@ class Stage5Financial {
 
   render() {
     const state = store.getState();
+    const { order, vehicle, paymentLookupResponse } = state;
+    if (!order || !vehicle) throw 'No order available';
+
+    const paymentOptions = order.getPaymentOptions();
+
     const content = ListItem(this.element, {
       title: 'Finansiering',
       active: state.navigation.stage === STAGE,
@@ -39,22 +88,15 @@ class Stage5Financial {
 
     const part = document.createElement('div');
 
-    if (state.navigation.stage > STAGE) {
-      part.innerHTML = `
-      <div class="waykeecom-stack waykeecom-stack--1">
-          <ul class="waykeecom-key-value-list">
-            <li class="waykeecom-key-value-list__item">
-              <div class="waykeecom-key-value-list__key">Finansiering</div>
-              <div class="waykeecom-key-value-list__value"></div>
-            </li>
-          </ul>
-        </div>
-        <div class="waykeecom-stack waykeecom-stack--1">
-          <div class="waykeecom-align waykeecom-align--end">
-            <button id="${CHANGE_BUTTON}" title="Ändra finansiering" class="waykeecom-link">Ändra</button>
-          </div>
-        </div>
-      `;
+    if (state.navigation.stage > STAGE && this.paymentType) {
+      const loan = paymentOptions.find((x) => x.type === PaymentType.Loan);
+      part.innerHTML = Summary({
+        paymentType: this.paymentType,
+        loan,
+        paymentLookupResponse: loan?.loanDetails || paymentLookupResponse,
+        changeButtonId: CHANGE_BUTTON,
+      });
+
       part.querySelector(`#${CHANGE_BUTTON}`)?.addEventListener('click', () => this.onEdit());
       content.appendChild(part);
     } else if (state.navigation.stage === STAGE) {
@@ -62,25 +104,123 @@ class Stage5Financial {
         <div class="waykeecom-stack waykeecom-stack--3">
           <h4 class="waykeecom-heading waykeecom-heading--4 waykeecom-no-margin">Hur vill du finansiera din Volvo XC60?</h4>
         </div>
-        <div class="waykeecom-stack waykeecom-stack--3">
-          <button type="button" id="${PROCEED}" title="Fortsätt till nästa steg" class="waykeecom-button waykeecom-button--full-width waykeecom-button--action">
-            <span class="waykeecom-button__content">Fortsätt</span>
-            <span class="waykeecom-button__content">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 16 16"
-                class="waykeecom-icon"
-              >
-                <title>Ikon: pil höger</title>
-                <path d="m15.2 8.8-4.8 4.8-1.7-1.7 2.7-2.7H1.2C.5 9.2 0 8.7 0 8s.5-1.2 1.2-1.2h10.2L8.7 4.1l1.7-1.7 4.8 4.8.8.8-.8.8z" />
-              </svg>
-            </span>
-          </button>
+
+        <div class="waykeecom-stack waykeecom-stack--2">
+          <div class="waykeecom-stack waykeecom-stack--3" id="${RADIO_FINANCIAL_CASH_NODE}"></div>
+          <div class="waykeecom-stack waykeecom-stack--3" id="${RADIO_FINANCIAL_LOAN_NODE}"></div>
+          <div class="waykeecom-stack waykeecom-stack--3" id="${RADIO_FINANCIAL_LEASE_NODE}"></div>
         </div>
+
+        <div class="waykeecom-stack waykeecom-stack--2" id="${PAYMENT_NODE}"></div>
+
+
+        <div class="waykeecom-stack waykeecom-stack--3" id="${PROCEED_NODE}"></div>
       `;
-      part
-        .querySelector<HTMLButtonElement>(`#${PROCEED}`)
-        ?.addEventListener('click', () => this.onProceed());
+
+      const contactInformation = order.getContactInformation();
+
+      const cash = paymentOptions.find((x) => x.type === PaymentType.Cash);
+      if (cash) {
+        new InputRadioField(part.querySelector<HTMLInputElement>(`#${RADIO_FINANCIAL_CASH_NODE}`), {
+          id: RADIO_FINANCIAL_CASH,
+          name: 'paymentType',
+          title: 'Kontant',
+          value: PaymentType.Cash,
+          description: `
+            <div class="waykeecom-box">
+              <ul>
+                <li>Betalning sker hos ${contactInformation?.name} vid 
+                kontraktskrivning.</li>
+                <li>Inga kostnader tillkommer.</li>
+              </ul>
+            </div>`,
+          meta: `<div class="waykeecom-font-medium">${prettyNumber(cash.price || '???', {
+            postfix: cash.unit,
+          })}</div>`,
+          checked: this.paymentType === PaymentType.Cash,
+          onClick: (e) => this.onChange(e),
+        });
+      }
+
+      const loan = paymentOptions.find((x) => x.type === PaymentType.Loan);
+      if (loan) {
+        const loanPrice = this.paymentLookupResponse?.getCosts().monthlyCost || loan.price;
+        const duration =
+          this.paymentLookupResponse?.getDurationSpec().current ||
+          loan.loanDetails?.getDurationSpec().current;
+
+        const interest =
+          this.paymentLookupResponse?.getInterests().interest ||
+          loan.loanDetails?.getInterests().interest ||
+          NaN;
+
+        const getCreditAmount =
+          this.paymentLookupResponse?.getCreditAmount() ||
+          loan.loanDetails?.getCreditAmount() ||
+          NaN;
+
+        new InputRadioField(part.querySelector<HTMLInputElement>(`#${RADIO_FINANCIAL_LOAN_NODE}`), {
+          id: RADIO_FINANCIAL_LOAN,
+          name: 'paymentType',
+          title: 'Billån',
+          value: PaymentType.Loan,
+          description: `
+            <div class="waykeecom-box">
+              <ul>
+                <li>Låneansökan online med Mobilt BankID – svar direkt!</li>
+                <li>Betalning sker hos ${contactInformation?.name} vid 
+                kontraktskrivning.</li>
+                <li>*Beräknat på ${prettyNumber(getCreditAmount, {
+                  postfix: 'kr',
+                })} kr, ${duration} mån, ${interest * 100}% ränta.</li>
+                ${loan.logo && `<img style="width: 200px;" src="${loan.logo}" />`}
+              </ul>
+            </div>`,
+          meta: `<div class="waykeecom-font-medium">${prettyNumber(loanPrice || '???', {
+            postfix: loan.unit,
+          })}</div>`,
+          checked: this.paymentType === PaymentType.Loan,
+          onClick: (e) => this.onChange(e),
+        });
+      }
+
+      const lease = paymentOptions.find((x) => x.type === PaymentType.Lease);
+      if (lease) {
+        new InputRadioField(
+          part.querySelector<HTMLInputElement>(`#${RADIO_FINANCIAL_LEASE_NODE}`),
+          {
+            id: RADIO_FINANCIAL_LEASE,
+            name: 'paymentType',
+            title: 'Privatleasing',
+            value: PaymentType.Lease,
+            description: `
+            <div class="waykeecom-box">
+              <ul>
+                <li>*Inkl. 1 500 mil/år, 36 mån.</li>
+              </ul>
+            </div>`,
+            meta: `<div class="waykeecom-font-medium">${prettyNumber(lease.price || '???', {
+              postfix: lease.unit,
+            })}</div>`,
+            checked: this.paymentType === PaymentType.Lease,
+            onClick: (e) => this.onChange(e),
+          }
+        );
+      }
+
+      const paymentNode = part.querySelector<HTMLDivElement>(`#${PAYMENT_NODE}`);
+      if (paymentNode && loan) {
+        if (this.paymentType === PaymentType.Loan) {
+          new Loan(paymentNode, loan, vehicle.id, this.paymentLookupResponse);
+        }
+      }
+
+      new ButtonArrowRight(part.querySelector<HTMLDivElement>(`#${PROCEED_NODE}`), {
+        title: 'Fortsätt',
+        id: PROCEED,
+        disabled: !this.paymentType,
+        onClick: () => this.onProceed(),
+      });
     }
 
     content.appendChild(part);

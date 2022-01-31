@@ -6,3 +6,4 @@ dev/
 .npmrc
 .env
 pkg
+statemock.json

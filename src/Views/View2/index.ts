@@ -29,6 +29,9 @@ class View2v2 {
 
   render() {
     const state = store.getState();
+    const { order } = state;
+    if (!order) throw 'No order available';
+
     this.element.innerHTML = ``;
 
     const pageForm = document.createElement('div');
@@ -60,7 +63,9 @@ class View2v2 {
     new Stage1Customer(stepper);
     new Stage2CentralStorage(stepper);
     new Stage3Delivery(stepper);
-    new Stage4TradeIn(stepper);
+    if (state.order?.allowsTradeIn()) {
+      new Stage4TradeIn(stepper);
+    }
     new Stage5Financial(stepper);
     new Stage6Insurance(stepper);
     new Stage7Summary(stepper);
