@@ -38,11 +38,18 @@ class Part2WithBankId {
     this._ontoggleMethod();
   }
 
-  bankIdStatus(reference: string) {
+  bankIdStatus(reference: string, method: AuthMethod) {
     this.bankidStatusInterval = setInterval(async () => {
+      const errorAlert = document.querySelector<HTMLDivElement>(`#${BANKID_FETCH_ERROR}`);
+      if (!errorAlert) {
+        clearInterval(this.bankidStatusInterval as NodeJS.Timer);
+        return;
+      }
+
       try {
         const response = await getBankIdStatus(reference);
-        alert(response.isCompleted());
+        errorAlert.style.display = '';
+
         if (response.isCompleted()) {
           clearInterval(this.bankidStatusInterval as NodeJS.Timer);
           const address = response.getAddress();
@@ -51,24 +58,33 @@ class Part2WithBankId {
             setSocialIdAndAddress(socialId, address);
           }
         }
+        if (response.shouldRenew()) {
+          this.onStartBankIdAuth(method);
+        }
       } catch (e) {
         clearInterval(this.bankidStatusInterval as NodeJS.Timer);
+        errorAlert.style.display = '';
+        errorAlert.innerHTML = Alert({
+          tone: 'error',
+          children: '<p>Det gick inte att hämta status kring Nuvanrade bankid signering/p>',
+        });
       }
     }, 2000);
 
+    /*
     setTimeout(() => {
       // Kill after 60 sec
       if (this.bankidStatusInterval) {
         clearInterval(this.bankidStatusInterval);
       }
-    }, 60 * 1000);
+    }, 2 * 60 * 1000);
+    */
   }
 
   async onStartBankIdAuth(method: AuthMethod) {
     if (this.bankidStatusInterval) {
       clearInterval(this.bankidStatusInterval);
     }
-    const mobile = isMobile();
 
     const qrCodeNode = this.element.querySelector<HTMLDivElement>(`#${QR_CODE_NODE}`);
     const errorAlert = document.querySelector<HTMLDivElement>(`#${BANKID_FETCH_ERROR}`);
@@ -81,26 +97,28 @@ class Part2WithBankId {
       toggle.setAttribute('disabled', '');
       const response = await getBankIdAuth(method);
       const reference = response.getOrderRef();
-      this.bankIdStatus(reference);
+      this.bankIdStatus(reference, method);
 
-      if (mobile) {
+      if (method === AuthMethod.SameDevice) {
         try {
           qrCodeNode.innerHTML = `
             <div class="waykeecom-stack waykeecom-stack--3" id="${BANKID_OPEN_ON_DEVICE_NODE}"></div>
           `;
 
+          response.getAutoLaunchUrl();
           new ButtonArrowRight(
             this.element.querySelector<HTMLDivElement>(`#${BANKID_OPEN_ON_DEVICE_NODE}`),
             {
               title: 'Öppna BankID',
               id: BANKID_OPEN_ON_DEVICE,
-              onClick: () => this.onStartBankIdAuth(AuthMethod.QrCode),
+              onClick: () => window.open(response.getAutoLaunchUrl(), '_blank'),
             }
           );
-
-          qrCodeNode
-            .querySelector('button')
-            ?.addEventListener('click', () => window.open(response.getAutoLaunchUrl(), '_blank'));
+          new ButtonAsLink(this.element.querySelector<HTMLDivElement>(`#${BANKID_START_NODE}`), {
+            title: 'Mitt BankID är på en annan enhet',
+            id: BANKID_START,
+            onClick: () => this.onStartBankIdAuth(AuthMethod.QrCode),
+          });
         } catch (e) {
           const _e = e as { message: string };
           qrCodeNode.innerHTML = `<p>snap: ${_e.message}</p>`;
@@ -110,9 +128,18 @@ class Part2WithBankId {
         qrCodeNode.innerHTML = `
           <img style="width:400px;" src="data:image/png;base64, ${qrCode}" />
         `;
+        new ButtonAsLink(this.element.querySelector<HTMLDivElement>(`#${BANKID_START_NODE}`), {
+          title: 'Öppna BankID på den här enheten',
+          id: BANKID_START,
+          onClick: () => this.onStartBankIdAuth(AuthMethod.SameDevice),
+        });
       }
     } catch (e) {
       errorAlert.style.display = '';
+      errorAlert.innerHTML = Alert({
+        tone: 'error',
+        children: '<p>Det gick tyvärr inte att initiera BankId</p>',
+      });
     } finally {
       toggle.removeAttribute('disabled');
     }
@@ -137,20 +164,10 @@ class Part2WithBankId {
 
           <div class="waykeecom-stack waykeecom-stack--3" id="${QR_CODE_NODE}"></div>
 
-          <div class="waykeecom-stack waykeecom-stack--3" style="display:none;" id="${BANKID_FETCH_ERROR}">
-            ${Alert({
-              tone: 'error',
-              children: '<p>Tyvärr fick vi ingen träff på personnumret du angav.</p>',
-            })}
-          </div>
+          <div class="waykeecom-stack waykeecom-stack--3" style="display:none;" id="${BANKID_FETCH_ERROR}"></div>
 
         </div>
-        ${
-          mobile &&
-          `
-          <div class="waykeecom-stack waykeecom-stack--3" id="${BANKID_START_NODE}"></div>
-        `
-        }
+        <div class="waykeecom-stack waykeecom-stack--3" id="${BANKID_START_NODE}"></div>
         <div class="waykeecom-stack waykeecom-stack--3" id="${LINK_TOGGLE_METHOD_NODE}"></div>
       `;
 
@@ -159,6 +176,12 @@ class Part2WithBankId {
           title: 'Mitt BankID är på en annan enhet',
           id: BANKID_START,
           onClick: () => this.onStartBankIdAuth(AuthMethod.QrCode),
+        });
+      } else {
+        new ButtonAsLink(this.element.querySelector<HTMLDivElement>(`#${BANKID_START_NODE}`), {
+          title: 'Öppna BankID på den här enheten',
+          id: BANKID_START,
+          onClick: () => this.onStartBankIdAuth(AuthMethod.SameDevice),
         });
       }
 

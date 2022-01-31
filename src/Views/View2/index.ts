@@ -24,6 +24,7 @@ class View2v2 {
       })
     );
     this.render();
+    this.element.scrollTop = 0;
   }
 
   render() {
