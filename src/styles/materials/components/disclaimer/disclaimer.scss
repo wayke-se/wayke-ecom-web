@@ -9,6 +9,8 @@
   @include justify-content(center);
 
   &__icon {
+    @include flex-shrink(0);
+    
     margin-top: calc(($icon-size - $text-size * $text-line-height) / -2);
     color: color(text, alt);
     font-size: $icon-size;

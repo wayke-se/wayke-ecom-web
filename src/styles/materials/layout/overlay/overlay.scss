@@ -1,0 +1,20 @@
+@use '../../../helpers' as *;
+
+// Places a fullscreen overlay over the content
+.#{$namespace}overlay {
+  @include flex-display;
+  @include flex-direction(column);
+  @include align-items(center);
+  @include justify-content(flex-start);
+  @include overflow-auto;
+
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  padding: size(8) size(2);
+  background-color: color(bg, main);
+  text-align: center;
+  z-index: scss-var(zindex, overlay);
+}

@@ -29,6 +29,7 @@
 @use '../materials/components/link/link';
 @use '../materials/components/preview-card/preview-card';
 @use '../materials/components/product-card/product-card';
+@use '../materials/components/qr/qr';
 @use '../materials/components/separator/separator';
 @use '../materials/components/shadow-box/shadow-box';
 @use '../materials/components/sr-only/sr-only';
@@ -39,6 +40,7 @@
 @use '../materials/layout/align/align';
 @use '../materials/layout/container/container';
 @use '../materials/layout/hstack/hstack';
+@use '../materials/layout/overlay/overlay';
 @use '../materials/layout/page/page';
 @use '../materials/layout/stack/stack';
 @use '../materials/layout/stepper/stepper';

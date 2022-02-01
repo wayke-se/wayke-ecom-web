@@ -1,3 +1,4 @@
+@use "sass:selector";
 @use '../../../helpers' as *;
 
 .#{$namespace}link {
@@ -7,5 +8,9 @@
 
   &:hover {
     text-decoration: underline;
+  }
+
+  @at-root #{selector.unify(&, button)} {
+    display: inline-block;
   }
 }

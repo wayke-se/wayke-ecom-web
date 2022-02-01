@@ -11,6 +11,10 @@
   margin: 0;
 }
 
+.#{$namespace}text-center {
+  text-align: center;
+}
+
 // Spacing utility classes
 // Generates classes used to add spacing from properties defined
 // in $spacing-properties.

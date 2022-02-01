@@ -1,6 +1,7 @@
 import { IAddress } from '@wayke-se/ecom';
 import { Customer, CustomerSocialId } from '../../../@types/Customer';
 import ButtonArrowRight from '../../../Components/ButtonArrowRight';
+import ButtonAsLink from '../../../Components/ButtonAsLink';
 import InputField from '../../../Components/InputField';
 import { getAddressBySsn } from '../../../Data/getAddress';
 import { setSocialIdAndAddress } from '../../../Redux/action';
@@ -143,40 +144,64 @@ class Part2WithSocialId {
         <hr class="waykeecom-separator" />
       </div>
       <div class="waykeecom-stack waykeecom-stack--2">
+        <div class="waykeecom-stack waykeecom-stack--3">
+          <h4 class="waykeecom-heading waykeecom-heading--4">Personuppgifter</h4>
+          <div class="waykeecom-content">
+            <p>Ange ditt personnummer för att hämta ditt namn och din adress.</p>
+          </div>
+        </div>
         <div class="waykeecom-stack waykeecom-stack--3" id="${SOCIAL_ID_NODE}"></div>
-
         <div class="waykeecom-stack waykeecom-stack--3" style="display:none;" id="${SOCIAL_ID_FETCH_ERROR_ID}">
           ${Alert({
             tone: 'error',
             children: '<p>Tyvärr fick vi ingen träff på personnumret du angav.</p>',
           })}
         </div>
-        
         <div class="waykeecom-stack waykeecom-stack--3">
           ${Alert({
             tone: 'info',
             children: `
               <p>Vi kommer hämta följande uppgifter om dig:</p>
               <ul>
-                <li>Personnummer</li>
                 <li>Namn</li>
                 <li>Folkbokföringsadress</li>
               </ul>
             `,
           })}
         </div>
+        <div class="waykeecom-stack waykeecom-stack--3">
+          <div class="waykeecom-stack waykeecom-stack--2" id="${PROCEED_NODE}"></div>
+          <div class="waykeecom-stack waykeecom-stack--2">
+            <div class="waykeecom-disclaimer">
+              <div class="waykeecom-disclaimer__icon">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 16 16"
+                  class="waykeecom-icon"
+                >
+                  <title>Ikon: hänlås</title>
+                  <path d="M13 6h-1V4c0-2.2-1.8-4-4-4S4 1.8 4 4v2H3c-1.1 0-2 .9-2 2v8h14V8c0-1.1-.9-2-2-2zM6 4c0-1.1.9-2 2-2s2 .9 2 2v2H6V4zm7 10H3V8h10v6z" />
+                </svg>
+              </div>
+              <div class="waykeecom-disclaimer__text">
+                Dina uppgifter lagras och sparas säkert. Läs mer i vår <a href="#" title="" target="_blank" rel="noopener noreferrer" class="waykeecom-link">personuppgiftspolicy</a>.
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="waykeecom-stack waykeecom-stack--3">
+          <div class="waykeecom-text-center" id="${LINK_TOGGLE_METHOD_NODE}"></div>
+        </div>
       </div>
-      <div class="waykeecom-stack waykeecom-stack--3" id="${PROCEED_NODE}"></div>
-      <div class="waykeecom-stack waykeecom-stack--3" id="${LINK_TOGGLE_METHOD_NODE}"></div>
     `;
 
     new InputField(this.element.querySelector<HTMLDivElement>(`#${SOCIAL_ID_NODE}`), {
-      title: 'Epost',
+      title: 'Personnummer',
       value: this.state.value.socialId,
       id: SOCIAL_ID_INPUT_ID,
       errorId: SOCIAL_ID_ERROR_ID,
       error: this.state.interact.socialId && !this.state.validation.socialId,
-      errorMessage: 'Ange personnummer i formatet ÅÅÅÅMMDD-XXXX',
+      errorMessage: 'Ange personnummer i formatet ÅÅÅÅMMDD-XXXX.',
       name: 'socialId',
       placeholder: 'ÅÅÅÅMMDD-XXXX',
       onChange: (e) => this.onChange(e),
@@ -193,14 +218,11 @@ class Part2WithSocialId {
       onClick: () => this.onFetchAddress(),
     });
 
-    new ButtonArrowRight(
-      this.element.querySelector<HTMLDivElement>(`#${LINK_TOGGLE_METHOD_NODE}`),
-      {
-        title: 'Jag vill hämta uppgifter med Mobilt BankID',
-        id: LINK_TOGGLE_METHOD,
-        onClick: () => this.onToggleMethod(),
-      }
-    );
+    new ButtonAsLink(this.element.querySelector<HTMLDivElement>(`#${LINK_TOGGLE_METHOD_NODE}`), {
+      title: 'Jag vill hämta uppgifter med Mobilt BankID',
+      id: LINK_TOGGLE_METHOD,
+      onClick: () => this.onToggleMethod(),
+    });
 
     this.updateProceedButton();
   }

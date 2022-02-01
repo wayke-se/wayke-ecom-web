@@ -1,0 +1,7 @@
+@use '../../../helpers' as *;
+
+.#{$namespace}qr {
+  display: block;
+  width: 152px;
+  max-width: 100%;
+}
