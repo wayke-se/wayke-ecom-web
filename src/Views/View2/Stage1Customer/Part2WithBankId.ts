@@ -103,8 +103,10 @@ class Part2WithBankId {
       if (method === AuthMethod.SameDevice) {
         try {
           qrCodeNode.innerHTML = `
-            <div class="waykeecom-stack waykeecom-stack--4 waykeecom-align waykeecom-align--center">
-              <img src="${bankidLogotype}" alt="BankID logotyp" class="waykeecom-image" style="width: 130px" />
+            <div class="waykeecom-stack waykeecom-stack--4">
+              <div class="waykeecom-align waykeecom-align--center">
+                <img src="${bankidLogotype}" alt="BankID logotyp" class="waykeecom-image" style="width: 130px" />
+              </div>
             </div>
             <div class="waykeecom-stack waykeecom-stack--4" id="${BANKID_OPEN_ON_DEVICE_NODE}">
           `;
@@ -130,7 +132,9 @@ class Part2WithBankId {
       } else {
         const qrCode = response.getQrCode();
         qrCodeNode.innerHTML = `
-          <img src="data:image/png;base64, ${qrCode}" alt="BankID QQ" class="waykeecom-qr" />
+          <div class="waykeecom-align waykeecom-align--center">
+            <img src="data:image/png;base64, ${qrCode}" alt="BankID QQ" class="waykeecom-qr" />
+          </div>
         `;
         new ButtonAsLink(this.element.querySelector<HTMLDivElement>(`#${BANKID_START_NODE}`), {
           title: 'Öppna BankID på den här enheten',
@@ -166,20 +170,22 @@ class Part2WithBankId {
         </div>
         <div class="waykeecom-stack waykeecom-stack--2">
           <div class="waykeecom-overlay">
-            <div class="waykeecom-stack waykeecom-stack--4">
-              <h4 class="waykeecom-heading waykeecom-heading--4">Öppna BankID och scanna QR-koden</h4>
-              <div class="waykeecom-content">
-                <p>För att hämta dina uppgifter, starta din BankID applikation på din andra enhet.</p>
+            <div class="waykeecom-container waykeecom-container--narrow">
+              <div class="waykeecom-stack waykeecom-stack--4">
+                <h4 class="waykeecom-heading waykeecom-heading--4">Öppna BankID och scanna QR-koden</h4>
+                <div class="waykeecom-content">
+                  <p>För att hämta dina uppgifter, starta din BankID applikation på din andra enhet.</p>
+                </div>
               </div>
-            </div>
-            <div class="waykeecom-stack waykeecom-stack--4">
-              <div id="${QR_CODE_NODE}"></div>
-              <div id="${BANKID_FETCH_ERROR}" style="display:none;"></div>
-            </div>
-            <div class="waykeecom-stack waykeecom-stack--4">
-              <div class="waykeecom-stack waykeecom-stack--3">
-                <div class="waykeecom-stack waykeecom-stack--2" id="${BANKID_START_NODE}"></div>
-                <div class="waykeecom-stack waykeecom-stack--2" id="${LINK_TOGGLE_METHOD_NODE}"></div>
+              <div class="waykeecom-stack waykeecom-stack--4">
+                <div id="${QR_CODE_NODE}"></div>
+                <div id="${BANKID_FETCH_ERROR}" style="display:none;"></div>
+              </div>
+              <div class="waykeecom-stack waykeecom-stack--4">
+                <div class="waykeecom-stack waykeecom-stack--3">
+                  <div class="waykeecom-stack waykeecom-stack--2" id="${BANKID_START_NODE}"></div>
+                  <div class="waykeecom-stack waykeecom-stack--2" id="${LINK_TOGGLE_METHOD_NODE}"></div>
+                </div>
               </div>
             </div>
           </div>
