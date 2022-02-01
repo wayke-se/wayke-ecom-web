@@ -2,6 +2,7 @@
 
 .#{$namespace}heading {
   @include font-bold;
+  
   margin: 0;
   line-height: scss-var(font, line-height, alt);
 

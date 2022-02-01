@@ -43,8 +43,8 @@ $variables: (
     cubic-bezier: cubic-bezier(0.47, 1.64, 0.41, 0.8),
   ),
   box-shadow: (
-    main: (0px 8px 10px rgba(0, 0, 0, 0.03), 0px 2px 14px rgba(0, 0, 0, 0.03), 0px 2px 5px rgba(0, 0, 0, 0.09)),
-    alt: 0px 1px 2px rgba(0, 0, 0, 0.17),
+    main: (0 8px 10px rgba(0, 0, 0, 0.03), 0 2px 14px rgba(0, 0, 0, 0.03), 0 2px 5px rgba(0, 0, 0, 0.09)),
+    alt: 0 1px 2px rgba(0, 0, 0, 0.17),
   ),
   zindex: (
     overlay: 20,

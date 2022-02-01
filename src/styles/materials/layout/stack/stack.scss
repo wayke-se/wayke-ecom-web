@@ -1,6 +1,6 @@
 @use '../../../helpers' as *;
 
-$stackSizes: (
+$stack-size: (
   '05': 0.5,
   '1': 1,
   '2': 2,
@@ -10,10 +10,10 @@ $stackSizes: (
   '8': 8,
 );
 
-@each $stackName, $stackVal in $stackSizes {
-  .#{$namespace}stack--#{$stackName} {
+@each $stack-name, $stack-value in $stack-size {
+  .#{$namespace}stack--#{$stack-name} {
     & + [class*='#{$namespace}stack--'] {
-      margin-top: size($stackVal);
+      margin-top: size($stack-value);
     }
   }
 }

@@ -27,6 +27,7 @@
   &__key {
     @include flex-shrink(0);
     @include font-bold;
+    
     padding-right: size(2);
     font-size: var(--key-font-size);
     line-height: scss-var(font, line-height, main);
@@ -35,6 +36,7 @@
 
   &__value {
     @include flex(1 1 auto);
+
     font-size: var(--value-font-size);
     line-height: scss-var(font, line-height, main);
     text-align: right;

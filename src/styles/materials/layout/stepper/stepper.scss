@@ -9,7 +9,7 @@
     counter-increment: stage;
 
     // Current stage
-    //&--is-active {}
+    // &--is-active {}
 
     // Completed stage
     &--is-complete {
@@ -41,6 +41,7 @@
   &__header {
     @include flex-display;
     @include align-items(center);
+
     text-align: center;
 
     .heading {
@@ -54,6 +55,7 @@
     @include flex-shrink(0);
     @include align-items(center);
     @include justify-content(center);
+    
     display: none;
     width: $icon-size;
     height: $icon-size;

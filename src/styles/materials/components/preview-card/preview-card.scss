@@ -4,6 +4,7 @@
   @include flex-display;
   @include align-items(stretch);
   @include justify-content(center);
+
   background-color: color(bg, alt);
   border-radius: size(1);
   overflow: hidden;
@@ -22,12 +23,14 @@
 
   &__body {
     @include flex(1 1 auto);
+
     padding: size(1.5);
     min-width: 0;
   }
 
   &__seller {
     @include font-medium;
+
     margin-bottom: size(0.25);
     color: color(primary, main);
     font-size: scss-var(font, size, xsmall);
@@ -50,17 +53,20 @@
   &__footer {
     @include flex-display;
     @include align-items(center);
+
     margin-top: size(0.5);
   }
 
   &__price {
     @include flex(1 0 auto);
     @include font-medium;
+
     font-size: scss-var(font, size, small);
   }
 
   &__branding {
     @include flex(0 1 auto);
+    
     padding-left: size(2);
   }
 

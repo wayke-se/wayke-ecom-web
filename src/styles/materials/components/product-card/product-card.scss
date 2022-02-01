@@ -9,6 +9,7 @@
     @include grid-display;
     @include grid-template-columns(2fr 1fr);
     @include grid-template-rows(1fr 1fr);
+
     gap: 1px;
   }
 
@@ -17,6 +18,7 @@
 
     &:nth-child(1) {
       @include grid-row(1, 2);
+
       aspect-ratio: 3 / 2;
 
       &:last-child {
@@ -44,6 +46,7 @@
     @include flex-display;
     @include align-items(center);
     @include justify-content(center);
+
     position: absolute;
     top: 0;
     bottom: 0;
@@ -68,6 +71,7 @@
 
   &__seller {
     @include font-medium;
+
     margin-bottom: size(0.5);
     color: color(primary, main);
     font-size: scss-var(font, size, xsmall);
@@ -84,17 +88,20 @@
   &__footer {
     @include flex-display;
     @include align-items(center);
+    
     margin-top: size(1);
   }
 
   &__price {
     @include flex(1 1 auto);
     @include font-medium;
+
     font-size: scss-var(font, size, small);
   }
 
   &__branding {
     @include flex-shrink(0);
+
     padding-left: size(2);
   }
 

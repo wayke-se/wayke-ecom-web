@@ -1,7 +1,10 @@
+@use 'sass:color';
 @use '../../../helpers' as *;
 
 .#{$namespace}textarea {
   --textarea-padding: #{size(1.5)};
+
+  @include appearance(none);
 
   display: block;
   width: 100%;
@@ -13,7 +16,6 @@
   box-shadow: scss-var(box-shadow, alt);
   resize: vertical;
   -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
-  -webkit-appearance: none;
   touch-action: manipulation;
 
   &[disabled] {
@@ -23,11 +25,12 @@
 
   &:focus {
     outline: none;
-    border-color: darken(color(border, main), 20%);
+    border-color: color.adjust(color(border, main), $lightness: -20%);
   }
 
   @include placeholder {
     @include font-light;
+    
     color: color(text, alt);
   };
 

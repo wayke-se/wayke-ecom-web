@@ -1,3 +1,4 @@
+@use 'sass:color';
 @use '../../../helpers' as *;
 
 .#{$namespace}input-label {
@@ -15,6 +16,7 @@
 
   &__label {
     @include font-medium;
+
     display: block;
     color: color(text, main);
     font-size: var(--label-font-size);
@@ -34,6 +36,7 @@
 
   &__help {
     @include flex-shrink(0);
+
     position: relative; // Used to place help-btn focus above foldout
     margin-left: auto;
   }
@@ -45,12 +48,13 @@
     transition: color 200ms ease;
 
     &:hover {
-      color: darken(color(primary, main), 5%);
+      color: color.adjust(color(primary, main), $lightness: -5%);
     }
   }
 
   &__foldout {
     @include remove-direct-child-edge-margins;
+    
     width: 100%;
     background-color: color(bg, alt);
     padding: size(1.5);

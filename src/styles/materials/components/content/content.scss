@@ -2,5 +2,6 @@
 
 .#{$namespace}content {
   @include remove-direct-child-edge-margins;
+  
   font-size: scss-var(font, size, small);
 }

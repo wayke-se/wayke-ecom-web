@@ -2,13 +2,13 @@
 @use 'sass:math';
 @use '../../../helpers' as *;
 
-@mixin buttonTone($bg, $text) {
+@mixin button-tone($bg, $text) {
   background-color: $bg;
   color: $text;
 
   &:not([disabled]) {
     &:hover {
-      background-color: darken($bg, 5%);
+      background-color: color.adjust($bg, $lightness: -5%);
     } 
   }
 }
@@ -19,6 +19,7 @@
   @include justify-content(center);
   @include font-medium;
   @include transform-origin(50%, 50%);
+
   min-height: scss-var(size, input-height, mobile);
   padding: size(1.5) size(3);
   border-radius: math.div(scss-var(size, input-height, mobile), 2);
@@ -36,15 +37,15 @@
   }
 
   &--primary {
-    @include buttonTone(color(primary, main), color(primary, text));
+    @include button-tone(color(primary, main), color(primary, text));
   }
 
   &--action {
-    @include buttonTone(color(action, main), color(action, text));
+    @include button-tone(color(action, main), color(action, text));
   }
 
   &--action-clear {
-    @include buttonTone(transparent, color(action, main));
+    @include button-tone(transparent, color(action, main));
   }
 
   &--full-width {

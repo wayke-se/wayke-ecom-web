@@ -11,7 +11,9 @@
 }
 
 #{$root-body} {
+  @include text-size-adjust(100%); // Prevent font scaling in landscape while allowing user zoom
   @include font-light;
+
   margin: 0;
   background-color: color(bg, main);
   font-size: scss-var(font, size, regular);
@@ -19,7 +21,6 @@
   color: color(text, main);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  -webkit-text-size-adjust: 100%; // Prevent font scaling in landscape while allowing user zoom
 
   @supports (font-size-adjust: 1) {
     font-size-adjust: 0.5;

@@ -35,11 +35,12 @@
   &__label {
     @include flex(1 1 auto);
     @include flex-display;
-    font-size: var(--label-size);
+    
     line-height: var(--label-line-height);
     
     &::before {
       @include flex-shrink(0);
+
       content: '';  
       width: var(--icon-size);
       height: var(--icon-size);
@@ -60,6 +61,7 @@
 
   &__meta {
     @include flex-shrink(0);
+    
     padding-left: size(2);
   }
 

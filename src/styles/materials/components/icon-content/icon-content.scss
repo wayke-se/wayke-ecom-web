@@ -10,6 +10,7 @@
 
   &__icon {
     @include flex-shrink(0);
+    
     padding-right: $icon-margin;
     margin-top: calc(($icon-size - $label-size * $label-line-height) / -2);
     font-size: $icon-size;

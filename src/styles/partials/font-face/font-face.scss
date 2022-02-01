@@ -18,7 +18,8 @@ $font-path: '../assets/font/';
 @each $font in map.keys($fonts) {
   @font-face {
     @include font-shared-properties;
-    font-family: #{map.get($fonts, $font, name)};
+    
+    font-family: '#{map.get($fonts, $font, name)}';
     src:  url('#{$font-path}#{map.get($fonts, $font, file)}.woff2') format('woff2'),
           url('#{$font-path}#{map.get($fonts, $font, file)}.woff') format('woff');
     font-weight: map.get($fonts, $font, weight);

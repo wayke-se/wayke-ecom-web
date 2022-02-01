@@ -1,3 +1,4 @@
+@use 'sass:color';
 @use '../../../helpers' as *;
 
 .#{$namespace}input-text {
@@ -7,6 +8,7 @@
 
   @include flex-display;
   @include align-items(stretch);
+
   height: var(--input-height);
   background-color: color(bg, main);
   border: 1px solid color(border, main);
@@ -18,12 +20,14 @@
   }
 
   &:focus-within {
-    border-color: darken(color(border, main), 20%);
+    border-color: color.adjust(color(border, main), $lightness: -20%);
   }
 
   &__input {
     @include flex(1 1 auto);
+    @include appearance(none);
     @include font-light;
+
     display: block;
     width: 100%;
     padding: 0 var(--input-padding);
@@ -32,7 +36,6 @@
     border: none;
     border-radius: 0;
     -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
-    -webkit-appearance: none;
     touch-action: manipulation;
 
     &[disabled] {
@@ -46,6 +49,7 @@
 
     @include placeholder {
       @include font-light;
+
       color: color(text, alt);
     };
   }
@@ -54,6 +58,7 @@
     @include flex-shrink(0);
     @include flex-display;
     @include align-items(center);
+    
     padding-right: var(--input-padding);
     color: color(text, alt);
     font-size: var(--unit-font-size);

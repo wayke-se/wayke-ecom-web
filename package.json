@@ -13,6 +13,7 @@
     "typecheck:watch": "tsc -noEmit -watch",
     "lint": "eslint --ext .ts,.js 'src'",
     "lint:fix": "eslint --ext .ts,.js 'src' --fix",
+    "stylelint": "stylelint '**/*.scss'",
     "prepare": "husky install"
   },
   "author": "wayke",
@@ -35,6 +36,9 @@
     "pika-plugin-esbuild": "^0.3.5",
     "prettier": "^2.5.1",
     "rimraf": "^3.0.2",
+    "stylelint": "^14.3.0",
+    "stylelint-config-prettier-scss": "^0.0.1",
+    "stylelint-config-standard-scss": "^3.0.0",
     "typescript": "^4.5.4"
   },
   "@pika/pack": {

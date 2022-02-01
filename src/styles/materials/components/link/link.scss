@@ -3,6 +3,7 @@
 
 .#{$namespace}link {
   @include font-regular;
+  
   color: color(link, main);
   text-decoration: none;
 

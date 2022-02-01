@@ -12,11 +12,13 @@
   &__item {
     @include flex-display;
     @include align-items(stretch);
+    
     font-size: $text-font-size;
     line-height: $text-line-height;
 
     &::before {
       @include flex-shrink(0);
+
       content: '';
       display: block;
       width: 12px; // Magic number from svg
