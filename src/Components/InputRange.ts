@@ -119,16 +119,18 @@ class InputRange {
         useResidual
           ? `
         <div class="waykeecom-stack waykeecom-stack--1">
-          <input
-            type="range"
-            id="${this.props.id}"
-            min="${this.props.min}"
-            max="${this.props.max}"
-            ${this.props.step !== undefined && `step="${this.props.step}"`}
-            value="${this.value}"
-            name="${this.props.name}"
-            class="waykeecom-input-range"
-          />
+          <div class="waykeecom-input-range">
+            <input
+              type="range"
+              id="${this.props.id}"
+              min="${this.props.min}"
+              max="${this.props.max}"
+              ${this.props.step !== undefined && `step="${this.props.step}"`}
+              value="${this.value}"
+              name="${this.props.name}"
+              class="waykeecom-input-range__input"
+            />
+          </div>
         </div>
         `
           : ''
