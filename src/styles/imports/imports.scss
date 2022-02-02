@@ -8,6 +8,7 @@
 @use '../partials/base/base';
 
 // Components
+@use '../materials/components/accordion/accordion';
 @use '../materials/components/alert/alert';
 @use '../materials/components/balloon/balloon';
 @use '../materials/components/box/box';
@@ -15,6 +16,7 @@
 @use '../materials/components/checklist/checklist';
 @use '../materials/components/content/content';
 @use '../materials/components/disclaimer/disclaimer';
+@use '../materials/components/disclaimer-text/disclaimer-text';
 @use '../materials/components/heading/heading';
 @use '../materials/components/icon/icon';
 @use '../materials/components/icon-content/icon-content';

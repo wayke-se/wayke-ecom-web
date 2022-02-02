@@ -75,4 +75,9 @@
   &__body {
     margin-top: size(4);
   }
+
+  &__break {
+    padding: size(2);
+    background-color: color(bg, alt);
+  }
 }

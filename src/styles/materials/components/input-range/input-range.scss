@@ -61,7 +61,7 @@
       transition: transform 200ms ease;
     }
     @include input-range-track-progress {
-      background-color: color(primary, main); 
+      background-color: color(primary, main);
     }
 
     display: block;

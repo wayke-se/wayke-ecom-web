@@ -29,4 +29,12 @@
       margin-bottom: size(1);
     }
   }
+
+  &--5 {
+    font-size: scss-var(font, size, small);
+  }
+  
+  &--6 {
+    font-size: scss-var(font, size, xsmall);
+  }
 }

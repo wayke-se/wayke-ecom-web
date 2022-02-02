@@ -5,4 +5,8 @@
     padding: size(4) size(2);
     border-top: size(1) solid color(bg, alt);
   }
+
+  &__break {
+    margin: 0 size(-2);
+  }
 }

@@ -2,5 +2,6 @@
 
 .#{$namespace}shadow-box {
   padding: size(2);
+  background-color: color(bg, main);
   box-shadow: scss-var(box-shadow, main);
 }
