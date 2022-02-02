@@ -34,6 +34,29 @@ class App {
     }
     this.root = root;
 
+    // Create modal
+    const modalNode = document.createElement('div');
+    modalNode.className = 'waykeecom-modal';
+    const modalContainerNode = document.createElement('div');
+    modalContainerNode.className = 'waykeecom-modal__container';
+    const modalCenterNode = document.createElement('div');
+    modalCenterNode.className = 'waykeecom-modal__center';
+    const modalDialogNode = document.createElement('div');
+    modalDialogNode.className = 'waykeecom-modal__dialog';
+
+    this.root.appendChild(modalNode);
+    modalNode.appendChild(modalContainerNode);
+    modalContainerNode.appendChild(modalCenterNode);
+    modalCenterNode.appendChild(modalDialogNode);
+
+    // Create modal header
+    const modalHeader = document.createElement('div');
+    modalHeader.innerHTML = `
+      <header class="waykeecom-modal__header">Header!</header>
+    `;
+    modalDialogNode.appendChild(modalHeader);
+
+    // Append content
     const contentNode = document.createElement('div');
     const versionNode = document.createElement('div');
 
@@ -43,7 +66,7 @@ class App {
     this.contentNode = contentNode;
     this.versionNode = versionNode;
 
-    this.root.appendChild(contentNode);
+    modalDialogNode.appendChild(contentNode);
     this.root.appendChild(versionNode);
 
     //setId(props.vehicle.id);

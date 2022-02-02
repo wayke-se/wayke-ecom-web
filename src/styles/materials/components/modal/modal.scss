@@ -1,0 +1,30 @@
+@use "../../../helpers" as *;
+
+.#{$namespace}modal {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  z-index: 110;
+
+  &::before {
+    @include animation(#{$namespace}no-transform 400ms ease);
+    content: '';
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(color(overlay, main), 0.4);
+    z-index: -1;
+  }
+
+  &__dialog {
+    position: relative;
+    width: 100%;
+    background-color: color(bg, main);
+    color: color(text, main);
+  }
+}

@@ -1,0 +1,16 @@
+@use "../../../helpers" as *;
+
+.#{$namespace}modal {
+  &__container,
+  &__center,
+  &__dialog,
+  &__dialog-main {
+    height: 100%;
+  }
+
+  &__dialog {
+    @include animation(#{$namespace}no-transform 300ms ease forwards);
+    @include transform(translateY(100%));
+    @include overflow-auto;
+  }
+}
