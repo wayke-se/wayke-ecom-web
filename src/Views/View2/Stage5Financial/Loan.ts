@@ -97,90 +97,94 @@ class Loan {
     const publicUrl = this.loan.loanDetails?.getPublicURL();
 
     this.element.innerHTML = `
-      <div>
+      <div class="waykeecom-stack waykeecom-stack--3">
+        <hr class="waykeecom-separator" />
+      </div>
+      <div class="waykeecom-stack waykeecom-stack--3">
+        <h5 class="waykeecom-heading waykeecom-heading--4">Billån</h5>
+        <div class="waykeecom-content">
+          <p>Finansiera bilen med billån via Volvofinans Bank. Gör din låneansökan här – och få besked direkt. Kom ihåg, köpet är inte bindande förrän du signerat det definitiva affärsförslaget som tas fram av [handlaren].</p>
+          <p>Ange din tänkta kontantinsats och hur många månader du vill lägga upp ditt lån på.</p>
+        </div>
+      </div>
+      <div class="waykeecom-stack waykeecom-stack--3">
         <div class="waykeecom-stack waykeecom-stack--3" id="${DOWNPAYMENT_RANGE_NODE}"></div>
         <div class="waykeecom-stack waykeecom-stack--3" id="${DURATION_RANGE_NODE}"></div>
         <div class="waykeecom-stack waykeecom-stack--3" id="${RESIDUAL_RANGE_NODE}"></div>
 
-        <div>
-          <div>${this.loan.name}</div>
-          <img style="width: 200px;" src="${this.loan.logo}" />
-          <div>Månadskostnad för lånet: ${prettyNumber(monthlyCost, {
-            postfix: 'kr/mån',
-          })}</div>
-          <p>*Beräknat på ${interest * 100} % ränta (effektivt ${
+        <div class="waykeecom-stack waykeecom-stack--3">
+          <div style="border: 5px solid black; padding: 16px;">
+            <div>${this.loan.name}</div>
+            <img style="width: 200px;" src="${this.loan.logo}" />
+            <div>Månadskostnad för lånet: ${prettyNumber(monthlyCost, {
+              postfix: 'kr/mån',
+            })}</div>
+            <p>*Beräknat på ${interest * 100} % ränta (effektivt ${
       effectiveInterest * 100
     } %). Den ränta du får sätts vid avtalskrivning.</p>
-        </div>
+            <h2>Detaljer</h2>
+            <div class="waykeecom-stack waykeecom-stack--1">
+              <ul class="waykeecom-key-value-list">
+                ${KeyValueListItem({
+                  key: 'Kontantinsats',
+                  value: prettyNumber(downPayment, { postfix: 'kr' }),
+                })}
+                ${KeyValueListItem({
+                  key: 'Lån',
+                  value: prettyNumber(creditAmount, { postfix: 'kr' }),
+                })}
+              </ul>
+            </div>
+            <h2>Detaljer</h2>
+            <div class="waykeecom-stack waykeecom-stack--1">
+              <ul class="waykeecom-key-value-list">
+                ${KeyValueListItem({ key: 'Avbetalningsperoid', value: `${duration} mån` })}
 
-        <div>
-          <h2>Detaljer</h2>
-          <div class="waykeecom-stack waykeecom-stack--1">
-            <ul class="waykeecom-key-value-list">
-              ${KeyValueListItem({
-                key: 'Kontantinsats',
-                value: prettyNumber(downPayment, { postfix: 'kr' }),
-              })}
-              ${KeyValueListItem({
-                key: 'Lån',
-                value: prettyNumber(creditAmount, { postfix: 'kr' }),
-              })}
-            </ul>
-          </div>
-        </div>
+                ${KeyValueListItem({ key: 'Ränta', value: `${interest * 100}%` })}
 
+                ${KeyValueListItem({ key: 'Effektiv ränta', value: `${effectiveInterest * 100}%` })}
 
-        <div class="waykeecom-stack waykeecom-stack--1">
-          <h2>Detaljer</h2>
-          <div class="waykeecom-stack waykeecom-stack--1">
-            <ul class="waykeecom-key-value-list">
-              ${KeyValueListItem({ key: 'Avbetalningsperoid', value: `${duration} mån` })}
+                ${
+                  setupFee !== undefined &&
+                  KeyValueListItem({
+                    key: 'Uppläggningskostnad',
+                    value: prettyNumber(setupFee, { postfix: 'kr' }),
+                  })
+                }
 
-              ${KeyValueListItem({ key: 'Ränta', value: `${interest * 100}%` })}
+                ${
+                  administrationFee !== undefined &&
+                  KeyValueListItem({
+                    key: 'Administrativa kostnader',
+                    value: prettyNumber(administrationFee, { postfix: 'kr' }),
+                  })
+                }
+                ${KeyValueListItem({
+                  key: 'Total kreditkostnad',
+                  value: prettyNumber(totalCreditCost, { postfix: 'kr/mån' }),
+                })}
+              </ul>
+            </div>
+            <div class="waykeecom-stack waykeecom-stack--1">
+              <p>*Det här är inte den slutgiltiga offerten. Räntan kan komma att ändras ifall det sker justeringar i initial amorteringsplan, tillägg i utrustning eller andra ändringar som påverkar det initiala prisförslaget. 
 
-              ${KeyValueListItem({ key: 'Effektiv ränta', value: `${effectiveInterest * 100}%` })}
-
+              Om marknadsräntan förändras kan månadskostnaden komma att ändras i motsvarande mån. Månadskostnaden kan också komma att påverkas utifrån den kreditriskbedömning som görs efter en kreditupplysning.
+              </p>
               ${
-                setupFee !== undefined &&
-                KeyValueListItem({
-                  key: 'Uppläggningskostnad',
-                  value: prettyNumber(setupFee, { postfix: 'kr' }),
-                })
+                publicUrl
+                  ? `
+                  <a
+                    href="${publicUrl}"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    Mer information om ${this.loan.name}
+                  </a>
+                `
+                  : ''
               }
-
-              ${
-                administrationFee !== undefined &&
-                KeyValueListItem({
-                  key: 'Administrativa kostnader',
-                  value: prettyNumber(administrationFee, { postfix: 'kr' }),
-                })
-              }
-              ${KeyValueListItem({
-                key: 'Total kreditkostnad',
-                value: prettyNumber(totalCreditCost, { postfix: 'kr/mån' }),
-              })}
-            </ul>
+            </div>
           </div>
-        </div>
-
-        <div class="waykeecom-stack waykeecom-stack--1">
-          <p>*Det här är inte den slutgiltiga offerten. Räntan kan komma att ändras ifall det sker justeringar i initial amorteringsplan, tillägg i utrustning eller andra ändringar som påverkar det initiala prisförslaget. 
-
-          Om marknadsräntan förändras kan månadskostnaden komma att ändras i motsvarande mån. Månadskostnaden kan också komma att påverkas utifrån den kreditriskbedömning som görs efter en kreditupplysning.
-          </p>
-          ${
-            publicUrl
-              ? `
-              <a
-                href="${publicUrl}"
-                rel="noopener noreferrer"
-                target="_blank"
-              >
-                Mer information om ${this.loan.name}
-              </a>
-            `
-              : ''
-          }
         </div>
 
       </div>

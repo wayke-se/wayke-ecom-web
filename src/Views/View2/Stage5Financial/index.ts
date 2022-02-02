@@ -10,6 +10,8 @@ import ListItem from '../ListItem';
 import Loan from './Loan';
 import Summary from './Summary';
 
+import bankidLogotype from '../../../assets/images/bankid/bankid-logo.svg';
+
 const PROCEED = 'button-financial-proceed';
 const PROCEED_NODE = `${PROCEED}-node`;
 
@@ -100,26 +102,52 @@ class Stage5Financial {
       part.querySelector(`#${CHANGE_BUTTON}`)?.addEventListener('click', () => this.onEdit());
       content.appendChild(part);
     } else if (state.navigation.stage === STAGE) {
+      const cash = paymentOptions.find((x) => x.type === PaymentType.Cash);
+      const loan = paymentOptions.find((x) => x.type === PaymentType.Loan);
+      const lease = paymentOptions.find((x) => x.type === PaymentType.Lease);
+
       part.innerHTML = `
         <div class="waykeecom-stack waykeecom-stack--3">
           <h4 class="waykeecom-heading waykeecom-heading--4 waykeecom-no-margin">Hur vill du finansiera din Volvo XC60?</h4>
         </div>
 
-        <div class="waykeecom-stack waykeecom-stack--2">
-          <div class="waykeecom-stack waykeecom-stack--3" id="${RADIO_FINANCIAL_CASH_NODE}"></div>
-          <div class="waykeecom-stack waykeecom-stack--3" id="${RADIO_FINANCIAL_LOAN_NODE}"></div>
-          <div class="waykeecom-stack waykeecom-stack--3" id="${RADIO_FINANCIAL_LEASE_NODE}"></div>
+        <div class="waykeecom-stack waykeecom-stack--3">
+          <fieldset class="waykeecom-input-group">
+            <legend class="waykeecom-input-group__legend">Köp bilen</legend>
+            ${
+              loan
+                ? `
+              <div class="waykeecom-stack waykeecom-stack--3" id="${RADIO_FINANCIAL_LOAN_NODE}"></div>
+            `
+                : ''
+            }
+            ${
+              cash
+                ? `
+              <div class="waykeecom-stack waykeecom-stack--3" id="${RADIO_FINANCIAL_CASH_NODE}"></div>
+            `
+                : ''
+            }
+          </fieldset>
         </div>
-
-        <div class="waykeecom-stack waykeecom-stack--2" id="${PAYMENT_NODE}"></div>
-
-
+        ${
+          lease
+            ? `
+          <div class="waykeecom-stack waykeecom-stack--3">
+            <fieldset class="waykeecom-input-group">
+              <legend class="waykeecom-input-group__legend">Leasa bilen</legend>
+              <div id="${RADIO_FINANCIAL_LEASE_NODE}"></div>
+            </fieldset>
+          </div>
+          `
+            : ''
+        }
+        <div class="waykeecom-stack waykeecom-stack--3" id="${PAYMENT_NODE}"></div>
         <div class="waykeecom-stack waykeecom-stack--3" id="${PROCEED_NODE}"></div>
       `;
 
       const contactInformation = order.getContactInformation();
 
-      const cash = paymentOptions.find((x) => x.type === PaymentType.Cash);
       if (cash) {
         new InputRadioField(part.querySelector<HTMLInputElement>(`#${RADIO_FINANCIAL_CASH_NODE}`), {
           id: RADIO_FINANCIAL_CASH,
@@ -128,10 +156,10 @@ class Stage5Financial {
           value: PaymentType.Cash,
           description: `
             <div class="waykeecom-box">
-              <ul>
-                <li>Betalning sker hos ${contactInformation?.name} vid 
+              <ul class="waykeecom-unordered-list">
+                <li class="waykeecom-unordered-list__item">Betalning sker hos ${contactInformation?.name} vid 
                 kontraktskrivning.</li>
-                <li>Inga kostnader tillkommer.</li>
+                <li class="waykeecom-unordered-list__item">Inga kostnader tillkommer.</li>
               </ul>
             </div>`,
           meta: `<div class="waykeecom-font-medium">${prettyNumber(cash.price || '???', {
@@ -142,7 +170,6 @@ class Stage5Financial {
         });
       }
 
-      const loan = paymentOptions.find((x) => x.type === PaymentType.Loan);
       if (loan) {
         const loanPrice = this.paymentLookupResponse?.getCosts().monthlyCost || loan.price;
         const duration =
@@ -166,15 +193,30 @@ class Stage5Financial {
           value: PaymentType.Loan,
           description: `
             <div class="waykeecom-box">
-              <ul>
-                <li>Låneansökan online med Mobilt BankID – svar direkt!</li>
-                <li>Betalning sker hos ${contactInformation?.name} vid 
-                kontraktskrivning.</li>
-                <li>*Beräknat på ${prettyNumber(getCreditAmount, {
-                  postfix: 'kr',
-                })} kr, ${duration} mån, ${interest * 100}% ränta.</li>
-                ${loan.logo && `<img style="width: 200px;" src="${loan.logo}" />`}
-              </ul>
+              <div class="waykeecom-stack waykeecom-stack--2">
+                <ul class="waykeecom-unordered-list">
+                  <li class="waykeecom-unordered-list__item">Låneansökan online med Mobilt BankID <img src="${bankidLogotype}" alt="BankID logotyp" class="waykeecom-image waykeecom-image--inline" aria-hidden="true" /> – svar direkt!</li>
+                  <li class="waykeecom-unordered-list__item">Betalning sker hos ${
+                    contactInformation?.name
+                  } vid 
+                  kontraktskrivning.</li>
+                  <li class="waykeecom-unordered-list__item">*Beräknat på ${prettyNumber(
+                    getCreditAmount,
+                    {
+                      postfix: 'kr',
+                    }
+                  )} kr, ${duration} mån, ${interest * 100}% ränta.</li>
+                </ul>
+              </div>
+              ${
+                loan.logo
+                  ? `<div class="waykeecom-stack waykeecom-stack--2">
+                    <div class="waykeecom-align waykeecom-align--center">
+                      <img src="${loan.logo}" alt="${loan.name} logotyp" class="waykeecom-image waykeecom-image--loan-logo" />
+                    </div>
+                  </div>`
+                  : ''
+              }
             </div>`,
           meta: `<div class="waykeecom-font-medium">${prettyNumber(loanPrice || '???', {
             postfix: loan.unit,
@@ -184,7 +226,6 @@ class Stage5Financial {
         });
       }
 
-      const lease = paymentOptions.find((x) => x.type === PaymentType.Lease);
       if (lease) {
         new InputRadioField(
           part.querySelector<HTMLInputElement>(`#${RADIO_FINANCIAL_LEASE_NODE}`),

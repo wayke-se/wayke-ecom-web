@@ -99,19 +99,26 @@ class InputRange {
             : ''
         }
       </div>
-      <div class="waykeecom-input-text">
-        <input
-          type="text"
-          id="${this.props.id}-input"
-          value="${this.inputFieldValue}"
-          name="${this.props.name}"
-          class="waykeecom-input-text__input"
-        />
+      <div class="waykeecom-stack waykeecom-stack--1">
+        <div class="waykeecom-input-text">
+          <input
+            type="text"
+            id="${this.props.id}-input"
+            value="${this.inputFieldValue}"
+            name="${this.props.name}"
+            class="waykeecom-input-text__input"
+          />
+          ${
+            this.props.unit
+              ? `<div class="waykeecom-input-text__unit">${this.props.unit}</div>`
+              : ''
+          }
+        </div>
       </div>
       ${
         useResidual
           ? `
-        <div class="waykeecom-input-text">
+        <div class="waykeecom-stack waykeecom-stack--1">
           <input
             type="range"
             id="${this.props.id}"
@@ -120,7 +127,8 @@ class InputRange {
             ${this.props.step !== undefined && `step="${this.props.step}"`}
             value="${this.value}"
             name="${this.props.name}"
-          >
+            class="waykeecom-input-range"
+          />
         </div>
         `
           : ''

@@ -1,0 +1,88 @@
+@use 'sass:math';
+@use '../../../helpers' as *;
+
+/* stylelint-disable selector-no-vendor-prefix */
+
+@mixin input-range-track {
+  &::-webkit-slider-runnable-track {
+    @content;
+  }
+
+  &::-moz-range-track {
+    @content;
+  }
+}
+
+@mixin input-range-track-progress {
+  &::-moz-range-progress {
+    @content;
+  }
+
+  &::-ms-fill-lower {
+    @content;
+  }
+}
+
+@mixin input-range-thumb {
+  &::-webkit-slider-thumb {
+    @content;
+  }
+
+  &::-moz-range-thumb {
+    @content;
+  }
+}
+
+/* stylelint-enable selector-no-vendor-prefix */
+
+.#{$namespace}input-range {
+  $track-height: size(0.5);
+  $thumb-size: size(4);
+
+  @include appearance(none);
+  @include input-range-track {
+    background-color: color(bg, alt);
+    height: $track-height;
+    border-radius: size(0.25);
+  }
+  @include input-range-thumb {
+    @include appearance(none);
+    @include transform-origin(50% 50%);
+
+    width: $thumb-size;
+    height: $thumb-size;
+    margin-top: math.div($track-height, 2) - math.div($thumb-size, 2);
+    background-color: color(bg, main);
+    border: 1px solid color(primary, main);
+    border-radius: 50%;
+    box-shadow: scss-var(box-shadow, main);
+    transition: transform 200ms ease;
+  }
+  @include input-range-track-progress {
+    background-color: color(primary, main); 
+  }
+
+  display: block;
+  width: 100%;
+  margin: 0;
+  padding: (math.div($thumb-size, 2) - math.div($track-height, 2)) 0;
+  background-color: transparent;
+  cursor: pointer;
+  
+  &:focus {
+    outline: none;
+
+    @include input-range-thumb {
+      @include transform(scale(1.25));
+    }
+  }
+
+  @include focus {
+    @include input-range-thumb {
+      @include transform(none);
+
+      outline: 2px solid color(text, main);
+      outline-offset: 2px;
+    }
+  }
+}
