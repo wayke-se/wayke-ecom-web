@@ -145,6 +145,7 @@ class Stage5Financial {
         <div class="waykeecom-stack waykeecom-stack--3" id="${PAYMENT_NODE}"></div>
         <div class="waykeecom-stack waykeecom-stack--3" id="${PROCEED_NODE}"></div>
       `;
+      content.appendChild(part);
 
       const contactInformation = order.getContactInformation();
 
@@ -264,7 +265,7 @@ class Stage5Financial {
       });
     }
 
-    content.appendChild(part);
+    //content.appendChild(part);
   }
 }
 

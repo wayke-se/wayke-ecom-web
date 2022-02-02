@@ -25,6 +25,8 @@ class InputRange {
   private props: InputRangeProps;
   private value: number;
   private inputFieldValue: string;
+  private rangeSpan: number;
+  private currentValueInPercentage: number;
 
   constructor(element: HTMLDivElement | null, props: InputRangeProps) {
     if (!element) throw `No element provided to InputField`;
@@ -32,6 +34,12 @@ class InputRange {
     this.props = props;
     this.value = props.value;
     this.inputFieldValue = formatNumberPretty(this.value, this.props.unit);
+    this.rangeSpan = props.max - props.min;
+    this.currentValueInPercentage = parseInt(
+      (100 * ((this.value - this.props.min) / this.rangeSpan)).toString(),
+      10
+    );
+
     this.render();
   }
 
@@ -48,7 +56,7 @@ class InputRange {
   }
 
   onBlur(e: Event) {
-    const inputFieldValueAsNumber = parseInt(this.inputFieldValue, 10);
+    const inputFieldValueAsNumber = parseInt(this.inputFieldValue.replace(/\D/g, ''), 10);
     if (
       !isNaN(inputFieldValueAsNumber) &&
       inputFieldValueAsNumber >= this.props.min &&
@@ -58,10 +66,12 @@ class InputRange {
       if (this.props.onChange) {
         this.props.onChange(e);
       }
-      this.inputFieldValue = formatNumberPretty(this.inputFieldValue, this.props.unit);
+
+      this.inputFieldValue = formatNumberPretty(this.value, this.props.unit);
+
       this.render();
     } else {
-      this.inputFieldValue = formatNumberPretty(this.inputFieldValue, this.props.unit);
+      this.inputFieldValue = formatNumberPretty(inputFieldValueAsNumber, this.props.unit);
       this.updateInputField();
     }
   }
@@ -75,7 +85,32 @@ class InputRange {
     const currentTarget = e.currentTarget as HTMLInputElement;
     this.value = parseInt(currentTarget.value, 10);
     this.inputFieldValue = prettyNumber(this.value, { postfix: this.props.unit });
+
+    this.currentValueInPercentage = parseInt(
+      (100 * ((this.value - this.props.min) / this.rangeSpan)).toString(),
+      10
+    );
+
     this.updateInputField();
+    this.updateRangeSliderColor(currentTarget);
+  }
+
+  updateRangeSliderColor(element?: HTMLInputElement) {
+    const elem = element || this.element.querySelector<HTMLInputElement>(`#${this.props.id}`);
+    if (elem) {
+      const style = getComputedStyle(elem);
+      const currentBackgroundImageBits = style.backgroundImage.split(',');
+      currentBackgroundImageBits[3] = currentBackgroundImageBits[3].replace(
+        /(?:[1-9]\d?%|0%|100%)/,
+        `${this.currentValueInPercentage}%`
+      );
+      currentBackgroundImageBits[6] = currentBackgroundImageBits[6].replace(
+        /(?:[1-9]\d?%|0%|100%)/,
+        `${this.currentValueInPercentage}%`
+      );
+
+      elem.style.backgroundImage = currentBackgroundImageBits.join(',');
+    }
   }
 
   updateInputField() {
@@ -144,12 +179,15 @@ class InputRange {
     }
 
     if (useResidual) {
-      const inputRange = this.element.querySelector(`#${this.props.id}`);
+      const inputRange = this.element.querySelector<HTMLInputElement>(`#${this.props.id}`);
       if (inputRange) {
         if (this.props.onChange) {
           inputRange.addEventListener('change', this.props.onChange);
         }
         inputRange.addEventListener('input', (e) => this.onInput(e));
+        //setTimeout(() => {
+        this.updateRangeSliderColor(inputRange);
+        //}, 10);
       }
 
       const inputField = this.element.querySelector(`#${this.props.id}-input`);
