@@ -6,6 +6,8 @@ import { setPaymentLookupResponse } from '../../../Redux/action';
 import KeyValueListItem from '../../../Templates/KeyValueListItem';
 import { prettyNumber } from '../../../Utils/format';
 
+import pieChartIllustration from '../../../assets/images/illustrations/payment.svg';
+
 const DOWNPAYMENT_RANGE_NODE = 'downpayment-range-node';
 const DOWNPAYMENT_RANGE = 'downpayment-range';
 
@@ -145,14 +147,48 @@ class Loan {
                 </div>
               </div>
               <div class="waykeecom-stack waykeecom-stack--3">
+                  <div class="waykeecom-pie-chart">
+                    <svg height="20" width="20" viewBox="0 0 20 20" class="waykeecom-pie-chart__chart">
+                      <circle r="10" cx="10" cy="10" class="waykeecom-pie-chart__chart-data-base" />
+                      <circle r="5" cx="10" cy="10" fill="transparent"
+                        stroke-width="10"
+                        stroke-dasharray="calc(80 * 31.4 / 100) 31.4"
+                        transform="rotate(-90) translate(-20)"
+                        class="waykeecom-pie-chart__chart-data waykeecom-pie-chart__chart-data--1"
+                      />
+                    </svg>
+                    <div class="waykeecom-pie-chart__overlay">
+                      <img src="${pieChartIllustration}" alt="Illustration av betalning" class="waykeecom-pie-chart__illustration" />
+                    </div>
+                  </div>
+                </div>
+              <div class="waykeecom-stack waykeecom-stack--3">
                 <div class="waykeecom-stack waykeecom-stack--2">
                   <ul class="waykeecom-key-value-list">
                     ${KeyValueListItem({
-                      key: 'Kontantinsats',
+                      key: `
+                        <div class="waykeecom-hstack waykeecom-hstack--spacing-1 waykeecom-hstack--align-center">
+                          <div class="waykeecom-hstack__item waykeecom-hstack__item--no-shrink" aria-hidden="true">
+                            <div class="waykeecom-chart-indicator waykeecom-chart-indicator--secondary"></div>
+                          </div>
+                          <div class="waykeecom-hstack__item">
+                            Kontantinsats (X %)
+                          </div>
+                        </div>
+                      `,
                       value: prettyNumber(downPayment, { postfix: 'kr' }),
                     })}
                     ${KeyValueListItem({
-                      key: 'Lån',
+                      key: `
+                        <div class="waykeecom-hstack waykeecom-hstack--spacing-1 waykeecom-hstack--align-center">
+                          <div class="waykeecom-hstack__item waykeecom-hstack__item--no-shrink" aria-hidden="true">
+                            <div class="waykeecom-chart-indicator waykeecom-chart-indicator--primary"></div>
+                          </div>
+                          <div class="waykeecom-hstack__item">
+                            Lån (X %)
+                          </div>
+                        </div>
+                      `,
                       value: prettyNumber(creditAmount, { postfix: 'kr' }),
                     })}
                   </ul>

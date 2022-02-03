@@ -43,6 +43,10 @@ $colors: (
   overlay: (
     main: color-defs(black),
   ),
+  chart: (
+    primary: color-defs(green),
+    secondary: color-defs(red-light),
+  ),
   ui: (
     success: (
       main: color-defs(ui, green),

@@ -1,0 +1,14 @@
+@use '../../../helpers' as *;
+
+.#{$namespace}chart-indicator {
+  width: 1em;
+  height: 1em;
+
+  &--primary {
+    background-color: color(chart, primary);
+  }
+
+  &--secondary {
+    background-color: color(chart, secondary);
+  }
+}

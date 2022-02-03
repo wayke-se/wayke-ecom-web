@@ -1,0 +1,50 @@
+@use "sass:math";
+@use "../../../helpers" as *;
+
+.#{$namespace}pie-chart {
+  $pie-chart-size: 120px;
+  $pie-chart-overlay-size: 100px;
+
+  @include flex-display;
+  @include flex-direction(column);
+  @include align-items(center);
+
+  position: relative;
+
+  &__chart {
+    display: block;
+    width: $pie-chart-size;
+    height: $pie-chart-size;
+  }
+
+  &__chart-data-base {
+    fill: color(chart, secondary);
+  }
+
+  &__chart-data {
+    &--1 {
+      stroke: color(chart, primary);
+    }
+  }
+
+  &__overlay {
+    @include flex-display;
+    @include align-items(center);
+    @include justify-content(center);
+    @include transform(translate(-50%, -50%));
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: $pie-chart-overlay-size;
+    height: $pie-chart-overlay-size;
+    background-color: color(bg, main);
+    border-radius: 50%;
+    padding: math.div(($pie-chart-size - $pie-chart-overlay-size), 2);
+  }
+
+  &__illustration {
+    display: block;
+    width: 100%;
+  }
+}
