@@ -3,16 +3,16 @@
 .#{$namespace}page-form {
   @include flex-display;
 
-  max-width: scss-var(size, container-max-width);
-  margin: size(7) auto;
-  padding: 0 size(4);
+  max-width: scss-var(size, container, max-width, main);
+  margin: 0 auto;
+  padding: size(7) size(3);
   
   &__aside {
     @include flex-shrink(0);
 
     width: 50%;
     max-width: 50%;
-    padding-left: size(4);
+    padding-left: size(3);
   }
 
   &__aside-heading {

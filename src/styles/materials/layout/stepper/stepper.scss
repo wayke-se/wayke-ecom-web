@@ -14,7 +14,7 @@
     // Completed stage
     &--is-complete {
       #{$root}__header {
-        text-align: left;
+        @include justify-content(flex-start);
       }
 
       #{$root}__stage {
@@ -41,8 +41,7 @@
   &__header {
     @include flex-display;
     @include align-items(center);
-
-    text-align: center;
+    @include justify-content(center);
 
     .heading {
       @include flex(1 1 auto);

@@ -2,6 +2,8 @@
 @use '../../../helpers' as *;
 
 .#{$namespace}link {
+  $root: &;
+
   @include font-regular;
   
   color: color(link, main);
@@ -12,6 +14,22 @@
   }
 
   @at-root #{selector.unify(&, button)} {
-    display: inline-block;
+    font-size: 1em;
+    
+    &:not(#{$root}--has-content) {
+      display: inline-block;
+    }
+  }
+
+  &--has-content {
+    @include inline-flex-display;
+  }
+
+  &__content {
+    display: block;
+
+    & + & {
+      margin-left: size(1);
+    }
   }
 }

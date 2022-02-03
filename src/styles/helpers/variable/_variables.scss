@@ -13,14 +13,13 @@ $variables: (
       mobile: 48px,
     ),
     border-radius: 3px,
-    container-max-width: 1344px,
-    container-max-width-narrow: 882px,
     container: (
       max-width: (
         main: 1280px,
         narrow: 850px,
       ),
       gutter: 16px,
+      gutterSm: 24px,
     ),
   ),
   font: (

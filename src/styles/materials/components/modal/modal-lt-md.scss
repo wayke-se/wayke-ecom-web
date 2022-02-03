@@ -13,4 +13,31 @@
     @include transform(translateY(100%));
     @include overflow-auto;
   }
+
+  &__header-inner {
+    @include justify-content(flex-end);
+  }
+
+  &__close-btn {
+    position: relative;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: size(-2);
+      bottom: size(-2);
+      left: size(-2);
+      right: size(-2);
+    }
+  }
+
+  &__back-btn {
+    display: none;
+  }
+
+  &__logo {
+    &--wordmark {
+      display: none;
+    }
+  }
 }

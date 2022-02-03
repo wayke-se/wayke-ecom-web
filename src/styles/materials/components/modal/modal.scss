@@ -1,6 +1,8 @@
 @use "../../../helpers" as *;
 
 .#{$namespace}modal {
+  $modal-header-height: size(5);
+
   position: fixed;
   top: 0;
   bottom: 0;
@@ -26,5 +28,31 @@
     width: 100%;
     background-color: color(bg, main);
     color: color(text, main);
+  }
+
+  &__header {
+    padding-top: size(3);
+  }
+
+  &__header-inner {
+    position: relative;
+    @include flex-display;
+    @include align-items(center);
+    height: $modal-header-height;
+  }
+
+  &__logo {
+    @include transform(translateX(-50%));
+
+    position: absolute;
+    top: 0;
+    left: 50%;
+
+    &--wordmark,
+    &--symbol {
+      display: block;
+      height: $modal-header-height;
+      fill: color(text, main);
+    }
   }
 }
