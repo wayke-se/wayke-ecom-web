@@ -20,5 +20,9 @@
   &__text {
     font-size: $text-size;
     line-height: $text-line-height;
+
+    & > p {
+      margin: 0;
+    }
   }
 }

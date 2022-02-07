@@ -26,7 +26,7 @@
 
   &__key {
     @include flex-shrink(0);
-    @include font-bold;
+    @include font-medium;
     
     padding-right: size(2);
     font-size: var(--key-font-size);

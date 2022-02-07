@@ -1,0 +1,15 @@
+@use '../../../helpers' as *;
+
+.#{$namespace}product-card {
+  &__seller {
+    font-size: scss-var(font, size, small);
+  }
+
+  &__heading {
+    font-size: scss-var(font, size, regular);
+  }
+
+  &__price {
+    font-size: scss-var(font, size, regular);
+  }
+}

@@ -94,7 +94,9 @@ class View1v2 {
             }" id="${PROCEED_BUTTON_LOADER}-loader">
               <div>Laddar...</div>
             </div>
-            ${ItemTileLarge({ vehicle: state.vehicle, order: state.order })}
+            <div class="waykeecom-stack waykeecom-stack--3">
+              ${ItemTileLarge({ vehicle: state.vehicle, order: state.order })}
+            </div>
             ${HowTo({ order: state.order })}
             <div class="waykeecom-stack waykeecom-stack--3" id="${PROCEED_BUTTON_NODE}">
               <button type="button" id="${PROCEED_BUTTON}" disabled="" title="Gå vidare" class="waykeecom-button waykeecom-button--full-width waykeecom-button--action">
