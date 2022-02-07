@@ -1,6 +1,10 @@
 @use '../../../helpers' as *;
 
 .#{$namespace}heading {
+  &--2 {
+    font-size: scss-var(font, size, xxxlarge);
+  }
+
   &--3 {
     font-size: scss-var(font, size, xxlarge);
   }

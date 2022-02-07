@@ -22,6 +22,8 @@
   }
 
   &__chart-data {
+    transition: stroke-dasharray 200ms ease;
+
     &--1 {
       stroke: color(chart, primary);
     }
