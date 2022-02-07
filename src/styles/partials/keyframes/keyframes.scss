@@ -18,3 +18,9 @@
     opacity: 1;
   }
 }
+
+@include keyframes(#{$namespace}rotate) {
+  100% {
+    @include transform(rotate(360deg));
+  }
+}

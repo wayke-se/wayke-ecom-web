@@ -188,9 +188,9 @@ class View3Summary {
                         value: `
                           ${maskText(state.address?.givenName || '')} ${maskText(
                           state.address?.surname || ''
-                        )}<br />${maskText(state.address?.street || '')}<br />${maskText(
-                          state.address?.postalCode || ''
-                        )} ${maskText(state.address?.city || '')}
+                        )}<br />${state.address?.street}<br />${state.address?.postalCode} ${
+                          state.address?.city
+                        }
                         `,
                       })}
                       ${KeyValueListItem({

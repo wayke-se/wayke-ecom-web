@@ -1,0 +1,44 @@
+@use '../../../helpers' as *;
+
+.#{$namespace}loader {
+  $root: &;
+
+  color: currentColor;
+
+  &--inline {
+    display: inline-block;
+    vertical-align: middle;
+
+    #{$root}__spinner {
+      width: 1em;
+      height: 1em;
+      border: 2px solid currentColor;
+      border-top-color: transparent;
+    }
+  }
+
+  &--inline-block {
+    #{$root}__spinner {
+      width: 1em;
+      height: 1em;
+      border: 2px solid currentColor;
+      border-top-color: transparent;
+    }
+  }
+
+  &__spinner {
+    position: relative;
+    display: block;
+    margin: 0 auto;
+    width: size(4);
+    height: size(4);
+    border-radius: 50%;
+    border: 2px solid currentColor;
+    border-top-color: transparent;
+    animation: #{$namespace}rotate 600ms linear infinite;
+
+    @media (prefers-reduced-motion) {
+      animation-duration: 1500ms;
+    }
+  }
+}

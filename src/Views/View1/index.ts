@@ -72,8 +72,9 @@ class View1v2 {
         <div class="waykeecom-page">
           <div class="waykeecom-page__body">
             <div class="waykeecom-container waykeecom-container--narrow">
-              <div class="waykeecom-stack waykeecom-stack--3">
-                <h2 class="waykeecom-heading waykeecom-heading--3 waykeecom-no-margin">Vad roligt att du vill köpa denna bil!</h2>
+              <div class="waykeecom-loader">
+                <div class="waykeecom-loader__spinner" aria-hidden="true"></div>
+                <div class="waykeecom-sr-only">Laddar...</div>
               </div>
             </div>
           </div>

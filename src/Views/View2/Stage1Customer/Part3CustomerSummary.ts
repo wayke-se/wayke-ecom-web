@@ -32,9 +32,9 @@ class Part3CustomerSummary {
               key: 'Namn',
               value: `${maskText(state.address.givenName)} ${maskText(state.address.surname)}`,
             },
-            { key: 'Adress', value: maskText(state.address.street) },
-            { key: 'Postnummer', value: maskText(state.address.postalCode) },
-            { key: 'Stad', value: maskText(state.address.city) },
+            { key: 'Adress', value: state.address.street },
+            { key: 'Postnummer', value: state.address.postalCode },
+            { key: 'Stad', value: state.address.city },
           ]
         : []),
     ];
