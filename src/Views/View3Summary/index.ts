@@ -166,7 +166,7 @@ class View3Summary {
                   </div>
                 </div>
               </div>
-              <div class="waykeecom-stack waykeecom-stack--4">,
+              <div class="waykeecom-stack waykeecom-stack--4">
                 <div class="waykeecom-stack waykeecom-stack--2">
                   <h4 class="waykeecom-heading waykeecom-heading--4 waykeecom-no-margin">Kunduppgifter</h4>
                 </div>
