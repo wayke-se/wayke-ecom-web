@@ -8,6 +8,7 @@
   min-height: 100%;
   text-align: left;
   white-space: normal;
+  overscroll-behavior: contain;
 
   &__container {
     display: table;

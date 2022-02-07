@@ -12,6 +12,8 @@
     @include animation(#{$namespace}no-transform 300ms ease forwards);
     @include transform(translateY(100%));
     @include overflow-auto;
+
+    overscroll-behavior: contain;
   }
 
   &__header-inner {
