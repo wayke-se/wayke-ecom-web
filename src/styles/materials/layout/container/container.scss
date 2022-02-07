@@ -1,7 +1,7 @@
 @use '../../../helpers' as *;
 
 .#{$namespace}container {
-  --container-gutter: #{scss-var(size, container, gutter)};
+  --container-gutter: #{scss-var(size, container, gutter, main)};
 
   width: 100%;
   max-width: scss-var(size, container, max-width, main);

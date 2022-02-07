@@ -1,27 +1,24 @@
 @use '../../../helpers' as *;
 
 .#{$namespace}page-form {
-  @include flex-display;
+  // @include flex-display;
 
-  max-width: scss-var(size, container, max-width, main);
+  max-width: scss-var(size, container, max-width, narrow);
   margin: 0 auto;
-  padding: size(7) size(3);
+  padding: scss-var(size, container, gutter, sm);
   
   &__aside {
-    @include flex-shrink(0);
+    // @include flex-shrink(0);
 
-    width: 50%;
-    max-width: 50%;
-    padding-left: size(3);
-  }
-
-  &__aside-heading {
-    margin-bottom: size(2);
+    // width: 50%;
+    // max-width: 50%;
+    // padding-left: size(3);
+    margin-bottom: scss-var(size, container, gutter, sm);
   }
 
   &__main {
-    @include flex(1 1 auto);
+    // @include flex(1 1 auto);
     
-    order: -1;
+    // order: -1;
   }
 }

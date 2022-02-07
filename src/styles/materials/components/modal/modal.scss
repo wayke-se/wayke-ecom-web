@@ -13,6 +13,7 @@
 
   &::before {
     @include animation(#{$namespace}no-transform 400ms ease);
+    
     content: '';
     position: fixed;
     top: 0;
@@ -35,9 +36,10 @@
   }
 
   &__header-inner {
-    position: relative;
     @include flex-display;
     @include align-items(center);
+
+    position: relative;
     height: $modal-header-height;
   }
 

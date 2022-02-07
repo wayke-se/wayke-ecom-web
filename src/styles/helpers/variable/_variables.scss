@@ -18,8 +18,10 @@ $variables: (
         main: 1280px,
         narrow: 850px,
       ),
-      gutter: 16px,
-      gutterSm: 24px,
+      gutter: (
+        main: 16px,
+        sm: 40px,
+      ),
     ),
   ),
   font: (

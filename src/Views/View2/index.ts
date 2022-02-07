@@ -40,16 +40,7 @@ class View2v2 {
 
     const pageFormAside = document.createElement('aside');
     pageFormAside.className = 'waykeecom-page-form__aside';
-    pageFormAside.innerHTML = `
-        <div class="waykeecom-page-form__aside-heading">
-          <h3 class="waykeecom-heading waykeecom-heading--4 waykeecom-no-margin">
-            Sammanfattning
-          </h3>
-        </div>
-        <div class="waykeecom-page-form__aside-content">
-          ${ItemTileSmall({ vehicle: state.vehicle, order: state.order })}
-        </div>
-      `;
+    pageFormAside.innerHTML = ItemTileSmall({ vehicle: state.vehicle, order: state.order });
     pageForm.appendChild(pageFormAside);
 
     const pageFormMain = document.createElement('div');

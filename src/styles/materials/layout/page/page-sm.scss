@@ -2,10 +2,10 @@
 
 .#{$namespace}page {
   &__body {
-    padding: size(7) 0;
+    padding: scss-var(size, container, gutter, sm) 0;
   }
 
   &__footer {
-    padding: size(7) 0;
+    padding: scss-var(size, container, gutter, sm) 0;
   }
 }

@@ -1,5 +1,5 @@
 @use '../../../helpers' as *;
 
 .#{$namespace}container {
-  --container-gutter: #{scss-var(size, container, gutterSm)};
+  --container-gutter: #{scss-var(size, container, gutter, sm)};
 }
