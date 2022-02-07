@@ -1,5 +1,7 @@
 import store from '../../Redux/store';
 
+import { maskSSn, maskText } from '../../Utils/mask';
+
 import ItemTileLarge from '../../Templates/ItemTileLarge';
 import KeyValueListItem from '../../Templates/KeyValueListItem';
 
@@ -153,7 +155,7 @@ class View3Summary {
                     <ul class="waykeecom-key-value-list">
                       ${KeyValueListItem({
                         key: 'Leveranssätt',
-                        value: '[LEVERANSSÄTT]',
+                        value: state.homeDelivery ? 'Hemleverans' : 'Hämta hos handlaren',
                       })}
                     </ul>
                   </div>
@@ -173,25 +175,31 @@ class View3Summary {
                     <ul class="waykeecom-key-value-list">
                       ${KeyValueListItem({
                         key: 'För- och efternamn',
-                        value: '[FÖRNAMN EFTERNAMN]',
+                        value: `${maskText(state.address?.givenName || '')} ${maskText(
+                          state.address?.surname || ''
+                        )}`,
                       })}
                       ${KeyValueListItem({
                         key: 'Personnummer',
-                        value: '[PERSONNUMMER]',
+                        value: maskSSn(state.customer.socialId),
                       })}
                       ${KeyValueListItem({
                         key: 'Adress',
                         value: `
-                          [NAME]<br />[STREET] [NUMBER]<br />[ZIP] [CITY]
+                          ${maskText(state.address?.givenName || '')} ${maskText(
+                          state.address?.surname || ''
+                        )}<br />${maskText(state.address?.street || '')}<br />${maskText(
+                          state.address?.postalCode || ''
+                        )} ${maskText(state.address?.city || '')}
                         `,
                       })}
                       ${KeyValueListItem({
                         key: 'E-post',
-                        value: '[EMAIL]',
+                        value: state.customer.email,
                       })}
                       ${KeyValueListItem({
                         key: 'Telefonnummer',
-                        value: '[TELEFONNUMMER]',
+                        value: state.customer.phone,
                       })}
                     </ul>
                   </div>
