@@ -1,0 +1,15 @@
+.husky
+build
+esbuild
+node_modules
+src
+www
+.eslintrc.js
+gitignore
+.prettier
+.stylelintrc
+package-lock.json
+README.md
+statemock.json
+tsconfig.build.json
+tsconfig.json

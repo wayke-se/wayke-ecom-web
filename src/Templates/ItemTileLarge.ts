@@ -1,8 +1,10 @@
 import { OrderOptionsResponse } from '@wayke-se/ecom/dist-types/orders/order-options-response';
 import { Vehicle } from '../@types/Vehicle';
 
-import carfaxLogo from '../assets/images/carfax/carfax-logo-70x13.png';
-import carfaxLogo2x from '../assets/images/carfax/carfax-logo-70x13@2x.png';
+// import carfaxLogo from '../assets/images/carfax/carfax-logo-70x13.png';
+// import carfaxLogo2x from '../assets/images/carfax/carfax-logo-70x13@2x.png';
+
+import { Image } from '../Utils/constants';
 
 interface ItemTileLargeProps {
   vehicle?: Vehicle;
@@ -43,8 +45,8 @@ const ItemTileLarge = ({ vehicle, order, meta }: ItemTileLargeProps) => `
         <div class="waykeecom-product-card__price">${vehicle?.price} kr</div>
         <div class="waykeecom-product-card__branding">
           <img
-            src="${carfaxLogo}"
-            srcset="${carfaxLogo2x} 2x"
+            src="${Image.carfax.cl70x13}"
+            srcset="${Image.carfax.cl70x13_2x} 2x"
             alt="Detta fordon är granskat med Carfax Risk Alert"
             class="waykeecom-product-card__branding-logo"
           />

@@ -9,8 +9,8 @@ module.exports = {
     '.woff': 'file',
     '.woff2': 'file',
     '.gif': 'file',
-    '.svg': 'file',
-    '.png': 'file',
+    '.svg': 'dataurl',
+    '.png': 'dataurl',
   },
   plugins: [sassPlugin()],
 };

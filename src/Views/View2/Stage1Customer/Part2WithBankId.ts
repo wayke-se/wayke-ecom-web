@@ -6,7 +6,8 @@ import { getBankIdStatus } from '../../../Data/getBankIdStatus';
 import { setSocialIdAndAddress } from '../../../Redux/action';
 import Alert from '../../../Templates/Alert';
 import { isMobile } from '../../../Utils/isMobile';
-import bankidLogotype from '../../../assets/images/bankid/bankid-logo.svg';
+import { Image } from '../../../Utils/constants';
+// import bankidLogotype from '../../../assets/images/bankid/bankid-logo.svg';
 
 const BANKID_START_NODE = `bankid-start-node`;
 const BANKID_START = `bankid-start`;
@@ -105,7 +106,7 @@ class Part2WithBankId {
           qrCodeNode.innerHTML = `
             <div class="waykeecom-stack waykeecom-stack--4">
               <div class="waykeecom-align waykeecom-align--center">
-                <img src="${bankidLogotype}" alt="BankID logotyp" class="waykeecom-image" style="width: 130px" />
+                <img src="${Image.bankid}" alt="BankID logotyp" class="waykeecom-image" style="width: 130px" />
               </div>
             </div>
             <div class="waykeecom-stack waykeecom-stack--4" id="${BANKID_OPEN_ON_DEVICE_NODE}">
@@ -220,7 +221,9 @@ class Part2WithBankId {
           <div class="waykeecom-stack waykeecom-stack--3">
             <h4 class="waykeecom-heading waykeecom-heading--4">Personuppgifter</h4>
             <div class="waykeecom-content">
-              <p>Identifiera dig med Mobilt BankID <img src="${bankidLogotype}" alt="BankID logotyp" class="waykeecom-image waykeecom-image--inline" aria-hidden="true" /> för att hämta dina uppgifter.</p>
+              <p>Identifiera dig med Mobilt BankID <img src="${
+                Image.bankid
+              }" alt="BankID logotyp" class="waykeecom-image waykeecom-image--inline" aria-hidden="true" /> för att hämta dina uppgifter.</p>
             </div>
           </div>
           <div class="waykeecom-stack waykeecom-stack--3">

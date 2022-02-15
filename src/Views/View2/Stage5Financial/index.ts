@@ -5,12 +5,13 @@ import ButtonArrowRight from '../../../Components/ButtonArrowRight';
 import InputRadioField from '../../../Components/InputRadioField';
 import { editFinancial, setFinancial } from '../../../Redux/action';
 import store from '../../../Redux/store';
+import { Image } from '../../../Utils/constants';
 import { prettyNumber } from '../../../Utils/format';
 import ListItem from '../ListItem';
 import Loan from './Loan';
 import Summary from './Summary';
 
-import bankidLogotype from '../../../assets/images/bankid/bankid-logo.svg';
+// import bankidLogotype from '../../../assets/images/bankid/bankid-logo.svg';
 
 const PROCEED = 'button-financial-proceed';
 const PROCEED_NODE = `${PROCEED}-node`;
@@ -196,7 +197,9 @@ class Stage5Financial {
             <div class="waykeecom-box">
               <div class="waykeecom-stack waykeecom-stack--2">
                 <ul class="waykeecom-unordered-list">
-                  <li class="waykeecom-unordered-list__item">Låneansökan online med Mobilt BankID <img src="${bankidLogotype}" alt="BankID logotyp" class="waykeecom-image waykeecom-image--inline" aria-hidden="true" /> – svar direkt!</li>
+                  <li class="waykeecom-unordered-list__item">Låneansökan online med Mobilt BankID <img src="${
+                    Image.bankid
+                  }" alt="BankID logotyp" class="waykeecom-image waykeecom-image--inline" aria-hidden="true" /> – svar direkt!</li>
                   <li class="waykeecom-unordered-list__item">Betalning sker hos ${
                     contactInformation?.name
                   } vid 

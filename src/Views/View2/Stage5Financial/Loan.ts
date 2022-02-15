@@ -4,9 +4,10 @@ import InputRange from '../../../Components/InputRange';
 import { getPayment } from '../../../Data/getPayment';
 import { setPaymentLookupResponse } from '../../../Redux/action';
 import KeyValueListItem from '../../../Templates/KeyValueListItem';
+import { Image } from '../../../Utils/constants';
 import { prettyNumber } from '../../../Utils/format';
 
-import pieChartIllustration from '../../../assets/images/illustrations/payment.svg';
+// import pieChartIllustration from '../../../assets/images/illustrations/payment.svg';
 
 const DOWNPAYMENT_RANGE_NODE = 'downpayment-range-node';
 const DOWNPAYMENT_RANGE = 'downpayment-range';
@@ -158,7 +159,9 @@ class Loan {
                       />
                     </svg>
                     <div class="waykeecom-pie-chart__overlay">
-                      <img src="${pieChartIllustration}" alt="Illustration av betalning" class="waykeecom-pie-chart__illustration" />
+                      <img src="${
+                        Image.illustrations.payment
+                      }" alt="Illustration av betalning" class="waykeecom-pie-chart__illustration" />
                     </div>
                   </div>
                 </div>

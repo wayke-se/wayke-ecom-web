@@ -25,12 +25,14 @@ import {
   SET_ID,
 } from './action';
 
-let stateMock: any = {};
+const stateMock: any = {};
+/*
 try {
   stateMock = require('../../statemock.json');
 } catch (e) {
   stateMock = {};
 }
+*/
 
 interface Navigation {
   view: number;

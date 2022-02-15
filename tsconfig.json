@@ -4,7 +4,7 @@
     "module": "esNext",
     "target": "es2020",
     "sourceMap": true,
-    "moduleResolution": "node",
+    "moduleResolution": "Node",
     "strict": true,
     "skipLibCheck": true,
     "allowSyntheticDefaultImports": true,

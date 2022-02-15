@@ -1,7 +1,8 @@
 import { OrderOptionsResponse } from '@wayke-se/ecom/dist-types/orders/order-options-response';
 import TimelineItem from '../../Templates/TimelineItem';
+import { Image } from '../../Utils/constants';
 
-import bankidLogotype from '../../assets/images/bankid/bankid-logo.svg';
+// import bankidLogotype from '../../assets/images/bankid/bankid-logo.svg';
 
 interface HowToProps {
   order?: OrderOptionsResponse;
@@ -19,7 +20,7 @@ const HowTo = ({ order }: HowToProps) => `
       <ol class="waykeecom-timeline">
         ${TimelineItem({
           heading: 'Dina kunduppgifter',
-          description: `Hämtas smidigt med BankID <img src="${bankidLogotype}" alt="BankID logotyp" class="waykeecom-image waykeecom-image--inline" aria-hidden="true" />`,
+          description: `Hämtas smidigt med BankID <img src="${Image.bankid}" alt="BankID logotyp" class="waykeecom-image waykeecom-image--inline" aria-hidden="true" />`,
         })}
         ${TimelineItem({
           heading: 'Välj leveranssätt',
@@ -31,7 +32,7 @@ const HowTo = ({ order }: HowToProps) => `
         })}
         ${TimelineItem({
           heading: 'Välj betalsätt',
-          description: `Finansieringstillval med låneansökan online <img src="${bankidLogotype}" alt="BankID logotyp" class="waykeecom-image waykeecom-image--inline" aria-hidden="true" /> – svar direkt!`,
+          description: `Finansieringstillval med låneansökan online <img src="${Image.bankid}" alt="BankID logotyp" class="waykeecom-image waykeecom-image--inline" aria-hidden="true" /> – svar direkt!`,
         })}
         ${TimelineItem({
           heading: 'Vill du teckna en försäkring?',
