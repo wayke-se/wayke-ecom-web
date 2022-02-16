@@ -40,7 +40,7 @@ interface Navigation {
   subStage: number;
 }
 
-interface ReducerState {
+export interface ReducerState {
   id?: string;
   topNavigation: Navigation;
   navigation: Navigation;

@@ -7,8 +7,9 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "start": "node ./esbuild/start.js",
-    "build": "npm run clean && node ./esbuild/lib.js && tsc --emitDeclarationOnly --outDir dist",
+    "build": "npm run clean && node ./esbuild/lib.js",
     "build:dev": "node ./esbuild/dev.js",
+    "build:types": "tsc --project tsconfig.build.json --outFile dist/types --emitDeclarationOnly --declaration",
     "clean": "rimraf build && rimraf dist",
     "test": "npm run lint && npm run typecheck",
     "typecheck": "tsc -noEmit",

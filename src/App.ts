@@ -18,6 +18,7 @@ export interface AppState {
 }
 
 interface AppProps {
+  id?: string;
   vehicle: Vehicle;
 }
 
