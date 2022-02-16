@@ -1,4 +1,4 @@
-import App from './App';
+import WaykeEcomWeb from './App';
 import { devConfig } from './devConfig';
 
 window.addEventListener('DOMContentLoaded', (_) => {
@@ -8,5 +8,5 @@ window.addEventListener('DOMContentLoaded', (_) => {
     },
   };
 
-  new App({ ...devConfig.MULTIPLE_FINANCIAL, config: newConfig });
+  new WaykeEcomWeb({ ...devConfig.MULTIPLE_FINANCIAL, config: newConfig });
 });

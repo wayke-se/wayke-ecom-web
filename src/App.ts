@@ -21,7 +21,7 @@ interface AppProps {
   id?: string;
   vehicle: Vehicle;
   config: IConfigurationRoot;
-  useEcom?: boolean;
+  useBankid?: boolean;
 }
 
 class App {

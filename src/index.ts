@@ -1,6 +1,3 @@
-export { config } from '@wayke-se/ecom';
-import App from './App';
+import WaykeEcomWeb from './App';
 
-const WaykeEcom = App;
-
-export default WaykeEcom;
+export default WaykeEcomWeb;
