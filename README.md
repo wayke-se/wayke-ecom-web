@@ -29,3 +29,20 @@ Reset styles and other necessary _CSS_ targeting elements are selected using a n
 ## Headings
 
 To prevent multiple `h1` on your website, _Wayke Ecom_ does not include a `h1` as root heading level. Instead the headings starts from h2.
+
+## Development
+
+Deploy to npm:
+Update package.json version
+```bash
+npm run build
+npm publish --access public
+```
+Bundles can be found at /dist
+
+Create cdn-bundle
+Update package.json version
+```bash
+npm run build
+```
+Bundles can be found at /dist-cdn

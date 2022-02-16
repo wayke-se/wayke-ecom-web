@@ -1,5 +1,5 @@
 import './styles/styles.scss';
-import { OrderOptionsResponse } from '@wayke-se/ecom/dist-types/orders/order-options-response';
+import { config, IConfigurationRoot, IOrderOptionsResponse } from '@wayke-se/ecom';
 import watch from 'redux-watch';
 
 import packageJson from '../package.json';
@@ -14,12 +14,14 @@ import View3Summary from './Views/View3Summary';
 
 export interface AppState {
   stage: number;
-  order?: OrderOptionsResponse;
+  order?: IOrderOptionsResponse;
 }
 
 interface AppProps {
   id?: string;
   vehicle: Vehicle;
+  config: IConfigurationRoot;
+  useEcom?: boolean;
 }
 
 class App {
@@ -33,6 +35,15 @@ class App {
     if (!root) {
       throw 'Missing element with id wayke-ecom';
     }
+
+    if (!window.process) {
+      window.process = {
+        ...((window.process || {}) as NodeJS.Process),
+        env: {},
+      };
+    }
+    config.bind(props.config);
+
     this.root = root;
 
     // Create modal

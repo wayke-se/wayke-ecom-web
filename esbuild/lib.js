@@ -1,7 +1,7 @@
 const { sassPlugin } = require('esbuild-sass-plugin');
 const { Generator } = require('npm-dts');
 const { build } = require('esbuild');
-// const { dependencies, peerDependencies } = require('../package.json');
+const { dependencies, peerDependencies } = require('../package.json');
 
 const shared = {
   entryPoints: ['src/index.ts'],
@@ -9,7 +9,7 @@ const shared = {
   minify: true,
   sourcemap: true,
   logLevel: 'info',
-  // external: Object.keys(dependencies).concat(Object.keys(peerDependencies || {})),
+  external: Object.keys(dependencies).concat(Object.keys(peerDependencies || {})),
   loader: {
     '.js': 'jsx',
     '.woff': 'file',

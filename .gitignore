@@ -8,3 +8,4 @@ dev/
 pkg
 statemock.json
 dist
+dist-cdn
