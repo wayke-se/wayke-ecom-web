@@ -1,0 +1,27 @@
+on:
+  push:
+    branches:
+      - test
+
+name: Test - Build and Deploy
+
+jobs:
+  build-and-deploy:
+    environment: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@main
+
+      - name: Use Node 14
+        uses: actions/setup-node@v1
+        with:
+          node-version: '14'
+
+      - name: Install Javascript packages
+        run: |
+          npm install
+
+      - name: Build Javascript
+        run: |
+          npm run build
+
