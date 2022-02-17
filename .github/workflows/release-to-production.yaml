@@ -16,6 +16,7 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: '14'
+          registry-url: 'https://registry.npmjs.org'
 
       - name: Install Javascript packages
         run: |
@@ -24,6 +25,13 @@ jobs:
       - name: Build Javascript
         run: |
           npm run build
+
+      - name: Publish package to npm
+        run: |
+          npm ci
+          npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Use Python 3.8
         uses: actions/setup-python@v1
@@ -41,5 +49,3 @@ jobs:
         env:
           BLOB_STORAGE_CONNECTION_STRING: ${{ secrets.BLOB_STORAGE_CONNECTION_STRING }}
           UPLOAD_MAP_FILES: false
-
-
