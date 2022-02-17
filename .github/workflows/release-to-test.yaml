@@ -29,7 +29,7 @@ jobs:
       - name: Publish package to npm
         run: |
           npm ci
-          npm publish
+          npm publish --tag ${{ github.event.release.target_commitish }}
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
