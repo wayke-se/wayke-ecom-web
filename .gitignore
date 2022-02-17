@@ -9,4 +9,5 @@ pkg
 statemock.json
 dist
 dist-cdn
-deploy.py
+/deploy.py
+/deploy-prod.py
