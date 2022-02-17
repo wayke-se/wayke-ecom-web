@@ -1,6 +1,5 @@
 const { sassPlugin } = require('esbuild-sass-plugin');
 const { build } = require('esbuild');
-const { version } = require('../package.json');
 
 const shared = {
   entryPoints: ['src/cdn.ts'],
@@ -21,7 +20,6 @@ const shared = {
 
 build({
   ...shared,
-  assetNames: `wayke-ecom-web@${version}-[name]-[hash]`,
-  outfile: `dist-cdn/wayke-ecom-web@${version}.js`,
+  outfile: 'dist-cdn/index.js',
   format: 'esm',
 });
