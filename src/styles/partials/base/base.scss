@@ -2,24 +2,9 @@
 
 @use '../../helpers' as *;
 
-:where(#{$root-body} *) {
-  &,
-  &::before,
-  &::after {
-    box-sizing: border-box;
-  }
-}
-
 #{$root-body} {
-  @include text-size-adjust(100%); // Prevent font scaling in landscape while allowing user zoom
   @include font-light;
 
   font-size: scss-var(font, size, regular);
   line-height: scss-var(font, line-height, main);
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-
-  @supports (font-size-adjust: 1) {
-    font-size-adjust: 0.5;
-  }
 }
