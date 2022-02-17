@@ -2,8 +2,6 @@
 
 @use '../../helpers' as *;
 
-:where(#{$root-body} img) {
-  a & {
-    border: 0;
-  }
+:where(#{$root-body} a img) {
+  border: 0;
 }
