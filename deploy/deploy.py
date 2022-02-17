@@ -5,7 +5,7 @@ from azure.storage.blob import ContentSettings
 from azure.storage.blob.aio import BlobServiceClient, ContainerClient
 
 async def main():
-  f = open('../package.json')
+  f = open('package.json')
   data = json.load(f)
   version = data["version"]
   print(f"Package json version: {version}")
