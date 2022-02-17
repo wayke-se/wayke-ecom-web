@@ -25,6 +25,18 @@ jobs:
         run: |
           npm run build
 
+      - name: Publish package to npm
+        # Setup .npmrc file to publish to npm
+        uses: actions/setup-node@v1'
+        with:
+          node-version: '14.x'
+          registry-url: 'https://registry.npmjs.org'
+        run: |
+          npm ci
+          npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
       - name: Use Python 3.8
         uses: actions/setup-python@v1
         with:
