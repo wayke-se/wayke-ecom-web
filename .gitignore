@@ -9,3 +9,4 @@ pkg
 statemock.json
 dist
 dist-cdn
+deploy.py
