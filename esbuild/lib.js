@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+
 const { sassPlugin } = require('esbuild-sass-plugin');
 const { Generator } = require('npm-dts');
 const { build } = require('esbuild');
@@ -28,13 +30,18 @@ build({
 
 build({
   ...shared,
-  outfile: 'dist/index.esm.js',
+  outfile: 'dist/index.mjs',
   format: 'esm',
 });
 
+const timetaken = '⚡ Generating types done in';
+console.time(timetaken);
 new Generator({
   entry: 'src/index.ts',
   output: 'dist/index.d.ts',
   help: true,
-  logLevel: 'verbose',
-}).generate();
+  logLevel: 'debug',
+})
+  .generate()
+  .then(() => console.timeEnd(timetaken))
+  .catch(() => console.log('Error occured while generating types'));
