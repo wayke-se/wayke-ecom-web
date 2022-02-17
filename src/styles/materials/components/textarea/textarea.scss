@@ -11,8 +11,8 @@
   min-height: 150px;
   max-height: 500px;
   padding: var(--textarea-padding);
-  border: 1px solid color(border, main);
-  border-radius: scss-var(size, border-radius);
+  border: scss-var(border, width, main) solid color(border, main);
+  border-radius: scss-var(border, radius, main);
   box-shadow: scss-var(box-shadow, alt);
   resize: vertical;
   -webkit-tap-highlight-color: rgba(255, 255, 255, 0);

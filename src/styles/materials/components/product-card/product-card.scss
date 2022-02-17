@@ -2,7 +2,7 @@
 
 .#{$namespace}product-card {
   background-color: color(bg, alt);
-  border-radius: size(1);
+  border-radius: scss-var(border, radius, alt);
   overflow: hidden;
 
   &__media {

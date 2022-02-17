@@ -3,24 +3,24 @@
 /// a variable using the scss-var() function.
 
 @use 'sass:map';
+@use "sass:list";
 @use '../function' as *;
 
 // This map is used to declare variables
 $variables: (
   size: (
     input-height: (
-      desktop: 52px,
-      mobile: 48px,
+      desktop: size(6.5),
+      mobile: size(6),
     ),
-    border-radius: 3px,
     container: (
       max-width: (
         main: 1280px,
         narrow: 850px,
       ),
       gutter: (
-        main: 16px,
-        sm: 40px,
+        main: size(2),
+        sm: size(5),
       ),
     ),
   ),
@@ -40,15 +40,36 @@ $variables: (
       xxxlarge: 32px,
     ),
   ),
+  border: (
+    width: (
+      main: 1px,
+      alt: 2px,
+    ),
+    radius: (
+      main: 3px,
+      alt: size(1),
+    ),
+  ),
   animation: (
-    cubic-bezier: cubic-bezier(0.47, 1.64, 0.41, 0.8),
+    timing-function: (
+      cubic-bezier: cubic-bezier(0.47, 1.64, 0.41, 0.8),
+    ),
   ),
   box-shadow: (
     main: (0 8px 10px rgba(0, 0, 0, 0.03), 0 2px 14px rgba(0, 0, 0, 0.03), 0 2px 5px rgba(0, 0, 0, 0.09)),
     alt: 0 1px 2px rgba(0, 0, 0, 0.17),
   ),
-  zindex: (
+  aspect-ratio: (
+    square: list.slash(1, 1),
+    landscape: list.slash(4, 3),
+    portrait: list.slash(3, 4),
+    widescreen: list.slash(16, 9),
+    ultrawide: list.slash(18, 5),
+    golden-ratio: list.slash(1.618, 1),
+  ),
+  z-index: (
     overlay: 20,
+    important: 2147483647, // Maximum value of 32-bit integer
   ),
 );
 

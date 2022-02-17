@@ -45,7 +45,7 @@
     @include appearance(none);
     @include input-range-track {
       height: $track-height;
-      border-radius: size(0.25);
+      border-radius: math.div($track-height, 2);
     }
     @include input-range-thumb {
       @include appearance(none);
@@ -54,7 +54,7 @@
       height: $thumb-size;
       margin-top: math.div($track-height, 2) - math.div($thumb-size, 2);
       background-color: color(bg, main);
-      border: 1px solid color(primary, main);
+      border: scss-var(border, width, main) solid color(primary, main);
       border-radius: 50%;
       box-shadow: scss-var(box-shadow, main);
       transform-origin: 50% 50%;

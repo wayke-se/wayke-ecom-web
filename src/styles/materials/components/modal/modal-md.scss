@@ -26,7 +26,7 @@
     margin-left: auto;
     margin-right: auto;
     max-width: scss-var(size, container, max-width, narrow);
-    border-radius: size(1);
+    border-radius: scss-var(border, radius, alt);
     overflow: hidden;
     transform: translateY(size(1));
     animation: #{$namespace}fade-in 400ms ease, #{$namespace}no-transform 400ms ease forwards;

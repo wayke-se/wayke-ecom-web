@@ -12,7 +12,7 @@
     #{$root}__spinner {
       width: 1em;
       height: 1em;
-      border: 2px solid currentColor;
+      border: scss-var(border, width, alt) solid currentColor;
       border-top-color: transparent;
     }
   }
@@ -21,7 +21,7 @@
     #{$root}__spinner {
       width: 1em;
       height: 1em;
-      border: 2px solid currentColor;
+      border: scss-var(border, width, alt) solid currentColor;
       border-top-color: transparent;
     }
   }
@@ -33,7 +33,7 @@
     width: size(4);
     height: size(4);
     border-radius: 50%;
-    border: 2px solid currentColor;
+    border: scss-var(border, width, alt) solid currentColor;
     border-top-color: transparent;
     animation: #{$namespace}rotate 600ms linear infinite;
 

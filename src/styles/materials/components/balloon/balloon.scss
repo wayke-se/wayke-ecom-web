@@ -3,6 +3,6 @@
 .#{$namespace}balloon {
   padding: size(2);
   background-color: color(bg, alt);
-  border-radius: size(1);
+  border-radius: scss-var(border, radius, alt);
   font-size: scss-var(font, size, small);
 }

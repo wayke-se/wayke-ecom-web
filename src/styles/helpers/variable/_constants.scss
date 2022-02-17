@@ -3,18 +3,48 @@
 /// a constant using the const() function.
 
 @use "sass:list";
-@use 'sass:map';
+@use "sass:map";
 
 // Positions
-$css-positions-x: left, center, right;
-$css-positions-y: top, middle, bottom;
-$css-positions: list.join($css-positions-x, $css-positions-y, $separator: comma);
+$position-inline-x: left, center, right;
+$position-inline-y: top, middle, bottom;
+$position-inline-all: list.join($position-inline-x, $position-inline-y, $separator: comma);
+$position-block-x: left, right;
+$position-block-y: top, bottom;
+$position-block-all: list.join($position-block-x, $position-block-y, $separator: comma);
 
 // This map is used to declare constants
 $constants: (
-  css-positions-x: $css-positions-x,
-  css-positions-y: $css-positions-y,
-  css-positions: $css-positions,
+  position: (
+    inline: (
+      x: $position-inline-x,
+      y: $position-inline-y,
+      all: $position-inline-all,
+    ),
+    block: (
+      x: $position-block-x,
+      y: $position-block-y,
+      all: $position-block-all,
+    ),
+    flexbox: (
+      flex-start,
+      center,
+      flex-end,
+    ),
+  ),
+  position-type: (
+    relative,
+    absolute,
+    sticky,
+    fixed,
+    static,
+  ),
+  global-values: (
+    inherit,
+    initial,
+    revert,
+    unset,
+  ),
 );
 
 // This function is used to use constants in the project
@@ -22,7 +52,7 @@ $constants: (
   $value: map.get($constants, $keys...);
 
   @if not $value {
-    @error('Constant "#{$keys}" does not exist in $constants.');
+    @error "Constant '#{$keys}' does not exist in $constants.";
   }
 
   @return $value;

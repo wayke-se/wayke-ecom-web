@@ -27,7 +27,7 @@
 
   display: flex;
   padding: size(1.5);
-  border-radius: scss-var(size, border-radius);
+  border-radius: scss-var(border, radius, main);
 
   &--success {
     @include alert-tone(

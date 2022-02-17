@@ -57,7 +57,7 @@
     width: 100%;
     background-color: color(bg, alt);
     padding: size(1.5);
-    border-radius: scss-var(size, border-radius);
+    border-radius: scss-var(border, radius, main);
     font-size: scss-var(font, size, xsmall);
   }
 }
