@@ -11,6 +11,9 @@ import { setVehicle } from './Redux/action';
 import View1 from './Views/View1';
 import View2 from './Views/View2';
 import View3Summary from './Views/View3Summary';
+import Order from './Views/Order';
+
+const OrderIdQueryString = 'wayke-ecom-web-order-id';
 
 export interface AppState {
   stage: number;
@@ -26,8 +29,8 @@ interface AppProps {
 
 class App {
   private root: HTMLElement;
-  private contentNode: HTMLDivElement;
-  private versionNode: HTMLDivElement;
+  private contentNode?: HTMLDivElement;
+  private versionNode?: HTMLDivElement;
   private view: number;
 
   constructor(props: AppProps) {
@@ -46,6 +49,29 @@ class App {
 
     this.root = root;
 
+    //setId(props.vehicle.id);
+    setVehicle(props.vehicle);
+    this.view = store.getState().navigation.view;
+
+    const w = watch(store.getState, 'navigation.view');
+    store.subscribe(
+      w((newVal: number) => {
+        this.view = newVal;
+        this.render();
+      })
+    );
+
+    const params = new URLSearchParams(location.search);
+    const waykeOrderId = params.get('wayke-ecom-web-order-id');
+    if (waykeOrderId) {
+      this.setUpModal();
+      this.render(waykeOrderId);
+    }
+
+    //this.render();
+  }
+
+  private setUpModal() {
     // Create modal
     const modalNode = document.createElement('div');
     modalNode.className = 'waykeecom-modal';
@@ -144,6 +170,11 @@ class App {
         </div>
       </header>
     `;
+
+    modalHeader.querySelectorAll<HTMLButtonElement>('button').forEach((button) => {
+      button.addEventListener('click', () => this.close());
+    });
+
     modalDialogNode.appendChild(modalHeader);
 
     // Append content
@@ -158,35 +189,45 @@ class App {
 
     modalDialogNode.appendChild(contentNode);
     this.root.appendChild(versionNode);
+  }
 
-    //setId(props.vehicle.id);
-    setVehicle(props.vehicle);
-    this.view = store.getState().navigation.view;
+  close() {
+    const params = new URLSearchParams(location.search);
+    const waykeOrderId = params.get(OrderIdQueryString);
+    if (waykeOrderId) {
+      params.delete(OrderIdQueryString);
+      location.search = params.toString();
+    }
 
-    const w = watch(store.getState, 'navigation.view');
-    store.subscribe(
-      w((newVal: number) => {
-        this.view = newVal;
-        this.render();
-      })
-    );
+    this.root.innerHTML = '';
+  }
+
+  start() {
+    this.setUpModal();
     this.render();
   }
 
-  render() {
-    this.contentNode.innerHTML = '';
-    switch (this.view) {
-      case 1:
-        new View1(this.contentNode);
-        break;
-      case 2:
-        new View2(this.contentNode);
-        break;
-      case 3:
-        new View3Summary(this.contentNode);
-        break;
-      default:
-        throw 'Unknown view...';
+  private render(waykeOrderId?: string) {
+    if (this.contentNode) {
+      this.contentNode.innerHTML = '';
+      if (waykeOrderId) {
+        new Order(this.contentNode, waykeOrderId);
+        return;
+      }
+
+      switch (this.view) {
+        case 1:
+          new View1(this.contentNode);
+          break;
+        case 2:
+          new View2(this.contentNode);
+          break;
+        case 3:
+          new View3Summary(this.contentNode);
+          break;
+        default:
+          throw 'Unknown view...';
+      }
     }
   }
 }

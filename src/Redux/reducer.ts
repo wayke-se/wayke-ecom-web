@@ -62,6 +62,7 @@ export interface ReducerState {
     financial: boolean;
     insurance: boolean;
   };
+  date: Date;
 }
 
 const initialState: ReducerState = {
@@ -91,6 +92,7 @@ const initialState: ReducerState = {
   },
   homeDelivery: false,
   centralStorage: false,
+  date: new Date(),
 };
 
 let next: ReducerState;
