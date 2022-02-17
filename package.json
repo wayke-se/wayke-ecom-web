@@ -1,6 +1,6 @@
 {
   "name": "@ourpeter/wayke-ecom-web-test",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "",
   "module": "dist/index.mjs",
   "main": "dist/index.js",
@@ -8,8 +8,6 @@
   "scripts": {
     "start": "node ./esbuild/start.js",
     "build": "npm run clean && node ./esbuild/lib.js && node ./esbuild/cdn.js",
-    "build:dev": "node ./esbuild/dev.js",
-    "build:types": "tsc --project tsconfig.build.json --outFile dist/types --emitDeclarationOnly --declaration",
     "clean": "rimraf build && rimraf dist && rimraf dist-cdn",
     "test": "npm run lint && npm run typecheck",
     "typecheck": "tsc -noEmit",
@@ -24,24 +22,24 @@
   "devDependencies": {
     "@types/node": "^17.0.18",
     "@types/redux-watch": "^1.1.0",
-    "@typescript-eslint/eslint-plugin": "^5.9.0",
-    "@typescript-eslint/parser": "^5.9.0",
-    "esbuild": "^0.14.10",
-    "esbuild-sass-plugin": "^2.0.3",
-    "eslint": "^8.6.0",
+    "@typescript-eslint/eslint-plugin": "^5.12.0",
+    "@typescript-eslint/parser": "^5.12.0",
+    "esbuild": "^0.14.22",
+    "esbuild-sass-plugin": "^2.2.3",
+    "eslint": "^8.9.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^4.0.0",
     "husky": "^7.0.4",
     "npm-dts": "^1.3.11",
     "prettier": "^2.5.1",
     "rimraf": "^3.0.2",
-    "stylelint": "^14.3.0",
+    "stylelint": "^14.5.1",
     "stylelint-config-prettier-scss": "^0.0.1",
     "stylelint-config-standard-scss": "^3.0.0",
-    "typescript": "^4.5.4"
+    "typescript": "^4.5.5"
   },
   "dependencies": {
-    "@wayke-se/ecom": "^3.5.2",
+    "@wayke-se/ecom": "^3.6.1",
     "redux": "^4.1.2",
     "redux-watch": "^1.2.0"
   },
