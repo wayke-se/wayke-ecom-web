@@ -12,44 +12,72 @@
 
 .#{$namespace}alert {
   $root: &;
-  
+
   --icon-size: #{size(3)};
   --content-size: #{scss-var(font, size, xsmall)};
   --content-line-height: #{scss-var(font, line-height, main)};
 
-  @include alert-tone($root, color(bg, alt), color(text, main), darken(color(bg, alt), 5%), color(text, main));
-  @include flex-display;
+  @include alert-tone(
+    $root,
+    color(bg, alt),
+    color(text, main),
+    darken(color(bg, alt), 5%),
+    color(text, main)
+  );
 
+  display: flex;
   padding: size(1.5);
   border-radius: scss-var(size, border-radius);
 
   &--success {
-    @include alert-tone($root, color(ui, success, alt), color(text, main), color(ui, success, main), color(ui, success, text));
+    @include alert-tone(
+      $root,
+      color(ui, success, alt),
+      color(text, main),
+      color(ui, success, main),
+      color(ui, success, text)
+    );
   }
 
   &--warning {
-    @include alert-tone($root, color(ui, warning, alt), color(text, main), color(ui, warning, main), color(ui, warning, text));
+    @include alert-tone(
+      $root,
+      color(ui, warning, alt),
+      color(text, main),
+      color(ui, warning, main),
+      color(ui, warning, text)
+    );
   }
 
   &--error {
-    @include alert-tone($root, color(ui, error, alt), color(text, main), color(ui, error, main), color(ui, error, text));
+    @include alert-tone(
+      $root,
+      color(ui, error, alt),
+      color(text, main),
+      color(ui, error, main),
+      color(ui, error, text)
+    );
   }
 
   &--info {
-    @include alert-tone($root, color(ui, info, alt), color(text, main), color(ui, info, main), color(ui, info, text));
+    @include alert-tone(
+      $root,
+      color(ui, info, alt),
+      color(text, main),
+      color(ui, info, main),
+      color(ui, info, text)
+    );
   }
 
   &__icon {
-    @include flex-shrink(0);
-
+    flex-shrink: 0;
     padding-right: size(1);
   }
 
   &__icon-badge {
-    @include flex-display;
-    @include align-items(center);
-    @include justify-content(center);
-
+    display: flex;
+    align-items: center;
+    justify-content: center;
     width: var(--icon-size);
     height: var(--icon-size);
     margin-top: calc((var(--icon-size) - var(--content-size) * var(--content-line-height)) / -2);
@@ -58,9 +86,9 @@
   }
 
   &__content {
-    @include flex(1 1 auto);
     @include remove-direct-child-edge-margins;
-    
+
+    flex: 1 1 auto;
     min-width: 0;
     font-size: var(--content-size);
     line-height: var(--content-line-height);

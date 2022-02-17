@@ -16,9 +16,8 @@
   counter-reset: timeline;
 
   &__item {
-    @include flex-display;
-    @include align-items(stretch);
-
+    display: flex;
+    align-items: stretch;
     counter-increment: timeline;
 
     &:not(:last-child) {
@@ -27,8 +26,7 @@
   }
 
   &__stage {
-    @include flex-shrink(0);
-
+    flex-shrink: 0;
     position: relative;
     padding-right: size(1.5);
 
@@ -47,11 +45,11 @@
   }
 
   &__badge {
-    @include flex-display;
-    @include align-items(center);
-    @include justify-content(center);
     @include font-bold;
 
+    display: flex;
+    align-items: center;
+    justify-content: center;
     width: $badge-size;
     height: $badge-size;
     margin-top: calc(($badge-size - $heading-font-size * $heading-line-height) / -2);
@@ -81,7 +79,7 @@
   }
 
   &__content {
-    @include flex(1 1 auto);
+    flex: 1 1 auto;
   }
 
   &__heading {

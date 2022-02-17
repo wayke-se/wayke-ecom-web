@@ -1,18 +1,17 @@
-@use "sass:math";
-@use "../../../helpers" as *;
+@use 'sass:math';
+@use '../../../helpers' as *;
 
 .#{$namespace}hstack {
   $root: &;
 
-  @include flex-display;
-  @include align-items(flex-start);
+  display: flex;
 
   &--align-center {
-    @include align-items(center);
+    align-items: center;
   }
 
   &--align-end {
-    @include align-items(flex-end);
+    align-items: flex-end;
   }
 
   &--equal-width {
@@ -33,14 +32,14 @@
   }
 
   &__item {
-    @include flex(0 1 auto);
+    flex: 0 1 auto;
 
     &--grow {
-      @include flex-grow(1);
+      flex-grow: 1;
     }
 
     &--no-shrink {
-      @include flex-shrink(0);
+      flex-shrink: 0;
     }
   }
 }

@@ -1,4 +1,4 @@
-@use "../../../helpers" as *;
+@use '../../../helpers' as *;
 
 .#{$namespace}modal {
   $modal-header-height: size(5);
@@ -12,8 +12,6 @@
   z-index: 110;
 
   &::before {
-    @include animation(#{$namespace}no-transform 400ms ease);
-    
     content: '';
     position: fixed;
     top: 0;
@@ -22,6 +20,7 @@
     right: 0;
     background-color: rgba(color(overlay, main), 0.4);
     z-index: -1;
+    animation: #{$namespace}no-transform 400ms ease;
   }
 
   &__dialog {
@@ -36,19 +35,17 @@
   }
 
   &__header-inner {
-    @include flex-display;
-    @include align-items(center);
-
+    display: flex;
+    align-items: center;
     position: relative;
     height: $modal-header-height;
   }
 
   &__logo {
-    @include transform(translateX(-50%));
-
     position: absolute;
     top: 0;
     left: 50%;
+    transform: translateX(-50%);
 
     &--wordmark,
     &--symbol {

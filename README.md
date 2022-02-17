@@ -26,6 +26,20 @@ Reset styles and other necessary _CSS_ targeting elements are selected using a n
 
 > Avoid using element selectors (div, a, span etc.) in you website's _CSS_. It is a good practice to only using classes as selectors. If you experience strange styling in the _Wayke Ecom_ widget, this is probably the case.
 
+## Custom CSS
+
+If you want to custommize any _CSS_ we recommend you to include a separate _CSS_ with your styling using our selectors namespaced for higher specificity. I.e., `.you-company-name .waykeecom-[COMPONENT_NAME] { };`.
+
+The easiest way to add a namespace is to wrap the mounting element (`#wayke-ecom`) with a div having this namespace set following the example below.
+
+```html
+<div class="your-company-name">
+  <div id="wayke-ecom"></div>
+</div>
+```
+
+> **Important:** We can not guarantee our class names will stay the same or behave the same as they do at a specific time. Please understand that you may have to change the _CSS_ continuously if you decide to add custom styling.
+
 ## Headings
 
 To prevent multiple `h1` on your website, _Wayke Ecom_ does not include a `h1` as root heading level. Instead the headings starts from h2.

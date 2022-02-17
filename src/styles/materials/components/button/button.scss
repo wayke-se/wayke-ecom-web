@@ -9,22 +9,22 @@
   &:not([disabled]) {
     &:hover {
       background-color: color.adjust($bg, $lightness: -5%);
-    } 
+    }
   }
 }
 
 .#{$namespace}button {
-  @include flex-display;
-  @include align-items(center);
-  @include justify-content(center);
   @include font-medium;
-  @include transform-origin(50%, 50%);
 
+  display: flex;
+  align-items: center;
+  justify-content: center;
   min-height: scss-var(size, input-height, mobile);
   padding: size(1.5) size(3);
   border-radius: math.div(scss-var(size, input-height, mobile), 2);
   font-size: scss-var(font, size, small);
   user-select: none;
+  transform-origin: 50% 50%;
   transition: transform 200ms ease, background-color 200ms ease;
 
   &[disabled] {
@@ -33,7 +33,7 @@
   }
 
   &:active {
-    @include transform(scale(0.97));
+    transform: scale(0.97);
   }
 
   &--primary {

@@ -1,15 +1,16 @@
 /// Global keyframes to use in multiple materials
 
-@use '../../helpers/mixin' as *;
 @use '../../helpers/variable/namespace' as *;
 
-@include keyframes(#{$namespace}no-transform) {
+/* stylelint-disable keyframes-name-pattern */
+
+@keyframes #{$namespace}no-transform {
   100% {
-    @include transform(none);
+    transform: none;
   }
 }
 
-@include keyframes(#{$namespace}fade-in) {
+@keyframes #{$namespace}fade-in {
   0% {
     opacity: 0;
   }
@@ -19,8 +20,10 @@
   }
 }
 
-@include keyframes(#{$namespace}rotate) {
+@keyframes #{$namespace}rotate {
   100% {
-    @include transform(rotate(360deg));
+    transform: rotate(360deg);
   }
 }
+
+/* stylelint-enable keyframes-name-pattern */

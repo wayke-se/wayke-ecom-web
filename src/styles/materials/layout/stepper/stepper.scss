@@ -2,7 +2,7 @@
 
 .#{$namespace}stepper {
   $root: &;
-  
+
   counter-reset: stage;
 
   &__item {
@@ -14,7 +14,7 @@
     // Completed stage
     &--is-complete {
       #{$root}__header {
-        @include justify-content(flex-start);
+        justify-content: flex-start;
       }
 
       #{$root}__stage {
@@ -22,7 +22,7 @@
       }
 
       #{$root}__icon {
-        @include flex-display;
+        display: flex;
       }
     }
 
@@ -39,22 +39,21 @@
   }
 
   &__header {
-    @include flex-display;
-    @include align-items(center);
-    @include justify-content(center);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
     .heading {
-      @include flex(1 1 auto);
+      flex: 1 1 auto;
     }
   }
 
   &__icon {
     $icon-size: size(3);
 
-    @include flex-shrink(0);
-    @include align-items(center);
-    @include justify-content(center);
-    
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
     display: none;
     width: $icon-size;
     height: $icon-size;

@@ -9,15 +9,14 @@
   }
 
   &__dialog {
-    @include animation(#{$namespace}no-transform 300ms ease forwards);
-    @include transform(translateY(100%));
-    @include overflow-auto;
-
+    transform: translateY(100%);
+    animation: #{$namespace}no-transform 300ms ease forwards;
+    overflow: auto;
     overscroll-behavior: contain;
   }
 
   &__header-inner {
-    @include justify-content(flex-end);
+    justify-content: flex-end;
   }
 
   &__close-btn {

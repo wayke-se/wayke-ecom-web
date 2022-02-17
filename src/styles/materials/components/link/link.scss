@@ -22,7 +22,7 @@
   }
 
   &--has-content {
-    @include inline-flex-display;
+    display: inline-flex;
   }
 
   &__content {

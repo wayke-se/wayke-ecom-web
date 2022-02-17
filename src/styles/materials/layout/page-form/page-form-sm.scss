@@ -1,14 +1,14 @@
 @use '../../../helpers' as *;
 
 .#{$namespace}page-form {
-  // @include flex-display;
+  // display: flex;
 
   max-width: scss-var(size, container, max-width, narrow);
   margin: 0 auto;
   padding: scss-var(size, container, gutter, sm);
   
   &__aside {
-    // @include flex-shrink(0);
+    // flex-shrink: 0;
 
     // width: 50%;
     // max-width: 50%;
@@ -17,7 +17,7 @@
   }
 
   &__main {
-    // @include flex(1 1 auto);
+    // flex: 1 1 auto;
     
     // order: -1;
   }

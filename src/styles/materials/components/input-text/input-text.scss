@@ -6,9 +6,8 @@
   --input-height: #{scss-var(size, input-height, mobile)};
   --unit-font-size: #{scss-var(font, size, small)};
 
-  @include flex-display;
-  @include align-items(stretch);
-
+  display: flex;
+  align-items: stretch;
   height: var(--input-height);
   background-color: color(bg, main);
   border: 1px solid color(border, main);
@@ -24,7 +23,7 @@
   }
 
   &__input {
-    @include flex(1 1 auto);
+    flex: 1 1 auto;
     @include appearance(none);
     @include font-light;
 
@@ -51,14 +50,13 @@
       @include font-light;
 
       color: color(text, alt);
-    };
+    }
   }
 
   &__unit {
-    @include flex-shrink(0);
-    @include flex-display;
-    @include align-items(center);
-    
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
     padding-right: var(--input-padding);
     color: color(text, alt);
     font-size: var(--unit-font-size);
