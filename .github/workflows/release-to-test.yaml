@@ -25,3 +25,19 @@ jobs:
         run: |
           npm run build
 
+      - name: Use Python 3.8
+        uses: actions/setup-python@v1
+        with:
+          python-version: "3.8"
+
+      - name: Install Python packages
+        run: |
+          pip install azure-storage-blob
+          pip install aiohttp
+
+      - name: Execute py script and upload files
+        run: |
+          python3 deploy/deploy.py
+        env:
+          BLOB_STORAGE_CONNECTION_STRING: ${{ secrets.BLOB_STORAGE_CONNECTION_STRING }}
+          UPLOAD_MAP_FILES: true
