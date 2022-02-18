@@ -4,16 +4,59 @@ Repository for Wayke Ecom Web.
 
 ## Getting started
 
-__Install dependencies__
+__Using npm__
 
 ```bash
-npm install
+npm install @wayke-se/wayke-ecom-web
 ```
 
-__Start the project__
+```js
+import WaykeEcomWeb from "@wayke-se/wayke-ecom-web";
+import "@wayke-se/wayke-ecom-web/dist/index.css";
 
-```bash
-npm start
+const context = new WaykeEcomWeb({
+    id: "36364808-671a-49da-b69a-5e0fc4cfe83e",
+    useBankid: true,
+    config: {
+        api: {
+            address: "https://ecom.wayketech.se",
+        },
+    },
+});
+
+constext.start();
+```
+
+__Using cdn__
+The ssociated css is injected into head by default once a `new WaykeEcomWeb(...)` is called. This can be turned off by adding `disablecssinjection` to the script tag.
+
+
+```html
+  <div id="wayke-ecom"></div>
+  <button id="ecom-button">Start</button>
+
+   <script
+    type="module"
+    src="https://cdn.wayke.se/public-assets/wayke-ecom-web/x.x.x/index.js"
+  ></script>
+
+  <script>
+    window.addEventListener("DOMContentLoaded", (_) => {
+      var context = new WaykeEcomWeb({
+        id: "36364808-671a-49da-b69a-5e0fc4cfe83e",
+        useBankid: true,
+        config: {
+          api: {
+            address: "https://ecom.wayketech.se",
+          },
+        },
+      });
+      
+      document
+        .getElementById('ecom-button')
+        .addEventListener('click', () => context.start());
+    });
+  </script>
 ```
 
 ## CSS specificity
@@ -43,20 +86,3 @@ The easiest way to add a namespace is to wrap the mounting element (`#wayke-ecom
 ## Headings
 
 To prevent multiple `h1` on your website, _Wayke Ecom_ does not include a `h1` as root heading level. Instead the headings starts from h2.
-
-## Development
-
-Deploy to npm:
-Update package.json version
-```bash
-npm run build
-npm publish --access public
-```
-Bundles can be found at /dist
-
-Create cdn-bundle
-Update package.json version
-```bash
-npm run build
-```
-Bundles can be found at /dist-cdn

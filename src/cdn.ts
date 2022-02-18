@@ -12,10 +12,13 @@ window.addEventListener('DOMContentLoaded', (_) => {
     const shouldInject = !scriptTag.getAttribute('disablecssinjection');
     if (shouldInject) {
       const src = scriptTag.src.replace('.js', '.css');
-      const cssFile = document.createElement('link');
-      cssFile.rel = 'stylesheet';
-      cssFile.href = src;
-      document.head.appendChild(cssFile);
+      const allreadyInjected = !!document.head.querySelector(`[href="${src}"]`);
+      if (!allreadyInjected) {
+        const cssFile = document.createElement('link');
+        cssFile.rel = 'stylesheet';
+        cssFile.href = src;
+        document.head.appendChild(cssFile);
+      }
     }
   }
 });
