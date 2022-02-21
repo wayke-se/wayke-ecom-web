@@ -25,7 +25,7 @@ const RADIO_FINANCIAL_LEASE = 'radio-financial-lease';
 
 const PAYMENT_NODE = 'payment-node';
 
-class Stage5Financial {
+class Financial {
   private element: HTMLDivElement;
   private index: number;
   private lastStage: boolean;
@@ -270,9 +270,7 @@ class Stage5Financial {
         onClick: () => this.onProceed(),
       });
     }
-
-    //content.appendChild(part);
   }
 }
 
-export default Stage5Financial;
+export default Financial;

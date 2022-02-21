@@ -26,7 +26,7 @@ const translateCondition = {
   [VehicleCondition.Ok]: 'Ok',
 };
 
-class Stage4TradeIn {
+class TradeIn {
   private element: HTMLDivElement;
   private index: number;
   private lastStage: boolean;
@@ -188,4 +188,4 @@ class Stage4TradeIn {
   }
 }
 
-export default Stage4TradeIn;
+export default TradeIn;

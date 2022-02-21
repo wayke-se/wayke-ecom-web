@@ -17,7 +17,7 @@ const CHANGE_BUTTON = 'button-home-delivery-change';
 const PROCEED = 'button-home-delivery-proceed';
 const PROCEED_NODE = `${PROCEED}-node`;
 
-class Stage3Delivery {
+class Delivery {
   private element: HTMLDivElement;
   private index: number;
   private lastStage: boolean;
@@ -161,4 +161,4 @@ class Stage3Delivery {
   }
 }
 
-export default Stage3Delivery;
+export default Delivery;

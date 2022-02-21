@@ -1,6 +1,6 @@
 import ListItem from '../ListItem';
 
-class Stage8Confirmation {
+class Summary {
   private element: HTMLDivElement;
 
   constructor(element: HTMLDivElement) {
@@ -9,8 +9,8 @@ class Stage8Confirmation {
   }
 
   render() {
-    ListItem(this.element, { title: 'Orderbekräftelse', id: 'confirmation' });
+    ListItem(this.element, { title: 'Sammanställning', id: 'summary' });
   }
 }
 
-export default Stage8Confirmation;
+export default Summary;

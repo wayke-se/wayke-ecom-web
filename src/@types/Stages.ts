@@ -1,37 +1,37 @@
-import Stage1Customer from '../Views/View2/Stage1Customer';
-import Stage2CentralStorage from '../Views/View2/Stage2CentralStorage';
-import Stage3Delivery from '../Views/View2/Stage3Delivery';
-import Stage4TradeIn from '../Views/View2/Stage4TradeIn';
-import Stage5Financial from '../Views/View2/Stage5Financial';
-import Stage6Insurance from '../Views/View2/Stage6Insurance';
+import CustomerStage from '../Views/View2/Customer';
+import CentralStorageStage from '../Views/View2/CentralStorage';
+import DeliveryStage from '../Views/View2/Delivery';
+import TradeInStage from '../Views/View2/TradeIn';
+import FinancialStage from '../Views/View2/Financial';
+import InsuranceStage from '../Views/View2/Insurance';
 
 interface Customer {
-  component: typeof Stage1Customer;
+  component: typeof CustomerStage;
   name: 'customer';
 }
 
 interface CentralStorage {
-  component: typeof Stage2CentralStorage;
+  component: typeof CentralStorageStage;
   name: 'centralStorage';
 }
 
 interface Delivery {
-  component: typeof Stage3Delivery;
+  component: typeof DeliveryStage;
   name: 'delivery';
 }
 
 interface TradeIn {
-  component: typeof Stage4TradeIn;
+  component: typeof TradeInStage;
   name: 'tradeIn';
 }
 
 interface Financial {
-  component: typeof Stage5Financial;
+  component: typeof FinancialStage;
   name: 'financial';
 }
 
 interface Insurance {
-  component: typeof Stage6Insurance;
+  component: typeof InsuranceStage;
   name: 'insurance';
 }
 

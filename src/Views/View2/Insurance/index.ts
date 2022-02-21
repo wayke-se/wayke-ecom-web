@@ -6,7 +6,7 @@ import ListItem from '../ListItem';
 const PROCEED = 'button-insurance-proceed';
 const CHANGE_BUTTON = 'button-insurance-change';
 
-class Stage6Insurance {
+class Insurance {
   private element: HTMLDivElement;
   private index: number;
   private lastStage: boolean;
@@ -94,4 +94,4 @@ class Stage6Insurance {
   }
 }
 
-export default Stage6Insurance;
+export default Insurance;

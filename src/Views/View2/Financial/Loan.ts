@@ -7,8 +7,6 @@ import KeyValueListItem from '../../../Templates/KeyValueListItem';
 import { Image } from '../../../Utils/constants';
 import { prettyNumber } from '../../../Utils/format';
 
-// import pieChartIllustration from '../../../assets/images/illustrations/payment.svg';
-
 const DOWNPAYMENT_RANGE_NODE = 'downpayment-range-node';
 const DOWNPAYMENT_RANGE = 'downpayment-range';
 

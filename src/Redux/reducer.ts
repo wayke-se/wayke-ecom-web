@@ -94,9 +94,15 @@ const initialState: ReducerState = {
   date: new Date(),
 };
 
+const getNextNavigationState = (currentStage: number, lastStage: boolean) =>
+  lastStage
+    ? { view: 3, stage: 1, subStage: 1 }
+    : { view: 2, stage: currentStage + 1, subStage: 1 };
+
 let next: ReducerState;
 const reducer = (state = initialState, action: Action): ReducerState => {
   let navigation: Navigation;
+
   next = { ...state };
   switch (action.type) {
     case SET_STAGES:
@@ -121,53 +127,29 @@ const reducer = (state = initialState, action: Action): ReducerState => {
         navigation: { view: 2, stage: state.navigation.stage, subStage: 2 },
       };
     case SET_SOCIAL_ID_AND_ADDRESS:
-      if (next.edit.customer) {
-        next = {
-          ...next,
-          navigation: next.topNavigation,
-          address: action.address,
-          customer: { ...state.customer, socialId: action.socialId },
-          edit: {
-            ...next.edit,
-            customer: false,
-          },
-        };
-      } else {
-        if (action.lastStage) {
-          navigation = { view: 3, stage: 1, subStage: 1 };
-        } else {
-          navigation = { view: 2, stage: state.navigation.stage + 1, subStage: 1 };
-        }
+      navigation = getNextNavigationState(state.navigation.stage, action.lastStage);
 
-        next = {
-          ...state,
-          navigation,
-          topNavigation: navigation,
-          address: action.address,
-          customer: { ...state.customer, socialId: action.socialId },
-        };
-      }
+      next = {
+        ...state,
+        navigation,
+        topNavigation:
+          next.topNavigation.stage < navigation.stage ? navigation : state.topNavigation,
+        address: action.address,
+        customer: { ...state.customer, socialId: action.socialId },
+      };
+
       return next;
     case SET_HOME_DELIVERY:
-      if (next.edit.delivery) {
-        next = {
-          ...next,
-          navigation: next.topNavigation,
-          homeDelivery: action.homeDelivery,
-          edit: {
-            ...next.edit,
-            delivery: false,
-          },
-        };
-      } else {
-        navigation = { view: 2, stage: state.navigation.stage + 1, subStage: 1 };
-        next = {
-          ...state,
-          navigation,
-          topNavigation: navigation,
-          homeDelivery: action.homeDelivery,
-        };
-      }
+      navigation = getNextNavigationState(state.navigation.stage, action.lastStage);
+
+      next = {
+        ...state,
+        navigation,
+        topNavigation:
+          next.topNavigation.stage < navigation.stage ? navigation : state.topNavigation,
+        homeDelivery: action.homeDelivery,
+      };
+
       return next;
 
     case INIT_TRADE_IN:
@@ -176,7 +158,8 @@ const reducer = (state = initialState, action: Action): ReducerState => {
         ...state,
         navigation,
         wantTradeIn: true,
-        topNavigation: navigation,
+        topNavigation:
+          next.topNavigation.stage < navigation.stage ? navigation : state.topNavigation,
         tradeIn: state.tradeIn || {
           registrationNumber: '',
           mileage: '',
@@ -186,74 +169,44 @@ const reducer = (state = initialState, action: Action): ReducerState => {
       return next;
 
     case SET_TRADE_IN:
-      if (next.edit.delivery) {
-        next = {
-          ...next,
-          navigation: next.topNavigation,
-          edit: {
-            ...next.edit,
-            tradeIn: false,
-          },
-          tradeIn: action.tradeIn,
-        };
-      } else {
-        navigation = { view: 2, stage: state.navigation.stage + 1, subStage: 1 };
-        next = {
-          ...state,
-          navigation,
-          topNavigation: navigation,
-          wantTradeIn: !!action.tradeIn,
-          tradeIn: action.tradeIn,
-          tradeInVehicle: action.tradeInVehicle,
-        };
-      }
+      navigation = getNextNavigationState(state.navigation.stage, action.lastStage);
+
+      next = {
+        ...state,
+        navigation,
+        topNavigation:
+          next.topNavigation.stage < navigation.stage ? navigation : state.topNavigation,
+        wantTradeIn: !!action.tradeIn,
+        tradeIn: action.tradeIn,
+        tradeInVehicle: action.tradeInVehicle,
+      };
 
       return next;
 
     case SET_FINANCIAL:
-      if (action.lastStage) {
-        navigation = { view: 3, stage: 1, subStage: 1 };
-      } else if (next.edit.delivery) {
-        next = {
-          ...next,
-          navigation: next.topNavigation,
-          paymentType: action.paymentType,
-          edit: {
-            ...next.edit,
-            financial: false,
-          },
-        };
-      } else {
-        navigation = { view: 2, stage: state.navigation.stage + 1, subStage: 1 };
-        next = {
-          ...state,
-          navigation,
-          topNavigation: navigation,
-        };
-      }
-      return next;
+      navigation = getNextNavigationState(state.navigation.stage, action.lastStage);
+
+      return {
+        ...next,
+        navigation,
+        topNavigation:
+          next.topNavigation.stage < navigation.stage ? navigation : state.topNavigation,
+        paymentType: action.paymentType,
+      };
 
     case SET_PAYMENT_LOOKUP_RESPONSE:
       return { ...next, paymentLookupResponse: action.paymentLookupResponse };
 
     case SET_INSURANCE:
-      if (next.edit.delivery) {
-        next = {
-          ...next,
-          navigation: next.topNavigation,
-          edit: {
-            ...next.edit,
-            insurance: false,
-          },
-        };
-      } else {
-        navigation = { view: 3, stage: 1, subStage: 1 };
-        next = {
-          ...state,
-          navigation,
-          topNavigation: navigation,
-        };
-      }
+      navigation = getNextNavigationState(state.navigation.stage, action.lastStage);
+
+      next = {
+        ...state,
+        navigation,
+        topNavigation:
+          next.topNavigation.stage < navigation.stage ? navigation : state.topNavigation,
+      };
+
       return next;
 
     case EDIT:

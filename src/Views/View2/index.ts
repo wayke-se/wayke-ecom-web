@@ -2,24 +2,24 @@ import watch from 'redux-watch';
 
 import ItemTileSmall from '../../Templates/ItemTileSmall';
 import store from '../../Redux/store';
-import Stage1Customer from './Stage1Customer';
-import Stage2CentralStorage from './Stage2CentralStorage';
-import Stage3Delivery from './Stage3Delivery';
-import Stage4TradeIn from './Stage4TradeIn';
-import Stage5Financial from './Stage5Financial';
-import Stage6Insurance from './Stage6Insurance';
-import Stage7Summary from './Stage7Summary';
-import Stage8Confirmation from './Stage8Confirmation';
+import Customer from './Customer';
+import CentralStorage from './CentralStorage';
+import Delivery from './Delivery';
+import TradeIn from './TradeIn';
+import Financial from './Financial';
+import Insurance from './Insurance';
+import Summary from './Summary';
+import Confirmation from './Confirmation';
 import { setStages } from '../../Redux/action';
 import { StageMapper, StageTypes } from '../../@types/Stages';
 
 const stageMap: StageMapper = {
-  customer: { component: Stage1Customer, name: 'customer' },
-  centralStorage: { component: Stage2CentralStorage, name: 'centralStorage' },
-  delivery: { component: Stage3Delivery, name: 'delivery' },
-  tradeIn: { component: Stage4TradeIn, name: 'tradeIn' },
-  financial: { component: Stage5Financial, name: 'financial' },
-  insurance: { component: Stage6Insurance, name: 'insurance' },
+  customer: { component: Customer, name: 'customer' },
+  centralStorage: { component: CentralStorage, name: 'centralStorage' },
+  delivery: { component: Delivery, name: 'delivery' },
+  tradeIn: { component: TradeIn, name: 'tradeIn' },
+  financial: { component: Financial, name: 'financial' },
+  insurance: { component: Insurance, name: 'insurance' },
 };
 
 type StageMapKeys = keyof typeof stageMap;
@@ -47,6 +47,7 @@ class View2v2 {
     const { order, centralStorage } = state;
     if (!order) throw 'No order available';
 
+    // Stage order setup
     const list: StageMapKeys[] = [
       'customer',
       'centralStorage',
@@ -92,10 +93,11 @@ class View2v2 {
     pageFormMain.appendChild(stepper);
 
     const size = stages?.length;
+    // Render stages
     stages?.forEach((stage, index) => new stage.component(stepper, index + 1, size === index + 1));
 
-    new Stage7Summary(stepper);
-    new Stage8Confirmation(stepper);
+    new Summary(stepper);
+    new Confirmation(stepper);
   }
 }
 
