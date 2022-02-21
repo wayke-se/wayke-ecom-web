@@ -59,14 +59,18 @@ class Delivery {
     const contactInformation = state.order.getContactInformation();
     if (!contactInformation) throw 'Missing dealer contact information';
 
+    const completed = state.topNavigation.stage > this.index;
     const content = ListItem(this.element, {
+      completed,
       title: 'Leverans',
       active: state.navigation.stage === this.index,
-      completed: state.topNavigation.stage > this.index,
       id: 'delivery',
     });
 
-    if (state.navigation.stage > this.index) {
+    if (
+      state.navigation.stage > this.index ||
+      (completed && state.navigation.stage !== this.index)
+    ) {
       const part = document.createElement('div');
 
       const keyValueItems: { key: string; value: string }[] = [

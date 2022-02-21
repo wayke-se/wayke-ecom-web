@@ -34,16 +34,21 @@ class Insurance {
 
   render() {
     const state = store.getState();
+
+    const completed = state.topNavigation.stage > this.index;
     const content = ListItem(this.element, {
+      completed,
       title: 'Försäkring',
       active: state.navigation.stage === this.index,
-      completed: state.topNavigation.stage > this.index,
       id: 'insurance',
     });
 
     const part = document.createElement('div');
 
-    if (state.navigation.stage > this.index) {
+    if (
+      state.navigation.stage > this.index ||
+      (completed && state.navigation.stage !== this.index)
+    ) {
       part.innerHTML = `
       <div class="waykeecom-stack waykeecom-stack--1">
           <ul class="waykeecom-key-value-list">

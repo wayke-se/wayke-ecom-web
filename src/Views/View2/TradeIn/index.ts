@@ -7,9 +7,9 @@ import ButtonArrowRight from '../../../Components/ButtonArrowRight';
 import ButtonSkip from '../../../Components/ButtonSkip';
 import KeyValueListItem from '../../../Templates/KeyValueListItem';
 import ButtonAsLink from '../../../Components/ButtonAsLink';
-import { VehicleCondition } from '../../../@types/TradeIn';
 import { prettyNumber } from '../../../Utils/format';
 import watch from 'redux-watch';
+import { translateTradeInCondition } from '../../../Utils/constants';
 
 const TRADE_IN_YES = 'button-trade-in-yes';
 const TRADE_IN_YES_NODE = `${TRADE_IN_YES}-node`;
@@ -19,12 +19,6 @@ const TRADE_IN_NO_NODE = `${TRADE_IN_NO}-node`;
 
 const CHANGE_BUTTON = 'button-trade-in-change';
 const CHANGE_BUTTON_NODE = `${CHANGE_BUTTON}-node`;
-
-const translateCondition = {
-  [VehicleCondition.VeryGood]: 'Mycket bra',
-  [VehicleCondition.Good]: 'Bra',
-  [VehicleCondition.Ok]: 'Ok',
-};
 
 class TradeIn {
   private element: HTMLDivElement;
@@ -60,6 +54,7 @@ class TradeIn {
     const state = store.getState();
     if (!state.order?.allowsTradeIn) return;
 
+    const completed = state.topNavigation.stage > this.index;
     const content = ListItem(this.element, {
       title: 'Inbytesbil',
       active: state.navigation.stage === this.index,
@@ -70,7 +65,10 @@ class TradeIn {
 
     const part = document.createElement('div');
 
-    if (state.navigation.stage > this.index) {
+    if (
+      state.navigation.stage > this.index ||
+      (completed && state.navigation.stage !== this.index)
+    ) {
       const keyValueItemsUpper: { key: string; value: string }[] = [];
 
       if (state.tradeIn && state.tradeInVehicle) {
@@ -78,7 +76,7 @@ class TradeIn {
         if (state.tradeIn.condition)
           keyValueItemsUpper.push({
             key: 'Bilens skick',
-            value: translateCondition[state.tradeIn.condition],
+            value: translateTradeInCondition[state.tradeIn.condition],
           });
         if (state.tradeIn.description)
           keyValueItemsUpper.push({

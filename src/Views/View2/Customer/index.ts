@@ -25,12 +25,12 @@ class Customer {
 
   render() {
     const state = store.getState();
-    const { navigation, topNavigation } = state;
 
+    const completed = state.topNavigation.stage > this.index;
     const content = ListItem(this.element, {
+      completed,
       title: 'Dina uppgifter',
-      active: navigation.stage === this.index,
-      completed: topNavigation.stage > this.index,
+      active: state.navigation.stage === this.index,
       id: 'customer',
     });
     content.innerHTML = '';
@@ -40,13 +40,16 @@ class Customer {
     const part2 = document.createElement('div');
     part2.className = 'waykeecom-stack waykeecom-stack--2';
 
-    if (navigation.stage > this.index) {
+    if (
+      state.navigation.stage > this.index ||
+      (completed && state.navigation.stage !== this.index)
+    ) {
       new Part3CustomerSummary(part1, this.index);
       content.appendChild(part1);
-    } else if (navigation.stage === this.index) {
+    } else if (state.navigation.stage === this.index) {
       new Part1EmailAndPhone(part1);
       content.appendChild(part1);
-      if (navigation.subStage > 1) {
+      if (state.navigation.subStage > 1) {
         new Part2SocialId(part2, this.lastStage);
         content.appendChild(part2);
       }

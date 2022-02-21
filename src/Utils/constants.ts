@@ -1,3 +1,5 @@
+import { VehicleCondition } from '../@types/TradeIn';
+
 export const Image = {
   bankid: 'https://cdn.wayke.se/public-assets/bankid-logo.svg',
   carfax: {
@@ -9,4 +11,10 @@ export const Image = {
   illustrations: {
     payment: 'https://cdn.wayke.se/public-assets/payment.svg',
   },
+};
+
+export const translateTradeInCondition = {
+  [VehicleCondition.VeryGood]: 'Mycket bra',
+  [VehicleCondition.Good]: 'Bra',
+  [VehicleCondition.Ok]: 'Ok',
 };

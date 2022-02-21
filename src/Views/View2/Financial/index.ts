@@ -85,16 +85,21 @@ class Financial {
 
     const paymentOptions = order.getPaymentOptions();
 
+    const completed = state.topNavigation.stage > this.index;
     const content = ListItem(this.element, {
+      completed,
       title: 'Finansiering',
       active: state.navigation.stage === this.index,
-      completed: state.topNavigation.stage > this.index,
       id: 'financial',
     });
 
     const part = document.createElement('div');
 
-    if (state.navigation.stage > this.index && this.paymentType) {
+    if (
+      (state.navigation.stage > this.index ||
+        (completed && state.navigation.stage !== this.index)) &&
+      this.paymentType
+    ) {
       const loan = paymentOptions.find((x) => x.type === PaymentType.Loan);
       part.innerHTML = Summary({
         paymentType: this.paymentType,
