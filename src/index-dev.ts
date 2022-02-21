@@ -9,7 +9,7 @@ window.addEventListener('DOMContentLoaded', (_) => {
   };
 
   const context = new WaykeEcomWeb({
-    ...devConfig.BANKID_TRADE_IN_HOME_DELIVERY,
+    ...devConfig.MULTIPLE_FINANCIAL,
     config: newConfig,
   });
   context.start();

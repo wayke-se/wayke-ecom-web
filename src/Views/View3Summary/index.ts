@@ -9,7 +9,7 @@ import Customer from './Customer';
 import Disclaimer from './Disclaimer';
 import ExecuteOrder from './ExecuteOrder';
 
-const summaryNode = 'summary-node';
+const SUMMARY_NODE = 'summary-node';
 
 class View3Summary {
   private element: Element;
@@ -31,21 +31,21 @@ class View3Summary {
     this.element.innerHTML = `
       <div class="waykeecom-page">
         <div class="waykeecom-page__body">
-          <div id="${summaryNode}" class="waykeecom-container waykeecom-container--narrow">
+          <div id="${SUMMARY_NODE}" class="waykeecom-container waykeecom-container--narrow">
           </div>
         </div>
       </div>
     `;
 
-    const summary = this.element.querySelector<HTMLDivElement>(`#${summaryNode}`);
-    if (summary) {
-      new Summary(summary);
-      new TradeIn(summary);
-      new Order(summary);
-      new Delivery(summary);
-      new Customer(summary);
-      new ExecuteOrder(summary);
-      new Disclaimer(summary);
+    const content = this.element.querySelector<HTMLDivElement>(`#${SUMMARY_NODE}`);
+    if (content) {
+      new Summary(content);
+      new TradeIn(content);
+      new Order(content);
+      new Delivery(content);
+      new Customer(content);
+      new ExecuteOrder(content);
+      new Disclaimer(content);
     }
   }
 }

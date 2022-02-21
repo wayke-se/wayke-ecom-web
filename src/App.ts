@@ -79,8 +79,6 @@ class App {
       this.setUpModal();
       this.render(waykeOrderId);
     }
-
-    //this.render();
   }
 
   private setUpModal() {

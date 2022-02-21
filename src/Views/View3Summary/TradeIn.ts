@@ -1,4 +1,4 @@
-import { edit } from '../../Redux/action';
+import { edit, initTradeIn } from '../../Redux/action';
 import store from '../../Redux/store';
 import KeyValueListItem from '../../Templates/KeyValueListItem';
 import { translateTradeInCondition } from '../../Utils/constants';
@@ -78,10 +78,15 @@ class TradeIn {
     `;
 
     const editTradeInIndex = state.stages?.findIndex((x) => x.name === 'tradeIn');
-    if (editTradeInIndex !== undefined) {
+    if (editTradeInIndex !== undefined && state.stages) {
+      const lastStage = editTradeInIndex === state.stages.length - 1;
+
       document
         .querySelector<HTMLButtonElement>(`#${EDIT_TRADE_IN}`)
-        ?.addEventListener('click', () => edit(editTradeInIndex + 1));
+        ?.addEventListener('click', () => {
+          initTradeIn(lastStage);
+          edit(editTradeInIndex + 1);
+        });
     }
   }
 }
