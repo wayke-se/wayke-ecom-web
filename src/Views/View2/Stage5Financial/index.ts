@@ -3,7 +3,7 @@ import { PaymentLookupResponse } from '@wayke-se/ecom/dist-types/payments/paymen
 import watch from 'redux-watch';
 import ButtonArrowRight from '../../../Components/ButtonArrowRight';
 import InputRadioField from '../../../Components/InputRadioField';
-import { editFinancial, setFinancial } from '../../../Redux/action';
+import { edit, setFinancial } from '../../../Redux/action';
 import store from '../../../Redux/store';
 import { Image } from '../../../Utils/constants';
 import { prettyNumber } from '../../../Utils/format';
@@ -11,13 +11,10 @@ import ListItem from '../ListItem';
 import Loan from './Loan';
 import Summary from './Summary';
 
-// import bankidLogotype from '../../../assets/images/bankid/bankid-logo.svg';
-
 const PROCEED = 'button-financial-proceed';
 const PROCEED_NODE = `${PROCEED}-node`;
 
 const CHANGE_BUTTON = 'button-financial-change';
-const STAGE = 5;
 
 const RADIO_FINANCIAL_CASH_NODE = 'radio-financial-cash-node';
 const RADIO_FINANCIAL_CASH = 'radio-financial-cash';
@@ -30,11 +27,17 @@ const PAYMENT_NODE = 'payment-node';
 
 class Stage5Financial {
   private element: HTMLDivElement;
+  private index: number;
+  private lastStage: boolean;
+
   private paymentType?: PaymentType;
   private paymentLookupResponse?: PaymentLookupResponse;
 
-  constructor(element: HTMLDivElement) {
+  constructor(element: HTMLDivElement, index: number, lastStage: boolean) {
     this.element = element;
+    this.index = index;
+    this.lastStage = lastStage;
+
     const w = watch(store.getState, 'navigation');
     store.subscribe(w(() => this.render()));
     const w2 = watch(store.getState, 'edit');
@@ -55,7 +58,7 @@ class Stage5Financial {
     this.render();
   }
 
-  onChange(e: Event) {
+  private onChange(e: Event) {
     const proceed = this.element.querySelector<HTMLDivElement>(`#${PROCEED}`);
     if (!proceed) return;
     const currentTarget = e.currentTarget as HTMLInputElement;
@@ -65,14 +68,14 @@ class Stage5Financial {
     proceed.removeAttribute('disabled');
   }
 
-  onProceed() {
+  private onProceed() {
     if (this.paymentType) {
-      setFinancial(this.paymentType);
+      setFinancial(this.paymentType, this.lastStage);
     }
   }
 
-  onEdit() {
-    editFinancial();
+  private onEdit() {
+    edit(this.index);
   }
 
   render() {
@@ -84,14 +87,14 @@ class Stage5Financial {
 
     const content = ListItem(this.element, {
       title: 'Finansiering',
-      active: state.navigation.stage === STAGE,
-      completed: state.topNavigation.stage > STAGE,
+      active: state.navigation.stage === this.index,
+      completed: state.topNavigation.stage > this.index,
       id: 'financial',
     });
 
     const part = document.createElement('div');
 
-    if (state.navigation.stage > STAGE && this.paymentType) {
+    if (state.navigation.stage > this.index && this.paymentType) {
       const loan = paymentOptions.find((x) => x.type === PaymentType.Loan);
       part.innerHTML = Summary({
         paymentType: this.paymentType,
@@ -102,7 +105,7 @@ class Stage5Financial {
 
       part.querySelector(`#${CHANGE_BUTTON}`)?.addEventListener('click', () => this.onEdit());
       content.appendChild(part);
-    } else if (state.navigation.stage === STAGE) {
+    } else if (state.navigation.stage === this.index) {
       const cash = paymentOptions.find((x) => x.type === PaymentType.Cash);
       const loan = paymentOptions.find((x) => x.type === PaymentType.Loan);
       const lease = paymentOptions.find((x) => x.type === PaymentType.Lease);

@@ -1,17 +1,21 @@
 import watch from 'redux-watch';
-import { setInsurance, editInsurance } from '../../../Redux/action';
+import { setInsurance, edit } from '../../../Redux/action';
 import store from '../../../Redux/store';
 import ListItem from '../ListItem';
 
 const PROCEED = 'button-insurance-proceed';
 const CHANGE_BUTTON = 'button-insurance-change';
-const STAGE = 6;
 
 class Stage6Insurance {
   private element: HTMLDivElement;
+  private index: number;
+  private lastStage: boolean;
 
-  constructor(element: HTMLDivElement) {
+  constructor(element: HTMLDivElement, index: number, lastStage: boolean) {
     this.element = element;
+    this.index = index;
+    this.lastStage = lastStage;
+
     const w = watch(store.getState, 'navigation');
     store.subscribe(w(() => this.render()));
     const w2 = watch(store.getState, 'edit');
@@ -20,26 +24,26 @@ class Stage6Insurance {
     this.render();
   }
 
-  onProceed() {
-    setInsurance();
+  private onProceed() {
+    setInsurance(this.lastStage);
   }
 
-  onEdit() {
-    editInsurance();
+  private onEdit() {
+    edit(this.index);
   }
 
   render() {
     const state = store.getState();
     const content = ListItem(this.element, {
       title: 'Försäkring',
-      active: state.navigation.stage === STAGE,
-      completed: state.topNavigation.stage > STAGE,
+      active: state.navigation.stage === this.index,
+      completed: state.topNavigation.stage > this.index,
       id: 'insurance',
     });
 
     const part = document.createElement('div');
 
-    if (state.navigation.stage > STAGE) {
+    if (state.navigation.stage > this.index) {
       part.innerHTML = `
       <div class="waykeecom-stack waykeecom-stack--1">
           <ul class="waykeecom-key-value-list">
@@ -57,7 +61,7 @@ class Stage6Insurance {
       `;
       part.querySelector(`#${CHANGE_BUTTON}`)?.addEventListener('click', () => this.onEdit());
       content.appendChild(part);
-    } else if (state.navigation.stage === STAGE) {
+    } else if (state.navigation.stage === this.index) {
       part.innerHTML = `
         <div class="waykeecom-stack waykeecom-stack--3">
           <h4 class="waykeecom-heading waykeecom-heading--4">Vill du teckna en försäkring på din nya bil?</h4>

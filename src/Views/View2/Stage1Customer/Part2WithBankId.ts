@@ -23,12 +23,15 @@ const LINK_TOGGLE_METHOD = 'link-toggle-method';
 
 class Part2WithBankId {
   private element: HTMLDivElement;
-  private bankidStatusInterval?: NodeJS.Timer;
+  private lastStage: boolean;
   private _ontoggleMethod: () => void;
+  private bankidStatusInterval?: NodeJS.Timer;
   private view: number = 1;
 
-  constructor(element: HTMLDivElement, onToggleMethod: () => void) {
+  constructor(element: HTMLDivElement, lastStage: boolean, onToggleMethod: () => void) {
     this.element = element;
+    this.lastStage = lastStage;
+
     this._ontoggleMethod = onToggleMethod;
     this.render();
   }
@@ -57,7 +60,7 @@ class Part2WithBankId {
           const address = response.getAddress();
           const socialId = response.getPersonalNumber();
           if (address && socialId) {
-            setSocialIdAndAddress(socialId, address);
+            setSocialIdAndAddress(socialId, address, this.lastStage);
           }
         }
         if (response.shouldRenew()) {

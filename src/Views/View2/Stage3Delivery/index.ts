@@ -1,7 +1,7 @@
 import watch from 'redux-watch';
 import ButtonArrowRight from '../../../Components/ButtonArrowRight';
 import InputRadioField from '../../../Components/InputRadioField';
-import { editDelivery, setHomeDelivery } from '../../../Redux/action';
+import { edit, setHomeDelivery } from '../../../Redux/action';
 import store from '../../../Redux/store';
 import KeyValueListItem from '../../../Templates/KeyValueListItem';
 import ListItem from '../ListItem';
@@ -17,14 +17,17 @@ const CHANGE_BUTTON = 'button-home-delivery-change';
 const PROCEED = 'button-home-delivery-proceed';
 const PROCEED_NODE = `${PROCEED}-node`;
 
-const STAGE = 3;
-
 class Stage3Delivery {
   private element: HTMLDivElement;
+  private index: number;
+  private lastStage: boolean;
+
   private homeDelivery: boolean;
 
-  constructor(element: HTMLDivElement) {
+  constructor(element: HTMLDivElement, index: number, lastStage: boolean) {
     this.element = element;
+    this.index = index;
+    this.lastStage = lastStage;
 
     const w = watch(store.getState, 'navigation');
     store.subscribe(w(() => this.render()));
@@ -35,18 +38,18 @@ class Stage3Delivery {
     this.render();
   }
 
-  onChange(e: Event) {
+  private onChange(e: Event) {
     const currentTarget = e.currentTarget as HTMLInputElement;
     const value = currentTarget.value === 'true';
     this.homeDelivery = value;
   }
 
-  onProceed() {
-    setHomeDelivery(this.homeDelivery);
+  private onProceed() {
+    setHomeDelivery(this.homeDelivery, this.lastStage);
   }
 
-  onEdit() {
-    editDelivery();
+  private onEdit() {
+    edit(this.index);
   }
 
   render() {
@@ -58,12 +61,12 @@ class Stage3Delivery {
 
     const content = ListItem(this.element, {
       title: 'Leverans',
-      active: state.navigation.stage === STAGE,
-      completed: state.topNavigation.stage > STAGE,
+      active: state.navigation.stage === this.index,
+      completed: state.topNavigation.stage > this.index,
       id: 'delivery',
     });
 
-    if (state.navigation.stage > STAGE) {
+    if (state.navigation.stage > this.index) {
       const part = document.createElement('div');
 
       const keyValueItems: { key: string; value: string }[] = [
@@ -85,7 +88,7 @@ class Stage3Delivery {
 
       part.querySelector(`#${CHANGE_BUTTON}`)?.addEventListener('click', () => this.onEdit());
       content.appendChild(part);
-    } else if (state.navigation.stage === STAGE) {
+    } else if (state.navigation.stage === this.index) {
       const part = document.createElement('div');
       part.innerHTML = `
         <div class="waykeecom-stack waykeecom-stack--3">

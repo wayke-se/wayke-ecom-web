@@ -1,23 +1,37 @@
+import watch from 'redux-watch';
+
 import store from '../../Redux/store';
-
 import { maskSSn, maskText } from '../../Utils/mask';
-
 import ItemTileLarge from '../../Templates/ItemTileLarge';
 import KeyValueListItem from '../../Templates/KeyValueListItem';
+import { edit } from '../../Redux/action';
+
+const EDIT_CUSTOMER = 'edit-customer';
+const EDIT_DELIVERY = 'edit-delivery';
+const EDIT_TRADE_IN = 'edit-trade-in';
+const EDIT_FINANCIAL = 'edit-financial';
+const EDIT_INSURANCE = 'edit-insurance';
 
 class View3Summary {
   private element: Element;
 
   constructor(element: Element) {
     this.element = element;
-    store.subscribe(() => this.render());
+    const w = watch(store.getState, 'navigation.view');
+    store.subscribe(
+      w((view) => {
+        if (view === 3) {
+          this.render();
+        }
+      })
+    );
     this.render();
   }
 
   render() {
     const state = store.getState();
 
-    const { order } = state;
+    const { order, stages } = state;
 
     const contactInformation = order?.getContactInformation();
     this.element.innerHTML = `
@@ -58,7 +72,7 @@ class View3Summary {
                       </div>
                       <div class="waykeecom-stack waykeecom-stack--05">
                         <div class="waykeecom-align waykeecom-align--end">
-                          <button title="Ändra finansiering" class="waykeecom-link">Ändra</button>
+                          <button id="${EDIT_FINANCIAL}" title="Ändra finansiering" class="waykeecom-link">Ändra</button>
                         </div>
                       </div>
                     </div>
@@ -76,7 +90,7 @@ class View3Summary {
                       </div>
                       <div class="waykeecom-stack waykeecom-stack--05">
                         <div class="waykeecom-align waykeecom-align--end">
-                          <button title="Ändra försäkring" class="waykeecom-link">Ändra</button>
+                          <button id="${EDIT_INSURANCE}" title="Ändra försäkring" class="waykeecom-link">Ändra</button>
                         </div>
                       </div>
                     </div>
@@ -142,7 +156,7 @@ class View3Summary {
                 </div>
                 <div class="waykeecom-stack waykeecom-stack--2">
                   <div class="waykeecom-align waykeecom-align--end">
-                    <button title="Ändra inbytesbil" class="waykeecom-link">Ändra</button>
+                    <button id="${EDIT_TRADE_IN}" title="Ändra inbytesbil" class="waykeecom-link">Ändra</button>
                   </div>
                 </div>
               </div>
@@ -161,7 +175,7 @@ class View3Summary {
                   </div>
                   <div class="waykeecom-stack waykeecom-stack--1">
                     <div class="waykeecom-align waykeecom-align--end">
-                      <button title="Ändra leveranssätt" class="waykeecom-link">Ändra</button>
+                      <button id="${EDIT_DELIVERY}" title="Ändra leveranssätt" class="waykeecom-link">Ändra</button>
                     </div>
                   </div>
                 </div>
@@ -205,7 +219,7 @@ class View3Summary {
                   </div>
                   <div class="waykeecom-stack waykeecom-stack--1">
                     <div class="waykeecom-align waykeecom-align--end">
-                      <button title="Ändra kunduppgifter" class="waykeecom-link">Ändra</button>
+                      <button id="${EDIT_CUSTOMER}" title="Ändra kunduppgifter" class="waykeecom-link">Ändra</button>
                     </div>
                   </div>
                 </div>
@@ -238,6 +252,33 @@ class View3Summary {
           </div>
         </div>
     `;
+
+    if (stages) {
+      const editCustomerIndex = stages?.findIndex((x) => x.name === 'customer');
+      document
+        .querySelector<HTMLButtonElement>(`#${EDIT_CUSTOMER}`)
+        ?.addEventListener('click', () => edit(editCustomerIndex + 1));
+
+      const editDeliveryIndex = stages?.findIndex((x) => x.name === 'delivery');
+      document
+        .querySelector<HTMLButtonElement>(`#${EDIT_DELIVERY}`)
+        ?.addEventListener('click', () => edit(editDeliveryIndex + 1));
+
+      const editTradeInIndex = stages?.findIndex((x) => x.name === 'tradeIn');
+      document
+        .querySelector<HTMLButtonElement>(`#${EDIT_TRADE_IN}`)
+        ?.addEventListener('click', () => edit(editTradeInIndex + 1));
+
+      const editFinancialIndex = stages?.findIndex((x) => x.name === 'financial');
+      document
+        .querySelector<HTMLButtonElement>(`#${EDIT_FINANCIAL}`)
+        ?.addEventListener('click', () => edit(editFinancialIndex + 1));
+
+      const editInsuranceIndex = stages?.findIndex((x) => x.name === 'insurance');
+      document
+        .querySelector<HTMLButtonElement>(`#${EDIT_INSURANCE}`)
+        ?.addEventListener('click', () => edit(editInsuranceIndex + 1));
+    }
   }
 }
 

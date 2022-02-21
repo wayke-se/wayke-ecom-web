@@ -71,9 +71,11 @@ const initalState = (tradeIn?: TradeInCarDataPartial): PartTradeInState => {
 class PartTradeIn {
   private element: HTMLDivElement;
   private state: PartTradeInState;
+  private lastStage: boolean;
 
-  constructor(element: HTMLDivElement) {
+  constructor(element: HTMLDivElement, lastStage: boolean) {
     this.element = element;
+    this.lastStage = lastStage;
 
     const state = store.getState();
     this.state = initalState(state.tradeIn);
@@ -90,7 +92,7 @@ class PartTradeIn {
       const key = `${this.state.value.registrationNumber}-${this.state.value.mileage}-${this.state.value.condition}`;
       const cache = TRADE_IN_CACHE[key];
       if (cache) {
-        setTradeIn(this.state.value as TradeInCarData, cache);
+        setTradeIn(this.lastStage, this.state.value as TradeInCarData, cache);
         return;
       }
 
@@ -106,7 +108,7 @@ class PartTradeIn {
           const response = await getTradeInVehicle(value);
           const vehicle = response.getVehicle();
           TRADE_IN_CACHE[key] = vehicle;
-          setTradeIn(value, vehicle);
+          setTradeIn(this.lastStage, value, vehicle);
         }
       } catch (e) {
         errorAlert.style.display = '';

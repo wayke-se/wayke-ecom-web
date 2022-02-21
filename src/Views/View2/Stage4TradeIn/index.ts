@@ -1,4 +1,4 @@
-import { editTradeIn, initTradeIn, setTradeIn } from '../../../Redux/action';
+import { edit, initTradeIn, setTradeIn } from '../../../Redux/action';
 import store from '../../../Redux/store';
 import ListItem from '../ListItem';
 import PartTradeIn from './PartTradeIn';
@@ -20,8 +20,6 @@ const TRADE_IN_NO_NODE = `${TRADE_IN_NO}-node`;
 const CHANGE_BUTTON = 'button-trade-in-change';
 const CHANGE_BUTTON_NODE = `${CHANGE_BUTTON}-node`;
 
-const STAGE = 4;
-
 const translateCondition = {
   [VehicleCondition.VeryGood]: 'Mycket bra',
   [VehicleCondition.Good]: 'Bra',
@@ -30,9 +28,14 @@ const translateCondition = {
 
 class Stage4TradeIn {
   private element: HTMLDivElement;
+  private index: number;
+  private lastStage: boolean;
 
-  constructor(element: HTMLDivElement) {
+  constructor(element: HTMLDivElement, index: number, lastStage: boolean) {
     this.element = element;
+    this.index = index;
+    this.lastStage = lastStage;
+
     const w = watch(store.getState, 'navigation');
     store.subscribe(w(() => this.render()));
     const w2 = watch(store.getState, 'edit');
@@ -41,31 +44,33 @@ class Stage4TradeIn {
     this.render();
   }
 
-  onEdit() {
-    editTradeIn();
+  private onEdit() {
+    edit(this.index);
   }
 
-  onYesTradeIn() {
-    initTradeIn();
+  private onYesTradeIn() {
+    initTradeIn(this.lastStage);
   }
 
-  onNoTradeIn() {
-    setTradeIn();
+  private onNoTradeIn() {
+    setTradeIn(this.lastStage);
   }
 
   render() {
     const state = store.getState();
+    if (!state.order?.allowsTradeIn) return;
+
     const content = ListItem(this.element, {
       title: 'Inbytesbil',
-      active: state.navigation.stage === STAGE,
-      completed: state.topNavigation.stage > STAGE,
+      active: state.navigation.stage === this.index,
+      completed: state.topNavigation.stage > this.index,
       id: 'trade-in',
     });
     content.innerHTML = '';
 
     const part = document.createElement('div');
 
-    if (state.navigation.stage > STAGE) {
+    if (state.navigation.stage > this.index) {
       const keyValueItemsUpper: { key: string; value: string }[] = [];
 
       if (state.tradeIn && state.tradeInVehicle) {
@@ -147,9 +152,9 @@ class Stage4TradeIn {
         title: 'Ändra',
         onClick: () => this.onEdit(),
       });
-    } else if (state.navigation.stage === STAGE) {
+    } else if (state.navigation.stage === this.index) {
       if (state.wantTradeIn && state.tradeIn) {
-        new PartTradeIn(part);
+        new PartTradeIn(part, this.lastStage);
       } else {
         part.innerHTML = `
           <div class="waykeecom-stack waykeecom-stack--3">

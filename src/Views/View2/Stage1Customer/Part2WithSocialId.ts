@@ -51,11 +51,13 @@ const initalState = (customer?: Customer): Part2SocialIdState => {
 
 class Part2WithSocialId {
   private element: HTMLDivElement;
+  private lastStage: boolean;
   private state: Part2SocialIdState;
   private onToggleMethod: () => void;
 
-  constructor(element: HTMLDivElement, onToggleMethod: () => void) {
+  constructor(element: HTMLDivElement, lastStage: boolean, onToggleMethod: () => void) {
     this.element = element;
+    this.lastStage = lastStage;
     this.onToggleMethod = onToggleMethod;
 
     const state = store.getState();
@@ -73,7 +75,7 @@ class Part2WithSocialId {
     if (proceed && toggle) {
       const cache = SOCIAL_ID_CACHE[this.state.value.socialId];
       if (cache) {
-        setSocialIdAndAddress(this.state.value.socialId, cache);
+        setSocialIdAndAddress(this.state.value.socialId, cache, this.lastStage);
         return;
       }
 
@@ -84,7 +86,7 @@ class Part2WithSocialId {
           const response = await getAddressBySsn(this.state.value.socialId);
           const address = response.getAddress();
           SOCIAL_ID_CACHE[this.state.value.socialId] = address;
-          setSocialIdAndAddress(this.state.value.socialId, address);
+          setSocialIdAndAddress(this.state.value.socialId, address, this.lastStage);
         }
       } catch (e) {
         errorAlert.style.display = '';

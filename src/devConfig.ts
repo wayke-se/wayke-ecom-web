@@ -1,8 +1,8 @@
 export const devConfig = {
   BANKID_TRADE_IN_HOME_DELIVERY: {
-    id: '7212aea6-26ed-471a-8c54-7a8acc583c09',
+    id: 'f98cde44-ea7f-49af-a60b-4dcd7ad6d862',
     vehicle: {
-      id: '7212aea6-26ed-471a-8c54-7a8acc583c09',
+      id: 'f98cde44-ea7f-49af-a60b-4dcd7ad6d862',
       title: 'Audi TT',
       shortDescription: 'S-Tronic Milltek 360hk 2500:-i månad',
       price: 369000,

@@ -5,12 +5,15 @@ import Part1EmailAndPhone from './Part1EmailAndPhone';
 import Part2SocialId from './Part2SocialId';
 import Part3CustomerSummary from './Part3CustomerSummary';
 
-const STAGE = 1;
-class Stage1Customer {
+class Customer {
   private element: HTMLDivElement;
+  private index: number;
+  private lastStage: boolean;
 
-  constructor(element: HTMLDivElement) {
+  constructor(element: HTMLDivElement, index: number, lastStage: boolean) {
     this.element = element;
+    this.index = index;
+    this.lastStage = lastStage;
 
     const w = watch(store.getState, 'navigation');
     store.subscribe(w(() => this.render()));
@@ -26,8 +29,8 @@ class Stage1Customer {
 
     const content = ListItem(this.element, {
       title: 'Dina uppgifter',
-      active: navigation.stage === STAGE,
-      completed: topNavigation.stage > STAGE,
+      active: navigation.stage === this.index,
+      completed: topNavigation.stage > this.index,
       id: 'customer',
     });
     content.innerHTML = '';
@@ -37,18 +40,18 @@ class Stage1Customer {
     const part2 = document.createElement('div');
     part2.className = 'waykeecom-stack waykeecom-stack--2';
 
-    if (navigation.stage > 1 || (navigation.stage === 1 && navigation.subStage > 2)) {
-      new Part3CustomerSummary(part1);
+    if (navigation.stage > this.index) {
+      new Part3CustomerSummary(part1, this.index);
       content.appendChild(part1);
-    } else if (navigation.stage === 1) {
+    } else if (navigation.stage === this.index) {
       new Part1EmailAndPhone(part1);
       content.appendChild(part1);
       if (navigation.subStage > 1) {
-        new Part2SocialId(part2);
+        new Part2SocialId(part2, this.lastStage);
         content.appendChild(part2);
       }
     }
   }
 }
 
-export default Stage1Customer;
+export default Customer;

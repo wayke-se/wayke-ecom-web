@@ -7,10 +7,12 @@ import Part2WithSocialId from './Part2WithSocialId';
 class Part2SocialId {
   private useBankId: boolean = true;
   private element: HTMLDivElement;
+  private lastStage: boolean;
   private state: Customer;
 
-  constructor(element: HTMLDivElement) {
+  constructor(element: HTMLDivElement, lastStage: boolean) {
     this.element = element;
+    this.lastStage = lastStage;
 
     const state = store.getState();
     this.state = state.customer;
@@ -39,9 +41,9 @@ class Part2SocialId {
       `;
     } else {
       if (this.useBankId) {
-        new Part2WithBankId(this.element, () => this.onToggleMethod());
+        new Part2WithBankId(this.element, this.lastStage, () => this.onToggleMethod());
       } else {
-        new Part2WithSocialId(this.element, () => this.onToggleMethod());
+        new Part2WithSocialId(this.element, this.lastStage, () => this.onToggleMethod());
       }
     }
   }

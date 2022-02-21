@@ -1,5 +1,5 @@
 import ButtonAsLink from '../../../Components/ButtonAsLink';
-import { editCustomer } from '../../../Redux/action';
+import { edit } from '../../../Redux/action';
 import store from '../../../Redux/store';
 import KeyValueListItem from '../../../Templates/KeyValueListItem';
 import { maskSSn, maskText } from '../../../Utils/mask';
@@ -9,14 +9,16 @@ const CHANGE_BUTTON = 'contact-change-button';
 
 class Part3CustomerSummary {
   private element: HTMLDivElement;
+  private index: number;
 
-  constructor(element: HTMLDivElement) {
+  constructor(element: HTMLDivElement, index: number) {
     this.element = element;
+    this.index = index;
     this.render();
   }
 
   onChange() {
-    editCustomer();
+    edit(this.index);
   }
 
   render() {

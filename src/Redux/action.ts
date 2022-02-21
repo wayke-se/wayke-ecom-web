@@ -3,6 +3,7 @@ import { OrderOptionsResponse } from '@wayke-se/ecom/dist-types/orders/order-opt
 import { PaymentLookupResponse } from '@wayke-se/ecom/dist-types/payments/payment-lookup-response';
 import { BaseAction } from '../@types/BaseAction';
 import { PartialCustomer } from '../@types/Customer';
+import { StageTypes } from '../@types/Stages';
 import { TradeInCarData } from '../@types/TradeIn';
 import { Vehicle } from '../@types/Vehicle';
 import store from './store';
@@ -40,47 +41,45 @@ export const SET_SOCIAL_ID_AND_ADDRESS = 'SET_SOCIAL_ID_AND_ADDRESS';
 export type SET_SOCIAL_ID_AND_ADDRESS_TYPE = BaseAction<typeof SET_SOCIAL_ID_AND_ADDRESS> & {
   socialId: string;
   address: IAddress;
+  lastStage: boolean;
 };
-export const setSocialIdAndAddress = (socialId: string, address: IAddress) =>
-  store.dispatch({ type: SET_SOCIAL_ID_AND_ADDRESS, socialId, address });
-
-export const EDIT_CUSTOMER = 'EDIT_CUSTOMER';
-export type EDIT_CUSTOMER_TYPE = BaseAction<typeof EDIT_CUSTOMER>;
-export const editCustomer = () => store.dispatch({ type: EDIT_CUSTOMER });
+export const setSocialIdAndAddress = (socialId: string, address: IAddress, lastStage: boolean) =>
+  store.dispatch({ type: SET_SOCIAL_ID_AND_ADDRESS, socialId, address, lastStage });
 
 export const SET_HOME_DELIVERY = 'SET_HOME_DELIVERY';
 export type SET_HOME_DELIVERY_TYPE = BaseAction<typeof SET_HOME_DELIVERY> & {
   homeDelivery: boolean;
+  lastStage: boolean;
 };
-export const setHomeDelivery = (homeDelivery: boolean) =>
-  store.dispatch({ type: SET_HOME_DELIVERY, homeDelivery });
-
-export const EDIT_DELIVERY = 'EDIT_DELIVERY';
-export type EDIT_DELIVERY_TYPE = BaseAction<typeof EDIT_DELIVERY>;
-export const editDelivery = () => store.dispatch({ type: EDIT_DELIVERY });
+export const setHomeDelivery = (homeDelivery: boolean, lastStage: boolean) =>
+  store.dispatch({ type: SET_HOME_DELIVERY, homeDelivery, lastStage });
 
 export const INIT_TRADE_IN = 'INIT_TRADE_IN';
-export type INIT_TRADE_IN_TYPE = BaseAction<typeof INIT_TRADE_IN>;
-export const initTradeIn = () => store.dispatch({ type: INIT_TRADE_IN });
+export type INIT_TRADE_IN_TYPE = BaseAction<typeof INIT_TRADE_IN> & {
+  lastStage: boolean;
+};
+export const initTradeIn = (lastStage: boolean) =>
+  store.dispatch({ type: INIT_TRADE_IN, lastStage });
 
 export const SET_TRADE_IN = 'SET_TRADE_IN';
 export type SET_TRADE_IN_TYPE = BaseAction<typeof SET_TRADE_IN> & {
+  lastStage: boolean;
   tradeIn?: TradeInCarData;
   tradeInVehicle?: IVehicle;
 };
-export const setTradeIn = (tradeIn?: TradeInCarData | undefined, tradeInVehicle?: IVehicle) =>
-  store.dispatch({ type: SET_TRADE_IN, tradeIn, tradeInVehicle });
-
-export const EDIT_TRADE_IN = 'EDIT_TRADE_IN';
-export type EDIT_TRADE_IN_TYPE = BaseAction<typeof EDIT_TRADE_IN>;
-export const editTradeIn = () => store.dispatch({ type: EDIT_TRADE_IN });
+export const setTradeIn = (
+  lastStage: boolean,
+  tradeIn?: TradeInCarData | undefined,
+  tradeInVehicle?: IVehicle
+) => store.dispatch({ type: SET_TRADE_IN, lastStage, tradeIn, tradeInVehicle });
 
 export const SET_FINANCIAL = 'SET_FINANCIAL';
 export type SET_FINANCIAL_TYPE = BaseAction<typeof SET_FINANCIAL> & {
   paymentType: PaymentType;
+  lastStage: boolean;
 };
-export const setFinancial = (paymentType: PaymentType) =>
-  store.dispatch({ type: SET_FINANCIAL, paymentType });
+export const setFinancial = (paymentType: PaymentType, lastStage: boolean) =>
+  store.dispatch({ type: SET_FINANCIAL, paymentType, lastStage });
 
 export const SET_PAYMENT_LOOKUP_RESPONSE = 'SET_PAYMENT_LOOKUP_RESPONSE';
 export type SET_PAYMENT_LOOKUP_RESPONSE_TYPE = BaseAction<typeof SET_PAYMENT_LOOKUP_RESPONSE> & {
@@ -89,17 +88,24 @@ export type SET_PAYMENT_LOOKUP_RESPONSE_TYPE = BaseAction<typeof SET_PAYMENT_LOO
 export const setPaymentLookupResponse = (paymentLookupResponse: PaymentLookupResponse) =>
   store.dispatch({ type: SET_PAYMENT_LOOKUP_RESPONSE, paymentLookupResponse });
 
-export const EDIT_FINANCIAL = 'EDIT_FINANCIAL';
-export type EDIT_FINANCIAL_TYPE = BaseAction<typeof EDIT_FINANCIAL>;
-export const editFinancial = () => store.dispatch({ type: EDIT_FINANCIAL });
-
 export const SET_INSURANCE = 'SET_INSURANCE';
-export type SET_INSURANCE_TYPE = BaseAction<typeof SET_INSURANCE>;
-export const setInsurance = () => store.dispatch({ type: SET_INSURANCE });
+export type SET_INSURANCE_TYPE = BaseAction<typeof SET_INSURANCE> & {
+  lastStage: boolean;
+};
+export const setInsurance = (lastStage: boolean) =>
+  store.dispatch({ type: SET_INSURANCE, lastStage });
 
-export const EDIT_INSURANCE = 'EDIT_INSURANCE';
-export type EDIT_INSURANCE_TYPE = BaseAction<typeof EDIT_INSURANCE>;
-export const editInsurance = () => store.dispatch({ type: EDIT_INSURANCE });
+export const EDIT = 'EDIT';
+export type EDIT_TYPE = BaseAction<typeof EDIT> & {
+  index: number;
+};
+export const edit = (index: number) => store.dispatch({ type: EDIT, index });
+
+export const SET_STAGES = 'SET_STAGES';
+export type SET_STAGES_TYPE = BaseAction<typeof SET_STAGES> & {
+  stages: StageTypes[];
+};
+export const setStages = (stages: StageTypes[]) => store.dispatch({ type: SET_STAGES, stages });
 
 export type Action =
   | SET_ORDER_TYPE
@@ -109,13 +115,10 @@ export type Action =
   | SET_CONTACT_EMAIL_AND_PHONE_TYPE
   | SET_SOCIAL_ID_AND_ADDRESS_TYPE
   | SET_HOME_DELIVERY_TYPE
-  | EDIT_CUSTOMER_TYPE
-  | EDIT_DELIVERY_TYPE
   | INIT_TRADE_IN_TYPE
   | SET_TRADE_IN_TYPE
-  | EDIT_TRADE_IN_TYPE
   | SET_FINANCIAL_TYPE
   | SET_PAYMENT_LOOKUP_RESPONSE_TYPE
-  | EDIT_FINANCIAL_TYPE
   | SET_INSURANCE_TYPE
-  | EDIT_INSURANCE_TYPE;
+  | EDIT_TYPE
+  | SET_STAGES_TYPE;

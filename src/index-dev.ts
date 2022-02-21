@@ -8,7 +8,11 @@ window.addEventListener('DOMContentLoaded', (_) => {
     },
   };
 
-  const context = new WaykeEcomWeb({ ...devConfig.MULTIPLE_FINANCIAL, config: newConfig });
+  const context = new WaykeEcomWeb({
+    ...devConfig.BANKID_TRADE_IN_HOME_DELIVERY,
+    config: newConfig,
+  });
+  context.start();
   const button = document.querySelector<HTMLButtonElement>('button');
   if (button) {
     button.addEventListener('click', () => context.start());

@@ -2,6 +2,7 @@ import { IAddress, IVehicle, PaymentType } from '@wayke-se/ecom';
 import { OrderOptionsResponse } from '@wayke-se/ecom/dist-types/orders/order-options-response';
 import { PaymentLookupResponse } from '@wayke-se/ecom/dist-types/payments/payment-lookup-response';
 import { Customer } from '../@types/Customer';
+import { StageTypes } from '../@types/Stages';
 import { TradeInCarDataPartial } from '../@types/TradeIn';
 import { Vehicle } from '../@types/Vehicle';
 import {
@@ -11,18 +12,15 @@ import {
   SET_ORDER,
   SET_VEHICLE,
   SET_SOCIAL_ID_AND_ADDRESS,
-  EDIT_CUSTOMER,
   SET_HOME_DELIVERY,
   SET_TRADE_IN,
-  EDIT_DELIVERY,
   SET_FINANCIAL,
-  EDIT_FINANCIAL,
-  EDIT_TRADE_IN,
   SET_INSURANCE,
-  EDIT_INSURANCE,
   INIT_TRADE_IN,
+  EDIT,
   SET_PAYMENT_LOOKUP_RESPONSE,
   SET_ID,
+  SET_STAGES,
 } from './action';
 
 const stateMock: any = {};
@@ -63,6 +61,7 @@ export interface ReducerState {
     insurance: boolean;
   };
   date: Date;
+  stages?: StageTypes[];
 }
 
 const initialState: ReducerState = {
@@ -100,6 +99,8 @@ const reducer = (state = initialState, action: Action): ReducerState => {
   let navigation: Navigation;
   next = { ...state };
   switch (action.type) {
+    case SET_STAGES:
+      return { ...next, stages: action.stages };
     case SET_ID:
       return { ...next, id: action.id };
     case SET_VEHICLE:
@@ -117,7 +118,7 @@ const reducer = (state = initialState, action: Action): ReducerState => {
       return {
         ...state,
         customer: { ...state.customer, email: action.value.email, phone: action.value.phone },
-        navigation: { view: 2, stage: 1, subStage: 2 },
+        navigation: { view: 2, stage: state.navigation.stage, subStage: 2 },
       };
     case SET_SOCIAL_ID_AND_ADDRESS:
       if (next.edit.customer) {
@@ -132,7 +133,12 @@ const reducer = (state = initialState, action: Action): ReducerState => {
           },
         };
       } else {
-        navigation = { view: 2, stage: state.centralStorage ? 2 : 3, subStage: 1 };
+        if (action.lastStage) {
+          navigation = { view: 3, stage: 1, subStage: 1 };
+        } else {
+          navigation = { view: 2, stage: state.navigation.stage + 1, subStage: 1 };
+        }
+
         next = {
           ...state,
           navigation,
@@ -154,8 +160,7 @@ const reducer = (state = initialState, action: Action): ReducerState => {
           },
         };
       } else {
-        const allowsTradeIn = !!next.order?.allowsTradeIn();
-        navigation = { view: 2, stage: allowsTradeIn ? 4 : 5, subStage: 1 };
+        navigation = { view: 2, stage: state.navigation.stage + 1, subStage: 1 };
         next = {
           ...state,
           navigation,
@@ -166,7 +171,7 @@ const reducer = (state = initialState, action: Action): ReducerState => {
       return next;
 
     case INIT_TRADE_IN:
-      navigation = { view: 2, stage: 4, subStage: 1 };
+      navigation = { view: 2, stage: state.navigation.stage, subStage: 1 };
       next = {
         ...state,
         navigation,
@@ -192,7 +197,7 @@ const reducer = (state = initialState, action: Action): ReducerState => {
           tradeIn: action.tradeIn,
         };
       } else {
-        navigation = { view: 2, stage: 5, subStage: 1 };
+        navigation = { view: 2, stage: state.navigation.stage + 1, subStage: 1 };
         next = {
           ...state,
           navigation,
@@ -206,7 +211,9 @@ const reducer = (state = initialState, action: Action): ReducerState => {
       return next;
 
     case SET_FINANCIAL:
-      if (next.edit.delivery) {
+      if (action.lastStage) {
+        navigation = { view: 3, stage: 1, subStage: 1 };
+      } else if (next.edit.delivery) {
         next = {
           ...next,
           navigation: next.topNavigation,
@@ -217,7 +224,7 @@ const reducer = (state = initialState, action: Action): ReducerState => {
           },
         };
       } else {
-        navigation = { view: 2, stage: 6, subStage: 1 };
+        navigation = { view: 2, stage: state.navigation.stage + 1, subStage: 1 };
         next = {
           ...state,
           navigation,
@@ -249,55 +256,10 @@ const reducer = (state = initialState, action: Action): ReducerState => {
       }
       return next;
 
-    case EDIT_CUSTOMER:
+    case EDIT:
       return {
         ...state,
-        navigation: { view: 2, stage: 1, subStage: 1 },
-        edit: {
-          ...state.edit,
-          customer: true,
-        },
-      };
-
-    case EDIT_DELIVERY:
-      return {
-        ...state,
-        navigation: { view: 2, stage: 3, subStage: 1 },
-        edit: {
-          ...state.edit,
-          delivery: true,
-        },
-      };
-
-    case EDIT_TRADE_IN:
-      return {
-        ...state,
-        wantTradeIn: undefined,
-        navigation: { view: 2, stage: 4, subStage: 1 },
-        edit: {
-          ...state.edit,
-          tradeIn: true,
-        },
-      };
-
-    case EDIT_FINANCIAL:
-      return {
-        ...state,
-        navigation: { view: 2, stage: 5, subStage: 1 },
-        edit: {
-          ...state.edit,
-          financial: true,
-        },
-      };
-
-    case EDIT_INSURANCE:
-      return {
-        ...state,
-        navigation: { view: 2, stage: 6, subStage: 1 },
-        edit: {
-          ...state.edit,
-          insurance: true,
-        },
+        navigation: { view: 2, stage: action.index, subStage: 1 },
       };
 
     default:
