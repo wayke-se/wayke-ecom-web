@@ -2,28 +2,8 @@ import watch from 'redux-watch';
 
 import ItemTileSmall from '../../Templates/ItemTileSmall';
 import store from '../../Redux/store';
-import Customer from './Customer';
-import CentralStorage from './CentralStorage';
-import Delivery from './Delivery';
-import TradeIn from './TradeIn';
-import Financial from './Financial';
-import Insurance from './Insurance';
 import Summary from './Summary';
 import Confirmation from './Confirmation';
-import { setStages } from '../../Redux/action';
-import { StageMapper, StageTypes } from '../../@types/Stages';
-
-const stageMap: StageMapper = {
-  customer: { component: Customer, name: 'customer' },
-  centralStorage: { component: CentralStorage, name: 'centralStorage' },
-  delivery: { component: Delivery, name: 'delivery' },
-  tradeIn: { component: TradeIn, name: 'tradeIn' },
-  financial: { component: Financial, name: 'financial' },
-  insurance: { component: Insurance, name: 'insurance' },
-};
-
-type StageMapKeys = keyof typeof stageMap;
-
 class View2v2 {
   private element: Element;
 
@@ -38,34 +18,8 @@ class View2v2 {
       })
     );
 
-    this.setupStages();
-    this.element.scrollTop = 0;
-  }
-
-  setupStages() {
-    const state = store.getState();
-    const { order, centralStorage } = state;
-    if (!order) throw 'No order available';
-
-    // Stage order setup
-    const list: StageMapKeys[] = [
-      'customer',
-      'centralStorage',
-      'delivery',
-      'tradeIn',
-      'financial',
-      'insurance',
-    ];
-
-    const stages: StageTypes[] = [];
-    list.forEach((key) => {
-      if (key === 'centralStorage' && !centralStorage) return;
-      if (key === 'tradeIn' && !order.allowsTradeIn) return;
-
-      stages.push(stageMap[key]);
-    });
-    setStages(stages);
     this.render();
+    this.element.scrollTop = 0;
   }
 
   render() {

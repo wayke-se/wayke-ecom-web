@@ -12,6 +12,7 @@ import View1 from './Views/View1';
 import View2 from './Views/View2';
 import View3Summary from './Views/View3Summary';
 import Order from './Views/Order';
+import { StageMapKeys } from './Utils/stage';
 
 const OrderIdQueryString = 'wayke-ecom-web-order-id';
 
@@ -32,6 +33,7 @@ class App {
   private contentNode?: HTMLDivElement;
   private versionNode?: HTMLDivElement;
   private view: number;
+  private stageOrderList: StageMapKeys[];
 
   constructor(props: AppProps) {
     const root = document.getElementById('wayke-ecom');
@@ -48,6 +50,16 @@ class App {
     config.bind(props.config);
 
     this.root = root;
+
+    // Stage order setup
+    this.stageOrderList = [
+      'customer',
+      'centralStorage',
+      'delivery',
+      'tradeIn',
+      'financial',
+      'insurance',
+    ];
 
     //setId(props.vehicle.id);
     setVehicle(props.vehicle);
@@ -217,7 +229,7 @@ class App {
 
       switch (this.view) {
         case 1:
-          new View1(this.contentNode);
+          new View1(this.contentNode, this.stageOrderList);
           break;
         case 2:
           new View2(this.contentNode);

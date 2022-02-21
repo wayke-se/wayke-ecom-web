@@ -1,12 +1,13 @@
 import ItemTileLarge from '../../Templates/ItemTileLarge';
 
 import { getOrder } from '../../Data/getOrder';
-import { proceedToView2Stage1, setOrder } from '../../Redux/action';
+import { proceedToView2Stage1, setOrder, setStages } from '../../Redux/action';
 import store from '../../Redux/store';
 import HowTo from './HowTo';
 import watch from 'redux-watch';
 import ButtonArrowRight from '../../Components/ButtonArrowRight';
-// import { getVehicle } from '../../Data/getVehicle';
+import { StageTypes } from '../../@types/Stages';
+import { stageMap, StageMapKeys } from '../../Utils/stage';
 
 const PROCEED_BUTTON = 'wayke-view-1-proceed';
 const PROCEED_BUTTON_NODE = `${PROCEED_BUTTON}-node`;
@@ -16,9 +17,11 @@ class View1v2 {
   private element: Element;
   private loader?: HTMLDivElement;
   private proceedButton?: HTMLButtonElement;
+  private stageOrderList: StageMapKeys[];
 
-  constructor(element: Element) {
+  constructor(element: Element, stageOrderList: StageMapKeys[]) {
     this.element = element;
+    this.stageOrderList = stageOrderList;
 
     const w = watch(store.getState, 'order');
     store.subscribe(
@@ -33,17 +36,6 @@ class View1v2 {
 
   async init() {
     const state = store.getState();
-    // if (!state.id) throw 'missing wayke id';
-
-    /*
-    try {
-      const vehicle = await getVehicle(state.id);
-      setVehicle(vehicle);
-    } catch (e) {
-      throw e;
-    }
-    */
-
     if (!state.vehicle) {
       throw 'No vehicle present';
     }
@@ -53,8 +45,20 @@ class View1v2 {
         this.loader.style.display = '';
       }
       const order = await getOrder(state.vehicle.id);
+      const { centralStorage } = state;
+
+      const stages: StageTypes[] = [];
+      this.stageOrderList.forEach((key) => {
+        if (key === 'centralStorage' && !centralStorage) return;
+        if (key === 'tradeIn' && !order.allowsTradeIn) return;
+
+        stages.push(stageMap[key]);
+      });
+      setStages(stages);
+
       setOrder(order);
       this.proceedButton?.removeAttribute('disabled');
+      this.render();
     } catch (e) {
       throw e;
     } finally {
@@ -98,7 +102,7 @@ class View1v2 {
             <div class="waykeecom-stack waykeecom-stack--3">
               ${ItemTileLarge({ vehicle: state.vehicle, order: state.order })}
             </div>
-            ${HowTo({ order: state.order })}
+            ${HowTo({ order: state.order, stageOrderList: state.stages })}
             <div class="waykeecom-stack waykeecom-stack--3" id="${PROCEED_BUTTON_NODE}">
               <button type="button" id="${PROCEED_BUTTON}" disabled="" title="Gå vidare" class="waykeecom-button waykeecom-button--full-width waykeecom-button--action">
                 <span class="waykeecom-button__content">Gå vidare</span>

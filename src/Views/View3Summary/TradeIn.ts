@@ -22,8 +22,7 @@ class TradeIn {
 
     const content = StackItem(this.element);
 
-    if (tradeIn && tradeInVehicle) {
-      content.innerHTML = `
+    content.innerHTML = `
       <div class="waykeecom-stack waykeecom-stack--4">
         <div class="waykeecom-stack waykeecom-stack--2">
           <h4 class="waykeecom-heading waykeecom-heading--4 waykeecom-no-margin">Inbytesbil</h4>
@@ -78,12 +77,11 @@ class TradeIn {
       </div>
     `;
 
-      const editTradeInIndex = state.stages?.findIndex((x) => x.name === 'tradeIn');
-      if (editTradeInIndex !== undefined) {
-        document
-          .querySelector<HTMLButtonElement>(`#${EDIT_TRADE_IN}`)
-          ?.addEventListener('click', () => edit(editTradeInIndex + 1));
-      }
+    const editTradeInIndex = state.stages?.findIndex((x) => x.name === 'tradeIn');
+    if (editTradeInIndex !== undefined) {
+      document
+        .querySelector<HTMLButtonElement>(`#${EDIT_TRADE_IN}`)
+        ?.addEventListener('click', () => edit(editTradeInIndex + 1));
     }
   }
 }
