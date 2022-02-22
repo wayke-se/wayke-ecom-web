@@ -1,0 +1,28 @@
+@use '../../../helpers' as *;
+
+.#{$namespace}tile {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background-color: color(bg, main);
+  border-radius: scss-var(border, radius, main);
+  box-shadow: scss-var(box-shadow, main);
+  overflow: hidden;
+
+  &__hero {
+    flex-shrink: 0;
+    height: 140px;
+    object-fit: cover;
+  }
+
+  &__body {
+    flex: 1 1 auto;
+    padding: size(3);
+  }
+
+  &__footer {
+    flex-shrink: 0;
+    margin-top: auto;
+    padding: 0 size(3) size(3) size(3);
+  }
+}
