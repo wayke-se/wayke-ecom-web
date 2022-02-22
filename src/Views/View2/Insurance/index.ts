@@ -91,7 +91,7 @@ class Insurance {
             </div>
             <div class="waykeecom-stack waykeecom-stack--1">
               <div class="waykeecom-align waykeecom-align--end">
-                <button title="Ändra beräknad körsträcka" class="waykeecom-link">Ändra</button>
+                <button id="${CHANGE_BUTTON}" title="Ändra beräknad körsträcka" class="waykeecom-link">Ändra</button>
               </div>
             </div>
           </div>
@@ -137,21 +137,6 @@ class Insurance {
             </div>
           </div>
         </div>
-        <div class="waykeecom-stack waykeecom-stack--3">
-          <div class="waykeecom-stack waykeecom-stack--1">
-            <ul class="waykeecom-key-value-list">
-              <li class="waykeecom-key-value-list__item">
-                <div class="waykeecom-key-value-list__key">Uppskattad körsträcka</div>
-                <div class="waykeecom-key-value-list__value"></div>
-              </li>
-            </ul>
-          </div>
-          <div class="waykeecom-stack waykeecom-stack--1">
-            <div class="waykeecom-align waykeecom-align--end">
-              <button id="${CHANGE_BUTTON}" title="Ändra försäkring" class="waykeecom-link">Ändra</button>
-            </div>
-          </div>
-        <div>
         <div class="waykeecom-stack waykeecom-stack--3">
           <button type="button" id="${PROCEED}" title="Fortsätt till nästa steg" class="waykeecom-button waykeecom-button--full-width waykeecom-button--action">
             <span class="waykeecom-button__content">Fortsätt</span>
