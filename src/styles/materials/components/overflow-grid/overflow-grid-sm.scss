@@ -1,0 +1,21 @@
+@use '../../../helpers' as *;
+
+.#{$namespace}overflow-grid {
+  --container-gutter: #{scss-var(size, container, gutter, sm)};
+  --item-width: 50%;
+
+  &__nav {
+    position: absolute;
+    top: 50%;
+
+    &--prev {
+      left: 0;
+      transform: translate(-50%, -50%);
+    }
+
+    &--next {
+      right: 0;
+      transform: translate(50%, -50%);
+    }
+  }
+}

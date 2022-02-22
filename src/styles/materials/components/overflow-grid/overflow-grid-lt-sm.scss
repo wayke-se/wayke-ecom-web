@@ -1,0 +1,7 @@
+@use '../../../helpers' as *;
+
+.#{$namespace}overflow-grid {
+  &__nav {
+    display: none;
+  }
+}

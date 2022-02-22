@@ -1,0 +1,49 @@
+@use 'sass:math';
+@use '../../../helpers' as *;
+
+.#{$namespace}overflow-grid {
+  $item-spacing: size(2);
+
+  --container-gutter: #{scss-var(size, container, gutter, main)};
+  --item-width: 80%;
+
+  position: relative;
+
+  &__list-wrapper {
+    margin: 0 calc(var(--container-gutter) * -1);
+  }
+
+  &__list {
+    display: flex;
+    align-items: stretch;
+    list-style: none;
+    padding: 0 var(--container-gutter);
+    margin: 0 math.div($item-spacing, -2);
+    overflow: auto;
+    overscroll-behavior: contain;
+    scroll-snap-type: x mandatory;
+    scroll-padding-left: var(--container-gutter);
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    &::after {
+      content: '';
+      display: block;
+      flex-shrink: 0;
+      width: var(--container-gutter);
+      margin-right: calc(var(--container-gutter) * -1);
+    }
+  }
+
+  &__item {
+    flex: 1 0 auto;
+    width: var(--item-width);
+    max-width: var(--item-width);
+    padding: 0 math.div($item-spacing, 2);
+    scroll-snap-align: start;
+  }
+}

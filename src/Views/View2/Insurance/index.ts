@@ -1,6 +1,7 @@
 import watch from 'redux-watch';
 import { setInsurance, edit } from '../../../Redux/action';
 import store from '../../../Redux/store';
+import KeyValueListItem from '../../../Templates/KeyValueListItem';
 import ListItem from '../ListItem';
 
 const PROCEED = 'button-insurance-proceed';
@@ -69,9 +70,67 @@ class Insurance {
     } else if (state.navigation.stage === this.index) {
       part.innerHTML = `
         <div class="waykeecom-stack waykeecom-stack--3">
-          <h4 class="waykeecom-heading waykeecom-heading--4">Vill du teckna en försäkring på din nya bil?</h4>
-          <div class="waykeecom-content">
-            <p>Ange din uppskattade körsträcka för att se din försäkringskostnad. Därefter presenterar vi förslag på försäkringar som passar dig och din nya bil. I både hel- och halvförsäkring ingår trafikförsäkring som är obligatoriskt att ha. Ifall du har valt att finansiera bilen med ett billån är priset du ser rabatterat.</p>
+          <div class="waykeecom-stack waykeecom-stack--2">
+            <h4 class="waykeecom-heading waykeecom-heading--4">Vill du teckna en försäkring på din nya bil?</h4>
+            <div class="waykeecom-content">
+              <p>Ange din uppskattade körsträcka för att se din försäkringskostnad. Därefter presenterar vi förslag på försäkringar som passar dig och din nya bil. I både hel- och halvförsäkring ingår trafikförsäkring som är obligatoriskt att ha. Ifall du har valt att finansiera bilen med ett billån är priset du ser rabatterat.</p>
+            </div>
+          </div>
+          <div class="waykeecom-stack waykeecom-stack--2">
+            <div class="waykeecom-stack waykeecom-stack--1">
+              <ul class="waykeecom-key-value-list">
+                ${KeyValueListItem({
+                  key: 'Uppskattad körsträcka',
+                  value: '0-1 000 mil/år',
+                })}
+              </ul>
+            </div>
+            <div class="waykeecom-stack waykeecom-stack--1">
+              <div class="waykeecom-align waykeecom-align--end">
+                <button title="Ändra beräknad körsträcka" class="waykeecom-link">Ändra</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="waykeecom-stack waykeecom-stack--3">
+          <div class="waykeecom-overflow-grid">
+            <div class="waykeecom-overflow-grid__list-wrapper">
+              <ul class="waykeecom-overflow-grid__list">
+                <li class="waykeecom-overflow-grid__item">
+                  <div style="background: green; padding: 16px;">Grid item</div>
+                </li>
+                <li class="waykeecom-overflow-grid__item">
+                  <div style="background: green; padding: 16px;">Grid item</div>
+                </li>
+                <li class="waykeecom-overflow-grid__item">
+                  <div style="background: green; padding: 16px;">Grid item</div>
+                </li>
+              </ul>
+            </div>
+            <div class="waykeecom-overflow-grid__nav waykeecom-overflow-grid__nav--prev">
+              <button title="Visa föregående försäkring" class="waykeecom-icon-button">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 16 16"
+                  class="waykeecom-icon"
+                >
+                  <title>Ikon: vinkel vänster</title>
+                  <path d="m5.4 7 5.2-5 1 1-5.2 5 5.2 5-1.1 1-5.2-5-1-1 1.1-1z" />
+                </svg>
+              </button>
+            </div>
+            <div class="waykeecom-overflow-grid__nav waykeecom-overflow-grid__nav--next">
+              <button title="Visa nästa försäkring" class="waykeecom-icon-button">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 16 16"
+                  class="waykeecom-icon"
+                >
+                  <title>Ikon: vinkel höger</title>
+                  <path d="m10.5 9-5.2 5-1-1 5.2-5-5.2-5 1.1-1 5.2 5 1 1-1.1 1z" />
+                </svg>
+              </button>
+            </div>
           </div>
         </div>
         <div class="waykeecom-stack waykeecom-stack--3">
