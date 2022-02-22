@@ -101,18 +101,45 @@ class Insurance {
             <div class="waykeecom-overflow-grid__list-wrapper">
               <ul class="waykeecom-overflow-grid__list">
                 <li class="waykeecom-overflow-grid__item">
-                  <div style="background: green; padding: 16px;">Grid item</div>
+                  <div class="waykeecom-tile">
+                    <img src="https://via.placeholder.com/400x300" alt="" class="waykeecom-tile__hero" />
+                    <div class="waykeecom-tile__body">
+                      Body
+                    </div>
+                    <div class="waykeecom-tile__footer">
+                      <button type="button" title="Lägg till" class="waykeecom-button waykeecom-button--action waykeecom-button--size-small">
+                        <span class="waykeecom-button__content">[ICON]</span>
+                        <span class="waykeecom-button__content">Lägg till</span>
+                      </button>
+                    </div>
+                  </div>
                 </li>
                 <li class="waykeecom-overflow-grid__item">
-                  <div style="background: green; padding: 16px;">Grid item</div>
+                  <div class="waykeecom-tile">
+                    <img src="https://via.placeholder.com/400x300" alt="" class="waykeecom-tile__hero" />
+                    <div class="waykeecom-tile__body">
+                      Body
+                    </div>
+                    <div class="waykeecom-tile__footer">
+                      Footer
+                    </div>
+                  </div>
                 </li>
                 <li class="waykeecom-overflow-grid__item">
-                  <div style="background: green; padding: 16px;">Grid item</div>
+                  <div class="waykeecom-tile">
+                    <img src="https://via.placeholder.com/400x300" alt="" class="waykeecom-tile__hero" />
+                    <div class="waykeecom-tile__body">
+                      Body
+                    </div>
+                    <div class="waykeecom-tile__footer">
+                      Footer
+                    </div>
+                  </div>
                 </li>
               </ul>
             </div>
             <div class="waykeecom-overflow-grid__nav waykeecom-overflow-grid__nav--prev">
-              <button title="Visa föregående försäkring" class="waykeecom-icon-button">
+              <button type="button" title="Visa föregående försäkring" class="waykeecom-icon-button">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 16 16"
@@ -124,7 +151,7 @@ class Insurance {
               </button>
             </div>
             <div class="waykeecom-overflow-grid__nav waykeecom-overflow-grid__nav--next">
-              <button title="Visa nästa försäkring" class="waykeecom-icon-button">
+              <button type="button" title="Visa nästa försäkring" class="waykeecom-icon-button">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 16 16"
