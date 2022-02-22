@@ -1,3 +1,4 @@
+import store from '../../Redux/store';
 import StackItem from '../View2/TradeIn/StackItem';
 
 class Disclaimer {
@@ -9,6 +10,11 @@ class Disclaimer {
   }
 
   render() {
+    const state = store.getState();
+    if (!state.order) throw 'no order';
+
+    const conditionsPdfUri = state.order?.getConditionsPdfUri();
+
     const content = StackItem(this.element);
 
     content.innerHTML = `
@@ -25,7 +31,7 @@ class Disclaimer {
         </div>
         <div class="waykeecom-disclaimer__text">
           <p>Dina uppgifter lagras och sparas säkert. Läs mer i vår <a href="#" title="" target="_blank" rel="noopener noreferrer" class="waykeecom-link">personuppgiftspolicy</a>.</p>
-          <p>Genom att gå vidare godkänner jag Waykes <a href="#" title="" target="_blank" rel="noopener noreferrer" class="waykeecom-link">användarvillkor</a>.</p>
+          <p>Genom att gå vidare godkänner jag Waykes <a href="${conditionsPdfUri}" title="" target="_blank" rel="noopener noreferrer" class="waykeecom-link">användarvillkor</a>.</p>
           <p>Vi reserverar oss för eventuell ändring i tillgången av utbjudna bilar.</p>
         </div>
       </div>
