@@ -21,8 +21,9 @@ const TimelineItemByStage = {
     description: 'Få den värderad direkt online.',
   },
   financial: {
-    heading: 'Vill du teckna en försäkring?',
-    description: 'Försäkra din nya bil direkt i köpflödet.',
+    heading: 'Välj finansiering',
+    description:
+      'Betala allt på en gång, delbetala och gör låneansökan direkt online eller upplev flexibiliteten med att privatleasa.',
   },
   insurance: {
     heading: 'Vill du teckna en försäkring?',

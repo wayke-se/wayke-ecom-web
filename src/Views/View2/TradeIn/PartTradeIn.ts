@@ -9,6 +9,7 @@ import ButtonArrowRight from '../../../Components/ButtonArrowRight';
 import InputField from '../../../Components/InputField';
 import Textarea from '../../../Components/Textarea';
 import InputRadioField from '../../../Components/InputRadioField';
+import ButtonSkip from '../../../Components/ButtonSkip';
 
 const REGISTRATION_NUMBER_INPUT_ID = 'trade-in-registrationNumber';
 const REGISTRATION_NUMBER_ERROR_ID = `${REGISTRATION_NUMBER_INPUT_ID}-error`;
@@ -26,6 +27,9 @@ const TRADE_IN_FETCH_ERROR_ID = 'trade-in-fetch-error';
 
 const PROCEED = 'trade-in-proceed';
 const PROCEED_NODE = `${PROCEED}-node`;
+
+const TRADE_IN_NO = 'button-trade-in-no';
+const TRADE_IN_NO_NODE = `${TRADE_IN_NO}-node`;
 
 const validation = {
   registrationNumber: validationMethods.requiredRegistrationNumber,
@@ -82,7 +86,7 @@ class PartTradeIn {
     this.render();
   }
 
-  async onFetchVehicle() {
+  private async onFetchVehicle() {
     const errorAlert = document.querySelector<HTMLDivElement>(`#${TRADE_IN_FETCH_ERROR_ID}`);
     if (!errorAlert) return;
     errorAlert.style.display = 'none';
@@ -118,7 +122,7 @@ class PartTradeIn {
     }
   }
 
-  onChangeRadio(e: Event) {
+  private onChangeRadio(e: Event) {
     const currentTarget = e.currentTarget as HTMLInputElement;
     const name = currentTarget.name as keyof Omit<
       TradeInValidation,
@@ -131,7 +135,7 @@ class PartTradeIn {
     this.updateProceedButton();
   }
 
-  onChange(e: Event) {
+  private onChange(e: Event) {
     const currentTarget = e.currentTarget as HTMLInputElement;
     const name = currentTarget.name as keyof Omit<TradeInValidation, 'condition'>;
     const value = currentTarget.value;
@@ -142,7 +146,7 @@ class PartTradeIn {
     this.updateProceedButton();
   }
 
-  onBlur(e: Event) {
+  private onBlur(e: Event) {
     const currentTarget = e.currentTarget as HTMLInputElement;
     const name = currentTarget.name as keyof Omit<TradeInValidation, 'condition'>;
 
@@ -152,12 +156,12 @@ class PartTradeIn {
     this.updateProceedButton();
   }
 
-  attach(element: HTMLInputElement) {
+  private attach(element: HTMLInputElement) {
     element.addEventListener('input', (e) => this.onChange(e));
     element.addEventListener('blur', (e) => this.onBlur(e));
   }
 
-  updateUiError(name: keyof TradeInCarDataPartial) {
+  private updateUiError(name: keyof TradeInCarDataPartial) {
     const errorElement = this.element.querySelector<HTMLDivElement>(`#trade-in-${name}-error`);
     if (errorElement) {
       if (this.state.interact[name] && !this.state.validation[name]) {
@@ -168,7 +172,7 @@ class PartTradeIn {
     }
   }
 
-  updateProceedButton() {
+  private updateProceedButton() {
     const proceed = this.element.querySelector<HTMLButtonElement>(`#${PROCEED}`);
     if (proceed) {
       if (
@@ -182,6 +186,10 @@ class PartTradeIn {
         proceed.setAttribute('disabled', '');
       }
     }
+  }
+
+  private onNoTradeIn() {
+    setTradeIn(this.lastStage);
   }
 
   render() {
@@ -231,7 +239,10 @@ class PartTradeIn {
             '<p>Tyvärr fick vi ingen träff på personnumret du angav. Vänligen kontrollera att personnummret stämmer.</p>',
         })}
       </div>
-      <div class="waykeecom-stack waykeecom-stack--3" id="${PROCEED_NODE}"></div>
+      <div class="waykeecom-stack waykeecom-stack--3">
+        <div class="waykeecom-stack waykeecom-stack--1" id="${PROCEED_NODE}"></div>
+        <div class="waykeecom-stack waykeecom-stack--1" id="${TRADE_IN_NO_NODE}"></div>
+      </div>
     `;
 
     new InputField(
@@ -303,6 +314,12 @@ class PartTradeIn {
       title: 'Hämta uppskattat värde',
       id: PROCEED,
       onClick: () => this.onFetchVehicle(),
+    });
+
+    new ButtonSkip(this.element.querySelector<HTMLDivElement>(`#${TRADE_IN_NO_NODE}`), {
+      id: TRADE_IN_NO,
+      title: 'Hoppa över detta steg',
+      onClick: () => this.onNoTradeIn(),
     });
 
     this.updateProceedButton();

@@ -51,6 +51,7 @@ class View1v2 {
       this.stageOrderList.forEach((key) => {
         if (key === 'centralStorage' && !centralStorage) return;
         if (key === 'tradeIn' && !order.allowsTradeIn) return;
+        if (key === 'insurance' && !order.getInsuranceOption()) return;
 
         stages.push(stageMap[key]);
       });

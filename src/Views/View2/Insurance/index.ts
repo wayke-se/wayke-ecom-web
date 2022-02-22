@@ -50,7 +50,7 @@ class Insurance {
       (completed && state.navigation.stage !== this.index)
     ) {
       part.innerHTML = `
-      <div class="waykeecom-stack waykeecom-stack--1">
+        <div class="waykeecom-stack waykeecom-stack--1">
           <ul class="waykeecom-key-value-list">
             <li class="waykeecom-key-value-list__item">
               <div class="waykeecom-key-value-list__key">Försäkring</div>
@@ -67,6 +67,10 @@ class Insurance {
       part.querySelector(`#${CHANGE_BUTTON}`)?.addEventListener('click', () => this.onEdit());
       content.appendChild(part);
     } else if (state.navigation.stage === this.index) {
+      //const insuranceOptions = state.order?.getInsuranceOption();
+
+      // console.log(insuranceOptions);
+
       part.innerHTML = `
         <div class="waykeecom-stack waykeecom-stack--3">
           <h4 class="waykeecom-heading waykeecom-heading--4">Vill du teckna en försäkring på din nya bil?</h4>
@@ -74,6 +78,21 @@ class Insurance {
             <p>Ange din uppskattade körsträcka för att se din försäkringskostnad. Därefter presenterar vi förslag på försäkringar som passar dig och din nya bil. I både hel- och halvförsäkring ingår trafikförsäkring som är obligatoriskt att ha. Ifall du har valt att finansiera bilen med ett billån är priset du ser rabatterat.</p>
           </div>
         </div>
+        <div class="waykeecom-stack waykeecom-stack--3">
+          <div class="waykeecom-stack waykeecom-stack--1">
+            <ul class="waykeecom-key-value-list">
+              <li class="waykeecom-key-value-list__item">
+                <div class="waykeecom-key-value-list__key">Uppskattad körsträcka</div>
+                <div class="waykeecom-key-value-list__value"></div>
+              </li>
+            </ul>
+          </div>
+          <div class="waykeecom-stack waykeecom-stack--1">
+            <div class="waykeecom-align waykeecom-align--end">
+              <button id="${CHANGE_BUTTON}" title="Ändra försäkring" class="waykeecom-link">Ändra</button>
+            </div>
+          </div>
+        <div>
         <div class="waykeecom-stack waykeecom-stack--3">
           <button type="button" id="${PROCEED}" title="Fortsätt till nästa steg" class="waykeecom-button waykeecom-button--full-width waykeecom-button--action">
             <span class="waykeecom-button__content">Fortsätt</span>
