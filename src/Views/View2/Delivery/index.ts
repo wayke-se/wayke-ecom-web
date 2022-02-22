@@ -117,7 +117,6 @@ class Delivery {
       const deliveryOptions = state.order.getDeliveryOptions();
       deliveryOptions.forEach((deliveryOption) => {
         const addressDistance = state.address?.distance;
-        // const deliveryDistance = getDeliveryDistance(addressDistance, deliveryOption);
         const totalDeliveryCost = getTotalDeliveryCost(addressDistance, deliveryOption) || 0;
 
         switch (deliveryOption.type) {

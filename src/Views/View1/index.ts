@@ -1,10 +1,10 @@
-import ItemTileLarge from '../../Templates/ItemTileLarge';
+import watch from 'redux-watch';
 
+import ItemTileLarge from '../../Templates/ItemTileLarge';
 import { getOrder } from '../../Data/getOrder';
 import { proceedToView2Stage1, setOrder, setStages } from '../../Redux/action';
 import store from '../../Redux/store';
 import HowTo from './HowTo';
-import watch from 'redux-watch';
 import ButtonArrowRight from '../../Components/ButtonArrowRight';
 import { StageTypes } from '../../@types/Stages';
 import { stageMap, StageMapKeys } from '../../Utils/stage';

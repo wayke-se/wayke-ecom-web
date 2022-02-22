@@ -2,6 +2,7 @@ import { IAddress, IVehicle, PaymentType } from '@wayke-se/ecom';
 import { OrderOptionsResponse } from '@wayke-se/ecom/dist-types/orders/order-options-response';
 import { PaymentLookupResponse } from '@wayke-se/ecom/dist-types/payments/payment-lookup-response';
 import { Customer } from '../@types/Customer';
+import { Navigation } from '../@types/Navigation';
 import { StageTypes } from '../@types/Stages';
 import { TradeInCarDataPartial } from '../@types/TradeIn';
 import { Vehicle } from '../@types/Vehicle';
@@ -22,21 +23,6 @@ import {
   SET_ID,
   SET_STAGES,
 } from './action';
-
-const stateMock: any = {};
-/*
-try {
-  stateMock = require('../../statemock.json');
-} catch (e) {
-  stateMock = {};
-}
-*/
-
-interface Navigation {
-  view: number;
-  stage: number;
-  subStage: number;
-}
 
 export interface ReducerState {
   id?: string;
@@ -60,18 +46,17 @@ export interface ReducerState {
     financial: boolean;
     insurance: boolean;
   };
-  date: Date;
   stages?: StageTypes[];
 }
 
 const initialState: ReducerState = {
   topNavigation: {
-    view: 1,
+    view: 'preview',
     stage: 1,
     subStage: 1,
   },
   navigation: {
-    view: 1,
+    view: 'preview',
     stage: 1,
     subStage: 1,
   },
@@ -91,13 +76,15 @@ const initialState: ReducerState = {
   },
   homeDelivery: false,
   centralStorage: false,
-  date: new Date(),
 };
 
-const getNextNavigationState = (currentStage: number, lastStage: boolean) =>
+//// view 1 = preview
+// view 2 = stage
+
+const getNextNavigationState = (currentStage: number, lastStage: boolean): Navigation =>
   lastStage
-    ? { view: 3, stage: 1, subStage: 1 }
-    : { view: 2, stage: currentStage + 1, subStage: 1 };
+    ? { view: 'summary', stage: 1, subStage: 1 }
+    : { view: 'main', stage: currentStage + 1, subStage: 1 };
 
 let next: ReducerState;
 const reducer = (state = initialState, action: Action): ReducerState => {
@@ -112,19 +99,26 @@ const reducer = (state = initialState, action: Action): ReducerState => {
     case SET_VEHICLE:
       return { ...state, vehicle: action.vehicle };
     case SET_ORDER:
-      return { ...state, order: action.order };
+      const paymentOptions = action.order?.getPaymentOptions();
+      // If only cash payment is available, pre select
+      const paymentType =
+        !state.paymentType &&
+        paymentOptions?.length === 1 &&
+        paymentOptions?.[0].type === PaymentType.Cash
+          ? PaymentType.Cash
+          : undefined;
+
+      return { ...state, order: action.order, paymentType };
     case PROCEED_TO_VIEW_2_STAGE_1:
       return {
         ...state,
-        navigation: { view: 2, stage: 1, subStage: 1 },
-        ...stateMock,
-        order: state.order,
+        navigation: { view: 'main', stage: 1, subStage: 1 },
       };
     case SET_CONTACT_EMAIL_AND_PHONE:
       return {
         ...state,
         customer: { ...state.customer, email: action.value.email, phone: action.value.phone },
-        navigation: { view: 2, stage: state.navigation.stage, subStage: 2 },
+        navigation: { view: 'main', stage: state.navigation.stage, subStage: 2 },
       };
     case SET_SOCIAL_ID_AND_ADDRESS:
       navigation = getNextNavigationState(state.navigation.stage, action.lastStage);
@@ -153,7 +147,7 @@ const reducer = (state = initialState, action: Action): ReducerState => {
       return next;
 
     case INIT_TRADE_IN:
-      navigation = { view: 2, stage: state.navigation.stage, subStage: 1 };
+      navigation = { view: 'main', stage: state.navigation.stage, subStage: 1 };
       next = {
         ...state,
         navigation,
@@ -212,7 +206,7 @@ const reducer = (state = initialState, action: Action): ReducerState => {
     case EDIT:
       return {
         ...state,
-        navigation: { view: 2, stage: action.index, subStage: 1 },
+        navigation: { view: 'main', stage: action.index, subStage: 1 },
       };
 
     default:
