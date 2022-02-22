@@ -2,7 +2,7 @@ import { DeliveryType } from '@wayke-se/ecom';
 import watch from 'redux-watch';
 import ButtonArrowRight from '../../../Components/ButtonArrowRight';
 import InputRadioField from '../../../Components/InputRadioField';
-import { edit, setHomeDelivery } from '../../../Redux/action';
+import { goTo, setHomeDelivery } from '../../../Redux/action';
 import store from '../../../Redux/store';
 import KeyValueListItem from '../../../Templates/KeyValueListItem';
 import { getTotalDeliveryCost } from '../../../Utils/delivery';
@@ -52,7 +52,7 @@ class Delivery {
   }
 
   private onEdit() {
-    edit(this.index);
+    goTo('main', this.index);
   }
 
   render() {

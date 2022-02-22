@@ -1,5 +1,5 @@
 import ButtonAsLink from '../../../Components/ButtonAsLink';
-import { edit } from '../../../Redux/action';
+import { goTo } from '../../../Redux/action';
 import store from '../../../Redux/store';
 import KeyValueListItem from '../../../Templates/KeyValueListItem';
 import { maskSSn, maskText } from '../../../Utils/mask';
@@ -18,7 +18,7 @@ class Part3CustomerSummary {
   }
 
   onChange() {
-    edit(this.index);
+    goTo('main', this.index);
   }
 
   render() {

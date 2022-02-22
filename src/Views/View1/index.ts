@@ -2,7 +2,7 @@ import watch from 'redux-watch';
 
 import ItemTileLarge from '../../Templates/ItemTileLarge';
 import { getOrder } from '../../Data/getOrder';
-import { proceedToView2Stage1, setOrder, setStages } from '../../Redux/action';
+import { goTo, setOrder, setStages } from '../../Redux/action';
 import store from '../../Redux/store';
 import HowTo from './HowTo';
 import ButtonArrowRight from '../../Components/ButtonArrowRight';
@@ -138,7 +138,7 @@ class View1v2 {
     new ButtonArrowRight(document.querySelector<HTMLDivElement>(`#${PROCEED_BUTTON_NODE}`), {
       id: PROCEED_BUTTON,
       title: 'Gå vidare',
-      onClick: () => proceedToView2Stage1(),
+      onClick: () => goTo('main'),
     });
 
     const loader = document.querySelector<HTMLDivElement>(`#${PROCEED_BUTTON_LOADER}`);

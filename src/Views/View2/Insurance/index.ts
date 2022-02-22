@@ -1,5 +1,5 @@
 import watch from 'redux-watch';
-import { setInsurance, edit } from '../../../Redux/action';
+import { setInsurance, goTo } from '../../../Redux/action';
 import store from '../../../Redux/store';
 import KeyValueListItem from '../../../Templates/KeyValueListItem';
 import ListItem from '../ListItem';
@@ -30,7 +30,7 @@ class Insurance {
   }
 
   private onEdit() {
-    edit(this.index);
+    goTo('main', this.index);
   }
 
   render() {

@@ -3,7 +3,7 @@ import { PaymentLookupResponse } from '@wayke-se/ecom/dist-types/payments/paymen
 import watch from 'redux-watch';
 import ButtonArrowRight from '../../../Components/ButtonArrowRight';
 import InputRadioField from '../../../Components/InputRadioField';
-import { edit, setFinancial } from '../../../Redux/action';
+import { goTo, setFinancial } from '../../../Redux/action';
 import store from '../../../Redux/store';
 import { Image } from '../../../Utils/constants';
 import { prettyNumber } from '../../../Utils/format';
@@ -76,7 +76,7 @@ class Financial {
   }
 
   private onEdit() {
-    edit(this.index);
+    goTo('main', this.index);
   }
 
   render() {

@@ -3,6 +3,7 @@ import { OrderOptionsResponse } from '@wayke-se/ecom/dist-types/orders/order-opt
 import { PaymentLookupResponse } from '@wayke-se/ecom/dist-types/payments/payment-lookup-response';
 import { BaseAction } from '../@types/BaseAction';
 import { PartialCustomer } from '../@types/Customer';
+import { ViewTypes } from '../@types/Navigation';
 import { StageTypes } from '../@types/Stages';
 import { TradeInCarData } from '../@types/TradeIn';
 import { Vehicle } from '../@types/Vehicle';
@@ -13,10 +14,6 @@ export type SET_ORDER_TYPE = BaseAction<typeof SET_ORDER> & {
   order: OrderOptionsResponse;
 };
 export const setOrder = (order: OrderOptionsResponse) => store.dispatch({ type: SET_ORDER, order });
-
-export const PROCEED_TO_VIEW_2_STAGE_1 = 'PROCEED_TO_VIEW_2_STAGE_1';
-export type PROCEED_TO_VIEW_2_STAGE_1_TYPE = BaseAction<typeof PROCEED_TO_VIEW_2_STAGE_1>;
-export const proceedToView2Stage1 = () => store.dispatch({ type: PROCEED_TO_VIEW_2_STAGE_1 });
 
 export const SET_ID = 'SET_ID';
 export type SET_ID_TYPE = BaseAction<typeof SET_ID> & {
@@ -95,11 +92,14 @@ export type SET_INSURANCE_TYPE = BaseAction<typeof SET_INSURANCE> & {
 export const setInsurance = (lastStage: boolean) =>
   store.dispatch({ type: SET_INSURANCE, lastStage });
 
-export const EDIT = 'EDIT';
-export type EDIT_TYPE = BaseAction<typeof EDIT> & {
-  index: number;
+export const GO_TO = 'GO_TO';
+export type GO_TO_TYPE = BaseAction<typeof GO_TO> & {
+  view: ViewTypes;
+  index?: number;
+  subStage?: number;
 };
-export const edit = (index: number) => store.dispatch({ type: EDIT, index });
+export const goTo = (view: ViewTypes, index?: number, subStage?: number) =>
+  store.dispatch({ type: GO_TO, view, index, subStage });
 
 export const SET_STAGES = 'SET_STAGES';
 export type SET_STAGES_TYPE = BaseAction<typeof SET_STAGES> & {
@@ -111,7 +111,6 @@ export type Action =
   | SET_ORDER_TYPE
   | SET_ID_TYPE
   | SET_VEHICLE_TYPE
-  | PROCEED_TO_VIEW_2_STAGE_1_TYPE
   | SET_CONTACT_EMAIL_AND_PHONE_TYPE
   | SET_SOCIAL_ID_AND_ADDRESS_TYPE
   | SET_HOME_DELIVERY_TYPE
@@ -120,5 +119,5 @@ export type Action =
   | SET_FINANCIAL_TYPE
   | SET_PAYMENT_LOOKUP_RESPONSE_TYPE
   | SET_INSURANCE_TYPE
-  | EDIT_TYPE
+  | GO_TO_TYPE
   | SET_STAGES_TYPE;

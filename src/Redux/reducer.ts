@@ -8,7 +8,6 @@ import { TradeInCarDataPartial } from '../@types/TradeIn';
 import { Vehicle } from '../@types/Vehicle';
 import {
   Action,
-  PROCEED_TO_VIEW_2_STAGE_1,
   SET_CONTACT_EMAIL_AND_PHONE,
   SET_ORDER,
   SET_VEHICLE,
@@ -18,10 +17,10 @@ import {
   SET_FINANCIAL,
   SET_INSURANCE,
   INIT_TRADE_IN,
-  EDIT,
   SET_PAYMENT_LOOKUP_RESPONSE,
   SET_ID,
   SET_STAGES,
+  GO_TO,
 } from './action';
 
 export interface ReducerState {
@@ -39,26 +38,21 @@ export interface ReducerState {
   centralStorage: boolean;
   paymentType?: PaymentType;
   paymentLookupResponse?: PaymentLookupResponse;
-  edit: {
-    customer: boolean;
-    delivery: boolean;
-    tradeIn: boolean;
-    financial: boolean;
-    insurance: boolean;
-  };
   stages?: StageTypes[];
 }
 
+const initNavigation: Navigation = {
+  view: 'preview',
+  stage: 1,
+  subStage: 1,
+};
+
 const initialState: ReducerState = {
   topNavigation: {
-    view: 'preview',
-    stage: 1,
-    subStage: 1,
+    ...initNavigation,
   },
   navigation: {
-    view: 'preview',
-    stage: 1,
-    subStage: 1,
+    ...initNavigation,
   },
   customer: {
     email: '',
@@ -67,28 +61,22 @@ const initialState: ReducerState = {
     surname: '',
     socialId: '',
   },
-  edit: {
-    customer: false,
-    delivery: false,
-    tradeIn: false,
-    financial: false,
-    insurance: false,
-  },
   homeDelivery: false,
   centralStorage: false,
 };
-
-//// view 1 = preview
-// view 2 = stage
 
 const getNextNavigationState = (currentStage: number, lastStage: boolean): Navigation =>
   lastStage
     ? { view: 'summary', stage: 1, subStage: 1 }
     : { view: 'main', stage: currentStage + 1, subStage: 1 };
 
+const getNextTopNavigationState = (currentTopNavigation: Navigation, nextNavigation: Navigation) =>
+  currentTopNavigation.stage < nextNavigation.stage ? nextNavigation : next.topNavigation;
+
 let next: ReducerState;
 const reducer = (state = initialState, action: Action): ReducerState => {
   let navigation: Navigation;
+  let topNavigation: Navigation;
 
   next = { ...state };
   switch (action.type) {
@@ -109,25 +97,20 @@ const reducer = (state = initialState, action: Action): ReducerState => {
           : undefined;
 
       return { ...state, order: action.order, paymentType };
-    case PROCEED_TO_VIEW_2_STAGE_1:
-      return {
-        ...state,
-        navigation: { view: 'main', stage: 1, subStage: 1 },
-      };
     case SET_CONTACT_EMAIL_AND_PHONE:
       return {
-        ...state,
+        ...next,
         customer: { ...state.customer, email: action.value.email, phone: action.value.phone },
         navigation: { view: 'main', stage: state.navigation.stage, subStage: 2 },
       };
     case SET_SOCIAL_ID_AND_ADDRESS:
-      navigation = getNextNavigationState(state.navigation.stage, action.lastStage);
+      navigation = getNextNavigationState(next.navigation.stage, action.lastStage);
+      topNavigation = getNextTopNavigationState(next.topNavigation, navigation);
 
       next = {
         ...state,
         navigation,
-        topNavigation:
-          next.topNavigation.stage < navigation.stage ? navigation : state.topNavigation,
+        topNavigation,
         address: action.address,
         customer: { ...state.customer, socialId: action.socialId },
       };
@@ -135,12 +118,12 @@ const reducer = (state = initialState, action: Action): ReducerState => {
       return next;
     case SET_HOME_DELIVERY:
       navigation = getNextNavigationState(state.navigation.stage, action.lastStage);
+      topNavigation = getNextTopNavigationState(next.topNavigation, navigation);
 
       next = {
         ...state,
         navigation,
-        topNavigation:
-          next.topNavigation.stage < navigation.stage ? navigation : state.topNavigation,
+        topNavigation,
         homeDelivery: action.homeDelivery,
       };
 
@@ -148,12 +131,12 @@ const reducer = (state = initialState, action: Action): ReducerState => {
 
     case INIT_TRADE_IN:
       navigation = { view: 'main', stage: state.navigation.stage, subStage: 1 };
+      topNavigation = getNextTopNavigationState(next.topNavigation, navigation);
       next = {
         ...state,
         navigation,
         wantTradeIn: true,
-        topNavigation:
-          next.topNavigation.stage < navigation.stage ? navigation : state.topNavigation,
+        topNavigation,
         tradeIn: state.tradeIn || {
           registrationNumber: '',
           mileage: '',
@@ -164,12 +147,12 @@ const reducer = (state = initialState, action: Action): ReducerState => {
 
     case SET_TRADE_IN:
       navigation = getNextNavigationState(state.navigation.stage, action.lastStage);
+      topNavigation = getNextTopNavigationState(next.topNavigation, navigation);
 
       next = {
         ...state,
         navigation,
-        topNavigation:
-          next.topNavigation.stage < navigation.stage ? navigation : state.topNavigation,
+        topNavigation,
         wantTradeIn: !!action.tradeIn,
         tradeIn: action.tradeIn,
         tradeInVehicle: action.tradeInVehicle,
@@ -179,12 +162,12 @@ const reducer = (state = initialState, action: Action): ReducerState => {
 
     case SET_FINANCIAL:
       navigation = getNextNavigationState(state.navigation.stage, action.lastStage);
+      topNavigation = getNextTopNavigationState(next.topNavigation, navigation);
 
       return {
         ...next,
         navigation,
-        topNavigation:
-          next.topNavigation.stage < navigation.stage ? navigation : state.topNavigation,
+        topNavigation,
         paymentType: action.paymentType,
       };
 
@@ -193,20 +176,20 @@ const reducer = (state = initialState, action: Action): ReducerState => {
 
     case SET_INSURANCE:
       navigation = getNextNavigationState(state.navigation.stage, action.lastStage);
+      topNavigation = getNextTopNavigationState(next.topNavigation, navigation);
 
       next = {
         ...state,
         navigation,
-        topNavigation:
-          next.topNavigation.stage < navigation.stage ? navigation : state.topNavigation,
+        topNavigation,
       };
 
       return next;
 
-    case EDIT:
+    case GO_TO:
       return {
         ...state,
-        navigation: { view: 'main', stage: action.index, subStage: 1 },
+        navigation: { view: action.view, stage: action.index || 1, subStage: action.subStage || 1 },
       };
 
     default:
