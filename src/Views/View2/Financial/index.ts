@@ -52,22 +52,9 @@ class Financial {
       })
     );
     const state = store.getState();
-    const { paymentType, paymentLookupResponse, order } = state;
+    const { paymentLookupResponse, paymentType } = state;
 
-    const paymentOptions = order?.getPaymentOptions();
-
-    // If only cash payment is available, pre select
-    if (
-      !paymentType &&
-      paymentOptions?.length === 1 &&
-      paymentOptions?.[0].type === PaymentType.Cash
-    ) {
-      setFinancial(PaymentType.Cash, this.lastStage);
-      this.paymentType = PaymentType.Cash;
-    } else {
-      this.paymentType = paymentType;
-    }
-
+    this.paymentType = paymentType;
     this.paymentLookupResponse = paymentLookupResponse;
     this.render();
   }

@@ -13,6 +13,7 @@ import View2 from './Views/View2';
 import View3Summary from './Views/View3Summary';
 import Order from './Views/Order';
 import { StageMapKeys } from './Utils/stage';
+import { ViewTypes } from './@types/Navigation';
 
 const OrderIdQueryString = 'wayke-ecom-web-order-id';
 
@@ -31,8 +32,7 @@ interface AppProps {
 class App {
   private root: HTMLElement;
   private contentNode?: HTMLDivElement;
-  private versionNode?: HTMLDivElement;
-  private view: number;
+  private view: ViewTypes;
   private stageOrderList: StageMapKeys[];
 
   constructor(props: AppProps) {
@@ -67,7 +67,7 @@ class App {
 
     const w = watch(store.getState, 'navigation.view');
     store.subscribe(
-      w((newVal: number) => {
+      w((newVal: ViewTypes) => {
         this.view = newVal;
         this.render();
       })
@@ -195,7 +195,6 @@ class App {
     versionNode.innerHTML = `${packageJson.version}`;
 
     this.contentNode = contentNode;
-    this.versionNode = versionNode;
 
     modalDialogNode.appendChild(contentNode);
     this.root.appendChild(versionNode);
@@ -226,13 +225,13 @@ class App {
       }
 
       switch (this.view) {
-        case 1:
+        case 'preview':
           new View1(this.contentNode, this.stageOrderList);
           break;
-        case 2:
+        case 'main':
           new View2(this.contentNode);
           break;
-        case 3:
+        case 'summary':
           new View3Summary(this.contentNode);
           break;
         default:
