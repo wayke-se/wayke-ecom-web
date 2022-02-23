@@ -3,7 +3,7 @@ import store from '../../Redux/store';
 import KeyValueListItem from '../../Templates/KeyValueListItem';
 import { translateTradeInCondition } from '../../Utils/constants';
 import { prettyNumber } from '../../Utils/format';
-import StackItem from '../View2/TradeIn/StackItem';
+import StackItem from '../Main/TradeIn/StackItem';
 
 const EDIT_TRADE_IN = 'edit-trade-in';
 

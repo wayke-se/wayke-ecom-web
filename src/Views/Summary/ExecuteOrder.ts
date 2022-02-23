@@ -1,6 +1,6 @@
 import { createOrder } from '../../Data/createOrder';
 import Alert from '../../Templates/Alert';
-import StackItem from '../View2/TradeIn/StackItem';
+import StackItem from '../Main/TradeIn/StackItem';
 
 const CREATE_ORDER = 'create-order';
 const CREATE_ORDER_REQUEST_ERROR = `${CREATE_ORDER}-request-error`;

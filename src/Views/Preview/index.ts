@@ -14,7 +14,7 @@ const PROCEED_BUTTON = 'wayke-view-1-proceed';
 const PROCEED_BUTTON_NODE = `${PROCEED_BUTTON}-node`;
 const PROCEED_BUTTON_LOADER = `${PROCEED_BUTTON}-loader`;
 
-class View1v2 {
+class Preview {
   private element: Element;
   private loader?: HTMLDivElement;
   private proceedButton?: HTMLButtonElement;
@@ -147,4 +147,4 @@ class View1v2 {
   }
 }
 
-export default View1v2;
+export default Preview;

@@ -1,10 +1,10 @@
-import CustomerStage from '../Views/View2/Customer';
-import CentralStorageStage from '../Views/View2/CentralStorage';
-import DeliveryStage from '../Views/View2/Delivery';
-import TradeInStage from '../Views/View2/TradeIn';
-import FinancialStage from '../Views/View2/Financial';
-import InsuranceStage from '../Views/View2/Insurance';
-import AccessoriesStage from '../Views/View2/Accessories';
+import CustomerStage from '../Views/Main/Customer';
+import CentralStorageStage from '../Views/Main/CentralStorage';
+import DeliveryStage from '../Views/Main/Delivery';
+import TradeInStage from '../Views/Main/TradeIn';
+import FinancialStage from '../Views/Main/Financial';
+import InsuranceStage from '../Views/Main/Insurance';
+import AccessoriesStage from '../Views/Main/Accessories';
 
 interface Customer {
   component: typeof CustomerStage;

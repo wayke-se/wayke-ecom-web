@@ -8,10 +8,10 @@ import { Vehicle } from './@types/Vehicle';
 import store from './Redux/store';
 import { setVehicle } from './Redux/action';
 
-import View1 from './Views/View1';
-import View2 from './Views/View2';
-import View3Summary from './Views/View3Summary';
-import Order from './Views/Order';
+import Preview from './Views/Preview';
+import Main from './Views/Main';
+import Summary from './Views/Summary';
+import OrderCallback from './Views/OrderCallback';
 import { StageMapKeys } from './Utils/stage';
 import { ViewTypes } from './@types/Navigation';
 
@@ -217,19 +217,19 @@ class App {
     if (this.contentNode) {
       this.contentNode.innerHTML = '';
       if (waykeOrderId) {
-        new Order(this.contentNode, waykeOrderId);
+        new OrderCallback(this.contentNode, waykeOrderId);
         return;
       }
 
       switch (this.view) {
         case 'preview':
-          new View1(this.contentNode, this.stageOrderList);
+          new Preview(this.contentNode, this.stageOrderList);
           break;
         case 'main':
-          new View2(this.contentNode);
+          new Main(this.contentNode);
           break;
         case 'summary':
-          new View3Summary(this.contentNode);
+          new Summary(this.contentNode);
           break;
         default:
           throw 'Unknown view...';

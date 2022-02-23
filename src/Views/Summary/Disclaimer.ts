@@ -1,5 +1,5 @@
 import store from '../../Redux/store';
-import StackItem from '../View2/TradeIn/StackItem';
+import StackItem from '../Main/TradeIn/StackItem';
 
 class Disclaimer {
   private element: HTMLDivElement;

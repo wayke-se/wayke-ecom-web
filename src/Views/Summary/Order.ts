@@ -2,7 +2,7 @@ import { goTo } from '../../Redux/action';
 import store from '../../Redux/store';
 import ItemTileLarge from '../../Templates/ItemTileLarge';
 import KeyValueListItem from '../../Templates/KeyValueListItem';
-import StackItem from '../View2/TradeIn/StackItem';
+import StackItem from '../Main/TradeIn/StackItem';
 
 const EDIT_FINANCIAL = 'edit-financial';
 const EDIT_INSURANCE = 'edit-insurance';

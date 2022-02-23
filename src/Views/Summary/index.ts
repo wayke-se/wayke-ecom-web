@@ -2,7 +2,7 @@ import watch from 'redux-watch';
 
 import store from '../../Redux/store';
 import TradeIn from './TradeIn';
-import Summary from './Summary';
+import Intro from './Intro';
 import Order from './Order';
 import Delivery from './Delivery';
 import Customer from './Customer';
@@ -11,7 +11,7 @@ import ExecuteOrder from './ExecuteOrder';
 
 const SUMMARY_NODE = 'summary-node';
 
-class View3Summary {
+class Summary {
   private element: Element;
 
   constructor(element: Element) {
@@ -39,7 +39,7 @@ class View3Summary {
 
     const content = this.element.querySelector<HTMLDivElement>(`#${SUMMARY_NODE}`);
     if (content) {
-      new Summary(content);
+      new Intro(content);
       new TradeIn(content);
       new Order(content);
       new Delivery(content);
@@ -50,4 +50,4 @@ class View3Summary {
   }
 }
 
-export default View3Summary;
+export default Summary;

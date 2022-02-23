@@ -1,6 +1,6 @@
 import store from '../../Redux/store';
 
-class Order {
+class OrderCallback {
   private element: Element;
   private waykeOrderId: string;
 
@@ -29,4 +29,4 @@ class Order {
   }
 }
 
-export default Order;
+export default OrderCallback;

@@ -1,7 +1,7 @@
 import { goTo } from '../../Redux/action';
 import store from '../../Redux/store';
 import KeyValueListItem from '../../Templates/KeyValueListItem';
-import StackItem from '../View2/TradeIn/StackItem';
+import StackItem from '../Main/TradeIn/StackItem';
 
 const EDIT_DELIVERY = 'edit-delivery';
 

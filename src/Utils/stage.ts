@@ -1,11 +1,11 @@
 import { StageMapper } from '../@types/Stages';
-import Accessories from '../Views/View2/Accessories';
-import CentralStorage from '../Views/View2/CentralStorage';
-import Customer from '../Views/View2/Customer';
-import Delivery from '../Views/View2/Delivery';
-import Financial from '../Views/View2/Financial';
-import Insurance from '../Views/View2/Insurance';
-import TradeIn from '../Views/View2/TradeIn';
+import Accessories from '../Views/Main/Accessories';
+import CentralStorage from '../Views/Main/CentralStorage';
+import Customer from '../Views/Main/Customer';
+import Delivery from '../Views/Main/Delivery';
+import Financial from '../Views/Main/Financial';
+import Insurance from '../Views/Main/Insurance';
+import TradeIn from '../Views/Main/TradeIn';
 
 export const stageMap: StageMapper = {
   customer: { component: Customer, name: 'customer' },

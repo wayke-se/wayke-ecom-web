@@ -1,7 +1,7 @@
 import store from '../../Redux/store';
-import StackItem from '../View2/TradeIn/StackItem';
+import StackItem from '../Main/TradeIn/StackItem';
 
-class Summary {
+class Intro {
   private element: HTMLDivElement;
 
   constructor(element: HTMLDivElement) {
@@ -28,4 +28,4 @@ class Summary {
   }
 }
 
-export default Summary;
+export default Intro;

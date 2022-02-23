@@ -4,7 +4,7 @@ import ItemTileSmall from '../../Templates/ItemTileSmall';
 import store from '../../Redux/store';
 import Summary from './Summary';
 import Confirmation from './Confirmation';
-class View2v2 {
+class Main {
   private element: Element;
 
   constructor(element: Element) {
@@ -55,4 +55,4 @@ class View2v2 {
   }
 }
 
-export default View2v2;
+export default Main;
