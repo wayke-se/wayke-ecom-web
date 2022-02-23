@@ -1,4 +1,4 @@
-import { edit, initTradeIn } from '../../Redux/action';
+import { goTo, initTradeIn } from '../../Redux/action';
 import store from '../../Redux/store';
 import KeyValueListItem from '../../Templates/KeyValueListItem';
 import { translateTradeInCondition } from '../../Utils/constants';
@@ -85,7 +85,7 @@ class TradeIn {
         .querySelector<HTMLButtonElement>(`#${EDIT_TRADE_IN}`)
         ?.addEventListener('click', () => {
           initTradeIn(lastStage);
-          edit(editTradeInIndex + 1);
+          goTo('main', editTradeInIndex + 1);
         });
     }
   }

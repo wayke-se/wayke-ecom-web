@@ -1,4 +1,4 @@
-import { edit, initTradeIn, setTradeIn } from '../../../Redux/action';
+import { goTo, initTradeIn, setTradeIn } from '../../../Redux/action';
 import store from '../../../Redux/store';
 import ListItem from '../ListItem';
 import PartTradeIn from './PartTradeIn';
@@ -39,7 +39,7 @@ class TradeIn {
   }
 
   private onEdit() {
-    edit(this.index);
+    goTo('main', this.index);
   }
 
   private onYesTradeIn() {

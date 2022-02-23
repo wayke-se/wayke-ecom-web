@@ -1,4 +1,4 @@
-import { edit } from '../../Redux/action';
+import { goTo } from '../../Redux/action';
 import store from '../../Redux/store';
 import KeyValueListItem from '../../Templates/KeyValueListItem';
 import StackItem from '../View2/TradeIn/StackItem';
@@ -43,7 +43,7 @@ class Delivery {
     if (editDeliveryIndex !== undefined) {
       document
         .querySelector<HTMLButtonElement>(`#${EDIT_DELIVERY}`)
-        ?.addEventListener('click', () => edit(editDeliveryIndex + 1));
+        ?.addEventListener('click', () => goTo('main', editDeliveryIndex + 1));
     }
   }
 }

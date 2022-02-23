@@ -53,6 +53,8 @@ class Part2WithSocialId {
   private element: HTMLDivElement;
   private lastStage: boolean;
   private state: Part2SocialIdState;
+  private buttonFetchAddressContext?: ButtonArrowRight;
+  private buttonLinkToggleContext?: ButtonAsLink;
   private onToggleMethod: () => void;
 
   constructor(element: HTMLDivElement, lastStage: boolean, onToggleMethod: () => void) {
@@ -70,30 +72,28 @@ class Part2WithSocialId {
     const errorAlert = document.querySelector<HTMLDivElement>(`#${SOCIAL_ID_FETCH_ERROR_ID}`);
     if (!errorAlert) return;
     errorAlert.style.display = 'none';
-    const proceed = this.element.querySelector<HTMLDivElement>(`#${PROCEED}`);
-    const toggle = this.element.querySelector<HTMLDivElement>(`#${LINK_TOGGLE_METHOD}`);
-    if (proceed && toggle) {
-      const cache = SOCIAL_ID_CACHE[this.state.value.socialId];
-      if (cache) {
-        setSocialIdAndAddress(this.state.value.socialId, cache, this.lastStage);
-        return;
-      }
 
-      try {
-        if (this.state.validation.socialId) {
-          proceed.setAttribute('disabled', '');
-          toggle.setAttribute('disabled', '');
-          const response = await getAddressBySsn(this.state.value.socialId);
-          const address = response.getAddress();
-          SOCIAL_ID_CACHE[this.state.value.socialId] = address;
-          setSocialIdAndAddress(this.state.value.socialId, address, this.lastStage);
-        }
-      } catch (e) {
-        errorAlert.style.display = '';
-      } finally {
-        proceed.removeAttribute('disabled');
-        toggle.removeAttribute('disabled');
+    const cache = SOCIAL_ID_CACHE[this.state.value.socialId];
+    if (cache) {
+      setSocialIdAndAddress(this.state.value.socialId, cache, this.lastStage);
+      return;
+    }
+
+    try {
+      if (this.state.validation.socialId) {
+        this.buttonFetchAddressContext?.loading(true);
+        this.buttonLinkToggleContext?.disabled(true);
+
+        const response = await getAddressBySsn(this.state.value.socialId);
+        const address = response.getAddress();
+        SOCIAL_ID_CACHE[this.state.value.socialId] = address;
+        setSocialIdAndAddress(this.state.value.socialId, address, this.lastStage);
       }
+    } catch (e) {
+      errorAlert.style.display = '';
+    } finally {
+      this.buttonFetchAddressContext?.loading(false);
+      this.buttonLinkToggleContext?.disabled(false);
     }
   }
 
@@ -130,14 +130,7 @@ class Part2WithSocialId {
   }
 
   updateProceedButton() {
-    const proceed = this.element.querySelector<HTMLButtonElement>(`#${PROCEED}`);
-    if (proceed) {
-      if (this.state.validation.socialId) {
-        proceed.removeAttribute('disabled');
-      } else {
-        proceed.setAttribute('disabled', '');
-      }
-    }
+    this.buttonFetchAddressContext?.disabled(!this.state.validation.socialId);
   }
 
   render() {
@@ -214,17 +207,23 @@ class Part2WithSocialId {
       this.updateUiError(key as keyof CustomerSocialId)
     );
 
-    new ButtonArrowRight(this.element.querySelector<HTMLDivElement>(`#${PROCEED_NODE}`), {
-      title: 'Hämta uppgifter',
-      id: PROCEED,
-      onClick: () => this.onFetchAddress(),
-    });
+    this.buttonFetchAddressContext = new ButtonArrowRight(
+      this.element.querySelector<HTMLDivElement>(`#${PROCEED_NODE}`),
+      {
+        title: 'Hämta uppgifter',
+        id: PROCEED,
+        onClick: () => this.onFetchAddress(),
+      }
+    );
 
-    new ButtonAsLink(this.element.querySelector<HTMLDivElement>(`#${LINK_TOGGLE_METHOD_NODE}`), {
-      title: 'Jag vill hämta uppgifter med Mobilt BankID',
-      id: LINK_TOGGLE_METHOD,
-      onClick: () => this.onToggleMethod(),
-    });
+    this.buttonLinkToggleContext = new ButtonAsLink(
+      this.element.querySelector<HTMLDivElement>(`#${LINK_TOGGLE_METHOD_NODE}`),
+      {
+        title: 'Jag vill hämta uppgifter med Mobilt BankID',
+        id: LINK_TOGGLE_METHOD,
+        onClick: () => this.onToggleMethod(),
+      }
+    );
 
     this.updateProceedButton();
   }

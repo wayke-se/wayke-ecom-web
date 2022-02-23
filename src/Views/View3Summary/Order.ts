@@ -1,4 +1,4 @@
-import { edit } from '../../Redux/action';
+import { goTo } from '../../Redux/action';
 import store from '../../Redux/store';
 import ItemTileLarge from '../../Templates/ItemTileLarge';
 import KeyValueListItem from '../../Templates/KeyValueListItem';
@@ -88,14 +88,14 @@ class Order {
     if (editFinancialIndex !== undefined) {
       document
         .querySelector<HTMLButtonElement>(`#${EDIT_FINANCIAL}`)
-        ?.addEventListener('click', () => edit(editFinancialIndex + 1));
+        ?.addEventListener('click', () => goTo('main', editFinancialIndex + 1));
     }
 
     const editInsuranceIndex = state.stages?.findIndex((x) => x.name === 'insurance');
     if (editInsuranceIndex !== undefined) {
       document
         .querySelector<HTMLButtonElement>(`#${EDIT_INSURANCE}`)
-        ?.addEventListener('click', () => edit(editInsuranceIndex + 1));
+        ?.addEventListener('click', () => goTo('main', editInsuranceIndex + 1));
     }
   }
 }
