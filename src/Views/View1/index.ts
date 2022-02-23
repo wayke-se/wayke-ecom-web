@@ -8,6 +8,7 @@ import HowTo from './HowTo';
 import ButtonArrowRight from '../../Components/ButtonArrowRight';
 import { StageTypes } from '../../@types/Stages';
 import { stageMap, StageMapKeys } from '../../Utils/stage';
+import Loader from '../../Templates/Loader';
 
 const PROCEED_BUTTON = 'wayke-view-1-proceed';
 const PROCEED_BUTTON_NODE = `${PROCEED_BUTTON}-node`;
@@ -77,10 +78,7 @@ class View1v2 {
         <div class="waykeecom-page">
           <div class="waykeecom-page__body">
             <div class="waykeecom-container waykeecom-container--narrow">
-              <div class="waykeecom-loader">
-                <div class="waykeecom-loader__spinner" aria-hidden="true"></div>
-                <div class="waykeecom-sr-only">Laddar...</div>
-              </div>
+              ${Loader()}
             </div>
           </div>
         </div>

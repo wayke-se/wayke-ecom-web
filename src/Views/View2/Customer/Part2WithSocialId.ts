@@ -7,6 +7,7 @@ import { getAddressBySsn } from '../../../Data/getAddress';
 import { setSocialIdAndAddress } from '../../../Redux/action';
 import store from '../../../Redux/store';
 import Alert from '../../../Templates/Alert';
+import { renderConditional } from '../../../Utils/render';
 import { validationMethods } from '../../../Utils/validationMethods';
 
 const SOCIAL_ID_NODE = 'contact-socialId-node';
@@ -55,7 +56,6 @@ class Part2WithSocialId {
   private state: Part2SocialIdState;
   private buttonFetchAddressContext?: ButtonArrowRight;
   private buttonLinkToggleContext?: ButtonAsLink;
-
   private requestError: boolean = false;
 
   private onToggleMethod: () => void;
@@ -79,15 +79,15 @@ class Part2WithSocialId {
       const cache = SOCIAL_ID_CACHE[this.state.value.socialId];
       if (cache) {
         setSocialIdAndAddress(this.state.value.socialId, cache, this.lastStage);
-      } else if (this.state.validation.socialId) {
-        this.buttonFetchAddressContext?.loading(true);
-        this.buttonLinkToggleContext?.disabled(true);
-
-        const response = await getAddressBySsn(this.state.value.socialId);
-        const address = response.getAddress();
-        SOCIAL_ID_CACHE[this.state.value.socialId] = address;
-        setSocialIdAndAddress(this.state.value.socialId, address, this.lastStage);
+        return;
       }
+      this.buttonFetchAddressContext?.loading(true);
+      this.buttonLinkToggleContext?.disabled(true);
+
+      const response = await getAddressBySsn(this.state.value.socialId);
+      const address = response.getAddress();
+      SOCIAL_ID_CACHE[this.state.value.socialId] = address;
+      setSocialIdAndAddress(this.state.value.socialId, address, this.lastStage);
     } catch (e) {
       this.requestError = true;
     } finally {
@@ -146,17 +146,17 @@ class Part2WithSocialId {
           </div>
         </div>
         <div class="waykeecom-stack waykeecom-stack--3" id="${SOCIAL_ID_NODE}"></div>
-        ${
-          this.requestError
-            ? `
-              <div class="waykeecom-stack waykeecom-stack--3" id="${SOCIAL_ID_NODE}">
-                ${Alert({
-                  tone: 'error',
-                  children: '<p>Tyvärr fick vi ingen träff på personnumret du angav.</p>',
-                })}
-              </div>`
-            : ''
-        }
+
+        ${renderConditional(
+          this.requestError,
+          `
+          <div class="waykeecom-stack waykeecom-stack--3" id="${SOCIAL_ID_NODE}">
+            ${Alert({
+              tone: 'error',
+              children: '<p>Tyvärr fick vi ingen träff på personnumret du angav.</p>',
+            })}
+          </div>`
+        )}
         <div class="waykeecom-stack waykeecom-stack--3" id="${SOCIAL_ID_INFO}">
           ${Alert({
             tone: 'info',
@@ -217,6 +217,7 @@ class Part2WithSocialId {
       {
         title: 'Hämta uppgifter',
         id: PROCEED,
+        disabled: !this.state.validation.socialId,
         onClick: () => this.onFetchAddress(),
       }
     );

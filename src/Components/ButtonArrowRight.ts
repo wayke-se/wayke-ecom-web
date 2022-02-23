@@ -1,4 +1,4 @@
-import LoaderInline from '../Templates/SpinnerInline';
+import Loader from '../Templates/Loader';
 
 interface ButtonArrowRightProps {
   title: string;
@@ -21,6 +21,7 @@ class ButtonArrowRight {
 
   disabled(disabled: boolean) {
     this.props.disabled = disabled;
+    this.render();
   }
 
   loading(loading: boolean) {
@@ -42,7 +43,7 @@ class ButtonArrowRight {
         <span class="waykeecom-button__content">
           ${
             this.props.loading
-              ? LoaderInline()
+              ? Loader({ type: 'inline' })
               : `
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
