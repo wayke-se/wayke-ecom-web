@@ -1,28 +1,36 @@
 type Tones = 'success' | 'warning' | 'error' | 'info';
 
 interface AlertProps {
+  className?: string;
   tone?: Tones;
   children?: string | Element;
   hidden?: boolean;
 }
 
 class Alert {
-  private element: HTMLDivElement;
+  element: HTMLDivElement;
   private props: AlertProps;
 
-  constructor(element: HTMLDivElement, props: AlertProps) {
+  constructor(element: HTMLDivElement | null, props: AlertProps) {
+    if (!element) throw 'Missing element';
     this.element = element;
     this.props = props;
+    this.render();
   }
 
   hidden(hidden: boolean) {
     this.props.hidden = hidden;
+    this.render();
   }
 
   render() {
     if (this.props.hidden) {
       this.element.innerHTML = '';
       return;
+    }
+
+    if (this.props.className) {
+      this.element.className = this.props.className;
     }
 
     this.element.innerHTML = `

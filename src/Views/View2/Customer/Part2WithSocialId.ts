@@ -12,7 +12,7 @@ import { validationMethods } from '../../../Utils/validationMethods';
 const SOCIAL_ID_NODE = 'contact-socialId-node';
 const SOCIAL_ID_INPUT_ID = 'contact-socialId';
 const SOCIAL_ID_ERROR_ID = `${SOCIAL_ID_INPUT_ID}-error`;
-const SOCIAL_ID_FETCH_ERROR_ID = `${SOCIAL_ID_INPUT_ID}-fetch-error`;
+const SOCIAL_ID_INFO = 'contact-social-id-info';
 
 const PROCEED = `${SOCIAL_ID_INPUT_ID}-proceed`;
 const PROCEED_NODE = `${SOCIAL_ID_INPUT_ID}-proceed-node`;
@@ -55,6 +55,9 @@ class Part2WithSocialId {
   private state: Part2SocialIdState;
   private buttonFetchAddressContext?: ButtonArrowRight;
   private buttonLinkToggleContext?: ButtonAsLink;
+
+  private requestError: boolean = false;
+
   private onToggleMethod: () => void;
 
   constructor(element: HTMLDivElement, lastStage: boolean, onToggleMethod: () => void) {
@@ -69,18 +72,14 @@ class Part2WithSocialId {
   }
 
   async onFetchAddress() {
-    const errorAlert = document.querySelector<HTMLDivElement>(`#${SOCIAL_ID_FETCH_ERROR_ID}`);
-    if (!errorAlert) return;
-    errorAlert.style.display = 'none';
-
-    const cache = SOCIAL_ID_CACHE[this.state.value.socialId];
-    if (cache) {
-      setSocialIdAndAddress(this.state.value.socialId, cache, this.lastStage);
-      return;
-    }
+    this.requestError = false;
+    this.render();
 
     try {
-      if (this.state.validation.socialId) {
+      const cache = SOCIAL_ID_CACHE[this.state.value.socialId];
+      if (cache) {
+        setSocialIdAndAddress(this.state.value.socialId, cache, this.lastStage);
+      } else if (this.state.validation.socialId) {
         this.buttonFetchAddressContext?.loading(true);
         this.buttonLinkToggleContext?.disabled(true);
 
@@ -90,10 +89,11 @@ class Part2WithSocialId {
         setSocialIdAndAddress(this.state.value.socialId, address, this.lastStage);
       }
     } catch (e) {
-      errorAlert.style.display = '';
+      this.requestError = true;
     } finally {
       this.buttonFetchAddressContext?.loading(false);
       this.buttonLinkToggleContext?.disabled(false);
+      this.render();
     }
   }
 
@@ -146,13 +146,18 @@ class Part2WithSocialId {
           </div>
         </div>
         <div class="waykeecom-stack waykeecom-stack--3" id="${SOCIAL_ID_NODE}"></div>
-        <div class="waykeecom-stack waykeecom-stack--3" style="display:none;" id="${SOCIAL_ID_FETCH_ERROR_ID}">
-          ${Alert({
-            tone: 'error',
-            children: '<p>Tyvärr fick vi ingen träff på personnumret du angav.</p>',
-          })}
-        </div>
-        <div class="waykeecom-stack waykeecom-stack--3">
+        ${
+          this.requestError
+            ? `
+              <div class="waykeecom-stack waykeecom-stack--3" id="${SOCIAL_ID_NODE}">
+                ${Alert({
+                  tone: 'error',
+                  children: '<p>Tyvärr fick vi ingen träff på personnumret du angav.</p>',
+                })}
+              </div>`
+            : ''
+        }
+        <div class="waykeecom-stack waykeecom-stack--3" id="${SOCIAL_ID_INFO}">
           ${Alert({
             tone: 'info',
             children: `
