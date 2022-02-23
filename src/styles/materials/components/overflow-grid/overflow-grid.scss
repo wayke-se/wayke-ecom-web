@@ -8,6 +8,7 @@
   --item-width: 80%;
 
   position: relative;
+  margin: size(-2) 0;
 
   &__list-wrapper {
     margin: 0 calc(var(--container-gutter) * -1);
@@ -20,7 +21,7 @@
     padding: 0 var(--container-gutter);
     margin: 0 math.div($item-spacing, -2);
     overflow: auto;
-    overscroll-behavior: contain;
+    overscroll-behavior-x: contain;
     scroll-snap-type: x mandatory;
     scroll-padding-left: var(--container-gutter);
     scrollbar-width: none;
@@ -43,7 +44,7 @@
     flex: 1 0 auto;
     width: var(--item-width);
     max-width: var(--item-width);
-    padding: 0 math.div($item-spacing, 2);
+    padding: size(2) math.div($item-spacing, 2);
     scroll-snap-align: start;
   }
 }

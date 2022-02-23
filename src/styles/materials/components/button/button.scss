@@ -20,7 +20,7 @@
   align-items: center;
   justify-content: center;
   min-height: scss-var(size, input-height, mobile);
-  padding: size(1.5) size(3);
+  padding: size(1.5) size(4);
   border-radius: math.div(scss-var(size, input-height, mobile), 2);
   font-size: scss-var(font, size, small);
   user-select: none;
@@ -44,6 +44,10 @@
     @include button-tone(color(action, main), color(action, text));
   }
 
+  &--action-alt {
+    @include button-tone(color(action, alt), color(action, main));
+  }
+
   &--action-clear {
     @include button-tone(transparent, color(action, main));
   }
@@ -54,6 +58,8 @@
 
   &--size-small {
     min-height: size(5);
+    padding-top: size(1);
+    padding-bottom: size(1);
   }
 
   &__content {

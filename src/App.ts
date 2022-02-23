@@ -189,15 +189,11 @@ class App {
 
     // Append content
     const contentNode = document.createElement('div');
-    const versionNode = document.createElement('div');
-
-    versionNode.style.display = 'none';
-    versionNode.innerHTML = `${packageJson.version}`;
-
     this.contentNode = contentNode;
-
     modalDialogNode.appendChild(contentNode);
-    this.root.appendChild(versionNode);
+
+    // Add version number to root
+    this.root.dataset.version = packageJson.version;
   }
 
   close() {
