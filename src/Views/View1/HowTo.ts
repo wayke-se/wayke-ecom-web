@@ -29,6 +29,10 @@ const TimelineItemByStage = {
     heading: 'Vill du teckna en försäkring?',
     description: 'Försäkra din nya bil direkt i köpflödet.',
   },
+  accessories: {
+    heading: 'Tillbehör?',
+    description: 'Lorem ipsum',
+  },
 };
 
 interface HowToProps {

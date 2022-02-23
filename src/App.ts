@@ -55,6 +55,7 @@ class App {
     this.stageOrderList = [
       'customer',
       'centralStorage',
+      'accessories',
       'delivery',
       'tradeIn',
       'financial',

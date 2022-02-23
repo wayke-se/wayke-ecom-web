@@ -53,6 +53,7 @@ class View1v2 {
         if (key === 'centralStorage' && !centralStorage) return;
         if (key === 'tradeIn' && !order.allowsTradeIn) return;
         if (key === 'insurance' && !order.getInsuranceOption()) return;
+        if (key === 'accessories' && !order.getAccessories().length) return;
 
         stages.push(stageMap[key]);
       });

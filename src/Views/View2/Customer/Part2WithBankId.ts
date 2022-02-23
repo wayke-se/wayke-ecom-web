@@ -22,6 +22,8 @@ const QR_CODE_NODE = 'qr-code-node';
 const LINK_TOGGLE_METHOD_NODE = 'link-toggle-method-node';
 const LINK_TOGGLE_METHOD = 'link-toggle-method';
 
+// Could use some refactor and splitted up
+
 class Part2WithBankId {
   private element: HTMLDivElement;
   private lastStage: boolean;

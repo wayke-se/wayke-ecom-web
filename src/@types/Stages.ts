@@ -4,6 +4,7 @@ import DeliveryStage from '../Views/View2/Delivery';
 import TradeInStage from '../Views/View2/TradeIn';
 import FinancialStage from '../Views/View2/Financial';
 import InsuranceStage from '../Views/View2/Insurance';
+import AccessoriesStage from '../Views/View2/Accessories';
 
 interface Customer {
   component: typeof CustomerStage;
@@ -35,7 +36,19 @@ interface Insurance {
   name: 'insurance';
 }
 
-export type StageTypes = Customer | CentralStorage | Delivery | TradeIn | Financial | Insurance;
+interface Accessories {
+  component: typeof AccessoriesStage;
+  name: 'accessories';
+}
+
+export type StageTypes =
+  | Customer
+  | CentralStorage
+  | Delivery
+  | TradeIn
+  | Financial
+  | Insurance
+  | Accessories;
 
 export interface StageMapper {
   customer: Customer;
@@ -44,4 +57,5 @@ export interface StageMapper {
   tradeIn: TradeIn;
   financial: Financial;
   insurance: Insurance;
+  accessories: Accessories;
 }
