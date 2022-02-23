@@ -1,6 +1,7 @@
 import watch from 'redux-watch';
 import { setInsurance, goTo } from '../../../Redux/action';
 import store from '../../../Redux/store';
+import KeyValueListItem from '../../../Templates/KeyValueListItem';
 import ListItem from '../ListItem';
 import AccessoryItem from './AccessoryItem';
 
@@ -53,15 +54,15 @@ class Accessories {
       part.innerHTML = `
         <div class="waykeecom-stack waykeecom-stack--1">
           <ul class="waykeecom-key-value-list">
-            <li class="waykeecom-key-value-list__item">
-              <div class="waykeecom-key-value-list__key">Tillbehör</div>
-              <div class="waykeecom-key-value-list__value"></div>
-            </li>
+            ${KeyValueListItem({
+              key: 'Tillbehör',
+              value: '[SELECTED_ACCESSORIES]',
+            })}
           </ul>
         </div>
         <div class="waykeecom-stack waykeecom-stack--1">
           <div class="waykeecom-align waykeecom-align--end">
-            <button id="${CHANGE_BUTTON}" title="Ändra försäkring" class="waykeecom-link">Ändra</button>
+            <button type="button" id="${CHANGE_BUTTON}" title="Ändra tillbehör" class="waykeecom-link">Ändra</button>
           </div>
         </div>
       `;
@@ -83,7 +84,8 @@ class Accessories {
         <div class="waykeecom-stack waykeecom-stack--3">
           <div class="waykeecom-overflow-grid">
             <div class="waykeecom-overflow-grid__list-wrapper">
-              <ul class="waykeecom-overflow-grid__list" id="${ACCESSORY_LIST}"></ul>
+              <ul class="waykeecom-overflow-grid__list" id="${ACCESSORY_LIST}">
+              </ul>
             </div>
             <div class="waykeecom-overflow-grid__nav waykeecom-overflow-grid__nav--prev">
               <button type="button" title="Visa föregående försäkring" class="waykeecom-icon-button">
@@ -111,7 +113,6 @@ class Accessories {
             </div>
           </div>
         </div>
-        
         <div class="waykeecom-stack waykeecom-stack--3">
           <button type="button" id="${PROCEED}" title="Fortsätt till nästa steg" class="waykeecom-button waykeecom-button--full-width waykeecom-button--action">
             <span class="waykeecom-button__content">Fortsätt</span>
