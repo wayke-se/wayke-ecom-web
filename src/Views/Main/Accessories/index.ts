@@ -61,7 +61,7 @@ class Accessories {
         </div>
         <div class="waykeecom-stack waykeecom-stack--1">
           <div class="waykeecom-align waykeecom-align--end">
-            <button id="${CHANGE_BUTTON}" title="Ändra försäkring" class="waykeecom-link">Ändra</button>
+            <button type="button" id="${CHANGE_BUTTON}" title="Ändra tillbehör" class="waykeecom-link">Ändra</button>
           </div>
         </div>
       `;
