@@ -21,6 +21,7 @@ const QR_CODE_NODE = 'qr-code-node';
 
 const LINK_TOGGLE_METHOD_NODE = 'link-toggle-method-node';
 const LINK_TOGGLE_METHOD = 'link-toggle-method';
+const ABORT_NODE = 'abort-node';
 
 // Could use some refactor and splitted up
 
@@ -194,7 +195,7 @@ class Part2WithBankId {
               <div class="waykeecom-stack waykeecom-stack--4">
                 <div class="waykeecom-stack waykeecom-stack--3">
                   <div class="waykeecom-stack waykeecom-stack--2" id="${BANKID_START_NODE}"></div>
-                  <div class="waykeecom-stack waykeecom-stack--2" id="${LINK_TOGGLE_METHOD_NODE}"></div>
+                  <div class="waykeecom-stack waykeecom-stack--2" id="${ABORT_NODE}"></div>
                 </div>
               </div>
             </div>
@@ -219,14 +220,11 @@ class Part2WithBankId {
         });
       }
 
-      this.toggleMethodButtonContext = new ButtonAsLink(
-        this.element.querySelector<HTMLDivElement>(`#${LINK_TOGGLE_METHOD_NODE}`),
-        {
-          title: 'Avbryt',
-          id: LINK_TOGGLE_METHOD,
-          onClick: () => this.onAbort(),
-        }
-      );
+      new ButtonAsLink(this.element.querySelector<HTMLDivElement>(`#${ABORT_NODE}`), {
+        title: 'Avbryt',
+        id: LINK_TOGGLE_METHOD,
+        onClick: () => this.onAbort(),
+      });
     } else {
       this.element.innerHTML = `
         <div class="waykeecom-stack waykeecom-stack--2">

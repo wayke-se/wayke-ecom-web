@@ -1,12 +1,12 @@
 import watch from 'redux-watch';
 import { setInsurance, goTo } from '../../../Redux/action';
 import store from '../../../Redux/store';
-import KeyValueListItem from '../../../Templates/KeyValueListItem';
 import ListItem from '../ListItem';
+import AccessoryItem from './AccessoryItem';
 
 const PROCEED = 'button-accessories-proceed';
 const CHANGE_BUTTON = 'button-accessories-change';
-
+const ACCESSORY_LIST = 'accessory-list';
 class Accessories {
   private element: HTMLDivElement;
   private index: number;
@@ -68,6 +68,8 @@ class Accessories {
       part.querySelector(`#${CHANGE_BUTTON}`)?.addEventListener('click', () => this.onEdit());
       content.appendChild(part);
     } else if (state.navigation.stage === this.index) {
+      const accessories = state.order?.getAccessories() || [];
+
       part.innerHTML = `
         <div class="waykeecom-stack waykeecom-stack--3">
           <div class="waykeecom-stack waykeecom-stack--2">
@@ -76,19 +78,36 @@ class Accessories {
               <p>Ange din uppskattade körsträcka för att se din försäkringskostnad. Därefter presenterar vi förslag på försäkringar som passar dig och din nya bil. I både hel- och halvförsäkring ingår trafikförsäkring som är obligatoriskt att ha. Ifall du har valt att finansiera bilen med ett billån är priset du ser rabatterat.</p>
             </div>
           </div>
-          <div class="waykeecom-stack waykeecom-stack--2">
-            <div class="waykeecom-stack waykeecom-stack--1">
-              <ul class="waykeecom-key-value-list">
-                ${KeyValueListItem({
-                  key: 'Uppskattad körsträcka',
-                  value: '0-1 000 mil/år',
-                })}
-              </ul>
+        </div>
+
+        <div class="waykeecom-stack waykeecom-stack--3">
+          <div class="waykeecom-overflow-grid">
+            <div class="waykeecom-overflow-grid__list-wrapper">
+              <ul class="waykeecom-overflow-grid__list" id="${ACCESSORY_LIST}"></ul>
             </div>
-            <div class="waykeecom-stack waykeecom-stack--1">
-              <div class="waykeecom-align waykeecom-align--end">
-                <button id="${CHANGE_BUTTON}" title="Ändra beräknad körsträcka" class="waykeecom-link">Ändra</button>
-              </div>
+            <div class="waykeecom-overflow-grid__nav waykeecom-overflow-grid__nav--prev">
+              <button type="button" title="Visa föregående försäkring" class="waykeecom-icon-button">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 16 16"
+                  class="waykeecom-icon"
+                >
+                  <title>Ikon: vinkel vänster</title>
+                  <path d="m5.4 7 5.2-5 1 1-5.2 5 5.2 5-1.1 1-5.2-5-1-1 1.1-1z" />
+                </svg>
+              </button>
+            </div>
+            <div class="waykeecom-overflow-grid__nav waykeecom-overflow-grid__nav--next">
+              <button type="button" title="Visa nästa försäkring" class="waykeecom-icon-button">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 16 16"
+                  class="waykeecom-icon"
+                >
+                  <title>Ikon: vinkel höger</title>
+                  <path d="m10.5 9-5.2 5-1-1 5.2-5-5.2-5 1.1-1 5.2 5 1 1-1.1 1z" />
+                </svg>
+              </button>
             </div>
           </div>
         </div>
@@ -109,6 +128,12 @@ class Accessories {
           </button>
         </div>
       `;
+
+      const accessoryList = part.querySelector<HTMLUListElement>(`#${ACCESSORY_LIST}`);
+      if (accessoryList) {
+        accessories.forEach((accessory) => new AccessoryItem(accessoryList, accessory));
+      }
+
       part
         .querySelector<HTMLButtonElement>(`#${PROCEED}`)
         ?.addEventListener('click', () => this.onProceed());
