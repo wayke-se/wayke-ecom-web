@@ -1,0 +1,16 @@
+@use '../../../helpers' as *;
+
+.#{$namespace}logo {
+  position: relative;
+  width: size(10);
+  height: size(3);
+
+  &__image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+}

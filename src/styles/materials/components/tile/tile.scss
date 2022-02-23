@@ -20,6 +20,36 @@
     padding: size(3);
   }
 
+  &__header {
+    display: flex;
+  }
+
+  &__title {
+    @include font-bold;
+    
+    flex: 1 1 auto;
+    font-size: scss-var(font, size, large);
+  }
+
+  &__image {
+    flex-shrink: 0;
+    padding-left: size(2);
+  }
+
+  &__price {
+    @include font-medium;
+
+    margin-top: size(1);
+  }
+
+  &__description {
+    margin-top: size(2);
+  }
+  
+  &__read-more {
+    margin-top: size(1);
+  }
+
   &__footer {
     flex-shrink: 0;
     margin-top: auto;
