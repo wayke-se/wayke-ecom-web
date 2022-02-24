@@ -1,4 +1,4 @@
-import { IAddress, IVehicle, PaymentType } from '@wayke-se/ecom';
+import { DrivingDistance, IAddress, IInsuranceOption, IVehicle, PaymentType } from '@wayke-se/ecom';
 import { OrderOptionsResponse } from '@wayke-se/ecom/dist-types/orders/order-options-response';
 import { IAccessory } from '@wayke-se/ecom/dist-types/orders/types';
 import { PaymentLookupResponse } from '@wayke-se/ecom/dist-types/payments/payment-lookup-response';
@@ -23,6 +23,7 @@ import {
   SET_STAGES,
   GO_TO,
   SET_OR_REMOVE_ACCESSORY,
+  SET_OR_REMOVE_INSURANCE,
 } from './action';
 
 export interface ReducerState {
@@ -42,6 +43,8 @@ export interface ReducerState {
   paymentLookupResponse?: PaymentLookupResponse;
   stages?: StageTypes[];
   accessories: IAccessory[];
+  drivingDistance: DrivingDistance;
+  insurance?: IInsuranceOption;
 }
 
 const initNavigation: Navigation = {
@@ -67,6 +70,7 @@ const initialState: ReducerState = {
   homeDelivery: false,
   centralStorage: false,
   accessories: [],
+  drivingDistance: DrivingDistance.Between0And1000,
 };
 
 const getNextNavigationState = (currentStage: number, lastStage: boolean): Navigation =>
@@ -188,6 +192,15 @@ const reducer = (state = initialState, action: Action): ReducerState => {
         navigation,
         topNavigation,
       };
+
+      return next;
+
+    case SET_OR_REMOVE_INSURANCE:
+      if (next.insurance !== action.insurance) {
+        next.insurance = action.insurance;
+      } else {
+        next.insurance = undefined;
+      }
 
       return next;
 

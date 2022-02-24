@@ -1,4 +1,4 @@
-import { IAddress, IVehicle, PaymentType } from '@wayke-se/ecom';
+import { IAddress, IInsuranceOption, IVehicle, PaymentType } from '@wayke-se/ecom';
 import { OrderOptionsResponse } from '@wayke-se/ecom/dist-types/orders/order-options-response';
 import { IAccessory } from '@wayke-se/ecom/dist-types/orders/types';
 import { PaymentLookupResponse } from '@wayke-se/ecom/dist-types/payments/payment-lookup-response';
@@ -93,6 +93,13 @@ export type SET_INSURANCE_TYPE = BaseAction<typeof SET_INSURANCE> & {
 export const setInsurance = (lastStage: boolean) =>
   store.dispatch({ type: SET_INSURANCE, lastStage });
 
+export const SET_OR_REMOVE_INSURANCE = 'SET_OR_REMOVE_INSURANCE';
+export type SET_OR_REMOVE_INSURANCE_TYPE = BaseAction<typeof SET_OR_REMOVE_INSURANCE> & {
+  insurance?: IInsuranceOption;
+};
+export const addOrRemoveInsurance = (insurance: IInsuranceOption) =>
+  store.dispatch({ type: SET_OR_REMOVE_INSURANCE, insurance });
+
 export const SET_OR_REMOVE_ACCESSORY = 'SET_OR_REMOVE_ACCESSORY';
 export type SET_OR_REMOVE_ACCESSORY_TYPE = BaseAction<typeof SET_OR_REMOVE_ACCESSORY> & {
   accessory: IAccessory;
@@ -127,6 +134,7 @@ export type Action =
   | SET_FINANCIAL_TYPE
   | SET_PAYMENT_LOOKUP_RESPONSE_TYPE
   | SET_INSURANCE_TYPE
+  | SET_OR_REMOVE_INSURANCE_TYPE
   | SET_OR_REMOVE_ACCESSORY_TYPE
   | GO_TO_TYPE
   | SET_STAGES_TYPE;
