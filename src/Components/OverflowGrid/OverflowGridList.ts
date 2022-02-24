@@ -1,18 +1,12 @@
-import { IAccessory } from '@wayke-se/ecom/dist-types/orders/types';
-import AppendChild from '../../../Components/AppendChild';
-import GridItem from './GridItem';
+import AppendChild from '../AppendChild';
 
-const ACCESSORY_LIST = 'accessory-list';
-const ACCESSORY_LIST_PREV = `${ACCESSORY_LIST}-prev`;
-const ACCESSORY_LIST_NEXT = `${ACCESSORY_LIST}-next`;
+class OverflowGridList extends AppendChild {
+  overflowElement?: HTMLUListElement | null;
+  id: string;
 
-class GridList extends AppendChild {
-  private accessories: IAccessory[];
-  private overflowElement?: HTMLUListElement | null;
-
-  constructor(element: HTMLDivElement, accessories: IAccessory[]) {
+  constructor(element: HTMLDivElement, id: string) {
     super(element, { htmlTag: 'div', className: 'waykeecom-overflow-grid' });
-    this.accessories = accessories;
+    this.id = id;
     this.render();
   }
 
@@ -49,12 +43,15 @@ class GridList extends AppendChild {
   }
 
   render() {
+    const PREV_ID = `${this.id}-prev`;
+    const NEXT_ID = `${this.id}-next`;
+
     this.content.innerHTML = `
       <div class="waykeecom-overflow-grid__list-wrapper">
-        <ul class="waykeecom-overflow-grid__list" id="${ACCESSORY_LIST}"></ul>
+        <ul class="waykeecom-overflow-grid__list" id="${this.id}"></ul>
       </div>
       <div class="waykeecom-overflow-grid__nav waykeecom-overflow-grid__nav--prev">
-        <button type="button" title="Visa föregående försäkring" class="waykeecom-icon-button" id="${ACCESSORY_LIST_PREV}">
+        <button type="button" title="Visa föregående försäkring" class="waykeecom-icon-button" id="${PREV_ID}">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 16 16"
@@ -66,7 +63,7 @@ class GridList extends AppendChild {
         </button>
       </div>
       <div class="waykeecom-overflow-grid__nav waykeecom-overflow-grid__nav--next">
-        <button type="button" title="Visa nästa försäkring" class="waykeecom-icon-button" id="${ACCESSORY_LIST_NEXT}">
+        <button type="button" title="Visa nästa försäkring" class="waykeecom-icon-button" id="${NEXT_ID}">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 16 16"
@@ -79,20 +76,16 @@ class GridList extends AppendChild {
       </div>
     `;
 
-    const listRef = (this.overflowElement =
-      this.content.querySelector<HTMLUListElement>(`#${ACCESSORY_LIST}`) || undefined);
-    if (listRef) {
-      this.accessories.forEach((accessory) => new GridItem(listRef, accessory));
-    }
+    this.overflowElement = this.content.querySelector<HTMLUListElement>(`#${this.id}`) || undefined;
 
     this.content
-      .querySelector<HTMLUListElement>(`#${ACCESSORY_LIST_PREV}`)
+      .querySelector<HTMLUListElement>(`#${PREV_ID}`)
       ?.addEventListener('click', () => this.onPrev());
 
     this.content
-      .querySelector<HTMLUListElement>(`#${ACCESSORY_LIST_NEXT}`)
+      .querySelector<HTMLUListElement>(`#${NEXT_ID}`)
       ?.addEventListener('click', () => this.onNext());
   }
 }
 
-export default GridList;
+export default OverflowGridList;

@@ -4,7 +4,7 @@ import { setInsurance, goTo } from '../../../Redux/action';
 import store from '../../../Redux/store';
 import KeyValueListItem from '../../../Templates/KeyValueListItem';
 import ListItem from '../ListItem';
-import GridList from './GridList';
+import AccessoryList from './AccessoryList';
 
 const PROCEED = 'button-accessories-proceed';
 const CHANGE_BUTTON = 'button-accessories-change';
@@ -100,12 +100,10 @@ class Accessories {
         </div>
       `;
 
-      const accessoryGridListnode = part.querySelector<HTMLDivElement>(
-        `#${ACCESSORY_GRID_LIST_NODE}`
+      new AccessoryList(
+        part.querySelector<HTMLDivElement>(`#${ACCESSORY_GRID_LIST_NODE}`),
+        accessories
       );
-      if (accessoryGridListnode) {
-        new GridList(accessoryGridListnode, accessories);
-      }
 
       part
         .querySelector<HTMLButtonElement>(`#${PROCEED}`)
