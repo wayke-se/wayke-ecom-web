@@ -1,3 +1,4 @@
+import { renderConditional } from '../../Utils/render';
 import AppendChild from '../AppendChild';
 
 interface GridItemProps {
@@ -24,7 +25,7 @@ class GridItem extends AppendChild {
 
     this.content.innerHTML = `
       <div class="waykeecom-tile">
-        <img src="${image}" alt="" class="waykeecom-tile__hero" />
+        ${renderConditional(!!image, `<img src="${image}" alt="" class="waykeecom-tile__hero" />`)}
         <div class="waykeecom-tile__body">
           <div class="waykeecom-tile__header">
             <div class="waykeecom-tile__title">${title}</div>

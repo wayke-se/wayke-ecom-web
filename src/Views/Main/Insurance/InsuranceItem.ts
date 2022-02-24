@@ -38,7 +38,6 @@ class InsuranceItem {
         title: this.insurance.name,
         description: this.insurance.description,
         logo: this.insurance.brand.logotype,
-        image: this.insurance.brand.logotype,
         price: prettyNumber(this.insurance.price, { postfix: 'kr/mån' }),
         selected,
         onClick: () => this.onClick(),
