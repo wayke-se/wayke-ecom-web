@@ -2,9 +2,9 @@ import { DeliveryType } from '@wayke-se/ecom';
 import watch from 'redux-watch';
 import ButtonArrowRight from '../../../Components/ButtonArrowRight';
 import InputRadioField from '../../../Components/InputRadioField';
+import StageCompleted from '../../../Components/StageCompleted';
 import { goTo, setHomeDelivery } from '../../../Redux/action';
 import store from '../../../Redux/store';
-import KeyValueListItem from '../../../Templates/KeyValueListItem';
 import { getTotalDeliveryCost } from '../../../Utils/delivery';
 import ListItem from '../ListItem';
 
@@ -13,8 +13,6 @@ const RADIO_HOME_TRUE_NODE = `${RADIO_HOME_TRUE}-node`;
 
 const RADIO_HOME_FALSE = 'radio-home-delivery-false';
 const RADIO_HOME_FALSE_NODE = `${RADIO_HOME_FALSE}-node`;
-
-const CHANGE_BUTTON = 'button-home-delivery-change';
 
 const PROCEED = 'button-home-delivery-proceed';
 const PROCEED_NODE = `${PROCEED}-node`;
@@ -74,27 +72,16 @@ class Delivery {
       state.navigation.stage > this.index ||
       (completed && state.navigation.stage !== this.index)
     ) {
-      const part = document.createElement('div');
-
-      const keyValueItems: { key: string; value: string }[] = [
-        { key: 'Leveranssätt', value: state.homeDelivery ? 'Hemleverans' : 'Hämta hos handlaren' },
-      ];
-
-      part.innerHTML = `
-        <div class="waykeecom-stack waykeecom-stack--1">
-          <ul class="waykeecom-key-value-list">
-            ${keyValueItems.map((kv) => KeyValueListItem(kv)).join('')}
-          </ul>
-        </div>
-        <div class="waykeecom-stack waykeecom-stack--1">
-          <div class="waykeecom-align waykeecom-align--end">
-            <button id="${CHANGE_BUTTON}" title="Ändra leveranssätt" class="waykeecom-link">Ändra</button>
-          </div>
-        </div>
-      `;
-
-      part.querySelector(`#${CHANGE_BUTTON}`)?.addEventListener('click', () => this.onEdit());
-      content.appendChild(part);
+      new StageCompleted(content, {
+        keyValueList: [
+          {
+            key: 'Leveranssätt',
+            value: state.homeDelivery ? 'Hemleverans' : 'Hämta hos handlaren',
+          },
+        ],
+        changeButtonTitle: 'Ändra leveranssätt',
+        onEdit: () => this.onEdit(),
+      });
     } else if (state.navigation.stage === this.index) {
       const part = document.createElement('div');
       part.innerHTML = `

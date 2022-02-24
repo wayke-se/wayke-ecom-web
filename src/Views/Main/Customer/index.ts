@@ -1,9 +1,11 @@
 import watch from 'redux-watch';
+import StageCompleted from '../../../Components/StageCompleted';
+import { goTo } from '../../../Redux/action';
 import store from '../../../Redux/store';
+import { maskSSn, maskText } from '../../../Utils/mask';
 import ListItem from '../ListItem';
-import Part1EmailAndPhone from './Part1EmailAndPhone';
-import Part2SocialId from './Part2SocialId';
-import Part3CustomerSummary from './Part3CustomerSummary';
+import EmailAndPhone from './EmailAndPhone';
+import FullAddress from './FullAddress';
 
 class Customer {
   private element: HTMLDivElement;
@@ -21,6 +23,10 @@ class Customer {
     store.subscribe(w2(() => this.render()));
 
     this.render();
+  }
+
+  onChange() {
+    goTo('main', this.index);
   }
 
   render() {
@@ -44,14 +50,35 @@ class Customer {
       state.navigation.stage > this.index ||
       (completed && state.navigation.stage !== this.index)
     ) {
-      new Part3CustomerSummary(part1, this.index);
-      content.appendChild(part1);
+      const keyValueList: { key: string; value: string }[] = [
+        { key: 'E-post', value: state.customer.email },
+        { key: 'Telefonnummer', value: state.customer.phone },
+        { key: 'Personnummer', value: maskSSn(state.customer.socialId) },
+        ...(state.address
+          ? [
+              {
+                key: 'Namn',
+                value: `${maskText(state.address.givenName)} ${maskText(state.address.surname)}`,
+              },
+              { key: 'Adress', value: state.address.street },
+              { key: 'Postnummer', value: state.address.postalCode },
+              { key: 'Stad', value: state.address.city },
+            ]
+          : []),
+      ];
+      new StageCompleted(content, {
+        keyValueList,
+        changeButtonTitle: 'Ändra dina uppgifter',
+        onEdit: () => this.onChange(),
+      });
     } else if (state.navigation.stage === this.index) {
-      new Part1EmailAndPhone(part1);
-      content.appendChild(part1);
+      new EmailAndPhone(content);
       if (state.navigation.subStage > 1) {
+        new FullAddress(content, this.lastStage);
+        /*
         new Part2SocialId(part2, this.lastStage);
         content.appendChild(part2);
+        */
       }
     }
   }

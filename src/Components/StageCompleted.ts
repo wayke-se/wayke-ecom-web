@@ -20,12 +20,14 @@ class StageCompleted extends AppendChild {
     this.content.innerHTML = `
       <div class="waykeecom-stack waykeecom-stack--1">
         <ul class="waykeecom-key-value-list">
-          ${this.props.keyValueList.map((keyValue) =>
-            KeyValueListItem({
-              key: keyValue.key,
-              value: keyValue.value,
-            })
-          )}
+          ${this.props.keyValueList
+            .map((keyValue) =>
+              KeyValueListItem({
+                key: keyValue.key,
+                value: keyValue.value,
+              })
+            )
+            .join('')}
         </ul>
       </div>
       <div class="waykeecom-stack waykeecom-stack--1">

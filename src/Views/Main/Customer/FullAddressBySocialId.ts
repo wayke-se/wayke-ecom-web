@@ -1,5 +1,6 @@
 import { IAddress } from '@wayke-se/ecom';
 import { Customer, CustomerSocialId } from '../../../@types/Customer';
+import AppendChild from '../../../Components/AppendChild';
 import ButtonArrowRight from '../../../Components/ButtonArrowRight';
 import ButtonAsLink from '../../../Components/ButtonAsLink';
 import InputField from '../../../Components/InputField';
@@ -50,18 +51,16 @@ const initalState = (customer?: Customer): Part2SocialIdState => {
   };
 };
 
-class Part2WithSocialId {
-  private element: HTMLDivElement;
+class FullAddressBySocialId extends AppendChild {
   private lastStage: boolean;
   private state: Part2SocialIdState;
   private buttonFetchAddressContext?: ButtonArrowRight;
   private buttonLinkToggleContext?: ButtonAsLink;
   private requestError: boolean = false;
-
   private onToggleMethod: () => void;
 
-  constructor(element: HTMLDivElement, lastStage: boolean, onToggleMethod: () => void) {
-    this.element = element;
+  constructor(element: HTMLElement, lastStage: boolean, onToggleMethod: () => void) {
+    super(element, { htmlTag: 'div', className: 'waykeecom-stack waykeecom-stack--2' });
     this.lastStage = lastStage;
     this.onToggleMethod = onToggleMethod;
 
@@ -119,7 +118,7 @@ class Part2WithSocialId {
   }
 
   updateUiError(name: keyof SocialIdValidation) {
-    const errorElement = this.element.querySelector<HTMLDivElement>(`#contact-${name}-error`);
+    const errorElement = this.content.querySelector<HTMLDivElement>(`#contact-${name}-error`);
     if (errorElement) {
       if (this.state.interact[name] && !this.state.validation[name]) {
         errorElement.style.display = '';
@@ -134,7 +133,7 @@ class Part2WithSocialId {
   }
 
   render() {
-    this.element.innerHTML = `
+    this.content.innerHTML = `
       <div class="waykeecom-stack waykeecom-stack--2">
         <hr class="waykeecom-separator" />
       </div>
@@ -195,7 +194,7 @@ class Part2WithSocialId {
       </div>
     `;
 
-    new InputField(this.element.querySelector<HTMLDivElement>(`#${SOCIAL_ID_NODE}`), {
+    new InputField(this.content.querySelector<HTMLDivElement>(`#${SOCIAL_ID_NODE}`), {
       title: 'Personnummer',
       value: this.state.value.socialId,
       id: SOCIAL_ID_INPUT_ID,
@@ -213,7 +212,7 @@ class Part2WithSocialId {
     );
 
     this.buttonFetchAddressContext = new ButtonArrowRight(
-      this.element.querySelector<HTMLDivElement>(`#${PROCEED_NODE}`),
+      this.content.querySelector<HTMLDivElement>(`#${PROCEED_NODE}`),
       {
         title: 'Hämta uppgifter',
         id: PROCEED,
@@ -223,7 +222,7 @@ class Part2WithSocialId {
     );
 
     this.buttonLinkToggleContext = new ButtonAsLink(
-      this.element.querySelector<HTMLDivElement>(`#${LINK_TOGGLE_METHOD_NODE}`),
+      this.content.querySelector<HTMLDivElement>(`#${LINK_TOGGLE_METHOD_NODE}`),
       {
         title: 'Jag vill hämta uppgifter med Mobilt BankID',
         id: LINK_TOGGLE_METHOD,
@@ -235,4 +234,4 @@ class Part2WithSocialId {
   }
 }
 
-export default Part2WithSocialId;
+export default FullAddressBySocialId;

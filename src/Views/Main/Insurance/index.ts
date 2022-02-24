@@ -1,4 +1,5 @@
 import watch from 'redux-watch';
+import StageCompleted from '../../../Components/StageCompleted';
 import { setInsurance, goTo } from '../../../Redux/action';
 import store from '../../../Redux/store';
 import KeyValueListItem from '../../../Templates/KeyValueListItem';
@@ -50,6 +51,18 @@ class Insurance {
       state.navigation.stage > this.index ||
       (completed && state.navigation.stage !== this.index)
     ) {
+      new StageCompleted(content, {
+        keyValueList: [
+          {
+            key: 'Försäkring',
+            value: 'Ingen',
+          },
+        ],
+        changeButtonTitle: 'Ändra försäkring',
+        onEdit: () => this.onEdit(),
+      });
+
+      /*
       part.innerHTML = `
         <div class="waykeecom-stack waykeecom-stack--1">
           <ul class="waykeecom-key-value-list">
@@ -67,6 +80,7 @@ class Insurance {
       `;
       part.querySelector(`#${CHANGE_BUTTON}`)?.addEventListener('click', () => this.onEdit());
       content.appendChild(part);
+      */
     } else if (state.navigation.stage === this.index) {
       //const insuranceOptions = state.order?.getInsuranceOption();
 

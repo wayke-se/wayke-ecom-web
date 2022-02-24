@@ -24,10 +24,10 @@ export const devConfig = {
     useBankid: true,
   },
   DEFAULT: {
-    id: 'e821e7c0-a433-46a2-aeba-283e2357133a',
+    id: 'f71d0afb-02aa-4f79-a9bc-9632a7454ca6',
     vehicle: {
       ...baseVehicle,
-      id: 'e821e7c0-a433-46a2-aeba-283e2357133a',
+      id: 'f71d0afb-02aa-4f79-a9bc-9632a7454ca6',
     },
   },
   MULTIPLE_FINANCIAL: {

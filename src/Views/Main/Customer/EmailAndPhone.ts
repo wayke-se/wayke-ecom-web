@@ -1,4 +1,5 @@
 import { Customer, PartialCustomer } from '../../../@types/Customer';
+import AppendChild from '../../../Components/AppendChild';
 import ButtonArrowRight from '../../../Components/ButtonArrowRight';
 import InputField from '../../../Components/InputField';
 import { setContactAndPhone } from '../../../Redux/action';
@@ -49,16 +50,15 @@ const initalState = (customer?: Customer): Part1EmailAndPhoneState => {
   };
 };
 
-class Part1EmailAndPhone {
-  private element: HTMLDivElement;
+class EmailAndPhone extends AppendChild {
   private state: Part1EmailAndPhoneState;
 
   constructor(element: HTMLDivElement) {
-    this.element = element;
+    super(element, { htmlTag: 'div', className: 'waykeecom-stack waykeecom-stack--2' });
 
     const state = store.getState();
-
     this.state = initalState(state.customer);
+
     this.render();
   }
 
@@ -84,7 +84,7 @@ class Part1EmailAndPhone {
   }
 
   updateUiError(name: keyof PartialCustomer) {
-    const errorElement = this.element.querySelector<HTMLDivElement>(`#contact-${name}-error`);
+    const errorElement = this.content.querySelector<HTMLDivElement>(`#contact-${name}-error`);
     if (errorElement) {
       if (this.state.interact[name] && !this.state.validation[name]) {
         errorElement.style.display = '';
@@ -95,7 +95,7 @@ class Part1EmailAndPhone {
   }
 
   updateProceedButton() {
-    const proceed = this.element.querySelector<HTMLButtonElement>(`#${PROCEED}`);
+    const proceed = this.content.querySelector<HTMLButtonElement>(`#${PROCEED}`);
     if (proceed) {
       if (this.state.validation.email && this.state.validation.phone) {
         proceed.removeAttribute('disabled');
@@ -118,7 +118,7 @@ class Part1EmailAndPhone {
         { key: 'Telefonnummer', value: this.state.value.phone },
       ];
 
-      this.element.innerHTML = `
+      this.content.innerHTML = `
         <div class="waykeecom-stack waykeecom-stack--2">
           <ul class="waykeecom-key-value-list">
             ${keyValueItems.map((kv) => KeyValueListItem(kv)).join('')}
@@ -126,7 +126,7 @@ class Part1EmailAndPhone {
         </div>
       `;
     } else {
-      this.element.innerHTML = `
+      this.content.innerHTML = `
       <div class="waykeecom-stack waykeecom-stack--3">
         <h4 class="waykeecom-heading waykeecom-heading--4">Kontaktuppgifter</h4>
         <div class="waykeecom-content">
@@ -140,7 +140,7 @@ class Part1EmailAndPhone {
       <div class="waykeecom-stack waykeecom-stack--3" id="${PROCEED_NODE}"></div>
     `;
 
-      new InputField(this.element.querySelector<HTMLDivElement>(`#${EMAIL_NODE}`), {
+      new InputField(this.content.querySelector<HTMLDivElement>(`#${EMAIL_NODE}`), {
         title: 'Epost',
         value: this.state.value.email,
         id: EMAIL_INPUT_ID,
@@ -154,7 +154,7 @@ class Part1EmailAndPhone {
         onBlur: (e) => this.onBlur(e),
       });
 
-      new InputField(this.element.querySelector<HTMLDivElement>(`#${PHONE_NODE}`), {
+      new InputField(this.content.querySelector<HTMLDivElement>(`#${PHONE_NODE}`), {
         title: 'Telefonnummer',
         value: this.state.value.phone,
         id: PHONE_INPUT_ID,
@@ -171,7 +171,7 @@ class Part1EmailAndPhone {
         this.updateUiError(key as keyof PartialCustomer)
       );
 
-      new ButtonArrowRight(this.element.querySelector<HTMLDivElement>(`#${PROCEED_NODE}`), {
+      new ButtonArrowRight(this.content.querySelector<HTMLDivElement>(`#${PROCEED_NODE}`), {
         title: 'Fortsätt',
         id: PROCEED,
         onClick: () => this.onProceed(),
@@ -182,4 +182,4 @@ class Part1EmailAndPhone {
   }
 }
 
-export default Part1EmailAndPhone;
+export default EmailAndPhone;

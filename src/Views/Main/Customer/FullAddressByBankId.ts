@@ -9,6 +9,7 @@ import Alert from '../../../Templates/Alert';
 import { isMobile } from '../../../Utils/isMobile';
 import { Image } from '../../../Utils/constants';
 import Loader from '../../../Templates/Loader';
+import AppendChild from '../../../Components/AppendChild';
 
 const BANKID_START_NODE = `bankid-start-node`;
 const BANKID_START = `bankid-start`;
@@ -23,10 +24,7 @@ const LINK_TOGGLE_METHOD_NODE = 'link-toggle-method-node';
 const LINK_TOGGLE_METHOD = 'link-toggle-method';
 const ABORT_NODE = 'abort-node';
 
-// Could use some refactor and splitted up
-
-class Part2WithBankId {
-  private element: HTMLDivElement;
+class FullAddressByBankId extends AppendChild {
   private lastStage: boolean;
   private _ontoggleMethod: () => void;
   private bankidStatusInterval?: NodeJS.Timer;
@@ -34,11 +32,12 @@ class Part2WithBankId {
   private QrCodeElement?: HTMLDivElement;
   private toggleMethodButtonContext?: ButtonAsLink;
 
-  constructor(element: HTMLDivElement, lastStage: boolean, onToggleMethod: () => void) {
-    this.element = element;
-    this.lastStage = lastStage;
+  constructor(element: HTMLElement, lastStage: boolean, onToggleMethod: () => void) {
+    super(element, { htmlTag: 'div', className: 'waykeecom-stack waykeecom-stack--2' });
 
+    this.lastStage = lastStage;
     this._ontoggleMethod = onToggleMethod;
+
     this.render();
   }
 
@@ -124,14 +123,14 @@ class Part2WithBankId {
 
           response.getAutoLaunchUrl();
           new ButtonBankId(
-            this.element.querySelector<HTMLDivElement>(`#${BANKID_OPEN_ON_DEVICE_NODE}`),
+            this.content.querySelector<HTMLDivElement>(`#${BANKID_OPEN_ON_DEVICE_NODE}`),
             {
               title: 'Öppna BankID',
               id: BANKID_OPEN_ON_DEVICE,
               onClick: () => window.open(response.getAutoLaunchUrl(), '_blank'),
             }
           );
-          new ButtonAsLink(this.element.querySelector<HTMLDivElement>(`#${BANKID_START_NODE}`), {
+          new ButtonAsLink(this.content.querySelector<HTMLDivElement>(`#${BANKID_START_NODE}`), {
             title: 'Mitt BankID är på en annan enhet',
             id: BANKID_START,
             onClick: () => this.onStartBankIdAuth(AuthMethod.QrCode),
@@ -147,7 +146,7 @@ class Part2WithBankId {
             <img src="data:image/png;base64, ${qrCode}" alt="BankID QQ" class="waykeecom-qr" />
           </div>
         `;
-        new ButtonAsLink(this.element.querySelector<HTMLDivElement>(`#${BANKID_START_NODE}`), {
+        new ButtonAsLink(this.content.querySelector<HTMLDivElement>(`#${BANKID_START_NODE}`), {
           title: 'Öppna BankID på den här enheten',
           id: BANKID_START,
           onClick: () => this.onStartBankIdAuth(AuthMethod.SameDevice),
@@ -175,7 +174,7 @@ class Part2WithBankId {
   render() {
     const mobile = isMobile();
     if (this.view === 2) {
-      this.element.innerHTML = `
+      this.content.innerHTML = `
         <div class="waykeecom-stack waykeecom-stack--2">
           <hr class="waykeecom-separator" />
         </div>
@@ -204,29 +203,29 @@ class Part2WithBankId {
       `;
 
       this.QrCodeElement =
-        this.element.querySelector<HTMLDivElement>(`#${QR_CODE_NODE}`) || undefined;
+        this.content.querySelector<HTMLDivElement>(`#${QR_CODE_NODE}`) || undefined;
 
       if (mobile) {
-        new ButtonAsLink(this.element.querySelector<HTMLDivElement>(`#${BANKID_START_NODE}`), {
+        new ButtonAsLink(this.content.querySelector<HTMLDivElement>(`#${BANKID_START_NODE}`), {
           title: 'Mitt BankID är på en annan enhet',
           id: BANKID_START,
           onClick: () => this.onStartBankIdAuth(AuthMethod.QrCode),
         });
       } else {
-        new ButtonAsLink(this.element.querySelector<HTMLDivElement>(`#${BANKID_START_NODE}`), {
+        new ButtonAsLink(this.content.querySelector<HTMLDivElement>(`#${BANKID_START_NODE}`), {
           title: 'Öppna BankID på den här enheten',
           id: BANKID_START,
           onClick: () => this.onStartBankIdAuth(AuthMethod.SameDevice),
         });
       }
 
-      new ButtonAsLink(this.element.querySelector<HTMLDivElement>(`#${ABORT_NODE}`), {
+      new ButtonAsLink(this.content.querySelector<HTMLDivElement>(`#${ABORT_NODE}`), {
         title: 'Avbryt',
         id: LINK_TOGGLE_METHOD,
         onClick: () => this.onAbort(),
       });
     } else {
-      this.element.innerHTML = `
+      this.content.innerHTML = `
         <div class="waykeecom-stack waykeecom-stack--2">
           <hr class="waykeecom-separator" />
         </div>
@@ -278,7 +277,7 @@ class Part2WithBankId {
         </div>
       `;
 
-      new ButtonBankId(this.element.querySelector<HTMLDivElement>(`#${BANKID_START_NODE}`), {
+      new ButtonBankId(this.content.querySelector<HTMLDivElement>(`#${BANKID_START_NODE}`), {
         title: 'Hämta uppgifter med Mobilt BankID',
         id: BANKID_START,
         onClick: () => {
@@ -289,7 +288,7 @@ class Part2WithBankId {
       });
 
       this.toggleMethodButtonContext = new ButtonAsLink(
-        this.element.querySelector<HTMLDivElement>(`#${LINK_TOGGLE_METHOD_NODE}`),
+        this.content.querySelector<HTMLDivElement>(`#${LINK_TOGGLE_METHOD_NODE}`),
         {
           title: 'Jag vill fylla i mina uppgifter manuellt',
           id: LINK_TOGGLE_METHOD,
@@ -300,4 +299,4 @@ class Part2WithBankId {
   }
 }
 
-export default Part2WithBankId;
+export default FullAddressByBankId;

@@ -55,7 +55,9 @@ class Accessories {
         keyValueList: [
           {
             key: 'Tillbehör',
-            value: '[SELECTED_ACCESSORIES]',
+            value: state.accessories.length
+              ? state.accessories.map((accessory) => accessory.name).join(', ')
+              : 'Inga',
           },
         ],
         changeButtonTitle: 'Ändra tillbehör',

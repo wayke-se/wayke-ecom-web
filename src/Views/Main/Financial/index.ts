@@ -9,12 +9,10 @@ import { Image } from '../../../Utils/constants';
 import { prettyNumber } from '../../../Utils/format';
 import ListItem from '../ListItem';
 import Loan from './Loan';
-import Summary from './Summary';
+import StageCompletedFinancial from './StageCompletedFinancial';
 
 const PROCEED = 'button-financial-proceed';
 const PROCEED_NODE = `${PROCEED}-node`;
-
-const CHANGE_BUTTON = 'button-financial-change';
 
 const RADIO_FINANCIAL_CASH_NODE = 'radio-financial-cash-node';
 const RADIO_FINANCIAL_CASH = 'radio-financial-cash';
@@ -102,51 +100,57 @@ class Financial {
       this.paymentType
     ) {
       const loan = paymentOptions.find((x) => x.type === PaymentType.Loan);
-      part.innerHTML = Summary({
-        paymentType: this.paymentType,
+      new StageCompletedFinancial(content, {
         loan,
+        paymentType: this.paymentType,
         paymentLookupResponse: loan?.loanDetails || paymentLookupResponse,
-        changeButtonId: CHANGE_BUTTON,
+        onEdit: () => this.onEdit(),
       });
-
-      part.querySelector(`#${CHANGE_BUTTON}`)?.addEventListener('click', () => this.onEdit());
-      content.appendChild(part);
     } else if (state.navigation.stage === this.index) {
       const cash = paymentOptions.find((x) => x.type === PaymentType.Cash);
       const loan = paymentOptions.find((x) => x.type === PaymentType.Loan);
       const lease = paymentOptions.find((x) => x.type === PaymentType.Lease);
+
+      const supportedPaymentsFirst: string[] = [];
+      if (loan) {
+        supportedPaymentsFirst.push(RADIO_FINANCIAL_LOAN_NODE);
+      }
+      if (cash) {
+        supportedPaymentsFirst.push(RADIO_FINANCIAL_CASH_NODE);
+      }
+      const supportedPaymentsSecond: string[] = [];
+      if (lease) {
+        supportedPaymentsSecond.push(RADIO_FINANCIAL_LEASE_NODE);
+      }
 
       part.innerHTML = `
         <div class="waykeecom-stack waykeecom-stack--3">
           <h4 class="waykeecom-heading waykeecom-heading--4 waykeecom-no-margin">Hur vill du finansiera din Volvo XC60?</h4>
         </div>
 
+        ${
+          supportedPaymentsFirst.length
+            ? `
         <div class="waykeecom-stack waykeecom-stack--3">
           <fieldset class="waykeecom-input-group">
             <legend class="waykeecom-input-group__legend">Köp bilen</legend>
-            ${
-              loan
-                ? `
-              <div class="waykeecom-stack waykeecom-stack--3" id="${RADIO_FINANCIAL_LOAN_NODE}"></div>
-            `
-                : ''
-            }
-            ${
-              cash
-                ? `
-              <div class="waykeecom-stack waykeecom-stack--3" id="${RADIO_FINANCIAL_CASH_NODE}"></div>
-            `
-                : ''
-            }
+            ${supportedPaymentsFirst.map(
+              (id) => `<div class="waykeecom-stack waykeecom-stack--3" id="${id}"></div>`
+            )}
           </fieldset>
         </div>
+        `
+            : ''
+        }
         ${
-          lease
+          supportedPaymentsSecond.length
             ? `
           <div class="waykeecom-stack waykeecom-stack--3">
             <fieldset class="waykeecom-input-group">
               <legend class="waykeecom-input-group__legend">Leasa bilen</legend>
-              <div id="${RADIO_FINANCIAL_LEASE_NODE}"></div>
+              ${supportedPaymentsSecond.map(
+                (id) => `<div class="waykeecom-stack waykeecom-stack--3" id="${id}"></div>`
+              )}
             </fieldset>
           </div>
           `
