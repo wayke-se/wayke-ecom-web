@@ -1,5 +1,6 @@
 import { IAddress, IVehicle, PaymentType } from '@wayke-se/ecom';
 import { OrderOptionsResponse } from '@wayke-se/ecom/dist-types/orders/order-options-response';
+import { IAccessory } from '@wayke-se/ecom/dist-types/orders/types';
 import { PaymentLookupResponse } from '@wayke-se/ecom/dist-types/payments/payment-lookup-response';
 import { BaseAction } from '../@types/BaseAction';
 import { PartialCustomer } from '../@types/Customer';
@@ -92,6 +93,13 @@ export type SET_INSURANCE_TYPE = BaseAction<typeof SET_INSURANCE> & {
 export const setInsurance = (lastStage: boolean) =>
   store.dispatch({ type: SET_INSURANCE, lastStage });
 
+export const SET_OR_REMOVE_ACCESSORY = 'SET_OR_REMOVE_ACCESSORY';
+export type SET_OR_REMOVE_ACCESSORY_TYPE = BaseAction<typeof SET_OR_REMOVE_ACCESSORY> & {
+  accessory: IAccessory;
+};
+export const addOrRemoveAccessory = (accessory: IAccessory) =>
+  store.dispatch({ type: SET_OR_REMOVE_ACCESSORY, accessory });
+
 export const GO_TO = 'GO_TO';
 export type GO_TO_TYPE = BaseAction<typeof GO_TO> & {
   view: ViewTypes;
@@ -119,5 +127,6 @@ export type Action =
   | SET_FINANCIAL_TYPE
   | SET_PAYMENT_LOOKUP_RESPONSE_TYPE
   | SET_INSURANCE_TYPE
+  | SET_OR_REMOVE_ACCESSORY_TYPE
   | GO_TO_TYPE
   | SET_STAGES_TYPE;

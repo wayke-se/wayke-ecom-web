@@ -1,5 +1,6 @@
 import { IAddress, IVehicle, PaymentType } from '@wayke-se/ecom';
 import { OrderOptionsResponse } from '@wayke-se/ecom/dist-types/orders/order-options-response';
+import { IAccessory } from '@wayke-se/ecom/dist-types/orders/types';
 import { PaymentLookupResponse } from '@wayke-se/ecom/dist-types/payments/payment-lookup-response';
 import { Customer } from '../@types/Customer';
 import { Navigation } from '../@types/Navigation';
@@ -21,6 +22,7 @@ import {
   SET_ID,
   SET_STAGES,
   GO_TO,
+  SET_OR_REMOVE_ACCESSORY,
 } from './action';
 
 export interface ReducerState {
@@ -39,6 +41,7 @@ export interface ReducerState {
   paymentType?: PaymentType;
   paymentLookupResponse?: PaymentLookupResponse;
   stages?: StageTypes[];
+  accessories: IAccessory[];
 }
 
 const initNavigation: Navigation = {
@@ -63,6 +66,7 @@ const initialState: ReducerState = {
   },
   homeDelivery: false,
   centralStorage: false,
+  accessories: [],
 };
 
 const getNextNavigationState = (currentStage: number, lastStage: boolean): Navigation =>
@@ -74,6 +78,7 @@ const getNextTopNavigationState = (currentTopNavigation: Navigation, nextNavigat
   currentTopNavigation.stage < nextNavigation.stage ? nextNavigation : next.topNavigation;
 
 let next: ReducerState;
+let index: number;
 const reducer = (state = initialState, action: Action): ReducerState => {
   let navigation: Navigation;
   let topNavigation: Navigation;
@@ -185,6 +190,16 @@ const reducer = (state = initialState, action: Action): ReducerState => {
       };
 
       return next;
+
+    case SET_OR_REMOVE_ACCESSORY:
+      index = next.accessories.findIndex((accessory) => accessory.id === action.accessory.id);
+      if (index > -1) {
+        next.accessories.splice(index, 1);
+      } else {
+        next.accessories.push(action.accessory);
+      }
+
+      return { ...next, accessories: [...next.accessories] };
 
     case GO_TO:
       return {

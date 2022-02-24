@@ -53,13 +53,13 @@ class App {
 
     // Stage order setup
     this.stageOrderList = [
-      'accessories',
       'customer',
       'centralStorage',
-      'delivery',
       'tradeIn',
+      'accessories',
       'financial',
       'insurance',
+      'delivery',
     ];
 
     //setId(props.vehicle.id);

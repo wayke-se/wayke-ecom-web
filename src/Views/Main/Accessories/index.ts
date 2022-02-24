@@ -1,13 +1,12 @@
 import watch from 'redux-watch';
+import StageCompleted from '../../../Components/StageCompleted';
 
 import { setInsurance, goTo } from '../../../Redux/action';
 import store from '../../../Redux/store';
-import KeyValueListItem from '../../../Templates/KeyValueListItem';
 import ListItem from '../ListItem';
 import AccessoryList from './AccessoryList';
 
 const PROCEED = 'button-accessories-proceed';
-const CHANGE_BUTTON = 'button-accessories-change';
 const ACCESSORY_GRID_LIST_NODE = 'accessory-grid-list-node';
 class Accessories {
   private element: HTMLDivElement;
@@ -52,23 +51,16 @@ class Accessories {
       state.navigation.stage > this.index ||
       (completed && state.navigation.stage !== this.index)
     ) {
-      part.innerHTML = `
-        <div class="waykeecom-stack waykeecom-stack--1">
-          <ul class="waykeecom-key-value-list">
-            ${KeyValueListItem({
-              key: 'Tillbehör',
-              value: '[SELECTED_ACCESSORIES]',
-            })}
-          </ul>
-        </div>
-        <div class="waykeecom-stack waykeecom-stack--1">
-          <div class="waykeecom-align waykeecom-align--end">
-            <button type="button" id="${CHANGE_BUTTON}" title="Ändra tillbehör" class="waykeecom-link">Ändra</button>
-          </div>
-        </div>
-      `;
-      part.querySelector(`#${CHANGE_BUTTON}`)?.addEventListener('click', () => this.onEdit());
-      content.appendChild(part);
+      new StageCompleted(content, {
+        keyValueList: [
+          {
+            key: 'Tillbehör',
+            value: '[SELECTED_ACCESSORIES]',
+          },
+        ],
+        changeButtonTitle: 'Ändra tillbehör',
+        onEdit: () => this.onEdit(),
+      });
     } else if (state.navigation.stage === this.index) {
       const accessories = state.order?.getAccessories() || [];
 

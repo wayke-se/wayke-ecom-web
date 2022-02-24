@@ -1,4 +1,4 @@
-interface KeyValueListItemProps {
+export interface KeyValueListItemProps {
   key: string | number;
   value: string | number;
 }

@@ -37,6 +37,10 @@ export const createOrder = () => {
     .withDeliveryType(state.homeDelivery ? DeliveryType.Delivery : DeliveryType.Pickup);
   //.withInsurance(insurance) // optional
 
+  if (state.accessories.length) {
+    requestBuilder.withAccessories(state.accessories);
+  }
+
   if (state.tradeIn && state.tradeInVehicle && state.tradeIn.condition) {
     const tradeIn = vehicles
       .newVehicleTrade()
