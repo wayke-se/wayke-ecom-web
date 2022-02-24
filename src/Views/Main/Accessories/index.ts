@@ -1,13 +1,14 @@
 import watch from 'redux-watch';
+
 import { setInsurance, goTo } from '../../../Redux/action';
 import store from '../../../Redux/store';
 import KeyValueListItem from '../../../Templates/KeyValueListItem';
 import ListItem from '../ListItem';
-import AccessoryItem from './AccessoryItem';
+import GridList from './GridList';
 
 const PROCEED = 'button-accessories-proceed';
 const CHANGE_BUTTON = 'button-accessories-change';
-const ACCESSORY_LIST = 'accessory-list';
+const ACCESSORY_GRID_LIST_NODE = 'accessory-grid-list-node';
 class Accessories {
   private element: HTMLDivElement;
   private index: number;
@@ -81,38 +82,7 @@ class Accessories {
           </div>
         </div>
 
-        <div class="waykeecom-stack waykeecom-stack--3">
-          <div class="waykeecom-overflow-grid">
-            <div class="waykeecom-overflow-grid__list-wrapper">
-              <ul class="waykeecom-overflow-grid__list" id="${ACCESSORY_LIST}">
-              </ul>
-            </div>
-            <div class="waykeecom-overflow-grid__nav waykeecom-overflow-grid__nav--prev">
-              <button type="button" title="Visa föregående försäkring" class="waykeecom-icon-button">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 16 16"
-                  class="waykeecom-icon"
-                >
-                  <title>Ikon: vinkel vänster</title>
-                  <path d="m5.4 7 5.2-5 1 1-5.2 5 5.2 5-1.1 1-5.2-5-1-1 1.1-1z" />
-                </svg>
-              </button>
-            </div>
-            <div class="waykeecom-overflow-grid__nav waykeecom-overflow-grid__nav--next">
-              <button type="button" title="Visa nästa försäkring" class="waykeecom-icon-button">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 16 16"
-                  class="waykeecom-icon"
-                >
-                  <title>Ikon: vinkel höger</title>
-                  <path d="m10.5 9-5.2 5-1-1 5.2-5-5.2-5 1.1-1 5.2 5 1 1-1.1 1z" />
-                </svg>
-              </button>
-            </div>
-          </div>
-        </div>
+        <div class="waykeecom-stack waykeecom-stack--3" id="${ACCESSORY_GRID_LIST_NODE}"></div>
         <div class="waykeecom-stack waykeecom-stack--3">
           <button type="button" id="${PROCEED}" title="Fortsätt till nästa steg" class="waykeecom-button waykeecom-button--full-width waykeecom-button--action">
             <span class="waykeecom-button__content">Fortsätt</span>
@@ -130,9 +100,11 @@ class Accessories {
         </div>
       `;
 
-      const accessoryList = part.querySelector<HTMLUListElement>(`#${ACCESSORY_LIST}`);
-      if (accessoryList) {
-        accessories.forEach((accessory) => new AccessoryItem(accessoryList, accessory));
+      const accessoryGridListnode = part.querySelector<HTMLDivElement>(
+        `#${ACCESSORY_GRID_LIST_NODE}`
+      );
+      if (accessoryGridListnode) {
+        new GridList(accessoryGridListnode, accessories);
       }
 
       part

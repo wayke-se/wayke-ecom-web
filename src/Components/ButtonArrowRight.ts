@@ -19,15 +19,23 @@ class ButtonArrowRight {
     this.render();
   }
 
+  isDisabled() {
+    return this.props.disabled;
+  }
+
   disabled(disabled: boolean) {
-    this.props.disabled = disabled;
-    this.render();
+    if (this.props.disabled !== disabled) {
+      this.props.disabled = disabled;
+      this.render();
+    }
   }
 
   loading(loading: boolean) {
-    this.props.loading = loading;
-    this.props.disabled = loading;
-    this.render();
+    if (this.props.loading !== loading) {
+      this.props.loading = loading;
+      this.props.disabled = loading;
+      this.render();
+    }
   }
 
   render() {
