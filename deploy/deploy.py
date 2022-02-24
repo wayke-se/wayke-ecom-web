@@ -17,7 +17,7 @@ class Storage:
     return self._blob_service_client.get_container_client(container)
 
   async def upload(self, file_name, js_content, content_type):
-    container_client = self._container_client("sites")
+    container_client = self._container_client("public-assets")
     await container_client.upload_blob(
       file_name,
       js_content,
