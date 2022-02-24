@@ -34,7 +34,7 @@ class TradeIn {
           <div class="waykeecom-balloon">
             <div class="waykeecom-stack waykeecom-stack--2">
               <div class="waykeecom-stack waykeecom-stack--05">
-                <div class="waykeecom-label">[REGNR]</div>
+                <div class="waykeecom-label">${tradeIn.registrationNumber}</div>
               </div>
               <div class="waykeecom-stack waykeecom-stack--05">
                 <span class="waykeecom-font-medium">${tradeInVehicle.manufacturer} ${
