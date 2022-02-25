@@ -53,10 +53,10 @@ class App {
 
     // Stage order setup
     this.stageOrderList = [
+      'tradeIn',
       'customer',
       'centralStorage',
       'financial',
-      'tradeIn',
       'accessories',
       'insurance',
       'delivery',
