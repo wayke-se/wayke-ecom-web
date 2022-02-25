@@ -1,7 +1,8 @@
 import { Customer, PartialCustomer } from '../../../@types/Customer';
 import AppendChild from '../../../Components/AppendChild';
 import ButtonArrowRight from '../../../Components/ButtonArrowRight';
-import InputField from '../../../Components/InputField';
+import InputField from '../../../Components/Input/InputField';
+
 import { setContactAndPhone } from '../../../Redux/action';
 import store from '../../../Redux/store';
 import EmailHelp from '../../../Templates/EmailHelp';
@@ -10,11 +11,9 @@ import { validationMethods } from '../../../Utils/validationMethods';
 
 const EMAIL_NODE = 'contact-email-node';
 const EMAIL_INPUT_ID = 'contact-email';
-const EMAIL_ERROR_ID = `${EMAIL_INPUT_ID}-error`;
 
 const PHONE_NODE = 'contact-phone-node';
 const PHONE_INPUT_ID = 'contact-phone';
-const PHONE_ERROR_ID = `${PHONE_INPUT_ID}-error`;
 
 const PROCEED_NODE = 'contact-proceed-node';
 const PROCEED = 'contact-proceed';
@@ -52,6 +51,11 @@ const initalState = (customer?: Customer): Part1EmailAndPhoneState => {
 
 class EmailAndPhone extends AppendChild {
   private state: Part1EmailAndPhoneState;
+  private contexts: {
+    email?: InputField;
+    phone?: InputField;
+    button?: ButtonArrowRight;
+  } = {};
 
   constructor(element: HTMLDivElement) {
     super(element, { htmlTag: 'div', className: 'waykeecom-stack waykeecom-stack--2' });
@@ -65,10 +69,11 @@ class EmailAndPhone extends AppendChild {
   onChange(e: Event) {
     const currentTarget = e.currentTarget as HTMLInputElement;
     const name = currentTarget.name as keyof PartialCustomerValidation;
-    const value = currentTarget.value;
 
+    const value = currentTarget.value;
     this.state.value[name] = value;
     this.state.validation[name] = validation[name](value);
+
     this.updateUiError(name);
     this.updateProceedButton();
   }
@@ -84,25 +89,11 @@ class EmailAndPhone extends AppendChild {
   }
 
   updateUiError(name: keyof PartialCustomer) {
-    const errorElement = this.content.querySelector<HTMLDivElement>(`#contact-${name}-error`);
-    if (errorElement) {
-      if (this.state.interact[name] && !this.state.validation[name]) {
-        errorElement.style.display = '';
-      } else {
-        errorElement.style.display = 'none';
-      }
-    }
+    this.contexts[name]?.setError(this.state.interact[name] && !this.state.validation[name]);
   }
 
   updateProceedButton() {
-    const proceed = this.content.querySelector<HTMLButtonElement>(`#${PROCEED}`);
-    if (proceed) {
-      if (this.state.validation.email && this.state.validation.phone) {
-        proceed.removeAttribute('disabled');
-      } else {
-        proceed.setAttribute('disabled', '');
-      }
-    }
+    this.contexts.button?.disabled(!this.state.validation.email || !this.state.validation.phone);
   }
 
   onProceed() {
@@ -133,6 +124,8 @@ class EmailAndPhone extends AppendChild {
           <p>Ange din e-postadress och ditt telefonnummer.</p>
         </div>
       </div>
+
+
       <div class="waykeecom-stack waykeecom-stack--3">
         <div class="waykeecom-stack waykeecom-stack--2" id="${EMAIL_NODE}"></div>
         <div class="waykeecom-stack waykeecom-stack--2" id="${PHONE_NODE}"></div>
@@ -140,44 +133,46 @@ class EmailAndPhone extends AppendChild {
       <div class="waykeecom-stack waykeecom-stack--3" id="${PROCEED_NODE}"></div>
     `;
 
-      new InputField(this.content.querySelector<HTMLDivElement>(`#${EMAIL_NODE}`), {
-        title: 'Epost',
-        value: this.state.value.email,
-        id: EMAIL_INPUT_ID,
-        errorId: EMAIL_ERROR_ID,
-        error: this.state.interact.email && !this.state.validation.email,
-        errorMessage: 'En giltig e-postadress måste anges.',
-        name: 'email',
-        placeholder: 'Ange din e-postadress',
-        information: EmailHelp(),
-        onChange: (e) => this.onChange(e),
-        onBlur: (e) => this.onBlur(e),
-      });
-
-      new InputField(this.content.querySelector<HTMLDivElement>(`#${PHONE_NODE}`), {
-        title: 'Telefonnummer',
-        value: this.state.value.phone,
-        id: PHONE_INPUT_ID,
-        errorId: PHONE_ERROR_ID,
-        error: this.state.interact.phone && !this.state.validation.phone,
-        errorMessage: 'Ange ditt telefonnummer',
-        name: 'phone',
-        placeholder: 'Ange ditt telefonnummer',
-        onChange: (e) => this.onChange(e),
-        onBlur: (e) => this.onBlur(e),
-      });
-
-      Object.keys(this.state.value).forEach((key) =>
-        this.updateUiError(key as keyof PartialCustomer)
+      this.contexts.email = new InputField(
+        this.content.querySelector<HTMLDivElement>(`#${EMAIL_NODE}`),
+        {
+          title: 'Epost',
+          value: this.state.value.email,
+          id: EMAIL_INPUT_ID,
+          error: this.state.interact.email && !this.state.validation.email,
+          errorMessage: 'En giltig e-postadress måste anges.',
+          name: 'email',
+          placeholder: 'Ange din e-postadress',
+          information: EmailHelp(),
+          onChange: (e) => this.onChange(e),
+          onBlur: (e) => this.onBlur(e),
+        }
       );
 
-      new ButtonArrowRight(this.content.querySelector<HTMLDivElement>(`#${PROCEED_NODE}`), {
-        title: 'Fortsätt',
-        id: PROCEED,
-        onClick: () => this.onProceed(),
-      });
+      this.contexts.phone = new InputField(
+        this.content.querySelector<HTMLDivElement>(`#${PHONE_NODE}`),
+        {
+          title: 'Telefonnummer',
+          value: this.state.value.phone,
+          id: PHONE_INPUT_ID,
+          error: this.state.interact.phone && !this.state.validation.phone,
+          errorMessage: 'Ange ditt telefonnummer',
+          name: 'phone',
+          placeholder: 'Ange ditt telefonnummer',
+          onChange: (e) => this.onChange(e),
+          onBlur: (e) => this.onBlur(e),
+        }
+      );
 
-      this.updateProceedButton();
+      this.contexts.button = new ButtonArrowRight(
+        this.content.querySelector<HTMLDivElement>(`#${PROCEED_NODE}`),
+        {
+          title: 'Fortsätt',
+          id: PROCEED,
+          disabled: !(this.state.validation.email && this.state.validation.phone),
+          onClick: () => this.onProceed(),
+        }
+      );
     }
   }
 }

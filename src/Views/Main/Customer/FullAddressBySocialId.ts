@@ -3,7 +3,7 @@ import { Customer, CustomerSocialId } from '../../../@types/Customer';
 import AppendChild from '../../../Components/AppendChild';
 import ButtonArrowRight from '../../../Components/ButtonArrowRight';
 import ButtonAsLink from '../../../Components/ButtonAsLink';
-import InputField from '../../../Components/InputField';
+import InputField from '../../../Components/Input/InputField';
 import { getAddressBySsn } from '../../../Data/getAddress';
 import { setSocialIdAndAddress } from '../../../Redux/action';
 import store from '../../../Redux/store';
@@ -13,7 +13,6 @@ import { validationMethods } from '../../../Utils/validationMethods';
 
 const SOCIAL_ID_NODE = 'contact-socialId-node';
 const SOCIAL_ID_INPUT_ID = 'contact-socialId';
-const SOCIAL_ID_ERROR_ID = `${SOCIAL_ID_INPUT_ID}-error`;
 const SOCIAL_ID_INFO = 'contact-social-id-info';
 
 const PROCEED = `${SOCIAL_ID_INPUT_ID}-proceed`;
@@ -54,9 +53,12 @@ const initalState = (customer?: Customer): Part2SocialIdState => {
 class FullAddressBySocialId extends AppendChild {
   private lastStage: boolean;
   private state: Part2SocialIdState;
-  private buttonFetchAddressContext?: ButtonArrowRight;
-  private buttonLinkToggleContext?: ButtonAsLink;
   private requestError: boolean = false;
+  private contexts: {
+    socialId?: InputField;
+    buttonFetch?: ButtonArrowRight;
+    buttonLinkToggle?: ButtonAsLink;
+  } = {};
   private onToggleMethod: () => void;
 
   constructor(element: HTMLElement, lastStage: boolean, onToggleMethod: () => void) {
@@ -80,8 +82,8 @@ class FullAddressBySocialId extends AppendChild {
         setSocialIdAndAddress(this.state.value.socialId, cache, this.lastStage);
         return;
       }
-      this.buttonFetchAddressContext?.loading(true);
-      this.buttonLinkToggleContext?.disabled(true);
+      this.contexts.buttonFetch?.loading(true);
+      this.contexts.buttonLinkToggle?.disabled(true);
 
       const response = await getAddressBySsn(this.state.value.socialId);
       const address = response.getAddress();
@@ -90,8 +92,8 @@ class FullAddressBySocialId extends AppendChild {
     } catch (e) {
       this.requestError = true;
     } finally {
-      this.buttonFetchAddressContext?.loading(false);
-      this.buttonLinkToggleContext?.disabled(false);
+      this.contexts.buttonFetch?.loading(false);
+      this.contexts.buttonLinkToggle?.disabled(false);
       this.render();
     }
   }
@@ -118,18 +120,11 @@ class FullAddressBySocialId extends AppendChild {
   }
 
   updateUiError(name: keyof SocialIdValidation) {
-    const errorElement = this.content.querySelector<HTMLDivElement>(`#contact-${name}-error`);
-    if (errorElement) {
-      if (this.state.interact[name] && !this.state.validation[name]) {
-        errorElement.style.display = '';
-      } else {
-        errorElement.style.display = 'none';
-      }
-    }
+    this.contexts[name]?.setError(this.state.interact[name] && !this.state.validation[name]);
   }
 
   updateProceedButton() {
-    this.buttonFetchAddressContext?.disabled(!this.state.validation.socialId);
+    this.contexts.buttonFetch?.disabled(!this.state.validation.socialId);
   }
 
   render() {
@@ -194,24 +189,26 @@ class FullAddressBySocialId extends AppendChild {
       </div>
     `;
 
-    new InputField(this.content.querySelector<HTMLDivElement>(`#${SOCIAL_ID_NODE}`), {
-      title: 'Personnummer',
-      value: this.state.value.socialId,
-      id: SOCIAL_ID_INPUT_ID,
-      errorId: SOCIAL_ID_ERROR_ID,
-      error: this.state.interact.socialId && !this.state.validation.socialId,
-      errorMessage: 'Ange personnummer i formatet ÅÅÅÅMMDD-XXXX.',
-      name: 'socialId',
-      placeholder: 'ÅÅÅÅMMDD-XXXX',
-      onChange: (e) => this.onChange(e),
-      onBlur: (e) => this.onBlur(e),
-    });
+    this.contexts.socialId = new InputField(
+      this.content.querySelector<HTMLDivElement>(`#${SOCIAL_ID_NODE}`),
+      {
+        title: 'Personnummer',
+        value: this.state.value.socialId,
+        id: SOCIAL_ID_INPUT_ID,
+        error: this.state.interact.socialId && !this.state.validation.socialId,
+        errorMessage: 'Ange personnummer i formatet ÅÅÅÅMMDD-XXXX.',
+        name: 'socialId',
+        placeholder: 'ÅÅÅÅMMDD-XXXX',
+        onChange: (e) => this.onChange(e),
+        onBlur: (e) => this.onBlur(e),
+      }
+    );
 
     Object.keys(this.state.value).forEach((key) =>
       this.updateUiError(key as keyof CustomerSocialId)
     );
 
-    this.buttonFetchAddressContext = new ButtonArrowRight(
+    this.contexts.buttonFetch = new ButtonArrowRight(
       this.content.querySelector<HTMLDivElement>(`#${PROCEED_NODE}`),
       {
         title: 'Hämta uppgifter',
@@ -221,7 +218,7 @@ class FullAddressBySocialId extends AppendChild {
       }
     );
 
-    this.buttonLinkToggleContext = new ButtonAsLink(
+    this.contexts.buttonLinkToggle = new ButtonAsLink(
       this.content.querySelector<HTMLDivElement>(`#${LINK_TOGGLE_METHOD_NODE}`),
       {
         title: 'Jag vill hämta uppgifter med Mobilt BankID',

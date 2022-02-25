@@ -6,7 +6,7 @@ import { setTradeIn } from '../../../Redux/action';
 import store from '../../../Redux/store';
 import { validationMethods } from '../../../Utils/validationMethods';
 import ButtonArrowRight from '../../../Components/ButtonArrowRight';
-import InputField from '../../../Components/InputField';
+import InputField from '../../../Components/InputFieldOld';
 import Textarea from '../../../Components/Textarea';
 import InputRadioField from '../../../Components/InputRadioField';
 import ButtonSkip from '../../../Components/ButtonSkip';

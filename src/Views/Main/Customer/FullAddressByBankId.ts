@@ -30,7 +30,9 @@ class FullAddressByBankId extends AppendChild {
   private bankidStatusInterval?: NodeJS.Timer;
   private view: number = 1;
   private QrCodeElement?: HTMLDivElement;
-  private toggleMethodButtonContext?: ButtonAsLink;
+  private contexts: {
+    buttonLinkToggle?: ButtonAsLink;
+  } = {};
 
   constructor(element: HTMLElement, lastStage: boolean, onToggleMethod: () => void) {
     super(element, { htmlTag: 'div', className: 'waykeecom-stack waykeecom-stack--2' });
@@ -98,11 +100,11 @@ class FullAddressByBankId extends AppendChild {
 
     const errorAlert = document.querySelector<HTMLDivElement>(`#${BANKID_FETCH_ERROR}`);
 
-    if (!this.QrCodeElement || !this.toggleMethodButtonContext || !errorAlert) return;
+    if (!this.QrCodeElement || !this.contexts.buttonLinkToggle || !errorAlert) return;
     errorAlert.style.display = 'none';
 
     try {
-      this.toggleMethodButtonContext.disabled(true);
+      this.contexts.buttonLinkToggle.disabled(true);
       const response = await getBankIdAuth(method);
       const reference = response.getOrderRef();
       this.bankIdStatus(reference, method);
@@ -142,9 +144,12 @@ class FullAddressByBankId extends AppendChild {
       } else {
         const qrCode = response.getQrCode();
         this.QrCodeElement.innerHTML = `
-          <div class="waykeecom-align waykeecom-align--center">
-            <img src="data:image/png;base64, ${qrCode}" alt="BankID QQ" class="waykeecom-qr" />
+          <div class="waykeecom-stack waykeecom-stack--4">
+            <div class="waykeecom-align waykeecom-align--center">
+              <img src="data:image/png;base64, ${qrCode}" alt="BankID QQ" class="waykeecom-qr" />
+            </div>
           </div>
+          <div class="waykeecom-stack waykeecom-stack--4">${Loader()}</div>
         `;
         new ButtonAsLink(this.content.querySelector<HTMLDivElement>(`#${BANKID_START_NODE}`), {
           title: 'Öppna BankID på den här enheten',
@@ -159,7 +164,7 @@ class FullAddressByBankId extends AppendChild {
         children: '<p>Det gick tyvärr inte att initiera BankId. Vänligen försök igen.</p>',
       });
     } finally {
-      this.toggleMethodButtonContext.disabled(false);
+      this.contexts.buttonLinkToggle.disabled(false);
     }
   }
 
@@ -287,7 +292,7 @@ class FullAddressByBankId extends AppendChild {
         },
       });
 
-      this.toggleMethodButtonContext = new ButtonAsLink(
+      this.contexts.buttonLinkToggle = new ButtonAsLink(
         this.content.querySelector<HTMLDivElement>(`#${LINK_TOGGLE_METHOD_NODE}`),
         {
           title: 'Jag vill fylla i mina uppgifter manuellt',

@@ -7,7 +7,12 @@ class AppendChild {
   private element: HTMLElement;
   content: HTMLElement;
 
-  constructor(element: HTMLElement, settings: AppendChildSettings, key?: string) {
+  constructor(
+    element: HTMLElement | null | undefined,
+    settings: AppendChildSettings,
+    key?: string
+  ) {
+    if (!element) throw 'Missing element';
     this.element = element;
     const existingElement = key ? this.element.querySelector<HTMLElement>(`#${key}`) : undefined;
     if (existingElement) {

@@ -1,4 +1,5 @@
 import Loader from '../Templates/Loader';
+import Attach from './Attach';
 
 interface ButtonArrowRightProps {
   title: string;
@@ -8,13 +9,11 @@ interface ButtonArrowRightProps {
   onClick?: (e: Event) => void;
 }
 
-class ButtonArrowRight {
-  private element: HTMLDivElement;
+class ButtonArrowRight extends Attach {
   private props: ButtonArrowRightProps;
 
   constructor(element: HTMLDivElement | null, props: ButtonArrowRightProps) {
-    if (!element) throw `No element provided to ButtonArrowRight`;
-    this.element = element;
+    super(element);
     this.props = props;
     this.render();
   }
