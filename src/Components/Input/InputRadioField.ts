@@ -1,4 +1,4 @@
-import Attach from '../Attach';
+import Attach from '../Extension/Attach';
 
 interface InputRadioFieldProps {
   title: string;

@@ -1,3 +1,5 @@
+import Attach from '../Extension/Attach';
+
 interface ButtonAsLinkProps {
   title: string;
   id: string;
@@ -5,13 +7,11 @@ interface ButtonAsLinkProps {
   onClick?: (e: Event) => void;
 }
 
-class ButtonAsLink {
-  private element: HTMLDivElement;
+class ButtonAsLink extends Attach {
   private props: ButtonAsLinkProps;
 
   constructor(element: HTMLDivElement | null, props: ButtonAsLinkProps) {
-    if (!element) throw `No element provided to ButtonAsLink`;
-    this.element = element;
+    super(element);
     this.props = props;
     this.render();
   }

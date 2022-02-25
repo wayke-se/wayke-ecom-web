@@ -31,10 +31,10 @@ export const devConfig = {
     },
   },
   MULTIPLE_FINANCIAL: {
-    id: '36364808-671a-49da-b69a-5e0fc4cfe83e',
+    id: 'b3cef88c-6b75-4bf6-8429-6af83dd52feb',
     vehicle: {
       ...baseVehicle,
-      id: '36364808-671a-49da-b69a-5e0fc4cfe83e',
+      id: 'b3cef88c-6b75-4bf6-8429-6af83dd52feb',
     },
     useBankid: true,
   },

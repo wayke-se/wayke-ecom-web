@@ -1,10 +1,12 @@
-import Attach from '../Attach';
+import Attach from '../Extension/Attach';
 import InputRadioField from './InputRadioField';
 
-interface RadioItem {
+export interface RadioItem {
   id: string;
   value: string;
   title?: string;
+  description?: string;
+  meta?: string;
 }
 
 interface InputRadioGroupProps {
@@ -43,6 +45,8 @@ class InputRadioGroup extends Attach {
           title: option.title || option.value,
           value: option.value,
           checked: this.props.checked === option.value,
+          description: option.description,
+          meta: option.meta,
           onClick: (e) => this.props.onClick(e),
         })
     );

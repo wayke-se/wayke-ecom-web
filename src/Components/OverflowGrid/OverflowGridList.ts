@@ -1,4 +1,4 @@
-import AppendChild from '../AppendChild';
+import AppendChild from '../Extension/AppendChild';
 
 class OverflowGridList extends AppendChild {
   overflowElement?: HTMLUListElement | null;

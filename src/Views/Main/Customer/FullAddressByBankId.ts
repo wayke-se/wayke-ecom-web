@@ -1,7 +1,7 @@
 import { AuthMethod } from '@wayke-se/ecom';
 
-import ButtonBankId from '../../../Components/ButtonBankId';
-import ButtonAsLink from '../../../Components/ButtonAsLink';
+import ButtonBankId from '../../../Components/Button/ButtonBankId';
+import ButtonAsLink from '../../../Components/Button/ButtonAsLink';
 import { getBankIdAuth } from '../../../Data/getBankIdAuth';
 import { getBankIdStatus } from '../../../Data/getBankIdStatus';
 import { setSocialIdAndAddress } from '../../../Redux/action';
@@ -9,7 +9,7 @@ import Alert from '../../../Templates/Alert';
 import { isMobile } from '../../../Utils/isMobile';
 import { Image } from '../../../Utils/constants';
 import Loader from '../../../Templates/Loader';
-import AppendChild from '../../../Components/AppendChild';
+import AppendChild from '../../../Components/Extension/AppendChild';
 
 const BANKID_START_NODE = `bankid-start-node`;
 const BANKID_START = `bankid-start`;

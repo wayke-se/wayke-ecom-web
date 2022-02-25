@@ -1,4 +1,4 @@
-import Attach from '../Attach';
+import Attach from '../Extension/Attach';
 
 const helpClassName = 'waykeecom-input-label__help';
 const foldoutClassName = 'waykeecom-input-label__foldout';

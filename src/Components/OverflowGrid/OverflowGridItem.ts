@@ -1,5 +1,5 @@
 import { renderConditional } from '../../Utils/render';
-import AppendChild from '../AppendChild';
+import AppendChild from '../Extension/AppendChild';
 
 interface GridItemProps {
   title: string;

@@ -1,16 +1,16 @@
+import Attach from '../Extension/Attach';
+
 interface ButtonSkipProps {
   title: string;
   id: string;
   onClick?: (e: Event) => void;
 }
 
-class ButtonSkip {
-  private element: HTMLDivElement;
+class ButtonSkip extends Attach {
   private props: ButtonSkipProps;
 
   constructor(element: HTMLDivElement | null, props: ButtonSkipProps) {
-    if (!element) throw `No element provided to ButtonSkip`;
-    this.element = element;
+    super(element);
     this.props = props;
     this.render();
   }

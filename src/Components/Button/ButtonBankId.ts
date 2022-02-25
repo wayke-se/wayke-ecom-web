@@ -1,3 +1,5 @@
+import Attach from '../Extension/Attach';
+
 interface ButtonBankIdProps {
   title: string;
   id: string;
@@ -5,13 +7,11 @@ interface ButtonBankIdProps {
   onClick?: (e: Event) => void;
 }
 
-class ButtonBankId {
-  private element: HTMLDivElement;
+class ButtonBankId extends Attach {
   private props: ButtonBankIdProps;
 
   constructor(element: HTMLDivElement | null, props: ButtonBankIdProps) {
-    if (!element) throw `No element provided to ButtonBankId`;
-    this.element = element;
+    super(element);
     this.props = props;
     this.render();
   }

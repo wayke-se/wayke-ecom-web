@@ -1,5 +1,6 @@
-import InputHelp from '../Templates/InputHelp';
-import { prettyNumber } from '../Utils/format';
+import InputHelp from '../../Templates/InputHelp';
+import { prettyNumber } from '../../Utils/format';
+import Attach from '../Extension/Attach';
 
 const formatNumberPretty = (value: string | number, postfix?: string) =>
   prettyNumber(value, { postfix });
@@ -20,8 +21,7 @@ interface InputRangeProps {
   onBlur?: (e: Event) => void;
 }
 
-class InputRange {
-  private element: HTMLDivElement;
+class InputRange extends Attach {
   private props: InputRangeProps;
   private value: number;
   private inputFieldValue: string;
@@ -29,8 +29,8 @@ class InputRange {
   private currentValueInPercentage: number;
 
   constructor(element: HTMLDivElement | null, props: InputRangeProps) {
-    if (!element) throw `No element provided to InputField`;
-    this.element = element;
+    super(element);
+
     this.props = props;
     this.value = props.value;
     this.inputFieldValue = formatNumberPretty(this.value, this.props.unit);
@@ -71,7 +71,7 @@ class InputRange {
 
       this.render();
     } else {
-      this.inputFieldValue = formatNumberPretty(inputFieldValueAsNumber, this.props.unit);
+      this.inputFieldValue = formatNumberPretty(this.value, this.props.unit);
       this.updateInputField();
     }
   }
@@ -121,7 +121,7 @@ class InputRange {
   }
 
   render() {
-    const useResidual = this.props.min !== this.props.max;
+    const allowSlider = this.props.min !== this.props.max;
 
     this.element.innerHTML = `
       <div class="waykeecom-input-label">
@@ -142,6 +142,7 @@ class InputRange {
             value="${this.inputFieldValue}"
             name="${this.props.name}"
             class="waykeecom-input-text__input"
+            ${this.props.step === 0 && `disabled=""`}
           />
           ${
             this.props.unit
@@ -151,7 +152,7 @@ class InputRange {
         </div>
       </div>
       ${
-        useResidual
+        allowSlider
           ? `
         <div class="waykeecom-stack waykeecom-stack--1">
           <div class="waykeecom-input-range">
@@ -178,7 +179,7 @@ class InputRange {
         ?.addEventListener('click', () => this.onOpenInformation());
     }
 
-    if (useResidual) {
+    if (allowSlider) {
       const inputRange = this.element.querySelector<HTMLInputElement>(`#${this.props.id}`);
       if (inputRange) {
         if (this.props.onChange) {

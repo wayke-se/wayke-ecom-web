@@ -1,5 +1,5 @@
 import { Customer } from '../../../@types/Customer';
-import AppendChild from '../../../Components/AppendChild';
+import AppendChild from '../../../Components/Extension/AppendChild';
 import store from '../../../Redux/store';
 import KeyValueListItem, { KeyValueListItemProps } from '../../../Templates/KeyValueListItem';
 import FullAddressByBankId from './FullAddressByBankId';

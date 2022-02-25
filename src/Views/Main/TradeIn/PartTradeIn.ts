@@ -5,10 +5,10 @@ import { getTradeInVehicle } from '../../../Data/getTradeInVehicle';
 import { setTradeIn } from '../../../Redux/action';
 import store from '../../../Redux/store';
 import { validationMethods } from '../../../Utils/validationMethods';
-import ButtonArrowRight from '../../../Components/ButtonArrowRight';
+import ButtonArrowRight from '../../../Components/Button/ButtonArrowRight';
 import InputField from '../../../Components/Input/InputField';
 import InputTextarea from '../../../Components/Input/InputTextarea';
-import ButtonSkip from '../../../Components/ButtonSkip';
+import ButtonSkip from '../../../Components/Button/ButtonSkip';
 import InputRadioGroup from '../../../Components/Input/InputRadioGroup';
 
 const REGISTRATION_NUMBER_ID = 'trade-in-registrationNumber';

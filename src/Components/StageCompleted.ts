@@ -1,5 +1,5 @@
 import KeyValueListItem, { KeyValueListItemProps } from '../Templates/KeyValueListItem';
-import AppendChild from './AppendChild';
+import AppendChild from './Extension/AppendChild';
 
 interface StageCompletedProps {
   keyValueList: KeyValueListItemProps[];

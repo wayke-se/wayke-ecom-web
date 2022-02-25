@@ -1,4 +1,4 @@
-import Attach from '../Attach';
+import Attach from '../Extension/Attach';
 
 const errorInputClassName = 'waykeecom-input-error';
 

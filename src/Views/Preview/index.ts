@@ -5,7 +5,7 @@ import { getOrder } from '../../Data/getOrder';
 import { goTo, setOrder, setStages } from '../../Redux/action';
 import store from '../../Redux/store';
 import HowTo from './HowTo';
-import ButtonArrowRight from '../../Components/ButtonArrowRight';
+import ButtonArrowRight from '../../Components/Button/ButtonArrowRight';
 import { StageTypes } from '../../@types/Stages';
 import { stageMap, StageMapKeys } from '../../Utils/stage';
 import Loader from '../../Templates/Loader';

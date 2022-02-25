@@ -1,4 +1,4 @@
-import Attach from '../Attach';
+import Attach from '../Extension/Attach';
 import InputError from './InputError';
 import InputInformation from './InputInformation';
 
@@ -29,7 +29,20 @@ class InputField extends Attach {
     this.render();
   }
 
+  private updateBorder() {
+    const border = this.element.querySelector('.waykeecom-input-text');
+    if (border) {
+      if (this.props.error) {
+        border?.classList.add('waykeecom-input-text--has-error');
+      } else {
+        border?.classList.remove('waykeecom-input-text--has-error');
+      }
+    }
+  }
+
   setError(error: boolean) {
+    this.props.error = error;
+    this.updateBorder();
     this.contexts.error?.setError(error);
   }
 
@@ -54,6 +67,7 @@ class InputField extends Attach {
       </div>
     `;
 
+    this.updateBorder();
     if (this.props.errorMessage) {
       this.contexts.error = new InputError(this.element, {
         error: this.props.error,

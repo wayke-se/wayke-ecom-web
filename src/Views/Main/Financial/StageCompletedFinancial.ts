@@ -1,6 +1,6 @@
 import { IPaymentOption, PaymentType } from '@wayke-se/ecom';
 import { PaymentLookupResponse } from '@wayke-se/ecom/dist-types/payments/payment-lookup-response';
-import AppendChild from '../../../Components/AppendChild';
+import AppendChild from '../../../Components/Extension/AppendChild';
 import Alert from '../../../Templates/Alert';
 import KeyValueListItem, { KeyValueListItemProps } from '../../../Templates/KeyValueListItem';
 import { prettyNumber } from '../../../Utils/format';

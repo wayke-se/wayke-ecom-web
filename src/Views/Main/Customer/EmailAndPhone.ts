@@ -1,6 +1,6 @@
 import { Customer, PartialCustomer } from '../../../@types/Customer';
-import AppendChild from '../../../Components/AppendChild';
-import ButtonArrowRight from '../../../Components/ButtonArrowRight';
+import AppendChild from '../../../Components/Extension/AppendChild';
+import ButtonArrowRight from '../../../Components/Button/ButtonArrowRight';
 import InputField from '../../../Components/Input/InputField';
 
 import { setContactAndPhone } from '../../../Redux/action';

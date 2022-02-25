@@ -1,8 +1,8 @@
 import { IAddress } from '@wayke-se/ecom';
 import { Customer, CustomerSocialId } from '../../../@types/Customer';
-import AppendChild from '../../../Components/AppendChild';
-import ButtonArrowRight from '../../../Components/ButtonArrowRight';
-import ButtonAsLink from '../../../Components/ButtonAsLink';
+import AppendChild from '../../../Components/Extension/AppendChild';
+import ButtonArrowRight from '../../../Components/Button/ButtonArrowRight';
+import ButtonAsLink from '../../../Components/Button/ButtonAsLink';
 import InputField from '../../../Components/Input/InputField';
 import { getAddressBySsn } from '../../../Data/getAddress';
 import { setSocialIdAndAddress } from '../../../Redux/action';

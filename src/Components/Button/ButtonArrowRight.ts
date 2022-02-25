@@ -1,5 +1,5 @@
-import Loader from '../Templates/Loader';
-import Attach from './Attach';
+import Loader from '../../Templates/Loader';
+import Attach from './../Extension/Attach';
 
 interface ButtonArrowRightProps {
   title: string;
