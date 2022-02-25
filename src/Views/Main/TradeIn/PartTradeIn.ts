@@ -8,8 +8,8 @@ import { validationMethods } from '../../../Utils/validationMethods';
 import ButtonArrowRight from '../../../Components/ButtonArrowRight';
 import InputField from '../../../Components/Input/InputField';
 import InputTextarea from '../../../Components/Input/InputTextarea';
-import InputRadioField from '../../../Components/InputRadioField';
 import ButtonSkip from '../../../Components/ButtonSkip';
+import InputRadioGroup from '../../../Components/Input/InputRadioGroup';
 
 const REGISTRATION_NUMBER_ID = 'trade-in-registrationNumber';
 const REGISTRATION_NUMBER_NODE = `${REGISTRATION_NUMBER_ID}-node`;
@@ -19,6 +19,9 @@ const MILEAGE_NODE = `${MILEAGE_ID}-node`;
 
 const DESCRIPTION_ID = 'trade-in-description';
 const DESCRIPTION_NODE = `${DESCRIPTION_ID}-node`;
+
+const CONDITION_ID = 'trade-in-condition';
+const CONDITION_NODE = `${CONDITION_ID}-node`;
 
 const TRADE_IN_FETCH_ERROR_ID = 'trade-in-fetch-error';
 
@@ -205,14 +208,7 @@ class PartTradeIn {
         <div class="waykeecom-stack waykeecom-stack--2" id="${REGISTRATION_NUMBER_NODE}"></div>
         <div class="waykeecom-stack waykeecom-stack--2" id="${MILEAGE_NODE}"></div>
         <div class="waykeecom-stack waykeecom-stack--2" id="${DESCRIPTION_NODE}"></div>
-        <div class="waykeecom-stack waykeecom-stack--2">
-          <fieldset class="waykeecom-input-group">
-            <legend class="waykeecom-input-group__legend">Bilens skick</legend>
-            ${RadioElements.map(
-              (radio) => `<div class="waykeecom-input-group__item" id="${radio.id}-node"></div>`
-            ).join('')}
-          </fieldset>
-        </div>
+        <div class="waykeecom-stack waykeecom-stack--2" id="${CONDITION_NODE}"></div>
       </div>
 
       <div class="waykeecom-stack waykeecom-stack--3" style="display:none;" id="${TRADE_IN_FETCH_ERROR_ID}">
@@ -281,15 +277,12 @@ class PartTradeIn {
       }
     );
 
-    RadioElements.forEach((radio) => {
-      new InputRadioField(this.element.querySelector<HTMLInputElement>(`#${radio.id}-node`), {
-        id: radio.id,
-        name: 'condition',
-        title: radio.title,
-        value: radio.value,
-        checked: this.state.value.condition === radio.value,
-        onClick: (e) => this.onChangeRadio(e),
-      });
+    new InputRadioGroup(this.element.querySelector<HTMLDivElement>(`#${CONDITION_NODE}`), {
+      title: 'Bilens skick',
+      checked: this.state.value.condition as string,
+      name: 'condition',
+      options: RadioElements,
+      onClick: (e) => this.onChangeRadio(e),
     });
 
     this.contexts.buttonFetch = new ButtonArrowRight(

@@ -2,7 +2,7 @@ import { PaymentType } from '@wayke-se/ecom';
 import { PaymentLookupResponse } from '@wayke-se/ecom/dist-types/payments/payment-lookup-response';
 import watch from 'redux-watch';
 import ButtonArrowRight from '../../../Components/ButtonArrowRight';
-import InputRadioField from '../../../Components/InputRadioField';
+import InputRadioField from '../../../Components/Input/InputRadioField';
 import { goTo, setFinancial } from '../../../Redux/action';
 import store from '../../../Redux/store';
 import { Image } from '../../../Utils/constants';

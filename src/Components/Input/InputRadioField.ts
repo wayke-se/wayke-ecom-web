@@ -1,3 +1,5 @@
+import Attach from '../Attach';
+
 interface InputRadioFieldProps {
   title: string;
   value: string;
@@ -9,13 +11,11 @@ interface InputRadioFieldProps {
   onClick?: (e: Event) => void;
 }
 
-class InputRadioField {
-  private element: HTMLDivElement;
+class InputRadioField extends Attach {
   private props: InputRadioFieldProps;
 
   constructor(element: HTMLDivElement | null, props: InputRadioFieldProps) {
-    if (!element) throw `No element provided to InputRadioField`;
-    this.element = element;
+    super(element);
     this.props = props;
     this.render();
   }

@@ -1,7 +1,7 @@
 import { DeliveryType } from '@wayke-se/ecom';
 import watch from 'redux-watch';
 import ButtonArrowRight from '../../../Components/ButtonArrowRight';
-import InputRadioField from '../../../Components/InputRadioField';
+import InputRadioField from '../../../Components/Input/InputRadioField';
 import StageCompleted from '../../../Components/StageCompleted';
 import { goTo, setHomeDelivery } from '../../../Redux/action';
 import store from '../../../Redux/store';
