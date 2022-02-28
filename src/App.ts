@@ -114,21 +114,6 @@ class App {
                 <path d="M9.1 8l5.9 5.9-1.1 1.1L8 9.1 2.1 15 1 13.9 6.9 8 1 2.1 2.1 1 8 6.9 13.9 1 15 2.1 9.1 8z" />
               </svg>
             </button>
-            <div class="waykeecom-modal__back-btn">
-              <button title="Stäng modalen" class="waykeecom-link waykeecom-link--has-content">
-                <span class="waykeecom-link__content">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 16 16"
-                    class="waykeecom-icon"
-                  >
-                    <title>Ikon: vinkel vänster</title>
-                    <path d="m5.4 7 5.2-5 1 1-5.2 5 5.2 5-1.1 1-5.2-5-1-1 1.1-1z" />
-                  </svg>
-                </span>
-                <span class="waykeecom-link__content">Tillbaka till Volvo XC60</span>
-              </button>
-            </div>
             
             <div class="waykeecom-modal__logo">
               <svg class="waykeecom-modal__logo--wordmark" viewBox="0 0 548.95 123.3" preserveAspectRatio="xMinYMid" xmlns="http://www.w3.org/2000/svg">
