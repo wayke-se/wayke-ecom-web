@@ -45,7 +45,9 @@ class GridItem extends AppendChild {
           <button
             type="button"
             title="${selected ? 'Vald' : 'Lägg till'}"
-            class="waykeecom-button waykeecom-button--action-alt waykeecom-button--size-small"
+            class="waykeecom-button waykeecom-button--size-small ${
+              selected ? 'waykeecom-button--action-alt' : 'waykeecom-button--action'
+            }"
           >
             <span class="waykeecom-button__content">
               <svg
@@ -56,8 +58,8 @@ class GridItem extends AppendChild {
                 <title>Ikon: ${selected ? 'bock' : 'plus'}</title>
                 ${
                   selected
-                    ? '<path d="M14 7v2H9v5H7V9H2V7h5V2h2v5h5z" />'
-                    : '<path d="M12.3 3.3 6 9.6 3.7 7.3c-.4-.4-1-.4-1.4 0-.4.4-.4 1 0 1.4l3 3c.4.4 1 .4 1.4 0l7-7c.4-.4.4-1 0-1.4-.4-.4-1-.4-1.4 0z"/>'
+                    ? '<path d="M12.3 3.3 6 9.6 3.7 7.3c-.4-.4-1-.4-1.4 0-.4.4-.4 1 0 1.4l3 3c.4.4 1 .4 1.4 0l7-7c.4-.4.4-1 0-1.4-.4-.4-1-.4-1.4 0z"/>'
+                    : '<path d="M14 7v2H9v5H7V9H2V7h5V2h2v5h5z" />'
                 }
               </svg>
             </span>
