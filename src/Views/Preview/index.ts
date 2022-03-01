@@ -49,6 +49,7 @@ class Preview {
       const { centralStorage } = state;
 
       const stages: StageTypes[] = [];
+
       this.stageOrderList.forEach((key) => {
         if (key === 'centralStorage' && !centralStorage) return;
         if (key === 'tradeIn' && !order.allowsTradeIn) return;

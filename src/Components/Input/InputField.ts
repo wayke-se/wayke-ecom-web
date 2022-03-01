@@ -12,6 +12,7 @@ interface InputFieldProps {
   errorMessage?: string;
   placeholder?: string;
   information?: string;
+  type?: string;
   onChange?: (e: Event) => void;
   onBlur?: (e: Event) => void;
 }
@@ -55,7 +56,7 @@ class InputField extends Attach {
       </div>
       <div class="waykeecom-input-text">
         <input
-          type="text"
+          ${this.props.type ? `type="${this.props.type}"` : 'type="text"'}
           id="${this.props.id}"
           value="${this.props.value}"
           name="${this.props.name}"

@@ -1,4 +1,5 @@
 import Attach from '../Extension/Attach';
+import InputError from './InputError';
 import InputRadioField from './InputRadioField';
 
 export interface RadioItem {
@@ -14,17 +15,39 @@ interface InputRadioGroupProps {
   name: string;
   checked: string;
   options: RadioItem[];
+  error?: boolean;
+  errorMessage?: string;
   onClick: (e: Event) => void;
 }
 
 class InputRadioGroup extends Attach {
   private props: InputRadioGroupProps;
+  private contexts: {
+    error?: InputError;
+  } = {};
 
   constructor(element: HTMLElement | null, props: InputRadioGroupProps) {
     super(element);
 
     this.props = props;
     this.render();
+  }
+
+  private updateBorder() {
+    const border = this.element.querySelector('.waykeecom-input-text');
+    if (border) {
+      if (this.props.error) {
+        border?.classList.add('waykeecom-input-text--has-error');
+      } else {
+        border?.classList.remove('waykeecom-input-text--has-error');
+      }
+    }
+  }
+
+  setError(error: boolean) {
+    this.props.error = error;
+    this.updateBorder();
+    this.contexts.error?.setError(error);
   }
 
   render() {
@@ -37,11 +60,19 @@ class InputRadioGroup extends Attach {
       </fieldset>
     `;
 
+    this.updateBorder();
+    if (this.props.errorMessage) {
+      this.contexts.error = new InputError(this.element, {
+        error: this.props.error,
+        errorMessage: this.props.errorMessage,
+      });
+    }
+
     this.props.options.forEach(
       (option) =>
         new InputRadioField(this.element.querySelector<HTMLDivElement>(`#${option.id}-node`), {
           id: option.id,
-          name: 'condition',
+          name: this.props.name,
           title: option.title || option.value,
           value: option.value,
           checked: this.props.checked === option.value,
