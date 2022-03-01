@@ -1,17 +1,21 @@
-import Attach from '../Extension/Attach';
+// import Attach from '../Extension/Attach';
+import Loader from '../../Templates/Loader';
+import HtmlNode, { HtmlNodeSettings } from '../Extension/HtmlNode';
 
 interface ButtonBankIdProps {
   title: string;
-  id: string;
+  id?: string;
   disabled?: boolean;
+  loading?: boolean;
   onClick?: (e: Event) => void;
+  htmlNodesettings?: HtmlNodeSettings;
 }
 
-class ButtonBankId extends Attach {
+class ButtonBankId extends HtmlNode {
   private props: ButtonBankIdProps;
 
-  constructor(element: HTMLDivElement | null, props: ButtonBankIdProps) {
-    super(element);
+  constructor(element: HTMLElement | null, props: ButtonBankIdProps) {
+    super(element, props.htmlNodesettings);
     this.props = props;
     this.render();
   }
@@ -23,11 +27,19 @@ class ButtonBankId extends Attach {
     }
   }
 
+  loading(loading: boolean) {
+    if (this.props.loading !== loading) {
+      this.props.loading = loading;
+      this.props.disabled = loading;
+      this.render();
+    }
+  }
+
   render() {
-    this.element.innerHTML = `
+    this.node.innerHTML = `
       <button
         type="button"
-        id="${this.props.id}"
+        ${this.props.id ? `id="${this.props.id}"` : ''}
         title="${this.props.title}"
         ${this.props.disabled && `disabled=""`}
         class="waykeecom-button waykeecom-button--full-width waykeecom-button--action"
@@ -43,10 +55,25 @@ class ButtonBankId extends Attach {
           </svg>
         </span>
         <span class="waykeecom-button__content">${this.props.title}</span>
+        <span class="waykeecom-button__content">
+          ${
+            this.props.loading
+              ? Loader({ type: 'inline' })
+              : `
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 16 16"
+                  class="waykeecom-icon"
+                >
+                  <title>Ikon: pil höger</title>
+                  <path d="m15.2 8.8-4.8 4.8-1.7-1.7 2.7-2.7H1.2C.5 9.2 0 8.7 0 8s.5-1.2 1.2-1.2h10.2L8.7 4.1l1.7-1.7 4.8 4.8.8.8-.8.8z" />
+                </svg>`
+          }
+        </span>
       </button>
     `;
     if (this.props.onClick) {
-      this.element
+      this.node
         .querySelector<HTMLButtonElement>('button')
         ?.addEventListener('click', this.props.onClick);
     }

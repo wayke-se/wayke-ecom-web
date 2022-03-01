@@ -75,10 +75,6 @@ class Customer {
       new EmailAndPhone(content);
       if (state.navigation.subStage > 1) {
         new FullAddress(content, this.lastStage);
-        /*
-        new Part2SocialId(part2, this.lastStage);
-        content.appendChild(part2);
-        */
       }
     }
   }
