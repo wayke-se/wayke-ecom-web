@@ -2,6 +2,8 @@
 @use '../../../helpers' as *;
 
 .#{$namespace}input-text {
+  $root: &;
+  
   --input-padding: #{size(1.5)};
   --input-height: #{scss-var(size, input-height, mobile)};
   --unit-font-size: #{scss-var(font, size, small)};
@@ -18,7 +20,7 @@
     border-color: color(ui, error, text);
   }
 
-  &:focus-within {
+  &:not(#{$root}--has-error):focus-within {
     border-color: color.adjust(color(border, main), $lightness: -20%);
   }
 
