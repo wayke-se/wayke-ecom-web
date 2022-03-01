@@ -1,7 +1,7 @@
-import { IInsuranceOption, PaymentType } from '@wayke-se/ecom';
+import { IInsuranceOption } from '@wayke-se/ecom';
 import watch from 'redux-watch';
 import StageCompleted from '../../../Components/StageCompleted';
-import { getInsurance } from '../../../Data/getInsurance';
+import { getInsurances } from '../../../Data/getInsurances';
 import { setInsurance, goTo } from '../../../Redux/action';
 import store from '../../../Redux/store';
 import Alert from '../../../Templates/Alert';
@@ -44,29 +44,16 @@ class Insurance {
   fetchInsurance() {
     const state = store.getState();
     if (state.customer.socialId) {
-      this.getInsurances();
+      this.getchInsurances();
     }
   }
 
-  async getInsurances() {
+  async getchInsurances() {
     this.requestError = false;
     try {
       const state = store.getState();
-      const [responseWithLoan, responseWithoutLoan] = await Promise.all([
-        getInsurance(PaymentType.Loan, state.drivingDistance),
-        getInsurance(PaymentType.Cash, state.drivingDistance),
-      ]);
-
-      const insuranceWithLoan = responseWithLoan.getInsuranceOption();
-      const insuranceWithoutLoan = responseWithoutLoan.getInsuranceOption();
-
-      const isSame =
-        JSON.stringify(insuranceWithLoan).localeCompare(JSON.stringify(insuranceWithoutLoan)) === 0;
-      if (isSame) {
-        this.insurances = [insuranceWithoutLoan];
-      } else {
-        this.insurances = [insuranceWithLoan, insuranceWithoutLoan];
-      }
+      const response = await getInsurances(state.drivingDistance);
+      this.insurances = response.getInsuranceOptions();
     } catch (e) {
       this.requestError = true;
     } finally {

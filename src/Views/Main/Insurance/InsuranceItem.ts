@@ -28,6 +28,7 @@ class InsuranceItem {
 
   render() {
     const state = store.getState();
+    const logo = state.order?.getInsuranceOption()?.logo;
     const selected = state.insurance
       ? JSON.stringify(state.insurance).localeCompare(JSON.stringify(this.insurance)) === 0
       : false;
@@ -35,9 +36,9 @@ class InsuranceItem {
     new GridItem(
       this.element,
       {
+        logo,
         title: this.insurance.name,
         description: this.insurance.description,
-        logo: this.insurance.brand.logotype,
         price: prettyNumber(this.insurance.price, { postfix: 'kr/mån' }),
         selected,
         onClick: () => this.onClick(),

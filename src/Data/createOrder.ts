@@ -31,7 +31,7 @@ export const createOrder = () => {
 
   const requestBuilder = orders
     .newCreateRequest()
-    .forVehicle(state.vehicle.id)
+    .forVehicle(state.id)
     .withCustomer(customer)
     .withPayment(payment)
     .withDeliveryType(state.homeDelivery ? DeliveryType.Delivery : DeliveryType.Pickup);

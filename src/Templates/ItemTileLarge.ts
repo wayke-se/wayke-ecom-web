@@ -1,48 +1,50 @@
 import { OrderOptionsResponse } from '@wayke-se/ecom/dist-types/orders/order-options-response';
-import { Vehicle } from '../@types/Vehicle';
-
-// import carfaxLogo from '../assets/images/carfax/carfax-logo-70x13.png';
-// import carfaxLogo2x from '../assets/images/carfax/carfax-logo-70x13@2x.png';
-
+import { IOrderVehicle } from '@wayke-se/ecom/dist-types/orders/types';
 import { Image } from '../Utils/constants';
+import { prettyNumber } from '../Utils/format';
 
 interface ItemTileLargeProps {
-  vehicle?: Vehicle;
+  vehicle?: IOrderVehicle;
   order?: OrderOptionsResponse;
   meta?: string;
 }
 
-const ItemTileLarge = ({ vehicle, order, meta }: ItemTileLargeProps) => `
+const ItemTileLarge = ({ vehicle, order, meta }: ItemTileLargeProps) => {
+  const imageUrls = vehicle?.imageUrls;
+  const vehicleTitle = vehicle?.title;
+  const shortDescription = vehicle?.shortDescription;
+  const price = prettyNumber(vehicle?.price || NaN);
+
+  const sellerName = order?.getContactInformation()?.name;
+  return `
   <div class="waykeecom-product-card">
-    <div class="waykeecom-product-card__media">
-      <div class="waykeecom-product-card__media-item">
-        <img src="${
-          vehicle?.imageUrls[0]
-        }?spec=800x&format=webp" alt="" class="waykeecom-product-card__image" />
-      </div>
-      <div class="waykeecom-product-card__media-item">
-        <img src="${
-          vehicle?.imageUrls[0]
-        }?spec=800x&format=webp" alt="" class="waykeecom-product-card__image" />
-      </div>
-      <div class="waykeecom-product-card__media-item">
-        <img src="${
-          vehicle?.imageUrls[0]
-        }?spec=800x&format=webp" alt="" class="waykeecom-product-card__image" />
-        <div class="waykeecom-product-card__media-item-overlay" aria-hidden="true">+10</div>
-      </div>
-    </div>
+    ${
+      imageUrls?.length
+        ? `
+          <div class="waykeecom-product-card__media">
+            ${imageUrls
+              .slice(0, 3)
+              .map(
+                (imageUrl) => `
+              <div class="waykeecom-product-card__media-item">
+                <img src="${imageUrl}?spec=800x&format=webp" alt="" class="waykeecom-product-card__image" />
+              </div>
+            `
+              )
+              .join('')}
+          </div>
+        `
+        : ''
+    }
     <div class="waykeecom-product-card__body">
       <div class="waykeecom-product-card__seller" aria-label="Säljare">
-        ${order?.getContactInformation()?.name}
+        ${sellerName}
       </div>
       <div class="waykeecom-product-card__heading" aria-label="Modell">
-        <span class="waykeecom-product-card__title">${vehicle?.title}</span> ${
-  vehicle?.shortDescription
-}
+        <span class="waykeecom-product-card__title">${vehicleTitle}</span> ${shortDescription}
       </div>
       <div class="waykeecom-product-card__footer">
-        <div class="waykeecom-product-card__price" aria-label="Pris">${vehicle?.price} kr</div>
+        <div class="waykeecom-product-card__price" aria-label="Pris">${price} kr</div>
         <div class="waykeecom-product-card__branding">
           <img
             src="${Image.carfax.cl70x13}"
@@ -55,14 +57,15 @@ const ItemTileLarge = ({ vehicle, order, meta }: ItemTileLargeProps) => `
       ${
         meta
           ? `
-      <div class="waykeecom-product-card__meta">
-        ${meta}
-      </div>
-    `
+            <div class="waykeecom-product-card__meta">
+              ${meta}
+            </div>
+          `
           : ''
       }
     </div>
   </div>
 `;
+};
 
 export default ItemTileLarge;

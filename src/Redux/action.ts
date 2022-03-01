@@ -13,20 +13,16 @@ import store from './store';
 export const SET_ORDER = 'SET_ORDER';
 export type SET_ORDER_TYPE = BaseAction<typeof SET_ORDER> & {
   order: OrderOptionsResponse;
+  vehicle?: Vehicle;
 };
-export const setOrder = (order: OrderOptionsResponse) => store.dispatch({ type: SET_ORDER, order });
+export const setOrder = (order: OrderOptionsResponse, vehicle?: Vehicle) =>
+  store.dispatch({ type: SET_ORDER, order, vehicle });
 
 export const SET_ID = 'SET_ID';
 export type SET_ID_TYPE = BaseAction<typeof SET_ID> & {
   id: string;
 };
 export const setId = (id: string) => store.dispatch({ type: SET_ID, id });
-
-export const SET_VEHICLE = 'SET_VEHICLE';
-export type SET_VEHICLE_TYPE = BaseAction<typeof SET_VEHICLE> & {
-  vehicle: Vehicle;
-};
-export const setVehicle = (vehicle: Vehicle) => store.dispatch({ type: SET_VEHICLE, vehicle });
 
 export const SET_CONTACT_EMAIL_AND_PHONE = 'SET_CONTACT_EMAIL_AND_PHONE';
 export type SET_CONTACT_EMAIL_AND_PHONE_TYPE = BaseAction<typeof SET_CONTACT_EMAIL_AND_PHONE> & {
@@ -125,7 +121,6 @@ export const setStages = (stages: StageTypes[]) => store.dispatch({ type: SET_ST
 export type Action =
   | SET_ORDER_TYPE
   | SET_ID_TYPE
-  | SET_VEHICLE_TYPE
   | SET_CONTACT_EMAIL_AND_PHONE_TYPE
   | SET_SOCIAL_ID_AND_ADDRESS_TYPE
   | SET_HOME_DELIVERY_TYPE

@@ -1,17 +1,15 @@
 import { DrivingDistance, IAddress, IInsuranceOption, IVehicle, PaymentType } from '@wayke-se/ecom';
 import { OrderOptionsResponse } from '@wayke-se/ecom/dist-types/orders/order-options-response';
-import { IAccessory } from '@wayke-se/ecom/dist-types/orders/types';
+import { IAccessory, IOrderVehicle } from '@wayke-se/ecom/dist-types/orders/types';
 import { PaymentLookupResponse } from '@wayke-se/ecom/dist-types/payments/payment-lookup-response';
 import { Customer } from '../@types/Customer';
 import { Navigation } from '../@types/Navigation';
 import { StageTypes } from '../@types/Stages';
 import { TradeInCarDataPartial } from '../@types/TradeIn';
-import { Vehicle } from '../@types/Vehicle';
 import {
   Action,
   SET_CONTACT_EMAIL_AND_PHONE,
   SET_ORDER,
-  SET_VEHICLE,
   SET_SOCIAL_ID_AND_ADDRESS,
   SET_HOME_DELIVERY,
   SET_TRADE_IN,
@@ -27,10 +25,10 @@ import {
 } from './action';
 
 export interface ReducerState {
-  id?: string;
+  id: string;
   topNavigation: Navigation;
   navigation: Navigation;
-  vehicle?: Vehicle;
+  vehicle?: IOrderVehicle;
   order?: OrderOptionsResponse;
   customer: Customer;
   address?: IAddress;
@@ -54,6 +52,7 @@ const initNavigation: Navigation = {
 };
 
 const initialState: ReducerState = {
+  id: '',
   topNavigation: {
     ...initNavigation,
   },
@@ -93,8 +92,6 @@ const reducer = (state = initialState, action: Action): ReducerState => {
       return { ...next, stages: action.stages };
     case SET_ID:
       return { ...next, id: action.id };
-    case SET_VEHICLE:
-      return { ...state, vehicle: action.vehicle };
     case SET_ORDER:
       const paymentOptions = action.order?.getPaymentOptions();
       // If only cash payment is available, pre select
@@ -105,7 +102,12 @@ const reducer = (state = initialState, action: Action): ReducerState => {
           ? PaymentType.Cash
           : undefined;
 
-      return { ...state, order: action.order, paymentType };
+      return {
+        ...state,
+        order: action.order,
+        paymentType,
+        vehicle: { ...action.order.getOrderVehicle(), ...(action.vehicle || {}) },
+      };
     case SET_CONTACT_EMAIL_AND_PHONE:
       const clean: ReducerState = {
         ...next,

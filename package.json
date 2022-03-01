@@ -39,7 +39,7 @@
     "typescript": "^4.5.5"
   },
   "dependencies": {
-    "@wayke-se/ecom": "^3.6.1",
+    "@wayke-se/ecom": "^3.7.0-alpha.5",
     "redux": "^4.1.2",
     "redux-watch": "^1.2.0"
   },

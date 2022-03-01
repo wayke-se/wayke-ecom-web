@@ -81,8 +81,8 @@ class Financial {
 
   render() {
     const state = store.getState();
-    const { order, vehicle, paymentLookupResponse } = state;
-    if (!order || !vehicle) throw 'No order available';
+    const { id, order, paymentLookupResponse } = state;
+    if (!order) throw 'No order available';
 
     const paymentOptions = order.getPaymentOptions();
 
@@ -244,9 +244,9 @@ class Financial {
       }
 
       const paymentNode = part.querySelector<HTMLDivElement>(`#${PAYMENT_NODE}`);
-      if (paymentNode && loan) {
-        if (this.paymentType === PaymentType.Loan) {
-          new Loan(paymentNode, loan, vehicle.id, this.paymentLookupResponse);
+      if (paymentNode) {
+        if (loan && this.paymentType === PaymentType.Loan) {
+          new Loan(paymentNode, loan, id, this.paymentLookupResponse);
         } else {
           new ButtonArrowRight(part.querySelector<HTMLDivElement>(`#${PROCEED_NODE}`), {
             title: 'Fortsätt',

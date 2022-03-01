@@ -6,7 +6,7 @@ import packageJson from '../package.json';
 
 import { Vehicle } from './@types/Vehicle';
 import store from './Redux/store';
-import { setVehicle } from './Redux/action';
+import { setId } from './Redux/action';
 
 import Preview from './Views/Preview';
 import Main from './Views/Main';
@@ -23,8 +23,8 @@ export interface AppState {
 }
 
 interface AppProps {
-  id?: string;
-  vehicle: Vehicle;
+  id: string;
+  vehicle?: Vehicle;
   config: IConfigurationRoot;
   useBankid?: boolean;
 }
@@ -32,14 +32,15 @@ interface AppProps {
 class App {
   private root: HTMLElement;
   private contentNode?: HTMLDivElement;
+  private props: AppProps;
   private view: ViewTypes;
   private stageOrderList: StageMapKeys[];
 
   constructor(props: AppProps) {
     const root = document.getElementById('wayke-ecom');
-    if (!root) {
-      throw 'Missing element with id wayke-ecom';
-    }
+    if (!root) throw 'Missing element with id wayke-ecom';
+    if (!props.id) throw 'Missing id';
+    this.props = props;
 
     if (!window.process) {
       window.process = {
@@ -62,8 +63,7 @@ class App {
       'delivery',
     ];
 
-    //setId(props.vehicle.id);
-    setVehicle(props.vehicle);
+    setId(props.id);
     this.view = store.getState().navigation.view;
 
     const w = watch(store.getState, 'navigation.view');
@@ -216,7 +216,7 @@ class App {
 
       switch (this.view) {
         case 'preview':
-          new Preview(this.contentNode, this.stageOrderList);
+          new Preview(this.contentNode, this.stageOrderList, this.props.vehicle);
           break;
         case 'main':
           new Main(this.contentNode);

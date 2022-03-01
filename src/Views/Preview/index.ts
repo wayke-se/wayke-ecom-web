@@ -9,6 +9,7 @@ import ButtonArrowRight from '../../Components/Button/ButtonArrowRight';
 import { StageTypes } from '../../@types/Stages';
 import { stageMap, StageMapKeys } from '../../Utils/stage';
 import Loader from '../../Templates/Loader';
+import { Vehicle } from '../../@types/Vehicle';
 
 const PROCEED_BUTTON = 'wayke-view-1-proceed';
 const PROCEED_BUTTON_NODE = `${PROCEED_BUTTON}-node`;
@@ -19,10 +20,12 @@ class Preview {
   private loader?: HTMLDivElement;
   private proceedButton?: HTMLButtonElement;
   private stageOrderList: StageMapKeys[];
+  private vehicle?: Vehicle;
 
-  constructor(element: Element, stageOrderList: StageMapKeys[]) {
+  constructor(element: Element, stageOrderList: StageMapKeys[], vehicle?: Vehicle) {
     this.element = element;
     this.stageOrderList = stageOrderList;
+    this.vehicle = vehicle;
 
     const w = watch(store.getState, 'order');
     store.subscribe(
@@ -37,19 +40,15 @@ class Preview {
 
   async init() {
     const state = store.getState();
-    if (!state.vehicle) {
-      throw 'No vehicle present';
-    }
     try {
       this.proceedButton?.setAttribute('disabled', '');
       if (this.loader) {
         this.loader.style.display = '';
       }
-      const order = await getOrder(state.vehicle.id);
+      const order = await getOrder(state.id);
       const { centralStorage } = state;
 
       const stages: StageTypes[] = [];
-
       this.stageOrderList.forEach((key) => {
         if (key === 'centralStorage' && !centralStorage) return;
         if (key === 'tradeIn' && !order.allowsTradeIn) return;
@@ -60,7 +59,7 @@ class Preview {
       });
       setStages(stages);
 
-      setOrder(order);
+      setOrder(order, this.vehicle);
       this.proceedButton?.removeAttribute('disabled');
       this.render();
     } catch (e) {

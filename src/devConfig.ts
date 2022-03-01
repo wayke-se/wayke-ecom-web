@@ -17,39 +17,22 @@ const baseVehicle = {
 export const devConfig = {
   BANKID_TRADE_IN_HOME_DELIVERY: {
     id: 'f98cde44-ea7f-49af-a60b-4dcd7ad6d862',
-    vehicle: {
-      ...baseVehicle,
-      id: 'f98cde44-ea7f-49af-a60b-4dcd7ad6d862',
-    },
     useBankid: true,
   },
   DEFAULT: {
     id: 'f71d0afb-02aa-4f79-a9bc-9632a7454ca6',
-    vehicle: {
-      ...baseVehicle,
-      id: 'f71d0afb-02aa-4f79-a9bc-9632a7454ca6',
-    },
   },
   MULTIPLE_FINANCIAL: {
     id: 'b3cef88c-6b75-4bf6-8429-6af83dd52feb',
-    vehicle: {
-      ...baseVehicle,
-      id: 'b3cef88c-6b75-4bf6-8429-6af83dd52feb',
-    },
     useBankid: true,
   },
   INSURANCE: {
     id: 'c2a75c3c-58d7-4e46-adf4-07b61be0384d',
     vehicle: {
       ...baseVehicle,
-      id: 'c2a75c3c-58d7-4e46-adf4-07b61be0384d',
     },
   },
   CREDIT_ASSESSMENT: {
     id: '66c573e4-ac81-4d68-b268-6d4f82b6bede',
-    vehicle: {
-      ...baseVehicle,
-      id: '66c573e4-ac81-4d68-b268-6d4f82b6bede',
-    },
   },
 };
