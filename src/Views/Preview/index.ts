@@ -92,7 +92,7 @@ class Preview {
         <div class="waykeecom-page__body">
           <div class="waykeecom-container waykeecom-container--narrow">
             <div class="waykeecom-stack waykeecom-stack--3">
-              <h2 class="waykeecom-heading waykeecom-heading--3 waykeecom-no-margin">Vad roligt att du vill köpa denna bil!</h2>
+              <h3 class="waykeecom-heading waykeecom-heading--3 waykeecom-no-margin">Vad roligt att du vill köpa denna bil!</h3>
             </div>
             <div class="waykeecom-stack waykeecom-stack--3" style="${
               state.order ? 'display: none;' : ''
@@ -122,8 +122,8 @@ class Preview {
         </div>
         <footer class="waykeecom-page__footer">
           <div class="waykeecom-container waykeecom-container--narrow">
-            <h2 class="waykeecom-heading waykeecom-heading--4">Köp online hos Wayke</h2>
-            <ul class="waykeecom-checklist">
+            <h3 class="waykeecom-heading waykeecom-heading--4">Köp online hos Wayke</h3>
+            <ul class="waykeecom-checklist" aria-label="Fördelar med att köpa bilen online hos Wayke">
               <li class="waykeecom-checklist__item">Trygg hantering av personuppgifter</li>
               <li class="waykeecom-checklist__item">Reservera bilen nu – betalning och avtalsskrivning sker senare med handlaren</li>
               <li class="waykeecom-checklist__item">Inte bindande förrän avtal skrivits ihop med handlaren</li>

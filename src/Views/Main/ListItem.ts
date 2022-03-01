@@ -9,7 +9,9 @@ const ListItem = (element: HTMLElement, props: ListItemProps) => {
   const { title, active, completed, id } = props;
   const existingListItem = document.getElementById(id);
 
-  const item = existingListItem ? existingListItem : document.createElement('div');
+  const item = existingListItem ? existingListItem : document.createElement('section');
+  item.setAttribute('aria-label', title);
+
   if (!existingListItem) {
     item.setAttribute('id', id);
   }
@@ -37,7 +39,7 @@ const ListItem = (element: HTMLElement, props: ListItemProps) => {
         </svg>
       </div>
       <h3 class="waykeecom-heading waykeecom-heading--3 waykeecom-no-margin">
-        <span class="waykeecom-stepper__stage">
+        <span class="waykeecom-stepper__stage" aria-hidden="true">
           Steg <span class="waykeecom-stepper__stage-count"></span> –
         </span>
         ${title}

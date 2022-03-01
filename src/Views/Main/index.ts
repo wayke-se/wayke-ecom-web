@@ -35,6 +35,7 @@ class Main {
 
     const pageFormAside = document.createElement('aside');
     pageFormAside.className = 'waykeecom-page-form__aside';
+    pageFormAside.setAttribute('aria-label', 'Fordonsinformation');
     pageFormAside.innerHTML = ItemTileSmall({ vehicle: state.vehicle, order: state.order });
     pageForm.appendChild(pageFormAside);
 

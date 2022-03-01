@@ -29,20 +29,20 @@ const ItemTileLarge = ({ vehicle, order, meta }: ItemTileLargeProps) => `
         <img src="${
           vehicle?.imageUrls[0]
         }?spec=800x&format=webp" alt="" class="waykeecom-product-card__image" />
-        <div class="waykeecom-product-card__media-item-overlay">+10</div>
+        <div class="waykeecom-product-card__media-item-overlay" aria-hidden="true">+10</div>
       </div>
     </div>
     <div class="waykeecom-product-card__body">
-      <div class="waykeecom-product-card__seller">
+      <div class="waykeecom-product-card__seller" aria-label="Säljare">
         ${order?.getContactInformation()?.name}
       </div>
-      <div class="waykeecom-product-card__heading">
+      <div class="waykeecom-product-card__heading" aria-label="Modell">
         <span class="waykeecom-product-card__title">${vehicle?.title}</span> ${
   vehicle?.shortDescription
 }
       </div>
       <div class="waykeecom-product-card__footer">
-        <div class="waykeecom-product-card__price">${vehicle?.price} kr</div>
+        <div class="waykeecom-product-card__price" aria-label="Pris">${vehicle?.price} kr</div>
         <div class="waykeecom-product-card__branding">
           <img
             src="${Image.carfax.cl70x13}"

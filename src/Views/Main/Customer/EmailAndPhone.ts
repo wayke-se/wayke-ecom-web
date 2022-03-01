@@ -125,7 +125,6 @@ class EmailAndPhone extends AppendChild {
         </div>
       </div>
 
-
       <div class="waykeecom-stack waykeecom-stack--3">
         <div class="waykeecom-stack waykeecom-stack--2" id="${EMAIL_NODE}"></div>
         <div class="waykeecom-stack waykeecom-stack--2" id="${PHONE_NODE}"></div>
@@ -142,6 +141,7 @@ class EmailAndPhone extends AppendChild {
           error: this.state.interact.email && !this.state.validation.email,
           errorMessage: 'En giltig e-postadress måste anges.',
           name: 'email',
+          autocomplete: 'email',
           placeholder: 'Ange din e-postadress',
           information: EmailHelp(),
           onChange: (e) => this.onChange(e),
@@ -158,6 +158,7 @@ class EmailAndPhone extends AppendChild {
           error: this.state.interact.phone && !this.state.validation.phone,
           errorMessage: 'Ange ditt telefonnummer',
           name: 'phone',
+          autocomplete: 'tel',
           placeholder: 'Ange ditt telefonnummer',
           onChange: (e) => this.onChange(e),
           onBlur: (e) => this.onBlur(e),

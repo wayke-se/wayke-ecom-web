@@ -32,6 +32,7 @@ class InputError extends Attach {
       if (this.props.error) {
         const errorElement = document.createElement('div');
         errorElement.className = errorInputClassName;
+        errorElement.setAttribute('role', 'alert');
         errorElement.innerHTML = this.props.errorMessage;
         this.element.appendChild(errorElement);
       }
