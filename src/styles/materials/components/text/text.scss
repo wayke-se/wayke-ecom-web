@@ -1,0 +1,17 @@
+@use '../../../helpers' as *;
+
+.#{$namespace}text {
+  // Tone
+  @each $key, $value in color(text) {
+    &--tone-#{$key} {
+      color: $value;
+    }
+  }
+
+  // Size
+  @each $key, $value in scss-var(font, size) {
+    &--size-#{$key} {
+      font-size: $value;
+    }
+  }
+}

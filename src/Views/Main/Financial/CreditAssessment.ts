@@ -462,24 +462,37 @@ class CreditAssessment extends Attach {
         })}
       </div>
       <div class="waykeecom-stack waykeecom-stack--3">
-        <h5 class="waykeecom-heading waykeecom-heading--4">Uppgifter om dig</h5>
-
+        <div class="waykeecom-stack waykeecom-stack--2">
+          <h5 class="waykeecom-heading waykeecom-heading--4 waykeecom-no-margin">Uppgifter om dig</h5>
+        </div>
         <div class="waykeecom-stack waykeecom-stack--2" id="${MARITAL_STATUS_NODE}"></div>
         <div class="waykeecom-stack waykeecom-stack--2" id="${INCOME_NODE}"></div>
         <div class="waykeecom-stack waykeecom-stack--2" id="${EMPLOYMENT_NODE}"></div>
       </div>
 
       <div class="waykeecom-stack waykeecom-stack--3">
-        <h5 class="waykeecom-heading waykeecom-heading--4">Uppgifter om ditt hushåll</h5>
-
+        <div class="waykeecom-stack waykeecom-stack--2">
+          <h5 class="waykeecom-heading waykeecom-heading--4 waykeecom-no-margin">Uppgifter om ditt hushåll</h5>
+        </div>
         <div class="waykeecom-stack waykeecom-stack--2" id="${HOUSEHOLD_CHILDREN_NODE}"></div>
         <div class="waykeecom-stack waykeecom-stack--2" id="${HOUSEHOLD_INCOME_NODE}"></div>
         <div class="waykeecom-stack waykeecom-stack--2" id="${HOUSEHOLD_HOUSING_COST_NODE}"></div>
         <div class="waykeecom-stack waykeecom-stack--2" id="${HOUSEHOLD_DEBT_NODE}"></div>
       </div>
 
-      <div>
-      ${prettyNumber(creditAmount, { postfix: 'kr' })}
+      <div class="waykeecom-stack waykeecom-stack--3">
+        <hr class="waykeecom-separator" />
+      </div>
+
+      <div class="waykeecom-stack waykeecom-stack--3 waykeecom-text-center">
+        <div class="waykeecom-stack waykeecom-stack--1">
+          <div class="waykeecom-text waykeecom-text--tone-alt waykeecom-text--size-small">Totalt lånebelopp</div>
+        </div>
+        <div class="waykeecom-stack waykeecom-stack--1">
+          <div class="waykeecom-heading waykeecom-heading--2 waykeecom-no-margin">
+            ${prettyNumber(creditAmount, { postfix: 'kr' })}
+          </div>
+        </div>
       </div>
 
       <div class="waykeecom-stack waykeecom-stack--3">
