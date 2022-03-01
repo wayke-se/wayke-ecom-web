@@ -52,7 +52,7 @@ class InputRadioGroup extends Attach {
 
   render() {
     this.element.innerHTML = `
-     <fieldset class="waykeecom-input-group">
+     <fieldset class="waykeecom-input-group" role="radiogroup">
         <legend class="waykeecom-input-group__legend">${this.props.title}</legend>
         ${this.props.options
           .map((option) => `<div class="waykeecom-input-group__item" id="${option.id}-node"></div>`)

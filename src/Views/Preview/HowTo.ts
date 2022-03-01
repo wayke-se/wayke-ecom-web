@@ -42,14 +42,14 @@ interface HowToProps {
 
 const HowTo = ({ order, stageOrderList }: HowToProps) => `
   <div class="waykeecom-stack waykeecom-stack--3">
-    <h3 class="waykeecom-heading waykeecom-heading--4">Så här köper du bilen online</h3>
+    <h4 class="waykeecom-heading waykeecom-heading--4">Så här köper du bilen online</h4>
     <div class="waykeecom-content">
       <p>På Wayke kan du tryggt köpa din nästa bil online. Reservera bilen genom att klicka dig igenom vårt köpflöde med följande steg:</p>
     </div>
   </div>
   <div class="waykeecom-stack waykeecom-stack--3">
     <div class="waykeecom-p--2">
-      <ol class="waykeecom-timeline">
+      <ol class="waykeecom-timeline" aria-label="Tillvägagångssätt">
         ${stageOrderList?.map((stage) => TimelineItem(TimelineItemByStage[stage.name])).join('')}
         ${TimelineItem({
           heading: 'Sammanställning och orderbekräftelse',

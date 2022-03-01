@@ -271,6 +271,7 @@ class PartTradeIn {
         error: this.state.interact.description && !this.state.validation.description,
         errorMessage: '????',
         name: 'description',
+        autocomplete: 'off',
         placeholder: 'Beskriv bilen',
         onChange: (e) => this.onChange(e),
         onBlur: (e) => this.onBlur(e),

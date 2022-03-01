@@ -13,6 +13,7 @@ interface InputFieldProps {
   placeholder?: string;
   information?: string;
   type?: string;
+  autocomplete?: string;
   onChange?: (e: Event) => void;
   onBlur?: (e: Event) => void;
 }
@@ -60,6 +61,7 @@ class InputField extends Attach {
           id="${this.props.id}"
           value="${this.props.value}"
           name="${this.props.name}"
+          ${this.props.autocomplete ? `autocomplete="${this.props.autocomplete}"` : ''}
           ${this.props.placeholder ? `placeholder="${this.props.placeholder}"` : ''}
           
           class="waykeecom-input-text__input"

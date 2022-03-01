@@ -21,7 +21,7 @@ const Loader = (props?: LoaderProps) => {
   }
 
   return `
-  <div class="${classList.join(' ')}">
+  <div class="${classList.join(' ')}" role="status">
     <div class="waykeecom-loader__spinner" aria-hidden="true"></div>
     <div class="waykeecom-sr-only">Laddar...</div>
   </div>

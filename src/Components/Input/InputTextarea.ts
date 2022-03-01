@@ -12,6 +12,7 @@ interface InputTextareaProps {
   errorMessage?: string;
   placeholder?: string;
   information?: string;
+  autocomplete?: string;
   onChange?: (e: Event) => void;
   onBlur?: (e: Event) => void;
 }
@@ -43,6 +44,7 @@ class InputTextarea extends Attach {
       <textarea
         id="${this.props.id}"
         name="${this.props.name}"
+        ${this.props.autocomplete ? `autocomplete="${this.props.autocomplete}"` : ''}
         ${this.props.placeholder ? `placeholder="${this.props.placeholder}"` : ''}
         class="waykeecom-textarea"
       >${this.props.value}</textarea>

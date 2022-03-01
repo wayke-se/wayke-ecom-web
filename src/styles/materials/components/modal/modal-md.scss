@@ -32,14 +32,6 @@
     animation: #{$namespace}fade-in 400ms ease, #{$namespace}no-transform 400ms ease forwards;
   }
 
-  &__back-btn {
-    font-size: scss-var(font, size, small);
-  }
-
-  &__close-btn {
-    display: none;
-  }
-
   &__logo {
     &--symbol {
       display: none;

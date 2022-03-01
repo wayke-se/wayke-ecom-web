@@ -198,6 +198,7 @@ class FullAddressBySocialId extends AppendChild {
         error: this.state.interact.socialId && !this.state.validation.socialId,
         errorMessage: 'Ange personnummer i formatet ÅÅÅÅMMDD-XXXX.',
         name: 'socialId',
+        autocomplete: 'off',
         placeholder: 'ÅÅÅÅMMDD-XXXX',
         onChange: (e) => this.onChange(e),
         onBlur: (e) => this.onBlur(e),

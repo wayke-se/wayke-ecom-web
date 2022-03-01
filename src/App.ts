@@ -86,6 +86,9 @@ class App {
     // Create modal
     const modalNode = document.createElement('div');
     modalNode.className = 'waykeecom-modal';
+    modalNode.setAttribute('role', 'dialog');
+    modalNode.setAttribute('aria-modal', 'true');
+    modalNode.setAttribute('aria-labelledby', 'wayke-ecom-title');
     const modalContainerNode = document.createElement('div');
     modalContainerNode.className = 'waykeecom-modal__container';
     const modalCenterNode = document.createElement('div');
@@ -99,39 +102,28 @@ class App {
     modalCenterNode.appendChild(modalDialogNode);
 
     // Create modal header
-    const modalHeader = document.createElement('div');
+    const modalHeader = document.createElement('header');
+    modalHeader.className = 'waykeecom-modal__header';
     modalHeader.innerHTML = `
-      <header class="waykeecom-modal__header">
-        <div class="waykeecom-container">
-          <div class="waykeecom-modal__header-inner">
-            <button title="Stäng modalen" class="waykeecom-modal__close-btn">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 16 16"
-                class="waykeecom-icon"
-              >
-                <title>Ikon: stäng</title>
-                <path d="M9.1 8l5.9 5.9-1.1 1.1L8 9.1 2.1 15 1 13.9 6.9 8 1 2.1 2.1 1 8 6.9 13.9 1 15 2.1 9.1 8z" />
-              </svg>
-            </button>
-            <div class="waykeecom-modal__back-btn">
-              <button title="Stäng modalen" class="waykeecom-link waykeecom-link--has-content">
-                <span class="waykeecom-link__content">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 16 16"
-                    class="waykeecom-icon"
-                  >
-                    <title>Ikon: vinkel vänster</title>
-                    <path d="m5.4 7 5.2-5 1 1-5.2 5 5.2 5-1.1 1-5.2-5-1-1 1.1-1z" />
-                  </svg>
-                </span>
-                <span class="waykeecom-link__content">Tillbaka till Volvo XC60</span>
-              </button>
-            </div>
-            
-            <div class="waykeecom-modal__logo">
-              <svg class="waykeecom-modal__logo--wordmark" viewBox="0 0 548.95 123.3" preserveAspectRatio="xMinYMid" xmlns="http://www.w3.org/2000/svg">
+      <div class="waykeecom-container">
+        <div class="waykeecom-modal__header-inner">
+          <button title="Stäng modalen" class="waykeecom-modal__close-btn">
+            <span class="waykeecom-sr-only">Stäng modalen</span>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 16 16"
+              class="waykeecom-icon"
+              aria-hidden="true"
+            >
+              <title>Ikon: stäng</title>
+              <path d="M9.1 8l5.9 5.9-1.1 1.1L8 9.1 2.1 15 1 13.9 6.9 8 1 2.1 2.1 1 8 6.9 13.9 1 15 2.1 9.1 8z" />
+            </svg>
+          </button>
+          
+          <div class="waykeecom-modal__logo">
+            <h2 class="waykeecom-no-margin">
+              <span class="waykeecom-sr-only" id="wayke-ecom-title">Wayke Ecom</span>
+              <svg class="waykeecom-modal__logo--wordmark" viewBox="0 0 548.95 123.3" preserveAspectRatio="xMinYMid" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                 <title>Wayke wordmark</title>
                 <g>
                   <path d="M275.16,48.31l-18.69,53.3h-12L219.59,28h15.08l16.84,52.57,18-52.88h12.29l18.08,53L316.68,28h13.64l-24.17,73.65H293.75Z"></path>
@@ -158,7 +150,7 @@ class App {
                   <circle cx="25.15" cy="11.34" r="4.96"></circle>
                 </g>
               </svg>
-              <svg class="waykeecom-modal__logo--symbol" viewBox="0 0 185.57 109.13" preserveAspectRatio="xMinYMid" xmlns="http://www.w3.org/2000/svg">
+              <svg class="waykeecom-modal__logo--symbol" viewBox="0 0 185.57 109.13" preserveAspectRatio="xMinYMid" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                 <title>Wayke symbol</title>
                 <circle cx="4.25" cy="39.68" r="4.25"></circle>
                 <circle cx="25.15" cy="68.03" r="4.96"></circle>
@@ -176,10 +168,10 @@ class App {
                 <circle cx="46.04" cy="39.68" r="6.38"></circle>
                 <circle cx="25.15" cy="11.34" r="4.96"></circle>
               </svg>
-            </div>
+            </h2>
           </div>
         </div>
-      </header>
+      </div>
     `;
 
     modalHeader.querySelectorAll<HTMLButtonElement>('button').forEach((button) => {
@@ -190,6 +182,7 @@ class App {
 
     // Append content
     const contentNode = document.createElement('div');
+    contentNode.className = 'waykeecom-modal__body';
     this.contentNode = contentNode;
     modalDialogNode.appendChild(contentNode);
 

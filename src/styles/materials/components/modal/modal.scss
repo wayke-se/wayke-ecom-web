@@ -37,6 +37,7 @@
   &__header-inner {
     display: flex;
     align-items: center;
+    justify-content: flex-end;
     position: relative;
     height: $modal-header-height;
   }
@@ -52,6 +53,19 @@
       display: block;
       height: $modal-header-height;
       fill: color(text, main);
+    }
+  }
+
+  &__close-btn {
+    position: relative;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: size(-2);
+      bottom: size(-2);
+      left: size(-2);
+      right: size(-2);
     }
   }
 }

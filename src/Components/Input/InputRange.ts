@@ -134,43 +134,46 @@ class InputRange extends Attach {
             : ''
         }
       </div>
-      <div class="waykeecom-stack waykeecom-stack--1">
-        <div class="waykeecom-input-text">
-          <input
-            type="text"
-            id="${this.props.id}-input"
-            value="${this.inputFieldValue}"
-            name="${this.props.name}"
-            class="waykeecom-input-text__input"
-            ${this.props.step === 0 && `disabled=""`}
-          />
-          ${
-            this.props.unit
-              ? `<div class="waykeecom-input-text__unit">${this.props.unit}</div>`
-              : ''
-          }
-        </div>
-      </div>
-      ${
-        allowSlider
-          ? `
+      <div role="range">
         <div class="waykeecom-stack waykeecom-stack--1">
-          <div class="waykeecom-input-range">
+          <div class="waykeecom-input-text">
             <input
-              type="range"
-              id="${this.props.id}"
-              min="${this.props.min}"
-              max="${this.props.max}"
-              ${this.props.step !== undefined && `step="${this.props.step}"`}
-              value="${this.value}"
+              type="text"
+              id="${this.props.id}-input"
+              value="${this.inputFieldValue}"
               name="${this.props.name}"
-              class="waykeecom-input-range__input"
+              autocomplete="off"
+              class="waykeecom-input-text__input"
+              ${this.props.step === 0 && `disabled=""`}
             />
+            ${
+              this.props.unit
+                ? `<div class="waykeecom-input-text__unit">${this.props.unit}</div>`
+                : ''
+            }
           </div>
         </div>
-        `
-          : ''
-      }
+        ${
+          allowSlider
+            ? `
+          <div class="waykeecom-stack waykeecom-stack--1">
+            <div class="waykeecom-input-range">
+              <input
+                type="range"
+                id="${this.props.id}"
+                min="${this.props.min}"
+                max="${this.props.max}"
+                ${this.props.step !== undefined && `step="${this.props.step}"`}
+                value="${this.value}"
+                name="${this.props.name}"
+                class="waykeecom-input-range__input"
+              />
+            </div>
+          </div>
+          `
+            : ''
+        }
+      </div>
     `;
 
     if (this.props.information) {
