@@ -30,10 +30,9 @@ class InputRadioField extends Attach {
           name="${this.props.name}"
           ${this.props.checked ? 'checked="true"' : ''}
           class="waykeecom-input-radio__input"
-          tabindex="-1"
         />
         <div class="waykeecom-input-radio__header">
-          <label for="${this.props.id}" class="waykeecom-input-radio__label" tabindex="0">${
+          <label for="${this.props.id}" class="waykeecom-input-radio__label">${
       this.props.title
     }</label>
           ${

@@ -159,7 +159,7 @@ class Insurance {
         if (this.requestError) {
           insuranceListNode.innerHTML = Alert({
             tone: 'error',
-            children: '<p>Det gick inte att hämta försäkringar...</p>',
+            children: '<p>Det gick inte att hämta försäkringar.</p>',
           });
         } else {
           const insurances = this.insurances;
