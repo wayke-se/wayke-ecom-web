@@ -62,12 +62,11 @@ class Financial {
 
   private onChange(e: Event) {
     const proceed = this.element.querySelector<HTMLDivElement>(`#${PROCEED}`);
-    if (!proceed) return;
     const currentTarget = e.currentTarget as HTMLInputElement;
     const value = currentTarget.value as PaymentType;
     this.paymentType = value;
     this.render();
-    proceed.removeAttribute('disabled');
+    proceed?.removeAttribute('disabled');
   }
 
   private onProceed() {
@@ -131,7 +130,12 @@ class Financial {
         }
 
         <div class="waykeecom-stack waykeecom-stack--3" id="${PAYMENT_NODE}"></div>
-        <div class="waykeecom-stack waykeecom-stack--3" id="${PROCEED_NODE}"></div>
+        ${
+          this.paymentType !== PaymentType.Loan
+            ? `<div class="waykeecom-stack waykeecom-stack--3" id="${PROCEED_NODE}"></div>`
+            : ''
+        }
+        
       `;
 
       content.appendChild(part);
@@ -243,15 +247,15 @@ class Financial {
       if (paymentNode && loan) {
         if (this.paymentType === PaymentType.Loan) {
           new Loan(paymentNode, loan, vehicle.id, this.paymentLookupResponse);
+        } else {
+          new ButtonArrowRight(part.querySelector<HTMLDivElement>(`#${PROCEED_NODE}`), {
+            title: 'Fortsätt',
+            id: PROCEED,
+            disabled: !this.paymentType,
+            onClick: () => this.onProceed(),
+          });
         }
       }
-
-      new ButtonArrowRight(part.querySelector<HTMLDivElement>(`#${PROCEED_NODE}`), {
-        title: 'Fortsätt',
-        id: PROCEED,
-        disabled: !this.paymentType,
-        onClick: () => this.onProceed(),
-      });
     }
   }
 }

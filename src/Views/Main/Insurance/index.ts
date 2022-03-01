@@ -60,7 +60,13 @@ class Insurance {
       const insuranceWithLoan = responseWithLoan.getInsuranceOption();
       const insuranceWithoutLoan = responseWithoutLoan.getInsuranceOption();
 
-      this.insurances = [insuranceWithLoan, insuranceWithoutLoan];
+      const isSame =
+        JSON.stringify(insuranceWithLoan).localeCompare(JSON.stringify(insuranceWithoutLoan)) === 0;
+      if (isSame) {
+        this.insurances = [insuranceWithoutLoan];
+      } else {
+        this.insurances = [insuranceWithLoan, insuranceWithoutLoan];
+      }
     } catch (e) {
       this.requestError = true;
     } finally {

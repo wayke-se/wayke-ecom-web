@@ -107,11 +107,21 @@ const reducer = (state = initialState, action: Action): ReducerState => {
 
       return { ...state, order: action.order, paymentType };
     case SET_CONTACT_EMAIL_AND_PHONE:
-      return {
+      const clean: ReducerState = {
         ...next,
         customer: { ...state.customer, email: action.value.email, phone: action.value.phone },
         navigation: { view: 'main', stage: state.navigation.stage, subStage: 2 },
       };
+
+      delete clean.wantTradeIn;
+      delete clean.tradeIn;
+      delete clean.tradeInVehicle;
+      delete clean.paymentType;
+      delete clean.paymentLookupResponse;
+      delete clean.insurance;
+      clean.accessories = [];
+
+      return clean;
     case SET_SOCIAL_ID_AND_ADDRESS:
       navigation = getNextNavigationState(next.navigation.stage, action.lastStage);
       topNavigation = getNextTopNavigationState(next.topNavigation, navigation);

@@ -45,4 +45,11 @@ export const devConfig = {
       id: 'c2a75c3c-58d7-4e46-adf4-07b61be0384d',
     },
   },
+  CREDIT_ASSESSMENT: {
+    id: '66c573e4-ac81-4d68-b268-6d4f82b6bede',
+    vehicle: {
+      ...baseVehicle,
+      id: '66c573e4-ac81-4d68-b268-6d4f82b6bede',
+    },
+  },
 };

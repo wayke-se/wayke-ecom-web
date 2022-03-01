@@ -9,7 +9,7 @@ window.addEventListener('DOMContentLoaded', (_) => {
   };
 
   const context = new WaykeEcomWeb({
-    ...devConfig.INSURANCE,
+    ...devConfig.CREDIT_ASSESSMENT,
     config: newConfig,
   });
   context.start();

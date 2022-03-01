@@ -16,6 +16,13 @@ class ButtonBankId extends Attach {
     this.render();
   }
 
+  disabled(disabled: boolean) {
+    if (this.props.disabled !== disabled) {
+      this.props.disabled = disabled;
+      this.render();
+    }
+  }
+
   render() {
     this.element.innerHTML = `
       <button

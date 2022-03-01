@@ -27,6 +27,10 @@ export const validationMethods = {
 
     return number >= from && number <= to;
   },
+  requiredNumber: (s: string | number) => {
+    const number = parseInt(s.toString(), 10);
+    return !isNaN(number);
+  },
   requiredRegistrationNumber: (s?: string) => {
     if (!s) {
       return false;
@@ -47,5 +51,18 @@ export const validationMethods = {
   },
   requiredCondition: (s?: string) => {
     return ['VeryGood', 'Good', 'Ok'].includes(s || '');
+  },
+  requiredAssessmentMaritalStatus: (s?: string) => {
+    return ['married', 'single'].includes(s || '');
+  },
+  requiredAssessmentEmplyment: (s?: string) => {
+    return [
+      'other',
+      'retired',
+      'fullTimeEmployed',
+      'student',
+      'temporarilyEmployed',
+      'selfEmployed',
+    ].includes(s || '');
   },
 };

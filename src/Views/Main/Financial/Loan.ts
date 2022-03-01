@@ -1,8 +1,10 @@
 import { IPaymentOption, IPaymentRangeSpec } from '@wayke-se/ecom';
 import { PaymentLookupResponse } from '@wayke-se/ecom/dist-types/payments/payment-lookup-response';
+import ButtonArrowRight from '../../../Components/Button/ButtonArrowRight';
 import InputRange from '../../../Components/Input/InputRange';
 import { getPayment } from '../../../Data/getPayment';
 import { setPaymentLookupResponse } from '../../../Redux/action';
+import CreditAssessment from './CreditAssessment';
 import LoanDetails from './LoanDetails';
 
 const DOWNPAYMENT_RANGE_NODE = 'downpayment-range-node';
@@ -16,6 +18,11 @@ const RESIDUAL_RANGE = 'residual-range';
 
 const LOAN_DETAILS_id = 'loan-details';
 const LOAN_DETAILS_NODE = `${LOAN_DETAILS_id}-node`;
+
+const CREDIT_ASSESMENT_NODE = 'credit-assessment-node';
+
+const PROCEED = 'credit-assessment-proceed';
+const PROCEED_NODE = `${PROCEED}-node`;
 
 interface PaymentState {
   vehicleId: string;
@@ -52,6 +59,8 @@ class Loan {
       residual: this.paymentLookupResponse.getResidualValueSpec(),
     };
 
+    this.paymentLookupResponse.shouldUseCreditScoring();
+
     this.render();
   }
 
@@ -61,7 +70,7 @@ class Loan {
         vehicleId: this.paymentState.vehicleId,
         downPayment: this.paymentState.downPayment.current,
         duration: this.paymentState.duration.current,
-        residual: this.paymentState.residual.current,
+        residual: this.paymentState.residual?.current,
       });
       this.paymentLookupResponse = response;
       this.paymentState = {
@@ -88,6 +97,8 @@ class Loan {
   }
 
   render() {
+    const shouldUseCreditScoring = this.paymentLookupResponse.shouldUseCreditScoring();
+
     this.element.innerHTML = `
       <div class="waykeecom-stack waykeecom-stack--3">
         <hr class="waykeecom-separator" />
@@ -105,6 +116,13 @@ class Loan {
         <div class="waykeecom-stack waykeecom-stack--3" id="${RESIDUAL_RANGE_NODE}"></div>
         <div class="waykeecom-stack waykeecom-stack--3" id="${LOAN_DETAILS_NODE}"></div>
       </div>
+      ${
+        shouldUseCreditScoring
+          ? `
+        <div class="waykeecom-stack waykeecom-stack--3" id="${CREDIT_ASSESMENT_NODE}"></div>
+      `
+          : `<div class="waykeecom-stack waykeecom-stack--3" id="${PROCEED_NODE}"></div>`
+      }
     `;
 
     new InputRange(this.element.querySelector<HTMLDivElement>(`#${DOWNPAYMENT_RANGE_NODE}`), {
@@ -130,22 +148,40 @@ class Loan {
       unit: 'mån',
     });
 
-    new InputRange(this.element.querySelector<HTMLDivElement>(`#${RESIDUAL_RANGE_NODE}`), {
-      title: 'Restvärde',
-      value: this.paymentState.residual.current * 100,
-      id: RESIDUAL_RANGE,
-      name: 'residual',
-      onChange: (e) => this.onChange(e),
-      min: this.paymentState.residual.min * 100,
-      max: this.paymentState.residual.max * 100,
-      step: this.paymentState.residual.step * 100,
-      unit: '%',
-    });
+    if (this.paymentState.residual) {
+      new InputRange(this.element.querySelector<HTMLDivElement>(`#${RESIDUAL_RANGE_NODE}`), {
+        title: 'Restvärde',
+        value: this.paymentState.residual.current * 100,
+        id: RESIDUAL_RANGE,
+        name: 'residual',
+        onChange: (e) => this.onChange(e),
+        min: this.paymentState.residual.min * 100,
+        max: this.paymentState.residual.max * 100,
+        step: this.paymentState.residual.step * 100,
+        unit: '%',
+      });
+    }
 
     new LoanDetails(this.element.querySelector<HTMLDivElement>(`#${LOAN_DETAILS_NODE}`), {
       loan: this.loan,
       paymentLookupResponse: this.paymentLookupResponse,
     });
+
+    if (shouldUseCreditScoring) {
+      new CreditAssessment(
+        this.element.querySelector<HTMLDivElement>(`#${CREDIT_ASSESMENT_NODE}`),
+        {
+          loan: this.loan,
+          paymentLookupResponse: this.paymentLookupResponse,
+        }
+      );
+    } else {
+      new ButtonArrowRight(this.element.querySelector<HTMLDivElement>(`#${PROCEED_NODE}`), {
+        title: 'Fortsätt',
+        id: PROCEED,
+        onClick: () => {},
+      });
+    }
   }
 }
 
