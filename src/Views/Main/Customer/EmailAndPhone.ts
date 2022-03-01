@@ -139,7 +139,7 @@ class EmailAndPhone extends AppendChild {
           value: this.state.value.email,
           id: EMAIL_INPUT_ID,
           error: this.state.interact.email && !this.state.validation.email,
-          errorMessage: 'En giltig e-postadress måste anges.',
+          errorMessage: 'En giltig e-postadress måste anges',
           name: 'email',
           autocomplete: 'email',
           placeholder: 'Ange din e-postadress',

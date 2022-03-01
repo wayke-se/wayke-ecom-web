@@ -196,7 +196,7 @@ class FullAddressBySocialId extends AppendChild {
         value: this.state.value.socialId,
         id: SOCIAL_ID_INPUT_ID,
         error: this.state.interact.socialId && !this.state.validation.socialId,
-        errorMessage: 'Ange personnummer i formatet ÅÅÅÅMMDD-XXXX.',
+        errorMessage: 'Ange personnummer i formatet ÅÅÅÅMMDD-XXXX',
         name: 'socialId',
         autocomplete: 'off',
         placeholder: 'ÅÅÅÅMMDD-XXXX',

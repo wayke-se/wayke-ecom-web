@@ -63,7 +63,6 @@ class InputField extends Attach {
           name="${this.props.name}"
           ${this.props.autocomplete ? `autocomplete="${this.props.autocomplete}"` : ''}
           ${this.props.placeholder ? `placeholder="${this.props.placeholder}"` : ''}
-          
           class="waykeecom-input-text__input"
         />
         ${this.props.unit ? `<div class="waykeecom-input-text__unit">${this.props.unit}</div>` : ''}

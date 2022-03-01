@@ -231,8 +231,9 @@ class PartTradeIn {
         value: this.state.value.registrationNumber,
         id: REGISTRATION_NUMBER_ID,
         error: this.state.interact.registrationNumber && !this.state.validation.registrationNumber,
-        errorMessage: 'Ett giltig registreringsnummer i formatet ABC123 eller ABC12A måste anges.',
+        errorMessage: 'Ett giltig registreringsnummer i formatet ABC123 eller ABC12A måste anges',
         name: 'registrationNumber',
+        autocomplete: 'off',
         placeholder: 'Ange registreringsnummer',
         unit: `
           <svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 34" class="waykeecom-input-text__unit-regnr-icon" aria-hidden="true">
@@ -253,8 +254,9 @@ class PartTradeIn {
         value: this.state.value.mileage,
         id: MILEAGE_ID,
         error: this.state.interact.mileage && !this.state.validation.mileage,
-        errorMessage: 'Ett miltal mellan 0 till 80 000 mil måste anges.',
+        errorMessage: 'Ett miltal mellan 0 till 80 000 mil måste anges',
         name: 'mileage',
+        autocomplete: 'off',
         placeholder: 'Ange bilens miltal',
         unit: 'mil',
         onChange: (e) => this.onChange(e),
