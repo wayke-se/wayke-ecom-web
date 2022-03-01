@@ -47,11 +47,8 @@ class OverflowGridList extends AppendChild {
     const NEXT_ID = `${this.id}-next`;
 
     this.content.innerHTML = `
-      <div class="waykeecom-overflow-grid__list-wrapper">
-        <ul class="waykeecom-overflow-grid__list" id="${this.id}"></ul>
-      </div>
       <div class="waykeecom-overflow-grid__nav waykeecom-overflow-grid__nav--prev">
-        <button type="button" title="Visa föregående försäkring" class="waykeecom-icon-button" id="${PREV_ID}">
+        <button type="button" title="Visa föregående" class="waykeecom-icon-button" id="${PREV_ID}">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 16 16"
@@ -63,7 +60,7 @@ class OverflowGridList extends AppendChild {
         </button>
       </div>
       <div class="waykeecom-overflow-grid__nav waykeecom-overflow-grid__nav--next">
-        <button type="button" title="Visa nästa försäkring" class="waykeecom-icon-button" id="${NEXT_ID}">
+        <button type="button" title="Visa nästa" class="waykeecom-icon-button" id="${NEXT_ID}">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 16 16"
@@ -73,6 +70,9 @@ class OverflowGridList extends AppendChild {
             <path d="m10.5 9-5.2 5-1-1 5.2-5-5.2-5 1.1-1 5.2 5 1 1-1.1 1z" />
           </svg>
         </button>
+      </div>
+      <div class="waykeecom-overflow-grid__list-wrapper">
+        <ul class="waykeecom-overflow-grid__list" id="${this.id}"></ul>
       </div>
     `;
 

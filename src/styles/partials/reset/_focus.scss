@@ -21,6 +21,7 @@
   #{$root-body} textarea,
 ) {
   @include focus {
-    outline: 2px solid color(text, main);
+    outline: 2px solid color(focus, main);
+    outline-offset: 2px;
   }
 }
