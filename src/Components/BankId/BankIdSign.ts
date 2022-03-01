@@ -104,24 +104,25 @@ class BankIdSign extends Attach {
         autoLaunchUrl: this.props.autoLaunchUrl,
         errorMessage: this.props.errorMessage,
       });
-
-      new ButtonAsLink(this.element.querySelector<HTMLDivElement>(`#${BANKID_START_NODE}`), {
-        title: 'Mitt BankID är på en annan enhet',
-        id: BANKID_START,
-        onClick: () => this.props.onStart(AuthMethod.QrCode),
-      });
     } else if (this.props.method === AuthMethod.QrCode) {
       new BankIdSignQrCode(this.element.querySelector<HTMLDivElement>(`#${AUTH_METHOD_NODE}`), {
         qrCode: this.props.qrCode,
         errorMessage: this.props.errorMessage,
       });
-
-      new ButtonAsLink(this.element.querySelector<HTMLDivElement>(`#${BANKID_START_NODE}`), {
-        title: 'Öppna BankID på den här enheten',
-        id: BANKID_START,
-        onClick: () => this.props.onStart(AuthMethod.SameDevice),
-      });
     }
+
+    const toggleMethodTitle =
+      this.props.method === AuthMethod.SameDevice
+        ? 'Mitt BankID är på en annan enhet'
+        : 'Öppna BankID på den här enheten';
+    new ButtonAsLink(this.element.querySelector<HTMLDivElement>(`#${BANKID_START_NODE}`), {
+      title: toggleMethodTitle,
+      id: BANKID_START,
+      onClick: () =>
+        this.props.onStart(
+          this.props.method === AuthMethod.SameDevice ? AuthMethod.QrCode : AuthMethod.SameDevice
+        ),
+    });
 
     new ButtonAsLink(this.element.querySelector<HTMLDivElement>(`#${ABORT_NODE}`), {
       title: 'Avbryt',
