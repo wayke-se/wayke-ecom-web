@@ -22,6 +22,7 @@ class BankIdSignQrCode extends Attach {
         tone: 'error',
         children: this.props.errorMessage,
       });
+      return;
     }
 
     this.element.innerHTML = `

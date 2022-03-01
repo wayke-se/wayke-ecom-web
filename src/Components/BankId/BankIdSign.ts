@@ -81,7 +81,7 @@ class BankIdSign extends Attach {
       <div class="waykeecom-stack waykeecom-stack--2">
         <div class="waykeecom-overlay">
           <div class="waykeecom-container waykeecom-container--narrow">
-            <div class="waykeecom-stack waykeecom-stack--4">
+            <div class="waykeecom-stack waykeecom-stack--4" id="">
               <h4 class="waykeecom-heading waykeecom-heading--4">${title}</h4>
               <div class="waykeecom-content">
                 <p>${description}</p>
