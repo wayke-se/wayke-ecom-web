@@ -96,17 +96,19 @@ class InsuranceView extends HtmlNode {
           <p>Nedan visas förslag på försäkringar som passar dig och din nya bil. I både hel- och halvförsäkring ingår trafikförsäkring som är obligatoriskt att ha. Ifall du har valt att finansiera bilen med ett billån är priset du ser rabatterat.</p>
         </div>
       </div>
-      <div class="waykeecom-stack waykeecom-stack--1">
-        <ul class="waykeecom-key-value-list">
-          ${KeyValueListItem({
-            key: 'Uppskattad körsträcka',
-            value: translateDrivingDistance[drivingDistance],
-          })}
-        </ul>
-      </div>
-      <div class="waykeecom-stack waykeecom-stack--1">
-        <div class="waykeecom-align waykeecom-align--end" id="${EDIT_DRIVING_DISTANCE_NODE}">
-          <button type="button" title="Ändra" class="waykeecom-link" >Ändra</button>
+      <div class="waykeecom-stack waykeecom-stack--3">
+        <div class="waykeecom-stack waykeecom-stack--1">
+          <ul class="waykeecom-key-value-list">
+            ${KeyValueListItem({
+              key: 'Uppskattad körsträcka',
+              value: translateDrivingDistance[drivingDistance],
+            })}
+          </ul>
+        </div>
+        <div class="waykeecom-stack waykeecom-stack--1">
+          <div class="waykeecom-align waykeecom-align--end" id="${EDIT_DRIVING_DISTANCE_NODE}">
+            <button type="button" title="Ändra" class="waykeecom-link" >Ändra</button>
+          </div>
         </div>
       </div>
       <div class="waykeecom-stack waykeecom-stack--3" id="${INSURANCE_GRID_LIST_NODE}"></div>
