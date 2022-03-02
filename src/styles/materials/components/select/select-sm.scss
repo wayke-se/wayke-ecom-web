@@ -1,0 +1,6 @@
+@use '../../../helpers' as *;
+
+.#{$namespace}select {
+  --select-padding: #{size(2)};
+  --select-height: #{scss-var(size, input-height, desktop)};
+}

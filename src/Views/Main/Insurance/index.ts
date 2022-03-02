@@ -100,6 +100,18 @@ class Insurance {
               </div>
             </div>
           </div>
+          <div class="waykeecom-stack waykeecom-stack--2">
+            <div class="waykeecom-input-label">
+              <label for="wayke-estimated-mileage" class="waykeecom-input-label__label">Uppskattad körsträcka per år</label>
+            </div>
+            <select class="waykeecom-select" id="wayke-estimated-mileage">
+              <option value="">0–1000 mil</option>
+              <option value="">1000–1500 mil</option>
+              <option value="">1500–2000 mil</option>
+              <option value="">2000–2500 mil</option>
+              <option value="">2500+ mil</option>
+            </select>
+          </div>
         </div>
 
         <div class="waykeecom-stack waykeecom-stack--3">
