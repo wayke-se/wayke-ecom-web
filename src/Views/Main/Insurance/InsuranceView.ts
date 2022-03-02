@@ -5,7 +5,7 @@ import ButtonAsLink from '../../../Components/Button/ButtonAsLink';
 import ButtonSkip from '../../../Components/Button/ButtonSkip';
 import HtmlNode from '../../../Components/Extension/HtmlNode';
 import { getInsurances } from '../../../Data/getInsurances';
-import { clearInsurance, setInsurance, setWantInsurance } from '../../../Redux/action';
+import { completeStage } from '../../../Redux/action';
 import store from '../../../Redux/store';
 import Alert from '../../../Templates/Alert';
 import KeyValueListItem from '../../../Templates/KeyValueListItem';
@@ -26,6 +26,7 @@ const EDIT_DRIVING_DISTANCE_NODE = `${EDIT_DRIVING_DISTANCE}-node`;
 
 interface InsuranceViewProps {
   lastStage: boolean;
+  onEdit: () => void;
 }
 
 class InsuranceView extends HtmlNode {
@@ -62,6 +63,8 @@ class InsuranceView extends HtmlNode {
 
   private async getchInsurances() {
     this.requestError = false;
+    this.render();
+
     try {
       const state = store.getState();
       const response = await getInsurances(state.drivingDistance);
@@ -74,15 +77,15 @@ class InsuranceView extends HtmlNode {
   }
 
   private onEditDrivingDistance() {
-    setWantInsurance(undefined);
+    this.props.onEdit();
   }
 
   private onProceed() {
-    setInsurance(this.props.lastStage);
+    completeStage(this.props.lastStage);
   }
 
   private onSkipInsurances() {
-    clearInsurance(this.props.lastStage);
+    completeStage(this.props.lastStage);
   }
 
   render() {
@@ -123,8 +126,12 @@ class InsuranceView extends HtmlNode {
       if (this.requestError) {
         insuranceListNode.innerHTML = Alert({
           tone: 'error',
-          children: '<p>Det gick inte att hämta försäkringar.</p>',
+          children:
+            '<p>Det gick inte att hämta försäkringar. Klicka <button class="waykeecom-link">här</button> för att försöka igen.</p>',
         });
+        insuranceListNode
+          .querySelector<HTMLButtonElement>('button')
+          ?.addEventListener('click', () => this.getchInsurances());
       } else {
         const insurances = this.insurances;
         if (insurances?.length) {

@@ -14,18 +14,15 @@ import {
   SET_HOME_DELIVERY,
   SET_TRADE_IN,
   SET_FINANCIAL,
-  SET_INSURANCE,
   INIT_TRADE_IN,
-  SET_WANT_INSURANCE,
   SET_PAYMENT_LOOKUP_RESPONSE,
   SET_ID,
   SET_STAGES,
   GO_TO,
   SET_OR_REMOVE_ACCESSORY,
   SET_OR_REMOVE_INSURANCE,
-  INIT_INSURANCES,
-  CLEAR_INSURANCE,
   SET_DRIVING_DISTANCE,
+  COMPLETE_STAGE,
 } from './action';
 
 export interface ReducerState {
@@ -38,7 +35,6 @@ export interface ReducerState {
   address?: IAddress;
   homeDelivery: boolean;
   wantTradeIn?: boolean;
-  wantInsurance?: boolean;
   tradeIn?: TradeInCarDataPartial;
   tradeInVehicle?: IVehicle;
   centralStorage: boolean;
@@ -186,21 +182,6 @@ const reducer = (state = initialState, action: Action): ReducerState => {
 
       return next;
 
-    case SET_DRIVING_DISTANCE:
-      return { ...next, drivingDistance: action.drivingDistance };
-
-    case INIT_INSURANCES:
-      navigation = { view: 'main', stage: state.navigation.stage, subStage: 1 };
-      topNavigation = getNextTopNavigationState(next.topNavigation, navigation);
-      next = {
-        ...state,
-        navigation,
-        wantInsurance: true,
-        topNavigation,
-        insurance: undefined,
-      };
-      return next;
-
     case SET_FINANCIAL:
       navigation = getNextNavigationState(state.navigation.stage, action.lastStage);
       topNavigation = getNextTopNavigationState(next.topNavigation, navigation);
@@ -215,27 +196,10 @@ const reducer = (state = initialState, action: Action): ReducerState => {
     case SET_PAYMENT_LOOKUP_RESPONSE:
       return { ...next, paymentLookupResponse: action.paymentLookupResponse };
 
-    case CLEAR_INSURANCE:
-      navigation = getNextNavigationState(state.navigation.stage, action.lastStage);
-      topNavigation = getNextTopNavigationState(next.topNavigation, navigation);
+    case SET_DRIVING_DISTANCE:
+      return { ...next, drivingDistance: action.drivingDistance };
 
-      next = {
-        ...state,
-        wantInsurance: false,
-        insurance: undefined,
-        navigation,
-        topNavigation,
-      };
-
-      return next;
-
-    case SET_WANT_INSURANCE:
-      return {
-        ...next,
-        wantInsurance: action.wantInsurance,
-      };
-
-    case SET_INSURANCE:
+    case COMPLETE_STAGE:
       navigation = getNextNavigationState(state.navigation.stage, action.lastStage);
       topNavigation = getNextTopNavigationState(next.topNavigation, navigation);
 
