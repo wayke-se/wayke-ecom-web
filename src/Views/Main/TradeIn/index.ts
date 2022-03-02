@@ -10,6 +10,7 @@ import ButtonAsLink from '../../../Components/Button/ButtonAsLink';
 import { prettyNumber } from '../../../Utils/format';
 import watch from 'redux-watch';
 import { translateTradeInCondition } from '../../../Utils/constants';
+import Attach from '../../../Components/Extension/Attach';
 
 const TRADE_IN_YES = 'button-trade-in-yes';
 const TRADE_IN_YES_NODE = `${TRADE_IN_YES}-node`;
@@ -20,13 +21,12 @@ const TRADE_IN_NO_NODE = `${TRADE_IN_NO}-node`;
 const CHANGE_BUTTON = 'button-trade-in-change';
 const CHANGE_BUTTON_NODE = `${CHANGE_BUTTON}-node`;
 
-class TradeIn {
-  private element: HTMLDivElement;
+class TradeIn extends Attach {
   private index: number;
   private lastStage: boolean;
 
   constructor(element: HTMLDivElement, index: number, lastStage: boolean) {
-    this.element = element;
+    super(element);
     this.index = index;
     this.lastStage = lastStage;
 

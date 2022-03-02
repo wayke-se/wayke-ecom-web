@@ -1,4 +1,5 @@
 import watch from 'redux-watch';
+import Attach from '../../../Components/Extension/Attach';
 import StageCompleted from '../../../Components/StageCompleted';
 
 import { goTo, completeStage } from '../../../Redux/action';
@@ -8,13 +9,12 @@ import AccessoryList from './AccessoryList';
 
 const PROCEED = 'button-accessories-proceed';
 const ACCESSORY_GRID_LIST_NODE = 'accessory-grid-list-node';
-class Accessories {
-  private element: HTMLDivElement;
+class Accessories extends Attach {
   private index: number;
   private lastStage: boolean;
 
   constructor(element: HTMLDivElement, index: number, lastStage: boolean) {
-    this.element = element;
+    super(element);
     this.index = index;
     this.lastStage = lastStage;
 

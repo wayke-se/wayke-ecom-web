@@ -1,6 +1,7 @@
 import { DeliveryType } from '@wayke-se/ecom';
 import watch from 'redux-watch';
 import ButtonArrowRight from '../../../Components/Button/ButtonArrowRight';
+import Attach from '../../../Components/Extension/Attach';
 import InputRadioField from '../../../Components/Input/InputRadioField';
 import StageCompleted from '../../../Components/StageCompleted';
 import { goTo, setHomeDelivery } from '../../../Redux/action';
@@ -17,15 +18,14 @@ const RADIO_HOME_FALSE_NODE = `${RADIO_HOME_FALSE}-node`;
 const PROCEED = 'button-home-delivery-proceed';
 const PROCEED_NODE = `${PROCEED}-node`;
 
-class Delivery {
-  private element: HTMLDivElement;
+class Delivery extends Attach {
   private index: number;
   private lastStage: boolean;
 
   private homeDelivery: boolean;
 
   constructor(element: HTMLDivElement, index: number, lastStage: boolean) {
-    this.element = element;
+    super(element);
     this.index = index;
     this.lastStage = lastStage;
 

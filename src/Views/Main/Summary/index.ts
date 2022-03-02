@@ -1,10 +1,9 @@
+import Attach from '../../../Components/Extension/Attach';
 import ListItem from '../ListItem';
 
-class Summary {
-  private element: HTMLDivElement;
-
+class Summary extends Attach {
   constructor(element: HTMLDivElement) {
-    this.element = element;
+    super(element);
     this.render();
   }
 

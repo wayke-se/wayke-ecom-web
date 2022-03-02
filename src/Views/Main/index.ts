@@ -4,11 +4,10 @@ import ItemTileSmall from '../../Templates/ItemTileSmall';
 import store from '../../Redux/store';
 import Summary from './Summary';
 import Confirmation from './Confirmation';
-class Main {
-  private element: Element;
-
-  constructor(element: Element) {
-    this.element = element;
+import Attach from '../../Components/Extension/Attach';
+class Main extends Attach {
+  constructor(element: HTMLElement) {
+    super(element);
     const w = watch(store.getState, 'navigation.view');
     store.subscribe(
       w((view) => {

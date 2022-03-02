@@ -2,6 +2,7 @@ import { DrivingDistance } from '@wayke-se/ecom';
 import watch from 'redux-watch';
 import ButtonArrowRight from '../../../Components/Button/ButtonArrowRight';
 import ButtonSkip from '../../../Components/Button/ButtonSkip';
+import Attach from '../../../Components/Extension/Attach';
 import InputSelect from '../../../Components/Input/InputSelect';
 import StageCompleted from '../../../Components/StageCompleted';
 import { completeStage, goTo, setDrivingDistance } from '../../../Redux/action';
@@ -20,14 +21,13 @@ const SHOW_INSURANCES_NODE = `${SHOW_INSURANCES}-node`;
 const SKIP_INSURANCES = 'button-insurances-skip';
 const SKIP_INSURANCES_NODE = `${SKIP_INSURANCES}-node`;
 
-class Insurance {
-  private element: HTMLDivElement;
+class Insurance extends Attach {
   private index: number;
   private lastStage: boolean;
   private showInsurances = false;
 
   constructor(element: HTMLDivElement, index: number, lastStage: boolean) {
-    this.element = element;
+    super(element);
     this.index = index;
     this.lastStage = lastStage;
 

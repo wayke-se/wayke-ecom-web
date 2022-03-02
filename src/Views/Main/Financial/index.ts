@@ -2,6 +2,7 @@ import { PaymentType } from '@wayke-se/ecom';
 import { PaymentLookupResponse } from '@wayke-se/ecom/dist-types/payments/payment-lookup-response';
 import watch from 'redux-watch';
 import ButtonArrowRight from '../../../Components/Button/ButtonArrowRight';
+import Attach from '../../../Components/Extension/Attach';
 import InputRadioGroup, { RadioItem } from '../../../Components/Input/InputRadioGroup';
 import { goTo, setFinancial } from '../../../Redux/action';
 import store from '../../../Redux/store';
@@ -26,8 +27,7 @@ const RADIO_FINANCIAL_LEASE = 'radio-financial-lease';
 
 const PAYMENT_NODE = 'payment-node';
 
-class Financial {
-  private element: HTMLDivElement;
+class Financial extends Attach {
   private index: number;
   private lastStage: boolean;
 
@@ -35,7 +35,7 @@ class Financial {
   private paymentLookupResponse?: PaymentLookupResponse;
 
   constructor(element: HTMLDivElement, index: number, lastStage: boolean) {
-    this.element = element;
+    super(element);
     this.index = index;
     this.lastStage = lastStage;
 

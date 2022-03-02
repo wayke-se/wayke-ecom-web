@@ -1,4 +1,5 @@
 import watch from 'redux-watch';
+import Attach from '../../../Components/Extension/Attach';
 import StageCompleted from '../../../Components/StageCompleted';
 import { goTo } from '../../../Redux/action';
 import store from '../../../Redux/store';
@@ -7,13 +8,12 @@ import ListItem from '../ListItem';
 import EmailAndPhone from './EmailAndPhone';
 import FullAddress from './FullAddress';
 
-class Customer {
-  private element: HTMLDivElement;
+class Customer extends Attach {
   private index: number;
   private lastStage: boolean;
 
   constructor(element: HTMLDivElement, index: number, lastStage: boolean) {
-    this.element = element;
+    super(element);
     this.index = index;
     this.lastStage = lastStage;
 

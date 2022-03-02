@@ -1,12 +1,11 @@
 import watch from 'redux-watch';
+import Attach from '../../../Components/Extension/Attach';
 import store from '../../../Redux/store';
 import ListItem from '../ListItem';
 
-class CentralStorage {
-  private element: HTMLDivElement;
-
+class CentralStorage extends Attach {
   constructor(element: HTMLDivElement) {
-    this.element = element;
+    super(element);
     const w = watch(store.getState, 'navigation');
     store.subscribe(w(() => this.render()));
     const w2 = watch(store.getState, 'edit');
