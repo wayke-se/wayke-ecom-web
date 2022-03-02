@@ -20,12 +20,18 @@ export const createOrder = () => {
     const duration = state.paymentLookupResponse?.getDurationSpec().current as number;
     const downPayment = state.paymentLookupResponse?.getDownPaymentSpec().current as number;
     const residual = state.paymentLookupResponse?.getResidualValueSpec().current as number;
+    const externalId = state.order
+      ?.getPaymentOptions()
+      .find((x) => x.type === PaymentType.Loan)?.externalId;
 
     paymentBuilder
       .withDuration(duration) // months, only applicable when payment type === PaymentType.Loan
       .withDownPayment(downPayment) // only applicable when payment type === PaymentType.Loan
-      .withResidualValue(residual) // only applicable when payment type === PaymentType.Loan
-      .withExternalId('some-id'); // only applicable when payment type === PaymentType.Loan
+      .withResidualValue(residual); // only applicable when payment type === PaymentType.Loan
+
+    if (externalId) {
+      paymentBuilder.withExternalId(externalId); // only applicable when payment type === PaymentType.Loan
+    }
   }
   const payment = paymentBuilder.build();
 
