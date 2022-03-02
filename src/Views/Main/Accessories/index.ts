@@ -1,7 +1,7 @@
 import watch from 'redux-watch';
 import StageCompleted from '../../../Components/StageCompleted';
 
-import { setInsurance, goTo } from '../../../Redux/action';
+import { goTo, completeStage } from '../../../Redux/action';
 import store from '../../../Redux/store';
 import ListItem from '../ListItem';
 import AccessoryList from './AccessoryList';
@@ -27,7 +27,7 @@ class Accessories {
   }
 
   private onProceed() {
-    setInsurance(this.lastStage, true);
+    completeStage(this.lastStage);
   }
 
   private onEdit() {

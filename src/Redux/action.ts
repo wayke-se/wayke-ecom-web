@@ -90,35 +90,12 @@ export type SET_DRIVING_DISTANCE_TYPE = BaseAction<typeof SET_DRIVING_DISTANCE> 
 export const setDrivingDistance = (drivingDistance: DrivingDistance) =>
   store.dispatch({ type: SET_DRIVING_DISTANCE, drivingDistance });
 
-export const INIT_INSURANCES = 'INIT_INSURANCES';
-export type INIT_INSURANCES_TYPE = BaseAction<typeof INIT_INSURANCES> & {
+export const COMPLETE_STAGE = 'COMPLETE_STAGE';
+export type COMPLETE_STAGE_TYPE = BaseAction<typeof COMPLETE_STAGE> & {
   lastStage: boolean;
 };
-
-export const initInsurances = (lastStage: boolean) =>
-  store.dispatch({ type: INIT_INSURANCES, lastStage });
-
-export const SET_WANT_INSURANCE = 'SET_WANT_INSURANCE';
-export type SET_WANT_INSURANCE_TYPE = BaseAction<typeof SET_WANT_INSURANCE> & {
-  wantInsurance?: boolean;
-};
-
-export const setWantInsurance = (wantInsurance?: boolean) =>
-  store.dispatch({ type: SET_WANT_INSURANCE, wantInsurance });
-
-export const SET_INSURANCE = 'SET_INSURANCE';
-export type SET_INSURANCE_TYPE = BaseAction<typeof SET_INSURANCE> & {
-  lastStage: boolean;
-};
-export const setInsurance = (lastStage: boolean, wantInsurance?: boolean) =>
-  store.dispatch({ type: SET_INSURANCE, lastStage, wantInsurance });
-
-export const CLEAR_INSURANCE = 'CLEAR_INSURANCE';
-export type CLEAR_INSURANCE_TYPE = BaseAction<typeof CLEAR_INSURANCE> & {
-  lastStage: boolean;
-};
-export const clearInsurance = (lastStage: boolean) =>
-  store.dispatch({ type: CLEAR_INSURANCE, lastStage });
+export const completeStage = (lastStage: boolean) =>
+  store.dispatch({ type: COMPLETE_STAGE, lastStage });
 
 export const SET_OR_REMOVE_INSURANCE = 'SET_OR_REMOVE_INSURANCE';
 export type SET_OR_REMOVE_INSURANCE_TYPE = BaseAction<typeof SET_OR_REMOVE_INSURANCE> & {
@@ -159,12 +136,9 @@ export type Action =
   | SET_TRADE_IN_TYPE
   | SET_FINANCIAL_TYPE
   | SET_PAYMENT_LOOKUP_RESPONSE_TYPE
-  | SET_INSURANCE_TYPE
   | SET_DRIVING_DISTANCE_TYPE
-  | SET_WANT_INSURANCE_TYPE
-  | CLEAR_INSURANCE_TYPE
-  | INIT_INSURANCES_TYPE
   | SET_OR_REMOVE_INSURANCE_TYPE
   | SET_OR_REMOVE_ACCESSORY_TYPE
   | GO_TO_TYPE
-  | SET_STAGES_TYPE;
+  | SET_STAGES_TYPE
+  | COMPLETE_STAGE_TYPE;

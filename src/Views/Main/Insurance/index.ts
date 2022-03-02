@@ -4,7 +4,7 @@ import ButtonArrowRight from '../../../Components/Button/ButtonArrowRight';
 import ButtonSkip from '../../../Components/Button/ButtonSkip';
 import InputSelect from '../../../Components/Input/InputSelect';
 import StageCompleted from '../../../Components/StageCompleted';
-import { goTo, initInsurances, clearInsurance, setDrivingDistance } from '../../../Redux/action';
+import { completeStage, goTo, setDrivingDistance } from '../../../Redux/action';
 import store from '../../../Redux/store';
 import { KeyValueListItemProps } from '../../../Templates/KeyValueListItem';
 import { translateDrivingDistance } from '../../../Utils/constants';
@@ -24,6 +24,7 @@ class Insurance {
   private element: HTMLDivElement;
   private index: number;
   private lastStage: boolean;
+  private showInsurances = false;
 
   constructor(element: HTMLDivElement, index: number, lastStage: boolean) {
     this.element = element;
@@ -34,8 +35,6 @@ class Insurance {
     store.subscribe(w(() => this.render()));
     const w2 = watch(store.getState, 'edit');
     store.subscribe(w2(() => this.render()));
-    const w3 = watch(store.getState, 'wantInsurance');
-    store.subscribe(w3(() => this.render()));
 
     this.render();
   }
@@ -46,16 +45,22 @@ class Insurance {
   }
 
   private onSkipInsurances() {
-    clearInsurance(this.lastStage);
+    completeStage(this.lastStage);
   }
 
   private onShowInsurances() {
-    initInsurances(this.lastStage);
+    this.showInsurances = true;
+    this.render();
   }
 
   private onEdit() {
-    clearInsurance(this.lastStage);
-    goTo('main', this.index);
+    const state = store.getState();
+    this.showInsurances = false;
+    if (state.navigation.stage !== this.index) {
+      goTo('main', this.index);
+    } else {
+      this.render();
+    }
   }
 
   render() {
@@ -98,8 +103,8 @@ class Insurance {
         onEdit: () => this.onEdit(),
       });
     } else if (state.navigation.stage === this.index) {
-      if (state.wantInsurance) {
-        new InsuranceView(part, { lastStage: this.lastStage });
+      if (this.showInsurances) {
+        new InsuranceView(part, { lastStage: this.lastStage, onEdit: () => this.onEdit() });
       } else {
         part.innerHTML = `
         <div class="waykeecom-stack waykeecom-stack--3">
