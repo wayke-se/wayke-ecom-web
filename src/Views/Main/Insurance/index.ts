@@ -1,25 +1,25 @@
-import { IInsuranceOption } from '@wayke-se/ecom';
 import watch from 'redux-watch';
+import ButtonArrowRight from '../../../Components/Button/ButtonArrowRight';
+import ButtonSkip from '../../../Components/Button/ButtonSkip';
 import StageCompleted from '../../../Components/StageCompleted';
-import { getInsurances } from '../../../Data/getInsurances';
-import { setInsurance, goTo } from '../../../Redux/action';
+import { setInsurance, goTo, initInsurances } from '../../../Redux/action';
 import store from '../../../Redux/store';
-import Alert from '../../../Templates/Alert';
 import KeyValueListItem from '../../../Templates/KeyValueListItem';
-import Loader from '../../../Templates/Loader';
 import ListItem from '../ListItem';
-import InsuranceList from './InsuranceList';
+import InsuranceView from './InsuranceView';
 
-const PROCEED = 'button-insurance-proceed';
 const CHANGE_BUTTON = 'button-insurance-change';
-const INSURANCE_GRID_LIST_NODE = 'insurance-grid-list-node';
+
+const SHOW_INSURANCES = 'button-insurances-show';
+const SHOW_INSURANCES_NODE = `${SHOW_INSURANCES}-node`;
+
+const SKIP_INSURANCES = 'button-insurances-skip';
+const SKIP_INSURANCES_NODE = `${SKIP_INSURANCES}-node`;
 
 class Insurance {
   private element: HTMLDivElement;
   private index: number;
   private lastStage: boolean;
-  private insurances?: IInsuranceOption[];
-  private requestError: boolean = false;
 
   constructor(element: HTMLDivElement, index: number, lastStage: boolean) {
     this.element = element;
@@ -31,38 +31,15 @@ class Insurance {
     const w2 = watch(store.getState, 'edit');
     store.subscribe(w2(() => this.render()));
 
-    const w3 = watch(store.getState, 'drivingDistance');
-    store.subscribe(w3(() => this.fetchInsurance()));
-
-    const w4 = watch(store.getState, 'customer.socialId');
-    store.subscribe(w4(() => this.fetchInsurance()));
-
-    this.fetchInsurance();
     this.render();
   }
 
-  fetchInsurance() {
-    const state = store.getState();
-    if (state.customer.socialId) {
-      this.getchInsurances();
-    }
-  }
-
-  async getchInsurances() {
-    this.requestError = false;
-    try {
-      const state = store.getState();
-      const response = await getInsurances(state.drivingDistance);
-      this.insurances = response.getInsuranceOptions();
-    } catch (e) {
-      this.requestError = true;
-    } finally {
-      this.render();
-    }
-  }
-
-  private onProceed() {
+  private onSkipInsurances() {
     setInsurance(this.lastStage);
+  }
+
+  private onShowInsurances() {
+    initInsurances(this.lastStage);
   }
 
   private onEdit() {
@@ -97,7 +74,10 @@ class Insurance {
         onEdit: () => this.onEdit(),
       });
     } else if (state.navigation.stage === this.index) {
-      part.innerHTML = `
+      if (state.wantInsurance) {
+        new InsuranceView(part, { lastStage: this.lastStage });
+      } else {
+        part.innerHTML = `
         <div class="waykeecom-stack waykeecom-stack--3">
           <div class="waykeecom-stack waykeecom-stack--2">
             <h4 class="waykeecom-heading waykeecom-heading--4">Vill du teckna en försäkring på din nya bil?</h4>
@@ -121,46 +101,25 @@ class Insurance {
             </div>
           </div>
         </div>
-        <div class="waykeecom-stack waykeecom-stack--3" id="${INSURANCE_GRID_LIST_NODE}"></div>
-
 
         <div class="waykeecom-stack waykeecom-stack--3">
-          <button type="button" id="${PROCEED}" title="Fortsätt till nästa steg" class="waykeecom-button waykeecom-button--full-width waykeecom-button--action">
-            <span class="waykeecom-button__content">Fortsätt</span>
-            <span class="waykeecom-button__content">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 16 16"
-                class="waykeecom-icon"
-              >
-                <title>Ikon: pil höger</title>
-                <path d="m15.2 8.8-4.8 4.8-1.7-1.7 2.7-2.7H1.2C.5 9.2 0 8.7 0 8s.5-1.2 1.2-1.2h10.2L8.7 4.1l1.7-1.7 4.8 4.8.8.8-.8.8z" />
-              </svg>
-            </span>
-          </button>
+          <div class="waykeecom-stack waykeecom-stack--1" id="${SHOW_INSURANCES_NODE}"></div>
+          <div class="waykeecom-stack waykeecom-stack--1" id="${SKIP_INSURANCES_NODE}"></div>
         </div>
       `;
 
-      const insuranceListNode = part.querySelector<HTMLDivElement>(`#${INSURANCE_GRID_LIST_NODE}`);
-      if (insuranceListNode) {
-        if (this.requestError) {
-          insuranceListNode.innerHTML = Alert({
-            tone: 'error',
-            children: '<p>Det gick inte att hämta försäkringar.</p>',
-          });
-        } else {
-          const insurances = this.insurances;
-          if (insurances?.length) {
-            new InsuranceList(insuranceListNode, insurances);
-          } else {
-            insuranceListNode.innerHTML = Loader();
-          }
-        }
-      }
+        new ButtonArrowRight(part.querySelector<HTMLDivElement>(`#${SHOW_INSURANCES_NODE}`), {
+          id: SHOW_INSURANCES,
+          title: 'Visa försäkringar',
+          onClick: () => this.onShowInsurances(),
+        });
 
-      part
-        .querySelector<HTMLButtonElement>(`#${PROCEED}`)
-        ?.addEventListener('click', () => this.onProceed());
+        new ButtonSkip(part.querySelector<HTMLDivElement>(`#${SKIP_INSURANCES_NODE}`), {
+          id: SKIP_INSURANCES,
+          title: 'Hoppa över detta steg',
+          onClick: () => this.onSkipInsurances(),
+        });
+      }
     }
 
     content.appendChild(part);

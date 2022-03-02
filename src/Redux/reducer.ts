@@ -22,6 +22,7 @@ import {
   GO_TO,
   SET_OR_REMOVE_ACCESSORY,
   SET_OR_REMOVE_INSURANCE,
+  INIT_INSURANCES,
 } from './action';
 
 export interface ReducerState {
@@ -34,6 +35,7 @@ export interface ReducerState {
   address?: IAddress;
   homeDelivery: boolean;
   wantTradeIn?: boolean;
+  wantInsurance?: boolean;
   tradeIn?: TradeInCarDataPartial;
   tradeInVehicle?: IVehicle;
   centralStorage: boolean;
@@ -179,6 +181,18 @@ const reducer = (state = initialState, action: Action): ReducerState => {
         tradeInVehicle: action.tradeInVehicle,
       };
 
+      return next;
+
+    case INIT_INSURANCES:
+      navigation = { view: 'main', stage: state.navigation.stage, subStage: 1 };
+      topNavigation = getNextTopNavigationState(next.topNavigation, navigation);
+      next = {
+        ...state,
+        navigation,
+        wantInsurance: true,
+        topNavigation,
+        insurance: undefined,
+      };
       return next;
 
     case SET_FINANCIAL:

@@ -82,6 +82,14 @@ export type SET_PAYMENT_LOOKUP_RESPONSE_TYPE = BaseAction<typeof SET_PAYMENT_LOO
 export const setPaymentLookupResponse = (paymentLookupResponse: PaymentLookupResponse) =>
   store.dispatch({ type: SET_PAYMENT_LOOKUP_RESPONSE, paymentLookupResponse });
 
+export const INIT_INSURANCES = 'INIT_INSURANCES';
+export type INIT_INSURANCES_TYPE = BaseAction<typeof INIT_INSURANCES> & {
+  lastStage: boolean;
+};
+
+export const initInsurances = (lastStage: boolean) =>
+  store.dispatch({ type: INIT_INSURANCES, lastStage });
+
 export const SET_INSURANCE = 'SET_INSURANCE';
 export type SET_INSURANCE_TYPE = BaseAction<typeof SET_INSURANCE> & {
   lastStage: boolean;
@@ -129,6 +137,7 @@ export type Action =
   | SET_FINANCIAL_TYPE
   | SET_PAYMENT_LOOKUP_RESPONSE_TYPE
   | SET_INSURANCE_TYPE
+  | INIT_INSURANCES_TYPE
   | SET_OR_REMOVE_INSURANCE_TYPE
   | SET_OR_REMOVE_ACCESSORY_TYPE
   | GO_TO_TYPE
