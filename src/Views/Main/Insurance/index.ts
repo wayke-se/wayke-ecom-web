@@ -1,14 +1,18 @@
+import { DrivingDistance } from '@wayke-se/ecom';
 import watch from 'redux-watch';
 import ButtonArrowRight from '../../../Components/Button/ButtonArrowRight';
 import ButtonSkip from '../../../Components/Button/ButtonSkip';
+import InputSelect from '../../../Components/Input/InputSelect';
 import StageCompleted from '../../../Components/StageCompleted';
-import { setInsurance, goTo, initInsurances } from '../../../Redux/action';
+import { goTo, initInsurances, clearInsurance, setDrivingDistance } from '../../../Redux/action';
 import store from '../../../Redux/store';
-import KeyValueListItem from '../../../Templates/KeyValueListItem';
+import { KeyValueListItemProps } from '../../../Templates/KeyValueListItem';
+import { translateDrivingDistance } from '../../../Utils/constants';
 import ListItem from '../ListItem';
 import InsuranceView from './InsuranceView';
 
-const CHANGE_BUTTON = 'button-insurance-change';
+const DISTANCE = 'select-insurance-distance';
+const DISTANCE_NODE = `${DISTANCE}-node`;
 
 const SHOW_INSURANCES = 'button-insurances-show';
 const SHOW_INSURANCES_NODE = `${SHOW_INSURANCES}-node`;
@@ -30,12 +34,19 @@ class Insurance {
     store.subscribe(w(() => this.render()));
     const w2 = watch(store.getState, 'edit');
     store.subscribe(w2(() => this.render()));
+    const w3 = watch(store.getState, 'wantInsurance');
+    store.subscribe(w3(() => this.render()));
 
     this.render();
   }
 
+  private onChangeDistance(e: Event) {
+    const currentTarget = e.currentTarget as HTMLSelectElement;
+    setDrivingDistance(currentTarget.value as DrivingDistance);
+  }
+
   private onSkipInsurances() {
-    setInsurance(this.lastStage);
+    clearInsurance(this.lastStage);
   }
 
   private onShowInsurances() {
@@ -43,6 +54,7 @@ class Insurance {
   }
 
   private onEdit() {
+    clearInsurance(this.lastStage);
     goTo('main', this.index);
   }
 
@@ -63,13 +75,25 @@ class Insurance {
       state.navigation.stage > this.index ||
       (completed && state.navigation.stage !== this.index)
     ) {
+      const keyValueOptions: KeyValueListItemProps[] = [];
+      if (state.insurance) {
+        keyValueOptions.push({
+          key: 'Uppskattad körsträcka',
+          value: translateDrivingDistance[state.drivingDistance],
+        });
+        keyValueOptions.push({
+          key: 'Försäkring',
+          value: state.insurance.name,
+        });
+      } else {
+        keyValueOptions.push({
+          key: 'Försäkring',
+          value: 'Ingen',
+        });
+      }
+
       new StageCompleted(content, {
-        keyValueList: [
-          {
-            key: 'Försäkring',
-            value: 'Ingen',
-          },
-        ],
+        keyValueList: keyValueOptions,
         changeButtonTitle: 'Ändra försäkring',
         onEdit: () => this.onEdit(),
       });
@@ -85,33 +109,7 @@ class Insurance {
               <p>Ange din uppskattade körsträcka för att se din försäkringskostnad. Därefter presenterar vi förslag på försäkringar som passar dig och din nya bil. I både hel- och halvförsäkring ingår trafikförsäkring som är obligatoriskt att ha. Ifall du har valt att finansiera bilen med ett billån är priset du ser rabatterat.</p>
             </div>
           </div>
-          <div class="waykeecom-stack waykeecom-stack--2">
-            <div class="waykeecom-stack waykeecom-stack--1">
-              <ul class="waykeecom-key-value-list">
-                ${KeyValueListItem({
-                  key: 'Uppskattad körsträcka',
-                  value: '0-1 000 mil/år',
-                })}
-              </ul>
-            </div>
-            <div class="waykeecom-stack waykeecom-stack--1">
-              <div class="waykeecom-align waykeecom-align--end">
-                <button id="${CHANGE_BUTTON}" title="Ändra beräknad körsträcka" class="waykeecom-link">Ändra</button>
-              </div>
-            </div>
-          </div>
-          <div class="waykeecom-stack waykeecom-stack--2">
-            <div class="waykeecom-input-label">
-              <label for="wayke-estimated-mileage" class="waykeecom-input-label__label">Uppskattad körsträcka per år</label>
-            </div>
-            <select class="waykeecom-select" id="wayke-estimated-mileage">
-              <option value="">0–1000 mil</option>
-              <option value="">1000–1500 mil</option>
-              <option value="">1500–2000 mil</option>
-              <option value="">2000–2500 mil</option>
-              <option value="">2500+ mil</option>
-            </select>
-          </div>
+          <div class="waykeecom-stack waykeecom-stack--2" id="${DISTANCE_NODE}"></div>
         </div>
 
         <div class="waykeecom-stack waykeecom-stack--3">
@@ -119,6 +117,36 @@ class Insurance {
           <div class="waykeecom-stack waykeecom-stack--1" id="${SKIP_INSURANCES_NODE}"></div>
         </div>
       `;
+
+        new InputSelect(part.querySelector<HTMLDivElement>(`#${DISTANCE_NODE}`), {
+          id: DISTANCE,
+          title: 'Visa försäkringar',
+          name: 'distance',
+          value: state.drivingDistance,
+          options: [
+            {
+              value: DrivingDistance.Between0And1000,
+              title: translateDrivingDistance[DrivingDistance.Between0And1000],
+            },
+            {
+              value: DrivingDistance.Between1000And1500,
+              title: translateDrivingDistance[DrivingDistance.Between1000And1500],
+            },
+            {
+              value: DrivingDistance.Between1500And2000,
+              title: translateDrivingDistance[DrivingDistance.Between1500And2000],
+            },
+            {
+              value: DrivingDistance.Between2000And2500,
+              title: translateDrivingDistance[DrivingDistance.Between2000And2500],
+            },
+            {
+              value: DrivingDistance.Over2500,
+              title: translateDrivingDistance[DrivingDistance.Over2500],
+            },
+          ],
+          onChange: (e) => this.onChangeDistance(e),
+        });
 
         new ButtonArrowRight(part.querySelector<HTMLDivElement>(`#${SHOW_INSURANCES_NODE}`), {
           id: SHOW_INSURANCES,

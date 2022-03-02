@@ -16,6 +16,7 @@ import {
   SET_FINANCIAL,
   SET_INSURANCE,
   INIT_TRADE_IN,
+  SET_WANT_INSURANCE,
   SET_PAYMENT_LOOKUP_RESPONSE,
   SET_ID,
   SET_STAGES,
@@ -23,6 +24,8 @@ import {
   SET_OR_REMOVE_ACCESSORY,
   SET_OR_REMOVE_INSURANCE,
   INIT_INSURANCES,
+  CLEAR_INSURANCE,
+  SET_DRIVING_DISTANCE,
 } from './action';
 
 export interface ReducerState {
@@ -183,6 +186,9 @@ const reducer = (state = initialState, action: Action): ReducerState => {
 
       return next;
 
+    case SET_DRIVING_DISTANCE:
+      return { ...next, drivingDistance: action.drivingDistance };
+
     case INIT_INSURANCES:
       navigation = { view: 'main', stage: state.navigation.stage, subStage: 1 };
       topNavigation = getNextTopNavigationState(next.topNavigation, navigation);
@@ -208,6 +214,26 @@ const reducer = (state = initialState, action: Action): ReducerState => {
 
     case SET_PAYMENT_LOOKUP_RESPONSE:
       return { ...next, paymentLookupResponse: action.paymentLookupResponse };
+
+    case CLEAR_INSURANCE:
+      navigation = getNextNavigationState(state.navigation.stage, action.lastStage);
+      topNavigation = getNextTopNavigationState(next.topNavigation, navigation);
+
+      next = {
+        ...state,
+        wantInsurance: false,
+        insurance: undefined,
+        navigation,
+        topNavigation,
+      };
+
+      return next;
+
+    case SET_WANT_INSURANCE:
+      return {
+        ...next,
+        wantInsurance: action.wantInsurance,
+      };
 
     case SET_INSURANCE:
       navigation = getNextNavigationState(state.navigation.stage, action.lastStage);

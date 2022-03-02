@@ -27,7 +27,7 @@ class Accessories {
   }
 
   private onProceed() {
-    setInsurance(this.lastStage);
+    setInsurance(this.lastStage, true);
   }
 
   private onEdit() {

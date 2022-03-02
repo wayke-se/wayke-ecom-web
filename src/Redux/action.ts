@@ -1,4 +1,4 @@
-import { IAddress, IInsuranceOption, IVehicle, PaymentType } from '@wayke-se/ecom';
+import { DrivingDistance, IAddress, IInsuranceOption, IVehicle, PaymentType } from '@wayke-se/ecom';
 import { OrderOptionsResponse } from '@wayke-se/ecom/dist-types/orders/order-options-response';
 import { IAccessory } from '@wayke-se/ecom/dist-types/orders/types';
 import { PaymentLookupResponse } from '@wayke-se/ecom/dist-types/payments/payment-lookup-response';
@@ -82,6 +82,14 @@ export type SET_PAYMENT_LOOKUP_RESPONSE_TYPE = BaseAction<typeof SET_PAYMENT_LOO
 export const setPaymentLookupResponse = (paymentLookupResponse: PaymentLookupResponse) =>
   store.dispatch({ type: SET_PAYMENT_LOOKUP_RESPONSE, paymentLookupResponse });
 
+export const SET_DRIVING_DISTANCE = 'SET_DRIVING_DISTANCE';
+export type SET_DRIVING_DISTANCE_TYPE = BaseAction<typeof SET_DRIVING_DISTANCE> & {
+  drivingDistance: DrivingDistance;
+};
+
+export const setDrivingDistance = (drivingDistance: DrivingDistance) =>
+  store.dispatch({ type: SET_DRIVING_DISTANCE, drivingDistance });
+
 export const INIT_INSURANCES = 'INIT_INSURANCES';
 export type INIT_INSURANCES_TYPE = BaseAction<typeof INIT_INSURANCES> & {
   lastStage: boolean;
@@ -90,12 +98,27 @@ export type INIT_INSURANCES_TYPE = BaseAction<typeof INIT_INSURANCES> & {
 export const initInsurances = (lastStage: boolean) =>
   store.dispatch({ type: INIT_INSURANCES, lastStage });
 
+export const SET_WANT_INSURANCE = 'SET_WANT_INSURANCE';
+export type SET_WANT_INSURANCE_TYPE = BaseAction<typeof SET_WANT_INSURANCE> & {
+  wantInsurance?: boolean;
+};
+
+export const setWantInsurance = (wantInsurance?: boolean) =>
+  store.dispatch({ type: SET_WANT_INSURANCE, wantInsurance });
+
 export const SET_INSURANCE = 'SET_INSURANCE';
 export type SET_INSURANCE_TYPE = BaseAction<typeof SET_INSURANCE> & {
   lastStage: boolean;
 };
-export const setInsurance = (lastStage: boolean) =>
-  store.dispatch({ type: SET_INSURANCE, lastStage });
+export const setInsurance = (lastStage: boolean, wantInsurance?: boolean) =>
+  store.dispatch({ type: SET_INSURANCE, lastStage, wantInsurance });
+
+export const CLEAR_INSURANCE = 'CLEAR_INSURANCE';
+export type CLEAR_INSURANCE_TYPE = BaseAction<typeof CLEAR_INSURANCE> & {
+  lastStage: boolean;
+};
+export const clearInsurance = (lastStage: boolean) =>
+  store.dispatch({ type: CLEAR_INSURANCE, lastStage });
 
 export const SET_OR_REMOVE_INSURANCE = 'SET_OR_REMOVE_INSURANCE';
 export type SET_OR_REMOVE_INSURANCE_TYPE = BaseAction<typeof SET_OR_REMOVE_INSURANCE> & {
@@ -137,6 +160,9 @@ export type Action =
   | SET_FINANCIAL_TYPE
   | SET_PAYMENT_LOOKUP_RESPONSE_TYPE
   | SET_INSURANCE_TYPE
+  | SET_DRIVING_DISTANCE_TYPE
+  | SET_WANT_INSURANCE_TYPE
+  | CLEAR_INSURANCE_TYPE
   | INIT_INSURANCES_TYPE
   | SET_OR_REMOVE_INSURANCE_TYPE
   | SET_OR_REMOVE_ACCESSORY_TYPE
