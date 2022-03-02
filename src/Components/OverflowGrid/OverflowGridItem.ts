@@ -36,7 +36,16 @@ class GridItem extends AppendChild {
             </div>
           </div>
           <div class="waykeecom-tile__price">${price}</div>
-          <div class="waykeecom-tile__description">${description}</div>
+          <div class="waykeecom-tile__description">
+            <div class="waykeecom-extend-content">
+              <div class="waykeecom-extend-content__body">
+                ${description}
+              </div>
+              <div class="waykeecom-extend-content__action">
+                <button type="button" title="Läs mer" class="waykeecom-link">Läs mer</button>
+              </div>
+            </div>
+          </div>
           <div class="waykeecom-tile__read-more">
             <button type="button" title="" class="waykeecom-link">Läs mer</button>
           </div>
