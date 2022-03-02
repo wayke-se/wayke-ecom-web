@@ -16,7 +16,7 @@ export const createOrder = () => {
     .build();
 
   const paymentBuilder = orders.newPayment().withType(state.paymentType);
-  if (state.paymentType === PaymentType.Cash) {
+  if (state.paymentType === PaymentType.Loan) {
     const duration = state.paymentLookupResponse?.getDurationSpec().current as number;
     const downPayment = state.paymentLookupResponse?.getDownPaymentSpec().current as number;
     const residual = state.paymentLookupResponse?.getResidualValueSpec().current as number;
@@ -41,7 +41,16 @@ export const createOrder = () => {
     .withCustomer(customer)
     .withPayment(payment)
     .withDeliveryType(state.homeDelivery ? DeliveryType.Delivery : DeliveryType.Pickup);
-  //.withInsurance(insurance) // optional
+
+  if (state.insurance) {
+    const insurance = orders
+      .newInsurance()
+      .withDrivingDistance(state.drivingDistance)
+      //.withAddOns(insurance.addons) // optional
+      .build();
+
+    requestBuilder.withInsurance(insurance);
+  }
 
   if (state.accessories.length) {
     requestBuilder.withAccessories(state.accessories);
