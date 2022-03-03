@@ -1,4 +1,4 @@
-import Attach from '../Extension/Attach';
+import HtmlNode from '../Extension/HtmlNode';
 
 interface InputRadioFieldProps {
   title: string;
@@ -11,7 +11,7 @@ interface InputRadioFieldProps {
   onClick?: (e: Event) => void;
 }
 
-class InputRadioField extends Attach {
+class InputRadioField extends HtmlNode {
   private props: InputRadioFieldProps;
 
   constructor(element: HTMLDivElement | null, props: InputRadioFieldProps) {
@@ -21,7 +21,7 @@ class InputRadioField extends Attach {
   }
 
   render() {
-    this.element.innerHTML = `
+    this.node.innerHTML = `
       <div class="waykeecom-input-radio" role="radio">
         <input
           type="radio"
@@ -53,7 +53,7 @@ class InputRadioField extends Attach {
       </div>
     `;
 
-    const input = this.element.querySelector(`#${this.props.id}`);
+    const input = this.node.querySelector(`#${this.props.id}`);
     if (input) {
       if (this.props.onClick) {
         input.addEventListener('click', this.props.onClick);

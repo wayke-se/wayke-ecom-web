@@ -1,4 +1,4 @@
-import Attach from '../Extension/Attach';
+import HtmlNode from '../Extension/HtmlNode';
 
 const helpClassName = 'waykeecom-input-label__help';
 const foldoutClassName = 'waykeecom-input-label__foldout';
@@ -7,7 +7,7 @@ interface InputInformationProps {
   information?: string;
 }
 
-class InputInformation extends Attach {
+class InputInformation extends HtmlNode {
   private props: InputInformationProps;
   private open: boolean = false;
 
@@ -25,8 +25,8 @@ class InputInformation extends Attach {
 
   render() {
     if (this.props.information) {
-      const existHelp = this.element.querySelector(`.${helpClassName}`);
-      const existFoldout = this.element.querySelector(`.${foldoutClassName}`);
+      const existHelp = this.node.querySelector(`.${helpClassName}`);
+      const existFoldout = this.node.querySelector(`.${foldoutClassName}`);
 
       const label = existHelp || document.createElement('div');
       if (!existHelp) {
@@ -70,7 +70,7 @@ class InputInformation extends Attach {
 
       label.querySelector('button')?.addEventListener('click', () => this.onClick());
       if (!existHelp) {
-        this.element.appendChild(label);
+        this.node.appendChild(label);
       }
     }
   }

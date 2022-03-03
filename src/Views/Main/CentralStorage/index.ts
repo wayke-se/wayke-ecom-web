@@ -1,9 +1,9 @@
 import watch from 'redux-watch';
-import Attach from '../../../Components/Extension/Attach';
+import HtmlNode from '../../../Components/Extension/HtmlNode';
 import store from '../../../Redux/store';
 import ListItem from '../ListItem';
 
-class CentralStorage extends Attach {
+class CentralStorage extends HtmlNode {
   constructor(element: HTMLDivElement) {
     super(element);
     const w = watch(store.getState, 'navigation');
@@ -17,7 +17,7 @@ class CentralStorage extends Attach {
   render() {
     const centralStorage = store.getState().centralStorage;
     if (centralStorage) {
-      ListItem(this.element, { title: 'Centrallager', id: 'central-storage' });
+      ListItem(this.node, { title: 'Centrallager', id: 'central-storage' });
     }
   }
 }

@@ -1,6 +1,6 @@
 import InputHelp from '../../Templates/InputHelp';
 import { prettyNumber } from '../../Utils/format';
-import Attach from '../Extension/Attach';
+import HtmlNode from '../Extension/HtmlNode';
 
 const formatNumberPretty = (value: string | number, postfix?: string) =>
   prettyNumber(value, { postfix });
@@ -21,7 +21,7 @@ interface InputRangeProps {
   onBlur?: (e: Event) => void;
 }
 
-class InputRange extends Attach {
+class InputRange extends HtmlNode {
   private props: InputRangeProps;
   private value: number;
   private inputFieldValue: string;
@@ -44,7 +44,7 @@ class InputRange extends Attach {
   }
 
   onOpenInformation() {
-    const foldout = this.element.querySelector<HTMLDivElement>('.input-label__foldout');
+    const foldout = this.node.querySelector<HTMLDivElement>('.input-label__foldout');
     if (foldout) {
       foldout.style.display = '';
     }
@@ -96,7 +96,7 @@ class InputRange extends Attach {
   }
 
   updateRangeSliderColor(element?: HTMLInputElement) {
-    const elem = element || this.element.querySelector<HTMLInputElement>(`#${this.props.id}`);
+    const elem = element || this.node.querySelector<HTMLInputElement>(`#${this.props.id}`);
     if (elem) {
       const style = getComputedStyle(elem);
       const currentBackgroundImageBits = style.backgroundImage.split(',');
@@ -114,7 +114,7 @@ class InputRange extends Attach {
   }
 
   updateInputField() {
-    const inputField = this.element.querySelector<HTMLInputElement>(`#${this.props.id}-input`);
+    const inputField = this.node.querySelector<HTMLInputElement>(`#${this.props.id}-input`);
     if (inputField) {
       inputField.value = this.inputFieldValue;
     }
@@ -123,7 +123,7 @@ class InputRange extends Attach {
   render() {
     const allowSlider = this.props.min !== this.props.max;
 
-    this.element.innerHTML = `
+    this.node.innerHTML = `
       <div class="waykeecom-input-label">
         <label for="${this.props.id}" class="waykeecom-input-label__label">${
       this.props.title
@@ -177,13 +177,11 @@ class InputRange extends Attach {
     `;
 
     if (this.props.information) {
-      this.element
-        .querySelector('button')
-        ?.addEventListener('click', () => this.onOpenInformation());
+      this.node.querySelector('button')?.addEventListener('click', () => this.onOpenInformation());
     }
 
     if (allowSlider) {
-      const inputRange = this.element.querySelector<HTMLInputElement>(`#${this.props.id}`);
+      const inputRange = this.node.querySelector<HTMLInputElement>(`#${this.props.id}`);
       if (inputRange) {
         if (this.props.onChange) {
           inputRange.addEventListener('change', this.props.onChange);
@@ -194,7 +192,7 @@ class InputRange extends Attach {
         //}, 10);
       }
 
-      const inputField = this.element.querySelector(`#${this.props.id}-input`);
+      const inputField = this.node.querySelector(`#${this.props.id}-input`);
       if (inputField) {
         inputField.addEventListener('change', (e) => this.onChange(e));
         inputField.addEventListener('blur', (e) => this.onBlur(e));

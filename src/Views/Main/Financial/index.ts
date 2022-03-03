@@ -2,7 +2,7 @@ import { PaymentType } from '@wayke-se/ecom';
 import { PaymentLookupResponse } from '@wayke-se/ecom/dist-types/payments/payment-lookup-response';
 import watch from 'redux-watch';
 import ButtonArrowRight from '../../../Components/Button/ButtonArrowRight';
-import Attach from '../../../Components/Extension/Attach';
+import HtmlNode from '../../../Components/Extension/HtmlNode';
 import InputRadioGroup, { RadioItem } from '../../../Components/Input/InputRadioGroup';
 import { goTo, setFinancial } from '../../../Redux/action';
 import store from '../../../Redux/store';
@@ -27,7 +27,7 @@ const RADIO_FINANCIAL_LEASE = 'radio-financial-lease';
 
 const PAYMENT_NODE = 'payment-node';
 
-class Financial extends Attach {
+class Financial extends HtmlNode {
   private index: number;
   private lastStage: boolean;
   private paymentType?: PaymentType;
@@ -84,7 +84,7 @@ class Financial extends Attach {
     const paymentOptions = order.getPaymentOptions();
 
     const completed = state.topNavigation.stage > this.index;
-    const content = ListItem(this.element, {
+    const content = ListItem(this.node, {
       completed,
       title: 'Finansiering',
       active: state.navigation.stage === this.index,
@@ -214,7 +214,7 @@ class Financial extends Attach {
         });
       }
 
-      new InputRadioGroup(this.element.querySelector<HTMLDivElement>(`#${FINANCIAL_OPTION_NODE}`), {
+      new InputRadioGroup(this.node.querySelector<HTMLDivElement>(`#${FINANCIAL_OPTION_NODE}`), {
         title: 'Köp bilen',
         checked: this.paymentType as string,
         name: 'paymentType',

@@ -4,8 +4,8 @@ import ItemTileSmall from '../../Templates/ItemTileSmall';
 import store from '../../Redux/store';
 import Summary from './Summary';
 import Confirmation from './Confirmation';
-import Attach from '../../Components/Extension/Attach';
-class Main extends Attach {
+import HtmlNode from '../../Components/Extension/HtmlNode';
+class Main extends HtmlNode {
   constructor(element: HTMLElement) {
     super(element);
     const w = watch(store.getState, 'navigation.view');
@@ -18,7 +18,7 @@ class Main extends Attach {
     );
 
     this.render();
-    this.element.scrollTop = 0;
+    this.node.scrollTop = 0;
   }
 
   render() {
@@ -26,11 +26,11 @@ class Main extends Attach {
     const { order, stages } = state;
     if (!order) throw 'No order available';
 
-    this.element.innerHTML = ``;
+    this.node.innerHTML = ``;
 
     const pageForm = document.createElement('div');
     pageForm.className = 'waykeecom-page-form';
-    this.element.appendChild(pageForm);
+    this.node.appendChild(pageForm);
 
     const pageFormAside = document.createElement('aside');
     pageFormAside.className = 'waykeecom-page-form__aside';

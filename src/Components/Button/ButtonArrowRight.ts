@@ -1,5 +1,5 @@
 import Loader from '../../Templates/Loader';
-import Attach from './../Extension/Attach';
+import HtmlNode from '../Extension/HtmlNode';
 
 interface ButtonArrowRightProps {
   title: string;
@@ -9,7 +9,7 @@ interface ButtonArrowRightProps {
   onClick?: (e: Event) => void;
 }
 
-class ButtonArrowRight extends Attach {
+class ButtonArrowRight extends HtmlNode {
   private props: ButtonArrowRightProps;
 
   constructor(element: HTMLDivElement | null, props: ButtonArrowRightProps) {
@@ -38,7 +38,7 @@ class ButtonArrowRight extends Attach {
   }
 
   render() {
-    this.element.innerHTML = `
+    this.node.innerHTML = `
       <button
         type="button"
         id="${this.props.id}"
@@ -65,7 +65,7 @@ class ButtonArrowRight extends Attach {
       </button>
     `;
     if (this.props.onClick) {
-      this.element
+      this.node
         .querySelector<HTMLButtonElement>('button')
         ?.addEventListener('click', this.props.onClick);
     }

@@ -1,4 +1,4 @@
-import Attach from '../Extension/Attach';
+import HtmlNode from '../Extension/HtmlNode';
 import InputError from './InputError';
 import InputRadioField from './InputRadioField';
 
@@ -20,7 +20,7 @@ interface InputRadioGroupProps {
   onClick: (e: Event) => void;
 }
 
-class InputRadioGroup extends Attach {
+class InputRadioGroup extends HtmlNode {
   private props: InputRadioGroupProps;
   private contexts: {
     error?: InputError;
@@ -34,7 +34,7 @@ class InputRadioGroup extends Attach {
   }
 
   private updateBorder() {
-    const border = this.element.querySelector('.waykeecom-input-text');
+    const border = this.node.querySelector('.waykeecom-input-text');
     if (border) {
       if (this.props.error) {
         border?.classList.add('waykeecom-input-text--has-error');
@@ -51,7 +51,7 @@ class InputRadioGroup extends Attach {
   }
 
   render() {
-    this.element.innerHTML = `
+    this.node.innerHTML = `
      <fieldset class="waykeecom-input-group" role="radiogroup" aria-required="true">
         <legend class="waykeecom-input-group__legend">${this.props.title}</legend>
         ${this.props.options
@@ -62,7 +62,7 @@ class InputRadioGroup extends Attach {
 
     this.updateBorder();
     if (this.props.errorMessage) {
-      this.contexts.error = new InputError(this.element, {
+      this.contexts.error = new InputError(this.node, {
         error: this.props.error,
         errorMessage: this.props.errorMessage,
       });
@@ -70,7 +70,7 @@ class InputRadioGroup extends Attach {
 
     this.props.options.forEach(
       (option) =>
-        new InputRadioField(this.element.querySelector<HTMLDivElement>(`#${option.id}-node`), {
+        new InputRadioField(this.node.querySelector<HTMLDivElement>(`#${option.id}-node`), {
           id: option.id,
           name: this.props.name,
           title: option.title || option.value,

@@ -1,3 +1,4 @@
+import HtmlNode from '../../Components/Extension/HtmlNode';
 import { goTo } from '../../Redux/action';
 import store from '../../Redux/store';
 import KeyValueListItem from '../../Templates/KeyValueListItem';
@@ -6,18 +7,16 @@ import StackItem from '../Main/TradeIn/StackItem';
 
 const EDIT_CUSTOMER = 'edit-customer';
 
-class Customer {
-  private element: HTMLDivElement;
-
-  constructor(element: HTMLDivElement) {
-    this.element = element;
+class Customer extends HtmlNode {
+  constructor(element: HTMLElement) {
+    super(element);
     this.render();
   }
 
   render() {
     const state = store.getState();
 
-    const content = StackItem(this.element);
+    const content = StackItem(this.node);
 
     content.innerHTML = `
       <div class="waykeecom-stack waykeecom-stack--2">

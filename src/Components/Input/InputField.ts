@@ -1,4 +1,4 @@
-import Attach from '../Extension/Attach';
+import HtmlNode from '../Extension/HtmlNode';
 import InputError from './InputError';
 import InputInformation from './InputInformation';
 
@@ -18,7 +18,7 @@ interface InputFieldProps {
   onBlur?: (e: Event) => void;
 }
 
-class InputField extends Attach {
+class InputField extends HtmlNode {
   private props: InputFieldProps;
   private contexts: {
     error?: InputError;
@@ -32,7 +32,7 @@ class InputField extends Attach {
   }
 
   private updateBorder() {
-    const border = this.element.querySelector('.waykeecom-input-text');
+    const border = this.node.querySelector('.waykeecom-input-text');
     if (border) {
       if (this.props.error) {
         border?.classList.add('waykeecom-input-text--has-error');
@@ -49,7 +49,7 @@ class InputField extends Attach {
   }
 
   private render() {
-    this.element.innerHTML = `
+    this.node.innerHTML = `
       <div class="waykeecom-input-label">
         <label for="${this.props.id}" class="waykeecom-input-label__label">${
       this.props.title
@@ -71,19 +71,19 @@ class InputField extends Attach {
 
     this.updateBorder();
     if (this.props.errorMessage) {
-      this.contexts.error = new InputError(this.element, {
+      this.contexts.error = new InputError(this.node, {
         error: this.props.error,
         errorMessage: this.props.errorMessage,
       });
     }
 
     if (this.props.information) {
-      new InputInformation(this.element.querySelector<HTMLElement>('.waykeecom-input-label'), {
+      new InputInformation(this.node.querySelector<HTMLElement>('.waykeecom-input-label'), {
         information: this.props.information,
       });
     }
 
-    const input = this.element.querySelector('input');
+    const input = this.node.querySelector('input');
     if (input) {
       if (this.props.onChange) {
         input.addEventListener('input', this.props.onChange);

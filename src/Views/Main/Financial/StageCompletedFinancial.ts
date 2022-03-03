@@ -1,6 +1,6 @@
 import { IPaymentOption, PaymentType } from '@wayke-se/ecom';
 import { PaymentLookupResponse } from '@wayke-se/ecom/dist-types/payments/payment-lookup-response';
-import AppendChild from '../../../Components/Extension/AppendChild';
+import HtmlNode from '../../../Components/Extension/HtmlNode';
 import Alert from '../../../Templates/Alert';
 import KeyValueListItem, { KeyValueListItemProps } from '../../../Templates/KeyValueListItem';
 import { prettyNumber } from '../../../Utils/format';
@@ -12,7 +12,7 @@ interface StageCompletedFinancialProps {
   onEdit: () => void;
 }
 
-class StageCompletedFinancial extends AppendChild {
+class StageCompletedFinancial extends HtmlNode {
   private props;
 
   constructor(element: HTMLDivElement, props: StageCompletedFinancialProps) {
@@ -54,7 +54,7 @@ class StageCompletedFinancial extends AppendChild {
         },
       ];
 
-      this.content.innerHTML = `
+      this.node.innerHTML = `
       <div class="waykeecom-stack waykeecom-stack--2">
         <h4 class="waykeecom-heading waykeecom-heading--4">Billån</h4>
         <div class="waykeecom-content">
@@ -87,7 +87,7 @@ class StageCompletedFinancial extends AppendChild {
       </div>
     `;
     } else {
-      this.content.innerHTML = `
+      this.node.innerHTML = `
       <div class="waykeecom-stack waykeecom-stack--1">
         <ul class="waykeecom-key-value-list">
           ${KeyValueListItem({
@@ -104,7 +104,7 @@ class StageCompletedFinancial extends AppendChild {
     `;
     }
 
-    this.content.querySelector('button')?.addEventListener('click', () => this.props.onEdit());
+    this.node.querySelector('button')?.addEventListener('click', () => this.props.onEdit());
   }
 }
 

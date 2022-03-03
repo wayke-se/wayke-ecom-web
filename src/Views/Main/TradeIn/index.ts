@@ -1,3 +1,4 @@
+import watch from 'redux-watch';
 import { goTo, initTradeIn, setTradeIn } from '../../../Redux/action';
 import store from '../../../Redux/store';
 import ListItem from '../ListItem';
@@ -8,9 +9,8 @@ import ButtonSkip from '../../../Components/Button/ButtonSkip';
 import KeyValueListItem from '../../../Templates/KeyValueListItem';
 import ButtonAsLink from '../../../Components/Button/ButtonAsLink';
 import { prettyNumber } from '../../../Utils/format';
-import watch from 'redux-watch';
 import { translateTradeInCondition } from '../../../Utils/constants';
-import Attach from '../../../Components/Extension/Attach';
+import HtmlNode from '../../../Components/Extension/HtmlNode';
 
 const TRADE_IN_YES = 'button-trade-in-yes';
 const TRADE_IN_YES_NODE = `${TRADE_IN_YES}-node`;
@@ -21,7 +21,7 @@ const TRADE_IN_NO_NODE = `${TRADE_IN_NO}-node`;
 const CHANGE_BUTTON = 'button-trade-in-change';
 const CHANGE_BUTTON_NODE = `${CHANGE_BUTTON}-node`;
 
-class TradeIn extends Attach {
+class TradeIn extends HtmlNode {
   private index: number;
   private lastStage: boolean;
 
@@ -55,7 +55,7 @@ class TradeIn extends Attach {
     if (!state.order?.allowsTradeIn) return;
 
     const completed = state.topNavigation.stage > this.index;
-    const content = ListItem(this.element, {
+    const content = ListItem(this.node, {
       title: 'Inbytesbil',
       active: state.navigation.stage === this.index,
       completed: state.topNavigation.stage > this.index,

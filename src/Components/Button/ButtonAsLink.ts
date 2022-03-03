@@ -1,4 +1,4 @@
-import Attach from '../Extension/Attach';
+import HtmlNode from '../Extension/HtmlNode';
 
 interface ButtonAsLinkProps {
   title: string;
@@ -7,7 +7,7 @@ interface ButtonAsLinkProps {
   onClick?: (e: Event) => void;
 }
 
-class ButtonAsLink extends Attach {
+class ButtonAsLink extends HtmlNode {
   private props: ButtonAsLinkProps;
 
   constructor(element: HTMLDivElement | null, props: ButtonAsLinkProps) {
@@ -22,7 +22,7 @@ class ButtonAsLink extends Attach {
   }
 
   render() {
-    this.element.innerHTML = `
+    this.node.innerHTML = `
       <button
         id="${this.props.id}"
         title="${this.props.title}"
@@ -33,7 +33,7 @@ class ButtonAsLink extends Attach {
       </button>
     `;
     if (this.props.onClick) {
-      this.element
+      this.node
         .querySelector<HTMLButtonElement>('button')
         ?.addEventListener('click', this.props.onClick);
     }

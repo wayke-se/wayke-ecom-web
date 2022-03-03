@@ -1,4 +1,5 @@
 import { PaymentType } from '@wayke-se/ecom';
+import HtmlNode from '../../Components/Extension/HtmlNode';
 import { goTo } from '../../Redux/action';
 import store from '../../Redux/store';
 import ItemTileLarge from '../../Templates/ItemTileLarge';
@@ -9,18 +10,16 @@ import StackItem from '../Main/TradeIn/StackItem';
 const EDIT_FINANCIAL = 'edit-financial';
 const EDIT_INSURANCE = 'edit-insurance';
 
-class Order {
-  private element: HTMLDivElement;
-
-  constructor(element: HTMLDivElement) {
-    this.element = element;
+class Order extends HtmlNode {
+  constructor(element: HTMLElement) {
+    super(element);
     this.render();
   }
 
   render() {
     const state = store.getState();
 
-    const content = StackItem(this.element);
+    const content = StackItem(this.node);
 
     content.innerHTML = `
       <h3 class="waykeecom-heading waykeecom-heading--3">Din order</h3>

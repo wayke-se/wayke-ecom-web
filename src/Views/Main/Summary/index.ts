@@ -1,14 +1,14 @@
-import Attach from '../../../Components/Extension/Attach';
+import HtmlNode from '../../../Components/Extension/HtmlNode';
 import ListItem from '../ListItem';
 
-class Summary extends Attach {
+class Summary extends HtmlNode {
   constructor(element: HTMLDivElement) {
     super(element);
     this.render();
   }
 
   render() {
-    ListItem(this.element, { title: 'Sammanställning', id: 'summary' });
+    ListItem(this.node, { title: 'Sammanställning', id: 'summary' });
   }
 }
 

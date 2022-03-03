@@ -1,5 +1,5 @@
 import KeyValueListItem, { KeyValueListItemProps } from '../Templates/KeyValueListItem';
-import AppendChild from './Extension/AppendChild';
+import HtmlNode from './Extension/HtmlNode';
 
 interface StageCompletedProps {
   keyValueList: KeyValueListItemProps[];
@@ -7,7 +7,7 @@ interface StageCompletedProps {
   onEdit: () => void;
 }
 
-class StageCompleted extends AppendChild {
+class StageCompleted extends HtmlNode {
   private props;
 
   constructor(element: HTMLDivElement, props: StageCompletedProps) {
@@ -17,7 +17,7 @@ class StageCompleted extends AppendChild {
   }
 
   render() {
-    this.content.innerHTML = `
+    this.node.innerHTML = `
       <div class="waykeecom-stack waykeecom-stack--1">
         <ul class="waykeecom-key-value-list">
           ${this.props.keyValueList
@@ -39,7 +39,7 @@ class StageCompleted extends AppendChild {
       </div>
     `;
 
-    this.content.querySelector('button')?.addEventListener('click', () => this.props.onEdit());
+    this.node.querySelector('button')?.addEventListener('click', () => this.props.onEdit());
   }
 }
 

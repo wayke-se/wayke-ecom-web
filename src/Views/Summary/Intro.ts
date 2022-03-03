@@ -1,11 +1,10 @@
+import HtmlNode from '../../Components/Extension/HtmlNode';
 import store from '../../Redux/store';
 import StackItem from '../Main/TradeIn/StackItem';
 
-class Intro {
-  private element: HTMLDivElement;
-
-  constructor(element: HTMLDivElement) {
-    this.element = element;
+class Intro extends HtmlNode {
+  constructor(element: HTMLElement) {
+    super(element);
     this.render();
   }
 
@@ -13,7 +12,7 @@ class Intro {
     const state = store.getState();
     const contactInformation = state.order?.getContactInformation();
 
-    const content = StackItem(this.element);
+    const content = StackItem(this.node);
 
     content.innerHTML = `
       <h2 class="waykeecom-heading waykeecom-heading--2">Sammanställning</h2>

@@ -1,4 +1,4 @@
-import Attach from '../Extension/Attach';
+import HtmlNode from '../Extension/HtmlNode';
 
 export interface SelectItem {
   value: string;
@@ -14,7 +14,7 @@ interface InputSelectProps {
   onChange: (e: Event) => void;
 }
 
-class InputSelect extends Attach {
+class InputSelect extends HtmlNode {
   private props: InputSelectProps;
   constructor(element: HTMLElement | null, props: InputSelectProps) {
     super(element);
@@ -24,7 +24,7 @@ class InputSelect extends Attach {
   }
 
   render() {
-    this.element.innerHTML = `
+    this.node.innerHTML = `
       <div class="waykeecom-input-label">
         <label for="wayke-estimated-mileage" class="waykeecom-input-label__label">Uppskattad körsträcka per år</label>
       </div>
@@ -44,7 +44,7 @@ class InputSelect extends Attach {
       </select>
     `;
 
-    this.element.querySelector('select')?.addEventListener('change', (e) => this.props.onChange(e));
+    this.node.querySelector('select')?.addEventListener('change', (e) => this.props.onChange(e));
   }
 }
 

@@ -1,6 +1,5 @@
 import { IAddress } from '@wayke-se/ecom';
 import { Customer, CustomerSocialId } from '../../../@types/Customer';
-import AppendChild from '../../../Components/Extension/AppendChild';
 import ButtonArrowRight from '../../../Components/Button/ButtonArrowRight';
 import ButtonAsLink from '../../../Components/Button/ButtonAsLink';
 import InputField from '../../../Components/Input/InputField';
@@ -11,6 +10,7 @@ import Alert from '../../../Templates/Alert';
 import { renderConditional } from '../../../Utils/render';
 import { validationMethods } from '../../../Utils/validationMethods';
 import DisclaimerSafe from './DisclaimerSafe';
+import HtmlNode from '../../../Components/Extension/HtmlNode';
 
 const SOCIAL_ID_NODE = 'contact-socialId-node';
 const SOCIAL_ID_INPUT_ID = 'contact-socialId';
@@ -53,7 +53,7 @@ const initalState = (customer?: Customer): Part2SocialIdState => {
   };
 };
 
-class FullAddressBySocialId extends AppendChild {
+class FullAddressBySocialId extends HtmlNode {
   private lastStage: boolean;
   private state: Part2SocialIdState;
   private requestError: boolean = false;
@@ -131,7 +131,7 @@ class FullAddressBySocialId extends AppendChild {
   }
 
   render() {
-    this.content.innerHTML = `
+    this.node.innerHTML = `
       <div class="waykeecom-stack waykeecom-stack--2">
         <hr class="waykeecom-separator" />
       </div>
@@ -177,7 +177,7 @@ class FullAddressBySocialId extends AppendChild {
     `;
 
     this.contexts.socialId = new InputField(
-      this.content.querySelector<HTMLDivElement>(`#${SOCIAL_ID_NODE}`),
+      this.node.querySelector<HTMLDivElement>(`#${SOCIAL_ID_NODE}`),
       {
         title: 'Personnummer',
         value: this.state.value.socialId,
@@ -196,7 +196,7 @@ class FullAddressBySocialId extends AppendChild {
     );
 
     this.contexts.buttonFetch = new ButtonArrowRight(
-      this.content.querySelector<HTMLDivElement>(`#${PROCEED_NODE}`),
+      this.node.querySelector<HTMLDivElement>(`#${PROCEED_NODE}`),
       {
         title: 'Hämta uppgifter',
         id: PROCEED,
@@ -205,10 +205,10 @@ class FullAddressBySocialId extends AppendChild {
       }
     );
 
-    new DisclaimerSafe(this.content.querySelector(`#${DISCLAIMER_SAFE_NODE}`));
+    new DisclaimerSafe(this.node.querySelector(`#${DISCLAIMER_SAFE_NODE}`));
 
     this.contexts.buttonLinkToggle = new ButtonAsLink(
-      this.content.querySelector<HTMLDivElement>(`#${LINK_TOGGLE_METHOD_NODE}`),
+      this.node.querySelector<HTMLDivElement>(`#${LINK_TOGGLE_METHOD_NODE}`),
       {
         title: 'Jag vill hämta uppgifter med Mobilt BankID',
         id: LINK_TOGGLE_METHOD,

@@ -10,6 +10,7 @@ import InputField from '../../../Components/Input/InputField';
 import InputTextarea from '../../../Components/Input/InputTextarea';
 import ButtonSkip from '../../../Components/Button/ButtonSkip';
 import InputRadioGroup from '../../../Components/Input/InputRadioGroup';
+import HtmlNode from '../../../Components/Extension/HtmlNode';
 
 const REGISTRATION_NUMBER_ID = 'trade-in-registrationNumber';
 const REGISTRATION_NUMBER_NODE = `${REGISTRATION_NUMBER_ID}-node`;
@@ -72,8 +73,7 @@ const initalState = (tradeIn?: TradeInCarDataPartial): PartTradeInState => {
   };
 };
 
-class PartTradeIn {
-  private element: HTMLDivElement;
+class PartTradeIn extends HtmlNode {
   private state: PartTradeInState;
   private lastStage: boolean;
   private contexts: {
@@ -83,8 +83,8 @@ class PartTradeIn {
     buttonFetch?: ButtonArrowRight;
   } = {};
 
-  constructor(element: HTMLDivElement, lastStage: boolean) {
-    this.element = element;
+  constructor(element: HTMLElement, lastStage: boolean) {
+    super(element);
     this.lastStage = lastStage;
 
     const state = store.getState();
@@ -197,7 +197,7 @@ class PartTradeIn {
       },
     ];
 
-    this.element.innerHTML = `
+    this.node.innerHTML = `
       <div class="waykeecom-stack waykeecom-stack--3">
         <h4 class="waykeecom-heading waykeecom-heading--4">Kontaktuppgifter</h4>
         <div class="waykeecom-content">
@@ -225,7 +225,7 @@ class PartTradeIn {
     `;
 
     this.contexts.registrationNumber = new InputField(
-      this.element.querySelector<HTMLDivElement>(`#${REGISTRATION_NUMBER_NODE}`),
+      this.node.querySelector<HTMLDivElement>(`#${REGISTRATION_NUMBER_NODE}`),
       {
         title: 'Registreringsnummer',
         value: this.state.value.registrationNumber,
@@ -248,7 +248,7 @@ class PartTradeIn {
     );
 
     this.contexts.mileage = new InputField(
-      this.element.querySelector<HTMLDivElement>(`#${MILEAGE_NODE}`),
+      this.node.querySelector<HTMLDivElement>(`#${MILEAGE_NODE}`),
       {
         title: 'Miltal',
         value: this.state.value.mileage,
@@ -265,7 +265,7 @@ class PartTradeIn {
     );
 
     this.contexts.description = new InputTextarea(
-      this.element.querySelector<HTMLDivElement>(`#${DESCRIPTION_NODE}`),
+      this.node.querySelector<HTMLDivElement>(`#${DESCRIPTION_NODE}`),
       {
         title: 'Beskrivning (valfritt)',
         value: this.state.value.description,
@@ -280,7 +280,7 @@ class PartTradeIn {
       }
     );
 
-    new InputRadioGroup(this.element.querySelector<HTMLDivElement>(`#${CONDITION_NODE}`), {
+    new InputRadioGroup(this.node.querySelector<HTMLDivElement>(`#${CONDITION_NODE}`), {
       title: 'Bilens skick',
       checked: this.state.value.condition as string,
       name: 'condition',
@@ -289,7 +289,7 @@ class PartTradeIn {
     });
 
     this.contexts.buttonFetch = new ButtonArrowRight(
-      this.element.querySelector<HTMLDivElement>(`#${FETCH_NODE}`),
+      this.node.querySelector<HTMLDivElement>(`#${FETCH_NODE}`),
       {
         title: 'Hämta uppskattat värde',
         id: FETCH,
@@ -302,7 +302,7 @@ class PartTradeIn {
       }
     );
 
-    new ButtonSkip(this.element.querySelector<HTMLDivElement>(`#${TRADE_IN_NO_NODE}`), {
+    new ButtonSkip(this.node.querySelector<HTMLDivElement>(`#${TRADE_IN_NO_NODE}`), {
       id: TRADE_IN_NO,
       title: 'Hoppa över detta steg',
       onClick: () => this.onNoTradeIn(),

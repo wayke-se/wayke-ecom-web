@@ -1,13 +1,13 @@
 import Alert from '../../Templates/Alert';
 import Loader from '../../Templates/Loader';
-import Attach from '../Extension/Attach';
+import HtmlNode from '../Extension/HtmlNode';
 
 interface BankIdSignQrCodeProps {
   qrCode?: string;
   errorMessage?: string;
 }
 
-class BankIdSignQrCode extends Attach {
+class BankIdSignQrCode extends HtmlNode {
   private props: BankIdSignQrCodeProps;
 
   constructor(element: HTMLElement | null, props: BankIdSignQrCodeProps) {
@@ -18,14 +18,14 @@ class BankIdSignQrCode extends Attach {
 
   render() {
     if (this.props.errorMessage) {
-      this.element.innerHTML = Alert({
+      this.node.innerHTML = Alert({
         tone: 'error',
         children: this.props.errorMessage,
       });
       return;
     }
 
-    this.element.innerHTML = `
+    this.node.innerHTML = `
       ${
         this.props.qrCode
           ? `

@@ -1,6 +1,6 @@
 import watch from 'redux-watch';
 import ButtonArrowRight from '../../../Components/Button/ButtonArrowRight';
-import Attach from '../../../Components/Extension/Attach';
+import HtmlNode from '../../../Components/Extension/HtmlNode';
 import StageCompleted from '../../../Components/StageCompleted';
 
 import { goTo, completeStage } from '../../../Redux/action';
@@ -11,7 +11,8 @@ import AccessoryList from './AccessoryList';
 const PROCEED = 'button-accessories-proceed';
 const PROCEED_NODE = `${PROCEED}-node`;
 const ACCESSORY_GRID_LIST_NODE = 'accessory-grid-list-node';
-class Accessories extends Attach {
+
+class Accessories extends HtmlNode {
   private index: number;
   private lastStage: boolean;
 
@@ -40,7 +41,7 @@ class Accessories extends Attach {
     const state = store.getState();
 
     const completed = state.topNavigation.stage > this.index;
-    const content = ListItem(this.element, {
+    const content = ListItem(this.node, {
       completed,
       title: 'Tillbehör',
       active: state.navigation.stage === this.index,

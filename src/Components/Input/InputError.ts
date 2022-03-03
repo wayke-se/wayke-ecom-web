@@ -1,4 +1,4 @@
-import Attach from '../Extension/Attach';
+import HtmlNode from '../Extension/HtmlNode';
 
 const errorInputClassName = 'waykeecom-input-error';
 
@@ -7,7 +7,7 @@ interface InputErrorProps {
   errorMessage: string;
 }
 
-class InputError extends Attach {
+class InputError extends HtmlNode {
   private props: InputErrorProps;
 
   constructor(element: HTMLElement, props: InputErrorProps) {
@@ -23,7 +23,7 @@ class InputError extends Attach {
   }
 
   render() {
-    const errorNode = this.element.querySelector(`.${errorInputClassName}`);
+    const errorNode = this.node.querySelector(`.${errorInputClassName}`);
     if (errorNode) {
       if (!this.props.error) {
         errorNode.remove();
@@ -34,7 +34,7 @@ class InputError extends Attach {
         errorElement.className = errorInputClassName;
         errorElement.setAttribute('role', 'alert');
         errorElement.innerHTML = this.props.errorMessage;
-        this.element.appendChild(errorElement);
+        this.node.appendChild(errorElement);
       }
     }
   }

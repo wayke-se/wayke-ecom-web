@@ -1,7 +1,7 @@
 import { DeliveryType } from '@wayke-se/ecom';
 import watch from 'redux-watch';
 import ButtonArrowRight from '../../../Components/Button/ButtonArrowRight';
-import Attach from '../../../Components/Extension/Attach';
+import HtmlNode from '../../../Components/Extension/HtmlNode';
 import InputRadioField from '../../../Components/Input/InputRadioField';
 import StageCompleted from '../../../Components/StageCompleted';
 import { goTo, setHomeDelivery } from '../../../Redux/action';
@@ -18,7 +18,7 @@ const RADIO_HOME_FALSE_NODE = `${RADIO_HOME_FALSE}-node`;
 const PROCEED = 'button-home-delivery-proceed';
 const PROCEED_NODE = `${PROCEED}-node`;
 
-class Delivery extends Attach {
+class Delivery extends HtmlNode {
   private index: number;
   private lastStage: boolean;
 
@@ -61,7 +61,7 @@ class Delivery extends Attach {
     if (!contactInformation) throw 'Missing dealer contact information';
 
     const completed = state.topNavigation.stage > this.index;
-    const content = ListItem(this.element, {
+    const content = ListItem(this.node, {
       completed,
       title: 'Leverans',
       active: state.navigation.stage === this.index,

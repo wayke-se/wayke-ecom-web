@@ -1,5 +1,5 @@
 import watch from 'redux-watch';
-import Attach from '../../../Components/Extension/Attach';
+import HtmlNode from '../../../Components/Extension/HtmlNode';
 import StageCompleted from '../../../Components/StageCompleted';
 import { goTo } from '../../../Redux/action';
 import store from '../../../Redux/store';
@@ -8,7 +8,7 @@ import ListItem from '../ListItem';
 import EmailAndPhone from './EmailAndPhone';
 import FullAddress from './FullAddress';
 
-class Customer extends Attach {
+class Customer extends HtmlNode {
   private index: number;
   private lastStage: boolean;
 
@@ -33,7 +33,7 @@ class Customer extends Attach {
     const state = store.getState();
 
     const completed = state.topNavigation.stage > this.index;
-    const content = ListItem(this.element, {
+    const content = ListItem(this.node, {
       completed,
       title: 'Dina uppgifter',
       active: state.navigation.stage === this.index,

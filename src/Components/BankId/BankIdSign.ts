@@ -1,7 +1,7 @@
 import { AuthMethod } from '@wayke-se/ecom';
 import { isMobile } from '../../Utils/isMobile';
 import ButtonAsLink from '../Button/ButtonAsLink';
-import Attach from '../Extension/Attach';
+import HtmlNode from '../Extension/HtmlNode';
 import BankIdSignQrCode from './BankIdSignQrCode';
 import BankIdSignSameDevice from './BankIdSignSameDevice';
 
@@ -24,7 +24,7 @@ interface BankIdSignProps {
   onAbort: () => void;
 }
 
-class BankIdSign extends Attach {
+class BankIdSign extends HtmlNode {
   private props: BankIdSignProps;
 
   constructor(element: HTMLElement, props: BankIdSignProps) {
@@ -74,7 +74,7 @@ class BankIdSign extends Attach {
         ? this.props.descriptionQrCode
         : this.props.descriptionSameDevice;
 
-    this.element.innerHTML = `
+    this.node.innerHTML = `
       <div class="waykeecom-stack waykeecom-stack--2">
         <hr class="waykeecom-separator" />
       </div>
@@ -100,12 +100,12 @@ class BankIdSign extends Attach {
     `;
 
     if (this.props.method === AuthMethod.SameDevice) {
-      new BankIdSignSameDevice(this.element.querySelector<HTMLDivElement>(`#${AUTH_METHOD_NODE}`), {
+      new BankIdSignSameDevice(this.node.querySelector<HTMLDivElement>(`#${AUTH_METHOD_NODE}`), {
         autoLaunchUrl: this.props.autoLaunchUrl,
         errorMessage: this.props.errorMessage,
       });
     } else if (this.props.method === AuthMethod.QrCode) {
-      new BankIdSignQrCode(this.element.querySelector<HTMLDivElement>(`#${AUTH_METHOD_NODE}`), {
+      new BankIdSignQrCode(this.node.querySelector<HTMLDivElement>(`#${AUTH_METHOD_NODE}`), {
         qrCode: this.props.qrCode,
         errorMessage: this.props.errorMessage,
       });
@@ -115,7 +115,7 @@ class BankIdSign extends Attach {
       this.props.method === AuthMethod.SameDevice
         ? 'Mitt BankID är på en annan enhet'
         : 'Öppna BankID på den här enheten';
-    new ButtonAsLink(this.element.querySelector<HTMLDivElement>(`#${BANKID_START_NODE}`), {
+    new ButtonAsLink(this.node.querySelector<HTMLDivElement>(`#${BANKID_START_NODE}`), {
       title: toggleMethodTitle,
       id: BANKID_START,
       onClick: () =>
@@ -124,7 +124,7 @@ class BankIdSign extends Attach {
         ),
     });
 
-    new ButtonAsLink(this.element.querySelector<HTMLDivElement>(`#${ABORT_NODE}`), {
+    new ButtonAsLink(this.node.querySelector<HTMLDivElement>(`#${ABORT_NODE}`), {
       title: 'Avbryt',
       id: ABORT,
       onClick: () => this.props.onAbort(),
