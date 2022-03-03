@@ -14,5 +14,5 @@ export const Primary = Template.bind({});
 
 Primary.args = {
   label: 'Button',
-  className: 'button-primary',
+  className: 'waykeecom-button',
 };
