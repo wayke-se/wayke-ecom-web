@@ -16,7 +16,7 @@
     "lint:fix": "eslint --ext .ts,.js 'src' --fix",
     "stylelint": "stylelint '**/*.scss'",
     "prepare": "husky install",
-    "storybook": "node ./esbuild/storybook.js && start-storybook -p 6006",
+    "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
   },
   "author": "wayke",
