@@ -1,10 +1,10 @@
-import AppendChild from '../Extension/AppendChild';
+import HtmlNode from '../Extension/HtmlNode';
 
-class OverflowGridList extends AppendChild {
+class OverflowGridList extends HtmlNode {
   overflowElement?: HTMLUListElement | null;
   id: string;
 
-  constructor(element: HTMLDivElement, id: string) {
+  constructor(element: HTMLElement, id: string) {
     super(element, { htmlTag: 'div', className: 'waykeecom-overflow-grid' });
     this.id = id;
     this.render();
@@ -46,7 +46,7 @@ class OverflowGridList extends AppendChild {
     const PREV_ID = `${this.id}-prev`;
     const NEXT_ID = `${this.id}-next`;
 
-    this.content.innerHTML = `
+    this.node.innerHTML = `
       <div class="waykeecom-overflow-grid__nav waykeecom-overflow-grid__nav--prev">
         <button type="button" title="Visa föregående" class="waykeecom-icon-button" id="${PREV_ID}">
           <svg
@@ -76,13 +76,13 @@ class OverflowGridList extends AppendChild {
       </div>
     `;
 
-    this.overflowElement = this.content.querySelector<HTMLUListElement>(`#${this.id}`) || undefined;
+    this.overflowElement = this.node.querySelector<HTMLUListElement>(`#${this.id}`) || undefined;
 
-    this.content
+    this.node
       .querySelector<HTMLUListElement>(`#${PREV_ID}`)
       ?.addEventListener('click', () => this.onPrev());
 
-    this.content
+    this.node
       .querySelector<HTMLUListElement>(`#${NEXT_ID}`)
       ?.addEventListener('click', () => this.onNext());
   }

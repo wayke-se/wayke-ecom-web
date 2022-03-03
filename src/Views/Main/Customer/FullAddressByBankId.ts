@@ -10,12 +10,15 @@ import { isMobile } from '../../../Utils/isMobile';
 import { Image } from '../../../Utils/constants';
 import AppendChild from '../../../Components/Extension/AppendChild';
 import BankIdSign from '../../../Components/BankId/BankIdSign';
+import DisclaimerSafe from './DisclaimerSafe';
 
 const BANKID_START_NODE = `bankid-start-node`;
 const BANKID_START = `bankid-start`;
 
 const LINK_TOGGLE_METHOD_NODE = 'link-toggle-method-node';
 const LINK_TOGGLE_METHOD = 'link-toggle-method';
+
+const DISCLAIMER_SAFE_NODE = 'address-disclaimer-node';
 
 class FullAddressByBankId extends AppendChild {
   private lastStage: boolean;
@@ -148,23 +151,7 @@ class FullAddressByBankId extends AppendChild {
           </div>
           <div class="waykeecom-stack waykeecom-stack--3">
             <div class="waykeecom-stack waykeecom-stack--2" id="${BANKID_START_NODE}"></div>
-            <div class="waykeecom-stack waykeecom-stack--2">
-              <div class="waykeecom-disclaimer">
-                <div class="waykeecom-disclaimer__icon">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 16 16"
-                    class="waykeecom-icon"
-                  >
-                    <title>Ikon: hänlås</title>
-                    <path d="M13 6h-1V4c0-2.2-1.8-4-4-4S4 1.8 4 4v2H3c-1.1 0-2 .9-2 2v8h14V8c0-1.1-.9-2-2-2zM6 4c0-1.1.9-2 2-2s2 .9 2 2v2H6V4zm7 10H3V8h10v6z" />
-                  </svg>
-                </div>
-                <div class="waykeecom-disclaimer__text">
-                  Dina uppgifter lagras och sparas säkert. Läs mer i vår <a href="#" title="" target="_blank" rel="noopener noreferrer" class="waykeecom-link">personuppgiftspolicy</a>.
-                </div>
-              </div>
-            </div>
+            <div class="waykeecom-stack waykeecom-stack--2" id="${DISCLAIMER_SAFE_NODE}"></div>
           </div>
           <div class="waykeecom-stack waykeecom-stack--3">
             <div class="waykeecom-text-center" id="${LINK_TOGGLE_METHOD_NODE}"></div>
@@ -180,6 +167,8 @@ class FullAddressByBankId extends AppendChild {
           this.render();
         },
       });
+
+      new DisclaimerSafe(this.content.querySelector(`#${DISCLAIMER_SAFE_NODE}`));
 
       this.contexts.buttonLinkToggle = new ButtonAsLink(
         this.content.querySelector<HTMLDivElement>(`#${LINK_TOGGLE_METHOD_NODE}`),

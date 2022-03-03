@@ -1,18 +1,18 @@
 import { IAccessory } from '@wayke-se/ecom/dist-types/orders/types';
 import watch from 'redux-watch';
+import HtmlNode from '../../../Components/Extension/HtmlNode';
 
 import GridItem from '../../../Components/OverflowGrid/OverflowGridItem';
 import { addOrRemoveAccessory } from '../../../Redux/action';
 import store from '../../../Redux/store';
 import { prettyNumber } from '../../../Utils/format';
 
-class AccessoryItem {
-  private element: HTMLUListElement;
+class AccessoryItem extends HtmlNode {
   private accessory: IAccessory;
   private key: string;
 
-  constructor(element: HTMLUListElement, accessory: IAccessory, key: string) {
-    this.element = element;
+  constructor(element: HTMLElement, accessory: IAccessory, key: string) {
+    super(element);
     this.accessory = accessory;
     this.key = key;
 
@@ -32,7 +32,7 @@ class AccessoryItem {
       state.accessories.findIndex((accessory) => accessory.id === this.accessory.id) > -1;
 
     new GridItem(
-      this.element,
+      this.node,
       {
         title: this.accessory.name,
         description: this.accessory.shortDescription,

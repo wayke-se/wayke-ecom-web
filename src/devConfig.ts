@@ -33,6 +33,6 @@ export const devConfig = {
     },
   },
   CREDIT_ASSESSMENT: {
-    id: '66c573e4-ac81-4d68-b268-6d4f82b6bede',
+    id: 'f71d0afb-02aa-4f79-a9bc-9632a7454ca6',
   },
 };
