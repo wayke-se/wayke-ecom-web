@@ -1,7 +1,13 @@
+interface Attribute {
+  key: string;
+  value: string;
+}
+
 export interface HtmlNodeSettings {
   htmlTag: keyof HTMLElementTagNameMap;
   className?: string;
   id?: string;
+  attributes?: Attribute[];
 }
 
 class HtmlNode {
@@ -22,9 +28,13 @@ class HtmlNode {
     const existingElement = settings.id
       ? this.element.querySelector<HTMLElement>(`#${settings.id}`)
       : undefined;
+
     if (existingElement) {
       // Reuse node
       existingElement.className = settings.className || '';
+      settings.attributes?.forEach((attribute) => {
+        existingElement.setAttribute(attribute.key, attribute.value);
+      });
       this.node = existingElement;
     } else {
       const item = document.createElement(settings.htmlTag);
@@ -32,7 +42,9 @@ class HtmlNode {
         item.id = settings.id;
       }
       item.className = settings.className || '';
-
+      settings.attributes?.forEach((attribute) => {
+        item.setAttribute(attribute.key, attribute.value);
+      });
       element.appendChild(item);
 
       this.node = item;

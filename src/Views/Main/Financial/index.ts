@@ -30,7 +30,6 @@ const PAYMENT_NODE = 'payment-node';
 class Financial extends Attach {
   private index: number;
   private lastStage: boolean;
-
   private paymentType?: PaymentType;
   private paymentLookupResponse?: PaymentLookupResponse;
 
@@ -61,12 +60,10 @@ class Financial extends Attach {
   }
 
   private onChange(e: Event) {
-    const proceed = this.element.querySelector<HTMLDivElement>(`#${PROCEED}`);
     const currentTarget = e.currentTarget as HTMLInputElement;
     const value = currentTarget.value as PaymentType;
     this.paymentType = value;
     this.render();
-    proceed?.removeAttribute('disabled');
   }
 
   private onProceed() {
