@@ -16,11 +16,10 @@ import "@wayke-se/wayke-ecom-web/dist/index.css";
 
 const context = new WaykeEcomWeb({
     id: "36364808-671a-49da-b69a-5e0fc4cfe83e",
-    useBankid: true,
-    config: {
-        api: {
-            address: "https://ecom.wayketech.se",
-        },
+    ecomSdkConfig: {
+      api: {
+        address: "https://ecom.wayketech.se",
+      },
     },
 });
 
@@ -44,8 +43,7 @@ The ssociated css is injected into head by default once a `new WaykeEcomWeb(...)
     window.addEventListener("DOMContentLoaded", (_) => {
       var context = new WaykeEcomWeb({
         id: "36364808-671a-49da-b69a-5e0fc4cfe83e",
-        useBankid: true,
-        config: {
+        ecomSdkConfig: {
           api: {
             address: "https://ecom.wayketech.se",
           },
@@ -58,6 +56,47 @@ The ssociated css is injected into head by default once a `new WaykeEcomWeb(...)
     });
   </script>
 ```
+
+## Full configuration
+
+```js
+new WaykeEcomWeb({
+  id: "36364808-671a-49da-b69a-5e0fc4cfe83e",
+  useBankId: true,
+  vehicle: {
+    title: 'Lorem ipsum',
+    shortDescription: 'Lorem ipsum',
+    price: 250000,
+    imageUrls: ["https://www...", "https://www..."],
+    modelYear: 2013,
+    milage: 4900,
+    gearBox: 'Automat',
+    fuelType: 'Bensin',
+  },
+  ecomSdkConfig: {
+    api: {
+      address: "https://ecom.wayketech.se",
+    },
+    bankIdThumbprint: "[Dealer Specific BankId Certificate Thumbprint]" // OPTIONAL
+  },
+});
+```
+
+### Required
+* `id` Id of the vehicle from Wayke
+* `ecomSdkConfig.api.address` Should be one of the following urls below:
+
+| Environment | Url |
+| ----------- | --- |
+| Test | https://ecom.wayketech.se |
+| Production | https://ecom.wayke.se |
+
+
+### Optional
+* `useBankId` Enable Swedish BankID.
+* `vehicle` Used to override specific vehicle data properties provided from Wayke.
+* `ecomSdkConfig.bankIdThumbprint` By default Wayke's BankId certificate is used to verify customer identity. There is an optional configuration property `bankIdThumbprint` which allows for dealers to use their own BankId certificate. If the certificate's thumbprint is set that certificate will be used instead, given that it is correctly setup in the Dealer back-office.
+
 
 ## CSS specificity
 

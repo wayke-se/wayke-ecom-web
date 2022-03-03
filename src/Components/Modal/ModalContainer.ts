@@ -1,16 +1,14 @@
 import HtmlNode from '../Extension/HtmlNode';
-import ModalCenter from './ModalCenter';
-
+interface ModalContainerProps {
+  id: string;
+}
 class ModalContainer extends HtmlNode {
-  constructor(element: HTMLElement) {
+  constructor(element: HTMLElement, { id }: ModalContainerProps) {
     super(element, {
       htmlTag: 'div',
       className: 'waykeecom-modal__container',
+      id,
     });
-    this.render();
-  }
-  render() {
-    new ModalCenter(this.node);
   }
 }
 
