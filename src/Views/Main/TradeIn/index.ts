@@ -1,7 +1,7 @@
 import watch from 'redux-watch';
 import { goTo, initTradeIn, setTradeIn } from '../../../Redux/action';
 import store from '../../../Redux/store';
-import ListItem from '../ListItem';
+import ListItem from '../../../Templates/ListItem';
 import PartTradeIn from './PartTradeIn';
 import Alert from '../../../Templates/Alert';
 import ButtonArrowRight from '../../../Components/Button/ButtonArrowRight';

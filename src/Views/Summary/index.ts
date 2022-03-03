@@ -23,10 +23,17 @@ class Summary extends HtmlNode {
         }
       })
     );
+
+    const w1 = watch(store.getState, 'createdOrderId');
+    store.subscribe(w1(() => this.render()));
+
     this.render();
   }
 
   render() {
+    const state = store.getState();
+    const createdOrderId = state.createdOrderId;
+
     this.node.innerHTML = `
       <div class="waykeecom-page">
         <div class="waykeecom-page__body">
@@ -37,8 +44,8 @@ class Summary extends HtmlNode {
 
     const content = this.node.querySelector<HTMLDivElement>(`#${SUMMARY_NODE}`);
     if (content) {
-      new Intro(content);
-      new TradeIn(content);
+      new Intro(content, { createdOrderId });
+      new TradeIn(content, { createdOrderId });
       new Order(content);
       new Delivery(content);
       new Customer(content);

@@ -1,16 +1,15 @@
 import { PaymentType } from '@wayke-se/ecom';
-import HtmlNode from '../../Components/Extension/HtmlNode';
+import StackNode from '../../Components/Extension/StackNode';
 import { goTo } from '../../Redux/action';
 import store from '../../Redux/store';
 import ItemTileLarge from '../../Templates/ItemTileLarge';
 import KeyValueListItem from '../../Templates/KeyValueListItem';
 import { prettyNumber } from '../../Utils/format';
-import StackItem from '../Main/TradeIn/StackItem';
 
 const EDIT_FINANCIAL = 'edit-financial';
 const EDIT_INSURANCE = 'edit-insurance';
 
-class Order extends HtmlNode {
+class Order extends StackNode {
   constructor(element: HTMLElement) {
     super(element);
     this.render();
@@ -19,9 +18,7 @@ class Order extends HtmlNode {
   render() {
     const state = store.getState();
 
-    const content = StackItem(this.node);
-
-    content.innerHTML = `
+    this.node.innerHTML = `
       <h3 class="waykeecom-heading waykeecom-heading--3">Din order</h3>
       ${ItemTileLarge({
         vehicle: state.vehicle,

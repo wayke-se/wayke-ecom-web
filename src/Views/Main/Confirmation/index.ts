@@ -1,5 +1,5 @@
 import HtmlNode from '../../../Components/Extension/HtmlNode';
-import ListItem from '../ListItem';
+import ListItem from '../../../Templates/ListItem';
 
 class Confirmation extends HtmlNode {
   constructor(element: HTMLDivElement) {

@@ -1,62 +1,56 @@
-import HtmlNode from '../../Components/Extension/HtmlNode';
+import Button from '../../Components/Button/Button';
+import StackNode from '../../Components/Extension/StackNode';
 import { createOrder } from '../../Data/createOrder';
+import { setCreatedOrderId } from '../../Redux/action';
 import Alert from '../../Templates/Alert';
-import StackItem from '../Main/TradeIn/StackItem';
 
 const CREATE_ORDER = 'create-order';
-const CREATE_ORDER_REQUEST_ERROR = `${CREATE_ORDER}-request-error`;
-const CREATE_ORDER_REQUEST_ERROR_CONTAINER = `${CREATE_ORDER_REQUEST_ERROR}-container`;
+const CREATE_ORDER_NODE = `${CREATE_ORDER}-node`;
 
-class ExecuteOrder extends HtmlNode {
+class ExecuteOrder extends StackNode {
+  private contexts: { createOrderButton?: Button } = {};
+  private requestError = false;
+
   constructor(element: HTMLElement) {
     super(element);
     this.render();
   }
 
   async onCreateOrder() {
-    const button = this.node.querySelector<HTMLButtonElement>(`#${CREATE_ORDER}`);
-    const errorContainer = document.querySelector<HTMLDivElement>(
-      `#${CREATE_ORDER_REQUEST_ERROR_CONTAINER}`
-    );
-    const errorAlert = document.querySelector<HTMLDivElement>(`#${CREATE_ORDER_REQUEST_ERROR}`);
-
-    if (!button || !errorContainer || !errorAlert) return;
-    errorAlert.innerHTML = '';
-    errorContainer.style.display = 'none';
-
+    this.requestError = false;
     try {
-      button.setAttribute('disabled', '');
-      const _response = await createOrder();
-      button.removeAttribute('disabled');
+      this.contexts.createOrderButton?.loading(true);
+      const response = await createOrder();
+      setCreatedOrderId(response.getId());
     } catch (e) {
-      errorAlert.innerHTML = Alert({
-        tone: 'error',
-        children: '<p>Det gick inte att skapa ordern. Försök igen.',
-      });
-      errorContainer.style.display = '';
+      this.requestError = true;
+      this.render();
+    } finally {
+      this.contexts.createOrderButton?.loading(false);
     }
   }
 
   render() {
-    const content = StackItem(this.node);
-
-    content.innerHTML = `
-      <button
-        id="${CREATE_ORDER}"
-        type="button"
-        title="Genomför order"
-        class="waykeecom-button waykeecom-button--full-width waykeecom-button--action"
-      >
-        Genomför order
-      </button>
-      <div id="${CREATE_ORDER_REQUEST_ERROR_CONTAINER}" class="waykeecom-stack waykeecom-stack--3" style="display:none;">
-        <div id="${CREATE_ORDER_REQUEST_ERROR}"></div>
-      </div>
+    this.node.innerHTML = `
+      <div class="waykeecom-stack waykeecom-stack--3" id="${CREATE_ORDER_NODE}"></div>
+      ${
+        this.requestError
+          ? `
+            <div class="waykeecom-stack waykeecom-stack--3">
+              ${Alert({
+                tone: 'error',
+                children: '<p>Det gick inte att skapa ordern. Försök igen.',
+              })}
+            </div>`
+          : ''
+      }
     `;
 
-    content
-      .querySelector<HTMLButtonElement>(`#${CREATE_ORDER}`)
-      ?.addEventListener('click', () => this.onCreateOrder());
+    this.contexts.createOrderButton = new Button(this.node.querySelector(`#${CREATE_ORDER_NODE}`), {
+      id: CREATE_ORDER,
+      title: 'Genomför order',
+      onClick: () => this.onCreateOrder(),
+    });
   }
 }
 

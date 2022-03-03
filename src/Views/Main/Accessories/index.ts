@@ -5,7 +5,7 @@ import StageCompleted from '../../../Components/StageCompleted';
 
 import { goTo, completeStage } from '../../../Redux/action';
 import store from '../../../Redux/store';
-import ListItem from '../ListItem';
+import ListItem from '../../../Templates/ListItem';
 import AccessoryList from './AccessoryList';
 
 const PROCEED = 'button-accessories-proceed';

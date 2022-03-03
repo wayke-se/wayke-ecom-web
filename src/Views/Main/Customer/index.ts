@@ -4,7 +4,7 @@ import StageCompleted from '../../../Components/StageCompleted';
 import { goTo } from '../../../Redux/action';
 import store from '../../../Redux/store';
 import { maskSSn, maskText } from '../../../Utils/mask';
-import ListItem from '../ListItem';
+import ListItem from '../../../Templates/ListItem';
 import EmailAndPhone from './EmailAndPhone';
 import FullAddress from './FullAddress';
 

@@ -1,13 +1,12 @@
-import HtmlNode from '../../Components/Extension/HtmlNode';
+import StackNode from '../../Components/Extension/StackNode';
 import { goTo } from '../../Redux/action';
 import store from '../../Redux/store';
 import KeyValueListItem from '../../Templates/KeyValueListItem';
 import { maskSSn, maskText } from '../../Utils/mask';
-import StackItem from '../Main/TradeIn/StackItem';
 
 const EDIT_CUSTOMER = 'edit-customer';
 
-class Customer extends HtmlNode {
+class Customer extends StackNode {
   constructor(element: HTMLElement) {
     super(element);
     this.render();
@@ -16,9 +15,7 @@ class Customer extends HtmlNode {
   render() {
     const state = store.getState();
 
-    const content = StackItem(this.node);
-
-    content.innerHTML = `
+    this.node.innerHTML = `
       <div class="waykeecom-stack waykeecom-stack--2">
         <h4 class="waykeecom-heading waykeecom-heading--4 waykeecom-no-margin">Kunduppgifter</h4>
       </div>

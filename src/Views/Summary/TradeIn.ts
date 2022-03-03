@@ -1,16 +1,21 @@
-import HtmlNode from '../../Components/Extension/HtmlNode';
+import StackNode from '../../Components/Extension/StackNode';
 import { goTo, initTradeIn } from '../../Redux/action';
 import store from '../../Redux/store';
 import KeyValueListItem from '../../Templates/KeyValueListItem';
 import { translateTradeInCondition } from '../../Utils/constants';
 import { prettyNumber } from '../../Utils/format';
-import StackItem from '../Main/TradeIn/StackItem';
 
 const EDIT_TRADE_IN = 'edit-trade-in';
 
-class TradeIn extends HtmlNode {
-  constructor(element: HTMLElement) {
+interface TradeInProps {
+  createdOrderId?: string;
+}
+
+class TradeIn extends StackNode {
+  private props: TradeInProps;
+  constructor(element: HTMLElement, props: TradeInProps) {
     super(element);
+    this.props = props;
     this.render();
   }
 
@@ -19,9 +24,7 @@ class TradeIn extends HtmlNode {
     const { order, tradeIn, tradeInVehicle } = state;
     if (!order?.allowsTradeIn) return;
 
-    const content = StackItem(this.node);
-
-    content.innerHTML = `
+    this.node.innerHTML = `
       <div class="waykeecom-stack waykeecom-stack--4">
         <div class="waykeecom-stack waykeecom-stack--2">
           <h4 class="waykeecom-heading waykeecom-heading--4 waykeecom-no-margin">Inbytesbil</h4>
@@ -68,11 +71,16 @@ class TradeIn extends HtmlNode {
         </div>`
             : `<div class="waykeecom-stack waykeecom-stack--2">Nej</div>`
         }
-        <div class="waykeecom-stack waykeecom-stack--2">
-          <div class="waykeecom-align waykeecom-align--end">
-            <button id="${EDIT_TRADE_IN}" title="Ändra inbytesbil" class="waykeecom-link">Ändra</button>
-          </div>
-        </div>
+        ${
+          !this.props.createdOrderId
+            ? `
+            <div class="waykeecom-stack waykeecom-stack--2">
+              <div class="waykeecom-align waykeecom-align--end">
+                <button id="${EDIT_TRADE_IN}" title="Ändra inbytesbil" class="waykeecom-link">Ändra</button>
+              </div>
+            </div>`
+            : ''
+        }
       </div>
     `;
 

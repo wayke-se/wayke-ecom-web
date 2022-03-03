@@ -9,7 +9,7 @@ import { completeStage, goTo, setDrivingDistance } from '../../../Redux/action';
 import store from '../../../Redux/store';
 import { KeyValueListItemProps } from '../../../Templates/KeyValueListItem';
 import { translateDrivingDistance } from '../../../Utils/constants';
-import ListItem from '../ListItem';
+import ListItem from '../../../Templates/ListItem';
 import InsuranceView from './InsuranceView';
 
 const DISTANCE = 'select-insurance-distance';

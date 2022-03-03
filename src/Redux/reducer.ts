@@ -23,6 +23,7 @@ import {
   SET_OR_REMOVE_INSURANCE,
   SET_DRIVING_DISTANCE,
   COMPLETE_STAGE,
+  SET_CREATED_ORDER_ID,
 } from './action';
 
 export interface ReducerState {
@@ -44,6 +45,7 @@ export interface ReducerState {
   accessories: IAccessory[];
   drivingDistance: DrivingDistance;
   insurance?: IInsuranceOption;
+  createdOrderId?: string;
 }
 
 const initNavigation: Navigation = {
@@ -235,6 +237,14 @@ const reducer = (state = initialState, action: Action): ReducerState => {
         ...state,
         navigation: { view: action.view, stage: action.index || 1, subStage: action.subStage || 1 },
       };
+
+    case SET_CREATED_ORDER_ID:
+      next = {
+        ...state,
+        createdOrderId: action.id,
+      };
+
+      return next;
 
     default:
       return state;

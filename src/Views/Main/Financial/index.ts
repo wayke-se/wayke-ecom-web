@@ -8,7 +8,7 @@ import { goTo, setFinancial } from '../../../Redux/action';
 import store from '../../../Redux/store';
 import { Image } from '../../../Utils/constants';
 import { prettyNumber } from '../../../Utils/format';
-import ListItem from '../ListItem';
+import ListItem from '../../../Templates/ListItem';
 import Loan from './Loan';
 import StageCompletedFinancial from './StageCompletedFinancial';
 

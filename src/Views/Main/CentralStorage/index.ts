@@ -1,7 +1,7 @@
 import watch from 'redux-watch';
 import HtmlNode from '../../../Components/Extension/HtmlNode';
 import store from '../../../Redux/store';
-import ListItem from '../ListItem';
+import ListItem from '../../../Templates/ListItem';
 
 class CentralStorage extends HtmlNode {
   constructor(element: HTMLDivElement) {

@@ -1,12 +1,11 @@
-import HtmlNode from '../../Components/Extension/HtmlNode';
+import StackNode from '../../Components/Extension/StackNode';
 import { goTo } from '../../Redux/action';
 import store from '../../Redux/store';
 import KeyValueListItem from '../../Templates/KeyValueListItem';
-import StackItem from '../Main/TradeIn/StackItem';
 
 const EDIT_DELIVERY = 'edit-delivery';
 
-class Delivery extends HtmlNode {
+class Delivery extends StackNode {
   constructor(element: HTMLElement) {
     super(element);
     this.render();
@@ -15,12 +14,10 @@ class Delivery extends HtmlNode {
   render() {
     const state = store.getState();
 
-    const content = StackItem(this.node);
-
-    content.innerHTML = `
-    <div class="waykeecom-stack waykeecom-stack--2">
-      <h4 class="waykeecom-heading waykeecom-heading--4 waykeecom-no-margin">Leverans</h4>
-    </div>
+    this.node.innerHTML = `
+      <div class="waykeecom-stack waykeecom-stack--2">
+        <h4 class="waykeecom-heading waykeecom-heading--4 waykeecom-no-margin">Leverans</h4>
+      </div>
       <div class="waykeecom-stack waykeecom-stack--2">
         <div class="waykeecom-stack waykeecom-stack--1">
           <ul class="waykeecom-key-value-list">

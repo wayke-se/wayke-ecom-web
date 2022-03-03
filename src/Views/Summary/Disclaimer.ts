@@ -1,8 +1,7 @@
-import HtmlNode from '../../Components/Extension/HtmlNode';
+import StackNode from '../../Components/Extension/StackNode';
 import store from '../../Redux/store';
-import StackItem from '../Main/TradeIn/StackItem';
 
-class Disclaimer extends HtmlNode {
+class Disclaimer extends StackNode {
   constructor(element: HTMLElement) {
     super(element);
     this.render();
@@ -14,9 +13,7 @@ class Disclaimer extends HtmlNode {
 
     const conditionsPdfUri = state.order?.getConditionsPdfUri();
 
-    const content = StackItem(this.node);
-
-    content.innerHTML = `
+    this.node.innerHTML = `
       <div class="waykeecom-disclaimer">
         <div class="waykeecom-disclaimer__icon">
           <svg

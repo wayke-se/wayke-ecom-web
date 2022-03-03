@@ -7,7 +7,7 @@ import StageCompleted from '../../../Components/StageCompleted';
 import { goTo, setHomeDelivery } from '../../../Redux/action';
 import store from '../../../Redux/store';
 import { getTotalDeliveryCost } from '../../../Utils/delivery';
-import ListItem from '../ListItem';
+import ListItem from '../../../Templates/ListItem';
 
 const RADIO_HOME_TRUE = 'radio-home-delivery-true';
 const RADIO_HOME_TRUE_NODE = `${RADIO_HOME_TRUE}-node`;

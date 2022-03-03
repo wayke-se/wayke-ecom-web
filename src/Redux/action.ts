@@ -126,6 +126,12 @@ export type SET_STAGES_TYPE = BaseAction<typeof SET_STAGES> & {
 };
 export const setStages = (stages: StageTypes[]) => store.dispatch({ type: SET_STAGES, stages });
 
+export const SET_CREATED_ORDER_ID = 'SET_CREATED_ORDER_ID';
+export type SET_CREATED_ORDER_ID_TYPE = BaseAction<typeof SET_CREATED_ORDER_ID> & {
+  id: string;
+};
+export const setCreatedOrderId = (id: string) => store.dispatch({ type: SET_CREATED_ORDER_ID, id });
+
 export type Action =
   | SET_ORDER_TYPE
   | SET_ID_TYPE
@@ -141,4 +147,5 @@ export type Action =
   | SET_OR_REMOVE_ACCESSORY_TYPE
   | GO_TO_TYPE
   | SET_STAGES_TYPE
-  | COMPLETE_STAGE_TYPE;
+  | COMPLETE_STAGE_TYPE
+  | SET_CREATED_ORDER_ID_TYPE;
