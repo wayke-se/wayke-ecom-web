@@ -32,7 +32,6 @@ interface AppProps {
 
 class App {
   private root: HTMLElement;
-  private contentNode?: HTMLElement;
   private props: AppProps;
   private view: ViewTypes;
   private stageOrderList: StageMapKeys[];
@@ -53,6 +52,7 @@ class App {
     config.bind(props.config);
 
     this.root = root;
+    this.root.dataset.version = packageJson.version;
 
     // Stage order setup
     this.stageOrderList = [
@@ -79,18 +79,8 @@ class App {
     const params = new URLSearchParams(location.search);
     const waykeOrderId = params.get('wayke-ecom-web-order-id');
     if (waykeOrderId) {
-      this.setUpModal();
       this.render(waykeOrderId);
     }
-  }
-
-  private setUpModal() {
-    this.contexts.modal = new Modal(this.root, {
-      title: 'Wayke Ecom',
-      onClose: () => this.close(),
-    });
-    this.contentNode = this.contexts.modal.content;
-    this.root.dataset.version = packageJson.version;
   }
 
   close() {
@@ -105,27 +95,30 @@ class App {
   }
 
   start() {
-    this.setUpModal();
     this.render();
   }
 
   private render(waykeOrderId?: string) {
-    if (this.contentNode) {
-      this.contentNode.innerHTML = '';
+    this.contexts.modal = new Modal(this.root, {
+      title: 'Wayke Ecom',
+      onClose: () => this.close(),
+    });
+
+    if (this.contexts.modal.content) {
       if (waykeOrderId) {
-        new OrderCallback(this.contentNode, waykeOrderId);
+        new OrderCallback(this.contexts.modal.content, waykeOrderId);
         return;
       }
-
+      this.contexts.modal.content.innerHTML = '';
       switch (this.view) {
         case 'preview':
-          new Preview(this.contentNode, this.stageOrderList, this.props.vehicle);
+          new Preview(this.contexts.modal.content, this.stageOrderList, this.props.vehicle);
           break;
         case 'main':
-          new Main(this.contentNode);
+          new Main(this.contexts.modal.content);
           break;
         case 'summary':
-          new Summary(this.contentNode);
+          new Summary(this.contexts.modal.content);
           break;
         default:
           throw 'Unknown view...';
