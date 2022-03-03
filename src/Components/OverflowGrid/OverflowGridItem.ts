@@ -1,5 +1,5 @@
 import { renderConditional } from '../../Utils/render';
-import AppendChild from '../Extension/AppendChild';
+import HtmlNode from '../Extension/HtmlNode';
 
 interface GridItemProps {
   title: string;
@@ -11,11 +11,11 @@ interface GridItemProps {
   onClick: () => void;
 }
 
-class GridItem extends AppendChild {
+class GridItem extends HtmlNode {
   private props: GridItemProps;
 
-  constructor(element: HTMLUListElement, props: GridItemProps, key: string) {
-    super(element, { htmlTag: 'li', className: 'waykeecom-overflow-grid__item' }, key);
+  constructor(element: HTMLElement, props: GridItemProps, id: string) {
+    super(element, { htmlTag: 'li', className: 'waykeecom-overflow-grid__item', id });
     this.props = props;
     this.render();
   }
@@ -23,7 +23,7 @@ class GridItem extends AppendChild {
   render() {
     const { title, image, logo, price, description, selected, onClick } = this.props;
 
-    this.content.innerHTML = `
+    this.node.innerHTML = `
       <div class="waykeecom-tile">
         ${renderConditional(!!image, `<img src="${image}" alt="" class="waykeecom-tile__hero" />`)}
         <div class="waykeecom-tile__body">
@@ -78,7 +78,7 @@ class GridItem extends AppendChild {
       </div>
     `;
 
-    this.content
+    this.node
       .querySelector('.waykeecom-tile__footer button')
       ?.addEventListener('click', () => onClick());
   }

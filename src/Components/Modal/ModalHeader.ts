@@ -2,6 +2,7 @@ import HtmlNode from '../Extension/HtmlNode';
 
 interface ModalHeaderProps {
   title: string;
+  id: string;
   onClose: () => void;
 }
 
@@ -12,6 +13,7 @@ class ModalHeader extends HtmlNode {
     super(element, {
       htmlTag: 'header',
       className: 'waykeecom-modal__header',
+      id: props.id,
     });
     this.props = props;
     this.render();

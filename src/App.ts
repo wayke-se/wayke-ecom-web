@@ -1,5 +1,5 @@
 import './styles/styles.scss';
-import { config, IConfigurationRoot, IOrderOptionsResponse } from '@wayke-se/ecom';
+import { config, IOrderOptionsResponse } from '@wayke-se/ecom';
 import watch from 'redux-watch';
 
 import packageJson from '../package.json';
@@ -15,6 +15,7 @@ import OrderCallback from './Views/OrderCallback';
 import { StageMapKeys } from './Utils/stage';
 import { ViewTypes } from './@types/Navigation';
 import Modal from './Components/Modal/Modal';
+import { EcomSdkConfig } from './@types/EcomSdkConfig';
 
 const OrderIdQueryString = 'wayke-ecom-web-order-id';
 
@@ -26,7 +27,7 @@ export interface AppState {
 interface AppProps {
   id: string;
   vehicle?: Vehicle;
-  config: IConfigurationRoot;
+  ecomSdkConfig: EcomSdkConfig;
   useBankid?: boolean;
 }
 
@@ -49,7 +50,7 @@ class App {
         env: {},
       };
     }
-    config.bind(props.config);
+    config.bind(props.ecomSdkConfig);
 
     this.root = root;
     this.root.dataset.version = packageJson.version;
@@ -101,15 +102,17 @@ class App {
   private render(waykeOrderId?: string) {
     this.contexts.modal = new Modal(this.root, {
       title: 'Wayke Ecom',
+      id: 'wayke-ecom-modal',
       onClose: () => this.close(),
     });
 
     if (this.contexts.modal.content) {
+      this.contexts.modal.content.innerHTML = '';
+
       if (waykeOrderId) {
         new OrderCallback(this.contexts.modal.content, waykeOrderId);
         return;
       }
-      this.contexts.modal.content.innerHTML = '';
       switch (this.view) {
         case 'preview':
           new Preview(this.contexts.modal.content, this.stageOrderList, this.props.vehicle);

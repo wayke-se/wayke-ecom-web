@@ -1,6 +1,6 @@
 {
   "name": "@ourpeter/wayke-ecom-web-test",
-  "version": "1.7.3",
+  "version": "1.7.4",
   "description": "",
   "module": "dist/index.mjs",
   "main": "dist/index.js",

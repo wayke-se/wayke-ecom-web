@@ -1,16 +1,17 @@
+import { EcomSdkConfig } from './@types/EcomSdkConfig';
 import WaykeEcomWeb from './App';
 import { devConfig } from './devConfig';
 
 window.addEventListener('DOMContentLoaded', (_) => {
-  const newConfig = {
+  const ecomSdkConfig: EcomSdkConfig = {
     api: {
       address: 'https://ecom.wayketech.se',
     },
   };
 
   const context = new WaykeEcomWeb({
-    ...devConfig.INSURANCE,
-    config: newConfig,
+    ...devConfig.CREDIT_ASSESSMENT,
+    ecomSdkConfig,
   });
   context.start();
   const button = document.querySelector<HTMLButtonElement>('button');

@@ -1,22 +1,21 @@
 import { IAccessory } from '@wayke-se/ecom/dist-types/orders/types';
+import HtmlNode from '../../../Components/Extension/HtmlNode';
 
 import OverflowGridList from '../../../Components/OverflowGrid/OverflowGridList';
 import AccessoryItem from './AccessoryItem';
 
-class AccessoryList {
-  private element: HTMLDivElement;
+class AccessoryList extends HtmlNode {
   private accessories: IAccessory[];
 
-  constructor(element: HTMLDivElement | null, accessories: IAccessory[]) {
-    if (!element) throw 'Missing element';
-    this.element = element;
+  constructor(element: HTMLElement | null, accessories: IAccessory[]) {
+    super(element);
     this.accessories = accessories;
 
     this.render();
   }
 
   render() {
-    const listRef = new OverflowGridList(this.element, 'accessories-list');
+    const listRef = new OverflowGridList(this.node, 'accessories-list');
     const { overflowElement } = listRef;
     if (overflowElement) {
       overflowElement.innerHTML = '';
