@@ -2,14 +2,14 @@ import Alert from '../../Templates/Alert';
 import Loader from '../../Templates/Loader';
 import { Image } from '../../Utils/constants';
 import ButtonBankId from '../Button/ButtonBankId';
-import Attach from '../Extension/Attach';
+import HtmlNode from '../Extension/HtmlNode';
 
 interface BankIdSignSameDeviceProps {
   autoLaunchUrl?: string;
   errorMessage?: string;
 }
 
-class BankIdSignSameDevice extends Attach {
+class BankIdSignSameDevice extends HtmlNode {
   private props: BankIdSignSameDeviceProps;
 
   constructor(element: HTMLElement | null, props: BankIdSignSameDeviceProps) {
@@ -20,14 +20,14 @@ class BankIdSignSameDevice extends Attach {
 
   render() {
     if (this.props.errorMessage) {
-      this.element.innerHTML = Alert({
+      this.node.innerHTML = Alert({
         tone: 'error',
         children: this.props.errorMessage,
       });
       return;
     }
 
-    this.element.innerHTML = `
+    this.node.innerHTML = `
       <div class="waykeecom-stack waykeecom-stack--4">
         <div class="waykeecom-align waykeecom-align--center">
           <img src="${
@@ -38,7 +38,7 @@ class BankIdSignSameDevice extends Attach {
       <div class="waykeecom-stack waykeecom-stack--4">${Loader()}</div>
       `;
 
-    new ButtonBankId(this.element, {
+    new ButtonBankId(this.node, {
       title: 'Öppna BankID',
       disabled: !this.props.autoLaunchUrl,
       onClick: () => window.open(this.props.autoLaunchUrl, '_blank'),

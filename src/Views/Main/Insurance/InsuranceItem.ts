@@ -1,18 +1,18 @@
 import { IInsuranceOption } from '@wayke-se/ecom';
 import watch from 'redux-watch';
+import HtmlNode from '../../../Components/Extension/HtmlNode';
 
 import GridItem from '../../../Components/OverflowGrid/OverflowGridItem';
 import { addOrRemoveInsurance } from '../../../Redux/action';
 import store from '../../../Redux/store';
 import { prettyNumber } from '../../../Utils/format';
 
-class InsuranceItem {
-  private element: HTMLUListElement;
+class InsuranceItem extends HtmlNode {
   private insurance: IInsuranceOption;
   private key: string;
 
-  constructor(element: HTMLUListElement, insurance: IInsuranceOption, key: string) {
-    this.element = element;
+  constructor(element: HTMLElement, insurance: IInsuranceOption, key: string) {
+    super(element);
     this.insurance = insurance;
     this.key = key;
 
@@ -34,7 +34,7 @@ class InsuranceItem {
       : false;
 
     new GridItem(
-      this.element,
+      this.node,
       {
         logo,
         title: this.insurance.name,

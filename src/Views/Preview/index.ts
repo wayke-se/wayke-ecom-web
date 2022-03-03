@@ -11,21 +11,21 @@ import { stageMap, StageMapKeys } from '../../Utils/stage';
 import Loader from '../../Templates/Loader';
 import { Vehicle } from '../../@types/Vehicle';
 import CheckList from '../../Components/Checklist/Checklist';
+import HtmlNode from '../../Components/Extension/HtmlNode';
 
 const PROCEED_BUTTON = 'preview-proceed';
 const PROCEED_BUTTON_NODE = `${PROCEED_BUTTON}-node`;
 const PREVIEW_CHECKLIST = 'preview-checklist';
 const PREVIEW_CHECKLIST_NODE = `${PREVIEW_CHECKLIST}-node`;
 
-class Preview {
-  private element: Element;
+class Preview extends HtmlNode {
   private loader?: HTMLDivElement;
   private stageOrderList: StageMapKeys[];
   private vehicle?: Vehicle;
   private contexts: { buttonProceed?: ButtonArrowRight } = {};
 
-  constructor(element: Element, stageOrderList: StageMapKeys[], vehicle?: Vehicle) {
-    this.element = element;
+  constructor(element: HTMLElement, stageOrderList: StageMapKeys[], vehicle?: Vehicle) {
+    super(element);
     this.stageOrderList = stageOrderList;
     this.vehicle = vehicle;
 
@@ -77,7 +77,7 @@ class Preview {
     const state = store.getState();
 
     if (!state.order) {
-      this.element.innerHTML = `
+      this.node.innerHTML = `
         <div class="waykeecom-page">
           <div class="waykeecom-page__body">
             <div class="waykeecom-container waykeecom-container--narrow">
@@ -89,7 +89,7 @@ class Preview {
       return;
     }
 
-    this.element.innerHTML = `
+    this.node.innerHTML = `
       <div class="waykeecom-page">
         <div class="waykeecom-page__body">
           <div class="waykeecom-container waykeecom-container--narrow">

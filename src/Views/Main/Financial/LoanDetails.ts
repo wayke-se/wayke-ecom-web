@@ -1,6 +1,6 @@
 import { IPaymentOption } from '@wayke-se/ecom';
 import { PaymentLookupResponse } from '@wayke-se/ecom/dist-types/payments/payment-lookup-response';
-import Attach from '../../../Components/Extension/Attach';
+import HtmlNode from '../../../Components/Extension/HtmlNode';
 import KeyValueListItem from '../../../Templates/KeyValueListItem';
 import { Image } from '../../../Utils/constants';
 import { prettyNumber } from '../../../Utils/format';
@@ -10,7 +10,7 @@ interface LoanDetailsProps {
   loan: IPaymentOption;
 }
 
-class LoanDetails extends Attach {
+class LoanDetails extends HtmlNode {
   private props: LoanDetailsProps;
 
   constructor(element: HTMLElement | null | undefined, props: LoanDetailsProps) {
@@ -31,7 +31,7 @@ class LoanDetails extends Attach {
 
     const publicUrl = this.props.loan.loanDetails?.getPublicURL();
 
-    this.element.innerHTML = `
+    this.node.innerHTML = `
     <div class="waykeecom-stepper__break">
             <div class="waykeecom-shadow-box">
               <div class="waykeecom-stack waykeecom-stack--3">

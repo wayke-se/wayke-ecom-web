@@ -8,14 +8,13 @@ import Delivery from './Delivery';
 import Customer from './Customer';
 import Disclaimer from './Disclaimer';
 import ExecuteOrder from './ExecuteOrder';
+import HtmlNode from '../../Components/Extension/HtmlNode';
 
 const SUMMARY_NODE = 'summary-node';
 
-class Summary {
-  private element: Element;
-
-  constructor(element: Element) {
-    this.element = element;
+class Summary extends HtmlNode {
+  constructor(element: HTMLElement) {
+    super(element);
     const w = watch(store.getState, 'navigation.view');
     store.subscribe(
       w((view) => {
@@ -28,16 +27,15 @@ class Summary {
   }
 
   render() {
-    this.element.innerHTML = `
+    this.node.innerHTML = `
       <div class="waykeecom-page">
         <div class="waykeecom-page__body">
-          <div id="${SUMMARY_NODE}" class="waykeecom-container waykeecom-container--narrow">
-          </div>
+          <div id="${SUMMARY_NODE}" class="waykeecom-container waykeecom-container--narrow"></div>
         </div>
       </div>
     `;
 
-    const content = this.element.querySelector<HTMLDivElement>(`#${SUMMARY_NODE}`);
+    const content = this.node.querySelector<HTMLDivElement>(`#${SUMMARY_NODE}`);
     if (content) {
       new Intro(content);
       new TradeIn(content);

@@ -1,4 +1,4 @@
-import Attach from '../Extension/Attach';
+import HtmlNode from '../Extension/HtmlNode';
 
 interface ButtonSkipProps {
   title: string;
@@ -6,7 +6,7 @@ interface ButtonSkipProps {
   onClick?: (e: Event) => void;
 }
 
-class ButtonSkip extends Attach {
+class ButtonSkip extends HtmlNode {
   private props: ButtonSkipProps;
 
   constructor(element: HTMLDivElement | null, props: ButtonSkipProps) {
@@ -16,7 +16,7 @@ class ButtonSkip extends Attach {
   }
 
   render() {
-    this.element.innerHTML = `
+    this.node.innerHTML = `
       <button type="button" id="${this.props.id}" title="${this.props.title}" class="waykeecom-button waykeecom-button--full-width waykeecom-button--action-clear">
       <span class="waykeecom-button__content">
           <svg
@@ -32,7 +32,7 @@ class ButtonSkip extends Attach {
       </button>
     `;
     if (this.props.onClick) {
-      this.element
+      this.node
         .querySelector<HTMLButtonElement>('button')
         ?.addEventListener('click', this.props.onClick);
     }

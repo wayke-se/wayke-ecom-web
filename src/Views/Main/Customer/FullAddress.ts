@@ -1,11 +1,11 @@
 import { Customer } from '../../../@types/Customer';
-import AppendChild from '../../../Components/Extension/AppendChild';
+import HtmlNode from '../../../Components/Extension/HtmlNode';
 import store from '../../../Redux/store';
 import KeyValueListItem, { KeyValueListItemProps } from '../../../Templates/KeyValueListItem';
 import FullAddressByBankId from './FullAddressByBankId';
 import FullAddressBySocialId from './FullAddressBySocialId';
 
-class FullAddress extends AppendChild {
+class FullAddress extends HtmlNode {
   private useBankId: boolean = true;
   private lastStage: boolean;
   private state: Customer;
@@ -32,7 +32,7 @@ class FullAddress extends AppendChild {
         { key: 'Personnummer', value: this.state.socialId },
       ];
 
-      this.content.innerHTML = `
+      this.node.innerHTML = `
         <div class="waykeecom-stack waykeecom-stack--2">
           <ul class="waykeecom-key-value-list">
           ${keyValueItems.map((kv) => KeyValueListItem(kv)).join('')}
@@ -40,11 +40,11 @@ class FullAddress extends AppendChild {
         </div>
       `;
     } else {
-      this.content.innerHTML = '';
+      this.node.innerHTML = '';
       if (this.useBankId) {
-        new FullAddressByBankId(this.content, this.lastStage, () => this.onToggleMethod());
+        new FullAddressByBankId(this.node, this.lastStage, () => this.onToggleMethod());
       } else {
-        new FullAddressBySocialId(this.content, this.lastStage, () => this.onToggleMethod());
+        new FullAddressBySocialId(this.node, this.lastStage, () => this.onToggleMethod());
       }
     }
   }

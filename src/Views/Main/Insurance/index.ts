@@ -2,7 +2,7 @@ import { DrivingDistance } from '@wayke-se/ecom';
 import watch from 'redux-watch';
 import ButtonArrowRight from '../../../Components/Button/ButtonArrowRight';
 import ButtonSkip from '../../../Components/Button/ButtonSkip';
-import Attach from '../../../Components/Extension/Attach';
+import HtmlNode from '../../../Components/Extension/HtmlNode';
 import InputSelect from '../../../Components/Input/InputSelect';
 import StageCompleted from '../../../Components/StageCompleted';
 import { completeStage, goTo, setDrivingDistance } from '../../../Redux/action';
@@ -21,7 +21,7 @@ const SHOW_INSURANCES_NODE = `${SHOW_INSURANCES}-node`;
 const SKIP_INSURANCES = 'button-insurances-skip';
 const SKIP_INSURANCES_NODE = `${SKIP_INSURANCES}-node`;
 
-class Insurance extends Attach {
+class Insurance extends HtmlNode {
   private index: number;
   private lastStage: boolean;
   private showInsurances = false;
@@ -67,7 +67,7 @@ class Insurance extends Attach {
     const state = store.getState();
 
     const completed = state.topNavigation.stage > this.index;
-    const content = ListItem(this.element, {
+    const content = ListItem(this.node, {
       completed,
       title: 'Försäkring',
       active: state.navigation.stage === this.index,

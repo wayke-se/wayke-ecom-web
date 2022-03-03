@@ -1,3 +1,4 @@
+import HtmlNode from '../../Components/Extension/HtmlNode';
 import { createOrder } from '../../Data/createOrder';
 import Alert from '../../Templates/Alert';
 import StackItem from '../Main/TradeIn/StackItem';
@@ -6,16 +7,14 @@ const CREATE_ORDER = 'create-order';
 const CREATE_ORDER_REQUEST_ERROR = `${CREATE_ORDER}-request-error`;
 const CREATE_ORDER_REQUEST_ERROR_CONTAINER = `${CREATE_ORDER_REQUEST_ERROR}-container`;
 
-class ExecuteOrder {
-  private element: HTMLDivElement;
-
-  constructor(element: HTMLDivElement) {
-    this.element = element;
+class ExecuteOrder extends HtmlNode {
+  constructor(element: HTMLElement) {
+    super(element);
     this.render();
   }
 
   async onCreateOrder() {
-    const button = this.element.querySelector<HTMLButtonElement>(`#${CREATE_ORDER}`);
+    const button = this.node.querySelector<HTMLButtonElement>(`#${CREATE_ORDER}`);
     const errorContainer = document.querySelector<HTMLDivElement>(
       `#${CREATE_ORDER_REQUEST_ERROR_CONTAINER}`
     );
@@ -39,7 +38,7 @@ class ExecuteOrder {
   }
 
   render() {
-    const content = StackItem(this.element);
+    const content = StackItem(this.node);
 
     content.innerHTML = `
       <button

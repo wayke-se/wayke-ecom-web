@@ -1,4 +1,4 @@
-import Attach from '../Extension/Attach';
+import HtmlNode from '../Extension/HtmlNode';
 import InputError from './InputError';
 import InputInformation from './InputInformation';
 
@@ -17,7 +17,7 @@ interface InputTextareaProps {
   onBlur?: (e: Event) => void;
 }
 
-class InputTextarea extends Attach {
+class InputTextarea extends HtmlNode {
   private props: InputTextareaProps;
   private contexts: {
     error?: InputError;
@@ -35,7 +35,7 @@ class InputTextarea extends Attach {
   }
 
   private render() {
-    this.element.innerHTML = `
+    this.node.innerHTML = `
       <div class="waykeecom-input-label">
         <label for="${this.props.id}" class="waykeecom-input-label__label">${
       this.props.title
@@ -51,19 +51,19 @@ class InputTextarea extends Attach {
     `;
 
     if (this.props.errorMessage) {
-      this.contexts.error = new InputError(this.element, {
+      this.contexts.error = new InputError(this.node, {
         error: this.props.error,
         errorMessage: this.props.errorMessage,
       });
     }
 
     if (this.props.information) {
-      new InputInformation(this.element.querySelector<HTMLElement>('.waykeecom-input-label'), {
+      new InputInformation(this.node.querySelector<HTMLElement>('.waykeecom-input-label'), {
         information: this.props.information,
       });
     }
 
-    const input = this.element.querySelector('textarea');
+    const input = this.node.querySelector('textarea');
     if (input) {
       if (this.props.onChange) {
         input.addEventListener('input', this.props.onChange);

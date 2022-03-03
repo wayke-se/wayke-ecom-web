@@ -1,5 +1,4 @@
 import { Customer, PartialCustomer } from '../../../@types/Customer';
-import AppendChild from '../../../Components/Extension/AppendChild';
 import ButtonArrowRight from '../../../Components/Button/ButtonArrowRight';
 import InputField from '../../../Components/Input/InputField';
 
@@ -8,6 +7,7 @@ import store from '../../../Redux/store';
 import EmailHelp from '../../../Templates/EmailHelp';
 import KeyValueListItem from '../../../Templates/KeyValueListItem';
 import { validationMethods } from '../../../Utils/validationMethods';
+import HtmlNode from '../../../Components/Extension/HtmlNode';
 
 const EMAIL_NODE = 'contact-email-node';
 const EMAIL_INPUT_ID = 'contact-email';
@@ -49,7 +49,7 @@ const initalState = (customer?: Customer): Part1EmailAndPhoneState => {
   };
 };
 
-class EmailAndPhone extends AppendChild {
+class EmailAndPhone extends HtmlNode {
   private state: Part1EmailAndPhoneState;
   private contexts: {
     email?: InputField;
@@ -109,7 +109,7 @@ class EmailAndPhone extends AppendChild {
         { key: 'Telefonnummer', value: this.state.value.phone },
       ];
 
-      this.content.innerHTML = `
+      this.node.innerHTML = `
         <div class="waykeecom-stack waykeecom-stack--2">
           <ul class="waykeecom-key-value-list">
             ${keyValueItems.map((kv) => KeyValueListItem(kv)).join('')}
@@ -117,7 +117,7 @@ class EmailAndPhone extends AppendChild {
         </div>
       `;
     } else {
-      this.content.innerHTML = `
+      this.node.innerHTML = `
       <div class="waykeecom-stack waykeecom-stack--3">
         <h4 class="waykeecom-heading waykeecom-heading--4">Kontaktuppgifter</h4>
         <div class="waykeecom-content">
@@ -133,7 +133,7 @@ class EmailAndPhone extends AppendChild {
     `;
 
       this.contexts.email = new InputField(
-        this.content.querySelector<HTMLDivElement>(`#${EMAIL_NODE}`),
+        this.node.querySelector<HTMLDivElement>(`#${EMAIL_NODE}`),
         {
           title: 'Epost',
           value: this.state.value.email,
@@ -150,7 +150,7 @@ class EmailAndPhone extends AppendChild {
       );
 
       this.contexts.phone = new InputField(
-        this.content.querySelector<HTMLDivElement>(`#${PHONE_NODE}`),
+        this.node.querySelector<HTMLDivElement>(`#${PHONE_NODE}`),
         {
           title: 'Telefonnummer',
           value: this.state.value.phone,
@@ -166,7 +166,7 @@ class EmailAndPhone extends AppendChild {
       );
 
       this.contexts.button = new ButtonArrowRight(
-        this.content.querySelector<HTMLDivElement>(`#${PROCEED_NODE}`),
+        this.node.querySelector<HTMLDivElement>(`#${PROCEED_NODE}`),
         {
           title: 'Fortsätt',
           id: PROCEED,

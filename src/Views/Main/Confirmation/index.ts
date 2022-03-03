@@ -1,14 +1,14 @@
-import Attach from '../../../Components/Extension/Attach';
+import HtmlNode from '../../../Components/Extension/HtmlNode';
 import ListItem from '../ListItem';
 
-class Confirmation extends Attach {
+class Confirmation extends HtmlNode {
   constructor(element: HTMLDivElement) {
     super(element);
     this.render();
   }
 
   render() {
-    ListItem(this.element, { title: 'Orderbekräftelse', id: 'confirmation' });
+    ListItem(this.node, { title: 'Orderbekräftelse', id: 'confirmation' });
   }
 }
 

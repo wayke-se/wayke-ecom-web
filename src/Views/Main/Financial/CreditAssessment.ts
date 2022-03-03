@@ -9,7 +9,7 @@ import { ICreditAssessmentHouseholdEconomy } from '@wayke-se/ecom/dist-types/cre
 import { PaymentLookupResponse } from '@wayke-se/ecom/dist-types/payments/payment-lookup-response';
 import ButtonAsLink from '../../../Components/Button/ButtonAsLink';
 import ButtonBankId from '../../../Components/Button/ButtonBankId';
-import Attach from '../../../Components/Extension/Attach';
+import HtmlNode from '../../../Components/Extension/HtmlNode';
 import InputField from '../../../Components/Input/InputField';
 import InputRadioGroup from '../../../Components/Input/InputRadioGroup';
 import { creditAssessmentCancelSigning } from '../../../Data/creditAssessmentCancelSigning';
@@ -137,7 +137,7 @@ interface CreditAssessmentProps {
   paymentLookupResponse: PaymentLookupResponse;
 }
 
-class CreditAssessment extends Attach {
+class CreditAssessment extends HtmlNode {
   private props: CreditAssessmentProps;
   private state: CreditAssessmentHouseholdEconomyState;
   private bankidStatusInterval?: NodeJS.Timer;
@@ -305,14 +305,14 @@ class CreditAssessment extends Attach {
 
           response.getAutoLaunchUrl();
           new ButtonBankId(
-            this.element.querySelector<HTMLDivElement>(`#${BANKID_OPEN_ON_DEVICE_NODE}`),
+            this.node.querySelector<HTMLDivElement>(`#${BANKID_OPEN_ON_DEVICE_NODE}`),
             {
               title: 'Öppna BankID',
               id: BANKID_OPEN_ON_DEVICE,
               onClick: () => window.open(response.getAutoLaunchUrl(), '_blank'),
             }
           );
-          new ButtonAsLink(this.element.querySelector<HTMLDivElement>(`#${BANKID_START_NODE}`), {
+          new ButtonAsLink(this.node.querySelector<HTMLDivElement>(`#${BANKID_START_NODE}`), {
             title: 'Mitt BankID är på en annan enhet',
             id: BANKID_START,
             onClick: () => this.onStartBankIdAuth(AuthMethod.QrCode),
@@ -331,7 +331,7 @@ class CreditAssessment extends Attach {
           </div>
           <div class="waykeecom-stack waykeecom-stack--4">${Loader()}</div>
         `;
-        new ButtonAsLink(this.element.querySelector<HTMLDivElement>(`#${BANKID_START_NODE}`), {
+        new ButtonAsLink(this.node.querySelector<HTMLDivElement>(`#${BANKID_START_NODE}`), {
           title: 'Öppna BankID på den här enheten',
           id: BANKID_START,
           onClick: () => this.onStartBankIdAuth(AuthMethod.SameDevice),
@@ -399,7 +399,7 @@ class CreditAssessment extends Attach {
     const branchName = order?.getContactInformation()?.name;
 
     if (this.view === 2) {
-      this.element.innerHTML = `
+      this.node.innerHTML = `
       <div class="waykeecom-stack waykeecom-stack--2">
         <hr class="waykeecom-separator" />
       </div>
@@ -427,30 +427,29 @@ class CreditAssessment extends Attach {
       </div>
     `;
 
-      this.QrCodeElement =
-        this.element.querySelector<HTMLDivElement>(`#${QR_CODE_NODE}`) || undefined;
+      this.QrCodeElement = this.node.querySelector<HTMLDivElement>(`#${QR_CODE_NODE}`) || undefined;
 
       if (mobile) {
-        new ButtonAsLink(this.element.querySelector<HTMLDivElement>(`#${BANKID_START_NODE}`), {
+        new ButtonAsLink(this.node.querySelector<HTMLDivElement>(`#${BANKID_START_NODE}`), {
           title: 'Mitt BankID är på en annan enhet',
           id: BANKID_START,
           onClick: () => this.onStartBankIdAuth(AuthMethod.QrCode),
         });
       } else {
-        new ButtonAsLink(this.element.querySelector<HTMLDivElement>(`#${BANKID_START_NODE}`), {
+        new ButtonAsLink(this.node.querySelector<HTMLDivElement>(`#${BANKID_START_NODE}`), {
           title: 'Öppna BankID på den här enheten',
           id: BANKID_START,
           onClick: () => this.onStartBankIdAuth(AuthMethod.SameDevice),
         });
       }
 
-      new ButtonAsLink(this.element.querySelector<HTMLDivElement>(`#${ABORT_NODE}`), {
+      new ButtonAsLink(this.node.querySelector<HTMLDivElement>(`#${ABORT_NODE}`), {
         title: 'Avbryt',
         id: ABORT,
         onClick: () => this.onAbort(),
       });
     } else {
-      this.element.innerHTML = `
+      this.node.innerHTML = `
       <div class="waykeecom-stack waykeecom-stack--3">
         <h5 class="waykeecom-heading waykeecom-heading--4">Låneansökan</h5>
         <p class="waykeecom-content">För att besvara din förfrågan om billån behöver Volvofinans Bank några fler uppgifter om dig och ditt hushåll. Frågorna tar bara någon minut att besvara. Bekräfta och signera sedan med Mobilt BankID – därefter får du ditt lånebesked direkt på skärmen och kan gå vidare med ditt bilköp. Blir du godkänd så gäller lånebeskedet genom hela köpet så länge inga tillägg görs – men din ansökan är inte bindande.</p>
@@ -506,7 +505,7 @@ class CreditAssessment extends Attach {
     `;
 
       this.contexts.maritalStatus = new InputRadioGroup(
-        this.element.querySelector<HTMLDivElement>(`#${MARITAL_STATUS_NODE}`),
+        this.node.querySelector<HTMLDivElement>(`#${MARITAL_STATUS_NODE}`),
         {
           title: 'Civilstånd',
           checked: this.state.value.maritalStatus as string,
@@ -528,7 +527,7 @@ class CreditAssessment extends Attach {
       );
 
       this.contexts.income = new InputField(
-        this.element.querySelector<HTMLDivElement>(`#${INCOME_NODE}`),
+        this.node.querySelector<HTMLDivElement>(`#${INCOME_NODE}`),
         {
           title: 'Inkomst per månad före skatt',
           value: this.state.value.income,
@@ -546,7 +545,7 @@ class CreditAssessment extends Attach {
       );
 
       this.contexts.employment = new InputRadioGroup(
-        this.element.querySelector<HTMLDivElement>(`#${EMPLOYMENT_NODE}`),
+        this.node.querySelector<HTMLDivElement>(`#${EMPLOYMENT_NODE}`),
         {
           title: 'Sysselsättning',
           checked: this.state.value.employment as string,
@@ -588,7 +587,7 @@ class CreditAssessment extends Attach {
       );
 
       this.contexts.income = new InputField(
-        this.element.querySelector<HTMLDivElement>(`#${INCOME_NODE}`),
+        this.node.querySelector<HTMLDivElement>(`#${INCOME_NODE}`),
         {
           title: 'Inkomst per månad före skatt',
           value: this.state.value.income,
@@ -606,7 +605,7 @@ class CreditAssessment extends Attach {
       );
 
       this.contexts.householdChildren = new InputField(
-        this.element.querySelector<HTMLDivElement>(`#${HOUSEHOLD_CHILDREN_NODE}`),
+        this.node.querySelector<HTMLDivElement>(`#${HOUSEHOLD_CHILDREN_NODE}`),
         {
           title: 'Antal hemmavarande barn',
           value: this.state.value.householdChildren,
@@ -623,7 +622,7 @@ class CreditAssessment extends Attach {
       );
 
       this.contexts.householdIncome = new InputField(
-        this.element.querySelector<HTMLDivElement>(`#${HOUSEHOLD_INCOME_NODE}`),
+        this.node.querySelector<HTMLDivElement>(`#${HOUSEHOLD_INCOME_NODE}`),
         {
           title: 'Hushållets inkomst per månad före skatt',
           value: this.state.value.householdIncome,
@@ -641,7 +640,7 @@ class CreditAssessment extends Attach {
       );
 
       this.contexts.householdHousingCost = new InputField(
-        this.element.querySelector<HTMLDivElement>(`#${HOUSEHOLD_HOUSING_COST_NODE}`),
+        this.node.querySelector<HTMLDivElement>(`#${HOUSEHOLD_HOUSING_COST_NODE}`),
         {
           title: 'Hushållets ungefärliga boendekostnader per månad',
           value: this.state.value.householdHousingCost,
@@ -660,7 +659,7 @@ class CreditAssessment extends Attach {
       );
 
       this.contexts.householdDebt = new InputField(
-        this.element.querySelector<HTMLDivElement>(`#${HOUSEHOLD_DEBT_NODE}`),
+        this.node.querySelector<HTMLDivElement>(`#${HOUSEHOLD_DEBT_NODE}`),
         {
           title: 'Hushållets totala skulder',
           value: this.state.value.householdDebt,
@@ -678,7 +677,7 @@ class CreditAssessment extends Attach {
       );
 
       this.contexts.performApplicationButton = new ButtonBankId(
-        this.element.querySelector<HTMLDivElement>(`#${PERFORM_APPLICATION_NODE}`),
+        this.node.querySelector<HTMLDivElement>(`#${PERFORM_APPLICATION_NODE}`),
         {
           title: 'Genomför låneansökan',
           id: PERFORM_APPLICATION,

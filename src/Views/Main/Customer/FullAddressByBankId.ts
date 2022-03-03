@@ -8,9 +8,9 @@ import { setSocialIdAndAddress } from '../../../Redux/action';
 import Alert from '../../../Templates/Alert';
 import { isMobile } from '../../../Utils/isMobile';
 import { Image } from '../../../Utils/constants';
-import AppendChild from '../../../Components/Extension/AppendChild';
 import BankIdSign from '../../../Components/BankId/BankIdSign';
 import DisclaimerSafe from './DisclaimerSafe';
+import HtmlNode from '../../../Components/Extension/HtmlNode';
 
 const BANKID_START_NODE = `bankid-start-node`;
 const BANKID_START = `bankid-start`;
@@ -20,7 +20,7 @@ const LINK_TOGGLE_METHOD = 'link-toggle-method';
 
 const DISCLAIMER_SAFE_NODE = 'address-disclaimer-node';
 
-class FullAddressByBankId extends AppendChild {
+class FullAddressByBankId extends HtmlNode {
   private lastStage: boolean;
   private _ontoggleMethod: () => void;
   private bankidStatusInterval?: NodeJS.Timer;
@@ -114,7 +114,7 @@ class FullAddressByBankId extends AppendChild {
   render() {
     const mobile = isMobile();
     if (this.view === 2) {
-      this.contexts.bankId = new BankIdSign(this.content, {
+      this.contexts.bankId = new BankIdSign(this.node, {
         method: mobile ? AuthMethod.SameDevice : AuthMethod.QrCode,
         descriptionQrCode:
           'För att hämta dina uppgifter, starta din BankID applikation på din andra enhet.',
@@ -123,7 +123,7 @@ class FullAddressByBankId extends AppendChild {
         onStart: (method: AuthMethod) => this.onStartBankIdAuth(method),
       });
     } else {
-      this.content.innerHTML = `
+      this.node.innerHTML = `
         <div class="waykeecom-stack waykeecom-stack--2">
           <hr class="waykeecom-separator" />
         </div>
@@ -159,7 +159,7 @@ class FullAddressByBankId extends AppendChild {
         </div>
       `;
 
-      new ButtonBankId(this.content.querySelector<HTMLDivElement>(`#${BANKID_START_NODE}`), {
+      new ButtonBankId(this.node.querySelector<HTMLDivElement>(`#${BANKID_START_NODE}`), {
         title: 'Hämta uppgifter med Mobilt BankID',
         id: BANKID_START,
         onClick: () => {
@@ -168,10 +168,10 @@ class FullAddressByBankId extends AppendChild {
         },
       });
 
-      new DisclaimerSafe(this.content.querySelector(`#${DISCLAIMER_SAFE_NODE}`));
+      new DisclaimerSafe(this.node.querySelector(`#${DISCLAIMER_SAFE_NODE}`));
 
       this.contexts.buttonLinkToggle = new ButtonAsLink(
-        this.content.querySelector<HTMLDivElement>(`#${LINK_TOGGLE_METHOD_NODE}`),
+        this.node.querySelector<HTMLDivElement>(`#${LINK_TOGGLE_METHOD_NODE}`),
         {
           title: 'Jag vill fylla i mina uppgifter manuellt',
           id: LINK_TOGGLE_METHOD,

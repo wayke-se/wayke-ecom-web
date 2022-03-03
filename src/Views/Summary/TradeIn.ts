@@ -1,3 +1,4 @@
+import HtmlNode from '../../Components/Extension/HtmlNode';
 import { goTo, initTradeIn } from '../../Redux/action';
 import store from '../../Redux/store';
 import KeyValueListItem from '../../Templates/KeyValueListItem';
@@ -7,11 +8,9 @@ import StackItem from '../Main/TradeIn/StackItem';
 
 const EDIT_TRADE_IN = 'edit-trade-in';
 
-class TradeIn {
-  private element: HTMLDivElement;
-
-  constructor(element: HTMLDivElement) {
-    this.element = element;
+class TradeIn extends HtmlNode {
+  constructor(element: HTMLElement) {
+    super(element);
     this.render();
   }
 
@@ -20,7 +19,7 @@ class TradeIn {
     const { order, tradeIn, tradeInVehicle } = state;
     if (!order?.allowsTradeIn) return;
 
-    const content = StackItem(this.element);
+    const content = StackItem(this.node);
 
     content.innerHTML = `
       <div class="waykeecom-stack waykeecom-stack--4">
