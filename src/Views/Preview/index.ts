@@ -10,17 +10,19 @@ import { StageTypes } from '../../@types/Stages';
 import { stageMap, StageMapKeys } from '../../Utils/stage';
 import Loader from '../../Templates/Loader';
 import { Vehicle } from '../../@types/Vehicle';
+import CheckList from '../../Components/Checklist/Checklist';
 
-const PROCEED_BUTTON = 'wayke-view-1-proceed';
+const PROCEED_BUTTON = 'preview-proceed';
 const PROCEED_BUTTON_NODE = `${PROCEED_BUTTON}-node`;
-const PROCEED_BUTTON_LOADER = `${PROCEED_BUTTON}-loader`;
+const PREVIEW_CHECKLIST = 'preview-checklist';
+const PREVIEW_CHECKLIST_NODE = `${PREVIEW_CHECKLIST}-node`;
 
 class Preview {
   private element: Element;
   private loader?: HTMLDivElement;
-  private proceedButton?: HTMLButtonElement;
   private stageOrderList: StageMapKeys[];
   private vehicle?: Vehicle;
+  private contexts: { buttonProceed?: ButtonArrowRight } = {};
 
   constructor(element: Element, stageOrderList: StageMapKeys[], vehicle?: Vehicle) {
     this.element = element;
@@ -41,7 +43,7 @@ class Preview {
   async init() {
     const state = store.getState();
     try {
-      this.proceedButton?.setAttribute('disabled', '');
+      this.contexts.buttonProceed?.disabled(true);
       if (this.loader) {
         this.loader.style.display = '';
       }
@@ -60,7 +62,7 @@ class Preview {
       setStages(stages);
 
       setOrder(order, this.vehicle);
-      this.proceedButton?.removeAttribute('disabled');
+      this.contexts.buttonProceed?.disabled(false);
       this.render();
     } catch (e) {
       throw e;
@@ -94,56 +96,39 @@ class Preview {
             <div class="waykeecom-stack waykeecom-stack--3">
               <h3 class="waykeecom-heading waykeecom-heading--3 waykeecom-no-margin">Vad roligt att du vill köpa denna bil!</h3>
             </div>
-            <div class="waykeecom-stack waykeecom-stack--3" style="${
-              state.order ? 'display: none;' : ''
-            }" id="${PROCEED_BUTTON_LOADER}-loader">
-              <div>Laddar...</div>
-            </div>
             <div class="waykeecom-stack waykeecom-stack--3">
               ${ItemTileLarge({ vehicle: state.vehicle, order: state.order })}
             </div>
             ${HowTo({ order: state.order, stageOrderList: state.stages })}
-            <div class="waykeecom-stack waykeecom-stack--3" id="${PROCEED_BUTTON_NODE}">
-              <button type="button" id="${PROCEED_BUTTON}" disabled="" title="Gå vidare" class="waykeecom-button waykeecom-button--full-width waykeecom-button--action">
-                <span class="waykeecom-button__content">Gå vidare</span>
-                <span class="waykeecom-button__content">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 16 16"
-                    class="waykeecom-icon"
-                  >
-                    <title>Ikon: pil höger</title>
-                    <path d="m15.2 8.8-4.8 4.8-1.7-1.7 2.7-2.7H1.2C.5 9.2 0 8.7 0 8s.5-1.2 1.2-1.2h10.2L8.7 4.1l1.7-1.7 4.8 4.8.8.8-.8.8z" />
-                  </svg>
-                </span>
-              </button>
-            </div>
+            <div class="waykeecom-stack waykeecom-stack--3" id="${PROCEED_BUTTON_NODE}"></div>
           </div>
         </div>
         <footer class="waykeecom-page__footer">
-          <div class="waykeecom-container waykeecom-container--narrow">
-            <h3 class="waykeecom-heading waykeecom-heading--4">Köp online hos Wayke</h3>
-            <ul class="waykeecom-checklist" aria-label="Fördelar med att köpa bilen online hos Wayke">
-              <li class="waykeecom-checklist__item">Trygg hantering av personuppgifter</li>
-              <li class="waykeecom-checklist__item">Reservera bilen nu – betalning och avtalsskrivning sker senare med handlaren</li>
-              <li class="waykeecom-checklist__item">Inte bindande förrän avtal skrivits ihop med handlaren</li>
-              <li class="waykeecom-checklist__item">Bara kontrollerade bilar</li>
-            </ul>
+          <div class="waykeecom-container waykeecom-container--narrow" id="${PREVIEW_CHECKLIST_NODE}">
           </div>
         </footer>
       </div>
     `;
 
-    new ButtonArrowRight(document.querySelector<HTMLDivElement>(`#${PROCEED_BUTTON_NODE}`), {
-      id: PROCEED_BUTTON,
-      title: 'Gå vidare',
-      onClick: () => goTo('main'),
-    });
+    this.contexts.buttonProceed = new ButtonArrowRight(
+      document.querySelector<HTMLDivElement>(`#${PROCEED_BUTTON_NODE}`),
+      {
+        id: PROCEED_BUTTON,
+        title: 'Gå vidare',
+        onClick: () => goTo('main'),
+      }
+    );
 
-    const loader = document.querySelector<HTMLDivElement>(`#${PROCEED_BUTTON_LOADER}`);
-    if (loader) {
-      this.loader = loader;
-    }
+    new CheckList(document.querySelector<HTMLDivElement>(`#${PREVIEW_CHECKLIST_NODE}`), {
+      title: 'Köp online hos Wayke',
+      ariaLabel: 'Fördelar med att köpa bilen online hos Wayke',
+      checklistItems: [
+        'Trygg hantering av personuppgifter',
+        'Reservera bilen nu – betalning och avtalsskrivning sker senare med handlaren',
+        'Inte bindande förrän avtal skrivits ihop med handlaren',
+        'Bara kontrollerade bilar',
+      ],
+    });
   }
 }
 
