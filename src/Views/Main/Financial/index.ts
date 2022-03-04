@@ -243,7 +243,12 @@ class Financial extends HtmlNode {
       const paymentNode = part.querySelector<HTMLDivElement>(`#${PAYMENT_NODE}`);
       if (paymentNode) {
         if (loan && this.paymentType === PaymentType.Loan) {
-          new Loan(paymentNode, loan, id, this.paymentLookupResponse);
+          new Loan(paymentNode, {
+            loan,
+            vehicleId: id,
+            paymentLookupResponse: this.paymentLookupResponse,
+            onProceed: () => this.onProceed(),
+          });
         } else {
           new ButtonArrowRight(part.querySelector<HTMLDivElement>(`#${PROCEED_NODE}`), {
             title: 'Fortsätt',

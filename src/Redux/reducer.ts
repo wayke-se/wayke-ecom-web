@@ -1,4 +1,11 @@
-import { DrivingDistance, IAddress, IInsuranceOption, IVehicle, PaymentType } from '@wayke-se/ecom';
+import {
+  DrivingDistance,
+  IAddress,
+  ICreditAssessmentStatusResponse,
+  IInsuranceOption,
+  IVehicle,
+  PaymentType,
+} from '@wayke-se/ecom';
 import { OrderOptionsResponse } from '@wayke-se/ecom/dist-types/orders/order-options-response';
 import { IAccessory, IOrderVehicle } from '@wayke-se/ecom/dist-types/orders/types';
 import { PaymentLookupResponse } from '@wayke-se/ecom/dist-types/payments/payment-lookup-response';
@@ -24,6 +31,7 @@ import {
   SET_DRIVING_DISTANCE,
   COMPLETE_STAGE,
   SET_CREATED_ORDER_ID,
+  SET_CREDIT_ASSESSMENT_RESPONSE,
 } from './action';
 
 export interface ReducerState {
@@ -46,6 +54,8 @@ export interface ReducerState {
   drivingDistance: DrivingDistance;
   insurance?: IInsuranceOption;
   createdOrderId?: string;
+  creditAssessmentResponse?: ICreditAssessmentStatusResponse;
+  caseId?: string;
 }
 
 const initNavigation: Navigation = {
@@ -246,6 +256,12 @@ const reducer = (state = initialState, action: Action): ReducerState => {
 
       return next;
 
+    case SET_CREDIT_ASSESSMENT_RESPONSE:
+      return {
+        ...next,
+        caseId: action.caseId,
+        creditAssessmentResponse: action.creditAssessmentResponse,
+      };
     default:
       return state;
   }

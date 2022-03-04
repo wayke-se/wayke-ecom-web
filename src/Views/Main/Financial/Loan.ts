@@ -32,27 +32,29 @@ interface PaymentState {
   residual: IPaymentRangeSpec;
 }
 
+interface LoanProps {
+  loan: IPaymentOption;
+  vehicleId: string;
+  paymentLookupResponse?: PaymentLookupResponse;
+  onProceed: () => void;
+}
+
 type LoanNames = 'downPayment' | 'duration' | 'residual';
 
 class Loan {
   private element: HTMLDivElement;
-  private loan: IPaymentOption;
+  private props: LoanProps;
   private paymentState: PaymentState;
   private paymentLookupResponse: PaymentLookupResponse;
 
-  constructor(
-    element: HTMLDivElement,
-    loan: IPaymentOption,
-    vehicleId: string,
-    paymentLookupResponse?: PaymentLookupResponse
-  ) {
+  constructor(element: HTMLDivElement, props: LoanProps) {
     this.element = element;
-    this.loan = loan;
-    if (!this.loan.loanDetails) throw 'err';
+    this.props = props;
+    if (!this.props.loan.loanDetails) throw 'err';
 
-    this.paymentLookupResponse = paymentLookupResponse || this.loan.loanDetails;
+    this.paymentLookupResponse = this.props.paymentLookupResponse || this.props.loan.loanDetails;
     this.paymentState = {
-      vehicleId,
+      vehicleId: this.props.vehicleId,
       dealerId: '',
       downPayment: this.paymentLookupResponse.getDownPaymentSpec(),
       duration: this.paymentLookupResponse.getDurationSpec(),
@@ -163,7 +165,7 @@ class Loan {
     }
 
     new LoanDetails(this.element.querySelector<HTMLDivElement>(`#${LOAN_DETAILS_NODE}`), {
-      loan: this.loan,
+      loan: this.props.loan,
       paymentLookupResponse: this.paymentLookupResponse,
     });
 
@@ -171,15 +173,16 @@ class Loan {
       new CreditAssessment(
         this.element.querySelector<HTMLDivElement>(`#${CREDIT_ASSESMENT_NODE}`),
         {
-          loan: this.loan,
+          loan: this.props.loan,
           paymentLookupResponse: this.paymentLookupResponse,
+          onProceed: () => this.props.onProceed(),
         }
       );
     } else {
       new ButtonArrowRight(this.element.querySelector<HTMLDivElement>(`#${PROCEED_NODE}`), {
         title: 'Fortsätt',
         id: PROCEED,
-        onClick: () => {},
+        onClick: () => this.props.onProceed(),
       });
     }
   }

@@ -1,4 +1,11 @@
-import { DrivingDistance, IAddress, IInsuranceOption, IVehicle, PaymentType } from '@wayke-se/ecom';
+import {
+  DrivingDistance,
+  IAddress,
+  ICreditAssessmentStatusResponse,
+  IInsuranceOption,
+  IVehicle,
+  PaymentType,
+} from '@wayke-se/ecom';
 import { OrderOptionsResponse } from '@wayke-se/ecom/dist-types/orders/order-options-response';
 import { IAccessory } from '@wayke-se/ecom/dist-types/orders/types';
 import { PaymentLookupResponse } from '@wayke-se/ecom/dist-types/payments/payment-lookup-response';
@@ -132,6 +139,18 @@ export type SET_CREATED_ORDER_ID_TYPE = BaseAction<typeof SET_CREATED_ORDER_ID> 
 };
 export const setCreatedOrderId = (id: string) => store.dispatch({ type: SET_CREATED_ORDER_ID, id });
 
+export const SET_CREDIT_ASSESSMENT_RESPONSE = 'SET_CREDIT_ASSESSMENT_RESPONSE';
+export type SET_CREDIT_ASSESSMENT_RESPONSE_TYPE = BaseAction<
+  typeof SET_CREDIT_ASSESSMENT_RESPONSE
+> & {
+  caseId: string;
+  creditAssessmentResponse?: ICreditAssessmentStatusResponse;
+};
+export const setCreditAssessmentResponse = (
+  caseId: string,
+  creditAssessmentResponse: ICreditAssessmentStatusResponse
+) => store.dispatch({ type: SET_CREDIT_ASSESSMENT_RESPONSE, caseId, creditAssessmentResponse });
+
 export type Action =
   | SET_ORDER_TYPE
   | SET_ID_TYPE
@@ -148,4 +167,5 @@ export type Action =
   | GO_TO_TYPE
   | SET_STAGES_TYPE
   | COMPLETE_STAGE_TYPE
-  | SET_CREATED_ORDER_ID_TYPE;
+  | SET_CREATED_ORDER_ID_TYPE
+  | SET_CREDIT_ASSESSMENT_RESPONSE_TYPE;

@@ -1,10 +1,12 @@
-import { CreditAssessmentDecision, ICreditAssessmentStatusResponse } from '@wayke-se/ecom';
+import { CreditAssessmentRecommendation, ICreditAssessmentStatusResponse } from '@wayke-se/ecom';
 import HtmlNode from '../../../Components/Extension/HtmlNode';
 import CreditAssessmentApproved from './CreditAssessmentApproved';
+import CreditAssessmentAssessManually from './CreditAssessmentAssessManually';
 import CreditAssessmentRejected from './CreditAssessmentRejected';
 
 interface CreditAssessmentResultProps {
   creditAssessmentResponse: ICreditAssessmentStatusResponse;
+  onProceed: () => void;
   onGoBack: () => void;
 }
 
@@ -17,11 +19,18 @@ class CreditAssessmentResult extends HtmlNode {
   }
 
   render() {
-    const decision = this.props.creditAssessmentResponse.getDecision();
+    const decision = this.props.creditAssessmentResponse.getRecommendation();
 
-    if (decision === CreditAssessmentDecision.Approved) {
+    if (decision === CreditAssessmentRecommendation.Approve) {
       new CreditAssessmentApproved(this.node, {
         creditAssessmentResponse: this.props.creditAssessmentResponse,
+        onProceed: () => this.props.onProceed(),
+        onGoBack: () => this.props.onGoBack(),
+      });
+    } else if (decision === CreditAssessmentRecommendation.AssessManually) {
+      new CreditAssessmentAssessManually(this.node, {
+        creditAssessmentResponse: this.props.creditAssessmentResponse,
+        onProceed: () => this.props.onProceed(),
         onGoBack: () => this.props.onGoBack(),
       });
     } else {

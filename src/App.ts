@@ -19,6 +19,8 @@ import { EcomSdkConfig } from './@types/EcomSdkConfig';
 
 const OrderIdQueryString = 'wayke-ecom-web-order-id';
 
+export const WAYKE_ECOM_MODAL_ID = 'wayke-ecom-modal';
+
 export interface AppState {
   stage: number;
   order?: IOrderOptionsResponse;
@@ -57,12 +59,12 @@ class App {
 
     // Stage order setup
     this.stageOrderList = [
-      'financial',
       'customer',
       'centralStorage',
       'tradeIn',
       'accessories',
       'insurance',
+      'financial',
       'delivery',
     ];
 
@@ -106,7 +108,7 @@ class App {
   private render(waykeOrderId?: string) {
     this.contexts.modal = new Modal(this.root, {
       title: 'Wayke Ecom',
-      id: 'wayke-ecom-modal',
+      id: WAYKE_ECOM_MODAL_ID,
       onClose: () => this.close(),
     });
 

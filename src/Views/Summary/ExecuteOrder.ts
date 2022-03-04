@@ -1,7 +1,9 @@
 import Button from '../../Components/Button/Button';
 import StackNode from '../../Components/Extension/StackNode';
 import { createOrder } from '../../Data/createOrder';
+import { creditAssessmentAccept } from '../../Data/creditAssessmentAccept';
 import { setCreatedOrderId } from '../../Redux/action';
+import store from '../../Redux/store';
 import Alert from '../../Templates/Alert';
 
 const CREATE_ORDER = 'create-order';
@@ -32,8 +34,14 @@ class ExecuteOrder extends StackNode {
       this.contexts.createOrderButton?.loading(true);
       const response = await createOrder();
       setCreatedOrderId(response.getId());
+      const state = store.getState();
+      const caseId = state.caseId;
+      if (caseId) {
+        creditAssessmentAccept(caseId);
+      }
     } catch (e) {
       this.requestError = true;
+
       this.render();
     } finally {
       this.contexts.createOrderButton?.loading(false);

@@ -2,30 +2,31 @@ import { ICreditAssessmentStatusResponse } from '@wayke-se/ecom';
 import ButtonArrowRight from '../../../Components/Button/ButtonArrowRight';
 import ButtonAsLink from '../../../Components/Button/ButtonAsLink';
 import HtmlNode from '../../../Components/Extension/HtmlNode';
+import store from '../../../Redux/store';
 
-const PROCEED = 'assessment-approved-proceed';
+const PROCEED = 'assessment-assess-manually-proceed';
 const PROCEED_NODE = `${PROCEED}-node`;
 
-const ABORT = 'assessment-approved-abort';
+const ABORT = 'assessment-assess-manually-abort';
 const ABORT_NODE = `${ABORT}-node`;
 
-interface CreditAssessmentApprovedProps {
+interface CreditAssessmentAssessManuallyProps {
   creditAssessmentResponse: ICreditAssessmentStatusResponse;
   onProceed: () => void;
   onGoBack: () => void;
 }
 
-class CreditAssessmentApproved extends HtmlNode {
-  private props: CreditAssessmentApprovedProps;
-  constructor(element: HTMLElement, props: CreditAssessmentApprovedProps) {
+class CreditAssessmentAssessManually extends HtmlNode {
+  private props: CreditAssessmentAssessManuallyProps;
+  constructor(element: HTMLElement, props: CreditAssessmentAssessManuallyProps) {
     super(element);
     this.props = props;
     this.render();
   }
 
   render() {
-    const title = 'Godkänd';
-    const description = 'Du har blivit godkänd. ';
+    const state = store.getState();
+    const contactInformation = state.order?.getContactInformation();
 
     this.node.innerHTML = `
       <div class="waykeecom-stack waykeecom-stack--2">
@@ -35,9 +36,9 @@ class CreditAssessmentApproved extends HtmlNode {
         <div class="waykeecom-overlay">
           <div class="waykeecom-container waykeecom-container--narrow">
             <div class="waykeecom-stack waykeecom-stack--4" id="">
-              <h4 class="waykeecom-heading waykeecom-heading--4">${title}</h4>
+              <h4 class="waykeecom-heading waykeecom-heading--4">När ordern är slutförd kommer vi att gå igenom ditt ärende och återkoppla till dig med ett lånebesked.</h4>
               <div class="waykeecom-content">
-                <p>${description}</p>
+                <p>Din bil är fortfarande inte reserverad. Gå vidare till nästa steg för att slutföra ordern, men det är inte säkert att ditt lån kommer att beviljas. Har du frågor under tiden? Kontakta ${contactInformation?.name} på tel ${contactInformation?.phone}.</p>
               </div>
             </div>
             <div class="waykeecom-stack waykeecom-stack--4">
@@ -64,4 +65,4 @@ class CreditAssessmentApproved extends HtmlNode {
   }
 }
 
-export default CreditAssessmentApproved;
+export default CreditAssessmentAssessManually;

@@ -1,9 +1,13 @@
 import { IPaymentOption, PaymentType } from '@wayke-se/ecom';
 import { PaymentLookupResponse } from '@wayke-se/ecom/dist-types/payments/payment-lookup-response';
 import HtmlNode from '../../../Components/Extension/HtmlNode';
-import Alert from '../../../Templates/Alert';
+import store from '../../../Redux/store';
 import KeyValueListItem, { KeyValueListItemProps } from '../../../Templates/KeyValueListItem';
 import { prettyNumber } from '../../../Utils/format';
+import StageCompletedFinancialCreditAssessment from './StageCompletedFinancialCreditAssessment';
+
+const CREDIT_ASSESSMENT_RESULT = 'credit-assessment-result';
+const CREDIT_ASSESSMENT_RESULT_NODE = `${CREDIT_ASSESSMENT_RESULT}-node`;
 
 interface StageCompletedFinancialProps {
   loan?: IPaymentOption;
@@ -23,9 +27,10 @@ class StageCompletedFinancial extends HtmlNode {
 
   render() {
     if (this.props.paymentType === PaymentType.Loan) {
+      const state = store.getState();
       const loan = this.props.loan;
       const paymentLookupResponse = this.props.paymentLookupResponse;
-      if (!loan || !paymentLookupResponse) throw 'Miissing loan';
+      if (!loan || !paymentLookupResponse) throw 'Missing loan';
 
       const downPayment = paymentLookupResponse.getDownPaymentSpec().current;
       const creditAmount = paymentLookupResponse.getCreditAmount();
@@ -54,38 +59,45 @@ class StageCompletedFinancial extends HtmlNode {
         },
       ];
 
+      const decision = state.creditAssessmentResponse?.getRecommendation();
+
       this.node.innerHTML = `
-      <div class="waykeecom-stack waykeecom-stack--2">
-        <h4 class="waykeecom-heading waykeecom-heading--4">Billån</h4>
-        <div class="waykeecom-content">
-          <p>Ordern är snart klar, här ser du ditt lånebesked:</p>
+        <div class="waykeecom-stack waykeecom-stack--2">
+          <h4 class="waykeecom-heading waykeecom-heading--4">Billån</h4>
+          <div class="waykeecom-content">
+            <p>Ordern är snart klar, här ser du ditt lånebesked:</p>
+          </div>
         </div>
-      </div>
-      <div class="waykeecom-stack waykeecom-stack--2">
-        ${Alert({
-          tone: 'success',
-          children: `
-            <p><strong>Grattis! Din låneansökan har beviljats av ${loan.name}.</strong></p>
-            <p> Bilen är inte reserverad ännu. Slutför ordern genom att klicka dig igenom nästkommande steg. Har du frågor under tiden? Kontakta [handlaren] på tel [telefonnummer].</p>
-          `,
-        })}
-      </div>
-      <div class="waykeecom-stack waykeecom-stack--2">
+        ${
+          decision
+            ? `<div class="waykeecom-stack waykeecom-stack--2" id="${CREDIT_ASSESSMENT_RESULT_NODE}"></div>`
+            : ''
+        }
+        <div class="waykeecom-stack waykeecom-stack--2">
+          <div class="waykeecom-stack waykeecom-stack--1">
+            <ul class="waykeecom-key-value-list">
+              ${keyValueList.map((kv) => KeyValueListItem(kv)).join('')}
+            </ul>
+          </div>
+          <div class="waykeecom-stack waykeecom-stack--1">
+            <div class="waykeecom-disclaimer-text">*Beräknat på X,XX % ränta (effektivt X,XX %). Den ränta du får sätts vid avtalskrivning.</div>
+          </div>
+        </div>
         <div class="waykeecom-stack waykeecom-stack--1">
-          <ul class="waykeecom-key-value-list">
-            ${keyValueList.map((kv) => KeyValueListItem(kv))}
-          </ul>
+          <div class="waykeecom-align waykeecom-align--end">
+            <button type="button" title="Ändra finansiering" class="waykeecom-link">Ändra</button>
+          </div>
         </div>
-        <div class="waykeecom-stack waykeecom-stack--1">
-          <div class="waykeecom-disclaimer-text">*Beräknat på X,XX % ränta (effektivt X,XX %). Den ränta du får sätts vid avtalskrivning.</div>
-        </div>
-      </div>
-      <div class="waykeecom-stack waykeecom-stack--1">
-        <div class="waykeecom-align waykeecom-align--end">
-          <button type="button" title="Ändra finansiering" class="waykeecom-link">Ändra</button>
-        </div>
-      </div>
-    `;
+      `;
+
+      if (decision) {
+        new StageCompletedFinancialCreditAssessment(
+          this.node.querySelector(`#${CREDIT_ASSESSMENT_RESULT_NODE}`),
+          {
+            decision,
+          }
+        );
+      }
     } else {
       this.node.innerHTML = `
       <div class="waykeecom-stack waykeecom-stack--1">

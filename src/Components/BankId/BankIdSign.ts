@@ -47,11 +47,11 @@ class BankIdSign extends HtmlNode {
     switch (method) {
       case AuthMethod.QrCode:
         this.props.autoLaunchUrl = undefined;
-        this.props.qrCode = value;
+        this.props.qrCode = value || this.props.qrCode;
         break;
       case AuthMethod.SameDevice:
         this.props.qrCode = undefined;
-        this.props.autoLaunchUrl = value;
+        this.props.autoLaunchUrl = value || this.props.autoLaunchUrl;
         break;
       default:
         break;

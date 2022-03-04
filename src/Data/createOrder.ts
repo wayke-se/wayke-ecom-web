@@ -32,6 +32,24 @@ export const createOrder = () => {
     if (externalId) {
       paymentBuilder.withExternalId(externalId); // only applicable when payment type === PaymentType.Loan
     }
+
+    if (state.creditAssessmentResponse) {
+      const scoreId = state.creditAssessmentResponse.getScoringId();
+      const recommendation = state.creditAssessmentResponse.getRecommendation();
+      const decision = state.creditAssessmentResponse.getDecision();
+      const financialProductCode = state.paymentLookupResponse?.getFinancialProductCode();
+      if (!scoreId || !recommendation || !decision || !financialProductCode)
+        throw 'Missing credit assessment data';
+
+      const creditAssessment = orders
+        .newCreditAssessment() // Only required for orders using credit assessment
+        .withScoreId(scoreId)
+        .withFinancialProductCode(financialProductCode)
+        .withRecommendation(recommendation)
+        .withDecision(decision)
+        .build();
+      paymentBuilder.withCreditAssessment(creditAssessment);
+    }
   }
   const payment = paymentBuilder.build();
 

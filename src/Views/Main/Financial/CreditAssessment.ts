@@ -19,10 +19,12 @@ import { creditAssessmentCancelSigning } from '../../../Data/creditAssessmentCan
 import { creditAssessmentGetStatus } from '../../../Data/creditAssessmentGetStatus';
 import { creditAssessmentNewCase } from '../../../Data/creditAssessmentNewCase';
 import { creditAssessmentSignCase } from '../../../Data/creditAssessmentSignCase';
+import { setCreditAssessmentResponse } from '../../../Redux/action';
 import store from '../../../Redux/store';
 import Alert from '../../../Templates/Alert';
 import { prettyNumber } from '../../../Utils/format';
 import { isMobile } from '../../../Utils/isMobile';
+import { scrollTop } from '../../../Utils/scroll';
 import { validationMethods } from '../../../Utils/validationMethods';
 import CreditAssessmentResult from './CreditAssessmentResult';
 import createTerm from './utils';
@@ -126,7 +128,7 @@ const mockCustomer: Customer = {
   email: 'peter@ourstudio.se',
   givenName: 'Peter',
   phone: '0738497100',
-  socialId: '196311292608',
+  socialId: '199607202380',
   surname: 'Johansson',
 };
 
@@ -143,6 +145,7 @@ const mock: ICreditAssessmentHouseholdEconomy = {
 interface CreditAssessmentProps {
   loan: IPaymentOption;
   paymentLookupResponse: PaymentLookupResponse;
+  onProceed: () => void;
 }
 
 class CreditAssessment extends HtmlNode {
@@ -162,6 +165,7 @@ class CreditAssessment extends HtmlNode {
     performApplicationButton?: ButtonBankId;
     bankId?: BankIdSign;
   } = {};
+  private caseError = false;
   private caseId?: string;
   private creditAssessmentResponse?: ICreditAssessmentStatusResponse;
 
@@ -243,10 +247,10 @@ class CreditAssessment extends HtmlNode {
     this.render();
   }
 
-  bankIdStatus(reference: string, method: AuthMethod) {
+  bankIdStatus(caseId: string, method: AuthMethod) {
     this.bankidStatusInterval = setInterval(async () => {
       try {
-        const response = await creditAssessmentGetStatus(reference);
+        const response = await creditAssessmentGetStatus(caseId);
 
         // eslint-disable-next-line
         console.log({
@@ -264,14 +268,20 @@ class CreditAssessment extends HtmlNode {
         });
 
         if (response.isScored()) {
-          if (response.getRecommendation() === CreditAssessmentRecommendation.Reject) {
-            if (this.bankidStatusInterval) {
-              clearInterval(this.bankidStatusInterval);
-            }
-            this.view = 3;
-            this.creditAssessmentResponse = response;
-            this.render();
+          if (this.bankidStatusInterval) {
+            clearInterval(this.bankidStatusInterval);
           }
+          this.view = 3;
+          this.creditAssessmentResponse = response;
+          setCreditAssessmentResponse(caseId, response);
+
+          if (
+            response.getRecommendation() === CreditAssessmentRecommendation.AssessManually ||
+            response.getRecommendation() === CreditAssessmentRecommendation.Approve
+          ) {
+            setCreditAssessmentResponse(caseId, response);
+          }
+          this.render();
         }
 
         if (response.shouldRenewSigning()) {
@@ -295,10 +305,7 @@ class CreditAssessment extends HtmlNode {
 
     try {
       this.contexts.bankId?.update(method);
-      // this.contexts.buttonLinkToggle?.disabled(true);
-
       const response = await creditAssessmentSignCase({ caseId, method });
-      // const reference = response.getOrderRef();
       this.bankIdStatus(caseId, method);
 
       if (method === AuthMethod.SameDevice) {
@@ -317,9 +324,20 @@ class CreditAssessment extends HtmlNode {
       this.contexts.bankId?.setErrorMessage(
         '<p>Det gick tyvärr inte att initiera BankId. Vänligen försök igen.</p>'
       );
-    } finally {
-      // this.contexts.buttonLinkToggle.disabled(false);
     }
+  }
+
+  async startBankId(method: AuthMethod) {
+    this.caseError = false;
+    if (this.bankidStatusInterval) {
+      clearInterval(this.bankidStatusInterval);
+      if (this.caseId) {
+        creditAssessmentCancelSigning(this.caseId);
+      }
+    }
+
+    await this.newCreditAssessmentCase();
+    this.onStartBankIdAuth(method);
   }
 
   async newCreditAssessmentCase() {
@@ -356,18 +374,12 @@ class CreditAssessment extends HtmlNode {
       };
 
       const response = await creditAssessmentNewCase(assessmentCase);
-      // eslint-disable-next-line
-      console.log('caseid', response.caseId);
-      if (!this.caseId) {
-        this.caseId = response.caseId;
-        this.view = 2;
-        this.render();
-      } else {
-        this.caseId = response.caseId;
-      }
+      this.caseId = response.caseId;
     } catch (e) {
       // eslint-disable-next-line
       console.log('Failed new Credit assement case');
+      this.caseError = true;
+      this.render();
     } finally {
       this.contexts.performApplicationButton?.disabled(false);
     }
@@ -382,16 +394,18 @@ class CreditAssessment extends HtmlNode {
     if (this.view === 3 && this.creditAssessmentResponse) {
       new CreditAssessmentResult(this.node, {
         creditAssessmentResponse: this.creditAssessmentResponse,
+        onProceed: () => this.props.onProceed(),
         onGoBack: () => this.onAbort(),
       });
-    } else if (this.view === 2 && this.caseId) {
+    } else if (this.view === 2) {
+      scrollTop();
       this.contexts.bankId = new BankIdSign(this.node, {
         method: mobile ? AuthMethod.SameDevice : AuthMethod.QrCode,
         descriptionQrCode:
           'För att hämta dina uppgifter, starta din BankID applikation på din andra enhet.',
         descriptionSameDevice: 'För att hämta dina uppgifter, starta din BankID-applikation.',
         onAbort: () => this.onAbort(),
-        onStart: (method: AuthMethod) => this.onStartBankIdAuth(method),
+        onStart: (method: AuthMethod) => this.startBankId(method),
       });
     } else {
       this.node.innerHTML = `
@@ -446,6 +460,8 @@ class CreditAssessment extends HtmlNode {
         })}
       </div>
 
+
+      
       <div class="waykeecom-stack waykeecom-stack--3" id="${PERFORM_APPLICATION_NODE}"></div>
     `;
 
@@ -638,7 +654,6 @@ class CreditAssessment extends HtmlNode {
           onClick: () => {
             this.view = 2;
             this.render();
-            this.newCreditAssessmentCase();
           },
         }
       );
