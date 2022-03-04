@@ -12,9 +12,16 @@ import HtmlNode from '../../Components/Extension/HtmlNode';
 
 const SUMMARY_NODE = 'summary-node';
 
+interface SummaryProps {
+  onClose: () => void;
+}
+
 class Summary extends HtmlNode {
-  constructor(element: HTMLElement) {
+  private props: SummaryProps;
+
+  constructor(element: HTMLElement, props: SummaryProps) {
     super(element);
+    this.props = props;
     const w = watch(store.getState, 'navigation.view');
     store.subscribe(
       w((view) => {
@@ -46,11 +53,13 @@ class Summary extends HtmlNode {
     if (content) {
       new Intro(content, { createdOrderId });
       new TradeIn(content, { createdOrderId });
-      new Order(content);
-      new Delivery(content);
-      new Customer(content);
-      new ExecuteOrder(content);
-      new Disclaimer(content);
+      new Order(content, { createdOrderId });
+      new Delivery(content, { createdOrderId });
+      new Customer(content, { createdOrderId });
+      new ExecuteOrder(content, { createdOrderId, onClose: this.props.onClose });
+      if (!createdOrderId) {
+        new Disclaimer(content);
+      }
     }
   }
 }

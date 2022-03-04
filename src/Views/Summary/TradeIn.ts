@@ -84,16 +84,18 @@ class TradeIn extends StackNode {
       </div>
     `;
 
-    const editTradeInIndex = state.stages?.findIndex((x) => x.name === 'tradeIn');
-    if (editTradeInIndex !== undefined && state.stages) {
-      const lastStage = editTradeInIndex === state.stages.length - 1;
+    if (!this.props.createdOrderId) {
+      const editTradeInIndex = state.stages?.findIndex((x) => x.name === 'tradeIn');
+      if (editTradeInIndex !== undefined && state.stages) {
+        const lastStage = editTradeInIndex === state.stages.length - 1;
 
-      document
-        .querySelector<HTMLButtonElement>(`#${EDIT_TRADE_IN}`)
-        ?.addEventListener('click', () => {
-          initTradeIn(lastStage);
-          goTo('main', editTradeInIndex + 1);
-        });
+        document
+          .querySelector<HTMLButtonElement>(`#${EDIT_TRADE_IN}`)
+          ?.addEventListener('click', () => {
+            initTradeIn(lastStage);
+            goTo('main', editTradeInIndex + 1);
+          });
+      }
     }
   }
 }

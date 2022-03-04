@@ -121,7 +121,7 @@ class App {
           new Main(this.contexts.modal.content);
           break;
         case 'summary':
-          new Summary(this.contexts.modal.content);
+          new Summary(this.contexts.modal.content, { onClose: () => this.close() });
           break;
         default:
           throw 'Unknown view...';

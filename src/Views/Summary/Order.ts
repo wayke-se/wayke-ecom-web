@@ -9,9 +9,16 @@ import { prettyNumber } from '../../Utils/format';
 const EDIT_FINANCIAL = 'edit-financial';
 const EDIT_INSURANCE = 'edit-insurance';
 
+interface OrderProps {
+  createdOrderId?: string;
+}
+
 class Order extends StackNode {
-  constructor(element: HTMLElement) {
+  private props: OrderProps;
+
+  constructor(element: HTMLElement, props: OrderProps) {
     super(element);
+    this.props = props;
     this.render();
   }
 
@@ -70,11 +77,17 @@ class Order extends StackNode {
                   </div>
                 `
             }
-            <div class="waykeecom-stack waykeecom-stack--05">
-              <div class="waykeecom-align waykeecom-align--end">
-                <button id="${EDIT_FINANCIAL}" title="Ändra finansiering" class="waykeecom-link">Ändra</button>
-              </div>
-            </div>
+            ${
+              !this.props.createdOrderId
+                ? `
+                  <div class="waykeecom-stack waykeecom-stack--05">
+                    <div class="waykeecom-align waykeecom-align--end">
+                      <button id="${EDIT_FINANCIAL}" title="Ändra finansiering" class="waykeecom-link">Ändra</button>
+                    </div>
+                  </div>
+                `
+                : ''
+            }
           </div>
           ${
             state.insurance
@@ -91,11 +104,17 @@ class Order extends StackNode {
                     })}
                   </ul>
                 </div>
-                <div class="waykeecom-stack waykeecom-stack--05">
-                  <div class="waykeecom-align waykeecom-align--end">
-                    <button id="${EDIT_INSURANCE}" title="Ändra försäkring" class="waykeecom-link">Ändra</button>
-                  </div>
-                </div>
+                ${
+                  !this.props.createdOrderId
+                    ? `
+                      <div class="waykeecom-stack waykeecom-stack--05">
+                        <div class="waykeecom-align waykeecom-align--end">
+                          <button id="${EDIT_INSURANCE}" title="Ändra försäkring" class="waykeecom-link">Ändra</button>
+                        </div>
+                      </div>
+                    `
+                    : ''
+                }
               </div>`
               : ''
           }
@@ -103,18 +122,20 @@ class Order extends StackNode {
       })}
     `;
 
-    const editFinancialIndex = state.stages?.findIndex((x) => x.name === 'financial');
-    if (editFinancialIndex !== undefined) {
-      document
-        .querySelector<HTMLButtonElement>(`#${EDIT_FINANCIAL}`)
-        ?.addEventListener('click', () => goTo('main', editFinancialIndex + 1));
-    }
+    if (!this.props.createdOrderId) {
+      const editFinancialIndex = state.stages?.findIndex((x) => x.name === 'financial');
+      if (editFinancialIndex !== undefined) {
+        document
+          .querySelector<HTMLButtonElement>(`#${EDIT_FINANCIAL}`)
+          ?.addEventListener('click', () => goTo('main', editFinancialIndex + 1));
+      }
 
-    const editInsuranceIndex = state.stages?.findIndex((x) => x.name === 'insurance');
-    if (editInsuranceIndex !== undefined) {
-      document
-        .querySelector<HTMLButtonElement>(`#${EDIT_INSURANCE}`)
-        ?.addEventListener('click', () => goTo('main', editInsuranceIndex + 1));
+      const editInsuranceIndex = state.stages?.findIndex((x) => x.name === 'insurance');
+      if (editInsuranceIndex !== undefined) {
+        document
+          .querySelector<HTMLButtonElement>(`#${EDIT_INSURANCE}`)
+          ?.addEventListener('click', () => goTo('main', editInsuranceIndex + 1));
+      }
     }
   }
 }

@@ -6,9 +6,15 @@ import { maskSSn, maskText } from '../../Utils/mask';
 
 const EDIT_CUSTOMER = 'edit-customer';
 
+interface CustomerProps {
+  createdOrderId?: string;
+}
+
 class Customer extends StackNode {
-  constructor(element: HTMLElement) {
+  private props: CustomerProps;
+  constructor(element: HTMLElement, props: CustomerProps) {
     super(element);
+    this.props = props;
     this.render();
   }
 
@@ -52,19 +58,27 @@ class Customer extends StackNode {
             })}
           </ul>
         </div>
-        <div class="waykeecom-stack waykeecom-stack--1">
-          <div class="waykeecom-align waykeecom-align--end">
-            <button id="${EDIT_CUSTOMER}" title="Ändra kunduppgifter" class="waykeecom-link">Ändra</button>
-          </div>
-        </div>
+        ${
+          !this.props.createdOrderId
+            ? `
+              <div class="waykeecom-stack waykeecom-stack--1">
+                <div class="waykeecom-align waykeecom-align--end">
+                  <button id="${EDIT_CUSTOMER}" title="Ändra kunduppgifter" class="waykeecom-link">Ändra</button>
+                </div>
+              </div>
+            `
+            : ''
+        }
       </div>
     `;
 
-    const editCustomerIndex = state.stages?.findIndex((x) => x.name === 'customer');
-    if (editCustomerIndex !== undefined) {
-      document
-        .querySelector<HTMLButtonElement>(`#${EDIT_CUSTOMER}`)
-        ?.addEventListener('click', () => goTo('main', editCustomerIndex + 1));
+    if (!this.props.createdOrderId) {
+      const editCustomerIndex = state.stages?.findIndex((x) => x.name === 'customer');
+      if (editCustomerIndex !== undefined) {
+        document
+          .querySelector<HTMLButtonElement>(`#${EDIT_CUSTOMER}`)
+          ?.addEventListener('click', () => goTo('main', editCustomerIndex + 1));
+      }
     }
   }
 }

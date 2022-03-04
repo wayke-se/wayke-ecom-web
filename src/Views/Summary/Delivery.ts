@@ -5,9 +5,16 @@ import KeyValueListItem from '../../Templates/KeyValueListItem';
 
 const EDIT_DELIVERY = 'edit-delivery';
 
+interface DeliveryProps {
+  createdOrderId?: string;
+}
+
 class Delivery extends StackNode {
-  constructor(element: HTMLElement) {
+  private props: DeliveryProps;
+
+  constructor(element: HTMLElement, props: DeliveryProps) {
     super(element);
+    this.props = props;
     this.render();
   }
 
@@ -27,19 +34,27 @@ class Delivery extends StackNode {
             })}
           </ul>
         </div>
+        ${
+          !this.props.createdOrderId
+            ? `
         <div class="waykeecom-stack waykeecom-stack--1">
           <div class="waykeecom-align waykeecom-align--end">
             <button id="${EDIT_DELIVERY}" title="Ändra leveranssätt" class="waykeecom-link">Ändra</button>
           </div>
         </div>
+        `
+            : ''
+        }
       </div>
     `;
 
-    const editDeliveryIndex = state.stages?.findIndex((x) => x.name === 'delivery');
-    if (editDeliveryIndex !== undefined) {
-      document
-        .querySelector<HTMLButtonElement>(`#${EDIT_DELIVERY}`)
-        ?.addEventListener('click', () => goTo('main', editDeliveryIndex + 1));
+    if (!this.props.createdOrderId) {
+      const editDeliveryIndex = state.stages?.findIndex((x) => x.name === 'delivery');
+      if (editDeliveryIndex !== undefined) {
+        document
+          .querySelector<HTMLButtonElement>(`#${EDIT_DELIVERY}`)
+          ?.addEventListener('click', () => goTo('main', editDeliveryIndex + 1));
+      }
     }
   }
 }
