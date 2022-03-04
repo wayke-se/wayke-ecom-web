@@ -4,10 +4,13 @@ import {
   MaritalStatus,
   ICreditAssessmentInquiry,
   IPaymentOption,
+  CreditAssessmentRecommendation,
+  ICreditAssessmentStatusResponse,
 } from '@wayke-se/ecom';
 import { ICreditAssessmentHouseholdEconomy } from '@wayke-se/ecom/dist-types/credit-assessment/types';
 import { PaymentLookupResponse } from '@wayke-se/ecom/dist-types/payments/payment-lookup-response';
-import ButtonAsLink from '../../../Components/Button/ButtonAsLink';
+import { Customer } from '../../../@types/Customer';
+import BankIdSign from '../../../Components/BankId/BankIdSign';
 import ButtonBankId from '../../../Components/Button/ButtonBankId';
 import HtmlNode from '../../../Components/Extension/HtmlNode';
 import InputField from '../../../Components/Input/InputField';
@@ -18,11 +21,10 @@ import { creditAssessmentNewCase } from '../../../Data/creditAssessmentNewCase';
 import { creditAssessmentSignCase } from '../../../Data/creditAssessmentSignCase';
 import store from '../../../Redux/store';
 import Alert from '../../../Templates/Alert';
-import Loader from '../../../Templates/Loader';
-import { Image } from '../../../Utils/constants';
 import { prettyNumber } from '../../../Utils/format';
 import { isMobile } from '../../../Utils/isMobile';
 import { validationMethods } from '../../../Utils/validationMethods';
+import CreditAssessmentResult from './CreditAssessmentResult';
 import createTerm from './utils';
 
 const MARITAL_STATUS = `credit-assessment-martial-status`;
@@ -48,18 +50,6 @@ const HOUSEHOLD_DEBT_NODE = `${HOUSEHOLD_DEBT}-node`;
 
 const PERFORM_APPLICATION = `credit-assessment-perform-application`;
 const PERFORM_APPLICATION_NODE = `${PERFORM_APPLICATION}-node`;
-
-const BANKID_START_NODE = `bankid-start-node`;
-const BANKID_START = `bankid-start`;
-const BANKID_FETCH_ERROR = 'bankid-fetch-error';
-
-const BANKID_OPEN_ON_DEVICE_NODE = `bankid-open-on-device-node`;
-const BANKID_OPEN_ON_DEVICE = `bankid-open-on-device`;
-
-const QR_CODE_NODE = 'qr-code-node';
-
-const ABORT = 'credit-assessment-abort';
-const ABORT_NODE = `${ABORT}-node`;
 
 export interface CreditAssessmentHouseholdEconomyValidation {
   maritalStatus: boolean;
@@ -132,6 +122,24 @@ const initalState = (
   };
 };
 
+const mockCustomer: Customer = {
+  email: 'peter@ourstudio.se',
+  givenName: 'Peter',
+  phone: '0738497100',
+  socialId: '196311292608',
+  surname: 'Johansson',
+};
+
+const mock: ICreditAssessmentHouseholdEconomy = {
+  employment: Employment.FullTimeEmployed,
+  householdChildren: 0,
+  householdDebt: 0,
+  householdHousingCost: 6000,
+  householdIncome: 80000,
+  income: 40000,
+  maritalStatus: MaritalStatus.Married,
+};
+
 interface CreditAssessmentProps {
   loan: IPaymentOption;
   paymentLookupResponse: PaymentLookupResponse;
@@ -152,12 +160,15 @@ class CreditAssessment extends HtmlNode {
     householdHousingCost?: InputField;
     householdDebt?: InputField;
     performApplicationButton?: ButtonBankId;
+    bankId?: BankIdSign;
   } = {};
+  private caseId?: string;
+  private creditAssessmentResponse?: ICreditAssessmentStatusResponse;
 
   constructor(element: HTMLDivElement | undefined | null, props: CreditAssessmentProps) {
     super(element);
     this.props = props;
-    this.state = initalState();
+    this.state = initalState(mock);
 
     this.render();
   }
@@ -215,134 +226,97 @@ class CreditAssessment extends HtmlNode {
   }
 
   onAbort() {
-    const caseId = 'asdasdasd';
     this.view = 1;
     if (this.bankidStatusInterval) {
       clearInterval(this.bankidStatusInterval);
     }
-    creditAssessmentCancelSigning(caseId);
+    if (this.caseId) {
+      if (
+        this.creditAssessmentResponse?.hasPendingScoring() ||
+        this.creditAssessmentResponse?.hasPendingSigning()
+      ) {
+        creditAssessmentCancelSigning(this.caseId);
+      }
+    }
+    this.caseId = undefined;
+    this.creditAssessmentResponse = undefined;
     this.render();
   }
 
   bankIdStatus(reference: string, method: AuthMethod) {
     this.bankidStatusInterval = setInterval(async () => {
-      const errorAlert = document.querySelector<HTMLDivElement>(`#${BANKID_FETCH_ERROR}`);
-      if (!errorAlert) {
-        clearInterval(this.bankidStatusInterval as NodeJS.Timer);
-        return;
-      }
-
       try {
-        // eslint-disable-next-line
-        console.log('Polling', reference);
-
         const response = await creditAssessmentGetStatus(reference);
+
         // eslint-disable-next-line
-        console.log(response.getStatus());
-        ///errorAlert.style.display = '';
-        /*
-        if (response.isCompleted()) {
-          clearInterval(this.bankidStatusInterval as NodeJS.Timer);
-          const address = response.getAddress();
-          const socialId = response.getPersonalNumber();
-          if (address && socialId) {
-            setSocialIdAndAddress(socialId, address, this.lastStage);
+        console.log({
+          getDecision: response.getDecision(),
+          isScored: response.isScored(),
+          getStatus: response.getStatus(),
+          hasScoringError: response.hasScoringError(),
+          isAccepted: response.isAccepted(),
+          hasPendingScoring: response.hasPendingScoring(),
+          hasPendingSigning: response.hasPendingSigning(),
+          getRecommendation: response.getRecommendation(),
+          getHintCode: response.getHintCode(),
+          getSigningMessage: response.getSigningMessage(),
+          getScoringId: response.getScoringId(),
+        });
+
+        if (response.isScored()) {
+          if (response.getRecommendation() === CreditAssessmentRecommendation.Reject) {
+            if (this.bankidStatusInterval) {
+              clearInterval(this.bankidStatusInterval);
+            }
+            this.view = 3;
+            this.creditAssessmentResponse = response;
+            this.render();
           }
         }
-        */
+
         if (response.shouldRenewSigning()) {
           this.onStartBankIdAuth(method);
         }
       } catch (e) {
         clearInterval(this.bankidStatusInterval as NodeJS.Timer);
-        errorAlert.style.display = '';
-        errorAlert.innerHTML = Alert({
-          tone: 'error',
-          children: '<p>Det gick inte att hämta status kring Nuvanrade bankid signering/p>',
-        });
+        this.contexts.bankId?.setErrorMessage(
+          '<p>Det gick inte att hämta status kring nuvanrade BankId signering/p>'
+        );
       }
     }, 2000);
-
-    /*
-    setTimeout(() => {
-      // Kill after 60 sec
-      if (this.bankidStatusInterval) {
-        clearInterval(this.bankidStatusInterval);
-      }
-    }, 2 * 60 * 1000);
-    */
   }
 
   async onStartBankIdAuth(method: AuthMethod) {
-    const caseId = 'asdasdasd';
+    const caseId = this.caseId;
+    if (!caseId) throw 'Missing caseID';
     if (this.bankidStatusInterval) {
       clearInterval(this.bankidStatusInterval);
     }
 
-    const errorAlert = document.querySelector<HTMLDivElement>(`#${BANKID_FETCH_ERROR}`);
-
-    if (!this.QrCodeElement || !errorAlert) return;
-    errorAlert.style.display = 'none';
-
     try {
+      this.contexts.bankId?.update(method);
+      // this.contexts.buttonLinkToggle?.disabled(true);
+
       const response = await creditAssessmentSignCase({ caseId, method });
       // const reference = response.getOrderRef();
       this.bankIdStatus(caseId, method);
 
       if (method === AuthMethod.SameDevice) {
         try {
-          this.QrCodeElement.innerHTML = `
-            <div class="waykeecom-stack waykeecom-stack--4">
-              <div class="waykeecom-align waykeecom-align--center">
-                <img src="${
-                  Image.bankid
-                }" alt="BankID logotyp" class="waykeecom-image" style="width: 130px" />
-              </div>
-            </div>
-            <div class="waykeecom-stack waykeecom-stack--4">${Loader()}</div>
-            <div class="waykeecom-stack waykeecom-stack--4" id="${BANKID_OPEN_ON_DEVICE_NODE}">
-          `;
-
-          response.getAutoLaunchUrl();
-          new ButtonBankId(
-            this.node.querySelector<HTMLDivElement>(`#${BANKID_OPEN_ON_DEVICE_NODE}`),
-            {
-              title: 'Öppna BankID',
-              id: BANKID_OPEN_ON_DEVICE,
-              onClick: () => window.open(response.getAutoLaunchUrl(), '_blank'),
-            }
-          );
-          new ButtonAsLink(this.node.querySelector<HTMLDivElement>(`#${BANKID_START_NODE}`), {
-            title: 'Mitt BankID är på en annan enhet',
-            id: BANKID_START,
-            onClick: () => this.onStartBankIdAuth(AuthMethod.QrCode),
-          });
+          const autoLaunchUrl = response.getAutoLaunchUrl() as string;
+          this.contexts.bankId?.update(method, autoLaunchUrl);
         } catch (e) {
           const _e = e as { message: string };
-          this.QrCodeElement.innerHTML = `<p>Error: ${_e.message}</p>`;
+          this.contexts.bankId?.setErrorMessage(`<p>Error: ${_e.message}</p>`);
         }
       } else {
-        const qrCode = response.getQrCode();
-        this.QrCodeElement.innerHTML = `
-          <div class="waykeecom-stack waykeecom-stack--4">
-            <div class="waykeecom-align waykeecom-align--center">
-              <img src="data:image/png;base64, ${qrCode}" alt="BankID QQ" class="waykeecom-qr" />
-            </div>
-          </div>
-          <div class="waykeecom-stack waykeecom-stack--4">${Loader()}</div>
-        `;
-        new ButtonAsLink(this.node.querySelector<HTMLDivElement>(`#${BANKID_START_NODE}`), {
-          title: 'Öppna BankID på den här enheten',
-          id: BANKID_START,
-          onClick: () => this.onStartBankIdAuth(AuthMethod.SameDevice),
-        });
+        const qrCode = response.getQrCode() as string;
+        this.contexts.bankId?.update(method, qrCode);
       }
     } catch (e) {
-      errorAlert.style.display = '';
-      errorAlert.innerHTML = Alert({
-        tone: 'error',
-        children: '<p>Det gick tyvärr inte att initiera BankId. Vänligen försök igen.</p>',
-      });
+      this.contexts.bankId?.setErrorMessage(
+        '<p>Det gick tyvärr inte att initiera BankId. Vänligen försök igen.</p>'
+      );
     } finally {
       // this.contexts.buttonLinkToggle.disabled(false);
     }
@@ -366,7 +340,7 @@ class CreditAssessment extends HtmlNode {
       const assessmentCase: ICreditAssessmentInquiry = {
         customer: {
           ...customer,
-          socialId: '199607202380',
+          ...mockCustomer,
         },
         householdEconomy: this.state.value as unknown as ICreditAssessmentHouseholdEconomy,
         externalId: this.props.loan.externalId as string,
@@ -384,6 +358,13 @@ class CreditAssessment extends HtmlNode {
       const response = await creditAssessmentNewCase(assessmentCase);
       // eslint-disable-next-line
       console.log('caseid', response.caseId);
+      if (!this.caseId) {
+        this.caseId = response.caseId;
+        this.view = 2;
+        this.render();
+      } else {
+        this.caseId = response.caseId;
+      }
     } catch (e) {
       // eslint-disable-next-line
       console.log('Failed new Credit assement case');
@@ -398,55 +379,19 @@ class CreditAssessment extends HtmlNode {
     const creditAmount = this.props.paymentLookupResponse.getCreditAmount();
     const branchName = order?.getContactInformation()?.name;
 
-    if (this.view === 2) {
-      this.node.innerHTML = `
-      <div class="waykeecom-stack waykeecom-stack--2">
-        <hr class="waykeecom-separator" />
-      </div>
-      <div class="waykeecom-stack waykeecom-stack--2">
-        <div class="waykeecom-overlay">
-          <div class="waykeecom-container waykeecom-container--narrow">
-            <div class="waykeecom-stack waykeecom-stack--4">
-              <h4 class="waykeecom-heading waykeecom-heading--4">Öppna BankID och scanna QR-koden</h4>
-              <div class="waykeecom-content">
-                <p>För att hämta dina uppgifter, starta din BankID applikation på din andra enhet.</p>
-              </div>
-            </div>
-            <div class="waykeecom-stack waykeecom-stack--4">
-              <div id="${QR_CODE_NODE}"></div>
-              <div id="${BANKID_FETCH_ERROR}" style="display:none;"></div>
-            </div>
-            <div class="waykeecom-stack waykeecom-stack--4">
-              <div class="waykeecom-stack waykeecom-stack--3">
-                <div class="waykeecom-stack waykeecom-stack--2" id="${BANKID_START_NODE}"></div>
-                <div class="waykeecom-stack waykeecom-stack--2" id="${ABORT_NODE}"></div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    `;
-
-      this.QrCodeElement = this.node.querySelector<HTMLDivElement>(`#${QR_CODE_NODE}`) || undefined;
-
-      if (mobile) {
-        new ButtonAsLink(this.node.querySelector<HTMLDivElement>(`#${BANKID_START_NODE}`), {
-          title: 'Mitt BankID är på en annan enhet',
-          id: BANKID_START,
-          onClick: () => this.onStartBankIdAuth(AuthMethod.QrCode),
-        });
-      } else {
-        new ButtonAsLink(this.node.querySelector<HTMLDivElement>(`#${BANKID_START_NODE}`), {
-          title: 'Öppna BankID på den här enheten',
-          id: BANKID_START,
-          onClick: () => this.onStartBankIdAuth(AuthMethod.SameDevice),
-        });
-      }
-
-      new ButtonAsLink(this.node.querySelector<HTMLDivElement>(`#${ABORT_NODE}`), {
-        title: 'Avbryt',
-        id: ABORT,
-        onClick: () => this.onAbort(),
+    if (this.view === 3 && this.creditAssessmentResponse) {
+      new CreditAssessmentResult(this.node, {
+        creditAssessmentResponse: this.creditAssessmentResponse,
+        onGoBack: () => this.onAbort(),
+      });
+    } else if (this.view === 2 && this.caseId) {
+      this.contexts.bankId = new BankIdSign(this.node, {
+        method: mobile ? AuthMethod.SameDevice : AuthMethod.QrCode,
+        descriptionQrCode:
+          'För att hämta dina uppgifter, starta din BankID applikation på din andra enhet.',
+        descriptionSameDevice: 'För att hämta dina uppgifter, starta din BankID-applikation.',
+        onAbort: () => this.onAbort(),
+        onStart: (method: AuthMethod) => this.onStartBankIdAuth(method),
       });
     } else {
       this.node.innerHTML = `
@@ -694,7 +639,6 @@ class CreditAssessment extends HtmlNode {
             this.view = 2;
             this.render();
             this.newCreditAssessmentCase();
-            //this.onStartBankIdAuth(mobile ? AuthMethod.SameDevice : AuthMethod.QrCode);
           },
         }
       );

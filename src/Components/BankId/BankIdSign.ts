@@ -20,6 +20,7 @@ interface BankIdSignProps {
   errorMessage?: string;
   descriptionQrCode: string;
   descriptionSameDevice: string;
+  hint?: string;
   onStart: (method: AuthMethod) => void;
   onAbort: () => void;
 }

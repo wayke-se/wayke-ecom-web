@@ -6,7 +6,7 @@ import packageJson from '../package.json';
 
 import { Vehicle } from './@types/Vehicle';
 import store from './Redux/store';
-import { setId } from './Redux/action';
+import { goTo, setId } from './Redux/action';
 
 import Preview from './Views/Preview';
 import Main from './Views/Main';
@@ -57,11 +57,11 @@ class App {
 
     // Stage order setup
     this.stageOrderList = [
+      'financial',
       'customer',
       'centralStorage',
       'tradeIn',
       'accessories',
-      'financial',
       'insurance',
       'delivery',
     ];
@@ -73,7 +73,10 @@ class App {
     store.subscribe(
       w((newVal: ViewTypes) => {
         this.view = newVal;
-        this.render();
+
+        if (newVal !== 'preview') {
+          this.render();
+        }
       })
     );
 
@@ -93,6 +96,7 @@ class App {
     }
 
     this.root.innerHTML = '';
+    goTo('preview', 1);
   }
 
   start() {
