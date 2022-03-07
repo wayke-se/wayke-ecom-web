@@ -155,7 +155,7 @@ class CreditAssessment extends HtmlNode {
     performApplicationButton?: ButtonBankId;
     bankId?: BankIdSign;
   } = {};
-  private caseError = false;
+  private caseError?: string;
   private bankidError = false;
   private caseId?: string;
   private creditAssessmentResponse?: ICreditAssessmentStatusResponse;
@@ -325,7 +325,7 @@ class CreditAssessment extends HtmlNode {
   }
 
   async startBankId(method: AuthMethod) {
-    this.caseError = false;
+    this.caseError = undefined;
     this.bankidError = false;
     if (this.bankidStatusInterval) {
       clearInterval(this.bankidStatusInterval);
@@ -379,7 +379,7 @@ class CreditAssessment extends HtmlNode {
       if (this.bankidStatusInterval) {
         clearInterval(this.bankidStatusInterval);
       }
-      this.caseError = true;
+      this.caseError = (e as { message?: string })?.message || '';
       this.view = 1;
       this.render(true);
       return;
@@ -469,7 +469,9 @@ class CreditAssessment extends HtmlNode {
             <div class="waykeecom-stack waykeecom-stack--3">
               ${Alert({
                 tone: 'error',
-                children: `<p>Det gick inte att starta en låneansökan, försök igen.</p>`,
+                children: `<p>Det gick inte att starta en låneansökan, försök igen.${
+                  this.caseError !== undefined ? this.caseError : ''
+                }</p>`,
               })}
             </div>
           `

@@ -10,7 +10,7 @@ window.addEventListener('DOMContentLoaded', (_) => {
   };
 
   const context = new WaykeEcomWeb({
-    ...devConfig.LEASING,
+    ...devConfig.CREDIT_ASSESSMENT,
     ecomSdkConfig,
   });
   context.start();
