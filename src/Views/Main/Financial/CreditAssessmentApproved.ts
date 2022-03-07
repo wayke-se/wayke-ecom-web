@@ -1,7 +1,11 @@
-import { ICreditAssessmentStatusResponse } from '@wayke-se/ecom';
+import { CreditAssessmentRecommendation, ICreditAssessmentStatusResponse } from '@wayke-se/ecom';
 import ButtonArrowRight from '../../../Components/Button/ButtonArrowRight';
 import ButtonAsLink from '../../../Components/Button/ButtonAsLink';
 import HtmlNode from '../../../Components/Extension/HtmlNode';
+import StageCompletedFinancialCreditAssessment from './StageCompletedFinancialCreditAssessment';
+
+const RESULT = 'assessment-approved-result';
+const RESULT_NODE = `${RESULT}-node`;
 
 const PROCEED = 'assessment-approved-proceed';
 const PROCEED_NODE = `${PROCEED}-node`;
@@ -24,9 +28,6 @@ class CreditAssessmentApproved extends HtmlNode {
   }
 
   render() {
-    const title = 'Godkänd';
-    const description = 'Du har blivit godkänd. ';
-
     this.node.innerHTML = `
       <div class="waykeecom-stack waykeecom-stack--2">
         <hr class="waykeecom-separator" />
@@ -34,12 +35,7 @@ class CreditAssessmentApproved extends HtmlNode {
       <div class="waykeecom-stack waykeecom-stack--2">
         <div class="waykeecom-overlay">
           <div class="waykeecom-container waykeecom-container--narrow">
-            <div class="waykeecom-stack waykeecom-stack--4" id="">
-              <h4 class="waykeecom-heading waykeecom-heading--4">${title}</h4>
-              <div class="waykeecom-content">
-                <p>${description}</p>
-              </div>
-            </div>
+          <div class="waykeecom-stack waykeecom-stack--4" id="${RESULT_NODE}"></div>
             <div class="waykeecom-stack waykeecom-stack--4">
               <div class="waykeecom-stack waykeecom-stack--3">
                 <div class="waykeecom-stack waykeecom-stack--2" id="${PROCEED_NODE}"></div>
@@ -50,6 +46,11 @@ class CreditAssessmentApproved extends HtmlNode {
         </div>
       </div>
     `;
+
+    new StageCompletedFinancialCreditAssessment(this.node.querySelector(`#${RESULT_NODE}`), {
+      decision: CreditAssessmentRecommendation.Approve,
+    });
+
     new ButtonArrowRight(this.node.querySelector<HTMLDivElement>(`#${PROCEED_NODE}`), {
       title: 'Fortsätt',
       id: PROCEED,

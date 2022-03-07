@@ -77,6 +77,9 @@ class Customer extends HtmlNode {
         new FullAddress(content, this.lastStage);
       }
     }
+    if (state.navigation.stage === this.index) {
+      content.parentElement?.scrollIntoView();
+    }
   }
 }
 

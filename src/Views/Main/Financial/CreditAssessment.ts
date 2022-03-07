@@ -9,7 +9,6 @@ import {
 } from '@wayke-se/ecom';
 import { ICreditAssessmentHouseholdEconomy } from '@wayke-se/ecom/dist-types/credit-assessment/types';
 import { PaymentLookupResponse } from '@wayke-se/ecom/dist-types/payments/payment-lookup-response';
-import { Customer } from '../../../@types/Customer';
 import BankIdSign from '../../../Components/BankId/BankIdSign';
 import ButtonBankId from '../../../Components/Button/ButtonBankId';
 import HtmlNode from '../../../Components/Extension/HtmlNode';
@@ -122,14 +121,6 @@ const initalState = (
       householdDebt: false,
     },
   };
-};
-
-const mockCustomer: Customer = {
-  email: 'peter@ourstudio.se',
-  givenName: 'Peter',
-  phone: '0738497100',
-  socialId: '199607202380',
-  surname: 'Johansson',
 };
 
 const mock: ICreditAssessmentHouseholdEconomy = {
@@ -267,6 +258,15 @@ class CreditAssessment extends HtmlNode {
           getScoringId: response.getScoringId(),
         });
 
+        const status = response.getStatus();
+        if (status === 'signed') {
+          this.contexts.bankId?.setTitle('Väntar på Volvofinans Bank...');
+          this.contexts.bankId?.setDescription(
+            'Hämtar uppgifter från Volvofinans Bank. Vänta kvar det kan ta några sekunder.'
+          );
+          this.contexts.bankId?.setFinalizing(true);
+        }
+
         if (response.isScored()) {
           if (this.bankidStatusInterval) {
             clearInterval(this.bankidStatusInterval);
@@ -358,7 +358,6 @@ class CreditAssessment extends HtmlNode {
       const assessmentCase: ICreditAssessmentInquiry = {
         customer: {
           ...customer,
-          ...mockCustomer,
         },
         householdEconomy: this.state.value as unknown as ICreditAssessmentHouseholdEconomy,
         externalId: this.props.loan.externalId as string,

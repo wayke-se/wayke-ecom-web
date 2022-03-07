@@ -1,8 +1,11 @@
-import { ICreditAssessmentStatusResponse } from '@wayke-se/ecom';
+import { CreditAssessmentRecommendation, ICreditAssessmentStatusResponse } from '@wayke-se/ecom';
 import ButtonArrowRight from '../../../Components/Button/ButtonArrowRight';
 import ButtonAsLink from '../../../Components/Button/ButtonAsLink';
 import HtmlNode from '../../../Components/Extension/HtmlNode';
-import store from '../../../Redux/store';
+import StageCompletedFinancialCreditAssessment from './StageCompletedFinancialCreditAssessment';
+
+const RESULT = 'assessment-assess-manually-result';
+const RESULT_NODE = `${RESULT}-node`;
 
 const PROCEED = 'assessment-assess-manually-proceed';
 const PROCEED_NODE = `${PROCEED}-node`;
@@ -25,9 +28,6 @@ class CreditAssessmentAssessManually extends HtmlNode {
   }
 
   render() {
-    const state = store.getState();
-    const contactInformation = state.order?.getContactInformation();
-
     this.node.innerHTML = `
       <div class="waykeecom-stack waykeecom-stack--2">
         <hr class="waykeecom-separator" />
@@ -35,12 +35,7 @@ class CreditAssessmentAssessManually extends HtmlNode {
       <div class="waykeecom-stack waykeecom-stack--2">
         <div class="waykeecom-overlay">
           <div class="waykeecom-container waykeecom-container--narrow">
-            <div class="waykeecom-stack waykeecom-stack--4" id="">
-              <h4 class="waykeecom-heading waykeecom-heading--4">När ordern är slutförd kommer vi att gå igenom ditt ärende och återkoppla till dig med ett lånebesked.</h4>
-              <div class="waykeecom-content">
-                <p>Din bil är fortfarande inte reserverad. Gå vidare till nästa steg för att slutföra ordern, men det är inte säkert att ditt lån kommer att beviljas. Har du frågor under tiden? Kontakta ${contactInformation?.name} på tel ${contactInformation?.phone}.</p>
-              </div>
-            </div>
+            <div class="waykeecom-stack waykeecom-stack--4" id="${RESULT_NODE}"></div>
             <div class="waykeecom-stack waykeecom-stack--4">
               <div class="waykeecom-stack waykeecom-stack--3">
                 <div class="waykeecom-stack waykeecom-stack--2" id="${PROCEED_NODE}"></div>
@@ -51,7 +46,12 @@ class CreditAssessmentAssessManually extends HtmlNode {
         </div>
       </div>
     `;
-    new ButtonArrowRight(this.node.querySelector<HTMLDivElement>(`#${PROCEED_NODE}`), {
+
+    new StageCompletedFinancialCreditAssessment(this.node.querySelector(`#${RESULT_NODE}`), {
+      decision: CreditAssessmentRecommendation.AssessManually,
+    });
+
+    new ButtonArrowRight(this.node.querySelector(`#${PROCEED_NODE}`), {
       title: 'Fortsätt',
       id: PROCEED,
       onClick: () => this.props.onProceed(),

@@ -33,6 +33,7 @@ import {
   SET_CREATED_ORDER_ID,
   SET_CREDIT_ASSESSMENT_RESPONSE,
 } from './action';
+import { mockCustomer } from './customerMock';
 
 export interface ReducerState {
   id: string;
@@ -73,11 +74,12 @@ const initialState: ReducerState = {
     ...initNavigation,
   },
   customer: {
-    email: '',
-    phone: '',
-    givenName: '',
-    surname: '',
-    socialId: '',
+    // email: '',
+    // phone: '',
+    // givenName: '',
+    // surname: '',
+    // socialId: '',
+    ...mockCustomer,
   },
   homeDelivery: false,
   centralStorage: false,

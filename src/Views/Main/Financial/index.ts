@@ -259,6 +259,10 @@ class Financial extends HtmlNode {
         }
       }
     }
+
+    if (state.navigation.stage === this.index) {
+      content.parentElement?.scrollIntoView();
+    }
   }
 }
 

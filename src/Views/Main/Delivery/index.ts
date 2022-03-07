@@ -164,6 +164,9 @@ class Delivery extends HtmlNode {
       });
 
       content.appendChild(part);
+      if (state.navigation.stage === this.index) {
+        content.parentElement?.scrollIntoView();
+      }
     }
   }
 }
