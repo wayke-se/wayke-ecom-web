@@ -83,7 +83,6 @@ class Loan {
         residual: response.getResidualValueSpec(),
       };
       setPaymentLookupResponse(response);
-      // this.render();
     } catch (e) {
       throw e;
     }

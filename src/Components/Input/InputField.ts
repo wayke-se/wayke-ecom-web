@@ -42,8 +42,11 @@ class InputField extends HtmlNode {
     }
   }
 
-  setError(error: boolean) {
+  setError(error: boolean, errorMessage?: string) {
     this.props.error = error;
+    if (errorMessage) {
+      this.props.errorMessage = errorMessage;
+    }
     this.updateBorder();
     this.contexts.error?.setError(error);
   }

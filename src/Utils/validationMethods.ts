@@ -1,5 +1,6 @@
 import {
   regexEmail,
+  regexNumber,
   regexPersonalNumber,
   regexPhoneNumberVariant,
   regexRegistrationNumber,
@@ -15,6 +16,19 @@ export const validationMethods = {
   },
   requiredSsn: (s: string) => {
     return regexPersonalNumber.test(s);
+  },
+  requiredSsnOver18: (s: string) => {
+    if (validationMethods.requiredSsn(s)) {
+      const cleaned = s.replace(regexNumber, '');
+      const nonLast = cleaned.slice(0, 8);
+      const asDate = `${nonLast.slice(0, 4)}-${nonLast.slice(4, 6)}-${nonLast.slice(6, 8)}`;
+
+      const years =
+        new Date(new Date().valueOf() - new Date(asDate).valueOf()).getFullYear() - 1970;
+
+      return years > 17;
+    }
+    return false;
   },
   requiredZip: (s: string) => {
     return regexZip.test(s);

@@ -31,8 +31,6 @@ class Delivery extends HtmlNode {
 
     const w = watch(store.getState, 'navigation');
     store.subscribe(w(() => this.render()));
-    const w2 = watch(store.getState, 'edit');
-    store.subscribe(w2(() => this.render()));
 
     const state = store.getState();
     this.homeDelivery = state.homeDelivery;

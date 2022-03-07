@@ -199,7 +199,6 @@ const reducer = (state = initialState, action: Action): ReducerState => {
     case SET_FINANCIAL:
       navigation = getNextNavigationState(state.navigation.stage, action.lastStage);
       topNavigation = getNextTopNavigationState(next.topNavigation, navigation);
-
       return {
         ...next,
         navigation,

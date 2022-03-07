@@ -39,9 +39,13 @@ class Financial extends HtmlNode {
     this.lastStage = lastStage;
 
     const w = watch(store.getState, 'navigation');
-    store.subscribe(w(() => this.render()));
-    const w2 = watch(store.getState, 'edit');
-    store.subscribe(w2(() => this.render()));
+    store.subscribe(
+      w(() => {
+        const state = store.getState();
+        this.paymentType = state.paymentType;
+        this.render();
+      })
+    );
     const w3 = watch(store.getState, 'paymentLookupResponse');
     store.subscribe(
       w3(() => {
@@ -215,7 +219,7 @@ class Financial extends HtmlNode {
       }
 
       if (cash || loan) {
-        new InputRadioGroup(this.node.querySelector<HTMLDivElement>(`#${FINANCIAL_OPTION_NODE}`), {
+        new InputRadioGroup(part.querySelector<HTMLDivElement>(`#${FINANCIAL_OPTION_NODE}`), {
           title: 'Köp bilen',
           checked: this.paymentType as string,
           name: 'paymentType',
@@ -240,6 +244,16 @@ class Financial extends HtmlNode {
             postfix: lease.unit,
           })}</div>`,
         });
+        new InputRadioGroup(
+          part.querySelector<HTMLDivElement>(`#${FINANCIAL_OPTION_SECOND_NODE}`),
+          {
+            title: 'Leasa bilen',
+            checked: this.paymentType as string,
+            name: 'paymentType',
+            options: secondGroupOptions,
+            onClick: (e) => this.onChange(e),
+          }
+        );
       }
 
       const paymentNode = part.querySelector<HTMLDivElement>(`#${PAYMENT_NODE}`);

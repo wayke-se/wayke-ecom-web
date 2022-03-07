@@ -19,8 +19,6 @@ class Customer extends HtmlNode {
 
     const w = watch(store.getState, 'navigation');
     store.subscribe(w(() => this.render()));
-    const w2 = watch(store.getState, 'edit');
-    store.subscribe(w2(() => this.render()));
 
     this.render();
   }

@@ -11,6 +11,7 @@ import { Image } from '../../../Utils/constants';
 import BankIdSign from '../../../Components/BankId/BankIdSign';
 import DisclaimerSafe from './DisclaimerSafe';
 import HtmlNode from '../../../Components/Extension/HtmlNode';
+import { validationMethods } from '../../../Utils/validationMethods';
 
 const BANKID_START_NODE = `bankid-start-node`;
 const BANKID_START = `bankid-start`;
@@ -29,10 +30,11 @@ class FullAddressByBankId extends HtmlNode {
     buttonLinkToggle?: ButtonAsLink;
     bankId?: BankIdSign;
   } = {};
+  private ageError = false;
 
   constructor(element: HTMLElement, lastStage: boolean, onToggleMethod: () => void) {
     super(element, { htmlTag: 'div', className: 'waykeecom-stack waykeecom-stack--2' });
-
+    this.ageError = false;
     this.lastStage = lastStage;
     this._ontoggleMethod = onToggleMethod;
 
@@ -54,8 +56,18 @@ class FullAddressByBankId extends HtmlNode {
           clearInterval(this.bankidStatusInterval as NodeJS.Timer);
           const address = response.getAddress();
           const socialId = response.getPersonalNumber();
+
           if (address && socialId) {
-            setSocialIdAndAddress(socialId, address, this.lastStage);
+            const over18 = validationMethods.requiredSsnOver18(socialId);
+            if (over18) {
+              setSocialIdAndAddress(socialId, address, this.lastStage);
+            } else {
+              this.view = 1;
+              this.ageError = true;
+              clearInterval(this.bankidStatusInterval as NodeJS.Timer);
+              this.render();
+              return;
+            }
           }
         }
         if (response.shouldRenew()) {
@@ -149,6 +161,17 @@ class FullAddressByBankId extends HtmlNode {
               `,
             })}
           </div>
+          ${
+            this.ageError
+              ? `
+           <div class="waykeecom-stack waykeecom-stack--3">${Alert({
+             tone: 'error',
+             children:
+               '<p>Du måste vara över 18 år för att kunna fortsätta. Identifiering med BankId visar att du är under 18 år gammal.</p>',
+           })}</div>
+          `
+              : ''
+          }
           <div class="waykeecom-stack waykeecom-stack--3">
             <div class="waykeecom-stack waykeecom-stack--2" id="${BANKID_START_NODE}"></div>
             <div class="waykeecom-stack waykeecom-stack--2" id="${DISCLAIMER_SAFE_NODE}"></div>

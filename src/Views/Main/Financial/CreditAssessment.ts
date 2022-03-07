@@ -144,7 +144,6 @@ class CreditAssessment extends HtmlNode {
   private state: CreditAssessmentHouseholdEconomyState;
   private bankidStatusInterval?: NodeJS.Timer;
   private view: number = 1;
-  private QrCodeElement?: HTMLDivElement;
   private contexts: {
     maritalStatus?: InputRadioGroup;
     income?: InputField;
@@ -157,6 +156,7 @@ class CreditAssessment extends HtmlNode {
     bankId?: BankIdSign;
   } = {};
   private caseError = false;
+  private bankidError = false;
   private caseId?: string;
   private creditAssessmentResponse?: ICreditAssessmentStatusResponse;
 
@@ -235,7 +235,7 @@ class CreditAssessment extends HtmlNode {
     }
     this.caseId = undefined;
     this.creditAssessmentResponse = undefined;
-    this.render();
+    this.render(true);
   }
 
   bankIdStatus(caseId: string, method: AuthMethod) {
@@ -290,7 +290,7 @@ class CreditAssessment extends HtmlNode {
       } catch (e) {
         clearInterval(this.bankidStatusInterval as NodeJS.Timer);
         this.contexts.bankId?.setErrorMessage(
-          '<p>Det gick inte att hämta status kring nuvanrade BankId signering/p>'
+          '<p>Det gick inte att hämta status kring nuvanrade BankId signering. Nytt försök sker igenom om 2 sekunder</p>'
         );
       }
     }, 2000);
@@ -307,28 +307,26 @@ class CreditAssessment extends HtmlNode {
       this.contexts.bankId?.update(method);
       const response = await creditAssessmentSignCase({ caseId, method });
       this.bankIdStatus(caseId, method);
-
       if (method === AuthMethod.SameDevice) {
-        try {
-          const autoLaunchUrl = response.getAutoLaunchUrl() as string;
-          this.contexts.bankId?.update(method, autoLaunchUrl);
-        } catch (e) {
-          const _e = e as { message: string };
-          this.contexts.bankId?.setErrorMessage(`<p>Error: ${_e.message}</p>`);
-        }
+        const autoLaunchUrl = response.getAutoLaunchUrl() as string;
+        this.contexts.bankId?.update(method, autoLaunchUrl);
       } else {
         const qrCode = response.getQrCode() as string;
         this.contexts.bankId?.update(method, qrCode);
       }
     } catch (e) {
-      this.contexts.bankId?.setErrorMessage(
-        '<p>Det gick tyvärr inte att initiera BankId. Vänligen försök igen.</p>'
-      );
+      if (this.bankidStatusInterval) {
+        clearInterval(this.bankidStatusInterval);
+      }
+      this.bankidError = true;
+      this.view = 1;
+      this.render(true);
     }
   }
 
   async startBankId(method: AuthMethod) {
     this.caseError = false;
+    this.bankidError = false;
     if (this.bankidStatusInterval) {
       clearInterval(this.bankidStatusInterval);
       if (this.caseId) {
@@ -336,8 +334,10 @@ class CreditAssessment extends HtmlNode {
       }
     }
 
-    await this.newCreditAssessmentCase();
-    this.onStartBankIdAuth(method);
+    const caseId = await this.newCreditAssessmentCase();
+    if (caseId) {
+      this.onStartBankIdAuth(method);
+    }
   }
 
   async newCreditAssessmentCase() {
@@ -374,17 +374,21 @@ class CreditAssessment extends HtmlNode {
 
       const response = await creditAssessmentNewCase(assessmentCase);
       this.caseId = response.caseId;
+      return response.caseId;
     } catch (e) {
-      // eslint-disable-next-line
-      console.log('Failed new Credit assement case');
+      if (this.bankidStatusInterval) {
+        clearInterval(this.bankidStatusInterval);
+      }
       this.caseError = true;
-      this.render();
+      this.view = 1;
+      this.render(true);
+      return;
     } finally {
       this.contexts.performApplicationButton?.disabled(false);
     }
   }
 
-  render() {
+  render(scrollIntoView?: boolean) {
     const mobile = isMobile();
     const { order } = store.getState();
     const creditAmount = this.props.paymentLookupResponse.getCreditAmount();
@@ -397,7 +401,6 @@ class CreditAssessment extends HtmlNode {
         onGoBack: () => this.onAbort(),
       });
     } else if (this.view === 2) {
-      scrollTop();
       this.contexts.bankId = new BankIdSign(this.node, {
         method: mobile ? AuthMethod.SameDevice : AuthMethod.QrCode,
         descriptionQrCode:
@@ -406,6 +409,7 @@ class CreditAssessment extends HtmlNode {
         onAbort: () => this.onAbort(),
         onStart: (method: AuthMethod) => this.startBankId(method),
       });
+      scrollTop();
     } else {
       this.node.innerHTML = `
       <div class="waykeecom-stack waykeecom-stack--3">
@@ -459,7 +463,31 @@ class CreditAssessment extends HtmlNode {
         })}
       </div>
 
+      ${
+        this.caseError
+          ? `
+            <div class="waykeecom-stack waykeecom-stack--3">
+              ${Alert({
+                tone: 'error',
+                children: `<p>Det gick inte att starta en låneansökan, försök igen.</p>`,
+              })}
+            </div>
+          `
+          : ''
+      }
 
+      ${
+        this.bankidError
+          ? `
+          <div class="waykeecom-stack waykeecom-stack--3">
+            ${Alert({
+              tone: 'error',
+              children: `<p>Ett fel uppstod med BankId, försök igen.</p>`,
+            })}
+          </div>
+          `
+          : ''
+      }
       
       <div class="waykeecom-stack waykeecom-stack--3" id="${PERFORM_APPLICATION_NODE}"></div>
     `;
@@ -656,6 +684,10 @@ class CreditAssessment extends HtmlNode {
           },
         }
       );
+
+      if (scrollIntoView || this.caseError || this.bankidError) {
+        this.node.querySelector(`#${PERFORM_APPLICATION_NODE}`)?.scrollIntoView();
+      }
     }
   }
 }

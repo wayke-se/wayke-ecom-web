@@ -25,7 +25,7 @@ const LINK_TOGGLE_METHOD = 'link-toggle-method';
 const DISCLAIMER_SAFE_NODE = 'address-disclaimer-node';
 
 const validation = {
-  socialId: validationMethods.requiredSsn,
+  socialId: validationMethods.requiredSsnOver18,
 };
 
 export interface SocialIdValidation {
@@ -183,7 +183,7 @@ class FullAddressBySocialId extends HtmlNode {
         value: this.state.value.socialId,
         id: SOCIAL_ID_INPUT_ID,
         error: this.state.interact.socialId && !this.state.validation.socialId,
-        errorMessage: 'Ange personnummer i formatet ÅÅÅÅMMDD-XXXX',
+        errorMessage: 'Ange personnummer i formatet ÅÅÅÅMMDD-XXXX. Måste vara över 18 år.',
         name: 'socialId',
         placeholder: 'ÅÅÅÅMMDD-XXXX',
         onChange: (e) => this.onChange(e),

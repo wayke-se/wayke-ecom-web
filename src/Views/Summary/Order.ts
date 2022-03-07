@@ -27,6 +27,7 @@ class Order extends StackNode {
 
     const paymentLoan = state.order?.getPaymentOptions().find((x) => x.type === PaymentType.Loan);
     const paymentLookupResponse = state.paymentLookupResponse || paymentLoan?.loanDetails;
+    const paymentLease = state.order?.getPaymentOptions().find((x) => x.type === PaymentType.Lease);
 
     this.node.innerHTML = `
       <h3 class="waykeecom-heading waykeecom-heading--3">Din order</h3>
@@ -56,7 +57,7 @@ class Order extends StackNode {
                   </ul>
                 </div>
               `
-                : state.paymentType === PaymentType.Cash && state.vehicle?.price !== undefined
+                : state.paymentType === PaymentType.Cash
                 ? `
                   <div class="waykeecom-stack waykeecom-stack--05">
                     <div class="waykeecom-label">Kontant</div>
@@ -64,25 +65,29 @@ class Order extends StackNode {
                   <div class="waykeecom-stack waykeecom-stack--05">
                     <ul class="waykeecom-key-value-list">
                       ${KeyValueListItem({
-                        key: 'Volvofinans Bank',
-                        value: prettyNumber(state.vehicle.price, { postfix: 'kr' }),
+                        key: 'Kontant',
+                        value: prettyNumber(state.vehicle?.price || '???', { postfix: 'kr' }),
                       })}
                     </ul>
                   </div>
                 `
-                : `
+                : state.paymentType === PaymentType.Lease
+                ? `
                   <div class="waykeecom-stack waykeecom-stack--05">
-                    <div class="waykeecom-label">Billån</div>
+                    <div class="waykeecom-label">Leasing</div>
                   </div>
                   <div class="waykeecom-stack waykeecom-stack--05">
                     <ul class="waykeecom-key-value-list">
                       ${KeyValueListItem({
                         key: 'Leasing',
-                        value: '[PRIS] kr/mån',
+                        value: prettyNumber(paymentLease?.price || '???', {
+                          postfix: paymentLease?.unit,
+                        }),
                       })}
                     </ul>
                   </div>
                 `
+                : ''
             }
             ${
               !this.props.createdOrderId
