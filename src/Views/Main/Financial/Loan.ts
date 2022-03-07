@@ -4,6 +4,7 @@ import ButtonArrowRight from '../../../Components/Button/ButtonArrowRight';
 import InputRange from '../../../Components/Input/InputRange';
 import { getPayment } from '../../../Data/getPayment';
 import { setPaymentLookupResponse } from '../../../Redux/action';
+import store from '../../../Redux/store';
 import CreditAssessment from './CreditAssessment';
 import LoanDetails from './LoanDetails';
 
@@ -99,6 +100,8 @@ class Loan {
   }
 
   render() {
+    const state = store.getState();
+    const dealer = state.order?.getContactInformation();
     const shouldUseCreditScoring = this.paymentLookupResponse.shouldUseCreditScoring();
 
     this.element.innerHTML = `
@@ -108,7 +111,9 @@ class Loan {
       <div class="waykeecom-stack waykeecom-stack--3">
         <h5 class="waykeecom-heading waykeecom-heading--4">Billån</h5>
         <div class="waykeecom-content">
-          <p>Finansiera bilen med billån via Volvofinans Bank. Gör din låneansökan här – och få besked direkt. Kom ihåg, köpet är inte bindande förrän du signerat det definitiva affärsförslaget som tas fram av [handlaren].</p>
+          <p>Finansiera bilen med billån via Volvofinans Bank. Gör din låneansökan här - och få besked direkt. Kom ihåg, köpet är inte bindande förrän du signerat det definitiva affärsförslaget som tas fram av ${
+            dealer?.name
+          }.</p>
           <p>Ange din tänkta kontantinsats och hur många månader du vill lägga upp ditt lån på.</p>
         </div>
       </div>

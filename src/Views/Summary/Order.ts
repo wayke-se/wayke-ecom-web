@@ -25,6 +25,9 @@ class Order extends StackNode {
   render() {
     const state = store.getState();
 
+    const paymentLoan = state.order?.getPaymentOptions().find((x) => x.type === PaymentType.Loan);
+    const paymentLookupResponse = state.paymentLookupResponse || paymentLoan?.loanDetails;
+
     this.node.innerHTML = `
       <h3 class="waykeecom-heading waykeecom-heading--3">Din order</h3>
       ${ItemTileLarge({
@@ -33,19 +36,23 @@ class Order extends StackNode {
         meta: `
           <div class="waykeecom-stack waykeecom-stack--2">
             ${
-              state.paymentType === PaymentType.Loan && state.paymentLookupResponse
+              state.paymentType === PaymentType.Loan && paymentLoan
                 ? `
                 <div class="waykeecom-stack waykeecom-stack--05">
                   <div class="waykeecom-label">Billån</div>
                 </div>
                 <div class="waykeecom-stack waykeecom-stack--05">
                   <ul class="waykeecom-key-value-list">
-                    ${KeyValueListItem({
-                      key: 'Volvofinans Bank',
-                      value: prettyNumber(state.paymentLookupResponse.getCosts().totalCreditCost, {
-                        postfix: 'kr/mån',
-                      }),
-                    })}
+                  ${
+                    paymentLookupResponse
+                      ? KeyValueListItem({
+                          key: paymentLoan.name || '???',
+                          value: prettyNumber(paymentLookupResponse.getCosts().monthlyCost, {
+                            postfix: 'kr/mån',
+                          }),
+                        })
+                      : ``
+                  }
                   </ul>
                 </div>
               `

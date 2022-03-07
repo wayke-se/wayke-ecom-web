@@ -29,12 +29,14 @@ class StageCompletedFinancial extends HtmlNode {
     if (this.props.paymentType === PaymentType.Loan) {
       const state = store.getState();
       const loan = this.props.loan;
-      const paymentLookupResponse = this.props.paymentLookupResponse;
+      const paymentLookupResponse =
+        this.props.paymentLookupResponse || this.props.loan?.loanDetails;
       if (!loan || !paymentLookupResponse) throw 'Missing loan';
 
       const downPayment = paymentLookupResponse.getDownPaymentSpec().current;
       const creditAmount = paymentLookupResponse.getCreditAmount();
       const duration = paymentLookupResponse.getDurationSpec().current;
+      const { interest, effectiveInterest } = paymentLookupResponse.getInterests();
 
       const keyValueList: KeyValueListItemProps[] = [
         {
@@ -60,6 +62,9 @@ class StageCompletedFinancial extends HtmlNode {
       ];
 
       const decision = state.creditAssessmentResponse?.getRecommendation();
+      const disclaimerText = `Beräknat på ${interest * 100} % ränta (effektivt ${
+        effectiveInterest * 100
+      } %). Den ränta du får sätts vid avtalskrivning.`;
 
       this.node.innerHTML = `
         <div class="waykeecom-stack waykeecom-stack--2">
@@ -80,7 +85,7 @@ class StageCompletedFinancial extends HtmlNode {
             </ul>
           </div>
           <div class="waykeecom-stack waykeecom-stack--1">
-            <div class="waykeecom-disclaimer-text">*Beräknat på X,XX % ränta (effektivt X,XX %). Den ränta du får sätts vid avtalskrivning.</div>
+            <div class="waykeecom-disclaimer-text">${disclaimerText}</div>
           </div>
         </div>
         <div class="waykeecom-stack waykeecom-stack--1">

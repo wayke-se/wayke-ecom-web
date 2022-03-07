@@ -48,7 +48,7 @@ class Financial extends HtmlNode {
         const { paymentType, paymentLookupResponse } = store.getState();
         this.paymentType = paymentType || this.paymentType;
         this.paymentLookupResponse = paymentLookupResponse;
-        this.render();
+        this.render(true);
       })
     );
     const state = store.getState();
@@ -63,7 +63,7 @@ class Financial extends HtmlNode {
     const currentTarget = e.currentTarget as HTMLInputElement;
     const value = currentTarget.value as PaymentType;
     this.paymentType = value;
-    this.render();
+    this.render(true);
   }
 
   private onProceed() {
@@ -76,7 +76,7 @@ class Financial extends HtmlNode {
     goTo('main', this.index);
   }
 
-  render() {
+  render(preventScrollIntoView?: boolean) {
     const state = store.getState();
     const { id, order, paymentLookupResponse } = state;
     if (!order) throw 'No order available';
@@ -214,13 +214,15 @@ class Financial extends HtmlNode {
         });
       }
 
-      new InputRadioGroup(this.node.querySelector<HTMLDivElement>(`#${FINANCIAL_OPTION_NODE}`), {
-        title: 'Köp bilen',
-        checked: this.paymentType as string,
-        name: 'paymentType',
-        options: firstGroupOptions,
-        onClick: (e) => this.onChange(e),
-      });
+      if (cash || loan) {
+        new InputRadioGroup(this.node.querySelector<HTMLDivElement>(`#${FINANCIAL_OPTION_NODE}`), {
+          title: 'Köp bilen',
+          checked: this.paymentType as string,
+          name: 'paymentType',
+          options: firstGroupOptions,
+          onClick: (e) => this.onChange(e),
+        });
+      }
 
       const secondGroupOptions: RadioItem[] = [];
       if (lease) {
@@ -260,7 +262,7 @@ class Financial extends HtmlNode {
       }
     }
 
-    if (state.navigation.stage === this.index) {
+    if (!preventScrollIntoView && state.navigation.stage === this.index) {
       content.parentElement?.scrollIntoView();
     }
   }

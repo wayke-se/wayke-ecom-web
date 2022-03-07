@@ -31,6 +31,14 @@ class LoanDetails extends HtmlNode {
 
     const publicUrl = this.props.loan.loanDetails?.getPublicURL();
 
+    const total = downPayment + creditAmount;
+    const downPaymentPercentage = Math.round((downPayment / total) * 100);
+    const creditAmountPercentage = Math.round((creditAmount / total) * 100);
+
+    const disclaimerText = `Beräknat på ${interest * 100} % ränta (effektivt ${
+      effectiveInterest * 100
+    } %). Den ränta du får sätts vid avtalskrivning.`;
+
     this.node.innerHTML = `
     <div class="waykeecom-stepper__break">
             <div class="waykeecom-shadow-box">
@@ -56,11 +64,7 @@ class LoanDetails extends HtmlNode {
                   </ul>
                 </div>
                 <div class="waykeecom-stack waykeecom-stack--1">
-                  <div class="waykeecom-disclaimer-text">*Beräknat på ${
-                    interest * 100
-                  } % ränta (effektivt ${
-      effectiveInterest * 100
-    } %). Den ränta du får sätts vid avtalskrivning.</div>
+                  <div class="waykeecom-disclaimer-text">${disclaimerText}</div>
                 </div>
               </div>
               <div class="waykeecom-stack waykeecom-stack--3">
@@ -69,7 +73,7 @@ class LoanDetails extends HtmlNode {
                       <circle r="10" cx="10" cy="10" class="waykeecom-pie-chart__chart-data-base" />
                       <circle r="5" cx="10" cy="10" fill="transparent"
                         stroke-width="10"
-                        stroke-dasharray="calc(80 * 31.4 / 100) 31.4"
+                        stroke-dasharray="calc(${creditAmountPercentage} * 31.4 / 100) 31.4"
                         transform="rotate(-90) translate(-20)"
                         class="waykeecom-pie-chart__chart-data waykeecom-pie-chart__chart-data--1"
                       />
@@ -91,7 +95,7 @@ class LoanDetails extends HtmlNode {
                             <div class="waykeecom-chart-indicator waykeecom-chart-indicator--secondary"></div>
                           </div>
                           <div class="waykeecom-hstack__item">
-                            Kontantinsats (X %)
+                            Kontantinsats (${downPaymentPercentage} %)
                           </div>
                         </div>
                       `,
@@ -104,7 +108,7 @@ class LoanDetails extends HtmlNode {
                             <div class="waykeecom-chart-indicator waykeecom-chart-indicator--primary"></div>
                           </div>
                           <div class="waykeecom-hstack__item">
-                            Lån (X %)
+                            Lån (${creditAmountPercentage} %)
                           </div>
                         </div>
                       `,
@@ -163,7 +167,7 @@ class LoanDetails extends HtmlNode {
                           }
                           ${KeyValueListItem({
                             key: 'Total kreditkostnad',
-                            value: prettyNumber(totalCreditCost, { postfix: 'kr/mån' }),
+                            value: prettyNumber(totalCreditCost, { postfix: 'kr' }),
                           })}
                         </ul>
                       </div>
