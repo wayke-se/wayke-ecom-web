@@ -226,12 +226,7 @@ class CreditAssessment extends HtmlNode {
       clearInterval(this.bankidStatusInterval);
     }
     if (this.caseId) {
-      if (
-        this.creditAssessmentResponse?.hasPendingScoring() ||
-        this.creditAssessmentResponse?.hasPendingSigning()
-      ) {
-        creditAssessmentCancelSigning(this.caseId);
-      }
+      creditAssessmentCancelSigning(this.caseId);
     }
     this.caseId = undefined;
     this.creditAssessmentResponse = undefined;
@@ -242,21 +237,6 @@ class CreditAssessment extends HtmlNode {
     this.bankidStatusInterval = setInterval(async () => {
       try {
         const response = await creditAssessmentGetStatus(caseId);
-
-        // eslint-disable-next-line
-        console.log({
-          getDecision: response.getDecision(),
-          isScored: response.isScored(),
-          getStatus: response.getStatus(),
-          hasScoringError: response.hasScoringError(),
-          isAccepted: response.isAccepted(),
-          hasPendingScoring: response.hasPendingScoring(),
-          hasPendingSigning: response.hasPendingSigning(),
-          getRecommendation: response.getRecommendation(),
-          getHintCode: response.getHintCode(),
-          getSigningMessage: response.getSigningMessage(),
-          getScoringId: response.getScoringId(),
-        });
 
         const status = response.getStatus();
         if (status === 'signed') {
@@ -373,6 +353,7 @@ class CreditAssessment extends HtmlNode {
       };
 
       const response = await creditAssessmentNewCase(assessmentCase);
+      ///await new Promise((r) => setTimeout(r, 2000));
       this.caseId = response.caseId;
       return response.caseId;
     } catch (e) {
