@@ -1,5 +1,4 @@
 import { DeliveryType } from '@wayke-se/ecom';
-import watch from 'redux-watch';
 import ButtonArrowRight from '../../../Components/Button/ButtonArrowRight';
 import HtmlNode from '../../../Components/Extension/HtmlNode';
 import InputRadioField from '../../../Components/Input/InputRadioField';
@@ -8,6 +7,7 @@ import { goTo, setHomeDelivery } from '../../../Redux/action';
 import store from '../../../Redux/store';
 import { getTotalDeliveryCost } from '../../../Utils/delivery';
 import ListItem from '../../../Templates/ListItem';
+import watch from '../../../Redux/watch';
 
 const RADIO_HOME_TRUE = 'radio-home-delivery-true';
 const RADIO_HOME_TRUE_NODE = `${RADIO_HOME_TRUE}-node`;
@@ -29,8 +29,9 @@ class Delivery extends HtmlNode {
     this.index = index;
     this.lastStage = lastStage;
 
-    const w = watch(store.getState, 'navigation');
-    store.subscribe(w(() => this.render()));
+    watch('navigation', () => {
+      this.render();
+    });
 
     const state = store.getState();
     this.homeDelivery = state.homeDelivery;

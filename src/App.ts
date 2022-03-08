@@ -1,12 +1,11 @@
 import './styles/styles.scss';
 import { config, IOrderOptionsResponse } from '@wayke-se/ecom';
-import watch from 'redux-watch';
 
 import packageJson from '../package.json';
 
 import { Vehicle } from './@types/Vehicle';
 import store from './Redux/store';
-import { goTo, setId } from './Redux/action';
+import { reset, setId } from './Redux/action';
 
 import Preview from './Views/Preview';
 import Main from './Views/Main';
@@ -16,6 +15,7 @@ import { StageMapKeys } from './Utils/stage';
 import { ViewTypes } from './@types/Navigation';
 import Modal from './Components/Modal/Modal';
 import { EcomSdkConfig } from './@types/EcomSdkConfig';
+import watch, { unregisterAllSubscriptions } from './Redux/watch';
 
 const OrderIdQueryString = 'wayke-ecom-web-order-id';
 
@@ -69,17 +69,17 @@ class App {
     ];
 
     setId(props.id);
+
     this.view = store.getState().navigation.view;
-
-    const w = watch(store.getState, 'navigation.view');
-    store.subscribe(
-      w((newVal: ViewTypes) => {
+    watch<ViewTypes>(
+      'navigation.view',
+      (newVal) => {
         this.view = newVal;
-
         if (newVal !== 'preview') {
           this.render();
         }
-      })
+      },
+      true
     );
 
     const params = new URLSearchParams(location.search);
@@ -98,7 +98,8 @@ class App {
     }
 
     this.root.innerHTML = '';
-    goTo('preview', 1);
+    unregisterAllSubscriptions();
+    reset(this.props.id);
   }
 
   start() {

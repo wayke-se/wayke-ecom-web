@@ -1,4 +1,3 @@
-import watch from 'redux-watch';
 import HtmlNode from '../../../Components/Extension/HtmlNode';
 import StageCompleted from '../../../Components/StageCompleted';
 import { goTo } from '../../../Redux/action';
@@ -7,6 +6,7 @@ import { maskSSn, maskText } from '../../../Utils/mask';
 import ListItem from '../../../Templates/ListItem';
 import EmailAndPhone from './EmailAndPhone';
 import FullAddress from './FullAddress';
+import watch from '../../../Redux/watch';
 
 class Customer extends HtmlNode {
   private index: number;
@@ -17,8 +17,9 @@ class Customer extends HtmlNode {
     this.index = index;
     this.lastStage = lastStage;
 
-    const w = watch(store.getState, 'navigation');
-    store.subscribe(w(() => this.render()));
+    watch('navigation', () => {
+      this.render();
+    });
 
     this.render();
   }

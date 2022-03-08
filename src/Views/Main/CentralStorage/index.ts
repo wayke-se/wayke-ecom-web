@@ -1,13 +1,15 @@
-import watch from 'redux-watch';
 import HtmlNode from '../../../Components/Extension/HtmlNode';
 import store from '../../../Redux/store';
+import watch from '../../../Redux/watch';
 import ListItem from '../../../Templates/ListItem';
 
 class CentralStorage extends HtmlNode {
   constructor(element: HTMLDivElement) {
     super(element);
-    const w = watch(store.getState, 'navigation');
-    store.subscribe(w(() => this.render()));
+
+    watch('navigation', () => {
+      this.render();
+    });
 
     this.render();
   }

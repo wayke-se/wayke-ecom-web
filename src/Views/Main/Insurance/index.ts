@@ -1,5 +1,4 @@
 import { DrivingDistance } from '@wayke-se/ecom';
-import watch from 'redux-watch';
 import ButtonArrowRight from '../../../Components/Button/ButtonArrowRight';
 import ButtonSkip from '../../../Components/Button/ButtonSkip';
 import HtmlNode from '../../../Components/Extension/HtmlNode';
@@ -11,6 +10,7 @@ import { KeyValueListItemProps } from '../../../Templates/KeyValueListItem';
 import { translateDrivingDistance } from '../../../Utils/constants';
 import ListItem from '../../../Templates/ListItem';
 import InsuranceView from './InsuranceView';
+import watch from '../../../Redux/watch';
 
 const DISTANCE = 'select-insurance-distance';
 const DISTANCE_NODE = `${DISTANCE}-node`;
@@ -31,8 +31,9 @@ class Insurance extends HtmlNode {
     this.index = index;
     this.lastStage = lastStage;
 
-    const w = watch(store.getState, 'navigation');
-    store.subscribe(w(() => this.render()));
+    watch('navigation', () => {
+      this.render();
+    });
 
     this.render();
   }

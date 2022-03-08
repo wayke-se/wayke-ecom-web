@@ -1,6 +1,5 @@
 import { PaymentType } from '@wayke-se/ecom';
 import { PaymentLookupResponse } from '@wayke-se/ecom/dist-types/payments/payment-lookup-response';
-import watch from 'redux-watch';
 import ButtonArrowRight from '../../../Components/Button/ButtonArrowRight';
 import HtmlNode from '../../../Components/Extension/HtmlNode';
 import InputRadioGroup, { RadioItem } from '../../../Components/Input/InputRadioGroup';
@@ -11,6 +10,7 @@ import { prettyNumber } from '../../../Utils/format';
 import ListItem from '../../../Templates/ListItem';
 import Loan from './Loan';
 import StageCompletedFinancial from './StageCompletedFinancial';
+import watch from '../../../Redux/watch';
 
 const PROCEED = 'button-financial-proceed';
 const PROCEED_NODE = `${PROCEED}-node`;
@@ -38,23 +38,19 @@ class Financial extends HtmlNode {
     this.index = index;
     this.lastStage = lastStage;
 
-    const w = watch(store.getState, 'navigation');
-    store.subscribe(
-      w(() => {
-        const state = store.getState();
-        this.paymentType = state.paymentType;
-        this.render();
-      })
-    );
-    const w3 = watch(store.getState, 'paymentLookupResponse');
-    store.subscribe(
-      w3(() => {
-        const { paymentType, paymentLookupResponse } = store.getState();
-        this.paymentType = paymentType || this.paymentType;
-        this.paymentLookupResponse = paymentLookupResponse;
-        this.render(true);
-      })
-    );
+    watch('navigation', () => {
+      const state = store.getState();
+      this.paymentType = state.paymentType;
+      this.render();
+    });
+
+    watch('paymentLookupResponse', () => {
+      const { paymentType, paymentLookupResponse } = store.getState();
+      this.paymentType = paymentType || this.paymentType;
+      this.paymentLookupResponse = paymentLookupResponse;
+      this.render(true);
+    });
+
     const state = store.getState();
     const { paymentLookupResponse, paymentType } = state;
 

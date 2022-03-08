@@ -1,5 +1,3 @@
-import watch from 'redux-watch';
-
 import store from '../../Redux/store';
 import TradeIn from './TradeIn';
 import Intro from './Intro';
@@ -10,6 +8,7 @@ import Disclaimer from './Disclaimer';
 import ExecuteOrder from './ExecuteOrder';
 import HtmlNode from '../../Components/Extension/HtmlNode';
 import { scrollTop } from '../../Utils/scroll';
+import watch from '../../Redux/watch';
 
 const SUMMARY_NODE = 'summary-node';
 
@@ -23,18 +22,17 @@ class Summary extends HtmlNode {
   constructor(element: HTMLElement, props: SummaryProps) {
     super(element);
     this.props = props;
-    const w = watch(store.getState, 'navigation.view');
-    store.subscribe(
-      w((view) => {
-        if (view === 3) {
-          this.render();
-          scrollTop();
-        }
-      })
-    );
 
-    const w1 = watch(store.getState, 'createdOrderId');
-    store.subscribe(w1(() => this.render()));
+    watch<number>('navigation.view', (view) => {
+      if (view === 3) {
+        this.render();
+        scrollTop();
+      }
+    });
+
+    watch('createdOrderId', () => {
+      this.render();
+    });
 
     this.render();
     scrollTop();

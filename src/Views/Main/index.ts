@@ -1,21 +1,18 @@
-import watch from 'redux-watch';
-
 import ItemTileSmall from '../../Templates/ItemTileSmall';
 import store from '../../Redux/store';
 import Summary from './Summary';
 import Confirmation from './Confirmation';
 import HtmlNode from '../../Components/Extension/HtmlNode';
+import watch from '../../Redux/watch';
 class Main extends HtmlNode {
   constructor(element: HTMLElement) {
     super(element);
-    const w = watch(store.getState, 'navigation.view');
-    store.subscribe(
-      w((view) => {
-        if (view === 2) {
-          this.render();
-        }
-      })
-    );
+
+    watch<number>('navigation.view', (view) => {
+      if (view === 2) {
+        this.render();
+      }
+    });
 
     this.render();
     this.node.scrollTop = 0;

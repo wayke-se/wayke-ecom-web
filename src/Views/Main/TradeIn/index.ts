@@ -1,4 +1,3 @@
-import watch from 'redux-watch';
 import { goTo, initTradeIn, setTradeIn } from '../../../Redux/action';
 import store from '../../../Redux/store';
 import ListItem from '../../../Templates/ListItem';
@@ -11,6 +10,7 @@ import ButtonAsLink from '../../../Components/Button/ButtonAsLink';
 import { prettyNumber } from '../../../Utils/format';
 import { translateTradeInCondition } from '../../../Utils/constants';
 import HtmlNode from '../../../Components/Extension/HtmlNode';
+import watch from '../../../Redux/watch';
 
 const TRADE_IN_YES = 'button-trade-in-yes';
 const TRADE_IN_YES_NODE = `${TRADE_IN_YES}-node`;
@@ -30,8 +30,9 @@ class TradeIn extends HtmlNode {
     this.index = index;
     this.lastStage = lastStage;
 
-    const w = watch(store.getState, 'navigation');
-    store.subscribe(w(() => this.render()));
+    watch('navigation', () => {
+      this.render();
+    });
 
     this.render();
   }

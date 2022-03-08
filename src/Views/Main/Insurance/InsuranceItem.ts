@@ -1,10 +1,10 @@
 import { IInsuranceOption } from '@wayke-se/ecom';
-import watch from 'redux-watch';
 import HtmlNode from '../../../Components/Extension/HtmlNode';
 
 import GridItem from '../../../Components/OverflowGrid/OverflowGridItem';
 import { addOrRemoveInsurance } from '../../../Redux/action';
 import store from '../../../Redux/store';
+import watch from '../../../Redux/watch';
 import { prettyNumber } from '../../../Utils/format';
 
 class InsuranceItem extends HtmlNode {
@@ -16,8 +16,9 @@ class InsuranceItem extends HtmlNode {
     this.insurance = insurance;
     this.key = key;
 
-    const w = watch(store.getState, 'insurance');
-    store.subscribe(w(() => this.render()));
+    watch('insurance', () => {
+      this.render();
+    });
 
     this.render();
   }

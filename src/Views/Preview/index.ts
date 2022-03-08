@@ -1,5 +1,3 @@
-import watch from 'redux-watch';
-
 import ItemTileLarge from '../../Templates/ItemTileLarge';
 import { getOrder } from '../../Data/getOrder';
 import { goTo, setOrder, setStages } from '../../Redux/action';
@@ -12,6 +10,7 @@ import Loader from '../../Templates/Loader';
 import { Vehicle } from '../../@types/Vehicle';
 import CheckList from '../../Components/Checklist/Checklist';
 import HtmlNode from '../../Components/Extension/HtmlNode';
+import Alert from '../../Templates/Alert';
 
 const PROCEED_BUTTON = 'preview-proceed';
 const PROCEED_BUTTON_NODE = `${PROCEED_BUTTON}-node`;
@@ -19,34 +18,28 @@ const PREVIEW_CHECKLIST = 'preview-checklist';
 const PREVIEW_CHECKLIST_NODE = `${PREVIEW_CHECKLIST}-node`;
 
 class Preview extends HtmlNode {
-  private loader?: HTMLDivElement;
   private stageOrderList: StageMapKeys[];
   private vehicle?: Vehicle;
   private contexts: { buttonProceed?: ButtonArrowRight } = {};
+  private requestError = false;
 
   constructor(element: HTMLElement, stageOrderList: StageMapKeys[], vehicle?: Vehicle) {
     super(element);
     this.stageOrderList = stageOrderList;
     this.vehicle = vehicle;
 
-    const w = watch(store.getState, 'order');
-    store.subscribe(
-      w(() => {
-        this.render();
-      })
-    );
-
     this.init();
     this.render();
   }
 
   async init() {
+    this.requestError = false;
+    this.render();
+
     const state = store.getState();
     try {
       this.contexts.buttonProceed?.disabled(true);
-      if (this.loader) {
-        this.loader.style.display = '';
-      }
+
       const order = await getOrder(state.id);
       const { centralStorage } = state;
 
@@ -59,17 +52,15 @@ class Preview extends HtmlNode {
 
         stages.push(stageMap[key]);
       });
+
       setStages(stages);
 
       setOrder(order, this.vehicle);
-      this.contexts.buttonProceed?.disabled(false);
       this.render();
     } catch (e) {
+      this.requestError = true;
+      this.render();
       throw e;
-    } finally {
-      if (this.loader) {
-        this.loader.style.display = 'none';
-      }
     }
   }
 
@@ -81,7 +72,15 @@ class Preview extends HtmlNode {
         <div class="waykeecom-page">
           <div class="waykeecom-page__body">
             <div class="waykeecom-container waykeecom-container--narrow">
-              ${Loader()}
+
+              ${
+                this.requestError
+                  ? Alert({
+                      tone: 'error',
+                      children: `<p>Ett fel uppstod och det gick inte att initiera modulen. Försök igen.</p>`,
+                    })
+                  : Loader()
+              }
             </div>
           </div>
         </div>

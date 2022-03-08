@@ -15,6 +15,7 @@ import { StageTypes } from '../@types/Stages';
 import { TradeInCarDataPartial } from '../@types/TradeIn';
 import {
   Action,
+  RESET,
   SET_CONTACT_EMAIL_AND_PHONE,
   SET_ORDER,
   SET_SOCIAL_ID_AND_ADDRESS,
@@ -108,7 +109,10 @@ const reducer = (state = initialState, action: Action): ReducerState => {
   let topNavigation: Navigation;
 
   next = { ...state };
+
   switch (action.type) {
+    case RESET:
+      return { ...initialState, id: action.id };
     case SET_STAGES:
       return { ...next, stages: action.stages };
     case SET_ID:

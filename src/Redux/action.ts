@@ -15,7 +15,13 @@ import { ViewTypes } from '../@types/Navigation';
 import { StageTypes } from '../@types/Stages';
 import { TradeInCarData } from '../@types/TradeIn';
 import { Vehicle } from '../@types/Vehicle';
-import store from './store';
+import { dispatch } from './store';
+
+export const RESET = 'RESET';
+export type RESET_TYPE = BaseAction<typeof RESET> & {
+  id: string;
+};
+export const reset = (id: string) => dispatch({ type: RESET, id });
 
 export const SET_ORDER = 'SET_ORDER';
 export type SET_ORDER_TYPE = BaseAction<typeof SET_ORDER> & {
@@ -23,20 +29,20 @@ export type SET_ORDER_TYPE = BaseAction<typeof SET_ORDER> & {
   vehicle?: Vehicle;
 };
 export const setOrder = (order: OrderOptionsResponse, vehicle?: Vehicle) =>
-  store.dispatch({ type: SET_ORDER, order, vehicle });
+  dispatch({ type: SET_ORDER, order, vehicle });
 
 export const SET_ID = 'SET_ID';
 export type SET_ID_TYPE = BaseAction<typeof SET_ID> & {
   id: string;
 };
-export const setId = (id: string) => store.dispatch({ type: SET_ID, id });
+export const setId = (id: string) => dispatch({ type: SET_ID, id });
 
 export const SET_CONTACT_EMAIL_AND_PHONE = 'SET_CONTACT_EMAIL_AND_PHONE';
 export type SET_CONTACT_EMAIL_AND_PHONE_TYPE = BaseAction<typeof SET_CONTACT_EMAIL_AND_PHONE> & {
   value: PartialCustomer;
 };
 export const setContactAndPhone = (value: PartialCustomer) =>
-  store.dispatch({ type: SET_CONTACT_EMAIL_AND_PHONE, value });
+  dispatch({ type: SET_CONTACT_EMAIL_AND_PHONE, value });
 
 export const SET_SOCIAL_ID_AND_ADDRESS = 'SET_SOCIAL_ID_AND_ADDRESS';
 export type SET_SOCIAL_ID_AND_ADDRESS_TYPE = BaseAction<typeof SET_SOCIAL_ID_AND_ADDRESS> & {
@@ -45,7 +51,7 @@ export type SET_SOCIAL_ID_AND_ADDRESS_TYPE = BaseAction<typeof SET_SOCIAL_ID_AND
   lastStage: boolean;
 };
 export const setSocialIdAndAddress = (socialId: string, address: IAddress, lastStage: boolean) =>
-  store.dispatch({ type: SET_SOCIAL_ID_AND_ADDRESS, socialId, address, lastStage });
+  dispatch({ type: SET_SOCIAL_ID_AND_ADDRESS, socialId, address, lastStage });
 
 export const SET_HOME_DELIVERY = 'SET_HOME_DELIVERY';
 export type SET_HOME_DELIVERY_TYPE = BaseAction<typeof SET_HOME_DELIVERY> & {
@@ -53,14 +59,13 @@ export type SET_HOME_DELIVERY_TYPE = BaseAction<typeof SET_HOME_DELIVERY> & {
   lastStage: boolean;
 };
 export const setHomeDelivery = (homeDelivery: boolean, lastStage: boolean) =>
-  store.dispatch({ type: SET_HOME_DELIVERY, homeDelivery, lastStage });
+  dispatch({ type: SET_HOME_DELIVERY, homeDelivery, lastStage });
 
 export const INIT_TRADE_IN = 'INIT_TRADE_IN';
 export type INIT_TRADE_IN_TYPE = BaseAction<typeof INIT_TRADE_IN> & {
   lastStage: boolean;
 };
-export const initTradeIn = (lastStage: boolean) =>
-  store.dispatch({ type: INIT_TRADE_IN, lastStage });
+export const initTradeIn = (lastStage: boolean) => dispatch({ type: INIT_TRADE_IN, lastStage });
 
 export const SET_TRADE_IN = 'SET_TRADE_IN';
 export type SET_TRADE_IN_TYPE = BaseAction<typeof SET_TRADE_IN> & {
@@ -72,7 +77,7 @@ export const setTradeIn = (
   lastStage: boolean,
   tradeIn?: TradeInCarData | undefined,
   tradeInVehicle?: IVehicle
-) => store.dispatch({ type: SET_TRADE_IN, lastStage, tradeIn, tradeInVehicle });
+) => dispatch({ type: SET_TRADE_IN, lastStage, tradeIn, tradeInVehicle });
 
 export const SET_FINANCIAL = 'SET_FINANCIAL';
 export type SET_FINANCIAL_TYPE = BaseAction<typeof SET_FINANCIAL> & {
@@ -80,14 +85,14 @@ export type SET_FINANCIAL_TYPE = BaseAction<typeof SET_FINANCIAL> & {
   lastStage: boolean;
 };
 export const setFinancial = (paymentType: PaymentType, lastStage: boolean) =>
-  store.dispatch({ type: SET_FINANCIAL, paymentType, lastStage });
+  dispatch({ type: SET_FINANCIAL, paymentType, lastStage });
 
 export const SET_PAYMENT_LOOKUP_RESPONSE = 'SET_PAYMENT_LOOKUP_RESPONSE';
 export type SET_PAYMENT_LOOKUP_RESPONSE_TYPE = BaseAction<typeof SET_PAYMENT_LOOKUP_RESPONSE> & {
   paymentLookupResponse: PaymentLookupResponse;
 };
 export const setPaymentLookupResponse = (paymentLookupResponse: PaymentLookupResponse) =>
-  store.dispatch({ type: SET_PAYMENT_LOOKUP_RESPONSE, paymentLookupResponse });
+  dispatch({ type: SET_PAYMENT_LOOKUP_RESPONSE, paymentLookupResponse });
 
 export const SET_DRIVING_DISTANCE = 'SET_DRIVING_DISTANCE';
 export type SET_DRIVING_DISTANCE_TYPE = BaseAction<typeof SET_DRIVING_DISTANCE> & {
@@ -95,28 +100,27 @@ export type SET_DRIVING_DISTANCE_TYPE = BaseAction<typeof SET_DRIVING_DISTANCE> 
 };
 
 export const setDrivingDistance = (drivingDistance: DrivingDistance) =>
-  store.dispatch({ type: SET_DRIVING_DISTANCE, drivingDistance });
+  dispatch({ type: SET_DRIVING_DISTANCE, drivingDistance });
 
 export const COMPLETE_STAGE = 'COMPLETE_STAGE';
 export type COMPLETE_STAGE_TYPE = BaseAction<typeof COMPLETE_STAGE> & {
   lastStage: boolean;
 };
-export const completeStage = (lastStage: boolean) =>
-  store.dispatch({ type: COMPLETE_STAGE, lastStage });
+export const completeStage = (lastStage: boolean) => dispatch({ type: COMPLETE_STAGE, lastStage });
 
 export const SET_OR_REMOVE_INSURANCE = 'SET_OR_REMOVE_INSURANCE';
 export type SET_OR_REMOVE_INSURANCE_TYPE = BaseAction<typeof SET_OR_REMOVE_INSURANCE> & {
   insurance?: IInsuranceOption;
 };
 export const addOrRemoveInsurance = (insurance: IInsuranceOption) =>
-  store.dispatch({ type: SET_OR_REMOVE_INSURANCE, insurance });
+  dispatch({ type: SET_OR_REMOVE_INSURANCE, insurance });
 
 export const SET_OR_REMOVE_ACCESSORY = 'SET_OR_REMOVE_ACCESSORY';
 export type SET_OR_REMOVE_ACCESSORY_TYPE = BaseAction<typeof SET_OR_REMOVE_ACCESSORY> & {
   accessory: IAccessory;
 };
 export const addOrRemoveAccessory = (accessory: IAccessory) =>
-  store.dispatch({ type: SET_OR_REMOVE_ACCESSORY, accessory });
+  dispatch({ type: SET_OR_REMOVE_ACCESSORY, accessory });
 
 export const GO_TO = 'GO_TO';
 export type GO_TO_TYPE = BaseAction<typeof GO_TO> & {
@@ -125,19 +129,19 @@ export type GO_TO_TYPE = BaseAction<typeof GO_TO> & {
   subStage?: number;
 };
 export const goTo = (view: ViewTypes, index?: number, subStage?: number) =>
-  store.dispatch({ type: GO_TO, view, index, subStage });
+  dispatch({ type: GO_TO, view, index, subStage });
 
 export const SET_STAGES = 'SET_STAGES';
 export type SET_STAGES_TYPE = BaseAction<typeof SET_STAGES> & {
   stages: StageTypes[];
 };
-export const setStages = (stages: StageTypes[]) => store.dispatch({ type: SET_STAGES, stages });
+export const setStages = (stages: StageTypes[]) => dispatch({ type: SET_STAGES, stages });
 
 export const SET_CREATED_ORDER_ID = 'SET_CREATED_ORDER_ID';
 export type SET_CREATED_ORDER_ID_TYPE = BaseAction<typeof SET_CREATED_ORDER_ID> & {
   id: string;
 };
-export const setCreatedOrderId = (id: string) => store.dispatch({ type: SET_CREATED_ORDER_ID, id });
+export const setCreatedOrderId = (id: string) => dispatch({ type: SET_CREATED_ORDER_ID, id });
 
 export const SET_CREDIT_ASSESSMENT_RESPONSE = 'SET_CREDIT_ASSESSMENT_RESPONSE';
 export type SET_CREDIT_ASSESSMENT_RESPONSE_TYPE = BaseAction<
@@ -149,9 +153,10 @@ export type SET_CREDIT_ASSESSMENT_RESPONSE_TYPE = BaseAction<
 export const setCreditAssessmentResponse = (
   caseId: string,
   creditAssessmentResponse: ICreditAssessmentStatusResponse
-) => store.dispatch({ type: SET_CREDIT_ASSESSMENT_RESPONSE, caseId, creditAssessmentResponse });
+) => dispatch({ type: SET_CREDIT_ASSESSMENT_RESPONSE, caseId, creditAssessmentResponse });
 
 export type Action =
+  | RESET_TYPE
   | SET_ORDER_TYPE
   | SET_ID_TYPE
   | SET_CONTACT_EMAIL_AND_PHONE_TYPE

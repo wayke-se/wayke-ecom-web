@@ -1,10 +1,10 @@
 import { IAccessory } from '@wayke-se/ecom/dist-types/orders/types';
-import watch from 'redux-watch';
 import HtmlNode from '../../../Components/Extension/HtmlNode';
 
 import GridItem from '../../../Components/OverflowGrid/OverflowGridItem';
 import { addOrRemoveAccessory } from '../../../Redux/action';
 import store from '../../../Redux/store';
+import watch from '../../../Redux/watch';
 import { prettyNumber } from '../../../Utils/format';
 
 class AccessoryItem extends HtmlNode {
@@ -16,8 +16,9 @@ class AccessoryItem extends HtmlNode {
     this.accessory = accessory;
     this.key = key;
 
-    const w = watch(store.getState, 'accessories');
-    store.subscribe(w(() => this.render()));
+    watch('accessories', () => {
+      this.render();
+    });
 
     this.render();
   }

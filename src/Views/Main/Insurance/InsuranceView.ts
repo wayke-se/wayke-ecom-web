@@ -1,5 +1,4 @@
 import { IInsuranceOption } from '@wayke-se/ecom';
-import watch from 'redux-watch';
 import ButtonArrowRight from '../../../Components/Button/ButtonArrowRight';
 import ButtonAsLink from '../../../Components/Button/ButtonAsLink';
 import ButtonSkip from '../../../Components/Button/ButtonSkip';
@@ -7,6 +6,7 @@ import HtmlNode from '../../../Components/Extension/HtmlNode';
 import { getInsurances } from '../../../Data/getInsurances';
 import { completeStage } from '../../../Redux/action';
 import store from '../../../Redux/store';
+import watch from '../../../Redux/watch';
 import Alert from '../../../Templates/Alert';
 import KeyValueListItem from '../../../Templates/KeyValueListItem';
 import Loader from '../../../Templates/Loader';
@@ -41,14 +41,17 @@ class InsuranceView extends HtmlNode {
     super(element);
     this.props = props;
 
-    const w1 = watch(store.getState, 'drivingDistance');
-    store.subscribe(w1(() => this.fetchInsurance()));
+    watch('drivingDistance', () => {
+      this.fetchInsurance();
+    });
 
-    const w2 = watch(store.getState, 'customer.socialId');
-    store.subscribe(w2(() => this.fetchInsurance()));
+    watch('customer.socialId', () => {
+      this.fetchInsurance();
+    });
 
-    const w3 = watch(store.getState, 'insurance');
-    store.subscribe(w3(() => this.render()));
+    watch('insurance', () => {
+      this.render();
+    });
 
     this.fetchInsurance();
     this.render();

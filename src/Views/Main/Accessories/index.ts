@@ -1,10 +1,10 @@
-import watch from 'redux-watch';
 import ButtonArrowRight from '../../../Components/Button/ButtonArrowRight';
 import HtmlNode from '../../../Components/Extension/HtmlNode';
 import StageCompleted from '../../../Components/StageCompleted';
 
 import { goTo, completeStage } from '../../../Redux/action';
 import store from '../../../Redux/store';
+import watch from '../../../Redux/watch';
 import ListItem from '../../../Templates/ListItem';
 import AccessoryList from './AccessoryList';
 
@@ -21,8 +21,9 @@ class Accessories extends HtmlNode {
     this.index = index;
     this.lastStage = lastStage;
 
-    const w = watch(store.getState, 'navigation');
-    store.subscribe(w(() => this.render()));
+    watch('navigation', () => {
+      this.render();
+    });
 
     this.render();
   }
