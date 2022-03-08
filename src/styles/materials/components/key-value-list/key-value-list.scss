@@ -11,7 +11,7 @@
   padding: 0;
 
   &--large-value {
-    --value-font-size: #{scss-var(font, size, large)};
+    --#{$namespace}value-font-size: #{scss-var(font, size, large)};
 
     @include font-bold;
   }

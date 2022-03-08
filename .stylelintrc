@@ -9,6 +9,6 @@
     ],
     "color-function-notation": "legacy",
     "alpha-value-notation": "number",
-    "custom-property-pattern": null
+    "custom-property-pattern": "(?<=#\\{\\$namespace\\})"
   }
 }

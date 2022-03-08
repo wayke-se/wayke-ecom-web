@@ -1,7 +1,7 @@
 /// Import files using @use for non-breakpoint specific styling
 
 // Partials
-@use '../partials/css-variables/css-variables';
+@use '../partials/custom-properties/custom-properties';
 @use '../partials/font-face/font-face';
 @use '../partials/keyframes/keyframes';
 @use '../partials/reset';

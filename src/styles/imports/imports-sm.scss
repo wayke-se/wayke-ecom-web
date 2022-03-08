@@ -1,7 +1,7 @@
 /// Import files using @use for styling in the breakpoint 'sm'
 
 // Partials
-@use '../partials/css-variables/css-variables-sm';
+@use '../partials/custom-properties/custom-properties-sm';
 
 // Components
 @use '../materials/components/alert/alert-sm';
