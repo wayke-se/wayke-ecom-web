@@ -7,13 +7,13 @@
   margin: 14mm;
 }
 
-#{$root-body} {
+#{$root-element} {
   font-size: 10pt;
   color: #000;
 }
 
 // Print URL to links
-:where(#{$root-body} a[href]) {
+:where(#{$root-element} a[href]) {
   &::after {
     content: " (" attr(href) ")";
   }

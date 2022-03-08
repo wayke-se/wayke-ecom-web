@@ -2,7 +2,7 @@
 
 @use '../../helpers' as *;
 
-#{$root-body} {
+#{$root-element} {
   $modal-gutter-x: size(2);
   $modal-gutter-y: size(3);
 

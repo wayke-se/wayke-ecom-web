@@ -3,16 +3,16 @@
 @use '../../helpers' as *;
 
 :where(
-  #{$root-body} input,
-  #{$root-body} textarea,
-  #{$root-body} select,
+  #{$root-element} input,
+  #{$root-element} textarea,
+  #{$root-element} select,
 ) {
   font: inherit;
 }
 
 :where(
-  #{$root-body} input,
-  #{$root-body} textarea,
+  #{$root-element} input,
+  #{$root-element} textarea,
 ) {
   font-size: 16px; // Disables zoom on focus in iOS
 }

@@ -3,8 +3,8 @@
 @use '../../helpers' as *;
 
 :where(
-  #{$root-body} b,
-  #{$root-body} strong,
+  #{$root-element} b,
+  #{$root-element} strong,
 ) {
   @include font-medium;
 }

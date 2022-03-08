@@ -2,6 +2,6 @@
 
 @use '../../helpers' as *;
 
-:where(#{$root-body} iframe) {
+:where(#{$root-element} iframe) {
   border: none;
 }

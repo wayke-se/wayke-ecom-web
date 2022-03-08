@@ -2,7 +2,7 @@
 
 @use '../../helpers' as *;
 
-#{$root-body} {
+#{$root-element} {
   @include font-light;
 
   font-size: scss-var(font, size, regular);

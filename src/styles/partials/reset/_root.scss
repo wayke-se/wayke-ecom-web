@@ -2,11 +2,11 @@
 
 @use '../../helpers' as *;
 
-:where(#{$root-body} *, #{$root-body} ::before, #{$root-body} ::after) {
+:where(#{$root-element} *, #{$root-element} ::before, #{$root-element} ::after) {
   box-sizing: border-box;
 }
 
-:where(#{$root-body}) {
+:where(#{$root-element}) {
   @include text-size-adjust(100%); // Prevent font scaling in landscape while allowing user zoom
 
   -webkit-tap-highlight-color: transparent;

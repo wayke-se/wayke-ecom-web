@@ -2,7 +2,7 @@
 
 @use '../../helpers' as *;
 
-:where(#{$root-body} button) {
+:where(#{$root-element} button) {
   @include font-regular;
 
   display: flex;

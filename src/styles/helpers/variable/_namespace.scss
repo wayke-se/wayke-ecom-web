@@ -5,5 +5,5 @@
 $namespace: 'waykeecom-';
 
 // Root element selector used to prefix element selectors
-// Usage: :where(#{$root-body} *)
-$root-body: '#wayke-ecom';
+// Usage: :where(#{$root-element} *)
+$root-element: '#wayke-ecom';
