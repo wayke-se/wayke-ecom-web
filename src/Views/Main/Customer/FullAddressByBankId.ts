@@ -12,6 +12,7 @@ import BankIdSign from '../../../Components/BankId/BankIdSign';
 import DisclaimerSafe from './DisclaimerSafe';
 import HtmlNode from '../../../Components/Extension/HtmlNode';
 import { validationMethods } from '../../../Utils/validationMethods';
+import { createPortal, destroyPortal } from '../../../Utils/portal';
 
 const BANKID_START_NODE = `bankid-start-node`;
 const BANKID_START = `bankid-start`;
@@ -68,6 +69,7 @@ class FullAddressByBankId extends HtmlNode {
               this.render();
               return;
             }
+            destroyPortal();
           }
         }
         if (response.shouldRenew()) {
@@ -120,13 +122,14 @@ class FullAddressByBankId extends HtmlNode {
     if (this.bankidStatusInterval) {
       clearInterval(this.bankidStatusInterval);
     }
+    destroyPortal();
     this.render();
   }
 
   render() {
     const mobile = isMobile();
     if (this.view === 2) {
-      this.contexts.bankId = new BankIdSign(this.node, {
+      this.contexts.bankId = new BankIdSign(createPortal(), {
         method: mobile ? AuthMethod.SameDevice : AuthMethod.QrCode,
         descriptionQrCode:
           'För att hämta dina uppgifter, starta din BankID applikation på din andra enhet.',

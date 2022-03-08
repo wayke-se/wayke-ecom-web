@@ -23,6 +23,7 @@ import store from '../../../Redux/store';
 import Alert from '../../../Templates/Alert';
 import { prettyNumber } from '../../../Utils/format';
 import { isMobile } from '../../../Utils/isMobile';
+import { createPortal, destroyPortal } from '../../../Utils/portal';
 import { scrollTop } from '../../../Utils/scroll';
 import { validationMethods } from '../../../Utils/validationMethods';
 import CreditAssessmentResult from './CreditAssessmentResult';
@@ -228,6 +229,7 @@ class CreditAssessment extends HtmlNode {
     if (this.caseId) {
       creditAssessmentCancelSigning(this.caseId);
     }
+    destroyPortal();
     this.caseId = undefined;
     this.creditAssessmentResponse = undefined;
     this.render(true);
@@ -261,6 +263,7 @@ class CreditAssessment extends HtmlNode {
           ) {
             setCreditAssessmentResponse(caseId, response);
           }
+          destroyPortal();
           this.render();
         }
 
@@ -300,6 +303,7 @@ class CreditAssessment extends HtmlNode {
       }
       this.bankidError = true;
       this.view = 1;
+      destroyPortal();
       this.render(true);
     }
   }
@@ -353,7 +357,6 @@ class CreditAssessment extends HtmlNode {
       };
 
       const response = await creditAssessmentNewCase(assessmentCase);
-      ///await new Promise((r) => setTimeout(r, 2000));
       this.caseId = response.caseId;
       return response.caseId;
     } catch (e) {
@@ -376,13 +379,16 @@ class CreditAssessment extends HtmlNode {
     const branchName = order?.getContactInformation()?.name;
 
     if (this.view === 3 && this.creditAssessmentResponse) {
-      new CreditAssessmentResult(this.node, {
+      new CreditAssessmentResult(createPortal(), {
         creditAssessmentResponse: this.creditAssessmentResponse,
-        onProceed: () => this.props.onProceed(),
+        onProceed: () => {
+          destroyPortal();
+          this.props.onProceed();
+        },
         onGoBack: () => this.onAbort(),
       });
     } else if (this.view === 2) {
-      this.contexts.bankId = new BankIdSign(this.node, {
+      this.contexts.bankId = new BankIdSign(createPortal(), {
         method: mobile ? AuthMethod.SameDevice : AuthMethod.QrCode,
         descriptionQrCode:
           'För att hämta dina uppgifter, starta din BankID applikation på din andra enhet.',

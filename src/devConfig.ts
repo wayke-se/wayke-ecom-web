@@ -38,4 +38,7 @@ export const devConfig = {
   LEASING: {
     id: '467a0c26-6540-417a-9904-f75b2beda9d5',
   },
+  ACCESSORIES: {
+    id: 'f71d0afb-02aa-4f79-a9bc-9632a7454ca6',
+  },
 };
