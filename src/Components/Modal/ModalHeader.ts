@@ -23,8 +23,8 @@ class ModalHeader extends HtmlNode {
     const { title, onClose } = this.props;
     this.node.innerHTML = `
     <div class="waykeecom-container">
-        <div class="waykeecom-modal__header-inner">
-          <button title="Stäng modalen" class="waykeecom-modal__close-btn">
+        <div class="waykeecom-header">
+          <button title="Stäng modalen" class="waykeecom-header__close-btn">
             <span class="waykeecom-sr-only">Stäng modalen</span>
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -37,10 +37,10 @@ class ModalHeader extends HtmlNode {
             </svg>
           </button>
           
-          <div class="waykeecom-modal__logo">
+          <div class="waykeecom-header__logo">
             <h2 class="waykeecom-no-margin">
               <span class="waykeecom-sr-only" id="wayke-ecom-title">${title}</span>
-              <svg class="waykeecom-modal__logo--wordmark" viewBox="0 0 548.95 123.3" preserveAspectRatio="xMinYMid" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <svg class="waykeecom-header__logo--wordmark" viewBox="0 0 548.95 123.3" preserveAspectRatio="xMinYMid" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                 <title>Wayke wordmark</title>
                 <g>
                   <path d="M275.16,48.31l-18.69,53.3h-12L219.59,28h15.08l16.84,52.57,18-52.88h12.29l18.08,53L316.68,28h13.64l-24.17,73.65H293.75Z"></path>
@@ -67,7 +67,7 @@ class ModalHeader extends HtmlNode {
                   <circle cx="25.15" cy="11.34" r="4.96"></circle>
                 </g>
               </svg>
-              <svg class="waykeecom-modal__logo--symbol" viewBox="0 0 185.57 109.13" preserveAspectRatio="xMinYMid" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <svg class="waykeecom-header__logo--symbol" viewBox="0 0 185.57 109.13" preserveAspectRatio="xMinYMid" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                 <title>Wayke symbol</title>
                 <circle cx="4.25" cy="39.68" r="4.25"></circle>
                 <circle cx="25.15" cy="68.03" r="4.96"></circle>

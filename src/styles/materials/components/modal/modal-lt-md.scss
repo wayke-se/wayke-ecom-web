@@ -1,27 +1,13 @@
 @use "../../../helpers" as *;
 
 .#{$namespace}modal {
-  &__container,
-  &__center,
-  &__dialog,
-  &__dialog-main {
-    height: 100%;
+  &__center {
+    padding: 0;
+    vertical-align: bottom;
   }
 
   &__dialog {
     transform: translateY(100%);
-    animation: #{$namespace}no-transform 300ms ease forwards;
-    overflow: auto;
-    overscroll-behavior: contain;
-  }
-
-  &__header-inner {
-    justify-content: flex-end;
-  }
-
-  &__logo {
-    &--wordmark {
-      display: none;
-    }
+    animation: #{$namespace}no-transform 400ms ease forwards;
   }
 }
