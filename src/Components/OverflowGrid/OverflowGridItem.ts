@@ -1,7 +1,11 @@
 import { renderConditional } from '../../Utils/render';
 import HtmlNode from '../Extension/HtmlNode';
 
+const READ_MORE = 'read-more';
+const READ_MORE_NODE = `${READ_MORE}-node`;
+
 interface GridItemProps {
+  id?: string;
   title: string;
   image?: string;
   logo?: string;
@@ -9,6 +13,7 @@ interface GridItemProps {
   description: string;
   selected?: boolean;
   onClick: () => void;
+  onInfo?: () => void;
 }
 
 class GridItem extends HtmlNode {
@@ -21,7 +26,9 @@ class GridItem extends HtmlNode {
   }
 
   render() {
-    const { title, image, logo, price, description, selected, onClick } = this.props;
+    const { id, title, image, logo, price, description, selected, onClick, onInfo } = this.props;
+
+    const onInfoId = id && onInfo ? `${READ_MORE_NODE}-${id}` : undefined;
 
     this.node.innerHTML = `
       <div class="waykeecom-tile">
@@ -41,14 +48,16 @@ class GridItem extends HtmlNode {
               <div class="waykeecom-extend-content__body">
                 ${description}
               </div>
-              <div class="waykeecom-extend-content__action">
-                <button type="button" title="Läs mer" class="waykeecom-link">Läs mer</button>
-              </div>
             </div>
           </div>
-          <div class="waykeecom-tile__read-more">
-            <button type="button" title="" class="waykeecom-link">Läs mer</button>
-          </div>
+          ${
+            onInfoId
+              ? `
+                <div class="waykeecom-tile__read-more" id="${onInfoId}">
+                  <button type="button" title="" class="waykeecom-link">Läs mer</button>
+                </div>`
+              : ''
+          }
         </div>
         <div class="waykeecom-tile__footer">
           <button
@@ -77,6 +86,10 @@ class GridItem extends HtmlNode {
         </div>
       </div>
     `;
+
+    if (onInfo && onInfoId) {
+      this.node.querySelector(`#${onInfoId}`)?.addEventListener('click', () => onInfo());
+    }
 
     this.node
       .querySelector('.waykeecom-tile__footer button')
