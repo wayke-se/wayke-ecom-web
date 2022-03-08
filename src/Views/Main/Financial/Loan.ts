@@ -5,6 +5,7 @@ import InputRange from '../../../Components/Input/InputRange';
 import { getPayment } from '../../../Data/getPayment';
 import { setPaymentLookupResponse } from '../../../Redux/action';
 import store from '../../../Redux/store';
+import Alert from '../../../Templates/Alert';
 import CreditAssessment from './CreditAssessment';
 import LoanDetails from './LoanDetails';
 
@@ -47,6 +48,8 @@ class Loan {
   private props: LoanProps;
   private paymentState: PaymentState;
   private paymentLookupResponse: PaymentLookupResponse;
+  private paymentRequestFailed?: boolean;
+  private lastEditedField: LoanNames = 'downPayment';
 
   constructor(element: HTMLDivElement, props: LoanProps) {
     this.element = element;
@@ -68,6 +71,9 @@ class Loan {
   }
 
   async payment() {
+    this.paymentRequestFailed = false;
+    this.render();
+
     try {
       const response = await getPayment({
         vehicleId: this.paymentState.vehicleId,
@@ -84,6 +90,8 @@ class Loan {
       };
       setPaymentLookupResponse(response);
     } catch (e) {
+      this.paymentRequestFailed = true;
+      this.render();
       throw e;
     }
   }
@@ -95,6 +103,7 @@ class Loan {
 
     this.paymentState[name].current =
       name === 'residual' ? parseInt(value, 10) / 100 : parseInt(value, 10);
+    this.lastEditedField = name;
     this.payment();
   }
 
@@ -102,6 +111,13 @@ class Loan {
     const state = store.getState();
     const dealer = state.order?.getContactInformation();
     const shouldUseCreditScoring = this.paymentLookupResponse.shouldUseCreditScoring();
+
+    const requestError = this.paymentRequestFailed
+      ? ` <div class="waykeecom-stack waykeecom-stack--3">${Alert({
+          tone: 'error',
+          children: `<p>Ett fel uppstod, försök igen.</p>`,
+        })}</div>`
+      : '';
 
     this.element.innerHTML = `
       <div class="waykeecom-stack waykeecom-stack--3">
@@ -118,8 +134,13 @@ class Loan {
       </div>
       <div class="waykeecom-stack waykeecom-stack--3">
         <div class="waykeecom-stack waykeecom-stack--3" id="${DOWNPAYMENT_RANGE_NODE}"></div>
+        ${this.lastEditedField === 'downPayment' ? requestError : ''}
         <div class="waykeecom-stack waykeecom-stack--3" id="${DURATION_RANGE_NODE}"></div>
+        ${this.lastEditedField === 'duration' ? requestError : ''}
         <div class="waykeecom-stack waykeecom-stack--3" id="${RESIDUAL_RANGE_NODE}"></div>
+        ${this.lastEditedField === 'residual' ? requestError : ''}
+       
+
         <div class="waykeecom-stack waykeecom-stack--3" id="${LOAN_DETAILS_NODE}"></div>
       </div>
       ${

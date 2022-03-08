@@ -5,6 +5,10 @@ import KeyValueListItem from '../../../Templates/KeyValueListItem';
 import { Image } from '../../../Utils/constants';
 import { prettyNumber } from '../../../Utils/format';
 
+const DETAILS = 'finance-details-accordion';
+
+let persistedShowDetails = false;
+
 interface LoanDetailsProps {
   paymentLookupResponse: PaymentLookupResponse;
   loan: IPaymentOption;
@@ -12,12 +16,19 @@ interface LoanDetailsProps {
 
 class LoanDetails extends HtmlNode {
   private props: LoanDetailsProps;
+  private showDetails = persistedShowDetails;
 
   constructor(element: HTMLElement | null | undefined, props: LoanDetailsProps) {
     super(element);
     this.props = props;
 
     this.render();
+  }
+
+  onDetails(e: Event) {
+    const value = (e.currentTarget as HTMLInputElement).checked;
+    persistedShowDetails = value;
+    this.showDetails = value;
   }
 
   render() {
@@ -121,7 +132,13 @@ class LoanDetails extends HtmlNode {
                 </div>
                 <div class="waykeecom-stack waykeecom-stack--2">
                   <div class="waykeecom-accordion">
-                    <input type="checkbox" id="finance-details-accordion" class="waykeecom-accordion__checkbox" tabindex="-1" />
+                    <input
+                      type="checkbox"
+                      id="finance-details-accordion"
+                      class="waykeecom-accordion__checkbox"
+                      ${this.showDetails ? `checked="true"` : ''}
+                      tabindex="-1"
+                    />
                     <label class="waykeecom-accordion__header" for="finance-details-accordion" tabindex="0" aria-label="Visa detaljer">
                       <div class="waykeecom-accordion__header-title">Detaljer</div>
                       <div class="waykeecom-accordion__header-icon">
@@ -201,6 +218,8 @@ class LoanDetails extends HtmlNode {
             </div>
           </div>
     `;
+
+    this.node.querySelector(`#${DETAILS}`)?.addEventListener('click', (e) => this.onDetails(e));
   }
 }
 

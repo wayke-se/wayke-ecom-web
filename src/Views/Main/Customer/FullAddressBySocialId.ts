@@ -11,6 +11,7 @@ import { renderConditional } from '../../../Utils/render';
 import { validationMethods } from '../../../Utils/validationMethods';
 import DisclaimerSafe from './DisclaimerSafe';
 import HtmlNode from '../../../Components/Extension/HtmlNode';
+import { regexNumber } from '../../../Utils/regex';
 
 const SOCIAL_ID_NODE = 'contact-socialId-node';
 const SOCIAL_ID_INPUT_ID = 'contact-socialId';
@@ -91,7 +92,11 @@ class FullAddressBySocialId extends HtmlNode {
       const response = await getAddressBySsn(this.state.value.socialId);
       const address = response.getAddress();
       SOCIAL_ID_CACHE[this.state.value.socialId] = address;
-      setSocialIdAndAddress(this.state.value.socialId, address, this.lastStage);
+      setSocialIdAndAddress(
+        this.state.value.socialId.replace(regexNumber, ''),
+        address,
+        this.lastStage
+      );
     } catch (e) {
       this.requestError = true;
     } finally {

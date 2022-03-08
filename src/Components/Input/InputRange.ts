@@ -7,6 +7,12 @@ const formatNumberPretty = (value: string | number, postfix?: string) =>
 
 const formatFromPretty = (n: string) => parseInt(n.replace(/\D/g, ''), 10).toString();
 
+const respectStep = (value: number, step?: number) => {
+  if (!step) return value;
+
+  return Math.round(value / step) * step;
+};
+
 interface InputRangeProps {
   title: string;
   value: number;
@@ -62,8 +68,13 @@ class InputRange extends HtmlNode {
       inputFieldValueAsNumber >= this.props.min &&
       inputFieldValueAsNumber <= this.props.max
     ) {
-      this.value = inputFieldValueAsNumber;
-      if (this.props.onChange) {
+      const modifiedNumberInRespectWithSteps = respectStep(
+        inputFieldValueAsNumber,
+        this.props.step
+      );
+      this.value = modifiedNumberInRespectWithSteps;
+      if (this.props.onChange && e.currentTarget) {
+        (e.currentTarget as HTMLInputElement).value = modifiedNumberInRespectWithSteps.toString();
         this.props.onChange(e);
       }
 

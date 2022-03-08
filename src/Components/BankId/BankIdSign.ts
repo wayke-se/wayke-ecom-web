@@ -1,6 +1,7 @@
 import { AuthMethod } from '@wayke-se/ecom';
 import Loader from '../../Templates/Loader';
 import { isMobile } from '../../Utils/isMobile';
+import { scrollTop } from '../../Utils/scroll';
 import ButtonAsLink from '../Button/ButtonAsLink';
 import HtmlNode from '../Extension/HtmlNode';
 import BankIdSignQrCode from './BankIdSignQrCode';
@@ -44,6 +45,7 @@ class BankIdSign extends HtmlNode {
       this.props.onStart(AuthMethod.QrCode);
     }
     this.render();
+    scrollTop();
   }
 
   update(method: AuthMethod, value?: string) {
