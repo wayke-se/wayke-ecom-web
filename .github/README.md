@@ -37,6 +37,7 @@ Workin with CSS in this project can be a bit tricky if not cautious. We have the
 ```
 
 * We do not target root elements outside of our own root element. This element's selector is set to `$root-body` in `helpers/variable/_namespace.scss`. This namespace is primarily used for reset styling.
+* All custom properties (CSS variables) are prefixed with `$namespace` (`helpers/variable/_namespace.scss`).
 
 ### BEM
 
