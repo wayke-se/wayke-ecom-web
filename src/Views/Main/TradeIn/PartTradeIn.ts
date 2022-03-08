@@ -24,8 +24,6 @@ const DESCRIPTION_NODE = `${DESCRIPTION_ID}-node`;
 const CONDITION_ID = 'trade-in-condition';
 const CONDITION_NODE = `${CONDITION_ID}-node`;
 
-const TRADE_IN_FETCH_ERROR_ID = 'trade-in-fetch-error';
-
 const FETCH = 'trade-in-fetch';
 const FETCH_NODE = `${FETCH}-node`;
 
@@ -52,8 +50,31 @@ interface PartTradeInState {
   interact: TradeInValidation;
 }
 
+type INPUT_STRING_KEYS = keyof Omit<TradeInValidation, 'condition'>;
+type INPUT_RADIO_KEYS = keyof Omit<
+  TradeInValidation,
+  'registrationNumber' | 'mileage' | 'description'
+>;
+
 const TRADE_IN_CACHE: { [key: string]: IVehicle | undefined } = {};
 
+const RadioElements = [
+  {
+    id: `radio-${VehicleCondition.VeryGood}`,
+    value: VehicleCondition.VeryGood,
+    title: 'Mycket bra skick',
+  },
+  {
+    id: `radio-${VehicleCondition.Good}`,
+    value: VehicleCondition.Good,
+    title: 'Bra skick',
+  },
+  {
+    id: `radio-${VehicleCondition.Ok}`,
+    value: VehicleCondition.Ok,
+    title: 'Helt okej skick',
+  },
+];
 const initalState = (tradeIn?: TradeInCarDataPartial): PartTradeInState => {
   const value = {
     registrationNumber: tradeIn?.registrationNumber || '',
@@ -82,6 +103,7 @@ class PartTradeIn extends HtmlNode {
     description?: InputTextarea;
     buttonFetch?: ButtonArrowRight;
   } = {};
+  private requestError = false;
 
   constructor(element: HTMLElement, lastStage: boolean) {
     super(element);
@@ -93,9 +115,8 @@ class PartTradeIn extends HtmlNode {
   }
 
   private async onFetchVehicle() {
-    const errorAlert = document.querySelector<HTMLDivElement>(`#${TRADE_IN_FETCH_ERROR_ID}`);
-    if (!errorAlert) return;
-    errorAlert.style.display = 'none';
+    this.requestError = false;
+    this.render();
 
     const key = `${this.state.value.registrationNumber}-${this.state.value.mileage}-${this.state.value.condition}`;
     const cache = TRADE_IN_CACHE[key];
@@ -119,7 +140,8 @@ class PartTradeIn extends HtmlNode {
         setTradeIn(this.lastStage, value, vehicle);
       }
     } catch (e) {
-      errorAlert.style.display = '';
+      this.requestError = true;
+      this.render();
     } finally {
       this.contexts.buttonFetch?.loading(false);
     }
@@ -127,10 +149,7 @@ class PartTradeIn extends HtmlNode {
 
   private onChangeRadio(e: Event) {
     const currentTarget = e.currentTarget as HTMLInputElement;
-    const name = currentTarget.name as keyof Omit<
-      TradeInValidation,
-      'registrationNumber' | 'mileage' | 'description'
-    >;
+    const name = currentTarget.name as INPUT_RADIO_KEYS;
     const value = currentTarget.value as VehicleCondition;
 
     this.state.value[name] = value;
@@ -140,7 +159,7 @@ class PartTradeIn extends HtmlNode {
 
   private onChange(e: Event) {
     const currentTarget = e.currentTarget as HTMLInputElement;
-    const name = currentTarget.name as keyof Omit<TradeInValidation, 'condition'>;
+    const name = currentTarget.name as INPUT_STRING_KEYS;
     const value = currentTarget.value;
 
     this.state.value[name] = value;
@@ -151,7 +170,7 @@ class PartTradeIn extends HtmlNode {
 
   private onBlur(e: Event) {
     const currentTarget = e.currentTarget as HTMLInputElement;
-    const name = currentTarget.name as keyof Omit<TradeInValidation, 'condition'>;
+    const name = currentTarget.name as INPUT_STRING_KEYS;
 
     this.state.interact[name] = true;
     this.state.validation[name] = validation[name](this.state.value[name]);
@@ -159,7 +178,7 @@ class PartTradeIn extends HtmlNode {
     this.updateProceedButton();
   }
 
-  private updateUiError(name: keyof Omit<TradeInValidation, 'condition'>) {
+  private updateUiError(name: INPUT_STRING_KEYS) {
     this.contexts[name]?.setError(this.state.interact[name] && !this.state.validation[name]);
   }
 
@@ -179,24 +198,6 @@ class PartTradeIn extends HtmlNode {
   }
 
   render() {
-    const RadioElements = [
-      {
-        id: `radio-${VehicleCondition.VeryGood}`,
-        value: VehicleCondition.VeryGood,
-        title: 'Mycket bra skick',
-      },
-      {
-        id: `radio-${VehicleCondition.Good}`,
-        value: VehicleCondition.Good,
-        title: 'Bra skick',
-      },
-      {
-        id: `radio-${VehicleCondition.Ok}`,
-        value: VehicleCondition.Ok,
-        title: 'Helt okej skick',
-      },
-    ];
-
     this.node.innerHTML = `
       <div class="waykeecom-stack waykeecom-stack--3">
         <h4 class="waykeecom-heading waykeecom-heading--4">Kontaktuppgifter</h4>
@@ -210,14 +211,15 @@ class PartTradeIn extends HtmlNode {
         <div class="waykeecom-stack waykeecom-stack--2" id="${DESCRIPTION_NODE}"></div>
         <div class="waykeecom-stack waykeecom-stack--2" id="${CONDITION_NODE}"></div>
       </div>
-
-      <div class="waykeecom-stack waykeecom-stack--3" style="display:none;" id="${TRADE_IN_FETCH_ERROR_ID}">
-        ${Alert({
-          tone: 'error',
-          children:
-            '<p>Tyvärr fick vi ingen träff på personnumret du angav. Vänligen kontrollera att personnummret stämmer.</p>',
-        })}
-      </div>
+      ${
+        this.requestError
+          ? `<div class="waykeecom-stack waykeecom-stack--3">${Alert({
+              tone: 'error',
+              children:
+                '<p>Tyvärr fick vi ingen träff på registreringsnummret du angav. Vänligen kontrollera att registreringsnummret stämmer.</p>',
+            })}</div>`
+          : ''
+      }
       <div class="waykeecom-stack waykeecom-stack--3">
         <div class="waykeecom-stack waykeecom-stack--1" id="${FETCH_NODE}"></div>
         <div class="waykeecom-stack waykeecom-stack--1" id="${TRADE_IN_NO_NODE}"></div>
@@ -225,7 +227,7 @@ class PartTradeIn extends HtmlNode {
     `;
 
     this.contexts.registrationNumber = new InputField(
-      this.node.querySelector<HTMLDivElement>(`#${REGISTRATION_NUMBER_NODE}`),
+      this.node.querySelector(`#${REGISTRATION_NUMBER_NODE}`),
       {
         title: 'Registreringsnummer',
         value: this.state.value.registrationNumber,
@@ -247,40 +249,34 @@ class PartTradeIn extends HtmlNode {
       }
     );
 
-    this.contexts.mileage = new InputField(
-      this.node.querySelector<HTMLDivElement>(`#${MILEAGE_NODE}`),
-      {
-        title: 'Miltal',
-        value: this.state.value.mileage,
-        id: MILEAGE_ID,
-        error: this.state.interact.mileage && !this.state.validation.mileage,
-        errorMessage: 'Ett miltal mellan 0 till 80 000 mil måste anges',
-        name: 'mileage',
-        autocomplete: 'off',
-        placeholder: 'Ange bilens miltal',
-        unit: 'mil',
-        onChange: (e) => this.onChange(e),
-        onBlur: (e) => this.onBlur(e),
-      }
-    );
+    this.contexts.mileage = new InputField(this.node.querySelector(`#${MILEAGE_NODE}`), {
+      title: 'Miltal',
+      value: this.state.value.mileage,
+      id: MILEAGE_ID,
+      error: this.state.interact.mileage && !this.state.validation.mileage,
+      errorMessage: 'Ett miltal mellan 0 till 80 000 mil måste anges',
+      name: 'mileage',
+      autocomplete: 'off',
+      placeholder: 'Ange bilens miltal',
+      unit: 'mil',
+      onChange: (e) => this.onChange(e),
+      onBlur: (e) => this.onBlur(e),
+    });
 
-    this.contexts.description = new InputTextarea(
-      this.node.querySelector<HTMLDivElement>(`#${DESCRIPTION_NODE}`),
-      {
-        title: 'Beskrivning (valfritt)',
-        value: this.state.value.description,
-        id: DESCRIPTION_ID,
-        error: this.state.interact.description && !this.state.validation.description,
-        errorMessage: '????',
-        name: 'description',
-        autocomplete: 'off',
-        placeholder: 'Beskriv bilen',
-        onChange: (e) => this.onChange(e),
-        onBlur: (e) => this.onBlur(e),
-      }
-    );
+    this.contexts.description = new InputTextarea(this.node.querySelector(`#${DESCRIPTION_NODE}`), {
+      title: 'Beskrivning (valfritt)',
+      value: this.state.value.description,
+      id: DESCRIPTION_ID,
+      error: this.state.interact.description && !this.state.validation.description,
+      errorMessage: '????',
+      name: 'description',
+      autocomplete: 'off',
+      placeholder: 'Beskriv bilen',
+      onChange: (e) => this.onChange(e),
+      onBlur: (e) => this.onBlur(e),
+    });
 
-    new InputRadioGroup(this.node.querySelector<HTMLDivElement>(`#${CONDITION_NODE}`), {
+    new InputRadioGroup(this.node.querySelector(`#${CONDITION_NODE}`), {
       title: 'Bilens skick',
       checked: this.state.value.condition as string,
       name: 'condition',
@@ -288,21 +284,18 @@ class PartTradeIn extends HtmlNode {
       onClick: (e) => this.onChangeRadio(e),
     });
 
-    this.contexts.buttonFetch = new ButtonArrowRight(
-      this.node.querySelector<HTMLDivElement>(`#${FETCH_NODE}`),
-      {
-        title: 'Hämta uppskattat värde',
-        id: FETCH,
-        disabled: !(
-          this.state.validation.registrationNumber &&
-          this.state.validation.mileage &&
-          this.state.validation.condition
-        ),
-        onClick: () => this.onFetchVehicle(),
-      }
-    );
+    this.contexts.buttonFetch = new ButtonArrowRight(this.node.querySelector(`#${FETCH_NODE}`), {
+      title: 'Hämta uppskattat värde',
+      id: FETCH,
+      disabled: !(
+        this.state.validation.registrationNumber &&
+        this.state.validation.mileage &&
+        this.state.validation.condition
+      ),
+      onClick: () => this.onFetchVehicle(),
+    });
 
-    new ButtonSkip(this.node.querySelector<HTMLDivElement>(`#${TRADE_IN_NO_NODE}`), {
+    new ButtonSkip(this.node.querySelector(`#${TRADE_IN_NO_NODE}`), {
       id: TRADE_IN_NO,
       title: 'Hoppa över detta steg',
       onClick: () => this.onNoTradeIn(),
