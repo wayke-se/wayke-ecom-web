@@ -1,7 +1,7 @@
 /// Import files using @use for styling in the breakpoint 'lt-md'
 
 // Components
-// @use '../materials/components/[component_name]/[component_name]-lt-md';
+@use '../materials/components/header/header-lt-md';
 @use '../materials/components/modal/modal-lt-md';
 
 // Layout
