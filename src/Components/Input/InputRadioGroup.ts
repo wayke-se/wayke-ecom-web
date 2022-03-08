@@ -51,34 +51,35 @@ class InputRadioGroup extends HtmlNode {
   }
 
   render() {
+    const { title, options, name, checked, error, errorMessage, onClick } = this.props;
     this.node.innerHTML = `
      <fieldset class="waykeecom-input-group" role="radiogroup" aria-required="true">
-        <legend class="waykeecom-input-group__legend">${this.props.title}</legend>
-        ${this.props.options
+        <legend class="waykeecom-input-group__legend">${title}</legend>
+        ${options
           .map((option) => `<div class="waykeecom-input-group__item" id="${option.id}-node"></div>`)
           .join('')}
       </fieldset>
     `;
 
     this.updateBorder();
-    if (this.props.errorMessage) {
+    if (errorMessage) {
       this.contexts.error = new InputError(this.node, {
-        error: this.props.error,
-        errorMessage: this.props.errorMessage,
+        error,
+        errorMessage,
       });
     }
 
-    this.props.options.forEach(
+    options.forEach(
       (option) =>
         new InputRadioField(this.node.querySelector<HTMLDivElement>(`#${option.id}-node`), {
           id: option.id,
-          name: this.props.name,
+          name,
           title: option.title || option.value,
           value: option.value,
-          checked: this.props.checked === option.value,
+          checked: checked === option.value,
           description: option.description,
           meta: option.meta,
-          onClick: (e) => this.props.onClick(e),
+          onClick: (e) => onClick(e),
         })
     );
   }

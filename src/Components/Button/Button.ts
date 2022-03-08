@@ -38,24 +38,23 @@ class Button extends HtmlNode {
   }
 
   render() {
+    const { title, id, disabled, loading, onClick } = this.props;
     this.node.innerHTML = `
       <button
         type="button"
-        id="${this.props.id}"
-        title="${this.props.title}"
-        ${this.props.disabled && `disabled=""`}
+        id="${id}"
+        title="${title}"
+        ${disabled && `disabled=""`}
         class="waykeecom-button waykeecom-button--full-width waykeecom-button--action"
       >
-        <span class="waykeecom-button__content">${this.props.title}</span>
+        <span class="waykeecom-button__content">${title}</span>
         <span class="waykeecom-button__content">
-          ${this.props.loading ? Loader({ type: 'inline' }) : ''}
+          ${loading ? Loader({ type: 'inline' }) : ''}
         </span>
       </button>
     `;
-    if (this.props.onClick) {
-      this.node
-        .querySelector<HTMLButtonElement>('button')
-        ?.addEventListener('click', this.props.onClick);
+    if (onClick) {
+      this.node.querySelector<HTMLButtonElement>('button')?.addEventListener('click', onClick);
     }
   }
 }

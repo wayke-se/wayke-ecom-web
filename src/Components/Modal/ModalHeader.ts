@@ -20,6 +20,7 @@ class ModalHeader extends HtmlNode {
   }
 
   render() {
+    const { title, onClose } = this.props;
     this.node.innerHTML = `
     <div class="waykeecom-container">
         <div class="waykeecom-modal__header-inner">
@@ -38,7 +39,7 @@ class ModalHeader extends HtmlNode {
           
           <div class="waykeecom-modal__logo">
             <h2 class="waykeecom-no-margin">
-              <span class="waykeecom-sr-only" id="wayke-ecom-title">${this.props.title}</span>
+              <span class="waykeecom-sr-only" id="wayke-ecom-title">${title}</span>
               <svg class="waykeecom-modal__logo--wordmark" viewBox="0 0 548.95 123.3" preserveAspectRatio="xMinYMid" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                 <title>Wayke wordmark</title>
                 <g>
@@ -90,7 +91,7 @@ class ModalHeader extends HtmlNode {
       </div>
     `;
     this.node.querySelectorAll<HTMLButtonElement>('button').forEach((button) => {
-      button.addEventListener('click', () => this.props.onClose());
+      button.addEventListener('click', () => onClose());
     });
   }
 }

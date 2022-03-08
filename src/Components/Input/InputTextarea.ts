@@ -7,7 +7,6 @@ interface InputTextareaProps {
   value: string;
   name: string;
   id: string;
-  unit?: string;
   error?: boolean;
   errorMessage?: string;
   placeholder?: string;
@@ -35,41 +34,53 @@ class InputTextarea extends HtmlNode {
   }
 
   private render() {
+    const {
+      title,
+      value,
+      name,
+      id,
+      error,
+      errorMessage,
+      placeholder,
+      information,
+      autocomplete,
+      onChange,
+      onBlur,
+    } = this.props;
+
     this.node.innerHTML = `
       <div class="waykeecom-input-label">
-        <label for="${this.props.id}" class="waykeecom-input-label__label">${
-      this.props.title
-    }</label>
+        <label for="${id}" class="waykeecom-input-label__label">${title}</label>
       </div>
       <textarea
-        id="${this.props.id}"
-        name="${this.props.name}"
-        ${this.props.autocomplete ? `autocomplete="${this.props.autocomplete}"` : ''}
-        ${this.props.placeholder ? `placeholder="${this.props.placeholder}"` : ''}
+        id="${id}"
+        name="${name}"
+        ${autocomplete ? `autocomplete="${autocomplete}"` : ''}
+        ${placeholder ? `placeholder="${placeholder}"` : ''}
         class="waykeecom-textarea"
-      >${this.props.value}</textarea>
+      >${value}</textarea>
     `;
 
-    if (this.props.errorMessage) {
+    if (errorMessage) {
       this.contexts.error = new InputError(this.node, {
-        error: this.props.error,
-        errorMessage: this.props.errorMessage,
+        error,
+        errorMessage,
       });
     }
 
-    if (this.props.information) {
+    if (information) {
       new InputInformation(this.node.querySelector<HTMLElement>('.waykeecom-input-label'), {
-        information: this.props.information,
+        information,
       });
     }
 
     const input = this.node.querySelector('textarea');
     if (input) {
-      if (this.props.onChange) {
-        input.addEventListener('input', this.props.onChange);
+      if (onChange) {
+        input.addEventListener('input', onChange);
       }
-      if (this.props.onBlur) {
-        input.addEventListener('blur', this.props.onBlur);
+      if (onBlur) {
+        input.addEventListener('blur', onBlur);
       }
     }
   }

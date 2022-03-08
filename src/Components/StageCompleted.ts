@@ -17,10 +17,11 @@ class StageCompleted extends HtmlNode {
   }
 
   render() {
+    const { keyValueList, changeButtonTitle, onEdit } = this.props;
     this.node.innerHTML = `
       <div class="waykeecom-stack waykeecom-stack--1">
         <ul class="waykeecom-key-value-list">
-          ${this.props.keyValueList
+          ${keyValueList
             .map((keyValue) =>
               KeyValueListItem({
                 key: keyValue.key,
@@ -32,14 +33,12 @@ class StageCompleted extends HtmlNode {
       </div>
       <div class="waykeecom-stack waykeecom-stack--1">
         <div class="waykeecom-align waykeecom-align--end">
-          <button type="button" title="${
-            this.props.changeButtonTitle
-          }" class="waykeecom-link">Ändra</button>
+          <button type="button" title="${changeButtonTitle}" class="waykeecom-link">Ändra</button>
         </div>
       </div>
     `;
 
-    this.node.querySelector('button')?.addEventListener('click', () => this.props.onEdit());
+    this.node.querySelector('button')?.addEventListener('click', () => onEdit());
   }
 }
 

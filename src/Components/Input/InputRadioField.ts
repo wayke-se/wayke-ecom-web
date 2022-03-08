@@ -21,42 +21,37 @@ class InputRadioField extends HtmlNode {
   }
 
   render() {
+    const { id, title, value, name, checked, meta, description, onClick } = this.props;
     this.node.innerHTML = `
       <div class="waykeecom-input-radio" role="radio">
         <input
           type="radio"
-          id="${this.props.id}"
-          value="${this.props.value}"
-          name="${this.props.name}"
-          ${this.props.checked ? 'checked="true"' : ''}
+          id="${id}"
+          value="${value}"
+          name="${name}"
+          ${checked ? 'checked="true"' : ''}
           class="waykeecom-input-radio__input"
         />
         <div class="waykeecom-input-radio__header">
-          <label for="${this.props.id}" class="waykeecom-input-radio__label">${
-      this.props.title
-    }</label>
-          ${
-            this.props.meta
-              ? `<div class="waykeecom-input-radio__meta">${this.props.meta}</div>`
-              : ''
-          }
+          <label for="${id}" class="waykeecom-input-radio__label">${title}</label>
+          ${meta ? `<div class="waykeecom-input-radio__meta">${meta}</div>` : ''}
         </div>
         ${
-          this.props.description
+          description
             ? `
-          <div class="waykeecom-input-radio__description">
-            ${this.props.description}
-          </div>
-        `
+              <div class="waykeecom-input-radio__description">
+                ${description}
+              </div>
+            `
             : ''
         }
       </div>
     `;
 
-    const input = this.node.querySelector(`#${this.props.id}`);
+    const input = this.node.querySelector(`#${id}`);
     if (input) {
-      if (this.props.onClick) {
-        input.addEventListener('click', this.props.onClick);
+      if (onClick) {
+        input.addEventListener('click', onClick);
       }
     }
   }

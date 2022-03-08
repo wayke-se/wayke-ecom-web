@@ -132,78 +132,67 @@ class InputRange extends HtmlNode {
   }
 
   render() {
-    const allowSlider = this.props.min !== this.props.max;
+    const { title, min, max, step, name, id, information, unit, onChange } = this.props;
+    const allowSlider = min !== max;
 
     this.node.innerHTML = `
       <div class="waykeecom-input-label">
-        <label for="${this.props.id}" class="waykeecom-input-label__label">${
-      this.props.title
-    }</label>
-        ${
-          this.props.information
-            ? `${InputHelp()}${this.props.information ? this.props.information : ''}`
-            : ''
-        }
+        <label for="${id}" class="waykeecom-input-label__label">${title}</label>
+        ${information ? `${InputHelp()}${information ? information : ''}` : ''}
       </div>
       <div role="range">
         <div class="waykeecom-stack waykeecom-stack--1">
           <div class="waykeecom-input-text">
             <input
               type="text"
-              id="${this.props.id}-input"
+              id="${id}-input"
               value="${this.inputFieldValue}"
-              name="${this.props.name}"
+              name="${name}"
               autocomplete="off"
               class="waykeecom-input-text__input"
-              ${this.props.step === 0 && `disabled=""`}
+              ${step === 0 && `disabled=""`}
             />
-            ${
-              this.props.unit
-                ? `<div class="waykeecom-input-text__unit">${this.props.unit}</div>`
-                : ''
-            }
+            ${unit ? `<div class="waykeecom-input-text__unit">${unit}</div>` : ''}
           </div>
         </div>
         ${
           allowSlider
             ? `
-          <div class="waykeecom-stack waykeecom-stack--1">
-            <div class="waykeecom-input-range">
-              <input
-                type="range"
-                id="${this.props.id}"
-                min="${this.props.min}"
-                max="${this.props.max}"
-                ${this.props.step !== undefined && `step="${this.props.step}"`}
-                value="${this.value}"
-                name="${this.props.name}"
-                class="waykeecom-input-range__input"
-              />
+            <div class="waykeecom-stack waykeecom-stack--1">
+              <div class="waykeecom-input-range">
+                <input
+                  type="range"
+                  id="${id}"
+                  min="${min}"
+                  max="${max}"
+                  ${step !== undefined && `step="${step}"`}
+                  value="${this.value}"
+                  name="${name}"
+                  class="waykeecom-input-range__input"
+                />
+              </div>
             </div>
-          </div>
-          `
+            `
             : ''
         }
       </div>
     `;
 
-    if (this.props.information) {
+    if (information) {
       this.node.querySelector('button')?.addEventListener('click', () => this.onOpenInformation());
     }
 
     if (allowSlider) {
-      const inputRange = this.node.querySelector<HTMLInputElement>(`#${this.props.id}`);
+      const inputRange = this.node.querySelector<HTMLInputElement>(`#${id}`);
       if (inputRange) {
-        if (this.props.onChange) {
-          inputRange.addEventListener('change', this.props.onChange);
+        if (onChange) {
+          inputRange.addEventListener('change', onChange);
         }
         inputRange.addEventListener('input', (e) => this.onInput(e));
-        //setTimeout(() => {
         this.updateRangeSliderColor(inputRange);
-        //}, 10);
       }
 
-      const inputField = this.node.querySelector(`#${this.props.id}-input`);
+      const inputField = this.node.querySelector(`#${id}-input`);
       if (inputField) {
         inputField.addEventListener('change', (e) => this.onChange(e));
         inputField.addEventListener('blur', (e) => this.onBlur(e));

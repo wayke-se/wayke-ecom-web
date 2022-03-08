@@ -24,6 +24,7 @@ class InputSelect extends HtmlNode {
   }
 
   render() {
+    const { id, options, value, onChange } = this.props;
     this.node.innerHTML = `
       <div class="waykeecom-input-label">
         <label for="wayke-estimated-mileage" class="waykeecom-input-label__label">Uppskattad körsträcka per år</label>
@@ -31,20 +32,20 @@ class InputSelect extends HtmlNode {
       <select
         class="waykeecom-select"
         id="wayke-estimated-mileage"
-        ${this.props.id ? `id="${this.props.id}"` : ''}
+        ${id ? `id="${id}"` : ''}
       >
-        ${this.props.options
+        ${options
           .map(
             (option) =>
               `<option value="${option.value}" ${
-                option.value === this.props.value ? `selected="selected"` : ''
+                option.value === value ? `selected="selected"` : ''
               }>${option.title || option.value}</option>`
           )
           .join('')}
       </select>
     `;
 
-    this.node.querySelector('select')?.addEventListener('change', (e) => this.props.onChange(e));
+    this.node.querySelector('select')?.addEventListener('change', (e) => onChange(e));
   }
 }
 

@@ -22,7 +22,6 @@ interface BankIdSignProps {
   errorMessage?: string;
   descriptionQrCode: string;
   descriptionSameDevice: string;
-  hint?: string;
   info?: string;
   title?: string;
   description?: string;
@@ -100,17 +99,32 @@ class BankIdSign extends HtmlNode {
   }
 
   render() {
-    const title = this.props.title
-      ? this.props.title
-      : this.props.method === AuthMethod.QrCode
+    const {
+      qrCode,
+      autoLaunchUrl,
+      method,
+      errorMessage,
+      descriptionQrCode,
+      descriptionSameDevice,
+      info,
+      title,
+      description,
+      finalizing,
+      onStart,
+      onAbort,
+    } = this.props;
+
+    const methodTitle = title
+      ? title
+      : method === AuthMethod.QrCode
       ? 'Öppna BankID och scanna QR-koden'
       : 'Skriv in din säkerhetskod i BankID-appen';
 
-    const description = this.props.description
-      ? this.props.description
-      : this.props.method === AuthMethod.QrCode
-      ? this.props.descriptionQrCode
-      : this.props.descriptionSameDevice;
+    const methodDescription = description
+      ? description
+      : method === AuthMethod.QrCode
+      ? descriptionQrCode
+      : descriptionSameDevice;
 
     this.node.innerHTML = `
       <div class="waykeecom-stack waykeecom-stack--2">
@@ -120,19 +134,15 @@ class BankIdSign extends HtmlNode {
         <div class="waykeecom-overlay">
           <div class="waykeecom-container waykeecom-container--narrow">
             <div class="waykeecom-stack waykeecom-stack--4" id="">
-              <h4 class="waykeecom-heading waykeecom-heading--4">${title}</h4>
+              <h4 class="waykeecom-heading waykeecom-heading--4">${methodTitle}</h4>
               <div class="waykeecom-content">
-                <p>${description}</p>
+                <p>${methodDescription}</p>
               </div>
             </div>
-            ${
-              this.props.info
-                ? ` <div class="waykeecom-stack waykeecom-stack--4"><p>${this.props.info}</p></div>`
-                : ''
-            }
+            ${info ? ` <div class="waykeecom-stack waykeecom-stack--4"><p>${info}</p></div>` : ''}
 
             ${
-              !this.props.finalizing
+              !finalizing
                 ? `
                   <div class="waykeecom-stack waykeecom-stack--4" id="${AUTH_METHOD_NODE}"></div>
                 `
@@ -141,7 +151,7 @@ class BankIdSign extends HtmlNode {
             <div class="waykeecom-stack waykeecom-stack--4">
               <div class="waykeecom-stack waykeecom-stack--3">
                 ${
-                  !this.props.finalizing
+                  !finalizing
                     ? `
                 <div class="waykeecom-stack waykeecom-stack--2" id="${BANKID_START_NODE}"></div>
                 `
@@ -155,36 +165,34 @@ class BankIdSign extends HtmlNode {
       </div>
     `;
 
-    if (!this.props.finalizing) {
-      if (this.props.method === AuthMethod.SameDevice) {
+    if (!finalizing) {
+      if (method === AuthMethod.SameDevice) {
         new BankIdSignSameDevice(this.node.querySelector<HTMLDivElement>(`#${AUTH_METHOD_NODE}`), {
-          autoLaunchUrl: this.props.autoLaunchUrl,
-          errorMessage: this.props.errorMessage,
+          autoLaunchUrl,
+          errorMessage,
         });
-      } else if (this.props.method === AuthMethod.QrCode) {
+      } else if (method === AuthMethod.QrCode) {
         new BankIdSignQrCode(this.node.querySelector<HTMLDivElement>(`#${AUTH_METHOD_NODE}`), {
-          qrCode: this.props.qrCode,
-          errorMessage: this.props.errorMessage,
+          qrCode,
+          errorMessage,
         });
       }
       const toggleMethodTitle =
-        this.props.method === AuthMethod.SameDevice
+        method === AuthMethod.SameDevice
           ? 'Mitt BankID är på en annan enhet'
           : 'Öppna BankID på den här enheten';
       new ButtonAsLink(this.node.querySelector<HTMLDivElement>(`#${BANKID_START_NODE}`), {
         title: toggleMethodTitle,
         id: BANKID_START,
         onClick: () =>
-          this.props.onStart(
-            this.props.method === AuthMethod.SameDevice ? AuthMethod.QrCode : AuthMethod.SameDevice
-          ),
+          onStart(method === AuthMethod.SameDevice ? AuthMethod.QrCode : AuthMethod.SameDevice),
       });
     }
 
     new ButtonAsLink(this.node.querySelector<HTMLDivElement>(`#${ABORT_NODE}`), {
       title: 'Avbryt',
       id: ABORT,
-      onClick: () => this.props.onAbort(),
+      onClick: () => onAbort(),
     });
   }
 }

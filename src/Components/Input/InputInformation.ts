@@ -24,7 +24,8 @@ class InputInformation extends HtmlNode {
   }
 
   render() {
-    if (this.props.information) {
+    const { information } = this.props;
+    if (information) {
       const existHelp = this.node.querySelector(`.${helpClassName}`);
       const existFoldout = this.node.querySelector(`.${foldoutClassName}`);
 
@@ -47,10 +48,10 @@ class InputInformation extends HtmlNode {
             </svg>
           </button>
         `;
-        const information = document.createElement('div');
-        information.className = foldoutClassName;
-        information.innerHTML = this.props.information;
-        label.parentNode?.appendChild(information);
+        const informationElement = document.createElement('div');
+        informationElement.className = foldoutClassName;
+        informationElement.innerHTML = information;
+        label.parentNode?.appendChild(informationElement);
       } else {
         existFoldout?.remove();
         label.innerHTML = `

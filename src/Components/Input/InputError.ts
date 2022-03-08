@@ -23,17 +23,18 @@ class InputError extends HtmlNode {
   }
 
   render() {
+    const { error, errorMessage } = this.props;
     const errorNode = this.node.querySelector(`.${errorInputClassName}`);
     if (errorNode) {
-      if (!this.props.error) {
+      if (!error) {
         errorNode.remove();
       }
     } else {
-      if (this.props.error) {
+      if (error) {
         const errorElement = document.createElement('div');
         errorElement.className = errorInputClassName;
         errorElement.setAttribute('role', 'alert');
-        errorElement.innerHTML = this.props.errorMessage;
+        errorElement.innerHTML = errorMessage;
         this.node.appendChild(errorElement);
       }
     }

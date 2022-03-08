@@ -19,10 +19,11 @@ class BankIdSignSameDevice extends HtmlNode {
   }
 
   render() {
-    if (this.props.errorMessage) {
+    const { autoLaunchUrl, errorMessage } = this.props;
+    if (errorMessage) {
       this.node.innerHTML = Alert({
         tone: 'error',
-        children: this.props.errorMessage,
+        children: errorMessage,
       });
       return;
     }
@@ -40,8 +41,8 @@ class BankIdSignSameDevice extends HtmlNode {
 
     new ButtonBankId(this.node, {
       title: 'Öppna BankID',
-      disabled: !this.props.autoLaunchUrl,
-      onClick: () => window.open(this.props.autoLaunchUrl, '_blank'),
+      disabled: !autoLaunchUrl,
+      onClick: () => window.open(autoLaunchUrl, '_blank'),
       htmlNodesettings: {
         htmlTag: 'div',
         className: 'waykeecom-stack waykeecom-stack--4',

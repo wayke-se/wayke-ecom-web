@@ -34,16 +34,17 @@ class Modal extends HtmlNode {
   }
 
   render() {
-    const container = new ModalContainer(this.node, { id: `${this.props.id}-container` });
-    const center = new ModalCenter(container.node, { id: `${this.props.id}-center` });
-    const dialog = new ModalDialog(center.node, { id: `${this.props.id}-dialog` });
+    const { title, id, onClose } = this.props;
+    const container = new ModalContainer(this.node, { id: `${id}-container` });
+    const center = new ModalCenter(container.node, { id: `${id}-center` });
+    const dialog = new ModalDialog(center.node, { id: `${id}-dialog` });
     new ModalHeader(dialog.node, {
-      title: this.props.title,
-      onClose: this.props.onClose,
-      id: `${this.props.id}-header`,
+      title,
+      onClose,
+      id: `${id}-header`,
     });
     const body = new ModalBody(dialog.node, {
-      id: `${this.props.id}-body`,
+      id: `${id}-body`,
     });
     return body.node;
   }

@@ -17,21 +17,22 @@ class BankIdSignQrCode extends HtmlNode {
   }
 
   render() {
-    if (this.props.errorMessage) {
+    const { qrCode, errorMessage } = this.props;
+    if (errorMessage) {
       this.node.innerHTML = Alert({
         tone: 'error',
-        children: this.props.errorMessage,
+        children: errorMessage,
       });
       return;
     }
 
     this.node.innerHTML = `
       ${
-        this.props.qrCode
+        qrCode
           ? `
             <div class="waykeecom-stack waykeecom-stack--4">
               <div class="waykeecom-align waykeecom-align--center">
-                <img src="data:image/png;base64, ${this.props.qrCode}" alt="BankID QR" class="waykeecom-qr" />
+                <img src="data:image/png;base64, ${qrCode}" alt="BankID QR" class="waykeecom-qr" />
               </div>
             </div>`
           : ''

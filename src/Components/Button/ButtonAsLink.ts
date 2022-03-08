@@ -22,20 +22,19 @@ class ButtonAsLink extends HtmlNode {
   }
 
   render() {
+    const { title, id, disabled, onClick } = this.props;
     this.node.innerHTML = `
       <button
-        id="${this.props.id}"
-        title="${this.props.title}"
+        id="${id}"
+        title="${title}"
         class="waykeecom-link"
-        ${this.props.disabled && `disabled=""`}
+        ${disabled && `disabled=""`}
       >
-        ${this.props.title}
+        ${title}
       </button>
     `;
-    if (this.props.onClick) {
-      this.node
-        .querySelector<HTMLButtonElement>('button')
-        ?.addEventListener('click', this.props.onClick);
+    if (onClick) {
+      this.node.querySelector<HTMLButtonElement>('button')?.addEventListener('click', onClick);
     }
   }
 }
