@@ -97,7 +97,10 @@ class EmailAndPhone extends HtmlNode {
   }
 
   onProceed() {
-    setContactAndPhone(this.state.value);
+    setContactAndPhone({
+      email: this.state.value.email.trim(),
+      phone: this.state.value.phone.trim(),
+    });
   }
 
   render() {

@@ -9,6 +9,7 @@ import Customer from './Customer';
 import Disclaimer from './Disclaimer';
 import ExecuteOrder from './ExecuteOrder';
 import HtmlNode from '../../Components/Extension/HtmlNode';
+import { scrollTop } from '../../Utils/scroll';
 
 const SUMMARY_NODE = 'summary-node';
 
@@ -27,6 +28,7 @@ class Summary extends HtmlNode {
       w((view) => {
         if (view === 3) {
           this.render();
+          scrollTop();
         }
       })
     );
@@ -35,6 +37,7 @@ class Summary extends HtmlNode {
     store.subscribe(w1(() => this.render()));
 
     this.render();
+    scrollTop();
   }
 
   render() {

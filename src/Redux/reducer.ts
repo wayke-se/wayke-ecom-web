@@ -33,7 +33,13 @@ import {
   SET_CREATED_ORDER_ID,
   SET_CREDIT_ASSESSMENT_RESPONSE,
 } from './action';
-import { mockCustomer } from './customerMock';
+
+let mock = {};
+try {
+  mock = require('../../statemock.json');
+} catch (e) {
+  mock = {};
+}
 
 export interface ReducerState {
   id: string;
@@ -74,17 +80,17 @@ const initialState: ReducerState = {
     ...initNavigation,
   },
   customer: {
-    // email: '',
-    // phone: '',
-    // givenName: '',
-    // surname: '',
-    // socialId: '',
-    ...mockCustomer,
+    email: '',
+    phone: '',
+    givenName: '',
+    surname: '',
+    socialId: '',
   },
   homeDelivery: false,
   centralStorage: false,
   accessories: [],
   drivingDistance: DrivingDistance.Between0And1000,
+  ...mock,
 };
 
 const getNextNavigationState = (currentStage: number, lastStage: boolean): Navigation =>
