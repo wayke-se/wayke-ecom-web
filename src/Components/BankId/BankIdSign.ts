@@ -127,39 +127,32 @@ class BankIdSign extends HtmlNode {
       : descriptionSameDevice;
 
     this.node.innerHTML = `
-      <div class="waykeecom-stack waykeecom-stack--2">
-        <hr class="waykeecom-separator" />
-      </div>
-      <div class="waykeecom-stack waykeecom-stack--2">
-        <div class="waykeecom-overlay">
-          <div class="waykeecom-container waykeecom-container--narrow">
-            <div class="waykeecom-stack waykeecom-stack--4" id="">
-              <h4 class="waykeecom-heading waykeecom-heading--4">${methodTitle}</h4>
-              <div class="waykeecom-content">
-                <p>${methodDescription}</p>
-              </div>
-            </div>
-            ${info ? ` <div class="waykeecom-stack waykeecom-stack--4"><p>${info}</p></div>` : ''}
+      <div class="waykeecom-text-center">
+        <div class="waykeecom-stack waykeecom-stack--4" id="">
+          <h4 class="waykeecom-heading waykeecom-heading--4">${methodTitle}</h4>
+          <div class="waykeecom-content">
+            <p>${methodDescription}</p>
+          </div>
+        </div>
+        ${info ? ` <div class="waykeecom-stack waykeecom-stack--4"><p>${info}</p></div>` : ''}
 
+        ${
+          !finalizing
+            ? `
+              <div class="waykeecom-stack waykeecom-stack--4" id="${AUTH_METHOD_NODE}"></div>
+            `
+            : `<div class="waykeecom-stack waykeecom-stack--4">${Loader()}</div>`
+        }
+        <div class="waykeecom-stack waykeecom-stack--4">
+          <div class="waykeecom-stack waykeecom-stack--3">
             ${
               !finalizing
                 ? `
-                  <div class="waykeecom-stack waykeecom-stack--4" id="${AUTH_METHOD_NODE}"></div>
-                `
-                : `<div class="waykeecom-stack waykeecom-stack--4">${Loader()}</div>`
+            <div class="waykeecom-stack waykeecom-stack--2" id="${BANKID_START_NODE}"></div>
+            `
+                : ''
             }
-            <div class="waykeecom-stack waykeecom-stack--4">
-              <div class="waykeecom-stack waykeecom-stack--3">
-                ${
-                  !finalizing
-                    ? `
-                <div class="waykeecom-stack waykeecom-stack--2" id="${BANKID_START_NODE}"></div>
-                `
-                    : ''
-                }
-                <div class="waykeecom-stack waykeecom-stack--2" id="${ABORT_NODE}"></div>
-              </div>
-            </div>
+            <div class="waykeecom-stack waykeecom-stack--2" id="${ABORT_NODE}"></div>
           </div>
         </div>
       </div>

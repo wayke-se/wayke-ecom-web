@@ -4,7 +4,7 @@
 .#{$namespace}overflow-grid {
   $item-spacing: size(2);
 
-  --container-gutter: #{scss-var(size, container, gutter, main)};
+  --container-gutter: var(--modal-gutter-x);
   --item-width: 80%;
 
   position: relative;

@@ -1,6 +1,9 @@
 @use '../../../helpers' as *;
 
 .#{$namespace}stepper {
+  margin: var(--modal-gutter-negative);
+  margin-top: 0;
+
   &__item {
     padding: size(4) size(2);
     border-top: size(1) solid color(bg, alt);

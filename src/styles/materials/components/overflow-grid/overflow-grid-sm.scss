@@ -1,7 +1,6 @@
 @use '../../../helpers' as *;
 
 .#{$namespace}overflow-grid {
-  --container-gutter: #{scss-var(size, container, gutter, sm)};
   --item-width: 50%;
 
   &__nav {

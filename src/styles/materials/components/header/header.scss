@@ -8,6 +8,7 @@
   justify-content: flex-end;
   position: relative;
   height: $header-height;
+  padding: 0 var(--modal-gutter-x);
 
   &__logo {
     position: absolute;

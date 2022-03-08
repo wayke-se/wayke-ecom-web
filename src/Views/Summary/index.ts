@@ -43,11 +43,7 @@ class Summary extends HtmlNode {
     const createdOrderId = state.createdOrderId;
 
     this.node.innerHTML = `
-      <div class="waykeecom-page">
-        <div class="waykeecom-page__body">
-          <div id="${SUMMARY_NODE}" class="waykeecom-container waykeecom-container--narrow"></div>
-        </div>
-      </div>
+      <div id="${SUMMARY_NODE}"></div>
     `;
 
     const content = this.node.querySelector<HTMLDivElement>(`#${SUMMARY_NODE}`);

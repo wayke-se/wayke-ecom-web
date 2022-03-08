@@ -40,16 +40,19 @@
   &__dialog {
     position: relative;
     width: 100%;
-    max-width: scss-var(size, container, max-width, narrow);
+    max-width: scss-var(size, modal, max-width);
     margin-left: auto;
     margin-right: auto;
     background-color: color(bg, main);
     color: color(text, main);
-    border-radius: scss-var(border, radius, alt);
     overflow: hidden;
   }
 
   &__header {
     padding-top: size(3);
+  }
+
+  &__body {
+    padding: var(--modal-gutter);
   }
 }

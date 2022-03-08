@@ -1,6 +1,7 @@
 /// Import files using @use for non-breakpoint specific styling
 
 // Partials
+@use '../partials/css-variables/css-variables';
 @use '../partials/font-face/font-face';
 @use '../partials/keyframes/keyframes';
 @use '../partials/reset';
@@ -19,6 +20,7 @@
 @use '../materials/components/disclaimer/disclaimer';
 @use '../materials/components/disclaimer-text/disclaimer-text';
 @use '../materials/components/extend-content/extend-content';
+@use '../materials/components/footer/footer';
 @use '../materials/components/header/header';
 @use '../materials/components/heading/heading';
 @use '../materials/components/icon/icon';
@@ -55,9 +57,6 @@
 
 // Layout
 @use '../materials/layout/align/align';
-@use '../materials/layout/container/container';
 @use '../materials/layout/hstack/hstack';
-@use '../materials/layout/overlay/overlay';
-@use '../materials/layout/page/page';
 @use '../materials/layout/stack/stack';
 @use '../materials/layout/stepper/stepper';

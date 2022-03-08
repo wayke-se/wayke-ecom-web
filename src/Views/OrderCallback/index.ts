@@ -15,14 +15,8 @@ class OrderCallback {
 
     if (!state.order) {
       this.element.innerHTML = `
-        <div class="waykeecom-page">
-          <div class="waykeecom-page__body">
-            <div class="waykeecom-container waykeecom-container--narrow">
-              <p>Tack för ditt köp</p>
-              <p>Orderid: ${this.waykeOrderId}</p>
-            </div>
-          </div>
-        </div>
+        <p>Tack för ditt köp</p>
+        <p>Orderid: ${this.waykeOrderId}</p>
       `;
       return;
     }

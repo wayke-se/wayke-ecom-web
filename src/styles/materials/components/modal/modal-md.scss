@@ -2,11 +2,12 @@
 
 .#{$namespace}modal {
   &__center {
-    padding: size(3);
+    padding: scss-var(size, modal, outer-spacing);
     vertical-align: middle;
   }
 
   &__dialog {
+    border-radius: scss-var(border, radius, alt);
     transform: translateY(size(1));
     animation: #{$namespace}fade-in 400ms ease, #{$namespace}no-transform 400ms ease forwards;
   }

@@ -1,0 +1,16 @@
+@use '../../helpers' as *;
+
+#{$root-body} {
+  $modal-gutter-x: size(2);
+  $modal-gutter-y: size(3);
+
+  // Positive gutter
+  --modal-gutter-x: #{$modal-gutter-x};
+  --modal-gutter-y: #{$modal-gutter-y};
+  --modal-gutter: var(--modal-gutter-y) var(--modal-gutter-x);
+
+  // Negative gutter (primarily used for negative margins)
+  --modal-gutter-negative-x: #{$modal-gutter-x * -1};
+  --modal-gutter-negative-y: #{$modal-gutter-y * -1};
+  --modal-gutter-negative: var(--modal-gutter-negative-y) var(--modal-gutter-negative-x);
+}

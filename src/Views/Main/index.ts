@@ -25,23 +25,16 @@ class Main extends HtmlNode {
 
     this.node.innerHTML = ``;
 
-    const pageForm = document.createElement('div');
-    pageForm.className = 'waykeecom-page-form';
-    this.node.appendChild(pageForm);
-
+    // TODO: Remove Aside and ItemTileSmall elements
     const pageFormAside = document.createElement('aside');
-    pageFormAside.className = 'waykeecom-page-form__aside';
     pageFormAside.setAttribute('aria-label', 'Fordonsinformation');
+    pageFormAside.setAttribute('hidden', '');
     pageFormAside.innerHTML = ItemTileSmall({ vehicle: state.vehicle, order: state.order });
-    pageForm.appendChild(pageFormAside);
-
-    const pageFormMain = document.createElement('div');
-    pageFormMain.className = 'waykeecom-page-form__main';
-    pageForm.appendChild(pageFormMain);
+    //this.node.appendChild(pageFormAside);
 
     const stepper = document.createElement('div');
     stepper.className = 'waykeecom-stepper';
-    pageFormMain.appendChild(stepper);
+    this.node.appendChild(stepper);
 
     const size = stages?.length;
     // Render stages

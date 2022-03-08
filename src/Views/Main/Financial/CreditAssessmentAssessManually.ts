@@ -29,21 +29,10 @@ class CreditAssessmentAssessManually extends HtmlNode {
 
   render() {
     this.node.innerHTML = `
-      <div class="waykeecom-stack waykeecom-stack--2">
-        <hr class="waykeecom-separator" />
-      </div>
-      <div class="waykeecom-stack waykeecom-stack--2">
-        <div class="waykeecom-overlay">
-          <div class="waykeecom-container waykeecom-container--narrow">
-            <div class="waykeecom-stack waykeecom-stack--4" id="${RESULT_NODE}"></div>
-            <div class="waykeecom-stack waykeecom-stack--4">
-              <div class="waykeecom-stack waykeecom-stack--3">
-                <div class="waykeecom-stack waykeecom-stack--2" id="${PROCEED_NODE}"></div>
-                <div class="waykeecom-stack waykeecom-stack--2" id="${ABORT_NODE}"></div>
-              </div>
-            </div>
-          </div>
-        </div>
+      <div class="waykeecom-stack waykeecom-stack--4" id="${RESULT_NODE}"></div>
+      <div class="waykeecom-stack waykeecom-stack--4">
+        <div class="waykeecom-stack waykeecom-stack--2" id="${PROCEED_NODE}"></div>
+        <div class="waykeecom-stack waykeecom-stack--2" id="${ABORT_NODE}"></div>
       </div>
     `;
 

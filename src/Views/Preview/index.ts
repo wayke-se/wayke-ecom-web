@@ -69,44 +69,28 @@ class Preview extends HtmlNode {
 
     if (!state.order) {
       this.node.innerHTML = `
-        <div class="waykeecom-page">
-          <div class="waykeecom-page__body">
-            <div class="waykeecom-container waykeecom-container--narrow">
-
-              ${
-                this.requestError
-                  ? Alert({
-                      tone: 'error',
-                      children: `<p>Ett fel uppstod och det gick inte att initiera modulen. Försök igen.</p>`,
-                    })
-                  : Loader()
-              }
-            </div>
-          </div>
-        </div>
+        ${
+          this.requestError
+            ? Alert({
+                tone: 'error',
+                children: `<p>Ett fel uppstod och det gick inte att initiera modulen. Försök igen.</p>`,
+              })
+            : Loader()
+        }
       `;
       return;
     }
 
     this.node.innerHTML = `
-      <div class="waykeecom-page">
-        <div class="waykeecom-page__body">
-          <div class="waykeecom-container waykeecom-container--narrow">
-            <div class="waykeecom-stack waykeecom-stack--3">
-              <h3 class="waykeecom-heading waykeecom-heading--3 waykeecom-no-margin">Vad roligt att du vill köpa denna bil!</h3>
-            </div>
-            <div class="waykeecom-stack waykeecom-stack--3">
-              ${ItemTileLarge({ vehicle: state.vehicle, order: state.order })}
-            </div>
-            ${HowTo({ order: state.order, stageOrderList: state.stages })}
-            <div class="waykeecom-stack waykeecom-stack--3" id="${PROCEED_BUTTON_NODE}"></div>
-          </div>
-        </div>
-        <footer class="waykeecom-page__footer">
-          <div class="waykeecom-container waykeecom-container--narrow" id="${PREVIEW_CHECKLIST_NODE}">
-          </div>
-        </footer>
+      <div class="waykeecom-stack waykeecom-stack--3">
+        <h3 class="waykeecom-heading waykeecom-heading--3 waykeecom-no-margin">Vad roligt att du vill köpa denna bil!</h3>
       </div>
+      <div class="waykeecom-stack waykeecom-stack--3">
+        ${ItemTileLarge({ vehicle: state.vehicle, order: state.order })}
+      </div>
+      ${HowTo({ order: state.order, stageOrderList: state.stages })}
+      <div class="waykeecom-stack waykeecom-stack--3" id="${PROCEED_BUTTON_NODE}"></div>
+      <footer class="waykeecom-footer" id="${PREVIEW_CHECKLIST_NODE}"></footer>
     `;
 
     this.contexts.buttonProceed = new ButtonArrowRight(

@@ -13,15 +13,9 @@ $variables: (
       desktop: size(6.5),
       mobile: size(6),
     ),
-    container: (
-      max-width: (
-        main: 1280px,
-        narrow: 850px,
-      ),
-      gutter: (
-        main: size(2),
-        sm: size(5),
-      ),
+    modal: (
+      max-width: 850px,
+      outer-spacing: size(3),
     ),
   ),
   font: (
@@ -68,7 +62,6 @@ $variables: (
     golden-ratio: list.slash(1.618, 1),
   ),
   z-index: (
-    overlay: 20,
     important: 2147483647, // Maximum value of 32-bit integer
   ),
 );

@@ -1,5 +1,8 @@
 /// Import files using @use for styling in the breakpoint 'sm'
 
+// Partials
+@use '../partials/css-variables/css-variables-sm';
+
 // Components
 @use '../materials/components/alert/alert-sm';
 @use '../materials/components/balloon/balloon-sm';
@@ -19,7 +22,4 @@
 @use '../materials/components/timeline/timeline-sm';
 
 // Layout
-@use '../materials/layout/container/container-sm';
-@use '../materials/layout/page/page-sm';
-@use '../materials/layout/page-form/page-form-sm';
 @use '../materials/layout/stepper/stepper-sm';
