@@ -4,26 +4,26 @@
 .#{$namespace}overflow-grid {
   $item-spacing: size(2);
 
-  --container-gutter: var(--modal-gutter-x);
-  --item-width: 80%;
+  --#{$namespace}container-gutter: var(--#{$namespace}#{$namespace}modal-gutter-x);
+  --#{$namespace}item-width: 80%;
 
   position: relative;
   margin: size(-2) 0;
 
   &__list-wrapper {
-    margin: 0 calc(var(--container-gutter) * -1);
+    margin: 0 calc(var(--#{$namespace}container-gutter) * -1);
   }
 
   &__list {
     display: flex;
     align-items: stretch;
     list-style: none;
-    padding: 0 var(--container-gutter);
+    padding: 0 var(--#{$namespace}container-gutter);
     margin: 0 math.div($item-spacing, -2);
     overflow: auto;
     overscroll-behavior-x: contain;
     scroll-snap-type: x mandatory;
-    scroll-padding-left: var(--container-gutter);
+    scroll-padding-left: var(--#{$namespace}container-gutter);
     scrollbar-width: none;
     -ms-overflow-style: none;
 
@@ -35,15 +35,15 @@
       content: '';
       display: block;
       flex-shrink: 0;
-      width: var(--container-gutter);
-      margin-right: calc(var(--container-gutter) * -1);
+      width: var(--#{$namespace}container-gutter);
+      margin-right: calc(var(--#{$namespace}container-gutter) * -1);
     }
   }
 
   &__item {
     flex: 1 0 auto;
-    width: var(--item-width);
-    max-width: var(--item-width);
+    width: var(--#{$namespace}item-width);
+    max-width: var(--#{$namespace}item-width);
     padding: size(2) math.div($item-spacing, 2);
     scroll-snap-align: start;
   }

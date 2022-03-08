@@ -3,10 +3,10 @@
 .#{$namespace}input-radio {
   $root: &;
 
-  --icon-size: #{size(2)};
-  --icon-margin: #{size(1)};
-  --label-size: #{scss-var(font, size, small)};
-  --label-line-height: #{scss-var(font, line-height, main)};
+  --#{$namespace}icon-size: #{size(2)};
+  --#{$namespace}icon-margin: #{size(1)};
+  --#{$namespace}label-size: #{scss-var(font, size, small)};
+  --#{$namespace}label-line-height: #{scss-var(font, line-height, main)};
 
   &__input {
     position: fixed;
@@ -48,17 +48,17 @@
   &__label {
     flex: 1 1 auto;
     display: flex;
-    line-height: var(--label-line-height);
+    line-height: var(--#{$namespace}label-line-height);
 
     &::before {
       content: '';
       flex-shrink: 0;
-      width: var(--icon-size);
-      height: var(--icon-size);
+      width: var(--#{$namespace}icon-size);
+      height: var(--#{$namespace}icon-size);
       border-radius: 50%;
       background-color: color(bg, alt);
-      margin-right: var(--icon-margin);
-      margin-top: calc((var(--icon-size) - var(--label-size) * var(--label-line-height)) / -2);
+      margin-right: var(--#{$namespace}icon-margin);
+      margin-top: calc((var(--#{$namespace}icon-size) - var(--#{$namespace}label-size) * var(--#{$namespace}label-line-height)) / -2);
       cursor: pointer;
     }
   }
@@ -70,7 +70,7 @@
 
   &__description {
     margin-top: size(1);
-    margin-left: calc(var(--icon-size) + var(--icon-margin));
+    margin-left: calc(var(--#{$namespace}icon-size) + var(--#{$namespace}icon-margin));
     font-size: scss-var(font, size, xsmall);
   }
 }

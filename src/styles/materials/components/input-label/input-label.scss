@@ -4,7 +4,7 @@
 .#{$namespace}input-label {
   $root: &;
 
-  --label-font-size: #{scss-var(font, size, xsmall)};
+  --#{$namespace}label-font-size: #{scss-var(font, size, xsmall)};
 
   display: flex;
   flex-wrap: wrap;
@@ -19,7 +19,7 @@
 
     display: block;
     color: color(text, main);
-    font-size: var(--label-font-size);
+    font-size: var(--#{$namespace}label-font-size);
 
     #{$root}--has-error & {
       color: color(ui, error, text);

@@ -1,8 +1,8 @@
 @use '../../../helpers' as *;
 
 .#{$namespace}key-value-list {
-  --key-font-size: #{scss-var(font, size, xsmall)};
-  --value-font-size: #{scss-var(font, size, small)};
+  --#{$namespace}key-font-size: #{scss-var(font, size, xsmall)};
+  --#{$namespace}value-font-size: #{scss-var(font, size, small)};
 
   $root: &;
 
@@ -29,14 +29,14 @@
     @include font-medium;
     
     padding-right: size(2);
-    font-size: var(--key-font-size);
+    font-size: var(--#{$namespace}key-font-size);
     line-height: scss-var(font, line-height, main);
-    margin-top: calc(((var(--key-font-size) * #{scss-var(font, line-height, main)}) - (var(--value-font-size) * #{scss-var(font, line-height, main)})) / -2);
+    margin-top: calc(((var(--#{$namespace}key-font-size) * #{scss-var(font, line-height, main)}) - (var(--#{$namespace}value-font-size) * #{scss-var(font, line-height, main)})) / -2);
   }
 
   &__value {
     flex: 1 1 auto;
-    font-size: var(--value-font-size);
+    font-size: var(--#{$namespace}value-font-size);
     line-height: scss-var(font, line-height, main);
     text-align: right;
   }

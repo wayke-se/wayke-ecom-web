@@ -3,7 +3,7 @@
 .#{$namespace}input-group {
   $root: &;
 
-  --legend-font-size: #{scss-var(font, size, xsmall)};
+  --#{$namespace}legend-font-size: #{scss-var(font, size, xsmall)};
 
   border: 0;
   padding: 0;
@@ -16,7 +16,7 @@
     padding: 0;
     margin-bottom: size(1);
     color: color(text, main);
-    font-size: var(--legend-font-size);
+    font-size: var(--#{$namespace}legend-font-size);
 
     #{$root}--has-error & {
       color: color(ui, error, text);

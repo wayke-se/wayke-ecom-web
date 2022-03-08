@@ -1,7 +1,7 @@
 @use '../../../helpers' as *;
 
 .#{$namespace}alert {
-  --content-size: #{scss-var(font, size, small)};
+  --#{$namespace}content-size: #{scss-var(font, size, small)};
 
   padding: size(2);
 

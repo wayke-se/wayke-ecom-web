@@ -46,6 +46,7 @@
     background-color: color(bg, main);
     color: color(text, main);
     overflow: hidden;
+    z-index: 1; // Required to guarantee position above modal root ::before
   }
 
   &__header {
@@ -53,6 +54,6 @@
   }
 
   &__body {
-    padding: var(--modal-gutter);
+    padding: var(--#{$namespace}modal-gutter);
   }
 }

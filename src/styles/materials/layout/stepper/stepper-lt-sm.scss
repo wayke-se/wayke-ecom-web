@@ -1,15 +1,15 @@
 @use '../../../helpers' as *;
 
 .#{$namespace}stepper {
-  margin: var(--modal-gutter-negative);
+  margin: var(--#{$namespace}modal-gutter-negative);
   margin-top: 0;
 
   &__item {
-    padding: size(4) size(2);
+    padding: size(4) var(--#{$namespace}modal-gutter-x);
     border-top: size(1) solid color(bg, alt);
   }
 
   &__break {
-    margin: 0 size(-2);
+    margin: 0 var(--#{$namespace}modal-gutter-negative-x);
   }
 }

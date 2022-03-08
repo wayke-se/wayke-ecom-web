@@ -1,8 +1,8 @@
 @use "../../../helpers" as *;
 
 .#{$namespace}footer {
-  padding: var(--modal-gutter);
-  margin: var(--modal-gutter-negative);
-  margin-top: var(--modal-gutter-y);
+  padding: var(--#{$namespace}modal-gutter);
+  margin: var(--#{$namespace}modal-gutter-negative);
+  margin-top: var(--#{$namespace}modal-gutter-y);
   background-color: color(bg, alt);
 }

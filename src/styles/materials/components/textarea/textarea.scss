@@ -2,7 +2,7 @@
 @use '../../../helpers' as *;
 
 .#{$namespace}textarea {
-  --textarea-padding: #{size(1.5)};
+  --#{$namespace}textarea-padding: #{size(1.5)};
 
   @include appearance(none);
 
@@ -10,7 +10,7 @@
   width: 100%;
   min-height: 150px;
   max-height: 500px;
-  padding: var(--textarea-padding);
+  padding: var(--#{$namespace}textarea-padding);
   border: scss-var(border, width, main) solid color(border, main);
   border-radius: scss-var(border, radius, main);
   box-shadow: scss-var(box-shadow, alt);

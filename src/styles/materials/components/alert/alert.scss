@@ -13,9 +13,9 @@
 .#{$namespace}alert {
   $root: &;
 
-  --icon-size: #{size(3)};
-  --content-size: #{scss-var(font, size, xsmall)};
-  --content-line-height: #{scss-var(font, line-height, main)};
+  --#{$namespace}icon-size: #{size(3)};
+  --#{$namespace}content-size: #{scss-var(font, size, xsmall)};
+  --#{$namespace}content-line-height: #{scss-var(font, line-height, main)};
 
   @include alert-tone(
     $root,
@@ -78,9 +78,9 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: var(--icon-size);
-    height: var(--icon-size);
-    margin-top: calc((var(--icon-size) - var(--content-size) * var(--content-line-height)) / -2);
+    width: var(--#{$namespace}icon-size);
+    height: var(--#{$namespace}icon-size);
+    margin-top: calc((var(--#{$namespace}icon-size) - var(--#{$namespace}content-size) * var(--#{$namespace}content-line-height)) / -2);
     border-radius: 50%;
     font-size: scss-var(font, size, small);
   }
@@ -90,8 +90,8 @@
 
     flex: 1 1 auto;
     min-width: 0;
-    font-size: var(--content-size);
-    line-height: var(--content-line-height);
+    font-size: var(--#{$namespace}content-size);
+    line-height: var(--#{$namespace}content-line-height);
 
     p,
     ul,

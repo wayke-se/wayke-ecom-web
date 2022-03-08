@@ -8,6 +8,7 @@
       }
     ],
     "color-function-notation": "legacy",
-    "alpha-value-notation": "number"
+    "alpha-value-notation": "number",
+    "custom-property-pattern": null
   }
 }
