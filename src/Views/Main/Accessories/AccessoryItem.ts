@@ -50,6 +50,11 @@ class AccessoryItem extends HtmlNode {
     if (this.displayInfo) {
       new AccessoryItemInfo(createPortal(), {
         accessory: this.accessory,
+        selected,
+        onClick: () => {
+          this.onInfoClose();
+          this.onClick();
+        },
         onClose: () => this.onInfoClose(),
       });
     }

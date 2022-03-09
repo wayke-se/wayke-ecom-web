@@ -1,9 +1,18 @@
 import { IAccessory } from '@wayke-se/ecom/dist-types/orders/types';
+import ButtonAddRemove from '../../../Components/Button/ButtonAddRemove';
+import ButtonAsLinkArrowLeft from '../../../Components/Button/ButtonAsLinkArrowLeft';
 import HtmlNode from '../../../Components/Extension/HtmlNode';
 import { prettyNumber } from '../../../Utils/format';
+import { scrollTop } from '../../../Utils/scroll';
+
+const BUTTON_TOP_LEFT_NODE = 'accessory-button-top-left-node';
+const BUTTON_BOTTOM_LEFT_NODE = 'accessory-button-bottom-left-node';
+const BUTTON_ACCESSORY_ADD_REMOVE_NODE = 'accessory-add-remove-node';
 
 interface AccessoryItemInfoProps {
   accessory: IAccessory;
+  selected: boolean;
+  onClick: () => void;
   onClose: () => void;
 }
 
@@ -17,26 +26,12 @@ class AccessoryItemInfo extends HtmlNode {
   }
 
   render() {
-    const { accessory, onClose } = this.props;
+    const { accessory, selected, onClick, onClose } = this.props;
     const { name, media, logoUrl, price, shortDescription, longDescription, salePrice } = accessory;
     const image = media?.[0]?.url;
 
     this.node.innerHTML = `
-      <div class="waykeecom-stack waykeecom-stack--2">
-        <button type="button" class="waykeecom-link waykeecom-link--has-content" title="Tillbaka">
-          <span class="waykeecom-link__content">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 16 16"
-              class="waykeecom-icon"
-              data-icon="Arrow left"
-            >
-              <path d="m.8 7.2 4.8-4.8 1.7 1.7-2.7 2.7h10.2c.7 0 1.2.5 1.2 1.2s-.5 1.2-1.2 1.2H4.6l2.7 2.7-1.7 1.7L.8 8.8 0 8l.8-.8z"/>
-            </svg>
-          </span>
-          <span class="waykeecom-link__content">Tillbaka</span>
-        </button>
-      </div>
+      <div class="waykeecom-stack waykeecom-stack--2" id="${BUTTON_TOP_LEFT_NODE}"></div>
       <div class="waykeecom-stack waykeecom-stack--3">
 
         <div class="waykeecom-hstack waykeecom-hstack--align-center waykeecom-hstack--spacing-3">
@@ -89,9 +84,28 @@ class AccessoryItemInfo extends HtmlNode {
           <p>${longDescription}</p>
         </div>
       </div>
+      <div class="waykeecom-stack waykeecom-stack--3">
+        <div class="waykeecom-stack waykeecom-stack--2" id="${BUTTON_BOTTOM_LEFT_NODE}"></div>
+        <div class="waykeecom-stack waykeecom-stack--2" id="${BUTTON_ACCESSORY_ADD_REMOVE_NODE}"></div>
+      </div>
     `;
 
-    this.node.querySelector('button')?.addEventListener('click', () => onClose());
+    new ButtonAsLinkArrowLeft(this.node.querySelector(`#${BUTTON_TOP_LEFT_NODE}`), {
+      title: 'Tillbaka',
+      onClick: () => onClose(),
+    });
+
+    new ButtonAsLinkArrowLeft(this.node.querySelector(`#${BUTTON_BOTTOM_LEFT_NODE}`), {
+      title: 'Tillbaka',
+      onClick: () => onClose(),
+    });
+
+    new ButtonAddRemove(this.node.querySelector(`#${BUTTON_ACCESSORY_ADD_REMOVE_NODE}`), {
+      selected,
+      onClick: () => onClick(),
+    });
+
+    scrollTop();
   }
 }
 
