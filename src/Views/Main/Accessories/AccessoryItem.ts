@@ -48,7 +48,10 @@ class AccessoryItem extends HtmlNode {
       state.accessories.findIndex((accessory) => accessory.id === this.accessory.id) > -1;
 
     if (this.displayInfo) {
-      new AccessoryItemInfo(createPortal(), { onClose: () => this.onInfoClose() });
+      new AccessoryItemInfo(createPortal(), {
+        accessory: this.accessory,
+        onClose: () => this.onInfoClose(),
+      });
     }
 
     new GridItem(
