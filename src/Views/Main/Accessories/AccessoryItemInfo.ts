@@ -1,6 +1,9 @@
+import { IAccessory } from '@wayke-se/ecom/dist-types/orders/types';
 import HtmlNode from '../../../Components/Extension/HtmlNode';
+import { prettyNumber } from '../../../Utils/format';
 
 interface AccessoryItemInfoProps {
+  accessory: IAccessory;
   onClose: () => void;
 }
 
@@ -14,6 +17,10 @@ class AccessoryItemInfo extends HtmlNode {
   }
 
   render() {
+    const { accessory, onClose } = this.props;
+    const { name, media, logoUrl, price, shortDescription, longDescription, salePrice } = accessory;
+    const image = media?.[0]?.url;
+
     this.node.innerHTML = `
       <div class="waykeecom-stack waykeecom-stack--2">
         <button type="button" class="waykeecom-link waykeecom-link--has-content" title="Tillbaka">
@@ -31,11 +38,33 @@ class AccessoryItemInfo extends HtmlNode {
         </button>
       </div>
       <div class="waykeecom-stack waykeecom-stack--2">
-        <p>info yo</p>
+        ${name}
+      </div>
+      <div class="waykeecom-stack waykeecom-stack--2">
+        ${image ? `<img src="${image}" alt="" />` : ''}
+        <img src="${logoUrl}" alt="" />
+      </div>
+      
+      <div class="waykeecom-stack waykeecom-stack--2">
+        ${
+          salePrice
+            ? `<div>${prettyNumber(salePrice, {
+                postfix: 'kr',
+              })}<span style="text-decoration=line-through">(${prettyNumber(price, {
+                postfix: 'kr',
+              })})</span></div>`
+            : `<div>${prettyNumber(price, { postfix: 'kr' })}</div>`
+        }
+      </div>
+      <div class="waykeecom-stack waykeecom-stack--2">
+          ${shortDescription}
+      </div>
+      <div class="waykeecom-stack waykeecom-stack--2">
+          ${longDescription}
       </div>
     `;
 
-    this.node.querySelector('button')?.addEventListener('click', () => this.props.onClose());
+    this.node.querySelector('button')?.addEventListener('click', () => onClose());
   }
 }
 
