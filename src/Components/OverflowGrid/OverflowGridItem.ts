@@ -1,5 +1,9 @@
 import { renderConditional } from '../../Utils/render';
+import ButtonAddRemove from '../Button/ButtonAddRemove';
 import HtmlNode from '../Extension/HtmlNode';
+
+const BUTTON_ADD_REMOVE = 'button-add-remove';
+const BUTTON_ADD_REMOVE_NODE = `${BUTTON_ADD_REMOVE}-node`;
 
 const READ_MORE = 'read-more';
 const READ_MORE_NODE = `${READ_MORE}-node`;
@@ -29,6 +33,7 @@ class GridItem extends HtmlNode {
     const { id, title, image, logo, price, description, selected, onClick, onInfo } = this.props;
 
     const onInfoId = id && onInfo ? `${READ_MORE_NODE}-${id}` : undefined;
+    const addRemoveButtonNodeId = id ? `${BUTTON_ADD_REMOVE_NODE}-${id}` : undefined;
 
     this.node.innerHTML = `
       <div class="waykeecom-tile">
@@ -55,31 +60,7 @@ class GridItem extends HtmlNode {
               : ''
           }
         </div>
-        <div class="waykeecom-tile__footer">
-          <button
-            type="button"
-            title="${selected ? 'Vald' : 'Lägg till'}"
-            class="waykeecom-button waykeecom-button--size-small ${
-              selected ? 'waykeecom-button--action-alt' : 'waykeecom-button--action'
-            }"
-          >
-            <span class="waykeecom-button__content">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 16 16"
-                class="waykeecom-icon"
-              >
-                <title>Ikon: ${selected ? 'bock' : 'plus'}</title>
-                ${
-                  selected
-                    ? '<path d="M12.3 3.3 6 9.6 3.7 7.3c-.4-.4-1-.4-1.4 0-.4.4-.4 1 0 1.4l3 3c.4.4 1 .4 1.4 0l7-7c.4-.4.4-1 0-1.4-.4-.4-1-.4-1.4 0z"/>'
-                    : '<path d="M14 7v2H9v5H7V9H2V7h5V2h2v5h5z" />'
-                }
-              </svg>
-            </span>
-            <span class="waykeecom-button__content">${selected ? 'Vald' : 'Lägg till'}</span>
-          </button>
-        </div>
+        <div class="waykeecom-tile__footer" id="${addRemoveButtonNodeId}"></div>
       </div>
     `;
 
@@ -87,9 +68,10 @@ class GridItem extends HtmlNode {
       this.node.querySelector(`#${onInfoId}`)?.addEventListener('click', () => onInfo());
     }
 
-    this.node
-      .querySelector('.waykeecom-tile__footer button')
-      ?.addEventListener('click', () => onClick());
+    new ButtonAddRemove(this.node.querySelector(`#${addRemoveButtonNodeId}`), {
+      selected,
+      onClick: () => onClick(),
+    });
   }
 }
 
