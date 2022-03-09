@@ -31,7 +31,6 @@ class ModalHeader extends HtmlNode {
             class="waykeecom-icon"
             aria-hidden="true"
           >
-            <title>Ikon: stäng</title>
             <path d="M9.1 8l5.9 5.9-1.1 1.1L8 9.1 2.1 15 1 13.9 6.9 8 1 2.1 2.1 1 8 6.9 13.9 1 15 2.1 9.1 8z" />
           </svg>
         </button>

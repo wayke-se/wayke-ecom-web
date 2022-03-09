@@ -44,11 +44,7 @@ class GridItem extends HtmlNode {
           </div>
           <div class="waykeecom-tile__price">${price}</div>
           <div class="waykeecom-tile__description">
-            <div class="waykeecom-extend-content">
-              <div class="waykeecom-extend-content__body">
-                ${description}
-              </div>
-            </div>
+            ${description}
           </div>
           ${
             onInfoId

@@ -26,6 +26,9 @@
 
   &__close-btn {
     position: relative;
+    z-index: 1;
+    transform-origin: 50% 50%;
+    transition: transform 200ms ease;
 
     &::before {
       content: '';
@@ -34,6 +37,23 @@
       bottom: size(-2);
       left: size(-2);
       right: size(-2);
+      background: color(bg, alt);
+      border-radius: 50%;
+      z-index: -1;
+      opacity: 0;
+      transition: opacity 200ms ease;
+    }
+
+    &:enabled {
+      &:hover {
+        &::before {
+          opacity: 1;
+        }
+      }
+    }
+
+    &:active {
+      transform: scale(0.95);
     }
   }
 }

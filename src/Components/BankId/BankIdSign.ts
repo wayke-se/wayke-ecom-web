@@ -144,16 +144,14 @@ class BankIdSign extends HtmlNode {
             : `<div class="waykeecom-stack waykeecom-stack--4">${Loader()}</div>`
         }
         <div class="waykeecom-stack waykeecom-stack--4">
-          <div class="waykeecom-stack waykeecom-stack--3">
-            ${
-              !finalizing
-                ? `
-            <div class="waykeecom-stack waykeecom-stack--2" id="${BANKID_START_NODE}"></div>
-            `
-                : ''
-            }
-            <div class="waykeecom-stack waykeecom-stack--2" id="${ABORT_NODE}"></div>
-          </div>
+          ${
+            !finalizing
+              ? `
+          <div class="waykeecom-stack waykeecom-stack--2" id="${BANKID_START_NODE}"></div>
+          `
+              : ''
+          }
+          <div class="waykeecom-stack waykeecom-stack--2" id="${ABORT_NODE}"></div>
         </div>
       </div>
     `;
