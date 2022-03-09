@@ -44,13 +44,6 @@ class Financial extends HtmlNode {
       this.render();
     });
 
-    watch('paymentLookupResponse', () => {
-      const { paymentType, paymentLookupResponse } = store.getState();
-      this.paymentType = paymentType || this.paymentType;
-      this.paymentLookupResponse = paymentLookupResponse;
-      this.render(true);
-    });
-
     const state = store.getState();
     const { paymentLookupResponse, paymentType } = state;
 
