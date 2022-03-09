@@ -2,7 +2,7 @@ import HtmlNode from '../Extension/HtmlNode';
 
 interface ButtonAsLinkProps {
   title: string;
-  id: string;
+  id?: string;
   disabled?: boolean;
   onClick?: (e: Event) => void;
 }
@@ -25,7 +25,7 @@ class ButtonAsLink extends HtmlNode {
     const { title, id, disabled, onClick } = this.props;
     this.node.innerHTML = `
       <button
-        id="${id}"
+        ${id ? `id="${id}"` : ''}
         title="${title}"
         class="waykeecom-link"
         ${disabled && `disabled=""`}

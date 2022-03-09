@@ -1,5 +1,5 @@
-import { renderConditional } from '../../Utils/render';
 import ButtonAddRemove from '../Button/ButtonAddRemove';
+import ButtonAsLink from '../Button/ButtonAsLink';
 import HtmlNode from '../Extension/HtmlNode';
 
 const BUTTON_ADD_REMOVE = 'button-add-remove';
@@ -37,7 +37,7 @@ class GridItem extends HtmlNode {
 
     this.node.innerHTML = `
       <div class="waykeecom-tile">
-        ${renderConditional(!!image, `<img src="${image}" alt="" class="waykeecom-tile__hero" />`)}
+        ${image ? `<img src="${image}" alt="" class="waykeecom-tile__hero" />` : ''}
         <div class="waykeecom-tile__body">
           <div class="waykeecom-tile__header">
             <div class="waykeecom-tile__title">${title}</div>
@@ -54,9 +54,7 @@ class GridItem extends HtmlNode {
           ${
             onInfoId
               ? `
-                <div class="waykeecom-tile__read-more" id="${onInfoId}">
-                  <button type="button" title="" class="waykeecom-link">Läs mer</button>
-                </div>`
+                <div class="waykeecom-tile__read-more" id="${onInfoId}"></div>`
               : ''
           }
         </div>
@@ -64,8 +62,11 @@ class GridItem extends HtmlNode {
       </div>
     `;
 
-    if (onInfo && onInfoId) {
-      this.node.querySelector(`#${onInfoId}`)?.addEventListener('click', () => onInfo());
+    if (onInfo) {
+      new ButtonAsLink(this.node.querySelector(`#${onInfoId}`), {
+        title: 'Läs mer',
+        onClick: () => onInfo(),
+      });
     }
 
     new ButtonAddRemove(this.node.querySelector(`#${addRemoveButtonNodeId}`), {
