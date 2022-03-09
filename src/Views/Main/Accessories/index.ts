@@ -71,9 +71,9 @@ class Accessories extends HtmlNode {
       part.innerHTML = `
         <div class="waykeecom-stack waykeecom-stack--3">
           <div class="waykeecom-stack waykeecom-stack--2">
-            <h4 class="waykeecom-heading waykeecom-heading--4">Vill du teckna en försäkring på din nya bil?</h4>
+            <h4 class="waykeecom-heading waykeecom-heading--4">Vill du köpa till ett tillbehör till din nya bil?</h4>
             <div class="waykeecom-content">
-              <p>Ange din uppskattade körsträcka för att se din försäkringskostnad. Därefter presenterar vi förslag på försäkringar som passar dig och din nya bil. I både hel- och halvförsäkring ingår trafikförsäkring som är obligatoriskt att ha. Ifall du har valt att finansiera bilen med ett billån är priset du ser rabatterat.</p>
+              <p>Här visar vi några av de tillbehör som passar din nya bil.</p>
             </div>
           </div>
         </div>

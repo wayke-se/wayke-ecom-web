@@ -4,14 +4,13 @@
 .#{$namespace}overflow-grid {
   $item-spacing: size(2);
 
-  --#{$namespace}container-gutter: var(--#{$namespace}#{$namespace}modal-gutter-x);
   --#{$namespace}item-width: 80%;
 
   position: relative;
   margin: size(-2) 0;
 
   &__list-wrapper {
-    margin: 0 calc(var(--#{$namespace}container-gutter) * -1);
+    margin: 0 var(--#{$namespace}modal-gutter-negative-x);
   }
 
   &__list {
@@ -20,19 +19,19 @@
     display: flex;
     align-items: stretch;
     list-style: none;
-    padding: 0 var(--#{$namespace}container-gutter);
+    padding: 0 var(--#{$namespace}modal-gutter-x);
     margin: 0 math.div($item-spacing, -2);
     overflow: auto;
     overscroll-behavior-x: contain;
     scroll-snap-type: x mandatory;
-    scroll-padding-left: var(--#{$namespace}container-gutter);
+    scroll-padding-left: var(--#{$namespace}modal-gutter-x);
 
     &::after {
       content: '';
       display: block;
       flex-shrink: 0;
-      width: var(--#{$namespace}container-gutter);
-      margin-right: calc(var(--#{$namespace}container-gutter) * -1);
+      width: var(--#{$namespace}modal-gutter-x);
+      margin-right: var(--#{$namespace}modal-gutter-negative-x);
     }
   }
 
