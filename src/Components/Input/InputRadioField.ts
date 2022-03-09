@@ -39,9 +39,9 @@ class InputRadioField extends HtmlNode {
         ${
           description
             ? `
-              <div class="waykeecom-input-radio__description">
+              <label for="${id}" class="waykeecom-input-radio__description">
                 ${description}
-              </div>
+              </label>
             `
             : ''
         }

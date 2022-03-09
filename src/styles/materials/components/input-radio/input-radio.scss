@@ -69,8 +69,9 @@
   }
 
   &__description {
-    margin-top: size(1);
-    margin-left: calc(var(--#{$namespace}icon-size) + var(--#{$namespace}icon-margin));
+    display: block;
+    padding-top: size(1);
+    padding-left: calc(var(--#{$namespace}icon-size) + var(--#{$namespace}icon-margin));
     font-size: scss-var(font, size, xsmall);
   }
 }
