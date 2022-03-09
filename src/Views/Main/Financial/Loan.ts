@@ -50,6 +50,12 @@ class Loan {
   private paymentLookupResponse: PaymentLookupResponse;
   private paymentRequestFailed?: boolean;
   private lastEditedField: LoanNames = 'downPayment';
+  private contexts: {
+    downPayment?: InputRange;
+    duration?: InputRange;
+    residual?: InputRange;
+    loanDetails?: LoanDetails;
+  } = {};
 
   constructor(element: HTMLDivElement, props: LoanProps) {
     this.element = element;
@@ -71,8 +77,14 @@ class Loan {
   }
 
   async payment() {
-    this.paymentRequestFailed = false;
-    this.render();
+    this.contexts.downPayment?.disabled(true);
+    this.contexts.duration?.disabled(true);
+    this.contexts.residual?.disabled(true);
+
+    if (this.paymentRequestFailed) {
+      this.paymentRequestFailed = false;
+      this.render();
+    }
 
     try {
       const response = await getPayment({
@@ -89,10 +101,13 @@ class Loan {
         residual: response.getResidualValueSpec(),
       };
       setPaymentLookupResponse(response);
+      this.update();
+      this.contexts.downPayment?.disabled(false);
+      this.contexts.duration?.disabled(false);
+      this.contexts.residual?.disabled(false);
     } catch (e) {
       this.paymentRequestFailed = true;
       this.render();
-      throw e;
     }
   }
 
@@ -105,6 +120,13 @@ class Loan {
       name === 'residual' ? parseInt(value, 10) / 100 : parseInt(value, 10);
     this.lastEditedField = name;
     this.payment();
+  }
+
+  update() {
+    this.contexts.loanDetails?.update({
+      loan: this.props.loan,
+      paymentLookupResponse: this.paymentLookupResponse,
+    });
   }
 
   render() {
@@ -146,53 +168,65 @@ class Loan {
       ${
         shouldUseCreditScoring
           ? `
-        <div class="waykeecom-stack waykeecom-stack--3" id="${CREDIT_ASSESMENT_NODE}"></div>
-      `
+            <div class="waykeecom-stack waykeecom-stack--3" id="${CREDIT_ASSESMENT_NODE}"></div>
+          `
           : `<div class="waykeecom-stack waykeecom-stack--3" id="${PROCEED_NODE}"></div>`
       }
     `;
 
-    new InputRange(this.element.querySelector<HTMLDivElement>(`#${DOWNPAYMENT_RANGE_NODE}`), {
-      title: 'Kontantinsats',
-      value: this.paymentState.downPayment.current,
-      id: DOWNPAYMENT_RANGE,
-      name: 'downPayment',
-      onChange: (e) => this.onChange(e),
-      min: this.paymentState.downPayment.min,
-      max: this.paymentState.downPayment.max,
-      unit: 'kr',
-    });
+    this.contexts.downPayment = new InputRange(
+      this.element.querySelector<HTMLDivElement>(`#${DOWNPAYMENT_RANGE_NODE}`),
+      {
+        title: 'Kontantinsats',
+        value: this.paymentState.downPayment.current,
+        id: DOWNPAYMENT_RANGE,
+        name: 'downPayment',
+        onChange: (e) => this.onChange(e),
+        min: this.paymentState.downPayment.min,
+        max: this.paymentState.downPayment.max,
+        unit: 'kr',
+      }
+    );
 
-    new InputRange(this.element.querySelector<HTMLDivElement>(`#${DURATION_RANGE_NODE}`), {
-      title: 'Avbetalning',
-      value: this.paymentState.duration.current,
-      id: DURATION_RANGE,
-      name: 'duration',
-      onChange: (e) => this.onChange(e),
-      min: this.paymentState.duration.min,
-      max: this.paymentState.duration.max,
-      step: this.paymentState.duration.step,
-      unit: 'mån',
-    });
+    this.contexts.duration = new InputRange(
+      this.element.querySelector<HTMLDivElement>(`#${DURATION_RANGE_NODE}`),
+      {
+        title: 'Avbetalning',
+        value: this.paymentState.duration.current,
+        id: DURATION_RANGE,
+        name: 'duration',
+        onChange: (e) => this.onChange(e),
+        min: this.paymentState.duration.min,
+        max: this.paymentState.duration.max,
+        step: this.paymentState.duration.step,
+        unit: 'mån',
+      }
+    );
 
     if (this.paymentState.residual) {
-      new InputRange(this.element.querySelector<HTMLDivElement>(`#${RESIDUAL_RANGE_NODE}`), {
-        title: 'Restvärde',
-        value: this.paymentState.residual.current * 100,
-        id: RESIDUAL_RANGE,
-        name: 'residual',
-        onChange: (e) => this.onChange(e),
-        min: this.paymentState.residual.min * 100,
-        max: this.paymentState.residual.max * 100,
-        step: this.paymentState.residual.step * 100,
-        unit: '%',
-      });
+      this.contexts.residual = new InputRange(
+        this.element.querySelector<HTMLDivElement>(`#${RESIDUAL_RANGE_NODE}`),
+        {
+          title: 'Restvärde',
+          value: this.paymentState.residual.current * 100,
+          id: RESIDUAL_RANGE,
+          name: 'residual',
+          onChange: (e) => this.onChange(e),
+          min: this.paymentState.residual.min * 100,
+          max: this.paymentState.residual.max * 100,
+          step: this.paymentState.residual.step * 100,
+          unit: '%',
+        }
+      );
     }
 
-    new LoanDetails(this.element.querySelector<HTMLDivElement>(`#${LOAN_DETAILS_NODE}`), {
-      loan: this.props.loan,
-      paymentLookupResponse: this.paymentLookupResponse,
-    });
+    this.contexts.loanDetails = new LoanDetails(
+      this.element.querySelector<HTMLDivElement>(`#${LOAN_DETAILS_NODE}`),
+      {
+        loan: this.props.loan,
+        paymentLookupResponse: this.paymentLookupResponse,
+      }
+    );
 
     if (shouldUseCreditScoring) {
       new CreditAssessment(

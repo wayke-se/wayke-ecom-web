@@ -23,6 +23,7 @@ interface InputRangeProps {
   id: string;
   information?: string;
   unit?: string;
+  disabled?: boolean;
   onChange?: (e: Event) => void;
   onBlur?: (e: Event) => void;
 }
@@ -33,6 +34,9 @@ class InputRange extends HtmlNode {
   private inputFieldValue: string;
   private rangeSpan: number;
   private currentValueInPercentage: number;
+  private contexts: {
+    rangeSlider?: HTMLInputElement;
+  } = {};
 
   constructor(element: HTMLDivElement | null, props: InputRangeProps) {
     super(element);
@@ -47,6 +51,13 @@ class InputRange extends HtmlNode {
     );
 
     this.render();
+  }
+
+  disabled(disabled: boolean) {
+    if (this.props.disabled !== disabled) {
+      this.props.disabled = disabled;
+      this.render();
+    }
   }
 
   onOpenInformation() {
@@ -79,6 +90,10 @@ class InputRange extends HtmlNode {
       }
 
       this.inputFieldValue = formatNumberPretty(this.value, this.props.unit);
+      this.currentValueInPercentage = parseInt(
+        (100 * ((this.value - this.props.min) / this.rangeSpan)).toString(),
+        10
+      );
 
       this.render();
     } else {
@@ -132,7 +147,7 @@ class InputRange extends HtmlNode {
   }
 
   render() {
-    const { title, min, max, step, name, id, information, unit, onChange } = this.props;
+    const { title, min, max, step, name, id, information, unit, disabled, onChange } = this.props;
     const allowSlider = min !== max;
 
     this.node.innerHTML = `
@@ -150,7 +165,7 @@ class InputRange extends HtmlNode {
               name="${name}"
               autocomplete="off"
               class="waykeecom-input-text__input"
-              ${step === 0 && `disabled=""`}
+              ${(step === 0 || disabled) && `disabled=""`}
             />
             ${unit ? `<div class="waykeecom-input-text__unit">${unit}</div>` : ''}
           </div>
@@ -169,6 +184,7 @@ class InputRange extends HtmlNode {
                   value="${this.value}"
                   name="${name}"
                   class="waykeecom-input-range__input"
+                  ${disabled && `disabled=""`}
                 />
               </div>
             </div>
@@ -183,13 +199,13 @@ class InputRange extends HtmlNode {
     }
 
     if (allowSlider) {
-      const inputRange = this.node.querySelector<HTMLInputElement>(`#${id}`);
-      if (inputRange) {
+      this.contexts.rangeSlider = this.node.querySelector<HTMLInputElement>(`#${id}`) || undefined;
+      if (this.contexts.rangeSlider) {
         if (onChange) {
-          inputRange.addEventListener('change', onChange);
+          this.contexts.rangeSlider.addEventListener('change', onChange);
         }
-        inputRange.addEventListener('input', (e) => this.onInput(e));
-        this.updateRangeSliderColor(inputRange);
+        this.contexts.rangeSlider.addEventListener('input', (e) => this.onInput(e));
+        this.updateRangeSliderColor(this.contexts.rangeSlider);
       }
 
       const inputField = this.node.querySelector(`#${id}-input`);
