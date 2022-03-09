@@ -137,9 +137,8 @@ class LoanDetails extends HtmlNode {
                       id="finance-details-accordion"
                       class="waykeecom-accordion__checkbox"
                       ${this.showDetails ? `checked="true"` : ''}
-                      tabindex="-1"
                     />
-                    <label class="waykeecom-accordion__header" for="finance-details-accordion" tabindex="0" aria-label="Visa detaljer">
+                    <label class="waykeecom-accordion__header" for="finance-details-accordion" aria-label="Visa detaljer">
                       <div class="waykeecom-accordion__header-title">Detaljer</div>
                       <div class="waykeecom-accordion__header-icon">
                         <svg

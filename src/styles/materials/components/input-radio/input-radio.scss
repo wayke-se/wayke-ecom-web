@@ -32,8 +32,7 @@
       ~ #{$root}__header {
         #{$root}__label {
           &::before {
-            outline: 2px solid color(focus, main);
-            outline-offset: 2px;
+            @include focus-style;
           }
         }
       }

@@ -3,11 +3,34 @@
 .#{$namespace}accordion {
   $root: &;
 
+  &__checkbox {
+    position: fixed;
+    left: -9999px;
+    opacity: 0;
+
+    &:checked {
+      ~ #{$root}__header {
+        #{$root}__header-icon {
+          .#{$namespace}icon {
+            transform: rotate(180deg);
+          }
+        }
+      }
+
+      ~ #{$root}__body {
+        display: block;
+      }
+    }
+
+    @include focus {
+      ~ #{$root}__header {
+        @include focus-style;
+      }
+    }
+  }
+
   &__header {
     @include user-select(none);
-    @include focus {
-      outline: 2px solid color(text, main);
-    }
 
     display: flex;
     align-items: center;
@@ -42,25 +65,5 @@
   &__body {
     display: none;
     margin-top: size(2);
-  }
-
-  &__checkbox {
-    position: fixed;
-    left: -9999px;
-    opacity: 0;
-
-    &:checked {
-      ~ #{$root}__header {
-        #{$root}__header-icon {
-          .#{$namespace}icon {
-            transform: rotate(180deg);
-          }
-        }
-      }
-
-      ~ #{$root}__body {
-        display: block;
-      }
-    }
   }
 }
