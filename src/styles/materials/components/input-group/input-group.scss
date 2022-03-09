@@ -19,7 +19,7 @@
     font-size: var(--#{$namespace}legend-font-size);
 
     #{$root}--has-error & {
-      color: color(ui, error, text);
+      color: color(semantic, error, text);
     }
   }
 

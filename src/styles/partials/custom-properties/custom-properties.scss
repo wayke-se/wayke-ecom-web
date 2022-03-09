@@ -3,16 +3,17 @@
 @use '../../helpers' as *;
 
 #{$root-element} {
-  $modal-gutter-x: size(2);
+  $modal-gutter-x: size(3);
   $modal-gutter-y: size(3);
+  $modal-gutter: size(3);
 
   // Positive gutter
   --#{$namespace}modal-gutter-x: #{$modal-gutter-x};
   --#{$namespace}modal-gutter-y: #{$modal-gutter-y};
-  --#{$namespace}modal-gutter: var(--#{$namespace}modal-gutter-y) var(--#{$namespace}modal-gutter-x);
+  --#{$namespace}modal-gutter: #{$modal-gutter};
 
   // Negative gutter (primarily used for negative margins)
   --#{$namespace}modal-gutter-negative-x: #{$modal-gutter-x * -1};
   --#{$namespace}modal-gutter-negative-y: #{$modal-gutter-y * -1};
-  --#{$namespace}modal-gutter-negative: var(--#{$namespace}modal-gutter-negative-y) var(--#{$namespace}modal-gutter-negative-x);
+  --#{$namespace}modal-gutter-negative: #{$modal-gutter * -1};
 }

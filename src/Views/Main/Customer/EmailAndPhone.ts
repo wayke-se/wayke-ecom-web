@@ -138,7 +138,7 @@ class EmailAndPhone extends HtmlNode {
       this.contexts.email = new InputField(
         this.node.querySelector<HTMLDivElement>(`#${EMAIL_NODE}`),
         {
-          title: 'Epost',
+          title: 'E-post',
           value: this.state.value.email,
           id: EMAIL_INPUT_ID,
           error: this.state.interact.email && !this.state.validation.email,
