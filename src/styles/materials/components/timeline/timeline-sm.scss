@@ -30,8 +30,4 @@
     font-size: $heading-font-size;
     line-height: $heading-line-height;
   }
-
-  &__description {
-    font-size: scss-var(font, size, small);
-  }
 }

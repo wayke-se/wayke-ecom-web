@@ -16,6 +16,7 @@
 
   &__list {
     @include hide-scrollbar;
+    
     display: flex;
     align-items: stretch;
     list-style: none;

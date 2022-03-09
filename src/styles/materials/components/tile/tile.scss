@@ -44,7 +44,7 @@
 
   &__description {
     margin-top: size(2);
-    display: -webkit-box;
+    display: -webkit-box; /* stylelint-disable-line value-no-vendor-prefix */
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;  
     overflow: hidden;

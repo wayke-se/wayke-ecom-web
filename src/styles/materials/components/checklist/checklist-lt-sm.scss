@@ -1,16 +1,5 @@
 @use '../../../helpers' as *;
 
 .#{$namespace}checklist {
-  $icon-height: 9px; // Magic number from svg
-  $text-font-size: scss-var(font, size, xsmall);
-  $text-line-height: scss-var(font, line-height, main);
-
-  &__item {
-    font-size: $text-font-size;
-    line-height: $text-line-height;
-
-    &::before {
-      background-position: 0 calc(($icon-height - $text-font-size * $text-line-height) / -2);
-    }
-  }
+  --#{$namespace}checklist-text-font-size: #{scss-var(font, size, small)};
 }

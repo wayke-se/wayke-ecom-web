@@ -2,6 +2,7 @@
 
 .#{$namespace}overflow-gallery {
   @include hide-scrollbar;
+  
   display: flex;
   align-items: stretch;
   list-style: none;
