@@ -32,40 +32,40 @@
   &--success {
     @include alert-tone(
       $root,
-      color(ui, success, alt),
+      color(semantic, success, alt),
       color(text, main),
-      color(ui, success, main),
-      color(ui, success, text)
+      color(semantic, success, main),
+      color(semantic, success, text)
     );
   }
 
   &--warning {
     @include alert-tone(
       $root,
-      color(ui, warning, alt),
+      color(semantic, warning, alt),
       color(text, main),
-      color(ui, warning, main),
-      color(ui, warning, text)
+      color(semantic, warning, main),
+      color(semantic, warning, text)
     );
   }
 
   &--error {
     @include alert-tone(
       $root,
-      color(ui, error, alt),
+      color(semantic, error, alt),
       color(text, main),
-      color(ui, error, main),
-      color(ui, error, text)
+      color(semantic, error, main),
+      color(semantic, error, text)
     );
   }
 
   &--info {
     @include alert-tone(
       $root,
-      color(ui, info, alt),
+      color(semantic, info, alt),
       color(text, main),
-      color(ui, info, main),
-      color(ui, info, text)
+      color(semantic, info, main),
+      color(semantic, info, text)
     );
   }
 

@@ -1,6 +1,6 @@
 import { CreditAssessmentRecommendation, ICreditAssessmentStatusResponse } from '@wayke-se/ecom';
 import ButtonArrowRight from '../../../Components/Button/ButtonArrowRight';
-import ButtonAsLink from '../../../Components/Button/ButtonAsLink';
+import ButtonClear from '../../../Components/Button/ButtonClear';
 import HtmlNode from '../../../Components/Extension/HtmlNode';
 import StageCompletedFinancialCreditAssessment from './StageCompletedFinancialCreditAssessment';
 
@@ -31,8 +31,8 @@ class CreditAssessmentAssessManually extends HtmlNode {
     this.node.innerHTML = `
       <div class="waykeecom-stack waykeecom-stack--4" id="${RESULT_NODE}"></div>
       <div class="waykeecom-stack waykeecom-stack--4">
-        <div class="waykeecom-stack waykeecom-stack--2" id="${PROCEED_NODE}"></div>
-        <div class="waykeecom-stack waykeecom-stack--2" id="${ABORT_NODE}"></div>
+        <div class="waykeecom-stack waykeecom-stack--1" id="${PROCEED_NODE}"></div>
+        <div class="waykeecom-stack waykeecom-stack--1" id="${ABORT_NODE}"></div>
       </div>
     `;
 
@@ -46,7 +46,7 @@ class CreditAssessmentAssessManually extends HtmlNode {
       onClick: () => this.props.onProceed(),
     });
 
-    new ButtonAsLink(this.node.querySelector(`#${ABORT_NODE}`), {
+    new ButtonClear(this.node.querySelector(`#${ABORT_NODE}`), {
       title: 'Avbryt',
       id: ABORT,
       onClick: () => this.props.onGoBack(),

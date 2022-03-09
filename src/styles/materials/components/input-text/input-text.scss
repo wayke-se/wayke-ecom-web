@@ -17,7 +17,7 @@
   box-shadow: scss-var(box-shadow, alt);
 
   &--has-error {
-    border-color: color(ui, error, text);
+    border-color: color(semantic, error, text);
   }
 
   &:not(#{$root}--has-error):focus-within {

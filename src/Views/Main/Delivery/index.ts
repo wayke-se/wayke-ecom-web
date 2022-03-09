@@ -120,8 +120,8 @@ class Delivery extends HtmlNode {
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 16 16"
                         class="waykeecom-icon"
+                        data-icon="Location pin"
                       >
-                        <title>Ikon: position</title>
                         <path d="M12.2 2C11.1.9 9.6.3 8 .3S4.9.9 3.8 2C2.6 3.2 2 4.7 2 6.3 2 9 5.3 12.9 7.3 15l.7.7.7-.7c2-2.1 5.3-6 5.3-8.7 0-1.6-.6-3.1-1.8-4.3zM8 12.8C5.5 10 4 7.6 4 6.3c0-1.1.4-2.1 1.2-2.9.7-.7 1.7-1.1 2.8-1.1 1.1 0 2.1.4 2.8 1.2.8.7 1.2 1.7 1.2 2.8 0 1.3-1.5 3.7-4 6.5zm2-6.5c0 1.1-.9 2-2 2s-2-.9-2-2 .9-2 2-2 2 .9 2 2z" />
                       </svg>
                     </div>

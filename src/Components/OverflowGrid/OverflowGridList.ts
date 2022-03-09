@@ -53,8 +53,8 @@ class OverflowGridList extends HtmlNode {
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 16 16"
             class="waykeecom-icon"
+            data-icon="Chevron left"
           >
-            <title>Ikon: vinkel vänster</title>
             <path d="m5.4 7 5.2-5 1 1-5.2 5 5.2 5-1.1 1-5.2-5-1-1 1.1-1z" />
           </svg>
         </button>
@@ -65,8 +65,8 @@ class OverflowGridList extends HtmlNode {
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 16 16"
             class="waykeecom-icon"
+            data-icon="Chevron right"
           >
-            <title>Ikon: vinkel höger</title>
             <path d="m10.5 9-5.2 5-1-1 5.2-5-5.2-5 1.1-1 5.2 5 1 1-1.1 1z" />
           </svg>
         </button>

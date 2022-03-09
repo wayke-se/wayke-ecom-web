@@ -72,19 +72,17 @@
     background-image: linear-gradient(to right, color(primary, main) 0%, color(bg, alt) 0%);
     cursor: pointer;
 
-    &:focus {
-      outline: none;
-
+    &:active {
       @include input-range-thumb {
         transform: scale(1.25);
       }
     }
 
     @include focus {
+      outline: none;
+
       @include input-range-thumb {
-        transform: none;
-        outline: 2px solid color(text, main);
-        outline-offset: 2px;
+        @include focus-style;
       }
     }
   }

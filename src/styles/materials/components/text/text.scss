@@ -14,4 +14,8 @@
       font-size: $value;
     }
   }
+
+  &--line-through {
+    text-decoration: line-through;
+  }
 }

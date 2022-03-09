@@ -31,7 +31,7 @@
   z-index: 1;
 
   &--has-error {
-    border-color: color(ui, error, text);
+    border-color: color(semantic, error, text);
   }
 
   &:not(#{$root}--has-error) {

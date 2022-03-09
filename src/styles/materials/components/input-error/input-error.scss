@@ -2,6 +2,6 @@
 
 .#{$namespace}input-error {
   margin-top: size(0.5);
-  color: color(ui, error, text);
+  color: color(semantic, error, text);
   font-size: scss-var(font, size, xsmall);
 }

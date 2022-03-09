@@ -33,8 +33,8 @@ const ListItem = (element: HTMLElement, props: ListItemProps) => {
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 16 16"
           class="waykeecom-icon"
+          data-icon="Check"
         >
-          <title>Ikon: bock</title>
           <path d="M12.3 3.3 6 9.6 3.7 7.3c-.4-.4-1-.4-1.4 0-.4.4-.4 1 0 1.4l3 3c.4.4 1 .4 1.4 0l7-7c.4-.4.4-1 0-1.4-.4-.4-1-.4-1.4 0z"/>
         </svg>
       </div>
