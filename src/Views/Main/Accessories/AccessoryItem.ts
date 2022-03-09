@@ -19,8 +19,13 @@ class AccessoryItem extends HtmlNode {
     this.accessory = accessory;
     this.key = key;
 
-    watch('accessories', () => {
-      this.render();
+    watch<IAccessory[]>('accessories', (newValue, oldValue) => {
+      if (
+        newValue.some((x) => x.id === this.accessory.id) !==
+        oldValue.some((x) => x.id === this.accessory.id)
+      ) {
+        this.render();
+      }
     });
 
     this.render();

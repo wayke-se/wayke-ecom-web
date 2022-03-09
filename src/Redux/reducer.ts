@@ -5,6 +5,7 @@ import {
   IInsuranceOption,
   IVehicle,
   PaymentType,
+  IPaymentOption,
 } from '@wayke-se/ecom';
 import { OrderOptionsResponse } from '@wayke-se/ecom/dist-types/orders/order-options-response';
 import { IAccessory, IOrderVehicle } from '@wayke-se/ecom/dist-types/orders/types';
@@ -102,6 +103,16 @@ const getNextNavigationState = (currentStage: number, lastStage: boolean): Navig
 const getNextTopNavigationState = (currentTopNavigation: Navigation, nextNavigation: Navigation) =>
   currentTopNavigation.stage < nextNavigation.stage ? nextNavigation : next.topNavigation;
 
+const resolveDefaultPaymentOption = (paymentOptions?: IPaymentOption[]) => {
+  if (!paymentOptions) return undefined;
+  // If only cash payment is available, pre select
+  const paymentType =
+    paymentOptions?.length === 1 && paymentOptions?.[0].type === PaymentType.Cash
+      ? PaymentType.Cash
+      : undefined;
+  return paymentType;
+};
+
 let next: ReducerState;
 let index: number;
 const reducer = (state = initialState, action: Action): ReducerState => {
@@ -118,19 +129,10 @@ const reducer = (state = initialState, action: Action): ReducerState => {
     case SET_ID:
       return { ...next, id: action.id };
     case SET_ORDER:
-      const paymentOptions = action.order?.getPaymentOptions();
-      // If only cash payment is available, pre select
-      const paymentType =
-        !state.paymentType &&
-        paymentOptions?.length === 1 &&
-        paymentOptions?.[0].type === PaymentType.Cash
-          ? PaymentType.Cash
-          : undefined;
-
       return {
         ...state,
         order: action.order,
-        paymentType,
+        paymentType: resolveDefaultPaymentOption(action.order?.getPaymentOptions()),
         vehicle: { ...action.order.getOrderVehicle(), ...(action.vehicle || {}) },
       };
     case SET_CONTACT_EMAIL_AND_PHONE:
@@ -143,7 +145,7 @@ const reducer = (state = initialState, action: Action): ReducerState => {
       delete clean.wantTradeIn;
       delete clean.tradeIn;
       delete clean.tradeInVehicle;
-      delete clean.paymentType;
+      clean.paymentType = resolveDefaultPaymentOption(state.order?.getPaymentOptions());
       delete clean.paymentLookupResponse;
       delete clean.insurance;
       clean.accessories = [];
@@ -245,6 +247,8 @@ const reducer = (state = initialState, action: Action): ReducerState => {
 
     case SET_OR_REMOVE_ACCESSORY:
       index = next.accessories.findIndex((accessory) => accessory.id === action.accessory.id);
+      next.accessories = [...next.accessories];
+
       if (index > -1) {
         next.accessories.splice(index, 1);
       } else {
