@@ -66,8 +66,8 @@ class ButtonAddRemove extends HtmlNode {
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 16 16"
             class="waykeecom-icon"
+            data-icon="${selected ? 'check' : 'plus'}"
           >
-            <title>Ikon: ${selected ? 'bock' : 'plus'}</title>
             ${selectedIcon}
           </svg>
         </span>

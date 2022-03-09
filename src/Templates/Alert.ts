@@ -13,8 +13,8 @@ const Alert = ({ tone, children }: AlertProps) => `
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 16 16"
           class="waykeecom-icon"
+          data-icon="Info"
         >
-          <title>Ikon: info</title>
           <path d="M7 6h2v8H7V6zm0-4v2h2V2H7z" />
         </svg>
       </div>
