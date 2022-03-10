@@ -43,7 +43,7 @@ class GridItem extends HtmlNode {
             <div class="waykeecom-tile__title">${title}</div>
             <div class="waykeecom-tile__image">
               <div class="waykeecom-logo">
-                <img src="${logo}" alt="" class="waykeecom-logo__image" />
+                <img src="${logo}" alt="" class="waykeecom-logo__image waykeecom-logo__image--right" />
               </div>
             </div>
           </div>

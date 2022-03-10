@@ -52,6 +52,10 @@
     @include button-tone(transparent, color(action, main));
   }
 
+  &--success {
+    @include button-tone(color(semantic, success, alt), color(semantic, success, text));
+  }
+
   &--full-width {
     width: 100%;
   }

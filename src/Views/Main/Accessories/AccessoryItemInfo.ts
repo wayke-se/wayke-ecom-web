@@ -1,5 +1,6 @@
 import { IAccessory } from '@wayke-se/ecom/dist-types/orders/types';
 import ButtonAddRemove from '../../../Components/Button/ButtonAddRemove';
+import ButtonClear from '../../../Components/Button/ButtonClear';
 import ButtonAsLinkArrowLeft from '../../../Components/Button/ButtonAsLinkArrowLeft';
 import HtmlNode from '../../../Components/Extension/HtmlNode';
 import { prettyNumber } from '../../../Utils/format';
@@ -31,7 +32,8 @@ class AccessoryItemInfo extends HtmlNode {
     const image = media?.[0]?.url;
 
     this.node.innerHTML = `
-      <div class="waykeecom-stack waykeecom-stack--2" id="${BUTTON_TOP_LEFT_NODE}"></div>
+      <div class="waykeecom-nav-banner" id="${BUTTON_TOP_LEFT_NODE}"></div>
+
       <div class="waykeecom-stack waykeecom-stack--3">
 
         <div class="waykeecom-hstack waykeecom-hstack--align-center waykeecom-hstack--spacing-3">
@@ -40,7 +42,7 @@ class AccessoryItemInfo extends HtmlNode {
           </div>
           <div class="waykeecom-hstack__item waykeecom-hstack__item--no-shrink">
             <div class="waykeecom-logo">
-              <img src="${logoUrl}" alt="Tillverkarens logotyp för ${name}" class="waykeecom-logo__image" />
+              <img src="${logoUrl}" alt="Tillverkarens logotyp för ${name}" class="waykeecom-logo__image waykeecom-logo__image--right" />
             </div>
           </div>
         </div>
@@ -85,8 +87,8 @@ class AccessoryItemInfo extends HtmlNode {
         </div>
       </div>
       <div class="waykeecom-stack waykeecom-stack--3">
-        <div class="waykeecom-stack waykeecom-stack--2" id="${BUTTON_BOTTOM_LEFT_NODE}"></div>
-        <div class="waykeecom-stack waykeecom-stack--2" id="${BUTTON_ACCESSORY_ADD_REMOVE_NODE}"></div>
+        <div class="waykeecom-stack waykeecom-stack--1" id="${BUTTON_ACCESSORY_ADD_REMOVE_NODE}"></div>
+        <div class="waykeecom-stack waykeecom-stack--1" id="${BUTTON_BOTTOM_LEFT_NODE}"></div>
       </div>
     `;
 
@@ -95,13 +97,14 @@ class AccessoryItemInfo extends HtmlNode {
       onClick: () => onClose(),
     });
 
-    new ButtonAsLinkArrowLeft(this.node.querySelector(`#${BUTTON_BOTTOM_LEFT_NODE}`), {
+    new ButtonClear(this.node.querySelector(`#${BUTTON_BOTTOM_LEFT_NODE}`), {
       title: 'Tillbaka',
       onClick: () => onClose(),
     });
 
     new ButtonAddRemove(this.node.querySelector(`#${BUTTON_ACCESSORY_ADD_REMOVE_NODE}`), {
       selected,
+      fullSize: true,
       onClick: () => onClick(),
     });
 
