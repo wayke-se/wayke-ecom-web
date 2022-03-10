@@ -1,6 +1,6 @@
 import { IInsuranceOption } from '@wayke-se/ecom';
-import HtmlNode from '../../../Components/Extension/HtmlNode';
-import OverflowGridList from '../../../Components/OverflowGrid/OverflowGridList';
+import HtmlNode from '../../../../Components/Extension/HtmlNode';
+import OverflowGridList from '../../../../Components/OverflowGrid/OverflowGridList';
 import InsuranceItem from './InsuranceItem';
 
 class InsuranceList extends HtmlNode {

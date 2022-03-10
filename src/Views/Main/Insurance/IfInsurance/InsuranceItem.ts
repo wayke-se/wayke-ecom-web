@@ -1,11 +1,11 @@
 import { IInsuranceOption } from '@wayke-se/ecom';
-import HtmlNode from '../../../Components/Extension/HtmlNode';
+import HtmlNode from '../../../../Components/Extension/HtmlNode';
 
-import GridItem from '../../../Components/OverflowGrid/OverflowGridItem';
-import { addOrRemoveInsurance } from '../../../Redux/action';
-import store from '../../../Redux/store';
-import watch from '../../../Redux/watch';
-import { prettyNumber } from '../../../Utils/format';
+import GridItem from '../../../../Components/OverflowGrid/OverflowGridItem';
+import { addOrRemoveInsurance } from '../../../../Redux/action';
+import store from '../../../../Redux/store';
+import watch from '../../../../Redux/watch';
+import { prettyNumber } from '../../../../Utils/format';
 
 class InsuranceItem extends HtmlNode {
   private insurance: IInsuranceOption;

@@ -1,16 +1,16 @@
 import { IInsuranceOption } from '@wayke-se/ecom';
-import ButtonArrowRight from '../../../Components/Button/ButtonArrowRight';
-import ButtonAsLink from '../../../Components/Button/ButtonAsLink';
-import ButtonSkip from '../../../Components/Button/ButtonSkip';
-import HtmlNode from '../../../Components/Extension/HtmlNode';
-import { getInsurances } from '../../../Data/getInsurances';
-import { completeStage } from '../../../Redux/action';
-import store from '../../../Redux/store';
-import watch from '../../../Redux/watch';
-import Alert from '../../../Templates/Alert';
-import KeyValueListItem from '../../../Templates/KeyValueListItem';
-import Loader from '../../../Templates/Loader';
-import { translateDrivingDistance } from '../../../Utils/constants';
+import ButtonArrowRight from '../../../../Components/Button/ButtonArrowRight';
+import ButtonAsLink from '../../../../Components/Button/ButtonAsLink';
+import ButtonSkip from '../../../../Components/Button/ButtonSkip';
+import HtmlNode from '../../../../Components/Extension/HtmlNode';
+import { getInsurances } from '../../../../Data/getInsurances';
+import { completeStage } from '../../../../Redux/action';
+import store from '../../../../Redux/store';
+import watch from '../../../../Redux/watch';
+import Alert from '../../../../Templates/Alert';
+import KeyValueListItem from '../../../../Templates/KeyValueListItem';
+import Loader from '../../../../Templates/Loader';
+import { translateDrivingDistance } from '../../../../Utils/constants';
 import InsuranceList from './InsuranceList';
 
 const INSURANCE_GRID_LIST_NODE = 'insurance-grid-list-node';
