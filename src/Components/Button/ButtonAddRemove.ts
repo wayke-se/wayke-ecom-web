@@ -48,9 +48,9 @@ class ButtonAddRemove extends HtmlNode {
       fullSize ? 'waykeecom-button--full-width' : 'waykeecom-button--size-small',
     ];
     if (selected) {
-      buttonClassName.push('waykeecom-button--action-alt');
+      buttonClassName.push('waykeecom-button--success');
     } else {
-      buttonClassName.push('waykeecom-button--action');
+      buttonClassName.push('waykeecom-button--action-alt');
     }
 
     const selectedIcon = selected

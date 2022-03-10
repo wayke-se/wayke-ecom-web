@@ -40,6 +40,12 @@ ActionClear.args = {
   className: 'waykeecom-button waykeecom-button--action-clear',
 };
 
+export const Success = Template.bind({});
+ActionClear.args = {
+  label: 'Button',
+  className: 'waykeecom-button waykeecom-button--success',
+};
+
 export const FullWidth = Template.bind({});
 FullWidth.args = {
   label: 'Button',
