@@ -2,7 +2,7 @@ import HtmlNode from '../Extension/HtmlNode';
 
 interface ButtonClearProps {
   title: string;
-  id: string;
+  id?: string;
   onClick?: (e: Event) => void;
 }
 

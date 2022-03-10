@@ -6,6 +6,7 @@ interface ButtonAddRemoveProps {
   disabled?: boolean;
   loading?: boolean;
   selected?: boolean;
+  fullSize?: boolean;
   onClick?: (e: Event) => void;
 }
 
@@ -38,11 +39,14 @@ class ButtonAddRemove extends HtmlNode {
   }
 
   render() {
-    const { id, disabled, loading, selected, onClick } = this.props;
+    const { id, disabled, loading, selected, fullSize, onClick } = this.props;
 
     const title = selected ? 'Vald' : 'Lägg till';
 
-    const buttonClassName = ['waykeecom-button', 'waykeecom-button--size-small'];
+    const buttonClassName = [
+      'waykeecom-button',
+      fullSize ? 'waykeecom-button--full-width' : 'waykeecom-button--size-small',
+    ];
     if (selected) {
       buttonClassName.push('waykeecom-button--action-alt');
     } else {
@@ -66,7 +70,7 @@ class ButtonAddRemove extends HtmlNode {
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 16 16"
             class="waykeecom-icon"
-            data-icon="${selected ? 'check' : 'plus'}"
+            data-icon="${selected ? 'Check' : 'Plus'}"
           >
             ${selectedIcon}
           </svg>
