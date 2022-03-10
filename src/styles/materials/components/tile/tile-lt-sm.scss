@@ -1,10 +1,6 @@
 @use '../../../helpers' as *;
 
 .#{$namespace}tile {
-  &__hero {
-    height: 120px;
-  }
-  
   &__body {
     padding: size(2);
   }

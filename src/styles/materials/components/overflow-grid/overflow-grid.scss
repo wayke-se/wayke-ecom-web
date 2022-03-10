@@ -41,5 +41,10 @@
     max-width: var(--#{$namespace}item-width);
     padding: size(2) math.div($item-spacing, 2);
     scroll-snap-align: start;
+
+    &:only-child {
+      width: 100%;
+      max-width: 100%;
+    }
   }
 }

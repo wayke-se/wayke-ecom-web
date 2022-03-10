@@ -55,8 +55,8 @@ $variables: (
   ),
   aspect-ratio: (
     square: list.slash(1, 1),
-    landscape: list.slash(4, 3),
-    portrait: list.slash(3, 4),
+    landscape: list.slash(3, 2),
+    portrait: list.slash(2, 3),
     widescreen: list.slash(16, 9),
     ultrawide: list.slash(18, 5),
     golden-ratio: list.slash(1.618, 1),
