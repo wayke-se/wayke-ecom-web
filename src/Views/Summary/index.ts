@@ -1,4 +1,4 @@
-import store from '../../Redux/store';
+import { WaykeStore } from '../../Redux/store';
 import TradeIn from './TradeIn';
 import Intro from './Intro';
 import Order from './Order';
@@ -13,6 +13,7 @@ import watch from '../../Redux/watch';
 const SUMMARY_NODE = 'summary-node';
 
 interface SummaryProps {
+  store: WaykeStore;
   onClose: () => void;
 }
 
@@ -23,14 +24,14 @@ class Summary extends HtmlNode {
     super(element);
     this.props = props;
 
-    watch<number>('navigation.view', (view) => {
+    watch<number>(this.props.store, 'navigation.view', (view) => {
       if (view === 3) {
         this.render();
         scrollTop();
       }
     });
 
-    watch('createdOrderId', () => {
+    watch(this.props.store, 'createdOrderId', () => {
       this.render();
     });
 
@@ -39,7 +40,7 @@ class Summary extends HtmlNode {
   }
 
   render() {
-    const state = store.getState();
+    const state = this.props.store.getState();
     const createdOrderId = state.createdOrderId;
 
     this.node.innerHTML = `
@@ -48,14 +49,18 @@ class Summary extends HtmlNode {
 
     const content = this.node.querySelector<HTMLDivElement>(`#${SUMMARY_NODE}`);
     if (content) {
-      new Intro(content, { createdOrderId });
-      new TradeIn(content, { createdOrderId });
-      new Order(content, { createdOrderId });
-      new Delivery(content, { createdOrderId });
-      new Customer(content, { createdOrderId });
-      new ExecuteOrder(content, { createdOrderId, onClose: this.props.onClose });
+      new Intro(content, { store: this.props.store, createdOrderId });
+      new TradeIn(content, { store: this.props.store, createdOrderId });
+      new Order(content, { store: this.props.store, createdOrderId });
+      new Delivery(content, { store: this.props.store, createdOrderId });
+      new Customer(content, { store: this.props.store, createdOrderId });
+      new ExecuteOrder(content, {
+        store: this.props.store,
+        createdOrderId,
+        onClose: this.props.onClose,
+      });
       if (!createdOrderId) {
-        new Disclaimer(content);
+        new Disclaimer(content, { store: this.props.store });
       }
     }
   }

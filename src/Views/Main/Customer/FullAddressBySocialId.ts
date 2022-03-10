@@ -5,7 +5,7 @@ import ButtonAsLink from '../../../Components/Button/ButtonAsLink';
 import InputField from '../../../Components/Input/InputField';
 import { getAddressBySsn } from '../../../Data/getAddress';
 import { setSocialIdAndAddress } from '../../../Redux/action';
-import store from '../../../Redux/store';
+import { WaykeStore } from '../../../Redux/store';
 import Alert from '../../../Templates/Alert';
 import { renderConditional } from '../../../Utils/render';
 import { validationMethods } from '../../../Utils/validationMethods';
@@ -54,8 +54,14 @@ const initalState = (customer?: Customer): Part2SocialIdState => {
   };
 };
 
+interface FullAddressBySocialIdProps {
+  store: WaykeStore;
+  lastStage: boolean;
+  onToggleMethod: () => void;
+}
+
 class FullAddressBySocialId extends HtmlNode {
-  private lastStage: boolean;
+  private props: FullAddressBySocialIdProps;
   private state: Part2SocialIdState;
   private requestError: boolean = false;
   private contexts: {
@@ -63,14 +69,12 @@ class FullAddressBySocialId extends HtmlNode {
     buttonFetch?: ButtonArrowRight;
     buttonLinkToggle?: ButtonAsLink;
   } = {};
-  private onToggleMethod: () => void;
 
-  constructor(element: HTMLElement, lastStage: boolean, onToggleMethod: () => void) {
+  constructor(element: HTMLElement, props: FullAddressBySocialIdProps) {
     super(element, { htmlTag: 'div', className: 'waykeecom-stack waykeecom-stack--2' });
-    this.lastStage = lastStage;
-    this.onToggleMethod = onToggleMethod;
+    this.props = props;
 
-    const state = store.getState();
+    const state = this.props.store.getState();
     this.state = initalState(state.customer);
 
     this.render();
@@ -83,7 +87,11 @@ class FullAddressBySocialId extends HtmlNode {
     try {
       const cache = SOCIAL_ID_CACHE[this.state.value.socialId];
       if (cache) {
-        setSocialIdAndAddress(this.state.value.socialId, cache, this.lastStage);
+        setSocialIdAndAddress(
+          this.state.value.socialId,
+          cache,
+          this.props.lastStage
+        )(this.props.store.dispatch);
         return;
       }
       this.contexts.buttonFetch?.loading(true);
@@ -95,8 +103,8 @@ class FullAddressBySocialId extends HtmlNode {
       setSocialIdAndAddress(
         this.state.value.socialId.replace(regexNumber, ''),
         address,
-        this.lastStage
-      );
+        this.props.lastStage
+      )(this.props.store.dispatch);
     } catch (e) {
       this.requestError = true;
     } finally {
@@ -217,7 +225,7 @@ class FullAddressBySocialId extends HtmlNode {
       {
         title: 'Jag vill hämta uppgifter med Mobilt BankID',
         id: LINK_TOGGLE_METHOD,
-        onClick: () => this.onToggleMethod(),
+        onClick: () => this.props.onToggleMethod(),
       }
     );
 

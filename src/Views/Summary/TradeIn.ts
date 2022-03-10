@@ -1,6 +1,6 @@
 import StackNode from '../../Components/Extension/StackNode';
 import { goTo, initTradeIn } from '../../Redux/action';
-import store from '../../Redux/store';
+import { WaykeStore } from '../../Redux/store';
 import KeyValueListItem from '../../Templates/KeyValueListItem';
 import { translateTradeInCondition } from '../../Utils/constants';
 import { prettyNumber } from '../../Utils/format';
@@ -8,6 +8,7 @@ import { prettyNumber } from '../../Utils/format';
 const EDIT_TRADE_IN = 'edit-trade-in';
 
 interface TradeInProps {
+  store: WaykeStore;
   createdOrderId?: string;
 }
 
@@ -20,7 +21,7 @@ class TradeIn extends StackNode {
   }
 
   render() {
-    const state = store.getState();
+    const state = this.props.store.getState();
     const { order, tradeIn, tradeInVehicle } = state;
     if (!order?.allowsTradeIn) return;
 
@@ -92,8 +93,8 @@ class TradeIn extends StackNode {
         document
           .querySelector<HTMLButtonElement>(`#${EDIT_TRADE_IN}`)
           ?.addEventListener('click', () => {
-            initTradeIn(lastStage);
-            goTo('main', editTradeInIndex + 1);
+            initTradeIn(lastStage)(this.props.store.dispatch);
+            goTo('main', editTradeInIndex + 1)(this.props.store.dispatch);
           });
       }
     }

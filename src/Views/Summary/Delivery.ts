@@ -1,11 +1,12 @@
 import StackNode from '../../Components/Extension/StackNode';
 import { goTo } from '../../Redux/action';
-import store from '../../Redux/store';
+import { WaykeStore } from '../../Redux/store';
 import KeyValueListItem from '../../Templates/KeyValueListItem';
 
 const EDIT_DELIVERY = 'edit-delivery';
 
 interface DeliveryProps {
+  store: WaykeStore;
   createdOrderId?: string;
 }
 
@@ -19,7 +20,7 @@ class Delivery extends StackNode {
   }
 
   render() {
-    const state = store.getState();
+    const state = this.props.store.getState();
 
     this.node.innerHTML = `
       <div class="waykeecom-stack waykeecom-stack--2">
@@ -53,7 +54,9 @@ class Delivery extends StackNode {
       if (editDeliveryIndex !== undefined) {
         document
           .querySelector<HTMLButtonElement>(`#${EDIT_DELIVERY}`)
-          ?.addEventListener('click', () => goTo('main', editDeliveryIndex + 1));
+          ?.addEventListener('click', () =>
+            goTo('main', editDeliveryIndex + 1)(this.props.store.dispatch)
+          );
       }
     }
   }

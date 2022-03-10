@@ -2,6 +2,7 @@ import { CreditAssessmentRecommendation, ICreditAssessmentStatusResponse } from 
 import ButtonArrowRight from '../../../Components/Button/ButtonArrowRight';
 import ButtonClear from '../../../Components/Button/ButtonClear';
 import HtmlNode from '../../../Components/Extension/HtmlNode';
+import { WaykeStore } from '../../../Redux/store';
 import StageCompletedFinancialCreditAssessment from './StageCompletedFinancialCreditAssessment';
 
 const RESULT = 'assessment-assess-manually-result';
@@ -14,6 +15,7 @@ const ABORT = 'assessment-assess-manually-abort';
 const ABORT_NODE = `${ABORT}-node`;
 
 interface CreditAssessmentAssessManuallyProps {
+  store: WaykeStore;
   creditAssessmentResponse: ICreditAssessmentStatusResponse;
   onProceed: () => void;
   onGoBack: () => void;
@@ -37,6 +39,7 @@ class CreditAssessmentAssessManually extends HtmlNode {
     `;
 
     new StageCompletedFinancialCreditAssessment(this.node.querySelector(`#${RESULT_NODE}`), {
+      store: this.props.store,
       decision: CreditAssessmentRecommendation.AssessManually,
     });
 

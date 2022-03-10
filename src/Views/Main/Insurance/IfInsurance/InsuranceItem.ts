@@ -3,20 +3,24 @@ import HtmlNode from '../../../../Components/Extension/HtmlNode';
 
 import GridItem from '../../../../Components/OverflowGrid/OverflowGridItem';
 import { addOrRemoveInsurance } from '../../../../Redux/action';
-import store from '../../../../Redux/store';
+import { WaykeStore } from '../../../../Redux/store';
 import watch from '../../../../Redux/watch';
 import { prettyNumber } from '../../../../Utils/format';
 
+interface InsuranceItemProps {
+  store: WaykeStore;
+  insurance: IInsuranceOption;
+  key: string;
+}
+
 class InsuranceItem extends HtmlNode {
-  private insurance: IInsuranceOption;
-  private key: string;
+  private props: InsuranceItemProps;
 
-  constructor(element: HTMLElement, insurance: IInsuranceOption, key: string) {
+  constructor(element: HTMLElement, props: InsuranceItemProps) {
     super(element);
-    this.insurance = insurance;
-    this.key = key;
+    this.props = props;
 
-    watch('insurance', () => {
+    watch(this.props.store, 'insurance', () => {
       this.render();
     });
 
@@ -24,27 +28,27 @@ class InsuranceItem extends HtmlNode {
   }
 
   onClick() {
-    addOrRemoveInsurance(this.insurance);
+    addOrRemoveInsurance(this.props.insurance)(this.props.store.dispatch);
   }
 
   render() {
-    const state = store.getState();
+    const state = this.props.store.getState();
     const logo = state.order?.getInsuranceOption()?.logo;
     const selected = state.insurance
-      ? JSON.stringify(state.insurance).localeCompare(JSON.stringify(this.insurance)) === 0
+      ? JSON.stringify(state.insurance).localeCompare(JSON.stringify(this.props.insurance)) === 0
       : false;
 
     new GridItem(
       this.node,
       {
         logo,
-        title: this.insurance.name,
-        description: this.insurance.description,
-        price: prettyNumber(this.insurance.price, { postfix: 'kr/mån' }),
+        title: this.props.insurance.name,
+        description: this.props.insurance.description,
+        price: prettyNumber(this.props.insurance.price, { postfix: 'kr/mån' }),
         selected,
         onClick: () => this.onClick(),
       },
-      this.key
+      this.props.key
     );
   }
 }

@@ -3,26 +3,30 @@ import HtmlNode from '../../../Components/Extension/HtmlNode';
 
 import GridItem from '../../../Components/OverflowGrid/OverflowGridItem';
 import { addOrRemoveAccessory } from '../../../Redux/action';
-import store from '../../../Redux/store';
+import { WaykeStore } from '../../../Redux/store';
 import watch from '../../../Redux/watch';
 import { prettyNumber } from '../../../Utils/format';
 import { createPortal, destroyPortal } from '../../../Utils/portal';
 import AccessoryItemInfo from './AccessoryItemInfo';
 
+interface AccessoryItemProps {
+  store: WaykeStore;
+  accessory: IAccessory;
+  key: string;
+}
+
 class AccessoryItem extends HtmlNode {
-  private accessory: IAccessory;
-  private key: string;
+  private props: AccessoryItemProps;
   private displayInfo = false;
 
-  constructor(element: HTMLElement, accessory: IAccessory, key: string) {
+  constructor(element: HTMLElement, props: AccessoryItemProps) {
     super(element);
-    this.accessory = accessory;
-    this.key = key;
+    this.props = props;
 
-    watch<IAccessory[]>('accessories', (newValue, oldValue) => {
+    watch<IAccessory[]>(this.props.store, 'accessories', (newValue, oldValue) => {
       if (
-        newValue.some((x) => x.id === this.accessory.id) !==
-        oldValue.some((x) => x.id === this.accessory.id)
+        newValue.some((x) => x.id === this.props.accessory.id) !==
+        oldValue.some((x) => x.id === this.props.accessory.id)
       ) {
         this.render();
       }
@@ -44,17 +48,17 @@ class AccessoryItem extends HtmlNode {
   }
 
   onClick() {
-    addOrRemoveAccessory(this.accessory);
+    addOrRemoveAccessory(this.props.accessory)(this.props.store.dispatch);
   }
 
   render() {
-    const state = store.getState();
+    const state = this.props.store.getState();
     const selected =
-      state.accessories.findIndex((accessory) => accessory.id === this.accessory.id) > -1;
+      state.accessories.findIndex((accessory) => accessory.id === this.props.accessory.id) > -1;
 
     if (this.displayInfo) {
       new AccessoryItemInfo(createPortal(), {
-        accessory: this.accessory,
+        accessory: this.props.accessory,
         selected,
         onClick: () => {
           this.onInfoClose();
@@ -67,17 +71,17 @@ class AccessoryItem extends HtmlNode {
     new GridItem(
       this.node,
       {
-        id: this.accessory.id,
-        title: this.accessory.name,
-        description: this.accessory.shortDescription,
-        logo: this.accessory.logoUrl,
-        image: this.accessory.media?.[0]?.url,
-        price: prettyNumber(this.accessory.price, { postfix: 'kr' }),
+        id: this.props.accessory.id,
+        title: this.props.accessory.name,
+        description: this.props.accessory.shortDescription,
+        logo: this.props.accessory.logoUrl,
+        image: this.props.accessory.media?.[0]?.url,
+        price: prettyNumber(this.props.accessory.price, { postfix: 'kr' }),
         selected,
         onClick: () => this.onClick(),
         onInfo: () => this.onInfoOpen(),
       },
-      this.key
+      this.props.key
     );
   }
 }

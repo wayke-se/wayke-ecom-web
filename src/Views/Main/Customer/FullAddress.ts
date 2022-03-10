@@ -1,20 +1,24 @@
 import { Customer } from '../../../@types/Customer';
 import HtmlNode from '../../../Components/Extension/HtmlNode';
-import store from '../../../Redux/store';
+import { WaykeStore } from '../../../Redux/store';
 import KeyValueListItem, { KeyValueListItemProps } from '../../../Templates/KeyValueListItem';
 import FullAddressByBankId from './FullAddressByBankId';
 import FullAddressBySocialId from './FullAddressBySocialId';
 
+interface FullAddressProps {
+  store: WaykeStore;
+  lastStage: boolean;
+}
 class FullAddress extends HtmlNode {
+  private props: FullAddressProps;
   private useBankId: boolean = true;
-  private lastStage: boolean;
   private state: Customer;
 
-  constructor(element: HTMLDivElement, lastStage: boolean) {
+  constructor(element: HTMLDivElement, props: FullAddressProps) {
     super(element, { htmlTag: 'div', className: 'waykeecom-stack waykeecom-stack--2' });
+    this.props = props;
 
-    this.lastStage = lastStage;
-    const state = store.getState();
+    const state = this.props.store.getState();
     this.state = state.customer;
 
     this.render();
@@ -26,7 +30,7 @@ class FullAddress extends HtmlNode {
   }
 
   render() {
-    const subStage = store.getState().navigation.subStage;
+    const subStage = this.props.store.getState().navigation.subStage;
     if (subStage > 2) {
       const keyValueItems: KeyValueListItemProps[] = [
         { key: 'Personnummer', value: this.state.socialId },
@@ -42,9 +46,17 @@ class FullAddress extends HtmlNode {
     } else {
       this.node.innerHTML = '';
       if (this.useBankId) {
-        new FullAddressByBankId(this.node, this.lastStage, () => this.onToggleMethod());
+        new FullAddressByBankId(this.node, {
+          store: this.props.store,
+          lastStage: this.props.lastStage,
+          onToggleMethod: () => this.onToggleMethod(),
+        });
       } else {
-        new FullAddressBySocialId(this.node, this.lastStage, () => this.onToggleMethod());
+        new FullAddressBySocialId(this.node, {
+          store: this.props.store,
+          lastStage: this.props.lastStage,
+          onToggleMethod: () => this.onToggleMethod(),
+        });
       }
     }
   }

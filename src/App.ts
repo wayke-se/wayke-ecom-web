@@ -4,7 +4,7 @@ import { config, IOrderOptionsResponse } from '@wayke-se/ecom';
 import packageJson from '../package.json';
 
 import { Vehicle } from './@types/Vehicle';
-import store from './Redux/store';
+import { createStore, WaykeStore } from './Redux/store';
 import { reset, setId } from './Redux/action';
 
 import Preview from './Views/Preview';
@@ -38,7 +38,12 @@ class App {
   private props: AppProps;
   private view: ViewTypes;
   private stageOrderList: StageMapKeys[];
-  contexts: { modal?: Modal } = {};
+  private contexts: {
+    store: WaykeStore;
+    modal?: Modal;
+  } = {
+    store: createStore(),
+  };
 
   constructor(props: AppProps) {
     const root = document.getElementById('wayke-ecom');
@@ -68,10 +73,11 @@ class App {
       'delivery',
     ];
 
-    setId(props.id);
+    setId(props.id)(this.contexts.store.dispatch);
 
-    this.view = store.getState().navigation.view;
+    this.view = this.contexts.store.getState().navigation.view;
     watch<ViewTypes>(
+      this.contexts.store,
       'navigation.view',
       (newVal) => {
         this.view = newVal;
@@ -99,7 +105,7 @@ class App {
 
     this.root.innerHTML = '';
     unregisterAllSubscriptions();
-    reset(this.props.id);
+    reset(this.props.id)(this.contexts.store.dispatch);
   }
 
   start() {
@@ -117,18 +123,29 @@ class App {
       this.contexts.modal.content.innerHTML = '';
 
       if (waykeOrderId) {
-        new OrderCallback(this.contexts.modal.content, waykeOrderId);
+        new OrderCallback(this.contexts.modal.content, {
+          store: this.contexts.store,
+          waykeOrderId,
+        });
         return;
       }
+
       switch (this.view) {
         case 'preview':
-          new Preview(this.contexts.modal.content, this.stageOrderList, this.props.vehicle);
+          new Preview(this.contexts.modal.content, {
+            store: this.contexts.store,
+            stageOrderList: this.stageOrderList,
+            vehicle: this.props.vehicle,
+          });
           break;
         case 'main':
-          new Main(this.contexts.modal.content);
+          new Main(this.contexts.modal.content, { store: this.contexts.store });
           break;
         case 'summary':
-          new Summary(this.contexts.modal.content, { onClose: () => this.close() });
+          new Summary(this.contexts.modal.content, {
+            store: this.contexts.store,
+            onClose: () => this.close(),
+          });
           break;
         default:
           throw 'Unknown view...';

@@ -13,6 +13,7 @@ import DisclaimerSafe from './DisclaimerSafe';
 import HtmlNode from '../../../Components/Extension/HtmlNode';
 import { validationMethods } from '../../../Utils/validationMethods';
 import { createPortal, destroyPortal } from '../../../Utils/portal';
+import { WaykeStore } from '../../../Redux/store';
 
 const BANKID_START_NODE = `bankid-start-node`;
 const BANKID_START = `bankid-start`;
@@ -22,9 +23,14 @@ const LINK_TOGGLE_METHOD = 'link-toggle-method';
 
 const DISCLAIMER_SAFE_NODE = 'address-disclaimer-node';
 
+interface FullAddressByBankIdProps {
+  store: WaykeStore;
+  lastStage: boolean;
+  onToggleMethod: () => void;
+}
+
 class FullAddressByBankId extends HtmlNode {
-  private lastStage: boolean;
-  private _ontoggleMethod: () => void;
+  private props: FullAddressByBankIdProps;
   private bankidStatusInterval?: NodeJS.Timer;
   private view: number = 1;
   private contexts: {
@@ -33,11 +39,10 @@ class FullAddressByBankId extends HtmlNode {
   } = {};
   private ageError = false;
 
-  constructor(element: HTMLElement, lastStage: boolean, onToggleMethod: () => void) {
+  constructor(element: HTMLElement, props: FullAddressByBankIdProps) {
     super(element, { htmlTag: 'div', className: 'waykeecom-stack waykeecom-stack--2' });
+    this.props = props;
     this.ageError = false;
-    this.lastStage = lastStage;
-    this._ontoggleMethod = onToggleMethod;
 
     this.render();
   }
@@ -46,7 +51,7 @@ class FullAddressByBankId extends HtmlNode {
     if (this.bankidStatusInterval) {
       clearInterval(this.bankidStatusInterval);
     }
-    this._ontoggleMethod();
+    this.props.onToggleMethod();
   }
 
   bankIdStatus(reference: string, method: AuthMethod) {
@@ -61,7 +66,11 @@ class FullAddressByBankId extends HtmlNode {
           if (address && socialId) {
             const over18 = validationMethods.requiredSsnOver18(socialId);
             if (over18) {
-              setSocialIdAndAddress(socialId, address, this.lastStage);
+              setSocialIdAndAddress(
+                socialId,
+                address,
+                this.props.lastStage
+              )(this.props.store.dispatch);
             } else {
               this.view = 1;
               this.ageError = true;

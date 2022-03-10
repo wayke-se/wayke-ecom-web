@@ -1,7 +1,7 @@
 import { IPaymentOption, PaymentType } from '@wayke-se/ecom';
 import { PaymentLookupResponse } from '@wayke-se/ecom/dist-types/payments/payment-lookup-response';
 import HtmlNode from '../../../Components/Extension/HtmlNode';
-import store from '../../../Redux/store';
+import { WaykeStore } from '../../../Redux/store';
 import KeyValueListItem, { KeyValueListItemProps } from '../../../Templates/KeyValueListItem';
 import { prettyNumber } from '../../../Utils/format';
 import StageCompletedFinancialCreditAssessment from './StageCompletedFinancialCreditAssessment';
@@ -10,6 +10,7 @@ const CREDIT_ASSESSMENT_RESULT = 'credit-assessment-result';
 const CREDIT_ASSESSMENT_RESULT_NODE = `${CREDIT_ASSESSMENT_RESULT}-node`;
 
 interface StageCompletedFinancialProps {
+  store: WaykeStore;
   loan?: IPaymentOption;
   paymentLookupResponse?: PaymentLookupResponse;
   paymentType: PaymentType;
@@ -17,7 +18,7 @@ interface StageCompletedFinancialProps {
 }
 
 class StageCompletedFinancial extends HtmlNode {
-  private props;
+  private props: StageCompletedFinancialProps;
 
   constructor(element: HTMLDivElement, props: StageCompletedFinancialProps) {
     super(element, { htmlTag: 'div' });
@@ -27,7 +28,7 @@ class StageCompletedFinancial extends HtmlNode {
 
   render() {
     if (this.props.paymentType === PaymentType.Loan) {
-      const state = store.getState();
+      const state = this.props.store.getState();
       const loan = this.props.loan;
       const paymentLookupResponse =
         this.props.paymentLookupResponse || this.props.loan?.loanDetails;
@@ -99,6 +100,7 @@ class StageCompletedFinancial extends HtmlNode {
         new StageCompletedFinancialCreditAssessment(
           this.node.querySelector(`#${CREDIT_ASSESSMENT_RESULT_NODE}`),
           {
+            store: this.props.store,
             decision,
           }
         );

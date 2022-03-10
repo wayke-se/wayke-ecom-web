@@ -4,7 +4,7 @@ import ButtonArrowRight from '../../../Components/Button/ButtonArrowRight';
 import HtmlNode from '../../../Components/Extension/HtmlNode';
 import InputRadioGroup, { RadioItem } from '../../../Components/Input/InputRadioGroup';
 import { goTo, setFinancial } from '../../../Redux/action';
-import store from '../../../Redux/store';
+import { WaykeStore } from '../../../Redux/store';
 import { Image } from '../../../Utils/constants';
 import { prettyNumber } from '../../../Utils/format';
 import ListItem from '../../../Templates/ListItem';
@@ -27,24 +27,28 @@ const RADIO_FINANCIAL_LEASE = 'radio-financial-lease';
 
 const PAYMENT_NODE = 'payment-node';
 
+interface FinancialProps {
+  store: WaykeStore;
+  index: number;
+  lastStage: boolean;
+}
+
 class Financial extends HtmlNode {
-  private index: number;
-  private lastStage: boolean;
+  private props: FinancialProps;
   private paymentType?: PaymentType;
   private paymentLookupResponse?: PaymentLookupResponse;
 
-  constructor(element: HTMLDivElement, index: number, lastStage: boolean) {
+  constructor(element: HTMLDivElement, props: FinancialProps) {
     super(element);
-    this.index = index;
-    this.lastStage = lastStage;
+    this.props = props;
 
-    watch('navigation', () => {
-      const state = store.getState();
+    watch(this.props.store, 'navigation', () => {
+      const state = this.props.store.getState();
       this.paymentType = state.paymentType;
       this.render();
     });
 
-    const state = store.getState();
+    const state = this.props.store.getState();
     const { paymentLookupResponse, paymentType } = state;
 
     this.paymentType = paymentType;
@@ -61,44 +65,45 @@ class Financial extends HtmlNode {
 
   private onProceed() {
     if (this.paymentType) {
-      setFinancial(this.paymentType, this.lastStage);
+      setFinancial(this.paymentType, this.props.lastStage)(this.props.store.dispatch);
     }
   }
 
   private onEdit() {
-    goTo('main', this.index);
+    goTo('main', this.props.index)(this.props.store.dispatch);
   }
 
   render(preventScrollIntoView?: boolean) {
-    const state = store.getState();
+    const state = this.props.store.getState();
     const { id, order, paymentLookupResponse } = state;
     if (!order) throw 'No order available';
 
     const paymentOptions = order.getPaymentOptions();
 
-    const completed = state.topNavigation.stage > this.index;
+    const completed = state.topNavigation.stage > this.props.index;
     const content = ListItem(this.node, {
       completed,
       title: 'Finansiering',
-      active: state.navigation.stage === this.index,
+      active: state.navigation.stage === this.props.index,
       id: 'financial',
     });
 
     const part = document.createElement('div');
 
     if (
-      (state.navigation.stage > this.index ||
-        (completed && state.navigation.stage !== this.index)) &&
+      (state.navigation.stage > this.props.index ||
+        (completed && state.navigation.stage !== this.props.index)) &&
       this.paymentType
     ) {
       const loan = paymentOptions.find((x) => x.type === PaymentType.Loan);
       new StageCompletedFinancial(content, {
+        store: this.props.store,
         loan,
         paymentType: this.paymentType,
         paymentLookupResponse: loan?.loanDetails || paymentLookupResponse,
         onEdit: () => this.onEdit(),
       });
-    } else if (state.navigation.stage === this.index) {
+    } else if (state.navigation.stage === this.props.index) {
       const cash = paymentOptions.find((x) => x.type === PaymentType.Cash);
       const loan = paymentOptions.find((x) => x.type === PaymentType.Loan);
       const lease = paymentOptions.find((x) => x.type === PaymentType.Lease);
@@ -249,6 +254,7 @@ class Financial extends HtmlNode {
       if (paymentNode) {
         if (loan && this.paymentType === PaymentType.Loan) {
           new Loan(paymentNode, {
+            store: this.props.store,
             loan,
             vehicleId: id,
             paymentLookupResponse: this.paymentLookupResponse,
@@ -265,7 +271,7 @@ class Financial extends HtmlNode {
       }
     }
 
-    if (!preventScrollIntoView && state.navigation.stage === this.index) {
+    if (!preventScrollIntoView && state.navigation.stage === this.props.index) {
       content.parentElement?.scrollIntoView();
     }
   }

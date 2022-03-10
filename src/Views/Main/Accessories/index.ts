@@ -3,7 +3,7 @@ import HtmlNode from '../../../Components/Extension/HtmlNode';
 import StageCompleted from '../../../Components/StageCompleted';
 
 import { goTo, completeStage } from '../../../Redux/action';
-import store from '../../../Redux/store';
+import { WaykeStore } from '../../../Redux/store';
 import watch from '../../../Redux/watch';
 import ListItem from '../../../Templates/ListItem';
 import AccessoryList from './AccessoryList';
@@ -12,16 +12,20 @@ const PROCEED = 'button-accessories-proceed';
 const PROCEED_NODE = `${PROCEED}-node`;
 const ACCESSORY_GRID_LIST_NODE = 'accessory-grid-list-node';
 
+interface AccessoriesProps {
+  store: WaykeStore;
+  index: number;
+  lastStage: boolean;
+}
+
 class Accessories extends HtmlNode {
-  private index: number;
-  private lastStage: boolean;
+  private props: AccessoriesProps;
 
-  constructor(element: HTMLDivElement, index: number, lastStage: boolean) {
+  constructor(element: HTMLDivElement, props: AccessoriesProps) {
     super(element);
-    this.index = index;
-    this.lastStage = lastStage;
+    this.props = props;
 
-    watch('navigation', () => {
+    watch(this.props.store, 'navigation', () => {
       this.render();
     });
 
@@ -29,29 +33,29 @@ class Accessories extends HtmlNode {
   }
 
   private onProceed() {
-    completeStage(this.lastStage);
+    completeStage(this.props.lastStage)(this.props.store.dispatch);
   }
 
   private onEdit() {
-    goTo('main', this.index);
+    goTo('main', this.props.index)(this.props.store.dispatch);
   }
 
   render() {
-    const state = store.getState();
+    const state = this.props.store.getState();
 
-    const completed = state.topNavigation.stage > this.index;
+    const completed = state.topNavigation.stage > this.props.index;
     const content = ListItem(this.node, {
       completed,
       title: 'Tillbehör',
-      active: state.navigation.stage === this.index,
+      active: state.navigation.stage === this.props.index,
       id: 'accessories',
     });
 
     const part = document.createElement('div');
 
     if (
-      state.navigation.stage > this.index ||
-      (completed && state.navigation.stage !== this.index)
+      state.navigation.stage > this.props.index ||
+      (completed && state.navigation.stage !== this.props.index)
     ) {
       new StageCompleted(content, {
         keyValueList: [
@@ -65,7 +69,7 @@ class Accessories extends HtmlNode {
         changeButtonTitle: 'Ändra tillbehör',
         onEdit: () => this.onEdit(),
       });
-    } else if (state.navigation.stage === this.index) {
+    } else if (state.navigation.stage === this.props.index) {
       const accessories = state.order?.getAccessories() || [];
 
       part.innerHTML = `
@@ -82,10 +86,10 @@ class Accessories extends HtmlNode {
         <div class="waykeecom-stack waykeecom-stack--3" id="${PROCEED_NODE}"></div>
       `;
 
-      new AccessoryList(
-        part.querySelector<HTMLDivElement>(`#${ACCESSORY_GRID_LIST_NODE}`),
-        accessories
-      );
+      new AccessoryList(part.querySelector<HTMLDivElement>(`#${ACCESSORY_GRID_LIST_NODE}`), {
+        store: this.props.store,
+        accessories,
+      });
 
       new ButtonArrowRight(part.querySelector(`#${PROCEED_NODE}`), {
         id: PROCEED,
@@ -95,7 +99,7 @@ class Accessories extends HtmlNode {
     }
 
     content.appendChild(part);
-    if (state.navigation.stage === this.index) {
+    if (state.navigation.stage === this.props.index) {
       content.parentElement?.scrollIntoView();
     }
   }

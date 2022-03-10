@@ -1,23 +1,27 @@
 import HtmlNode from '../../../Components/Extension/HtmlNode';
 import StageCompleted from '../../../Components/StageCompleted';
 import { goTo } from '../../../Redux/action';
-import store from '../../../Redux/store';
+import { WaykeStore } from '../../../Redux/store';
 import { maskSSn, maskText } from '../../../Utils/mask';
 import ListItem from '../../../Templates/ListItem';
 import EmailAndPhone from './EmailAndPhone';
 import FullAddress from './FullAddress';
 import watch from '../../../Redux/watch';
 
+interface CustomerProps {
+  store: WaykeStore;
+  index: number;
+  lastStage: boolean;
+}
+
 class Customer extends HtmlNode {
-  private index: number;
-  private lastStage: boolean;
+  private props: CustomerProps;
 
-  constructor(element: HTMLDivElement, index: number, lastStage: boolean) {
+  constructor(element: HTMLDivElement, props: CustomerProps) {
     super(element);
-    this.index = index;
-    this.lastStage = lastStage;
+    this.props = props;
 
-    watch('navigation', () => {
+    watch(this.props.store, 'navigation', () => {
       this.render();
     });
 
@@ -25,17 +29,17 @@ class Customer extends HtmlNode {
   }
 
   onChange() {
-    goTo('main', this.index);
+    goTo('main', this.props.index)(this.props.store.dispatch);
   }
 
   render() {
-    const state = store.getState();
+    const state = this.props.store.getState();
 
-    const completed = state.topNavigation.stage > this.index;
+    const completed = state.topNavigation.stage > this.props.index;
     const content = ListItem(this.node, {
       completed,
       title: 'Dina uppgifter',
-      active: state.navigation.stage === this.index,
+      active: state.navigation.stage === this.props.index,
       id: 'customer',
     });
     content.innerHTML = '';
@@ -46,8 +50,8 @@ class Customer extends HtmlNode {
     part2.className = 'waykeecom-stack waykeecom-stack--2';
 
     if (
-      state.navigation.stage > this.index ||
-      (completed && state.navigation.stage !== this.index)
+      state.navigation.stage > this.props.index ||
+      (completed && state.navigation.stage !== this.props.index)
     ) {
       const keyValueList: { key: string; value: string }[] = [
         { key: 'E-post', value: state.customer.email },
@@ -70,13 +74,13 @@ class Customer extends HtmlNode {
         changeButtonTitle: 'Ändra dina uppgifter',
         onEdit: () => this.onChange(),
       });
-    } else if (state.navigation.stage === this.index) {
-      new EmailAndPhone(content);
+    } else if (state.navigation.stage === this.props.index) {
+      new EmailAndPhone(content, { store: this.props.store });
       if (state.navigation.subStage > 1) {
-        new FullAddress(content, this.lastStage);
+        new FullAddress(content, { store: this.props.store, lastStage: this.props.lastStage });
       }
     }
-    if (state.navigation.stage === this.index) {
+    if (state.navigation.stage === this.props.index) {
       content.parentElement?.scrollIntoView();
     }
   }

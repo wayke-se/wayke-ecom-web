@@ -3,7 +3,7 @@ import ButtonArrowRight from '../../../../Components/Button/ButtonArrowRight';
 import ButtonSkip from '../../../../Components/Button/ButtonSkip';
 import HtmlNode from '../../../../Components/Extension/HtmlNode';
 import { completeStage } from '../../../../Redux/action';
-import store from '../../../../Redux/store';
+import { WaykeStore } from '../../../../Redux/store';
 import watch from '../../../../Redux/watch';
 import InsuranceList from './InsuranceList';
 
@@ -16,6 +16,7 @@ const SKIP_INSURANCES = 'button-insurances-skip';
 const SKIP_INSURANCES_NODE = `${SKIP_INSURANCES}-node`;
 
 interface DefaultInsuranceProps {
+  store: WaykeStore;
   lastStage: boolean;
   insurance: IAvailableInsuranceOption;
 }
@@ -30,22 +31,22 @@ class DefaultInsurance extends HtmlNode {
     super(element);
     this.props = props;
 
-    watch('freeInsurance', (nextValue) => {
+    watch(this.props.store, 'freeInsurance', (nextValue) => {
       this.contexts.buttonProceed?.disabled(!nextValue);
     });
 
     this.render();
   }
   private onProceed() {
-    completeStage(this.props.lastStage);
+    completeStage(this.props.lastStage)(this.props.store.dispatch);
   }
 
   private onSkipInsurances() {
-    completeStage(this.props.lastStage);
+    completeStage(this.props.lastStage)(this.props.store.dispatch);
   }
 
   render() {
-    const state = store.getState();
+    const state = this.props.store.getState();
     const { freeInsurance } = state;
 
     this.node.innerHTML = `
@@ -62,9 +63,10 @@ class DefaultInsurance extends HtmlNode {
       </div>
     `;
 
-    new InsuranceList(this.node.querySelector<HTMLDivElement>(`#${INSURANCE_GRID_LIST_NODE}`), [
-      this.props.insurance,
-    ]);
+    new InsuranceList(this.node.querySelector<HTMLDivElement>(`#${INSURANCE_GRID_LIST_NODE}`), {
+      store: this.props.store,
+      insurances: [this.props.insurance],
+    });
 
     this.contexts.buttonProceed = new ButtonArrowRight(
       this.node.querySelector<HTMLDivElement>(`#${PROCEED_INSURANCE_NODE}`),

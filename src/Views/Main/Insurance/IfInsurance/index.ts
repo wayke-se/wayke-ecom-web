@@ -4,7 +4,7 @@ import ButtonSkip from '../../../../Components/Button/ButtonSkip';
 import HtmlNode from '../../../../Components/Extension/HtmlNode';
 import InputSelect from '../../../../Components/Input/InputSelect';
 import { setDrivingDistance } from '../../../../Redux/action';
-import store from '../../../../Redux/store';
+import { WaykeStore } from '../../../../Redux/store';
 import { translateDrivingDistance } from '../../../../Utils/constants';
 import InsuranceView from './InsuranceView';
 
@@ -18,6 +18,7 @@ const SKIP_INSURANCES = 'button-insurances-skip';
 const SKIP_INSURANCES_NODE = `${SKIP_INSURANCES}-node`;
 
 interface IfInsuranceProps {
+  store: WaykeStore;
   lastStage: boolean;
   onSkip: () => void;
 }
@@ -34,7 +35,7 @@ class IfInsurance extends HtmlNode {
 
   private onChangeDistance(e: Event) {
     const currentTarget = e.currentTarget as HTMLSelectElement;
-    setDrivingDistance(currentTarget.value as DrivingDistance);
+    setDrivingDistance(currentTarget.value as DrivingDistance)(this.props.store.dispatch);
   }
 
   private onShowInsurances() {
@@ -48,9 +49,10 @@ class IfInsurance extends HtmlNode {
   }
 
   render() {
-    const state = store.getState();
+    const state = this.props.store.getState();
     if (this.showInsurances) {
       new InsuranceView(this.node, {
+        store: this.props.store,
         lastStage: this.props.lastStage,
         onEdit: () => this.onEdit(),
       });

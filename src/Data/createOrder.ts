@@ -1,7 +1,7 @@
 import { customers, DeliveryType, orders, PaymentType, vehicles } from '@wayke-se/ecom';
-import store from '../Redux/store';
+import { WaykeStore } from '../Redux/store';
 
-export const createOrder = () => {
+export const createOrder = (store: WaykeStore) => {
   const state = store.getState();
   if (!state.address) throw 'Missing address';
   if (!state.paymentType) throw 'Missing paymentType';

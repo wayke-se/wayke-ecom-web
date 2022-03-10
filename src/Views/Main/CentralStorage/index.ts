@@ -1,13 +1,19 @@
 import HtmlNode from '../../../Components/Extension/HtmlNode';
-import store from '../../../Redux/store';
+import { WaykeStore } from '../../../Redux/store';
 import watch from '../../../Redux/watch';
 import ListItem from '../../../Templates/ListItem';
 
-class CentralStorage extends HtmlNode {
-  constructor(element: HTMLDivElement) {
-    super(element);
+interface CentralStorageProps {
+  store: WaykeStore;
+}
 
-    watch('navigation', () => {
+class CentralStorage extends HtmlNode {
+  private props: CentralStorageProps;
+
+  constructor(element: HTMLDivElement, props: CentralStorageProps) {
+    super(element);
+    this.props = props;
+    watch(this.props.store, 'navigation', () => {
       this.render();
     });
 
@@ -15,7 +21,7 @@ class CentralStorage extends HtmlNode {
   }
 
   render() {
-    const centralStorage = store.getState().centralStorage;
+    const centralStorage = this.props.store.getState().centralStorage;
     if (centralStorage) {
       ListItem(this.node, { title: 'Centrallager', id: 'central-storage' });
     }

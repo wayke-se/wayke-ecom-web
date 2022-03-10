@@ -1,14 +1,16 @@
 import { CreditAssessmentRecommendation } from '@wayke-se/ecom';
 import HtmlNode from '../../../Components/Extension/HtmlNode';
-import store from '../../../Redux/store';
+import { WaykeStore } from '../../../Redux/store';
 import Alert from '../../../Templates/Alert';
 
 interface StageCompletedFinancialCreditAssessmentProps {
+  store: WaykeStore;
   decision: CreditAssessmentRecommendation;
 }
 
 class StageCompletedFinancialCreditAssessment extends HtmlNode {
   private props: StageCompletedFinancialCreditAssessmentProps;
+
   constructor(element: HTMLElement | null, props: StageCompletedFinancialCreditAssessmentProps) {
     super(element);
     this.props = props;
@@ -16,7 +18,7 @@ class StageCompletedFinancialCreditAssessment extends HtmlNode {
   }
 
   render() {
-    const state = store.getState();
+    const state = this.props.store.getState();
     const contactInformation = state.order?.getContactInformation();
 
     if (this.props.decision === CreditAssessmentRecommendation.Approve) {

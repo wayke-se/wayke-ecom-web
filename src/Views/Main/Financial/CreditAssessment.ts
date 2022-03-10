@@ -19,7 +19,7 @@ import { creditAssessmentGetStatus } from '../../../Data/creditAssessmentGetStat
 import { creditAssessmentNewCase } from '../../../Data/creditAssessmentNewCase';
 import { creditAssessmentSignCase } from '../../../Data/creditAssessmentSignCase';
 import { setCreditAssessmentResponse } from '../../../Redux/action';
-import store from '../../../Redux/store';
+import { WaykeStore } from '../../../Redux/store';
 import Alert from '../../../Templates/Alert';
 import { prettyNumber } from '../../../Utils/format';
 import { isMobile } from '../../../Utils/isMobile';
@@ -135,6 +135,7 @@ const mock: ICreditAssessmentHouseholdEconomy = {
 };
 
 interface CreditAssessmentProps {
+  store: WaykeStore;
   loan: IPaymentOption;
   paymentLookupResponse: PaymentLookupResponse;
   onProceed: () => void;
@@ -255,13 +256,13 @@ class CreditAssessment extends HtmlNode {
           }
           this.view = 3;
           this.creditAssessmentResponse = response;
-          setCreditAssessmentResponse(caseId, response);
+          setCreditAssessmentResponse(caseId, response)(this.props.store.dispatch);
 
           if (
             response.getRecommendation() === CreditAssessmentRecommendation.AssessManually ||
             response.getRecommendation() === CreditAssessmentRecommendation.Approve
           ) {
-            setCreditAssessmentResponse(caseId, response);
+            setCreditAssessmentResponse(caseId, response)(this.props.store.dispatch);
           }
           destroyPortal();
           this.render();
@@ -327,7 +328,7 @@ class CreditAssessment extends HtmlNode {
   async newCreditAssessmentCase() {
     try {
       this.contexts.performApplicationButton?.disabled(true);
-      const { customer } = store.getState();
+      const { customer } = this.props.store.getState();
 
       const { monthlyCost } = this.props.paymentLookupResponse.getCosts();
       const { interest } = this.props.paymentLookupResponse.getInterests();
@@ -374,12 +375,13 @@ class CreditAssessment extends HtmlNode {
 
   render(scrollIntoView?: boolean) {
     const mobile = isMobile();
-    const { order } = store.getState();
+    const { order } = this.props.store.getState();
     const creditAmount = this.props.paymentLookupResponse.getCreditAmount();
     const branchName = order?.getContactInformation()?.name;
 
     if (this.view === 3 && this.creditAssessmentResponse) {
       new CreditAssessmentResult(createPortal(), {
+        store: this.props.store,
         creditAssessmentResponse: this.creditAssessmentResponse,
         onProceed: () => {
           destroyPortal();

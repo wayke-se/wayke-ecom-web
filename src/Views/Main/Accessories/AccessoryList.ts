@@ -2,14 +2,20 @@ import { IAccessory } from '@wayke-se/ecom/dist-types/orders/types';
 import HtmlNode from '../../../Components/Extension/HtmlNode';
 
 import OverflowGridList from '../../../Components/OverflowGrid/OverflowGridList';
+import { WaykeStore } from '../../../Redux/store';
 import AccessoryItem from './AccessoryItem';
 
-class AccessoryList extends HtmlNode {
-  private accessories: IAccessory[];
+interface AccessoryListProps {
+  store: WaykeStore;
+  accessories: IAccessory[];
+}
 
-  constructor(element: HTMLElement | null, accessories: IAccessory[]) {
+class AccessoryList extends HtmlNode {
+  private props: AccessoryListProps;
+
+  constructor(element: HTMLElement | null, props: AccessoryListProps) {
     super(element);
-    this.accessories = accessories;
+    this.props = props;
 
     this.render();
   }
@@ -19,9 +25,13 @@ class AccessoryList extends HtmlNode {
     const { overflowElement } = listRef;
     if (overflowElement) {
       overflowElement.innerHTML = '';
-      this.accessories.forEach(
+      this.props.accessories.forEach(
         (accessory, index) =>
-          new AccessoryItem(overflowElement, accessory, `accessory-${accessory.id}-${index}`)
+          new AccessoryItem(overflowElement, {
+            store: this.props.store,
+            accessory,
+            key: `accessory-${accessory.id}-${index}`,
+          })
       );
     }
   }

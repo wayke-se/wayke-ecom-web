@@ -1,12 +1,13 @@
 import StackNode from '../../Components/Extension/StackNode';
 import { goTo } from '../../Redux/action';
-import store from '../../Redux/store';
+import { WaykeStore } from '../../Redux/store';
 import KeyValueListItem from '../../Templates/KeyValueListItem';
 import { maskSSn, maskText } from '../../Utils/mask';
 
 const EDIT_CUSTOMER = 'edit-customer';
 
 interface CustomerProps {
+  store: WaykeStore;
   createdOrderId?: string;
 }
 
@@ -19,7 +20,7 @@ class Customer extends StackNode {
   }
 
   render() {
-    const state = store.getState();
+    const state = this.props.store.getState();
 
     this.node.innerHTML = `
       <div class="waykeecom-stack waykeecom-stack--2">
@@ -77,7 +78,9 @@ class Customer extends StackNode {
       if (editCustomerIndex !== undefined) {
         document
           .querySelector<HTMLButtonElement>(`#${EDIT_CUSTOMER}`)
-          ?.addEventListener('click', () => goTo('main', editCustomerIndex + 1));
+          ?.addEventListener('click', () =>
+            goTo('main', editCustomerIndex + 1)(this.props.store.dispatch)
+          );
       }
     }
   }

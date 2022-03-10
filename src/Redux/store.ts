@@ -1,10 +1,7 @@
-import { createStore } from 'redux';
+import { createStore as createReduxStore, Store } from 'redux';
+import { Action } from './action';
 
-import reducers from './reducer';
+import reducers, { ReducerState } from './reducer';
 
-const store = createStore(reducers);
-const { dispatch } = store;
-
-export { dispatch };
-
-export default store;
+export type WaykeStore = Store<ReducerState, Action>;
+export const createStore = () => createReduxStore(reducers);

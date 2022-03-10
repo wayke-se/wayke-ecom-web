@@ -1,5 +1,5 @@
 import reduxWatch from 'redux-watch';
-import store from './store';
+import { WaykeStore } from './store';
 
 const subscriptions: (() => void)[] = [];
 
@@ -10,6 +10,7 @@ export const unregisterAllSubscriptions = () => subscriptions.forEach((s) => s()
 type FieldPath = string | number | Array<string | number>;
 
 const watch = <T>(
+  store: WaykeStore,
   path: FieldPath,
   callback: (newValue: T, oldValue: T, pathToField: FieldPath) => void,
   doNotRegister?: boolean

@@ -1,7 +1,8 @@
 import StackNode from '../../Components/Extension/StackNode';
-import store from '../../Redux/store';
+import { WaykeStore } from '../../Redux/store';
 
 interface IntroProps {
+  store: WaykeStore;
   createdOrderId?: string;
 }
 
@@ -15,7 +16,7 @@ class Intro extends StackNode {
   }
 
   render() {
-    const state = store.getState();
+    const state = this.props.store.getState();
     const email = state.customer.email;
     const contactInformation = state.order?.getContactInformation();
 

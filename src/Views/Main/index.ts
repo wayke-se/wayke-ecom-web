@@ -1,14 +1,21 @@
 import ItemTileSmall from '../../Templates/ItemTileSmall';
-import store from '../../Redux/store';
+import { WaykeStore } from '../../Redux/store';
 import Summary from './Summary';
 import Confirmation from './Confirmation';
 import HtmlNode from '../../Components/Extension/HtmlNode';
 import watch from '../../Redux/watch';
-class Main extends HtmlNode {
-  constructor(element: HTMLElement) {
-    super(element);
 
-    watch<number>('navigation.view', (view) => {
+interface MainProps {
+  store: WaykeStore;
+}
+
+class Main extends HtmlNode {
+  private props: MainProps;
+  constructor(element: HTMLElement, props: MainProps) {
+    super(element);
+    this.props = props;
+
+    watch<number>(this.props.store, 'navigation.view', (view) => {
       if (view === 2) {
         this.render();
       }
@@ -19,7 +26,7 @@ class Main extends HtmlNode {
   }
 
   render() {
-    const state = store.getState();
+    const state = this.props.store.getState();
     const { order, stages } = state;
     if (!order) throw 'No order available';
 
@@ -38,7 +45,14 @@ class Main extends HtmlNode {
 
     const size = stages?.length;
     // Render stages
-    stages?.forEach((stage, index) => new stage.component(stepper, index + 1, size === index + 1));
+    stages?.forEach(
+      (stage, index) =>
+        new stage.component(stepper, {
+          store: this.props.store,
+          index: index + 1,
+          lastStage: size === index + 1,
+        })
+    );
 
     new Summary(stepper);
     new Confirmation(stepper);

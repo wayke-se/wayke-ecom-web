@@ -5,7 +5,7 @@ import ButtonSkip from '../../../../Components/Button/ButtonSkip';
 import HtmlNode from '../../../../Components/Extension/HtmlNode';
 import { getInsurances } from '../../../../Data/getInsurances';
 import { completeStage } from '../../../../Redux/action';
-import store from '../../../../Redux/store';
+import { WaykeStore } from '../../../../Redux/store';
 import watch from '../../../../Redux/watch';
 import Alert from '../../../../Templates/Alert';
 import KeyValueListItem from '../../../../Templates/KeyValueListItem';
@@ -25,6 +25,7 @@ const EDIT_DRIVING_DISTANCE = 'button-insurance-edit-driving-distance';
 const EDIT_DRIVING_DISTANCE_NODE = `${EDIT_DRIVING_DISTANCE}-node`;
 
 interface InsuranceViewProps {
+  store: WaykeStore;
   lastStage: boolean;
   onEdit: () => void;
 }
@@ -41,15 +42,15 @@ class InsuranceView extends HtmlNode {
     super(element);
     this.props = props;
 
-    watch('drivingDistance', () => {
+    watch(this.props.store, 'drivingDistance', () => {
       this.fetchInsurance();
     });
 
-    watch('customer.socialId', () => {
+    watch(this.props.store, 'customer.socialId', () => {
       this.fetchInsurance();
     });
 
-    watch('insurance', () => {
+    watch(this.props.store, 'insurance', () => {
       this.render();
     });
 
@@ -58,7 +59,7 @@ class InsuranceView extends HtmlNode {
   }
 
   private fetchInsurance() {
-    const state = store.getState();
+    const state = this.props.store.getState();
     if (state.customer.socialId) {
       this.getchInsurances();
     }
@@ -69,8 +70,8 @@ class InsuranceView extends HtmlNode {
     this.render();
 
     try {
-      const state = store.getState();
-      const response = await getInsurances(state.drivingDistance);
+      const state = this.props.store.getState();
+      const response = await getInsurances(this.props.store, state.drivingDistance);
       this.insurances = response.getInsuranceOptions();
     } catch (e) {
       this.requestError = true;
@@ -84,15 +85,15 @@ class InsuranceView extends HtmlNode {
   }
 
   private onProceed() {
-    completeStage(this.props.lastStage);
+    completeStage(this.props.lastStage)(this.props.store.dispatch);
   }
 
   private onSkipInsurances() {
-    completeStage(this.props.lastStage);
+    completeStage(this.props.lastStage)(this.props.store.dispatch);
   }
 
   render() {
-    const state = store.getState();
+    const state = this.props.store.getState();
     const { insurance, drivingDistance } = state;
 
     this.node.innerHTML = `
@@ -140,7 +141,7 @@ class InsuranceView extends HtmlNode {
       } else {
         const insurances = this.insurances;
         if (insurances?.length) {
-          new InsuranceList(insuranceListNode, insurances);
+          new InsuranceList(insuranceListNode, { store: this.props.store, insurances });
         } else {
           insuranceListNode.innerHTML = Loader();
         }

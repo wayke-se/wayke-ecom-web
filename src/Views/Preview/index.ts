@@ -1,7 +1,7 @@
 import ItemTileLarge from '../../Templates/ItemTileLarge';
 import { getOrder } from '../../Data/getOrder';
 import { goTo, setOrder, setStages } from '../../Redux/action';
-import store from '../../Redux/store';
+import { WaykeStore } from '../../Redux/store';
 import HowTo from './HowTo';
 import ButtonArrowRight from '../../Components/Button/ButtonArrowRight';
 import { StageTypes } from '../../@types/Stages';
@@ -17,17 +17,20 @@ const PROCEED_BUTTON_NODE = `${PROCEED_BUTTON}-node`;
 const PREVIEW_CHECKLIST = 'preview-checklist';
 const PREVIEW_CHECKLIST_NODE = `${PREVIEW_CHECKLIST}-node`;
 
+interface PreviewProps {
+  store: WaykeStore;
+  stageOrderList: StageMapKeys[];
+  vehicle?: Vehicle;
+}
+
 class Preview extends HtmlNode {
-  private stageOrderList: StageMapKeys[];
-  private vehicle?: Vehicle;
+  private props: PreviewProps;
   private contexts: { buttonProceed?: ButtonArrowRight } = {};
   private requestError = false;
 
-  constructor(element: HTMLElement, stageOrderList: StageMapKeys[], vehicle?: Vehicle) {
+  constructor(element: HTMLElement, props: PreviewProps) {
     super(element);
-    this.stageOrderList = stageOrderList;
-    this.vehicle = vehicle;
-
+    this.props = props;
     this.init();
     this.render();
   }
@@ -36,7 +39,7 @@ class Preview extends HtmlNode {
     this.requestError = false;
     this.render();
 
-    const state = store.getState();
+    const state = this.props.store.getState();
     try {
       this.contexts.buttonProceed?.disabled(true);
 
@@ -44,7 +47,7 @@ class Preview extends HtmlNode {
       const { centralStorage } = state;
 
       const stages: StageTypes[] = [];
-      this.stageOrderList.forEach((key) => {
+      this.props.stageOrderList.forEach((key) => {
         if (key === 'centralStorage' && !centralStorage) return;
         if (key === 'tradeIn' && !order.allowsTradeIn) return;
         if (key === 'insurance' && !order.getInsuranceOption()) return;
@@ -53,9 +56,9 @@ class Preview extends HtmlNode {
         stages.push(stageMap[key]);
       });
 
-      setStages(stages);
+      setStages(stages)(this.props.store.dispatch);
 
-      setOrder(order, this.vehicle);
+      setOrder(order, this.props.vehicle)(this.props.store.dispatch);
       this.render();
     } catch (e) {
       this.requestError = true;
@@ -65,7 +68,7 @@ class Preview extends HtmlNode {
   }
 
   render() {
-    const state = store.getState();
+    const state = this.props.store.getState();
 
     if (!state.order) {
       this.node.innerHTML = `
@@ -98,7 +101,7 @@ class Preview extends HtmlNode {
       {
         id: PROCEED_BUTTON,
         title: 'Gå vidare',
-        onClick: () => goTo('main'),
+        onClick: () => goTo('main')(this.props.store.dispatch),
       }
     );
 

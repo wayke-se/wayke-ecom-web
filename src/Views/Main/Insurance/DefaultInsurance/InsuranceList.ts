@@ -1,14 +1,20 @@
 import { IAvailableInsuranceOption } from '@wayke-se/ecom';
 import HtmlNode from '../../../../Components/Extension/HtmlNode';
 import OverflowGridList from '../../../../Components/OverflowGrid/OverflowGridList';
+import { WaykeStore } from '../../../../Redux/store';
 import InsuranceItem from './InsuranceItem';
 
-class InsuranceList extends HtmlNode {
-  private insurances: IAvailableInsuranceOption[];
+interface InsuranceListProps {
+  store: WaykeStore;
+  insurances: IAvailableInsuranceOption[];
+}
 
-  constructor(element: HTMLDivElement | null, insurances: IAvailableInsuranceOption[]) {
+class InsuranceList extends HtmlNode {
+  private props: InsuranceListProps;
+
+  constructor(element: HTMLDivElement | null, props: InsuranceListProps) {
     super(element);
-    this.insurances = insurances;
+    this.props = props;
 
     this.render();
   }
@@ -18,8 +24,13 @@ class InsuranceList extends HtmlNode {
     const { overflowElement } = listRef;
     if (overflowElement) {
       overflowElement.innerHTML = '';
-      this.insurances.forEach(
-        (insurance, index) => new InsuranceItem(overflowElement, insurance, `insurance-${index}`)
+      this.props.insurances.forEach(
+        (freeInsurance, index) =>
+          new InsuranceItem(overflowElement, {
+            store: this.props.store,
+            freeInsurance,
+            key: `insurance-${index}`,
+          })
       );
     }
   }

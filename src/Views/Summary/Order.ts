@@ -1,7 +1,7 @@
 import { PaymentType } from '@wayke-se/ecom';
 import StackNode from '../../Components/Extension/StackNode';
 import { goTo } from '../../Redux/action';
-import store from '../../Redux/store';
+import { WaykeStore } from '../../Redux/store';
 import ItemTileLarge from '../../Templates/ItemTileLarge';
 import KeyValueListItem from '../../Templates/KeyValueListItem';
 import { prettyNumber } from '../../Utils/format';
@@ -10,6 +10,7 @@ const EDIT_FINANCIAL = 'edit-financial';
 const EDIT_INSURANCE = 'edit-insurance';
 
 interface OrderProps {
+  store: WaykeStore;
   createdOrderId?: string;
 }
 
@@ -23,7 +24,7 @@ class Order extends StackNode {
   }
 
   render() {
-    const state = store.getState();
+    const state = this.props.store.getState();
 
     const paymentLoan = state.order?.getPaymentOptions().find((x) => x.type === PaymentType.Loan);
     const paymentLookupResponse = state.paymentLookupResponse || paymentLoan?.loanDetails;
@@ -139,14 +140,18 @@ class Order extends StackNode {
       if (editFinancialIndex !== undefined) {
         document
           .querySelector<HTMLButtonElement>(`#${EDIT_FINANCIAL}`)
-          ?.addEventListener('click', () => goTo('main', editFinancialIndex + 1));
+          ?.addEventListener('click', () =>
+            goTo('main', editFinancialIndex + 1)(this.props.store.dispatch)
+          );
       }
 
       const editInsuranceIndex = state.stages?.findIndex((x) => x.name === 'insurance');
       if (editInsuranceIndex !== undefined) {
         document
           .querySelector<HTMLButtonElement>(`#${EDIT_INSURANCE}`)
-          ?.addEventListener('click', () => goTo('main', editInsuranceIndex + 1));
+          ?.addEventListener('click', () =>
+            goTo('main', editInsuranceIndex + 1)(this.props.store.dispatch)
+          );
       }
     }
   }

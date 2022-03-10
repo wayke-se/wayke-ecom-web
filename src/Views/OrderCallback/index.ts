@@ -1,22 +1,27 @@
-import store from '../../Redux/store';
+import HtmlNode from '../../Components/Extension/HtmlNode';
+import { WaykeStore } from '../../Redux/store';
 
-class OrderCallback {
-  private element: Element;
-  private waykeOrderId: string;
+interface OrderCallbackProps {
+  store: WaykeStore;
+  waykeOrderId: string;
+}
 
-  constructor(element: Element, waykeOrderId: string) {
-    this.element = element;
-    this.waykeOrderId = waykeOrderId;
+class OrderCallback extends HtmlNode {
+  private props: OrderCallbackProps;
+
+  constructor(element: HTMLElement, props: OrderCallbackProps) {
+    super(element);
+    this.props = props;
     this.render();
   }
 
   render() {
-    const state = store.getState();
+    const state = this.props.store.getState();
 
     if (!state.order) {
-      this.element.innerHTML = `
+      this.node.innerHTML = `
         <p>Tack för ditt köp</p>
-        <p>Orderid: ${this.waykeOrderId}</p>
+        <p>Orderid: ${this.props.waykeOrderId}</p>
       `;
       return;
     }

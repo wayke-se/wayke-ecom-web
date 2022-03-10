@@ -1,7 +1,7 @@
 import { insurances, DrivingDistance } from '@wayke-se/ecom';
-import store from '../Redux/store';
+import { WaykeStore } from '../Redux/store';
 
-export const getInsurances = (drivingDistance: DrivingDistance) => {
+export const getInsurances = (store: WaykeStore, drivingDistance: DrivingDistance) => {
   const state = store.getState();
   if (!state.id) throw 'No id';
 

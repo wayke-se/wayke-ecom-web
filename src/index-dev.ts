@@ -14,8 +14,17 @@ window.addEventListener('DOMContentLoaded', (_) => {
     ecomSdkConfig,
   });
   context.start();
-  const button = document.querySelector<HTMLButtonElement>('button');
+  const button = document.querySelector<HTMLButtonElement>('#button');
   if (button) {
     button.addEventListener('click', () => context.start());
+  }
+
+  const context2 = new WaykeEcomWeb({
+    ...devConfig.CREDIT_ASSESSMENT,
+    ecomSdkConfig,
+  });
+  const button2 = document.querySelector<HTMLButtonElement>('#button2');
+  if (button2) {
+    button2.addEventListener('click', () => context2.start());
   }
 });

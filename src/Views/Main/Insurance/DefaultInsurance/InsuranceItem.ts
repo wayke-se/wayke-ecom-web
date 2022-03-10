@@ -3,19 +3,23 @@ import HtmlNode from '../../../../Components/Extension/HtmlNode';
 
 import GridItem from '../../../../Components/OverflowGrid/OverflowGridItem';
 import { addOrRemoveFreeInsurance } from '../../../../Redux/action';
-import store from '../../../../Redux/store';
+import { WaykeStore } from '../../../../Redux/store';
 import watch from '../../../../Redux/watch';
 
+interface InsuranceItemProps {
+  store: WaykeStore;
+  freeInsurance: IAvailableInsuranceOption;
+  key: string;
+}
+
 class InsuranceItem extends HtmlNode {
-  private freeInsurance: IAvailableInsuranceOption;
-  private key: string;
+  private props: InsuranceItemProps;
 
-  constructor(element: HTMLElement, freeInsurance: IAvailableInsuranceOption, key: string) {
+  constructor(element: HTMLElement, props: InsuranceItemProps) {
     super(element);
-    this.freeInsurance = freeInsurance;
-    this.key = key;
+    this.props = props;
 
-    watch('freeInsurance', () => {
+    watch(this.props.store, 'freeInsurance', () => {
       this.render();
     });
 
@@ -23,28 +27,30 @@ class InsuranceItem extends HtmlNode {
   }
 
   onClick() {
-    addOrRemoveFreeInsurance(this.freeInsurance);
+    addOrRemoveFreeInsurance(this.props.freeInsurance)(this.props.store.dispatch);
   }
 
   render() {
-    const state = store.getState();
+    const state = this.props.store.getState();
     const logo = state.order?.getInsuranceOption()?.logo;
 
     const selected = state.freeInsurance
-      ? JSON.stringify(state.freeInsurance).localeCompare(JSON.stringify(this.freeInsurance)) === 0
+      ? JSON.stringify(state.freeInsurance).localeCompare(
+          JSON.stringify(this.props.freeInsurance)
+        ) === 0
       : false;
 
     new GridItem(
       this.node,
       {
         logo,
-        title: this.freeInsurance.title,
-        description: this.freeInsurance.description,
+        title: this.props.freeInsurance.title,
+        description: this.props.freeInsurance.description,
         price: 'Gratis',
         selected,
         onClick: () => this.onClick(),
       },
-      this.key
+      this.props.key
     );
   }
 }

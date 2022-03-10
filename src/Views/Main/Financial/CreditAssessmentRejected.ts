@@ -1,6 +1,7 @@
 import { CreditAssessmentRecommendation } from '@wayke-se/ecom';
 import Button from '../../../Components/Button/Button';
 import HtmlNode from '../../../Components/Extension/HtmlNode';
+import { WaykeStore } from '../../../Redux/store';
 import StageCompletedFinancialCreditAssessment from './StageCompletedFinancialCreditAssessment';
 
 const RESULT = 'assessment-rejected-result';
@@ -10,6 +11,7 @@ const ABORT = 'assessment-rejected-abort';
 const ABORT_NODE = `${ABORT}-node`;
 
 interface CreditAssessmentRejectedProps {
+  store: WaykeStore;
   onGoBack: () => void;
 }
 
@@ -28,6 +30,7 @@ class CreditAssessmentRejected extends HtmlNode {
     `;
 
     new StageCompletedFinancialCreditAssessment(this.node.querySelector(`#${RESULT_NODE}`), {
+      store: this.props.store,
       decision: CreditAssessmentRecommendation.Reject,
     });
 

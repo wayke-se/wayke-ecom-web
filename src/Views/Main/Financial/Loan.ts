@@ -4,7 +4,7 @@ import ButtonArrowRight from '../../../Components/Button/ButtonArrowRight';
 import InputRange from '../../../Components/Input/InputRange';
 import { getPayment } from '../../../Data/getPayment';
 import { setPaymentLookupResponse } from '../../../Redux/action';
-import store from '../../../Redux/store';
+import { WaykeStore } from '../../../Redux/store';
 import Alert from '../../../Templates/Alert';
 import CreditAssessment from './CreditAssessment';
 import LoanDetails from './LoanDetails';
@@ -35,6 +35,7 @@ interface PaymentState {
 }
 
 interface LoanProps {
+  store: WaykeStore;
   loan: IPaymentOption;
   vehicleId: string;
   paymentLookupResponse?: PaymentLookupResponse;
@@ -100,7 +101,7 @@ class Loan {
         duration: response.getDurationSpec(),
         residual: response.getResidualValueSpec(),
       };
-      setPaymentLookupResponse(response);
+      setPaymentLookupResponse(response)(this.props.store.dispatch);
       this.update();
       this.contexts.downPayment?.disabled(false);
       this.contexts.duration?.disabled(false);
@@ -130,7 +131,7 @@ class Loan {
   }
 
   render() {
-    const state = store.getState();
+    const state = this.props.store.getState();
     const dealer = state.order?.getContactInformation();
     const shouldUseCreditScoring = this.paymentLookupResponse.shouldUseCreditScoring();
 
@@ -232,6 +233,7 @@ class Loan {
       new CreditAssessment(
         this.element.querySelector<HTMLDivElement>(`#${CREDIT_ASSESMENT_NODE}`),
         {
+          store: this.props.store,
           loan: this.props.loan,
           paymentLookupResponse: this.paymentLookupResponse,
           onProceed: () => this.props.onProceed(),

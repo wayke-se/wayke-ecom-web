@@ -4,7 +4,7 @@ import HtmlNode from '../../../Components/Extension/HtmlNode';
 import InputRadioField from '../../../Components/Input/InputRadioField';
 import StageCompleted from '../../../Components/StageCompleted';
 import { goTo, setHomeDelivery } from '../../../Redux/action';
-import store from '../../../Redux/store';
+import { WaykeStore } from '../../../Redux/store';
 import { getTotalDeliveryCost } from '../../../Utils/delivery';
 import ListItem from '../../../Templates/ListItem';
 import watch from '../../../Redux/watch';
@@ -18,22 +18,26 @@ const RADIO_HOME_FALSE_NODE = `${RADIO_HOME_FALSE}-node`;
 const PROCEED = 'button-home-delivery-proceed';
 const PROCEED_NODE = `${PROCEED}-node`;
 
+interface DeliveryProps {
+  store: WaykeStore;
+  index: number;
+  lastStage: boolean;
+}
+
 class Delivery extends HtmlNode {
-  private index: number;
-  private lastStage: boolean;
+  private props: DeliveryProps;
 
   private homeDelivery: boolean;
 
-  constructor(element: HTMLDivElement, index: number, lastStage: boolean) {
+  constructor(element: HTMLDivElement, props: DeliveryProps) {
     super(element);
-    this.index = index;
-    this.lastStage = lastStage;
+    this.props = props;
 
-    watch('navigation', () => {
+    watch(this.props.store, 'navigation', () => {
       this.render();
     });
 
-    const state = store.getState();
+    const state = this.props.store.getState();
     this.homeDelivery = state.homeDelivery;
     this.render();
   }
@@ -45,31 +49,31 @@ class Delivery extends HtmlNode {
   }
 
   private onProceed() {
-    setHomeDelivery(this.homeDelivery, this.lastStage);
+    setHomeDelivery(this.homeDelivery, this.props.lastStage)(this.props.store.dispatch);
   }
 
   private onEdit() {
-    goTo('main', this.index);
+    goTo('main', this.props.index)(this.props.store.dispatch);
   }
 
   render() {
-    const state = store.getState();
+    const state = this.props.store.getState();
     if (!state.order) throw 'Missing order...';
 
     const contactInformation = state.order.getContactInformation();
     if (!contactInformation) throw 'Missing dealer contact information';
 
-    const completed = state.topNavigation.stage > this.index;
+    const completed = state.topNavigation.stage > this.props.index;
     const content = ListItem(this.node, {
       completed,
       title: 'Leverans',
-      active: state.navigation.stage === this.index,
+      active: state.navigation.stage === this.props.index,
       id: 'delivery',
     });
 
     if (
-      state.navigation.stage > this.index ||
-      (completed && state.navigation.stage !== this.index)
+      state.navigation.stage > this.props.index ||
+      (completed && state.navigation.stage !== this.props.index)
     ) {
       new StageCompleted(content, {
         keyValueList: [
@@ -81,7 +85,7 @@ class Delivery extends HtmlNode {
         changeButtonTitle: 'Ändra leveranssätt',
         onEdit: () => this.onEdit(),
       });
-    } else if (state.navigation.stage === this.index) {
+    } else if (state.navigation.stage === this.props.index) {
       const part = document.createElement('div');
       part.innerHTML = `
         <div class="waykeecom-stack waykeecom-stack--3">
@@ -163,7 +167,7 @@ class Delivery extends HtmlNode {
       });
 
       content.appendChild(part);
-      if (state.navigation.stage === this.index) {
+      if (state.navigation.stage === this.props.index) {
         content.parentElement?.scrollIntoView();
       }
     }

@@ -3,7 +3,7 @@ import StackNode from '../../Components/Extension/StackNode';
 import { createOrder } from '../../Data/createOrder';
 import { creditAssessmentAccept } from '../../Data/creditAssessmentAccept';
 import { setCreatedOrderId } from '../../Redux/action';
-import store from '../../Redux/store';
+import { WaykeStore } from '../../Redux/store';
 import Alert from '../../Templates/Alert';
 
 const CREATE_ORDER = 'create-order';
@@ -13,6 +13,7 @@ const CLOSE_ORDER = 'close-order';
 const CLOSE_ORDER_NODE = `${CLOSE_ORDER}-node`;
 
 interface ExecuteOrderProps {
+  store: WaykeStore;
   createdOrderId?: string;
   onClose: () => void;
 }
@@ -32,9 +33,9 @@ class ExecuteOrder extends StackNode {
     this.requestError = false;
     try {
       this.contexts.createOrderButton?.loading(true);
-      const response = await createOrder();
-      setCreatedOrderId(response.getId());
-      const state = store.getState();
+      const response = await createOrder(this.props.store);
+      setCreatedOrderId(response.getId())(this.props.store.dispatch);
+      const state = this.props.store.getState();
       const caseId = state.caseId;
       if (caseId) {
         creditAssessmentAccept(caseId);
@@ -46,7 +47,7 @@ class ExecuteOrder extends StackNode {
     } finally {
       this.contexts.createOrderButton?.loading(false);
 
-      setCreatedOrderId('asdasd');
+      setCreatedOrderId('asdasd')(this.props.store.dispatch);
     }
   }
 

@@ -3,7 +3,7 @@ import ButtonArrowRight from '../../../Components/Button/ButtonArrowRight';
 import InputField from '../../../Components/Input/InputField';
 
 import { setContactAndPhone } from '../../../Redux/action';
-import store from '../../../Redux/store';
+import { WaykeStore } from '../../../Redux/store';
 import EmailHelp from '../../../Templates/EmailHelp';
 import KeyValueListItem from '../../../Templates/KeyValueListItem';
 import { validationMethods } from '../../../Utils/validationMethods';
@@ -49,7 +49,12 @@ const initalState = (customer?: Customer): Part1EmailAndPhoneState => {
   };
 };
 
+interface EmailAndPhoneProps {
+  store: WaykeStore;
+}
+
 class EmailAndPhone extends HtmlNode {
+  private props: EmailAndPhoneProps;
   private state: Part1EmailAndPhoneState;
   private contexts: {
     email?: InputField;
@@ -57,10 +62,11 @@ class EmailAndPhone extends HtmlNode {
     button?: ButtonArrowRight;
   } = {};
 
-  constructor(element: HTMLDivElement) {
+  constructor(element: HTMLDivElement, props: EmailAndPhoneProps) {
     super(element, { htmlTag: 'div', className: 'waykeecom-stack waykeecom-stack--2' });
+    this.props = props;
 
-    const state = store.getState();
+    const state = this.props.store.getState();
     this.state = initalState(state.customer);
 
     this.render();
@@ -100,11 +106,11 @@ class EmailAndPhone extends HtmlNode {
     setContactAndPhone({
       email: this.state.value.email.trim(),
       phone: this.state.value.phone.trim(),
-    });
+    })(this.props.store.dispatch);
   }
 
   render() {
-    const subStage = store.getState().navigation.subStage;
+    const subStage = this.props.store.getState().navigation.subStage;
 
     if (subStage > 1) {
       const keyValueItems: { key: string; value: string }[] = [

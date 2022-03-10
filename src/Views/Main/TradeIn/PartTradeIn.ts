@@ -3,7 +3,7 @@ import { TradeInCarData, TradeInCarDataPartial, VehicleCondition } from '../../.
 import Alert from '../../../Templates/Alert';
 import { getTradeInVehicle } from '../../../Data/getTradeInVehicle';
 import { setTradeIn } from '../../../Redux/action';
-import store from '../../../Redux/store';
+import { WaykeStore } from '../../../Redux/store';
 import { validationMethods } from '../../../Utils/validationMethods';
 import ButtonArrowRight from '../../../Components/Button/ButtonArrowRight';
 import InputField from '../../../Components/Input/InputField';
@@ -94,9 +94,14 @@ const initalState = (tradeIn?: TradeInCarDataPartial): PartTradeInState => {
   };
 };
 
+interface PartTradeInProps {
+  store: WaykeStore;
+  lastStage: boolean;
+}
+
 class PartTradeIn extends HtmlNode {
+  private props: PartTradeInProps;
   private state: PartTradeInState;
-  private lastStage: boolean;
   private contexts: {
     registrationNumber?: InputField;
     mileage?: InputField;
@@ -105,11 +110,11 @@ class PartTradeIn extends HtmlNode {
   } = {};
   private requestError = false;
 
-  constructor(element: HTMLElement, lastStage: boolean) {
+  constructor(element: HTMLElement, props: PartTradeInProps) {
     super(element);
-    this.lastStage = lastStage;
+    this.props = props;
 
-    const state = store.getState();
+    const state = this.props.store.getState();
     this.state = initalState(state.tradeIn);
     this.render();
   }
@@ -121,7 +126,11 @@ class PartTradeIn extends HtmlNode {
     const key = `${this.state.value.registrationNumber}-${this.state.value.mileage}-${this.state.value.condition}`;
     const cache = TRADE_IN_CACHE[key];
     if (cache) {
-      setTradeIn(this.lastStage, this.state.value as TradeInCarData, cache);
+      setTradeIn(
+        this.props.lastStage,
+        this.state.value as TradeInCarData,
+        cache
+      )(this.props.store.dispatch);
       return;
     }
 
@@ -137,7 +146,7 @@ class PartTradeIn extends HtmlNode {
         const response = await getTradeInVehicle(value);
         const vehicle = response.getVehicle();
         TRADE_IN_CACHE[key] = vehicle;
-        setTradeIn(this.lastStage, value, vehicle);
+        setTradeIn(this.props.lastStage, value, vehicle)(this.props.store.dispatch);
       }
     } catch (e) {
       this.requestError = true;
@@ -194,7 +203,7 @@ class PartTradeIn extends HtmlNode {
   }
 
   private onNoTradeIn() {
-    setTradeIn(this.lastStage);
+    setTradeIn(this.props.lastStage)(this.props.store.dispatch);
   }
 
   render() {

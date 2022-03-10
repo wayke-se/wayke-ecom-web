@@ -1,5 +1,5 @@
 import { goTo, initTradeIn, setTradeIn } from '../../../Redux/action';
-import store from '../../../Redux/store';
+import { WaykeStore } from '../../../Redux/store';
 import ListItem from '../../../Templates/ListItem';
 import PartTradeIn from './PartTradeIn';
 import Alert from '../../../Templates/Alert';
@@ -21,16 +21,20 @@ const TRADE_IN_NO_NODE = `${TRADE_IN_NO}-node`;
 const CHANGE_BUTTON = 'button-trade-in-change';
 const CHANGE_BUTTON_NODE = `${CHANGE_BUTTON}-node`;
 
+interface TradeInProps {
+  store: WaykeStore;
+  index: number;
+  lastStage: boolean;
+}
+
 class TradeIn extends HtmlNode {
-  private index: number;
-  private lastStage: boolean;
+  private props: TradeInProps;
 
-  constructor(element: HTMLDivElement, index: number, lastStage: boolean) {
+  constructor(element: HTMLDivElement, props: TradeInProps) {
     super(element);
-    this.index = index;
-    this.lastStage = lastStage;
+    this.props = props;
 
-    watch('navigation', () => {
+    watch(this.props.store, 'navigation', () => {
       this.render();
     });
 
@@ -38,26 +42,26 @@ class TradeIn extends HtmlNode {
   }
 
   private onEdit() {
-    goTo('main', this.index);
+    goTo('main', this.props.index)(this.props.store.dispatch);
   }
 
   private onYesTradeIn() {
-    initTradeIn(this.lastStage);
+    initTradeIn(this.props.lastStage)(this.props.store.dispatch);
   }
 
   private onNoTradeIn() {
-    setTradeIn(this.lastStage);
+    setTradeIn(this.props.lastStage)(this.props.store.dispatch);
   }
 
   render() {
-    const state = store.getState();
+    const state = this.props.store.getState();
     if (!state.order?.allowsTradeIn) return;
 
-    const completed = state.topNavigation.stage > this.index;
+    const completed = state.topNavigation.stage > this.props.index;
     const content = ListItem(this.node, {
       title: 'Inbytesbil',
-      active: state.navigation.stage === this.index,
-      completed: state.topNavigation.stage > this.index,
+      active: state.navigation.stage === this.props.index,
+      completed: state.topNavigation.stage > this.props.index,
       id: 'trade-in',
     });
     content.innerHTML = '';
@@ -65,8 +69,8 @@ class TradeIn extends HtmlNode {
     const part = document.createElement('div');
 
     if (
-      state.navigation.stage > this.index ||
-      (completed && state.navigation.stage !== this.index)
+      state.navigation.stage > this.props.index ||
+      (completed && state.navigation.stage !== this.props.index)
     ) {
       const keyValueItemsUpper: { key: string; value: string }[] = [];
 
@@ -149,9 +153,9 @@ class TradeIn extends HtmlNode {
         title: 'Ändra',
         onClick: () => this.onEdit(),
       });
-    } else if (state.navigation.stage === this.index) {
+    } else if (state.navigation.stage === this.props.index) {
       if (state.wantTradeIn && state.tradeIn) {
-        new PartTradeIn(part, this.lastStage);
+        new PartTradeIn(part, { store: this.props.store, lastStage: this.props.lastStage });
       } else {
         part.innerHTML = `
           <div class="waykeecom-stack waykeecom-stack--3">
@@ -182,7 +186,7 @@ class TradeIn extends HtmlNode {
     }
 
     content.appendChild(part);
-    if (state.navigation.stage === this.index) {
+    if (state.navigation.stage === this.props.index) {
       content.parentElement?.scrollIntoView();
     }
   }

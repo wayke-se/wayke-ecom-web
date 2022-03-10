@@ -1,14 +1,22 @@
 import StackNode from '../../Components/Extension/StackNode';
-import store from '../../Redux/store';
+import { WaykeStore } from '../../Redux/store';
+
+interface DisclaimerProps {
+  store: WaykeStore;
+}
 
 class Disclaimer extends StackNode {
-  constructor(element: HTMLElement) {
+  private props: DisclaimerProps;
+
+  constructor(element: HTMLElement, props: DisclaimerProps) {
     super(element);
+    this.props = props;
+
     this.render();
   }
 
   render() {
-    const state = store.getState();
+    const state = this.props.store.getState();
     if (!state.order) throw 'no order';
 
     const conditionsPdfUri = state.order?.getConditionsPdfUri();
