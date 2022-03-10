@@ -1,3 +1,4 @@
+/*
 const baseVehicle = {
   title: 'Audi TT',
   shortDescription: 'S-Tronic Milltek 360hk 2500:-i månad',
@@ -13,6 +14,7 @@ const baseVehicle = {
   gearBox: 'Automat',
   fuelType: 'Bensin',
 };
+*/
 
 export const devConfig = {
   BANKID_TRADE_IN_HOME_DELIVERY: {
@@ -27,10 +29,7 @@ export const devConfig = {
     useBankid: true,
   },
   INSURANCE: {
-    id: 'c2a75c3c-58d7-4e46-adf4-07b61be0384d',
-    vehicle: {
-      ...baseVehicle,
-    },
+    id: '11082ecd-f484-46f4-82f2-0547f33ab4c2',
   },
   CREDIT_ASSESSMENT: {
     id: '66c573e4-ac81-4d68-b268-6d4f82b6bede',
@@ -39,6 +38,6 @@ export const devConfig = {
     id: '467a0c26-6540-417a-9904-f75b2beda9d5',
   },
   ACCESSORIES: {
-    id: 'f71d0afb-02aa-4f79-a9bc-9632a7454ca6',
+    id: '11082ecd-f484-46f4-82f2-0547f33ab4c2',
   },
 };

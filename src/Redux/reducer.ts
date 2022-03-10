@@ -6,6 +6,7 @@ import {
   IVehicle,
   PaymentType,
   IPaymentOption,
+  IAvailableInsuranceOption,
 } from '@wayke-se/ecom';
 import { OrderOptionsResponse } from '@wayke-se/ecom/dist-types/orders/order-options-response';
 import { IAccessory, IOrderVehicle } from '@wayke-se/ecom/dist-types/orders/types';
@@ -14,6 +15,7 @@ import { Customer } from '../@types/Customer';
 import { Navigation } from '../@types/Navigation';
 import { StageTypes } from '../@types/Stages';
 import { TradeInCarDataPartial } from '../@types/TradeIn';
+import { isSame } from '../Utils/compare';
 import {
   Action,
   RESET,
@@ -30,6 +32,7 @@ import {
   GO_TO,
   SET_OR_REMOVE_ACCESSORY,
   SET_OR_REMOVE_INSURANCE,
+  SET_OR_REMOVE_FREE_INSURANCE,
   SET_DRIVING_DISTANCE,
   COMPLETE_STAGE,
   SET_CREATED_ORDER_ID,
@@ -62,6 +65,7 @@ export interface ReducerState {
   accessories: IAccessory[];
   drivingDistance: DrivingDistance;
   insurance?: IInsuranceOption;
+  freeInsurance?: IAvailableInsuranceOption;
   createdOrderId?: string;
   creditAssessmentResponse?: ICreditAssessmentStatusResponse;
   caseId?: string;
@@ -148,6 +152,7 @@ const reducer = (state = initialState, action: Action): ReducerState => {
       clean.paymentType = resolveDefaultPaymentOption(state.order?.getPaymentOptions());
       delete clean.paymentLookupResponse;
       delete clean.insurance;
+      delete clean.freeInsurance;
       clean.accessories = [];
 
       return clean;
@@ -237,10 +242,19 @@ const reducer = (state = initialState, action: Action): ReducerState => {
       return next;
 
     case SET_OR_REMOVE_INSURANCE:
-      if (next.insurance !== action.insurance) {
+      if (!isSame(next.insurance, action.insurance)) {
         next.insurance = action.insurance;
       } else {
         next.insurance = undefined;
+      }
+
+      return next;
+
+    case SET_OR_REMOVE_FREE_INSURANCE:
+      if (!isSame(next.freeInsurance, action.freeInsurance)) {
+        next.freeInsurance = action.freeInsurance;
+      } else {
+        next.freeInsurance = undefined;
       }
 
       return next;

@@ -3,6 +3,7 @@ import {
   IAddress,
   ICreditAssessmentStatusResponse,
   IInsuranceOption,
+  IAvailableInsuranceOption,
   IVehicle,
   PaymentType,
 } from '@wayke-se/ecom';
@@ -115,6 +116,13 @@ export type SET_OR_REMOVE_INSURANCE_TYPE = BaseAction<typeof SET_OR_REMOVE_INSUR
 export const addOrRemoveInsurance = (insurance: IInsuranceOption) =>
   dispatch({ type: SET_OR_REMOVE_INSURANCE, insurance });
 
+export const SET_OR_REMOVE_FREE_INSURANCE = 'SET_OR_REMOVE_FREE_INSURANCE';
+export type SET_OR_REMOVE_FREE_INSURANCE_TYPE = BaseAction<typeof SET_OR_REMOVE_FREE_INSURANCE> & {
+  freeInsurance?: IAvailableInsuranceOption;
+};
+export const addOrRemoveFreeInsurance = (freeInsurance: IAvailableInsuranceOption) =>
+  dispatch({ type: SET_OR_REMOVE_FREE_INSURANCE, freeInsurance });
+
 export const SET_OR_REMOVE_ACCESSORY = 'SET_OR_REMOVE_ACCESSORY';
 export type SET_OR_REMOVE_ACCESSORY_TYPE = BaseAction<typeof SET_OR_REMOVE_ACCESSORY> & {
   accessory: IAccessory;
@@ -168,6 +176,7 @@ export type Action =
   | SET_PAYMENT_LOOKUP_RESPONSE_TYPE
   | SET_DRIVING_DISTANCE_TYPE
   | SET_OR_REMOVE_INSURANCE_TYPE
+  | SET_OR_REMOVE_FREE_INSURANCE_TYPE
   | SET_OR_REMOVE_ACCESSORY_TYPE
   | GO_TO_TYPE
   | SET_STAGES_TYPE
