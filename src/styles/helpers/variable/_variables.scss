@@ -17,6 +17,10 @@ $variables: (
       max-width: 850px,
       outer-spacing: size(3),
     ),
+    header: (
+      height: size(5),
+      spacing-top: size(3),
+    ),
   ),
   font: (
     line-height: (

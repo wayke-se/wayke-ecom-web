@@ -11,4 +11,8 @@
     transform: translateY(size(1));
     animation: #{$namespace}fade-in 400ms ease, #{$namespace}no-transform 400ms ease forwards;
   }
+
+  &__close {
+    top: calc(#{scss-var(size, modal, outer-spacing)} + var(--#{$namespace}modal-header-center) - var(--#{$namespace}modal-close-btn-center));
+  }
 }

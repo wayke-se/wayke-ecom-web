@@ -1,6 +1,13 @@
+@use 'sass:math';
+@use 'sass:meta';
+@use 'sass:map';
 @use '../../../helpers' as *;
 
 .#{$namespace}modal {
+  $modal-z-index-dialog: 1; // Required to guarantee position above modal root ::before
+  $modal-z-index-close: 2; // Required to guarantee position above modal dialog
+  $modal-close-btn-size: size(5);
+
   position: fixed;
   top: 0;
   bottom: 0;
@@ -46,14 +53,40 @@
     background-color: color(bg, main);
     color: color(text, main);
     overflow: hidden;
-    z-index: 1; // Required to guarantee position above modal root ::before
+    z-index: $modal-z-index-dialog;
   }
 
   &__header {
-    padding-top: size(3);
+    padding-top: scss-var(size, header, spacing-top);
   }
 
   &__body {
     padding: var(--#{$namespace}modal-gutter);
+  }
+
+  &__close {
+    --#{$namespace}modal-header-center: math.div(scss-var(size, header, height), 2) + scss-var(size, header, spacing-top);
+    --#{$namespace}modal-close-btn-center: math.div($modal-close-btn-size, 2);
+
+    position: fixed;
+    top: calc(var(--#{$namespace}modal-header-center) - var(--#{$namespace}modal-close-btn-center));
+    right: var(--#{$namespace}modal-gutter-x);
+    background: red;
+    z-index: $modal-z-index-close;
+
+    // Custom breakpoints for close button to work together with modal max-width
+
+    // Calculate modal max-width breakpoint
+    $breakpoint-modal-max-width: scss-var(size, modal, max-width) + scss-var(size, modal, outer-spacing);
+
+    // Breakpoint between sm and modal max-width
+    @media #{meta.inspect(map.get($breakpoints, sm))} and (max-width: ($breakpoint-modal-max-width - 1px)) {
+      right: calc(var(--#{$namespace}modal-gutter-x) + #{scss-var(size, modal, outer-spacing)});
+    }
+
+    // Breakpoint above modal max-width
+    @media (min-width: $breakpoint-modal-max-width) {
+      right: calc(50vw - #{scss-var(size, modal, max-width)} / 2 + var(--#{$namespace}modal-gutter-x));
+    }
   }
 }
