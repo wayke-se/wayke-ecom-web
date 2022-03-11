@@ -82,7 +82,7 @@
 
     // Breakpoint above modal max-width
     @media (min-width: $breakpoint-modal-max-width) {
-      right: calc(50vw - #{scss-var(size, modal, max-width)} / 2 + var(--#{$namespace}modal-gutter-x));
+      right: calc((var(--#{$namespace}vw, 1vw) * 50) - #{scss-var(size, modal, max-width)} / 2 + var(--#{$namespace}modal-gutter-x));
     }
   }
 
