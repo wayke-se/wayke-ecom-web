@@ -153,7 +153,9 @@ class App {
   }
 
   private render(waykeOrderId?: string) {
-    this.contexts.unsubribeVwListner = useVwListner();
+    if (!this.contexts.unsubribeVwListner) {
+      this.contexts.unsubribeVwListner = useVwListner();
+    }
     this.contexts.modal = new Modal(this.root, {
       title: 'Wayke Ecom',
       id: WAYKE_ECOM_MODAL_ID,
