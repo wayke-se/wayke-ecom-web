@@ -4,7 +4,6 @@ import {
   MaritalStatus,
   ICreditAssessmentInquiry,
   IPaymentOption,
-  CreditAssessmentRecommendation,
   ICreditAssessmentStatusResponse,
 } from '@wayke-se/ecom';
 import { ICreditAssessmentHouseholdEconomy } from '@wayke-se/ecom/dist-types/credit-assessment/types';
@@ -159,7 +158,6 @@ class CreditAssessment extends HtmlNode {
   } = {};
   private caseError?: string;
   private bankidError = false;
-  private caseId?: string;
   private creditAssessmentResponse?: ICreditAssessmentStatusResponse;
 
   constructor(element: HTMLDivElement | undefined | null, props: CreditAssessmentProps) {
@@ -170,7 +168,7 @@ class CreditAssessment extends HtmlNode {
     this.render();
   }
 
-  onChange(e: Event) {
+  private onChange(e: Event) {
     const currentTarget = e.currentTarget as HTMLInputElement;
     const name = currentTarget.name as keyof CreditAssessmentHouseholdEconomyValidation;
 
@@ -182,7 +180,7 @@ class CreditAssessment extends HtmlNode {
     this.updateProceedButton();
   }
 
-  onBlur(e: Event) {
+  private onBlur(e: Event) {
     const currentTarget = e.currentTarget as HTMLInputElement;
     const name = currentTarget.name as keyof CreditAssessmentHouseholdEconomyValidation;
 
@@ -206,11 +204,11 @@ class CreditAssessment extends HtmlNode {
     this.updateProceedButton();
   }
 
-  updateUiError(name: keyof CreditAssessmentHouseholdEconomyValidation) {
+  private updateUiError(name: keyof CreditAssessmentHouseholdEconomyValidation) {
     this.contexts[name]?.setError(this.state.interact[name] && !this.state.validation[name]);
   }
 
-  updateProceedButton() {
+  private updateProceedButton() {
     this.contexts.performApplicationButton?.disabled(
       !this.state.validation.maritalStatus ||
         !this.state.validation.income ||
@@ -222,21 +220,23 @@ class CreditAssessment extends HtmlNode {
     );
   }
 
-  onAbort() {
+  private onAbort() {
     this.view = 1;
     if (this.bankidStatusInterval) {
       clearInterval(this.bankidStatusInterval);
     }
-    if (this.caseId) {
-      creditAssessmentCancelSigning(this.caseId);
+
+    const caseId = this.props.store.getState().caseId;
+    if (caseId) {
+      creditAssessmentCancelSigning(caseId);
+      setCreditAssessmentResponse()(this.props.store.dispatch);
     }
     destroyPortal();
-    this.caseId = undefined;
     this.creditAssessmentResponse = undefined;
     this.render(true);
   }
 
-  bankIdStatus(caseId: string, method: AuthMethod) {
+  private bankIdStatus(caseId: string, method: AuthMethod) {
     this.bankidStatusInterval = setInterval(async () => {
       try {
         const response = await creditAssessmentGetStatus(caseId);
@@ -257,13 +257,6 @@ class CreditAssessment extends HtmlNode {
           this.view = 3;
           this.creditAssessmentResponse = response;
           setCreditAssessmentResponse(caseId, response)(this.props.store.dispatch);
-
-          if (
-            response.getRecommendation() === CreditAssessmentRecommendation.AssessManually ||
-            response.getRecommendation() === CreditAssessmentRecommendation.Approve
-          ) {
-            setCreditAssessmentResponse(caseId, response)(this.props.store.dispatch);
-          }
           destroyPortal();
           this.render();
         }
@@ -280,8 +273,8 @@ class CreditAssessment extends HtmlNode {
     }, 2000);
   }
 
-  async onStartBankIdAuth(method: AuthMethod) {
-    const caseId = this.caseId;
+  private async onStartBankIdAuth(method: AuthMethod) {
+    const caseId = this.props.store.getState().caseId;
     if (!caseId) throw 'Missing caseID';
     if (this.bankidStatusInterval) {
       clearInterval(this.bankidStatusInterval);
@@ -309,23 +302,26 @@ class CreditAssessment extends HtmlNode {
     }
   }
 
-  async startBankId(method: AuthMethod) {
+  private async startBankId(method: AuthMethod) {
     this.caseError = undefined;
     this.bankidError = false;
     if (this.bankidStatusInterval) {
       clearInterval(this.bankidStatusInterval);
-      if (this.caseId) {
-        creditAssessmentCancelSigning(this.caseId);
+      const caseId = this.props.store.getState().caseId;
+      if (caseId) {
+        creditAssessmentCancelSigning(caseId);
+        setCreditAssessmentResponse()(this.props.store.dispatch);
       }
     }
 
     const caseId = await this.newCreditAssessmentCase();
     if (caseId) {
+      setCreditAssessmentResponse(caseId)(this.props.store.dispatch);
       this.onStartBankIdAuth(method);
     }
   }
 
-  async newCreditAssessmentCase() {
+  private async newCreditAssessmentCase() {
     try {
       this.contexts.performApplicationButton?.disabled(true);
       const { customer } = this.props.store.getState();
@@ -358,7 +354,6 @@ class CreditAssessment extends HtmlNode {
       };
 
       const response = await creditAssessmentNewCase(assessmentCase);
-      this.caseId = response.caseId;
       return response.caseId;
     } catch (e) {
       if (this.bankidStatusInterval) {
@@ -373,7 +368,7 @@ class CreditAssessment extends HtmlNode {
     }
   }
 
-  render(scrollIntoView?: boolean) {
+  private render(scrollIntoView?: boolean) {
     const mobile = isMobile();
     const { order } = this.props.store.getState();
     const creditAmount = this.props.paymentLookupResponse.getCreditAmount();
