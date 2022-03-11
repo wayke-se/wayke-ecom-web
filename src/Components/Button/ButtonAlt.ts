@@ -45,7 +45,7 @@ class Button extends HtmlNode {
         ${id ? `id="${id}"` : ''}
         title="${title}"
         ${disabled && `disabled=""`}
-        class="waykeecom-button waykeecom-button--full-width waykeecom-button--action"
+        class="waykeecom-button waykeecom-button--full-width waykeecom-button--action-alt"
       >
         <span class="waykeecom-button__content">${title}</span>
         ${
