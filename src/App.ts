@@ -18,6 +18,7 @@ import { EcomSdkConfig } from './@types/EcomSdkConfig';
 import watch, { unregisterAllSubscriptions } from './Redux/watch';
 import ConfirmClose from './Views/ConfirmClose';
 import { creditAssessmentCancelSigning } from './Data/creditAssessmentCancelSigning';
+import { useVwListner } from './Utils/vw';
 
 const OrderIdQueryString = 'wayke-ecom-web-order-id';
 
@@ -44,6 +45,7 @@ class App {
   private contexts: {
     store: WaykeStore;
     modal?: Modal;
+    unsubribeVwListner?: () => void;
   } = {
     store: createStore(),
   };
@@ -119,6 +121,8 @@ class App {
     }
 
     this.root.innerHTML = '';
+    this.contexts?.unsubribeVwListner?.();
+
     unregisterAllSubscriptions();
     if (caseId) {
       creditAssessmentCancelSigning(caseId);
@@ -149,6 +153,7 @@ class App {
   }
 
   private render(waykeOrderId?: string) {
+    this.contexts.unsubribeVwListner = useVwListner();
     this.contexts.modal = new Modal(this.root, {
       title: 'Wayke Ecom',
       id: WAYKE_ECOM_MODAL_ID,

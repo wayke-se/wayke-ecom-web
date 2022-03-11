@@ -24,7 +24,7 @@ class ModalHeader extends HtmlNode {
     this.node.innerHTML = `
       <div class="waykeecom-header">
         ${
-          this.props.onClose
+          false && this.props.onClose
             ? `
           <button title="Stäng modalen" class="waykeecom-header__close-btn">
             <span class="waykeecom-sr-only">Stäng modalen</span>

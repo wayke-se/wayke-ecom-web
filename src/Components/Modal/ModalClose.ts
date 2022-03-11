@@ -21,9 +21,10 @@ class ModalClose extends HtmlNode {
 
   render() {
     const { onClose } = this.props;
+    this.node.innerHTML = '';
 
     if (onClose) {
-      new ButtonClose(this.node, { title: 'Stäng modalen', onClick: () => onClose });
+      new ButtonClose(this.node, { title: 'Stäng modalen', onClick: () => onClose() });
     }
   }
 }
