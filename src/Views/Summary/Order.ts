@@ -8,6 +8,7 @@ import { prettyNumber } from '../../Utils/format';
 
 const EDIT_FINANCIAL = 'edit-financial';
 const EDIT_INSURANCE = 'edit-insurance';
+const EDIT_ACCESSORIES = 'edit-accessory';
 
 interface OrderProps {
   store: WaykeStore;
@@ -103,20 +104,43 @@ class Order extends StackNode {
             }
           </div>
           ${
-            state.insurance
+            state.insurance || state.freeInsurance
               ? `
               <div class="waykeecom-stack waykeecom-stack--2">
-                <div class="waykeecom-stack waykeecom-stack--05">
-                  <div class="waykeecom-label">Helförsäkring</div>
-                </div>
-                <div class="waykeecom-stack waykeecom-stack--05">
-                  <ul class="waykeecom-key-value-list">
-                    ${KeyValueListItem({
-                      key: state.insurance.name,
-                      value: prettyNumber(state.insurance.price, { postfix: 'kr/mån' }),
-                    })}
-                  </ul>
-                </div>
+                ${
+                  state.insurance
+                    ? `
+                    <div class="waykeecom-stack waykeecom-stack--05">
+                      <div class="waykeecom-label">Försäkring</div>
+                    </div>
+                    <div class="waykeecom-stack waykeecom-stack--05">
+                      <ul class="waykeecom-key-value-list">
+                        ${KeyValueListItem({
+                          key: state.insurance.name,
+                          value: prettyNumber(state.insurance.price, { postfix: 'kr/mån' }),
+                        })}
+                      </ul>
+                    </div>
+                  `
+                    : ''
+                }
+                ${
+                  state.freeInsurance
+                    ? `
+                    <div class="waykeecom-stack waykeecom-stack--05">
+                      <div class="waykeecom-label">Försäkring</div>
+                    </div>
+                    <div class="waykeecom-stack waykeecom-stack--05">
+                      <ul class="waykeecom-key-value-list">
+                        ${KeyValueListItem({
+                          key: state.freeInsurance.title,
+                          value: 'Gratis',
+                        })}
+                      </ul>
+                    </div>
+                  `
+                    : ''
+                }
                 ${
                   !this.props.createdOrderId
                     ? `
@@ -129,6 +153,39 @@ class Order extends StackNode {
                     : ''
                 }
               </div>`
+              : ''
+          }
+          ${
+            !!state.accessories.length
+              ? `
+                <div class="waykeecom-stack waykeecom-stack--2">
+                  <div class="waykeecom-stack waykeecom-stack--05">
+                    <div class="waykeecom-label">Tillbehör</div>
+                  </div>
+                  <div class="waykeecom-stack waykeecom-stack--05">
+                    <ul class="waykeecom-key-value-list">
+                      ${state.accessories
+                        .map((accessory) =>
+                          KeyValueListItem({
+                            key: accessory.name,
+                            value: prettyNumber(accessory.price, { postfix: 'kr' }),
+                          })
+                        )
+                        .join('')}
+                    </ul>
+                  </div>
+                  ${
+                    !this.props.createdOrderId
+                      ? `
+                        <div class="waykeecom-stack waykeecom-stack--05">
+                          <div class="waykeecom-align waykeecom-align--end">
+                            <button id="${EDIT_ACCESSORIES}" title="Ändra försäkring" class="waykeecom-link">Ändra</button>
+                          </div>
+                        </div>
+                      `
+                      : ''
+                  }
+                </div>`
               : ''
           }
         `,
@@ -151,6 +208,15 @@ class Order extends StackNode {
           .querySelector<HTMLButtonElement>(`#${EDIT_INSURANCE}`)
           ?.addEventListener('click', () =>
             goTo('main', editInsuranceIndex + 1)(this.props.store.dispatch)
+          );
+      }
+
+      const editAccessoryIndex = state.stages?.findIndex((x) => x.name === 'accessories');
+      if (editAccessoryIndex !== undefined) {
+        document
+          .querySelector<HTMLButtonElement>(`#${EDIT_ACCESSORIES}`)
+          ?.addEventListener('click', () =>
+            goTo('main', editAccessoryIndex + 1)(this.props.store.dispatch)
           );
       }
     }
