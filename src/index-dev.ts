@@ -12,6 +12,7 @@ window.addEventListener('DOMContentLoaded', (_) => {
   const context = new WaykeEcomWeb({
     ...devConfig.ACCESSORIES,
     ecomSdkConfig,
+    rootId: 'custom-id',
   });
   context.start();
   const button = document.querySelector<HTMLButtonElement>('#button');

@@ -27,6 +27,7 @@ export interface AppState {
 }
 
 interface AppProps {
+  rootId?: string;
   id: string;
   vehicle?: Vehicle;
   ecomSdkConfig: EcomSdkConfig;
@@ -46,8 +47,6 @@ class App {
   };
 
   constructor(props: AppProps) {
-    const root = document.getElementById('wayke-ecom');
-    if (!root) throw 'Missing element with id wayke-ecom';
     if (!props.id) throw 'Missing id';
     this.props = props;
 
@@ -59,7 +58,20 @@ class App {
     }
     config.bind(props.ecomSdkConfig);
 
-    this.root = root;
+    if (this.props.rootId) {
+      const rootNode = document.getElementById(this.props.rootId);
+      if (!rootNode) throw 'Missing element with id wayke-ecom';
+      const createdRoot = document.createElement('div');
+      createdRoot.className = 'waykeecom-root';
+      this.root = createdRoot;
+      rootNode.appendChild(createdRoot);
+    } else {
+      const createdRoot = document.createElement('div');
+      createdRoot.className = 'waykeecom-root';
+      this.root = createdRoot;
+      document.body.appendChild(this.root);
+    }
+
     this.root.dataset.version = packageJson.version;
 
     // Stage order setup
