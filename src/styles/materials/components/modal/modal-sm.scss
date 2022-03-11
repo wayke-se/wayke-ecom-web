@@ -8,12 +8,6 @@
 
   &__dialog {
     border-radius: scss-var(border, radius, alt);
-    //transform: translateY(size(1));
-    //animation: #{$namespace}fade-in 400ms ease, #{$namespace}no-transform 400ms ease forwards;
     animation: #{$namespace}fade-in 400ms ease;
-  }
-
-  &__close {
-    //top: calc(#{scss-var(size, modal, outer-spacing)} + var(--#{$namespace}modal-header-center) - var(--#{$namespace}modal-close-btn-center));
   }
 }
