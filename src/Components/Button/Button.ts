@@ -3,7 +3,7 @@ import HtmlNode from '../Extension/HtmlNode';
 
 interface ButtonProps {
   title: string;
-  id: string;
+  id?: string;
   disabled?: boolean;
   loading?: boolean;
   onClick?: (e: Event) => void;
@@ -42,7 +42,7 @@ class Button extends HtmlNode {
     this.node.innerHTML = `
       <button
         type="button"
-        id="${id}"
+        ${id ? `id="${id}"` : ''}
         title="${title}"
         ${disabled && `disabled=""`}
         class="waykeecom-button waykeecom-button--full-width waykeecom-button--action"

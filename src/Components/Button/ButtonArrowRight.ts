@@ -12,7 +12,7 @@ interface ButtonArrowRightProps {
 class ButtonArrowRight extends HtmlNode {
   private props: ButtonArrowRightProps;
 
-  constructor(element: HTMLDivElement | null, props: ButtonArrowRightProps) {
+  constructor(element: HTMLElement | null, props: ButtonArrowRightProps) {
     super(element);
     this.props = props;
     this.render();

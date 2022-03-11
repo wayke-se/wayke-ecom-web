@@ -16,6 +16,7 @@ import { ViewTypes } from './@types/Navigation';
 import Modal from './Components/Modal/Modal';
 import { EcomSdkConfig } from './@types/EcomSdkConfig';
 import watch, { unregisterAllSubscriptions } from './Redux/watch';
+import ConfirmClose from './Views/ConfirmClose';
 
 const OrderIdQueryString = 'wayke-ecom-web-order-id';
 
@@ -77,11 +78,11 @@ class App {
     // Stage order setup
     this.stageOrderList = [
       'customer',
-      'insurance',
       'centralStorage',
       'tradeIn',
-      'accessories',
       'financial',
+      'accessories',
+      'insurance',
       'delivery',
     ];
 
@@ -107,7 +108,7 @@ class App {
     }
   }
 
-  close() {
+  closeConfirm() {
     const params = new URLSearchParams(location.search);
     const waykeOrderId = params.get(OrderIdQueryString);
     if (waykeOrderId) {
@@ -118,6 +119,18 @@ class App {
     this.root.innerHTML = '';
     unregisterAllSubscriptions();
     reset(this.props.id)(this.contexts.store.dispatch);
+  }
+
+  close() {
+    this.contexts.modal = new Modal(this.root, {
+      title: 'Wayke Ecom',
+      id: WAYKE_ECOM_MODAL_ID,
+    });
+
+    new ConfirmClose(this.contexts.modal.content, {
+      onConfirmClose: () => this.closeConfirm(),
+      onAbortClose: () => this.render(),
+    });
   }
 
   start() {

@@ -8,7 +8,7 @@ import ModalHeader from './ModalHeader';
 interface ModalProps {
   title: string;
   id: string;
-  onClose: () => void;
+  onClose?: () => void;
 }
 
 class Modal extends HtmlNode {

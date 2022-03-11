@@ -1,10 +1,8 @@
 import { IAvailableInsuranceOption } from '@wayke-se/ecom';
 import ButtonArrowRight from '../../../../Components/Button/ButtonArrowRight';
-import ButtonSkip from '../../../../Components/Button/ButtonSkip';
 import HtmlNode from '../../../../Components/Extension/HtmlNode';
 import { completeStage } from '../../../../Redux/action';
 import { WaykeStore } from '../../../../Redux/store';
-import watch from '../../../../Redux/watch';
 import InsuranceList from './InsuranceList';
 
 const INSURANCE_GRID_LIST_NODE = 'insurance-grid-list-node';
@@ -23,17 +21,10 @@ interface DefaultInsuranceProps {
 
 class DefaultInsurance extends HtmlNode {
   private props: DefaultInsuranceProps;
-  private contexts: {
-    buttonProceed?: ButtonArrowRight;
-  } = {};
 
   constructor(element: HTMLElement, props: DefaultInsuranceProps) {
     super(element);
     this.props = props;
-
-    watch(this.props.store, 'freeInsurance', (nextValue) => {
-      this.contexts.buttonProceed?.disabled(!nextValue);
-    });
 
     this.render();
   }
@@ -41,14 +32,7 @@ class DefaultInsurance extends HtmlNode {
     completeStage(this.props.lastStage)(this.props.store.dispatch);
   }
 
-  private onSkipInsurances() {
-    completeStage(this.props.lastStage)(this.props.store.dispatch);
-  }
-
   render() {
-    const state = this.props.store.getState();
-    const { freeInsurance } = state;
-
     this.node.innerHTML = `
       <div class="waykeecom-stack waykeecom-stack--3">
         <h4 class="waykeecom-heading waykeecom-heading--4">Vill du teckna en försäkring på din nya bil?</h4>
@@ -63,25 +47,15 @@ class DefaultInsurance extends HtmlNode {
       </div>
     `;
 
-    new InsuranceList(this.node.querySelector<HTMLDivElement>(`#${INSURANCE_GRID_LIST_NODE}`), {
+    new InsuranceList(this.node.querySelector<HTMLElement>(`#${INSURANCE_GRID_LIST_NODE}`), {
       store: this.props.store,
       insurances: [this.props.insurance],
     });
 
-    this.contexts.buttonProceed = new ButtonArrowRight(
-      this.node.querySelector<HTMLDivElement>(`#${PROCEED_INSURANCE_NODE}`),
-      {
-        id: PROCEED_INSURANCE,
-        disabled: !freeInsurance,
-        title: 'Gå vidare',
-        onClick: () => this.onProceed(),
-      }
-    );
-
-    new ButtonSkip(this.node.querySelector<HTMLDivElement>(`#${SKIP_INSURANCES_NODE}`), {
-      id: SKIP_INSURANCES,
-      title: 'Hoppa över detta steg',
-      onClick: () => this.onSkipInsurances(),
+    new ButtonArrowRight(this.node.querySelector<HTMLElement>(`#${PROCEED_INSURANCE_NODE}`), {
+      id: PROCEED_INSURANCE,
+      title: 'Gå vidare',
+      onClick: () => this.onProceed(),
     });
   }
 }

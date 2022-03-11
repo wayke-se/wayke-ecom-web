@@ -3,7 +3,7 @@ import HtmlNode from '../Extension/HtmlNode';
 interface ModalHeaderProps {
   title: string;
   id: string;
-  onClose: () => void;
+  onClose?: () => void;
 }
 
 class ModalHeader extends HtmlNode {
@@ -23,17 +23,23 @@ class ModalHeader extends HtmlNode {
     const { title, onClose } = this.props;
     this.node.innerHTML = `
       <div class="waykeecom-header">
-        <button title="Stäng modalen" class="waykeecom-header__close-btn">
-          <span class="waykeecom-sr-only">Stäng modalen</span>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 16 16"
-            class="waykeecom-icon"
-            aria-hidden="true"
-          >
-            <path d="M9.1 8l5.9 5.9-1.1 1.1L8 9.1 2.1 15 1 13.9 6.9 8 1 2.1 2.1 1 8 6.9 13.9 1 15 2.1 9.1 8z" />
-          </svg>
-        </button>
+        ${
+          this.props.onClose
+            ? `
+          <button title="Stäng modalen" class="waykeecom-header__close-btn">
+            <span class="waykeecom-sr-only">Stäng modalen</span>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 16 16"
+              class="waykeecom-icon"
+              aria-hidden="true"
+            >
+              <path d="M9.1 8l5.9 5.9-1.1 1.1L8 9.1 2.1 15 1 13.9 6.9 8 1 2.1 2.1 1 8 6.9 13.9 1 15 2.1 9.1 8z" />
+            </svg>
+          </button>
+        `
+            : ''
+        }
         
         <div class="waykeecom-header__logo">
           <h2 class="waykeecom-no-margin">
@@ -87,9 +93,11 @@ class ModalHeader extends HtmlNode {
         </div>
       </div>
     `;
-    this.node.querySelectorAll<HTMLButtonElement>('button').forEach((button) => {
-      button.addEventListener('click', () => onClose());
-    });
+    if (onClose) {
+      this.node.querySelectorAll<HTMLButtonElement>('button').forEach((button) => {
+        button.addEventListener('click', () => onClose());
+      });
+    }
   }
 }
 

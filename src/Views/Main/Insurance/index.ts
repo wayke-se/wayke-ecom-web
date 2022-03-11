@@ -84,7 +84,7 @@ class Insurance extends HtmlNode {
       if (!insuranceOptions) throw 'Missing insurance';
 
       switch (insuranceOptions?.institute) {
-        case 'if':
+        case 'IF':
           new IfInsurance(content, {
             store: this.props.store,
             lastStage: this.props.lastStage,

@@ -27,11 +27,11 @@ const TimelineItemByStage = {
   },
   insurance: {
     heading: 'Vill du teckna en försäkring?',
-    description: 'Försäkra din nya bil direkt i köpflödet.',
+    description: 'Se förslag på försäkringar som passar din nya bil direkt i köpflödet.',
   },
   accessories: {
-    heading: 'Tillbehör?',
-    description: 'Lorem ipsum',
+    heading: 'Tillbehör',
+    description: 'Beställ extra utrustning till din bil.',
   },
 };
 

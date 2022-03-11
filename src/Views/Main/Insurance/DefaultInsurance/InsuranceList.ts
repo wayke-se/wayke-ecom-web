@@ -12,7 +12,7 @@ interface InsuranceListProps {
 class InsuranceList extends HtmlNode {
   private props: InsuranceListProps;
 
-  constructor(element: HTMLDivElement | null, props: InsuranceListProps) {
+  constructor(element: HTMLElement | null, props: InsuranceListProps) {
     super(element);
     this.props = props;
 
