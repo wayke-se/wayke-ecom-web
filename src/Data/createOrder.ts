@@ -1,4 +1,5 @@
 import { customers, DeliveryType, orders, PaymentType, vehicles } from '@wayke-se/ecom';
+import { IOrderInsuranceRequest } from '@wayke-se/ecom/dist-types/orders/types';
 import { WaykeStore } from '../Redux/store';
 
 export const createOrder = (store: WaykeStore) => {
@@ -68,6 +69,8 @@ export const createOrder = (store: WaykeStore) => {
       .build();
 
     requestBuilder.withInsurance(insurance);
+  } else if (state.freeInsurance) {
+    requestBuilder.withInsurance({} as IOrderInsuranceRequest);
   }
 
   if (state.accessories.length) {

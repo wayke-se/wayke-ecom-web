@@ -105,7 +105,11 @@ const getNextNavigationState = (currentStage: number, lastStage: boolean): Navig
     : { view: 'main', stage: currentStage + 1, subStage: 1 };
 
 const getNextTopNavigationState = (currentTopNavigation: Navigation, nextNavigation: Navigation) =>
-  currentTopNavigation.stage < nextNavigation.stage ? nextNavigation : next.topNavigation;
+  nextNavigation.view === 'main'
+    ? currentTopNavigation.stage < nextNavigation.stage
+      ? nextNavigation
+      : next.topNavigation
+    : { ...currentTopNavigation, stage: currentTopNavigation.stage + 1 }; // all stages are completed
 
 const resolveDefaultPaymentOption = (paymentOptions?: IPaymentOption[]) => {
   if (!paymentOptions) return undefined;
