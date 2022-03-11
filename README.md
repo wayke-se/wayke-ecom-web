@@ -27,11 +27,10 @@ constext.start();
 ```
 
 __Using cdn__
-The ssociated css is injected into head by default once a `new WaykeEcomWeb(...)` is called. This can be turned off by adding `disablecssinjection` to the script tag.
+The associated css is injected into head by default once a `new WaykeEcomWeb(...)` is called. This can be turned off by adding `disablecssinjection` to the script tag.
 
 
 ```html
-  <div id="wayke-ecom"></div>
   <button id="ecom-button">Start</button>
 
    <script
@@ -63,6 +62,7 @@ The ssociated css is injected into head by default once a `new WaykeEcomWeb(...)
 new WaykeEcomWeb({
   id: "36364808-671a-49da-b69a-5e0fc4cfe83e",
   useBankId: true,
+  rootId: "random-element-id",
   vehicle: {
     title: 'Lorem ipsum',
     shortDescription: 'Lorem ipsum',
@@ -94,6 +94,7 @@ new WaykeEcomWeb({
 
 ### Optional
 * `useBankId` Enable Swedish BankID.
+* `rootId` Choose the element, id, that WakeEcomWeb should append to, by default it will be appended to the body.
 * `vehicle` Used to override specific vehicle data properties provided from Wayke.
 * `ecomSdkConfig.bankIdThumbprint` By default Wayke's BankId certificate is used to verify customer identity. There is an optional configuration property `bankIdThumbprint` which allows for dealers to use their own BankId certificate. If the certificate's thumbprint is set that certificate will be used instead, given that it is correctly setup in the Dealer back-office.
 
