@@ -1,6 +1,7 @@
 import HtmlNode from '../Extension/HtmlNode';
 import ModalBody from './ModalBody';
 import ModalCenter from './ModalCenter';
+import ModalClose from './ModalClose';
 import ModalContainer from './ModalContainer';
 import ModalDialog from './ModalDialog';
 import ModalHeader from './ModalHeader';
@@ -35,6 +36,7 @@ class Modal extends HtmlNode {
 
   render() {
     const { title, id, onClose } = this.props;
+    new ModalClose(this.node, { id: `${id}-close`, onClose });
     const container = new ModalContainer(this.node, { id: `${id}-container` });
     const center = new ModalCenter(container.node, { id: `${id}-center` });
     const dialog = new ModalDialog(center.node, { id: `${id}-dialog` });

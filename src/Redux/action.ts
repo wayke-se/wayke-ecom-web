@@ -163,11 +163,11 @@ export const SET_CREDIT_ASSESSMENT_RESPONSE = 'SET_CREDIT_ASSESSMENT_RESPONSE';
 export type SET_CREDIT_ASSESSMENT_RESPONSE_TYPE = BaseAction<
   typeof SET_CREDIT_ASSESSMENT_RESPONSE
 > & {
-  caseId: string;
+  caseId?: string;
   creditAssessmentResponse?: ICreditAssessmentStatusResponse;
 };
 export const setCreditAssessmentResponse =
-  (caseId: string, creditAssessmentResponse: ICreditAssessmentStatusResponse) =>
+  (caseId?: string, creditAssessmentResponse?: ICreditAssessmentStatusResponse) =>
   (dispatch: Dispatch) =>
     dispatch({ type: SET_CREDIT_ASSESSMENT_RESPONSE, caseId, creditAssessmentResponse });
 
