@@ -5,6 +5,7 @@
 #{$root-element} {
   @include font-light;
 
+  display: contents;
   font-size: scss-var(font, size, regular);
   line-height: scss-var(font, line-height, main);
 }
