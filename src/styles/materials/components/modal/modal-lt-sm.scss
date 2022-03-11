@@ -7,7 +7,7 @@
   }
 
   &__dialog {
-    transform: translateY(100%);
-    animation: #{$namespace}no-transform 400ms ease forwards;
+    //transform: translateY(100%);
+    //animation: #{$namespace}no-transform 400ms ease forwards;
   }
 }
