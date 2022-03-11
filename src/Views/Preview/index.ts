@@ -18,13 +18,13 @@ const PREVIEW_CHECKLIST = 'preview-checklist';
 const PREVIEW_CHECKLIST_NODE = `${PREVIEW_CHECKLIST}-node`;
 
 interface PreviewProps {
-  store: WaykeStore;
-  stageOrderList: StageMapKeys[];
-  vehicle?: Vehicle;
+  readonly store: WaykeStore;
+  readonly stageOrderList: StageMapKeys[];
+  readonly vehicle?: Vehicle;
 }
 
 class Preview extends HtmlNode {
-  private props: PreviewProps;
+  private readonly props: PreviewProps;
   private contexts: { buttonProceed?: ButtonArrowRight } = {};
   private requestError = false;
 
@@ -67,8 +67,13 @@ class Preview extends HtmlNode {
     }
   }
 
+  private onProceed() {
+    goTo('main')(this.props.store.dispatch);
+  }
+
   render() {
-    const state = this.props.store.getState();
+    const { store } = this.props;
+    const state = store.getState();
 
     if (!state.order) {
       this.node.innerHTML = `
@@ -101,7 +106,7 @@ class Preview extends HtmlNode {
       {
         id: PROCEED_BUTTON,
         title: 'Gå vidare',
-        onClick: () => goTo('main')(this.props.store.dispatch),
+        onClick: () => this.onProceed(),
       }
     );
 

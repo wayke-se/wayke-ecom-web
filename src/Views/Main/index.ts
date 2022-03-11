@@ -6,11 +6,12 @@ import HtmlNode from '../../Components/Extension/HtmlNode';
 import watch from '../../Redux/watch';
 
 interface MainProps {
-  store: WaykeStore;
+  readonly store: WaykeStore;
 }
 
 class Main extends HtmlNode {
-  private props: MainProps;
+  private readonly props: MainProps;
+
   constructor(element: HTMLElement, props: MainProps) {
     super(element);
     this.props = props;
@@ -26,7 +27,8 @@ class Main extends HtmlNode {
   }
 
   render() {
-    const state = this.props.store.getState();
+    const { store } = this.props;
+    const state = store.getState();
     const { order, stages } = state;
     if (!order) throw 'No order available';
 
@@ -48,7 +50,7 @@ class Main extends HtmlNode {
     stages?.forEach(
       (stage, index) =>
         new stage.component(stepper, {
-          store: this.props.store,
+          store,
           index: index + 1,
           lastStage: size === index + 1,
         })

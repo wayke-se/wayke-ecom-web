@@ -36,8 +36,8 @@ const TimelineItemByStage = {
 };
 
 interface HowToProps {
-  stageOrderList?: StageTypes[];
-  order?: OrderOptionsResponse;
+  readonly stageOrderList?: StageTypes[];
+  readonly order?: OrderOptionsResponse;
 }
 
 const HowTo = ({ order, stageOrderList }: HowToProps) => `

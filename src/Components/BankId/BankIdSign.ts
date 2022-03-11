@@ -26,12 +26,12 @@ interface BankIdSignProps {
   title?: string;
   description?: string;
   finalizing?: boolean;
-  onStart: (method: AuthMethod) => void;
-  onAbort: () => void;
+  readonly onStart: (method: AuthMethod) => void;
+  readonly onAbort: () => void;
 }
 
 class BankIdSign extends HtmlNode {
-  private props: BankIdSignProps;
+  private readonly props: BankIdSignProps;
 
   constructor(element: HTMLElement, props: BankIdSignProps) {
     super(element);

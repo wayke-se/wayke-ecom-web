@@ -4,11 +4,11 @@ const errorInputClassName = 'waykeecom-input-error';
 
 interface InputErrorProps {
   error?: boolean;
-  errorMessage: string;
+  readonly errorMessage: string;
 }
 
 class InputError extends HtmlNode {
-  private props: InputErrorProps;
+  private readonly props: InputErrorProps;
 
   constructor(element: HTMLElement, props: InputErrorProps) {
     super(element);

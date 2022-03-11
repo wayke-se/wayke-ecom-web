@@ -10,13 +10,13 @@ import { createPortal, destroyPortal } from '../../../Utils/portal';
 import AccessoryItemInfo from './AccessoryItemInfo';
 
 interface AccessoryItemProps {
-  store: WaykeStore;
-  accessory: IAccessory;
-  key: string;
+  readonly store: WaykeStore;
+  readonly accessory: IAccessory;
+  readonly key: string;
 }
 
 class AccessoryItem extends HtmlNode {
-  private props: AccessoryItemProps;
+  private readonly props: AccessoryItemProps;
   private displayInfo = false;
 
   constructor(element: HTMLElement, props: AccessoryItemProps) {
@@ -35,30 +35,30 @@ class AccessoryItem extends HtmlNode {
     this.render();
   }
 
-  onInfoOpen() {
+  private onInfoOpen() {
     this.displayInfo = true;
     this.render();
   }
 
-  onInfoClose() {
+  private onInfoClose() {
     this.displayInfo = false;
     destroyPortal();
     this.render();
     this.node.parentElement?.scrollIntoView();
   }
 
-  onClick() {
+  private onClick() {
     addOrRemoveAccessory(this.props.accessory)(this.props.store.dispatch);
   }
 
   render() {
-    const state = this.props.store.getState();
-    const selected =
-      state.accessories.findIndex((accessory) => accessory.id === this.props.accessory.id) > -1;
+    const { store, accessory, key } = this.props;
+    const state = store.getState();
+    const selected = state.accessories.findIndex((accessory) => accessory.id === accessory.id) > -1;
 
     if (this.displayInfo) {
       new AccessoryItemInfo(createPortal(), {
-        accessory: this.props.accessory,
+        accessory,
         selected,
         onClick: () => {
           this.onInfoClose();
@@ -71,17 +71,17 @@ class AccessoryItem extends HtmlNode {
     new GridItem(
       this.node,
       {
-        id: this.props.accessory.id,
-        title: this.props.accessory.name,
-        description: this.props.accessory.shortDescription,
-        logo: this.props.accessory.logoUrl,
-        image: this.props.accessory.media?.[0]?.url,
-        price: prettyNumber(this.props.accessory.price, { postfix: 'kr' }),
+        id: accessory.id,
+        title: accessory.name,
+        description: accessory.shortDescription,
+        logo: accessory.logoUrl,
+        image: accessory.media?.[0]?.url,
+        price: prettyNumber(accessory.price, { postfix: 'kr' }),
         selected,
         onClick: () => this.onClick(),
         onInfo: () => this.onInfoOpen(),
       },
-      this.props.key
+      key
     );
   }
 }

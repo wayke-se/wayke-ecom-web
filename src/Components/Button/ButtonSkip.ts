@@ -7,7 +7,7 @@ interface ButtonSkipProps {
 }
 
 class ButtonSkip extends HtmlNode {
-  private props: ButtonSkipProps;
+  private readonly props: ButtonSkipProps;
 
   constructor(element: HTMLDivElement | null, props: ButtonSkipProps) {
     super(element);

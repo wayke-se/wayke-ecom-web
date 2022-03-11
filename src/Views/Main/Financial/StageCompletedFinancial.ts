@@ -10,15 +10,15 @@ const CREDIT_ASSESSMENT_RESULT = 'credit-assessment-result';
 const CREDIT_ASSESSMENT_RESULT_NODE = `${CREDIT_ASSESSMENT_RESULT}-node`;
 
 interface StageCompletedFinancialProps {
-  store: WaykeStore;
-  loan?: IPaymentOption;
-  paymentLookupResponse?: PaymentLookupResponse;
-  paymentType: PaymentType;
-  onEdit: () => void;
+  readonly store: WaykeStore;
+  readonly loan?: IPaymentOption;
+  readonly paymentLookupResponse?: PaymentLookupResponse;
+  readonly paymentType: PaymentType;
+  readonly onEdit: () => void;
 }
 
 class StageCompletedFinancial extends HtmlNode {
-  private props: StageCompletedFinancialProps;
+  private readonly props: StageCompletedFinancialProps;
 
   constructor(element: HTMLDivElement, props: StageCompletedFinancialProps) {
     super(element, { htmlTag: 'div' });
@@ -27,17 +27,16 @@ class StageCompletedFinancial extends HtmlNode {
   }
 
   render() {
-    if (this.props.paymentType === PaymentType.Loan) {
+    const { store, paymentType, loan, paymentLookupResponse, onEdit } = this.props;
+    if (paymentType === PaymentType.Loan) {
       const state = this.props.store.getState();
-      const loan = this.props.loan;
-      const paymentLookupResponse =
-        this.props.paymentLookupResponse || this.props.loan?.loanDetails;
-      if (!loan || !paymentLookupResponse) throw 'Missing loan';
+      const currentPaymentLookupResponse = paymentLookupResponse || loan?.loanDetails;
+      if (!loan || !currentPaymentLookupResponse) throw 'Missing loan';
 
-      const downPayment = paymentLookupResponse.getDownPaymentSpec().current;
-      const creditAmount = paymentLookupResponse.getCreditAmount();
-      const duration = paymentLookupResponse.getDurationSpec().current;
-      const { interest, effectiveInterest } = paymentLookupResponse.getInterests();
+      const downPayment = currentPaymentLookupResponse.getDownPaymentSpec().current;
+      const creditAmount = currentPaymentLookupResponse.getCreditAmount();
+      const duration = currentPaymentLookupResponse.getDurationSpec().current;
+      const { interest, effectiveInterest } = currentPaymentLookupResponse.getInterests();
 
       const keyValueList: KeyValueListItemProps[] = [
         {
@@ -100,7 +99,7 @@ class StageCompletedFinancial extends HtmlNode {
         new StageCompletedFinancialCreditAssessment(
           this.node.querySelector(`#${CREDIT_ASSESSMENT_RESULT_NODE}`),
           {
-            store: this.props.store,
+            store,
             decision,
           }
         );
@@ -111,7 +110,7 @@ class StageCompletedFinancial extends HtmlNode {
         <ul class="waykeecom-key-value-list">
           ${KeyValueListItem({
             key: 'Finansiering',
-            value: this.props.paymentType === PaymentType.Cash ? 'Kontant' : 'Leasing',
+            value: paymentType === PaymentType.Cash ? 'Kontant' : 'Leasing',
           })}
         </ul>
       </div>
@@ -123,7 +122,7 @@ class StageCompletedFinancial extends HtmlNode {
     `;
     }
 
-    this.node.querySelector('button')?.addEventListener('click', () => this.props.onEdit());
+    this.node.querySelector('button')?.addEventListener('click', () => onEdit());
   }
 }
 

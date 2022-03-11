@@ -9,13 +9,13 @@ import FullAddress from './FullAddress';
 import watch from '../../../Redux/watch';
 
 interface CustomerProps {
-  store: WaykeStore;
-  index: number;
-  lastStage: boolean;
+  readonly store: WaykeStore;
+  readonly index: number;
+  readonly lastStage: boolean;
 }
 
 class Customer extends HtmlNode {
-  private props: CustomerProps;
+  private readonly props: CustomerProps;
 
   constructor(element: HTMLDivElement, props: CustomerProps) {
     super(element);
@@ -28,18 +28,19 @@ class Customer extends HtmlNode {
     this.render();
   }
 
-  onChange() {
+  private onChange() {
     goTo('main', this.props.index)(this.props.store.dispatch);
   }
 
   render() {
+    const { store, index, lastStage } = this.props;
     const state = this.props.store.getState();
 
-    const completed = state.topNavigation.stage > this.props.index;
+    const completed = state.topNavigation.stage > index;
     const content = ListItem(this.node, {
       completed,
       title: 'Dina uppgifter',
-      active: state.navigation.stage === this.props.index,
+      active: state.navigation.stage === index,
       id: 'customer',
     });
     content.innerHTML = '';
@@ -49,10 +50,7 @@ class Customer extends HtmlNode {
     const part2 = document.createElement('div');
     part2.className = 'waykeecom-stack waykeecom-stack--2';
 
-    if (
-      state.navigation.stage > this.props.index ||
-      (completed && state.navigation.stage !== this.props.index)
-    ) {
+    if (state.navigation.stage > index || (completed && state.navigation.stage !== index)) {
       const keyValueList: { key: string; value: string }[] = [
         { key: 'E-post', value: state.customer.email },
         { key: 'Telefonnummer', value: state.customer.phone },
@@ -74,13 +72,13 @@ class Customer extends HtmlNode {
         changeButtonTitle: 'Ändra dina uppgifter',
         onEdit: () => this.onChange(),
       });
-    } else if (state.navigation.stage === this.props.index) {
-      new EmailAndPhone(content, { store: this.props.store });
+    } else if (state.navigation.stage === index) {
+      new EmailAndPhone(content, { store });
       if (state.navigation.subStage > 1) {
-        new FullAddress(content, { store: this.props.store, lastStage: this.props.lastStage });
+        new FullAddress(content, { store, lastStage });
       }
     }
-    if (state.navigation.stage === this.props.index) {
+    if (state.navigation.stage === index) {
       content.parentElement?.scrollIntoView();
     }
   }

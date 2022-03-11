@@ -1,13 +1,13 @@
 import HtmlNode from '../Extension/HtmlNode';
 
 interface CheckListProps {
-  title: string;
-  ariaLabel: string;
-  checklistItems: string[];
+  readonly title: string;
+  readonly ariaLabel: string;
+  readonly checklistItems: string[];
 }
 
 class CheckList extends HtmlNode {
-  private props: CheckListProps;
+  private readonly props: CheckListProps;
 
   constructor(element: HTMLElement | null, props: CheckListProps) {
     super(element);

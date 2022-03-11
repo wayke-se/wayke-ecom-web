@@ -55,13 +55,13 @@ const initalState = (customer?: Customer): Part2SocialIdState => {
 };
 
 interface FullAddressBySocialIdProps {
-  store: WaykeStore;
-  lastStage: boolean;
-  onToggleMethod: () => void;
+  readonly store: WaykeStore;
+  readonly lastStage: boolean;
+  readonly onToggleMethod: () => void;
 }
 
 class FullAddressBySocialId extends HtmlNode {
-  private props: FullAddressBySocialIdProps;
+  private readonly props: FullAddressBySocialIdProps;
   private state: Part2SocialIdState;
   private requestError: boolean = false;
   private contexts: {
@@ -80,18 +80,15 @@ class FullAddressBySocialId extends HtmlNode {
     this.render();
   }
 
-  async onFetchAddress() {
+  private async onFetchAddress() {
+    const { store, lastStage } = this.props;
     this.requestError = false;
     this.render();
 
     try {
       const cache = SOCIAL_ID_CACHE[this.state.value.socialId];
       if (cache) {
-        setSocialIdAndAddress(
-          this.state.value.socialId,
-          cache,
-          this.props.lastStage
-        )(this.props.store.dispatch);
+        setSocialIdAndAddress(this.state.value.socialId, cache, lastStage)(store.dispatch);
         return;
       }
       this.contexts.buttonFetch?.loading(true);
@@ -103,8 +100,8 @@ class FullAddressBySocialId extends HtmlNode {
       setSocialIdAndAddress(
         this.state.value.socialId.replace(regexNumber, ''),
         address,
-        this.props.lastStage
-      )(this.props.store.dispatch);
+        lastStage
+      )(store.dispatch);
     } catch (e) {
       this.requestError = true;
     } finally {
@@ -114,7 +111,7 @@ class FullAddressBySocialId extends HtmlNode {
     }
   }
 
-  onChange(e: Event) {
+  private onChange(e: Event) {
     const currentTarget = e.currentTarget as HTMLInputElement;
     const name = currentTarget.name as keyof CustomerSocialId;
     const value = currentTarget.value;
@@ -125,7 +122,7 @@ class FullAddressBySocialId extends HtmlNode {
     this.updateProceedButton();
   }
 
-  onBlur(e: Event) {
+  private onBlur(e: Event) {
     const currentTarget = e.currentTarget as HTMLInputElement;
     const name = currentTarget.name as keyof CustomerSocialId;
 
@@ -135,11 +132,11 @@ class FullAddressBySocialId extends HtmlNode {
     this.updateProceedButton();
   }
 
-  updateUiError(name: keyof SocialIdValidation) {
+  private updateUiError(name: keyof SocialIdValidation) {
     this.contexts[name]?.setError(this.state.interact[name] && !this.state.validation[name]);
   }
 
-  updateProceedButton() {
+  private updateProceedButton() {
     this.contexts.buttonFetch?.disabled(!this.state.validation.socialId);
   }
 

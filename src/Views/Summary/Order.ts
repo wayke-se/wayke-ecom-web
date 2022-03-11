@@ -11,12 +11,12 @@ const EDIT_INSURANCE = 'edit-insurance';
 const EDIT_ACCESSORIES = 'edit-accessory';
 
 interface OrderProps {
-  store: WaykeStore;
-  createdOrderId?: string;
+  readonly store: WaykeStore;
+  readonly createdOrderId?: string;
 }
 
 class Order extends StackNode {
-  private props: OrderProps;
+  private readonly props: OrderProps;
 
   constructor(element: HTMLElement, props: OrderProps) {
     super(element);
@@ -24,8 +24,13 @@ class Order extends StackNode {
     this.render();
   }
 
+  private onEdit(index: number) {
+    goTo('main', index)(this.props.store.dispatch);
+  }
+
   render() {
-    const state = this.props.store.getState();
+    const { store, createdOrderId } = this.props;
+    const state = store.getState();
 
     const paymentLoan = state.order?.getPaymentOptions().find((x) => x.type === PaymentType.Loan);
     const paymentLookupResponse = state.paymentLookupResponse || paymentLoan?.loanDetails;
@@ -92,7 +97,7 @@ class Order extends StackNode {
                 : ''
             }
             ${
-              !this.props.createdOrderId
+              !createdOrderId
                 ? `
                   <div class="waykeecom-stack waykeecom-stack--05">
                     <div class="waykeecom-align waykeecom-align--end">
@@ -142,7 +147,7 @@ class Order extends StackNode {
                     : ''
                 }
                 ${
-                  !this.props.createdOrderId
+                  !createdOrderId
                     ? `
                       <div class="waykeecom-stack waykeecom-stack--05">
                         <div class="waykeecom-align waykeecom-align--end">
@@ -175,7 +180,7 @@ class Order extends StackNode {
                     </ul>
                   </div>
                   ${
-                    !this.props.createdOrderId
+                    !createdOrderId
                       ? `
                         <div class="waykeecom-stack waykeecom-stack--05">
                           <div class="waykeecom-align waykeecom-align--end">
@@ -192,32 +197,26 @@ class Order extends StackNode {
       })}
     `;
 
-    if (!this.props.createdOrderId) {
+    if (!createdOrderId) {
       const editFinancialIndex = state.stages?.findIndex((x) => x.name === 'financial');
       if (editFinancialIndex !== undefined) {
         document
           .querySelector<HTMLButtonElement>(`#${EDIT_FINANCIAL}`)
-          ?.addEventListener('click', () =>
-            goTo('main', editFinancialIndex + 1)(this.props.store.dispatch)
-          );
+          ?.addEventListener('click', () => this.onEdit(editFinancialIndex + 1));
       }
 
       const editInsuranceIndex = state.stages?.findIndex((x) => x.name === 'insurance');
       if (editInsuranceIndex !== undefined) {
         document
           .querySelector<HTMLButtonElement>(`#${EDIT_INSURANCE}`)
-          ?.addEventListener('click', () =>
-            goTo('main', editInsuranceIndex + 1)(this.props.store.dispatch)
-          );
+          ?.addEventListener('click', () => this.onEdit(editInsuranceIndex + 1));
       }
 
       const editAccessoryIndex = state.stages?.findIndex((x) => x.name === 'accessories');
       if (editAccessoryIndex !== undefined) {
         document
           .querySelector<HTMLButtonElement>(`#${EDIT_ACCESSORIES}`)
-          ?.addEventListener('click', () =>
-            goTo('main', editAccessoryIndex + 1)(this.props.store.dispatch)
-          );
+          ?.addEventListener('click', () => this.onEdit(editAccessoryIndex + 1));
       }
     }
   }

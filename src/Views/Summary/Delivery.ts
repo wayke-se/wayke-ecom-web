@@ -6,12 +6,12 @@ import KeyValueListItem from '../../Templates/KeyValueListItem';
 const EDIT_DELIVERY = 'edit-delivery';
 
 interface DeliveryProps {
-  store: WaykeStore;
-  createdOrderId?: string;
+  readonly store: WaykeStore;
+  readonly createdOrderId?: string;
 }
 
 class Delivery extends StackNode {
-  private props: DeliveryProps;
+  private readonly props: DeliveryProps;
 
   constructor(element: HTMLElement, props: DeliveryProps) {
     super(element);
@@ -19,8 +19,13 @@ class Delivery extends StackNode {
     this.render();
   }
 
+  private onEdit(index: number) {
+    goTo('main', index)(this.props.store.dispatch);
+  }
+
   render() {
-    const state = this.props.store.getState();
+    const { store, createdOrderId } = this.props;
+    const state = store.getState();
 
     this.node.innerHTML = `
       <div class="waykeecom-stack waykeecom-stack--2">
@@ -36,7 +41,7 @@ class Delivery extends StackNode {
           </ul>
         </div>
         ${
-          !this.props.createdOrderId
+          !createdOrderId
             ? `
         <div class="waykeecom-stack waykeecom-stack--1">
           <div class="waykeecom-align waykeecom-align--end">
@@ -49,14 +54,12 @@ class Delivery extends StackNode {
       </div>
     `;
 
-    if (!this.props.createdOrderId) {
+    if (!createdOrderId) {
       const editDeliveryIndex = state.stages?.findIndex((x) => x.name === 'delivery');
       if (editDeliveryIndex !== undefined) {
         document
           .querySelector<HTMLButtonElement>(`#${EDIT_DELIVERY}`)
-          ?.addEventListener('click', () =>
-            goTo('main', editDeliveryIndex + 1)(this.props.store.dispatch)
-          );
+          ?.addEventListener('click', () => this.onEdit(editDeliveryIndex + 1));
       }
     }
   }

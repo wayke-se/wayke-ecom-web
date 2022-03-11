@@ -1,6 +1,7 @@
 import { IPaymentOption, IPaymentRangeSpec } from '@wayke-se/ecom';
 import { PaymentLookupResponse } from '@wayke-se/ecom/dist-types/payments/payment-lookup-response';
 import ButtonArrowRight from '../../../Components/Button/ButtonArrowRight';
+import HtmlNode from '../../../Components/Extension/HtmlNode';
 import InputRange from '../../../Components/Input/InputRange';
 import { getPayment } from '../../../Data/getPayment';
 import { setPaymentLookupResponse } from '../../../Redux/action';
@@ -35,18 +36,17 @@ interface PaymentState {
 }
 
 interface LoanProps {
-  store: WaykeStore;
-  loan: IPaymentOption;
-  vehicleId: string;
-  paymentLookupResponse?: PaymentLookupResponse;
-  onProceed: () => void;
+  readonly store: WaykeStore;
+  readonly loan: IPaymentOption;
+  readonly vehicleId: string;
+  readonly paymentLookupResponse?: PaymentLookupResponse;
+  readonly onProceed: () => void;
 }
 
 type LoanNames = 'downPayment' | 'duration' | 'residual';
 
-class Loan {
-  private element: HTMLDivElement;
-  private props: LoanProps;
+class Loan extends HtmlNode {
+  private readonly props: LoanProps;
   private paymentState: PaymentState;
   private paymentLookupResponse: PaymentLookupResponse;
   private paymentRequestFailed?: boolean;
@@ -59,7 +59,7 @@ class Loan {
   } = {};
 
   constructor(element: HTMLDivElement, props: LoanProps) {
-    this.element = element;
+    super(element);
     this.props = props;
     if (!this.props.loan.loanDetails) throw 'err';
 
@@ -77,7 +77,7 @@ class Loan {
     this.render();
   }
 
-  async payment() {
+  private async payment() {
     this.contexts.downPayment?.disabled(true);
     this.contexts.duration?.disabled(true);
     this.contexts.residual?.disabled(true);
@@ -112,7 +112,7 @@ class Loan {
     }
   }
 
-  onChange(e: Event) {
+  private onChange(e: Event) {
     const currentTarget = e.currentTarget as HTMLInputElement;
     const name = currentTarget.name as LoanNames;
     const value = currentTarget.value;
@@ -123,7 +123,7 @@ class Loan {
     this.payment();
   }
 
-  update() {
+  private update() {
     this.contexts.loanDetails?.update({
       loan: this.props.loan,
       paymentLookupResponse: this.paymentLookupResponse,
@@ -131,7 +131,8 @@ class Loan {
   }
 
   render() {
-    const state = this.props.store.getState();
+    const { store, loan, onProceed } = this.props;
+    const state = store.getState();
     const dealer = state.order?.getContactInformation();
     const shouldUseCreditScoring = this.paymentLookupResponse.shouldUseCreditScoring();
 
@@ -142,7 +143,7 @@ class Loan {
         })}</div>`
       : '';
 
-    this.element.innerHTML = `
+    this.node.innerHTML = `
       <div class="waykeecom-stack waykeecom-stack--3">
         <hr class="waykeecom-separator" />
       </div>
@@ -176,7 +177,7 @@ class Loan {
     `;
 
     this.contexts.downPayment = new InputRange(
-      this.element.querySelector<HTMLDivElement>(`#${DOWNPAYMENT_RANGE_NODE}`),
+      this.node.querySelector<HTMLDivElement>(`#${DOWNPAYMENT_RANGE_NODE}`),
       {
         title: 'Kontantinsats',
         value: this.paymentState.downPayment.current,
@@ -190,7 +191,7 @@ class Loan {
     );
 
     this.contexts.duration = new InputRange(
-      this.element.querySelector<HTMLDivElement>(`#${DURATION_RANGE_NODE}`),
+      this.node.querySelector<HTMLDivElement>(`#${DURATION_RANGE_NODE}`),
       {
         title: 'Avbetalning',
         value: this.paymentState.duration.current,
@@ -206,7 +207,7 @@ class Loan {
 
     if (this.paymentState.residual) {
       this.contexts.residual = new InputRange(
-        this.element.querySelector<HTMLDivElement>(`#${RESIDUAL_RANGE_NODE}`),
+        this.node.querySelector<HTMLDivElement>(`#${RESIDUAL_RANGE_NODE}`),
         {
           title: 'Restvärde',
           value: this.paymentState.residual.current * 100,
@@ -222,28 +223,25 @@ class Loan {
     }
 
     this.contexts.loanDetails = new LoanDetails(
-      this.element.querySelector<HTMLDivElement>(`#${LOAN_DETAILS_NODE}`),
+      this.node.querySelector<HTMLDivElement>(`#${LOAN_DETAILS_NODE}`),
       {
-        loan: this.props.loan,
+        loan,
         paymentLookupResponse: this.paymentLookupResponse,
       }
     );
 
     if (shouldUseCreditScoring) {
-      new CreditAssessment(
-        this.element.querySelector<HTMLDivElement>(`#${CREDIT_ASSESMENT_NODE}`),
-        {
-          store: this.props.store,
-          loan: this.props.loan,
-          paymentLookupResponse: this.paymentLookupResponse,
-          onProceed: () => this.props.onProceed(),
-        }
-      );
+      new CreditAssessment(this.node.querySelector<HTMLDivElement>(`#${CREDIT_ASSESMENT_NODE}`), {
+        store,
+        loan,
+        paymentLookupResponse: this.paymentLookupResponse,
+        onProceed: () => onProceed(),
+      });
     } else {
-      new ButtonArrowRight(this.element.querySelector<HTMLDivElement>(`#${PROCEED_NODE}`), {
+      new ButtonArrowRight(this.node.querySelector<HTMLDivElement>(`#${PROCEED_NODE}`), {
         title: 'Fortsätt',
         id: PROCEED,
-        onClick: () => this.props.onProceed(),
+        onClick: () => onProceed(),
       });
     }
   }

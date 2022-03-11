@@ -18,13 +18,13 @@ const SKIP_INSURANCES = 'button-insurances-skip';
 const SKIP_INSURANCES_NODE = `${SKIP_INSURANCES}-node`;
 
 interface IfInsuranceProps {
-  store: WaykeStore;
-  lastStage: boolean;
-  onSkip: () => void;
+  readonly store: WaykeStore;
+  readonly lastStage: boolean;
+  readonly onSkip: () => void;
 }
 
 class IfInsurance extends HtmlNode {
-  private props: IfInsuranceProps;
+  private readonly props: IfInsuranceProps;
   private showInsurances = false;
 
   constructor(element: HTMLElement, props: IfInsuranceProps) {
@@ -49,11 +49,12 @@ class IfInsurance extends HtmlNode {
   }
 
   render() {
-    const state = this.props.store.getState();
+    const { store, lastStage, onSkip } = this.props;
+    const state = store.getState();
     if (this.showInsurances) {
       new InsuranceView(this.node, {
-        store: this.props.store,
-        lastStage: this.props.lastStage,
+        store,
+        lastStage,
         onEdit: () => this.onEdit(),
       });
     } else {
@@ -112,7 +113,7 @@ class IfInsurance extends HtmlNode {
       new ButtonSkip(this.node.querySelector<HTMLDivElement>(`#${SKIP_INSURANCES_NODE}`), {
         id: SKIP_INSURANCES,
         title: 'Hoppa över detta steg',
-        onClick: () => this.props.onSkip(),
+        onClick: () => onSkip(),
       });
     }
   }

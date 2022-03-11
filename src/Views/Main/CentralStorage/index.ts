@@ -4,11 +4,11 @@ import watch from '../../../Redux/watch';
 import ListItem from '../../../Templates/ListItem';
 
 interface CentralStorageProps {
-  store: WaykeStore;
+  readonly store: WaykeStore;
 }
 
 class CentralStorage extends HtmlNode {
-  private props: CentralStorageProps;
+  private readonly props: CentralStorageProps;
 
   constructor(element: HTMLDivElement, props: CentralStorageProps) {
     super(element);

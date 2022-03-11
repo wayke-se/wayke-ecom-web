@@ -15,14 +15,14 @@ const ABORT = 'assessment-assess-manually-abort';
 const ABORT_NODE = `${ABORT}-node`;
 
 interface CreditAssessmentAssessManuallyProps {
-  store: WaykeStore;
-  creditAssessmentResponse: ICreditAssessmentStatusResponse;
-  onProceed: () => void;
-  onGoBack: () => void;
+  readonly store: WaykeStore;
+  readonly creditAssessmentResponse: ICreditAssessmentStatusResponse;
+  readonly onProceed: () => void;
+  readonly onGoBack: () => void;
 }
 
 class CreditAssessmentAssessManually extends HtmlNode {
-  private props: CreditAssessmentAssessManuallyProps;
+  private readonly props: CreditAssessmentAssessManuallyProps;
   constructor(element: HTMLElement, props: CreditAssessmentAssessManuallyProps) {
     super(element);
     this.props = props;
@@ -30,6 +30,7 @@ class CreditAssessmentAssessManually extends HtmlNode {
   }
 
   render() {
+    const { store, onProceed, onGoBack } = this.props;
     this.node.innerHTML = `
       <div class="waykeecom-stack waykeecom-stack--4" id="${RESULT_NODE}"></div>
       <div class="waykeecom-stack waykeecom-stack--4">
@@ -39,20 +40,20 @@ class CreditAssessmentAssessManually extends HtmlNode {
     `;
 
     new StageCompletedFinancialCreditAssessment(this.node.querySelector(`#${RESULT_NODE}`), {
-      store: this.props.store,
+      store,
       decision: CreditAssessmentRecommendation.AssessManually,
     });
 
     new ButtonArrowRight(this.node.querySelector(`#${PROCEED_NODE}`), {
       title: 'Fortsätt',
       id: PROCEED,
-      onClick: () => this.props.onProceed(),
+      onClick: () => onProceed(),
     });
 
     new ButtonClear(this.node.querySelector(`#${ABORT_NODE}`), {
       title: 'Avbryt',
       id: ABORT,
-      onClick: () => this.props.onGoBack(),
+      onClick: () => onGoBack(),
     });
   }
 }

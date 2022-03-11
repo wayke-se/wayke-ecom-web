@@ -39,10 +39,10 @@ interface AppProps {
 
 class App {
   private root: HTMLElement;
-  private props: AppProps;
+  private readonly props: AppProps;
   private view: ViewTypes;
   private stageOrderList: StageMapKeys[];
-  private contexts: {
+  private readonly contexts: {
     store: WaykeStore;
     modal?: Modal;
     unsubribeVwListner?: () => void;
@@ -62,17 +62,14 @@ class App {
     }
     config.bind(props.ecomSdkConfig);
 
+    const createdRoot = document.createElement('div');
+    createdRoot.className = 'waykeecom-root';
+    this.root = createdRoot;
     if (this.props.rootId) {
       const rootNode = document.getElementById(this.props.rootId);
       if (!rootNode) throw 'Missing element with id wayke-ecom';
-      const createdRoot = document.createElement('div');
-      createdRoot.className = 'waykeecom-root';
-      this.root = createdRoot;
       rootNode.appendChild(createdRoot);
     } else {
-      const createdRoot = document.createElement('div');
-      createdRoot.className = 'waykeecom-root';
-      this.root = createdRoot;
       document.body.appendChild(this.root);
     }
 
@@ -111,7 +108,7 @@ class App {
     }
   }
 
-  closeConfirm() {
+  close() {
     const { caseId } = this.contexts.store.getState();
     const params = new URLSearchParams(location.search);
     const waykeOrderId = params.get(OrderIdQueryString);
@@ -130,10 +127,10 @@ class App {
     reset(this.props.id)(this.contexts.store.dispatch);
   }
 
-  close() {
+  private closeWithConfirm() {
     const firstView = this.contexts.store.getState().navigation.view === 'preview';
     if (firstView) {
-      this.closeConfirm();
+      this.close();
       return;
     }
 
@@ -143,7 +140,7 @@ class App {
     });
 
     new ConfirmClose(this.contexts.modal.content, {
-      onConfirmClose: () => this.closeConfirm(),
+      onConfirmClose: () => this.close(),
       onAbortClose: () => this.render(),
     });
   }
@@ -159,7 +156,7 @@ class App {
     this.contexts.modal = new Modal(this.root, {
       title: 'Wayke Ecom',
       id: WAYKE_ECOM_MODAL_ID,
-      onClose: () => this.close(),
+      onClose: () => this.closeWithConfirm(),
     });
 
     if (this.contexts.modal.content) {

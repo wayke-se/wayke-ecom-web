@@ -1,13 +1,13 @@
 import HtmlNode from '../Extension/HtmlNode';
 
 interface ButtonClearProps {
-  title: string;
-  id?: string;
-  onClick?: (e: Event) => void;
+  readonly title: string;
+  readonly id?: string;
+  readonly onClick?: (e: Event) => void;
 }
 
 class ButtonClear extends HtmlNode {
-  private props: ButtonClearProps;
+  private readonly props: ButtonClearProps;
 
   constructor(element: HTMLDivElement | null, props: ButtonClearProps) {
     super(element);

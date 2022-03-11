@@ -6,12 +6,12 @@ const CONFIRM_CLOSE_NODE = 'confirm-close-node';
 const ABORT_CLOSE_NODE = 'abort-close-node';
 
 interface ConfirmCloseProps {
-  onConfirmClose: () => void;
-  onAbortClose: () => void;
+  readonly onConfirmClose: () => void;
+  readonly onAbortClose: () => void;
 }
 
 class ConfirmClose extends HtmlNode {
-  private props: ConfirmCloseProps;
+  private readonly props: ConfirmCloseProps;
   constructor(element: HTMLElement, props: ConfirmCloseProps) {
     super(element);
     this.props = props;

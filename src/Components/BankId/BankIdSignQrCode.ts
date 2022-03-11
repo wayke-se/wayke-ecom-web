@@ -3,12 +3,12 @@ import Loader from '../../Templates/Loader';
 import HtmlNode from '../Extension/HtmlNode';
 
 interface BankIdSignQrCodeProps {
-  qrCode?: string;
-  errorMessage?: string;
+  readonly qrCode?: string;
+  readonly errorMessage?: string;
 }
 
 class BankIdSignQrCode extends HtmlNode {
-  private props: BankIdSignQrCodeProps;
+  private readonly props: BankIdSignQrCodeProps;
 
   constructor(element: HTMLElement | null, props: BankIdSignQrCodeProps) {
     super(element);

@@ -6,16 +6,16 @@ export interface SelectItem {
 }
 
 interface InputSelectProps {
-  title: string;
-  name: string;
-  id?: string;
-  value?: string;
-  options: SelectItem[];
-  onChange: (e: Event) => void;
+  readonly title: string;
+  readonly name: string;
+  readonly id?: string;
+  readonly value?: string;
+  readonly options: SelectItem[];
+  readonly onChange: (e: Event) => void;
 }
 
 class InputSelect extends HtmlNode {
-  private props: InputSelectProps;
+  private readonly props: InputSelectProps;
   constructor(element: HTMLElement | null, props: InputSelectProps) {
     super(element);
 

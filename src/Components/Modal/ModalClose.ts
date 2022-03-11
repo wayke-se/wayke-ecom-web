@@ -2,11 +2,11 @@ import ButtonClose from '../Button/ButtonClose';
 import HtmlNode from '../Extension/HtmlNode';
 
 interface ModalCloseProps {
-  id: string;
-  onClose?: () => void;
+  readonly id: string;
+  readonly onClose?: () => void;
 }
 class ModalClose extends HtmlNode {
-  private props: ModalCloseProps;
+  private readonly props: ModalCloseProps;
 
   constructor(element: HTMLElement, props: ModalCloseProps) {
     super(element, {

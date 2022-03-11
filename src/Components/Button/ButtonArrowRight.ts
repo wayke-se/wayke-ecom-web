@@ -2,15 +2,15 @@ import Loader from '../../Templates/Loader';
 import HtmlNode from '../Extension/HtmlNode';
 
 interface ButtonArrowRightProps {
-  title: string;
-  id: string;
+  readonly title: string;
+  readonly id: string;
   disabled?: boolean;
   loading?: boolean;
-  onClick?: (e: Event) => void;
+  readonly onClick?: (e: Event) => void;
 }
 
 class ButtonArrowRight extends HtmlNode {
-  private props: ButtonArrowRightProps;
+  private readonly props: ButtonArrowRightProps;
 
   constructor(element: HTMLElement | null, props: ButtonArrowRightProps) {
     super(element);

@@ -95,12 +95,12 @@ const initalState = (tradeIn?: TradeInCarDataPartial): PartTradeInState => {
 };
 
 interface PartTradeInProps {
-  store: WaykeStore;
-  lastStage: boolean;
+  readonly store: WaykeStore;
+  readonly lastStage: boolean;
 }
 
 class PartTradeIn extends HtmlNode {
-  private props: PartTradeInProps;
+  private readonly props: PartTradeInProps;
   private state: PartTradeInState;
   private contexts: {
     registrationNumber?: InputField;

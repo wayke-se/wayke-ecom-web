@@ -11,17 +11,17 @@ export interface RadioItem {
 }
 
 interface InputRadioGroupProps {
-  title: string;
-  name: string;
-  checked: string;
-  options: RadioItem[];
+  readonly title: string;
+  readonly name: string;
+  readonly checked: string;
+  readonly options: RadioItem[];
   error?: boolean;
-  errorMessage?: string;
-  onClick: (e: Event) => void;
+  readonly errorMessage?: string;
+  readonly onClick: (e: Event) => void;
 }
 
 class InputRadioGroup extends HtmlNode {
-  private props: InputRadioGroupProps;
+  private readonly props: InputRadioGroupProps;
   private contexts: {
     error?: InputError;
   } = {};

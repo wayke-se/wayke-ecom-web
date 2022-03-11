@@ -1,18 +1,18 @@
 import HtmlNode from '../Extension/HtmlNode';
 
 interface InputRadioFieldProps {
-  title: string;
-  value: string;
-  name: string;
-  description?: string;
-  meta?: string;
-  id: string;
-  checked: boolean;
-  onClick?: (e: Event) => void;
+  readonly title: string;
+  readonly value: string;
+  readonly name: string;
+  readonly description?: string;
+  readonly meta?: string;
+  readonly id: string;
+  readonly checked: boolean;
+  readonly onClick?: (e: Event) => void;
 }
 
 class InputRadioField extends HtmlNode {
-  private props: InputRadioFieldProps;
+  private readonly props: InputRadioFieldProps;
 
   constructor(element: HTMLDivElement | null, props: InputRadioFieldProps) {
     super(element);

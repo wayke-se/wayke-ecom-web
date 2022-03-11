@@ -8,20 +8,27 @@ import { prettyNumber } from '../../Utils/format';
 const EDIT_TRADE_IN = 'edit-trade-in';
 
 interface TradeInProps {
-  store: WaykeStore;
-  createdOrderId?: string;
+  readonly store: WaykeStore;
+  readonly createdOrderId?: string;
 }
 
 class TradeIn extends StackNode {
-  private props: TradeInProps;
+  private readonly props: TradeInProps;
   constructor(element: HTMLElement, props: TradeInProps) {
     super(element);
     this.props = props;
     this.render();
   }
 
+  private onEdit(lastStage: boolean, index: number) {
+    const { store } = this.props;
+    initTradeIn(lastStage)(store.dispatch);
+    goTo('main', index)(store.dispatch);
+  }
+
   render() {
-    const state = this.props.store.getState();
+    const { store, createdOrderId } = this.props;
+    const state = store.getState();
     const { order, tradeIn, tradeInVehicle } = state;
     if (!order?.allowsTradeIn) return;
 
@@ -73,7 +80,7 @@ class TradeIn extends StackNode {
             : `<div class="waykeecom-stack waykeecom-stack--2">Nej</div>`
         }
         ${
-          !this.props.createdOrderId
+          !createdOrderId
             ? `
             <div class="waykeecom-stack waykeecom-stack--2">
               <div class="waykeecom-align waykeecom-align--end">
@@ -85,17 +92,14 @@ class TradeIn extends StackNode {
       </div>
     `;
 
-    if (!this.props.createdOrderId) {
+    if (!createdOrderId) {
       const editTradeInIndex = state.stages?.findIndex((x) => x.name === 'tradeIn');
       if (editTradeInIndex !== undefined && state.stages) {
         const lastStage = editTradeInIndex === state.stages.length - 1;
 
         document
           .querySelector<HTMLButtonElement>(`#${EDIT_TRADE_IN}`)
-          ?.addEventListener('click', () => {
-            initTradeIn(lastStage)(this.props.store.dispatch);
-            goTo('main', editTradeInIndex + 1)(this.props.store.dispatch);
-          });
+          ?.addEventListener('click', () => this.onEdit(lastStage, editTradeInIndex + 1));
       }
     }
   }

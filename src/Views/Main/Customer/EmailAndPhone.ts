@@ -50,11 +50,11 @@ const initalState = (customer?: Customer): Part1EmailAndPhoneState => {
 };
 
 interface EmailAndPhoneProps {
-  store: WaykeStore;
+  readonly store: WaykeStore;
 }
 
 class EmailAndPhone extends HtmlNode {
-  private props: EmailAndPhoneProps;
+  private readonly props: EmailAndPhoneProps;
   private state: Part1EmailAndPhoneState;
   private contexts: {
     email?: InputField;
@@ -72,7 +72,7 @@ class EmailAndPhone extends HtmlNode {
     this.render();
   }
 
-  onChange(e: Event) {
+  private onChange(e: Event) {
     const currentTarget = e.currentTarget as HTMLInputElement;
     const name = currentTarget.name as keyof PartialCustomerValidation;
 
@@ -84,7 +84,7 @@ class EmailAndPhone extends HtmlNode {
     this.updateProceedButton();
   }
 
-  onBlur(e: Event) {
+  private onBlur(e: Event) {
     const currentTarget = e.currentTarget as HTMLInputElement;
     const name = currentTarget.name as keyof PartialCustomerValidation;
 
@@ -94,15 +94,15 @@ class EmailAndPhone extends HtmlNode {
     this.updateProceedButton();
   }
 
-  updateUiError(name: keyof PartialCustomer) {
+  private updateUiError(name: keyof PartialCustomer) {
     this.contexts[name]?.setError(this.state.interact[name] && !this.state.validation[name]);
   }
 
-  updateProceedButton() {
+  private updateProceedButton() {
     this.contexts.button?.disabled(!this.state.validation.email || !this.state.validation.phone);
   }
 
-  onProceed() {
+  private onProceed() {
     setContactAndPhone({
       email: this.state.value.email.trim(),
       phone: this.state.value.phone.trim(),

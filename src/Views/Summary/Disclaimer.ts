@@ -2,11 +2,11 @@ import StackNode from '../../Components/Extension/StackNode';
 import { WaykeStore } from '../../Redux/store';
 
 interface DisclaimerProps {
-  store: WaykeStore;
+  readonly store: WaykeStore;
 }
 
 class Disclaimer extends StackNode {
-  private props: DisclaimerProps;
+  private readonly props: DisclaimerProps;
 
   constructor(element: HTMLElement, props: DisclaimerProps) {
     super(element);

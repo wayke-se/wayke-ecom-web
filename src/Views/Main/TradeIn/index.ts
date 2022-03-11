@@ -22,13 +22,13 @@ const CHANGE_BUTTON = 'button-trade-in-change';
 const CHANGE_BUTTON_NODE = `${CHANGE_BUTTON}-node`;
 
 interface TradeInProps {
-  store: WaykeStore;
-  index: number;
-  lastStage: boolean;
+  readonly store: WaykeStore;
+  readonly index: number;
+  readonly lastStage: boolean;
 }
 
 class TradeIn extends HtmlNode {
-  private props: TradeInProps;
+  private readonly props: TradeInProps;
 
   constructor(element: HTMLDivElement, props: TradeInProps) {
     super(element);
@@ -54,24 +54,22 @@ class TradeIn extends HtmlNode {
   }
 
   render() {
+    const { store, index, lastStage } = this.props;
     const state = this.props.store.getState();
     if (!state.order?.allowsTradeIn) return;
 
-    const completed = state.topNavigation.stage > this.props.index;
+    const completed = state.topNavigation.stage > index;
     const content = ListItem(this.node, {
       title: 'Inbytesbil',
-      active: state.navigation.stage === this.props.index,
-      completed: state.topNavigation.stage > this.props.index,
+      active: state.navigation.stage === index,
+      completed: state.topNavigation.stage > index,
       id: 'trade-in',
     });
     content.innerHTML = '';
 
     const part = document.createElement('div');
 
-    if (
-      state.navigation.stage > this.props.index ||
-      (completed && state.navigation.stage !== this.props.index)
-    ) {
+    if (state.navigation.stage > index || (completed && state.navigation.stage !== index)) {
       const keyValueItemsUpper: { key: string; value: string }[] = [];
 
       if (state.tradeIn && state.tradeInVehicle) {
@@ -153,9 +151,9 @@ class TradeIn extends HtmlNode {
         title: 'Ändra',
         onClick: () => this.onEdit(),
       });
-    } else if (state.navigation.stage === this.props.index) {
+    } else if (state.navigation.stage === index) {
       if (state.wantTradeIn && state.tradeIn) {
-        new PartTradeIn(part, { store: this.props.store, lastStage: this.props.lastStage });
+        new PartTradeIn(part, { store, lastStage });
       } else {
         part.innerHTML = `
           <div class="waykeecom-stack waykeecom-stack--3">
@@ -186,7 +184,7 @@ class TradeIn extends HtmlNode {
     }
 
     content.appendChild(part);
-    if (state.navigation.stage === this.props.index) {
+    if (state.navigation.stage === index) {
       content.parentElement?.scrollIntoView();
     }
   }

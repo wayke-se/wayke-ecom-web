@@ -19,14 +19,13 @@ const PROCEED = 'button-home-delivery-proceed';
 const PROCEED_NODE = `${PROCEED}-node`;
 
 interface DeliveryProps {
-  store: WaykeStore;
-  index: number;
-  lastStage: boolean;
+  readonly store: WaykeStore;
+  readonly index: number;
+  readonly lastStage: boolean;
 }
 
 class Delivery extends HtmlNode {
-  private props: DeliveryProps;
-
+  private readonly props: DeliveryProps;
   private homeDelivery: boolean;
 
   constructor(element: HTMLDivElement, props: DeliveryProps) {
@@ -57,24 +56,22 @@ class Delivery extends HtmlNode {
   }
 
   render() {
-    const state = this.props.store.getState();
+    const { store, index } = this.props;
+    const state = store.getState();
     if (!state.order) throw 'Missing order...';
 
     const contactInformation = state.order.getContactInformation();
     if (!contactInformation) throw 'Missing dealer contact information';
 
-    const completed = state.topNavigation.stage > this.props.index;
+    const completed = state.topNavigation.stage > index;
     const content = ListItem(this.node, {
       completed,
       title: 'Leverans',
-      active: state.navigation.stage === this.props.index,
+      active: state.navigation.stage === index,
       id: 'delivery',
     });
 
-    if (
-      state.navigation.stage > this.props.index ||
-      (completed && state.navigation.stage !== this.props.index)
-    ) {
+    if (state.navigation.stage > index || (completed && state.navigation.stage !== index)) {
       new StageCompleted(content, {
         keyValueList: [
           {
@@ -85,7 +82,7 @@ class Delivery extends HtmlNode {
         changeButtonTitle: 'Ändra leveranssätt',
         onEdit: () => this.onEdit(),
       });
-    } else if (state.navigation.stage === this.props.index) {
+    } else if (state.navigation.stage === index) {
       const part = document.createElement('div');
       part.innerHTML = `
         <div class="waykeecom-stack waykeecom-stack--3">
@@ -167,7 +164,7 @@ class Delivery extends HtmlNode {
       });
 
       content.appendChild(part);
-      if (state.navigation.stage === this.props.index) {
+      if (state.navigation.stage === index) {
         content.parentElement?.scrollIntoView();
       }
     }

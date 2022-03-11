@@ -1,14 +1,14 @@
 import HtmlNode from '../Extension/HtmlNode';
 
 interface ButtonAsLinkArrowLeftProps {
-  title: string;
-  id?: string;
+  readonly title: string;
+  readonly id?: string;
   disabled?: boolean;
-  onClick?: (e: Event) => void;
+  readonly onClick?: (e: Event) => void;
 }
 
 class ButtonAsLinkArrowLeft extends HtmlNode {
-  private props: ButtonAsLinkArrowLeftProps;
+  private readonly props: ButtonAsLinkArrowLeftProps;
 
   constructor(element: HTMLDivElement | null, props: ButtonAsLinkArrowLeftProps) {
     super(element);

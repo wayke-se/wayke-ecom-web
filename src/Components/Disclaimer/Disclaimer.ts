@@ -1,10 +1,10 @@
 import HtmlNode from '../Extension/HtmlNode';
 
 interface DisclaimerProps {
-  text: string;
+  readonly text: string;
 }
 class Disclaimer extends HtmlNode {
-  private props: DisclaimerProps;
+  private readonly props: DisclaimerProps;
 
   constructor(element: HTMLElement | null, props: DisclaimerProps) {
     super(element);

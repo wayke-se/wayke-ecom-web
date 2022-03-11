@@ -134,14 +134,14 @@ const mock: ICreditAssessmentHouseholdEconomy = {
 };
 
 interface CreditAssessmentProps {
-  store: WaykeStore;
-  loan: IPaymentOption;
-  paymentLookupResponse: PaymentLookupResponse;
-  onProceed: () => void;
+  readonly store: WaykeStore;
+  readonly loan: IPaymentOption;
+  readonly paymentLookupResponse: PaymentLookupResponse;
+  readonly onProceed: () => void;
 }
 
 class CreditAssessment extends HtmlNode {
-  private props: CreditAssessmentProps;
+  private readonly props: CreditAssessmentProps;
   private state: CreditAssessmentHouseholdEconomyState;
   private bankidStatusInterval?: NodeJS.Timer;
   private view: number = 1;
@@ -221,15 +221,16 @@ class CreditAssessment extends HtmlNode {
   }
 
   private onAbort() {
+    const { store } = this.props;
     this.view = 1;
     if (this.bankidStatusInterval) {
       clearInterval(this.bankidStatusInterval);
     }
 
-    const caseId = this.props.store.getState().caseId;
+    const caseId = store.getState().caseId;
     if (caseId) {
       creditAssessmentCancelSigning(caseId);
-      setCreditAssessmentResponse()(this.props.store.dispatch);
+      setCreditAssessmentResponse()(store.dispatch);
     }
     destroyPortal();
     this.creditAssessmentResponse = undefined;
@@ -303,45 +304,47 @@ class CreditAssessment extends HtmlNode {
   }
 
   private async startBankId(method: AuthMethod) {
+    const { store } = this.props;
     this.caseError = undefined;
     this.bankidError = false;
     if (this.bankidStatusInterval) {
       clearInterval(this.bankidStatusInterval);
-      const caseId = this.props.store.getState().caseId;
+      const caseId = store.getState().caseId;
       if (caseId) {
         creditAssessmentCancelSigning(caseId);
-        setCreditAssessmentResponse()(this.props.store.dispatch);
+        setCreditAssessmentResponse()(store.dispatch);
       }
     }
 
     const caseId = await this.newCreditAssessmentCase();
     if (caseId) {
-      setCreditAssessmentResponse(caseId)(this.props.store.dispatch);
+      setCreditAssessmentResponse(caseId)(store.dispatch);
       this.onStartBankIdAuth(method);
     }
   }
 
   private async newCreditAssessmentCase() {
     try {
+      const { store, loan, paymentLookupResponse } = this.props;
+
       this.contexts.performApplicationButton?.disabled(true);
-      const { customer } = this.props.store.getState();
+      const { customer } = store.getState();
 
-      const { monthlyCost } = this.props.paymentLookupResponse.getCosts();
-      const { interest } = this.props.paymentLookupResponse.getInterests();
+      const { monthlyCost } = paymentLookupResponse.getCosts();
+      const { interest } = paymentLookupResponse.getInterests();
 
-      const downPayment = this.props.paymentLookupResponse.getDownPaymentSpec().current;
-      const duration = this.props.paymentLookupResponse.getDurationSpec().current;
-      const creditAmount = this.props.paymentLookupResponse.getCreditAmount();
-      const price = this.props.paymentLookupResponse.getPrice();
-      const financialProductId =
-        this.props.paymentLookupResponse.getFinancialProductCode() as string;
+      const downPayment = paymentLookupResponse.getDownPaymentSpec().current;
+      const duration = paymentLookupResponse.getDurationSpec().current;
+      const creditAmount = paymentLookupResponse.getCreditAmount();
+      const price = paymentLookupResponse.getPrice();
+      const financialProductId = paymentLookupResponse.getFinancialProductCode() as string;
 
       const assessmentCase: ICreditAssessmentInquiry = {
         customer: {
           ...customer,
         },
         householdEconomy: this.state.value as unknown as ICreditAssessmentHouseholdEconomy,
-        externalId: this.props.loan.externalId as string,
+        externalId: loan.externalId as string,
         loan: {
           downPayment,
           interestRate: interest,
@@ -369,18 +372,20 @@ class CreditAssessment extends HtmlNode {
   }
 
   private render(scrollIntoView?: boolean) {
+    const { store, paymentLookupResponse, onProceed } = this.props;
+
     const mobile = isMobile();
-    const { order } = this.props.store.getState();
-    const creditAmount = this.props.paymentLookupResponse.getCreditAmount();
+    const { order } = store.getState();
+    const creditAmount = paymentLookupResponse.getCreditAmount();
     const branchName = order?.getContactInformation()?.name;
 
     if (this.view === 3 && this.creditAssessmentResponse) {
       new CreditAssessmentResult(createPortal(), {
-        store: this.props.store,
+        store,
         creditAssessmentResponse: this.creditAssessmentResponse,
         onProceed: () => {
           destroyPortal();
-          this.props.onProceed();
+          onProceed();
         },
         onGoBack: () => this.onAbort(),
       });

@@ -26,7 +26,7 @@ class LoanDetailsDetailed extends HtmlNode {
     this.render();
   }
 
-  onDetails(e: Event) {
+  private onDetails(e: Event) {
     const value = (e.currentTarget as HTMLInputElement).checked;
     persistedShowDetails = value;
     this.showDetails = value;

@@ -6,11 +6,11 @@ import FullAddressByBankId from './FullAddressByBankId';
 import FullAddressBySocialId from './FullAddressBySocialId';
 
 interface FullAddressProps {
-  store: WaykeStore;
-  lastStage: boolean;
+  readonly store: WaykeStore;
+  readonly lastStage: boolean;
 }
 class FullAddress extends HtmlNode {
-  private props: FullAddressProps;
+  private readonly props: FullAddressProps;
   private useBankId: boolean = true;
   private state: Customer;
 
@@ -24,13 +24,14 @@ class FullAddress extends HtmlNode {
     this.render();
   }
 
-  onToggleMethod() {
+  private onToggleMethod() {
     this.useBankId = !this.useBankId;
     this.render();
   }
 
   render() {
-    const subStage = this.props.store.getState().navigation.subStage;
+    const { store, lastStage } = this.props;
+    const subStage = store.getState().navigation.subStage;
     if (subStage > 2) {
       const keyValueItems: KeyValueListItemProps[] = [
         { key: 'Personnummer', value: this.state.socialId },
@@ -47,14 +48,14 @@ class FullAddress extends HtmlNode {
       this.node.innerHTML = '';
       if (this.useBankId) {
         new FullAddressByBankId(this.node, {
-          store: this.props.store,
-          lastStage: this.props.lastStage,
+          store,
+          lastStage,
           onToggleMethod: () => this.onToggleMethod(),
         });
       } else {
         new FullAddressBySocialId(this.node, {
-          store: this.props.store,
-          lastStage: this.props.lastStage,
+          store,
+          lastStage,
           onToggleMethod: () => this.onToggleMethod(),
         });
       }

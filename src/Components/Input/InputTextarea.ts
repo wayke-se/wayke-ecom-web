@@ -3,21 +3,21 @@ import InputError from './InputError';
 import InputInformation from './InputInformation';
 
 interface InputTextareaProps {
-  title: string;
-  value: string;
-  name: string;
-  id: string;
-  error?: boolean;
-  errorMessage?: string;
-  placeholder?: string;
-  information?: string;
-  autocomplete?: string;
-  onChange?: (e: Event) => void;
-  onBlur?: (e: Event) => void;
+  readonly title: string;
+  readonly value: string;
+  readonly name: string;
+  readonly id: string;
+  readonly error?: boolean;
+  readonly errorMessage?: string;
+  readonly placeholder?: string;
+  readonly information?: string;
+  readonly autocomplete?: string;
+  readonly onChange?: (e: Event) => void;
+  readonly onBlur?: (e: Event) => void;
 }
 
 class InputTextarea extends HtmlNode {
-  private props: InputTextareaProps;
+  private readonly props: InputTextareaProps;
   private contexts: {
     error?: InputError;
   } = {};

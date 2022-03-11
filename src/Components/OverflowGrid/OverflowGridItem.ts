@@ -9,19 +9,19 @@ const READ_MORE = 'read-more';
 const READ_MORE_NODE = `${READ_MORE}-node`;
 
 interface GridItemProps {
-  id?: string;
-  title: string;
-  image?: string;
-  logo?: string;
-  price?: string;
-  description?: string;
-  selected?: boolean;
-  onClick: () => void;
-  onInfo?: () => void;
+  readonly id?: string;
+  readonly title: string;
+  readonly image?: string;
+  readonly logo?: string;
+  readonly price?: string;
+  readonly description?: string;
+  readonly selected?: boolean;
+  readonly onClick: () => void;
+  readonly onInfo?: () => void;
 }
 
 class GridItem extends HtmlNode {
-  private props: GridItemProps;
+  private readonly props: GridItemProps;
 
   constructor(element: HTMLElement, props: GridItemProps, id: string) {
     super(element, { htmlTag: 'li', className: 'waykeecom-overflow-grid__item', id });

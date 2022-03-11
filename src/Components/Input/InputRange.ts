@@ -14,22 +14,22 @@ const respectStep = (value: number, step?: number) => {
 };
 
 interface InputRangeProps {
-  title: string;
-  value: number;
-  min: number;
-  max: number;
-  step?: number;
-  name: string;
-  id: string;
-  information?: string;
-  unit?: string;
+  readonly title: string;
+  readonly value: number;
+  readonly min: number;
+  readonly max: number;
+  readonly step?: number;
+  readonly name: string;
+  readonly id: string;
+  readonly information?: string;
+  readonly unit?: string;
   disabled?: boolean;
-  onChange?: (e: Event) => void;
-  onBlur?: (e: Event) => void;
+  readonly onChange?: (e: Event) => void;
+  readonly onBlur?: (e: Event) => void;
 }
 
 class InputRange extends HtmlNode {
-  private props: InputRangeProps;
+  private readonly props: InputRangeProps;
   private value: number;
   private inputFieldValue: string;
   private rangeSpan: number;

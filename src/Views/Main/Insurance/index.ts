@@ -10,13 +10,13 @@ import IfInsurance from './IfInsurance';
 import DefaultInsurance from './DefaultInsurance';
 
 interface InsuranceProps {
-  store: WaykeStore;
-  index: number;
-  lastStage: boolean;
+  readonly store: WaykeStore;
+  readonly index: number;
+  readonly lastStage: boolean;
 }
 
 class Insurance extends HtmlNode {
-  private props: InsuranceProps;
+  private readonly props: InsuranceProps;
 
   constructor(element: HTMLDivElement, props: InsuranceProps) {
     super(element);
@@ -38,20 +38,18 @@ class Insurance extends HtmlNode {
   }
 
   render() {
-    const state = this.props.store.getState();
+    const { store, index, lastStage } = this.props;
+    const state = store.getState();
 
-    const completed = state.topNavigation.stage > this.props.index;
+    const completed = state.topNavigation.stage > index;
     const content = ListItem(this.node, {
       completed,
       title: 'Försäkring',
-      active: state.navigation.stage === this.props.index,
+      active: state.navigation.stage === index,
       id: 'insurance',
     });
 
-    if (
-      state.navigation.stage > this.props.index ||
-      (completed && state.navigation.stage !== this.props.index)
-    ) {
+    if (state.navigation.stage > index || (completed && state.navigation.stage !== index)) {
       const keyValueOptions: KeyValueListItemProps[] = [];
       if (state.insurance) {
         keyValueOptions.push({
@@ -79,29 +77,29 @@ class Insurance extends HtmlNode {
         changeButtonTitle: 'Ändra försäkring',
         onEdit: () => this.onEdit(),
       });
-    } else if (state.navigation.stage === this.props.index) {
+    } else if (state.navigation.stage === index) {
       const insuranceOptions = state.order?.getInsuranceOption();
       if (!insuranceOptions) throw 'Missing insurance';
 
       switch (insuranceOptions?.institute) {
         case 'IF':
           new IfInsurance(content, {
-            store: this.props.store,
-            lastStage: this.props.lastStage,
+            store,
+            lastStage,
             onSkip: () => this.onSkipInsurances(),
           });
           break;
 
         default:
           new DefaultInsurance(content, {
-            store: this.props.store,
-            lastStage: this.props.lastStage,
+            store,
+            lastStage,
             insurance: insuranceOptions,
           });
           break;
       }
     }
-    if (state.navigation.stage === this.props.index) {
+    if (state.navigation.stage === index) {
       content.parentElement?.scrollIntoView();
     }
   }

@@ -1,13 +1,13 @@
 import HtmlNode from '../Extension/HtmlNode';
 
 interface ButtonCloseProps {
-  title: string;
-  id?: string;
-  onClick?: (e: Event) => void;
+  readonly title: string;
+  readonly id?: string;
+  readonly onClick?: (e: Event) => void;
 }
 
 class ButtonClose extends HtmlNode {
-  private props: ButtonCloseProps;
+  private readonly props: ButtonCloseProps;
 
   constructor(element: HTMLElement | null, props: ButtonCloseProps) {
     super(element);

@@ -33,15 +33,16 @@ class LoanDetails extends HtmlNode {
   }
 
   private extractProps() {
-    const { monthlyCost, totalCreditCost } = this.props.paymentLookupResponse.getCosts();
-    const { interest, effectiveInterest } = this.props.paymentLookupResponse.getInterests();
+    const { loan, paymentLookupResponse } = this.props;
+    const { monthlyCost, totalCreditCost } = paymentLookupResponse.getCosts();
+    const { interest, effectiveInterest } = paymentLookupResponse.getInterests();
 
-    const downPayment = this.props.paymentLookupResponse.getDownPaymentSpec().current;
-    const duration = this.props.paymentLookupResponse.getDurationSpec().current;
-    const { administrationFee, setupFee } = this.props.paymentLookupResponse.getFees();
-    const creditAmount = this.props.paymentLookupResponse.getCreditAmount();
+    const downPayment = paymentLookupResponse.getDownPaymentSpec().current;
+    const duration = paymentLookupResponse.getDurationSpec().current;
+    const { administrationFee, setupFee } = paymentLookupResponse.getFees();
+    const creditAmount = paymentLookupResponse.getCreditAmount();
 
-    const publicUrl = this.props.loan.loanDetails?.getPublicURL();
+    const publicUrl = loan.loanDetails?.getPublicURL();
 
     const total = downPayment + creditAmount;
     const downPaymentPercentage = Math.round((downPayment / total) * 100);
@@ -59,7 +60,8 @@ class LoanDetails extends HtmlNode {
       total,
       publicUrl,
       monthlyCost,
-      loanOrgName: this.props.loan.name,
+      loanOrgName: loan.name,
+      loanOrgLogo: loan.logo,
       downPaymentPercentage,
       creditAmountPercentage,
     };
@@ -116,6 +118,7 @@ class LoanDetails extends HtmlNode {
       creditAmount,
       publicUrl,
       loanOrgName,
+      loanOrgLogo,
       monthlyCost,
       downPaymentPercentage,
       creditAmountPercentage,
@@ -130,10 +133,10 @@ class LoanDetails extends HtmlNode {
         <div class="waykeecom-shadow-box">
           <div class="waykeecom-stack waykeecom-stack--3">
             <div class="waykeecom-stack waykeecom-stack--1">
-              <h6 class="waykeecom-heading waykeecom-heading--5">${this.props.loan.name}</h6>
+              <h6 class="waykeecom-heading waykeecom-heading--5">${loanOrgName}</h6>
             </div>
             <div class="waykeecom-stack waykeecom-stack--1">
-              <img src="${this.props.loan.logo}" alt="${this.props.loan.name} logotyp" class="waykeecom-image waykeecom-image--loan-logo" />
+              <img src="${loanOrgLogo}" alt="${loanOrgName} logotyp" class="waykeecom-image waykeecom-image--loan-logo" />
             </div>
           </div>
           <div class="waykeecom-stack waykeecom-stack--3">

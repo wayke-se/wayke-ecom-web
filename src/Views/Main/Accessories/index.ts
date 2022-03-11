@@ -13,13 +13,13 @@ const PROCEED_NODE = `${PROCEED}-node`;
 const ACCESSORY_GRID_LIST_NODE = 'accessory-grid-list-node';
 
 interface AccessoriesProps {
-  store: WaykeStore;
-  index: number;
-  lastStage: boolean;
+  readonly store: WaykeStore;
+  readonly index: number;
+  readonly lastStage: boolean;
 }
 
 class Accessories extends HtmlNode {
-  private props: AccessoriesProps;
+  private readonly props: AccessoriesProps;
 
   constructor(element: HTMLDivElement, props: AccessoriesProps) {
     super(element);
@@ -41,22 +41,20 @@ class Accessories extends HtmlNode {
   }
 
   render() {
-    const state = this.props.store.getState();
+    const { store, index } = this.props;
+    const state = store.getState();
 
-    const completed = state.topNavigation.stage > this.props.index;
+    const completed = state.topNavigation.stage > index;
     const content = ListItem(this.node, {
       completed,
       title: 'Tillbehör',
-      active: state.navigation.stage === this.props.index,
+      active: state.navigation.stage === index,
       id: 'accessories',
     });
 
     const part = document.createElement('div');
 
-    if (
-      state.navigation.stage > this.props.index ||
-      (completed && state.navigation.stage !== this.props.index)
-    ) {
+    if (state.navigation.stage > index || (completed && state.navigation.stage !== index)) {
       new StageCompleted(content, {
         keyValueList: [
           {
@@ -69,7 +67,7 @@ class Accessories extends HtmlNode {
         changeButtonTitle: 'Ändra tillbehör',
         onEdit: () => this.onEdit(),
       });
-    } else if (state.navigation.stage === this.props.index) {
+    } else if (state.navigation.stage === index) {
       const accessories = state.order?.getAccessories() || [];
 
       part.innerHTML = `
@@ -87,7 +85,7 @@ class Accessories extends HtmlNode {
       `;
 
       new AccessoryList(part.querySelector<HTMLDivElement>(`#${ACCESSORY_GRID_LIST_NODE}`), {
-        store: this.props.store,
+        store,
         accessories,
       });
 
@@ -99,7 +97,7 @@ class Accessories extends HtmlNode {
     }
 
     content.appendChild(part);
-    if (state.navigation.stage === this.props.index) {
+    if (state.navigation.stage === index) {
       content.parentElement?.scrollIntoView();
     }
   }

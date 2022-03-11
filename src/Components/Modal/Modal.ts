@@ -7,13 +7,13 @@ import ModalDialog from './ModalDialog';
 import ModalHeader from './ModalHeader';
 
 interface ModalProps {
-  title: string;
-  id: string;
-  onClose?: () => void;
+  readonly title: string;
+  readonly id: string;
+  readonly onClose?: () => void;
 }
 
 class Modal extends HtmlNode {
-  private props: ModalProps;
+  private readonly props: ModalProps;
   content: HTMLElement;
 
   constructor(element: HTMLElement, props: ModalProps) {

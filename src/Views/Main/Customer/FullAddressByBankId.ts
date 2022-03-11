@@ -24,13 +24,13 @@ const LINK_TOGGLE_METHOD = 'link-toggle-method';
 const DISCLAIMER_SAFE_NODE = 'address-disclaimer-node';
 
 interface FullAddressByBankIdProps {
-  store: WaykeStore;
-  lastStage: boolean;
-  onToggleMethod: () => void;
+  readonly store: WaykeStore;
+  readonly lastStage: boolean;
+  readonly onToggleMethod: () => void;
 }
 
 class FullAddressByBankId extends HtmlNode {
-  private props: FullAddressByBankIdProps;
+  private readonly props: FullAddressByBankIdProps;
   private bankidStatusInterval?: NodeJS.Timer;
   private view: number = 1;
   private contexts: {
@@ -47,14 +47,14 @@ class FullAddressByBankId extends HtmlNode {
     this.render();
   }
 
-  onToggleMethod() {
+  private onToggleMethod() {
     if (this.bankidStatusInterval) {
       clearInterval(this.bankidStatusInterval);
     }
     this.props.onToggleMethod();
   }
 
-  bankIdStatus(reference: string, method: AuthMethod) {
+  private bankIdStatus(reference: string, method: AuthMethod) {
     this.bankidStatusInterval = setInterval(async () => {
       try {
         const response = await getBankIdStatus(reference);
@@ -93,7 +93,7 @@ class FullAddressByBankId extends HtmlNode {
     }, 2000);
   }
 
-  async onStartBankIdAuth(method: AuthMethod) {
+  private async onStartBankIdAuth(method: AuthMethod) {
     if (this.bankidStatusInterval) {
       clearInterval(this.bankidStatusInterval);
     }
@@ -126,7 +126,7 @@ class FullAddressByBankId extends HtmlNode {
     }
   }
 
-  onAbort() {
+  private onAbort() {
     this.view = 1;
     if (this.bankidStatusInterval) {
       clearInterval(this.bankidStatusInterval);

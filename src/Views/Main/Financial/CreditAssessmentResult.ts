@@ -6,14 +6,14 @@ import CreditAssessmentAssessManually from './CreditAssessmentAssessManually';
 import CreditAssessmentRejected from './CreditAssessmentRejected';
 
 interface CreditAssessmentResultProps {
-  store: WaykeStore;
-  creditAssessmentResponse: ICreditAssessmentStatusResponse;
-  onProceed: () => void;
-  onGoBack: () => void;
+  readonly store: WaykeStore;
+  readonly creditAssessmentResponse: ICreditAssessmentStatusResponse;
+  readonly onProceed: () => void;
+  readonly onGoBack: () => void;
 }
 
 class CreditAssessmentResult extends HtmlNode {
-  private props: CreditAssessmentResultProps;
+  private readonly props: CreditAssessmentResultProps;
   constructor(element: HTMLElement, props: CreditAssessmentResultProps) {
     super(element);
     this.props = props;
@@ -21,26 +21,27 @@ class CreditAssessmentResult extends HtmlNode {
   }
 
   render() {
-    const decision = this.props.creditAssessmentResponse.getRecommendation();
+    const { store, creditAssessmentResponse, onProceed, onGoBack } = this.props;
+    const decision = creditAssessmentResponse.getRecommendation();
 
     if (decision === CreditAssessmentRecommendation.Approve) {
       new CreditAssessmentApproved(this.node, {
-        store: this.props.store,
-        creditAssessmentResponse: this.props.creditAssessmentResponse,
-        onProceed: () => this.props.onProceed(),
-        onGoBack: () => this.props.onGoBack(),
+        store,
+        creditAssessmentResponse,
+        onProceed: () => onProceed(),
+        onGoBack: () => onGoBack(),
       });
     } else if (decision === CreditAssessmentRecommendation.AssessManually) {
       new CreditAssessmentAssessManually(this.node, {
-        store: this.props.store,
-        creditAssessmentResponse: this.props.creditAssessmentResponse,
-        onProceed: () => this.props.onProceed(),
-        onGoBack: () => this.props.onGoBack(),
+        store,
+        creditAssessmentResponse,
+        onProceed: () => onProceed(),
+        onGoBack: () => onGoBack(),
       });
     } else {
       new CreditAssessmentRejected(this.node, {
-        store: this.props.store,
-        onGoBack: () => this.props.onGoBack(),
+        store,
+        onGoBack: () => onGoBack(),
       });
     }
   }

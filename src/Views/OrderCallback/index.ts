@@ -2,12 +2,12 @@ import HtmlNode from '../../Components/Extension/HtmlNode';
 import { WaykeStore } from '../../Redux/store';
 
 interface OrderCallbackProps {
-  store: WaykeStore;
-  waykeOrderId: string;
+  readonly store: WaykeStore;
+  readonly waykeOrderId: string;
 }
 
 class OrderCallback extends HtmlNode {
-  private props: OrderCallbackProps;
+  private readonly props: OrderCallbackProps;
 
   constructor(element: HTMLElement, props: OrderCallbackProps) {
     super(element);
@@ -16,12 +16,13 @@ class OrderCallback extends HtmlNode {
   }
 
   render() {
-    const state = this.props.store.getState();
+    const { store, waykeOrderId } = this.props;
+    const state = store.getState();
 
     if (!state.order) {
       this.node.innerHTML = `
         <p>Tack för ditt köp</p>
-        <p>Orderid: ${this.props.waykeOrderId}</p>
+        <p>Orderid: ${waykeOrderId}</p>
       `;
       return;
     }

@@ -3,23 +3,23 @@ import InputError from './InputError';
 import InputInformation from './InputInformation';
 
 interface InputFieldProps {
-  title: string;
-  value: string;
-  name: string;
-  id: string;
-  unit?: string;
+  readonly title: string;
+  readonly value: string;
+  readonly name: string;
+  readonly id: string;
+  readonly unit?: string;
   error?: boolean;
   errorMessage?: string;
-  placeholder?: string;
-  information?: string;
-  type?: string;
-  autocomplete?: string;
-  onChange?: (e: Event) => void;
-  onBlur?: (e: Event) => void;
+  readonly placeholder?: string;
+  readonly information?: string;
+  readonly type?: string;
+  readonly autocomplete?: string;
+  readonly onChange?: (e: Event) => void;
+  readonly onBlur?: (e: Event) => void;
 }
 
 class InputField extends HtmlNode {
-  private props: InputFieldProps;
+  private readonly props: InputFieldProps;
   private contexts: {
     error?: InputError;
   } = {};

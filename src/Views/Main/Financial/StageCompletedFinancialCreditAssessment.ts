@@ -4,12 +4,12 @@ import { WaykeStore } from '../../../Redux/store';
 import Alert from '../../../Templates/Alert';
 
 interface StageCompletedFinancialCreditAssessmentProps {
-  store: WaykeStore;
-  decision: CreditAssessmentRecommendation;
+  readonly store: WaykeStore;
+  readonly decision: CreditAssessmentRecommendation;
 }
 
 class StageCompletedFinancialCreditAssessment extends HtmlNode {
-  private props: StageCompletedFinancialCreditAssessmentProps;
+  private readonly props: StageCompletedFinancialCreditAssessmentProps;
 
   constructor(element: HTMLElement | null, props: StageCompletedFinancialCreditAssessmentProps) {
     super(element);
@@ -18,10 +18,11 @@ class StageCompletedFinancialCreditAssessment extends HtmlNode {
   }
 
   render() {
-    const state = this.props.store.getState();
+    const { store, decision } = this.props;
+    const state = store.getState();
     const contactInformation = state.order?.getContactInformation();
 
-    if (this.props.decision === CreditAssessmentRecommendation.Approve) {
+    if (decision === CreditAssessmentRecommendation.Approve) {
       this.node.innerHTML = `
       ${Alert({
         tone: 'success',
@@ -31,7 +32,7 @@ class StageCompletedFinancialCreditAssessment extends HtmlNode {
         `,
       })}
     `;
-    } else if (this.props.decision === CreditAssessmentRecommendation.AssessManually) {
+    } else if (decision === CreditAssessmentRecommendation.AssessManually) {
       this.node.innerHTML = `
       ${Alert({
         tone: 'warning',

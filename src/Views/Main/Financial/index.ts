@@ -28,13 +28,13 @@ const RADIO_FINANCIAL_LEASE = 'radio-financial-lease';
 const PAYMENT_NODE = 'payment-node';
 
 interface FinancialProps {
-  store: WaykeStore;
-  index: number;
-  lastStage: boolean;
+  readonly store: WaykeStore;
+  readonly index: number;
+  readonly lastStage: boolean;
 }
 
 class Financial extends HtmlNode {
-  private props: FinancialProps;
+  private readonly props: FinancialProps;
   private paymentType?: PaymentType;
   private paymentLookupResponse?: PaymentLookupResponse;
 

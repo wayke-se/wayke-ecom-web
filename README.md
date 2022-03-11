@@ -82,6 +82,9 @@ new WaykeEcomWeb({
 });
 ```
 
+### Instance
+Instance contains two public methods, `.start()` and `.close()`.
+
 ### Required
 * `id` Id of the vehicle from Wayke
 * `ecomSdkConfig.api.address` Should be one of the following urls below:

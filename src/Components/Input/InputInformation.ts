@@ -4,11 +4,11 @@ const helpClassName = 'waykeecom-input-label__help';
 const foldoutClassName = 'waykeecom-input-label__foldout';
 
 interface InputInformationProps {
-  information?: string;
+  readonly information?: string;
 }
 
 class InputInformation extends HtmlNode {
-  private props: InputInformationProps;
+  private readonly props: InputInformationProps;
   private open: boolean = false;
 
   constructor(element: HTMLElement | null | undefined, props: InputInformationProps) {

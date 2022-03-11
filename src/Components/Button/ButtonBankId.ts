@@ -3,16 +3,16 @@ import Loader from '../../Templates/Loader';
 import HtmlNode, { HtmlNodeSettings } from '../Extension/HtmlNode';
 
 interface ButtonBankIdProps {
-  title: string;
-  id?: string;
+  readonly title: string;
+  readonly id?: string;
   disabled?: boolean;
   loading?: boolean;
-  htmlNodesettings?: HtmlNodeSettings;
-  onClick?: (e: Event) => void;
+  readonly htmlNodesettings?: HtmlNodeSettings;
+  readonly onClick?: (e: Event) => void;
 }
 
 class ButtonBankId extends HtmlNode {
-  private props: ButtonBankIdProps;
+  private readonly props: ButtonBankIdProps;
 
   constructor(element: HTMLElement | null, props: ButtonBankIdProps) {
     super(element, props.htmlNodesettings);

@@ -1,13 +1,13 @@
 import HtmlNode from '../Extension/HtmlNode';
 
 interface ModalHeaderProps {
-  title: string;
-  id: string;
-  onClose?: () => void;
+  readonly title: string;
+  readonly id: string;
+  readonly onClose?: () => void;
 }
 
 class ModalHeader extends HtmlNode {
-  private props: ModalHeaderProps;
+  private readonly props: ModalHeaderProps;
 
   constructor(element: HTMLElement, props: ModalHeaderProps) {
     super(element, {

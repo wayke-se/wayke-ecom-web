@@ -25,13 +25,13 @@ const EDIT_DRIVING_DISTANCE = 'button-insurance-edit-driving-distance';
 const EDIT_DRIVING_DISTANCE_NODE = `${EDIT_DRIVING_DISTANCE}-node`;
 
 interface InsuranceViewProps {
-  store: WaykeStore;
-  lastStage: boolean;
-  onEdit: () => void;
+  readonly store: WaykeStore;
+  readonly lastStage: boolean;
+  readonly onEdit: () => void;
 }
 
 class InsuranceView extends HtmlNode {
-  private props: InsuranceViewProps;
+  private readonly props: InsuranceViewProps;
   private requestError: boolean = false;
   private insurances?: IInsuranceOption[];
   private contexts: {
@@ -93,7 +93,8 @@ class InsuranceView extends HtmlNode {
   }
 
   render() {
-    const state = this.props.store.getState();
+    const { store } = this.props;
+    const state = store.getState();
     const { insurance, drivingDistance } = state;
 
     this.node.innerHTML = `
@@ -141,7 +142,7 @@ class InsuranceView extends HtmlNode {
       } else {
         const insurances = this.insurances;
         if (insurances?.length) {
-          new InsuranceList(insuranceListNode, { store: this.props.store, insurances });
+          new InsuranceList(insuranceListNode, { store, insurances });
         } else {
           insuranceListNode.innerHTML = Loader();
         }

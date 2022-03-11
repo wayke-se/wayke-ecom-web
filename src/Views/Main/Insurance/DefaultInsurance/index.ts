@@ -14,13 +14,13 @@ const SKIP_INSURANCES = 'button-insurances-skip';
 const SKIP_INSURANCES_NODE = `${SKIP_INSURANCES}-node`;
 
 interface DefaultInsuranceProps {
-  store: WaykeStore;
-  lastStage: boolean;
-  insurance: IAvailableInsuranceOption;
+  readonly store: WaykeStore;
+  readonly lastStage: boolean;
+  readonly insurance: IAvailableInsuranceOption;
 }
 
 class DefaultInsurance extends HtmlNode {
-  private props: DefaultInsuranceProps;
+  private readonly props: DefaultInsuranceProps;
 
   constructor(element: HTMLElement, props: DefaultInsuranceProps) {
     super(element);
@@ -33,6 +33,7 @@ class DefaultInsurance extends HtmlNode {
   }
 
   render() {
+    const { store, insurance } = this.props;
     this.node.innerHTML = `
       <div class="waykeecom-stack waykeecom-stack--3">
         <h4 class="waykeecom-heading waykeecom-heading--4">Vill du teckna en försäkring på din nya bil?</h4>
@@ -48,8 +49,8 @@ class DefaultInsurance extends HtmlNode {
     `;
 
     new InsuranceList(this.node.querySelector<HTMLElement>(`#${INSURANCE_GRID_LIST_NODE}`), {
-      store: this.props.store,
-      insurances: [this.props.insurance],
+      store,
+      insurances: [insurance],
     });
 
     new ButtonArrowRight(this.node.querySelector<HTMLElement>(`#${PROCEED_INSURANCE_NODE}`), {

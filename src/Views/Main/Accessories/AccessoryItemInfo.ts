@@ -11,14 +11,14 @@ const BUTTON_BOTTOM_LEFT_NODE = 'accessory-button-bottom-left-node';
 const BUTTON_ACCESSORY_ADD_REMOVE_NODE = 'accessory-add-remove-node';
 
 interface AccessoryItemInfoProps {
-  accessory: IAccessory;
-  selected: boolean;
-  onClick: () => void;
-  onClose: () => void;
+  readonly accessory: IAccessory;
+  readonly selected: boolean;
+  readonly onClick: () => void;
+  readonly onClose: () => void;
 }
 
 class AccessoryItemInfo extends HtmlNode {
-  private props: AccessoryItemInfoProps;
+  private readonly props: AccessoryItemInfoProps;
 
   constructor(element: HTMLElement, props: AccessoryItemInfoProps) {
     super(element);

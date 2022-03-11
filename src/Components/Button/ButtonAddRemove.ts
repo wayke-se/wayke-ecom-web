@@ -2,16 +2,16 @@ import Loader from '../../Templates/Loader';
 import HtmlNode from '../Extension/HtmlNode';
 
 interface ButtonAddRemoveProps {
-  id?: string;
+  readonly id?: string;
   disabled?: boolean;
   loading?: boolean;
-  selected?: boolean;
-  fullSize?: boolean;
-  onClick?: (e: Event) => void;
+  readonly selected?: boolean;
+  readonly fullSize?: boolean;
+  readonly onClick?: (e: Event) => void;
 }
 
 class ButtonAddRemove extends HtmlNode {
-  private props: ButtonAddRemoveProps;
+  private readonly props: ButtonAddRemoveProps;
 
   constructor(element: HTMLDivElement | null, props: ButtonAddRemoveProps) {
     super(element);

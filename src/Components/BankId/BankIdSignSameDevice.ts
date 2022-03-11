@@ -5,12 +5,12 @@ import ButtonBankId from '../Button/ButtonBankId';
 import HtmlNode from '../Extension/HtmlNode';
 
 interface BankIdSignSameDeviceProps {
-  autoLaunchUrl?: string;
-  errorMessage?: string;
+  readonly autoLaunchUrl?: string;
+  readonly errorMessage?: string;
 }
 
 class BankIdSignSameDevice extends HtmlNode {
-  private props: BankIdSignSameDeviceProps;
+  private readonly props: BankIdSignSameDeviceProps;
 
   constructor(element: HTMLElement | null, props: BankIdSignSameDeviceProps) {
     super(element);

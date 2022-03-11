@@ -2,12 +2,12 @@ import StackNode from '../../Components/Extension/StackNode';
 import { WaykeStore } from '../../Redux/store';
 
 interface IntroProps {
-  store: WaykeStore;
-  createdOrderId?: string;
+  readonly store: WaykeStore;
+  readonly createdOrderId?: string;
 }
 
 class Intro extends StackNode {
-  private props: IntroProps;
+  private readonly props: IntroProps;
 
   constructor(element: HTMLElement, props: IntroProps) {
     super(element);
@@ -16,16 +16,17 @@ class Intro extends StackNode {
   }
 
   render() {
-    const state = this.props.store.getState();
+    const { store, createdOrderId } = this.props;
+    const state = store.getState();
     const email = state.customer.email;
     const contactInformation = state.order?.getContactInformation();
 
-    if (this.props.createdOrderId) {
+    if (createdOrderId) {
       this.node.innerHTML = `
         <h2 class="waykeecom-heading waykeecom-heading--2">Allt är klart, tack för din order!</h2>
         <div class="waykeecom-content">
           <p>Ditt ordernummer är: 
-            <strong>${this.props.createdOrderId}</strong>
+            <strong>${createdOrderId}</strong>
           </p>
         </div>
         <h3 class="waykeecom-heading waykeecom-heading--3">Det här händer nu:</h3>

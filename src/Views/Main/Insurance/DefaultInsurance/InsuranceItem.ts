@@ -7,13 +7,13 @@ import { WaykeStore } from '../../../../Redux/store';
 import watch from '../../../../Redux/watch';
 
 interface InsuranceItemProps {
-  store: WaykeStore;
-  freeInsurance: IAvailableInsuranceOption;
-  key: string;
+  readonly store: WaykeStore;
+  readonly freeInsurance: IAvailableInsuranceOption;
+  readonly key: string;
 }
 
 class InsuranceItem extends HtmlNode {
-  private props: InsuranceItemProps;
+  private readonly props: InsuranceItemProps;
 
   constructor(element: HTMLElement, props: InsuranceItemProps) {
     super(element);
@@ -26,12 +26,13 @@ class InsuranceItem extends HtmlNode {
     this.render();
   }
 
-  onClick() {
+  private onClick() {
     addOrRemoveFreeInsurance(this.props.freeInsurance)(this.props.store.dispatch);
   }
 
   render() {
-    const state = this.props.store.getState();
+    const { store, freeInsurance, key } = this.props;
+    const state = store.getState();
     const logo = state.order?.getInsuranceOption()?.logo;
 
     const selected = state.freeInsurance
@@ -44,13 +45,13 @@ class InsuranceItem extends HtmlNode {
       this.node,
       {
         logo,
-        title: this.props.freeInsurance.title,
-        description: this.props.freeInsurance.description,
+        title: freeInsurance.title,
+        description: freeInsurance.description,
         price: 'Gratis',
         selected,
         onClick: () => this.onClick(),
       },
-      this.props.key
+      key
     );
   }
 }

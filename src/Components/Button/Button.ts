@@ -2,15 +2,15 @@ import Loader from '../../Templates/Loader';
 import HtmlNode from '../Extension/HtmlNode';
 
 interface ButtonProps {
-  title: string;
-  id?: string;
+  readonly title: string;
+  readonly id?: string;
   disabled?: boolean;
   loading?: boolean;
-  onClick?: (e: Event) => void;
+  readonly onClick?: (e: Event) => void;
 }
 
 class Button extends HtmlNode {
-  private props: ButtonProps;
+  private readonly props: ButtonProps;
 
   constructor(element: HTMLDivElement | null, props: ButtonProps) {
     super(element);

@@ -13,12 +13,12 @@ import watch from '../../Redux/watch';
 const SUMMARY_NODE = 'summary-node';
 
 interface SummaryProps {
-  store: WaykeStore;
-  onClose: () => void;
+  readonly store: WaykeStore;
+  readonly onClose: () => void;
 }
 
 class Summary extends HtmlNode {
-  private props: SummaryProps;
+  private readonly props: SummaryProps;
 
   constructor(element: HTMLElement, props: SummaryProps) {
     super(element);
@@ -40,7 +40,8 @@ class Summary extends HtmlNode {
   }
 
   render() {
-    const state = this.props.store.getState();
+    const { store, onClose } = this.props;
+    const state = store.getState();
     const createdOrderId = state.createdOrderId;
 
     this.node.innerHTML = `
@@ -49,18 +50,18 @@ class Summary extends HtmlNode {
 
     const content = this.node.querySelector<HTMLDivElement>(`#${SUMMARY_NODE}`);
     if (content) {
-      new Intro(content, { store: this.props.store, createdOrderId });
-      new TradeIn(content, { store: this.props.store, createdOrderId });
-      new Order(content, { store: this.props.store, createdOrderId });
-      new Delivery(content, { store: this.props.store, createdOrderId });
-      new Customer(content, { store: this.props.store, createdOrderId });
+      new Intro(content, { store, createdOrderId });
+      new TradeIn(content, { store, createdOrderId });
+      new Order(content, { store, createdOrderId });
+      new Delivery(content, { store, createdOrderId });
+      new Customer(content, { store, createdOrderId });
       new ExecuteOrder(content, {
-        store: this.props.store,
+        store,
         createdOrderId,
-        onClose: this.props.onClose,
+        onClose,
       });
       if (!createdOrderId) {
-        new Disclaimer(content, { store: this.props.store });
+        new Disclaimer(content, { store });
       }
     }
   }
