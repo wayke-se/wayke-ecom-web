@@ -5,6 +5,8 @@ import GridItem from '../../../../Components/OverflowGrid/OverflowGridItem';
 import { addOrRemoveFreeInsurance } from '../../../../Redux/action';
 import { WaykeStore } from '../../../../Redux/store';
 import watch from '../../../../Redux/watch';
+import { createPortal, destroyPortal } from '../../../../Utils/portal';
+import InsuranceItemInfo from './InsuranceItemInfo';
 
 interface InsuranceItemProps {
   readonly store: WaykeStore;
@@ -14,6 +16,7 @@ interface InsuranceItemProps {
 
 class InsuranceItem extends HtmlNode {
   private readonly props: InsuranceItemProps;
+  private displayInfo = false;
 
   constructor(element: HTMLElement, props: InsuranceItemProps) {
     super(element);
@@ -24,6 +27,18 @@ class InsuranceItem extends HtmlNode {
     });
 
     this.render();
+  }
+
+  private onInfoOpen() {
+    this.displayInfo = true;
+    this.render();
+  }
+
+  private onInfoClose() {
+    this.displayInfo = false;
+    destroyPortal();
+    this.render();
+    this.node.parentElement?.scrollIntoView();
   }
 
   private onClick() {
@@ -41,15 +56,25 @@ class InsuranceItem extends HtmlNode {
         ) === 0
       : false;
 
+    if (this.displayInfo) {
+      new InsuranceItemInfo(createPortal(), {
+        freeInsurance,
+        selected,
+        onClose: () => this.onInfoClose(),
+      });
+    }
+
     new GridItem(
       this.node,
       {
         logo,
+        id: key,
         title: freeInsurance.title,
         description: freeInsurance.description,
         price: 'Gratis',
         selected,
         onClick: () => this.onClick(),
+        onInfo: () => this.onInfoOpen(),
       },
       key
     );
