@@ -60,6 +60,10 @@ class InsuranceItem extends HtmlNode {
       new InsuranceItemInfo(createPortal(), {
         freeInsurance,
         selected,
+        onClick: () => {
+          this.onInfoClose();
+          this.onClick();
+        },
         onClose: () => this.onInfoClose(),
       });
     }

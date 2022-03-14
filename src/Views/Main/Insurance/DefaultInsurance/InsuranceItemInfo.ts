@@ -1,4 +1,5 @@
 import { IAvailableInsuranceOption } from '@wayke-se/ecom';
+import ButtonAddRemove from '../../../../Components/Button/ButtonAddRemove';
 import ButtonAsLinkArrowLeft from '../../../../Components/Button/ButtonAsLinkArrowLeft';
 import ButtonClear from '../../../../Components/Button/ButtonClear';
 import HtmlNode from '../../../../Components/Extension/HtmlNode';
@@ -6,10 +7,12 @@ import { scrollTop } from '../../../../Utils/scroll';
 
 const BUTTON_TOP_LEFT_NODE = 'insurance-button-top-left-node';
 const BUTTON_BOTTOM_LEFT_NODE = 'insurance-button-bottom-left-node';
+const BUTTON_INSURANCE_ADD_REMOVE_NODE = 'insurance-add-remove-node';
 
 interface InsuranceItemInfoProps {
   readonly freeInsurance: IAvailableInsuranceOption;
   readonly selected: boolean;
+  readonly onClick: () => void;
   readonly onClose: () => void;
 }
 
@@ -23,7 +26,7 @@ class InsuranceItemInfo extends HtmlNode {
   }
 
   render() {
-    const { freeInsurance, onClose } = this.props;
+    const { freeInsurance, selected, onClose, onClick } = this.props;
     const { description, logo, longDescription } = freeInsurance;
 
     this.node.innerHTML = `
@@ -54,6 +57,7 @@ class InsuranceItemInfo extends HtmlNode {
         </div>
       </div>
       <div class="waykeecom-stack waykeecom-stack--3">
+        <div class="waykeecom-stack waykeecom-stack--1" id="${BUTTON_INSURANCE_ADD_REMOVE_NODE}"></div>
         <div class="waykeecom-stack waykeecom-stack--1" id="${BUTTON_BOTTOM_LEFT_NODE}"></div>
       </div>
     `;
@@ -66,6 +70,12 @@ class InsuranceItemInfo extends HtmlNode {
     new ButtonClear(this.node.querySelector(`#${BUTTON_BOTTOM_LEFT_NODE}`), {
       title: 'Tillbaka',
       onClick: () => onClose(),
+    });
+
+    new ButtonAddRemove(this.node.querySelector(`#${BUTTON_INSURANCE_ADD_REMOVE_NODE}`), {
+      selected,
+      fullSize: true,
+      onClick: () => onClick(),
     });
 
     scrollTop();
