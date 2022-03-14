@@ -28,15 +28,17 @@ const ListItem = (element: HTMLElement, props: ListItemProps) => {
   item.className = className.join(' ');
   item.innerHTML = `
     <header class="waykeecom-stepper__header">
-      <div class="waykeecom-stepper__icon">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 16 16"
-          class="waykeecom-icon"
-          data-icon="Check"
-        >
-          <path d="M12.3 3.3 6 9.6 3.7 7.3c-.4-.4-1-.4-1.4 0-.4.4-.4 1 0 1.4l3 3c.4.4 1 .4 1.4 0l7-7c.4-.4.4-1 0-1.4-.4-.4-1-.4-1.4 0z"/>
-        </svg>
+      <div class="waykeecom-stepper__icon" aria-hidden="true">
+        <div class="waykeecom-icon-backdrop waykeecom-icon-backdrop--success">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 16 16"
+            class="waykeecom-icon"
+            data-icon="Check"
+          >
+            <path d="M12.3 3.3 6 9.6 3.7 7.3c-.4-.4-1-.4-1.4 0-.4.4-.4 1 0 1.4l3 3c.4.4 1 .4 1.4 0l7-7c.4-.4.4-1 0-1.4-.4-.4-1-.4-1.4 0z"/>
+          </svg>
+        </div>
       </div>
       <h3 class="waykeecom-heading waykeecom-heading--3 waykeecom-no-margin">
         <span class="waykeecom-stepper__stage" aria-hidden="true">
