@@ -1,11 +1,5 @@
 import InputHelp from '../../Templates/InputHelp';
-import { prettyNumber } from '../../Utils/format';
 import HtmlNode from '../Extension/HtmlNode';
-
-const formatNumberPretty = (value: string | number, postfix?: string) =>
-  prettyNumber(value, { postfix });
-
-const formatFromPretty = (n: string) => parseInt(n.replace(/\D/g, ''), 10).toString();
 
 const respectStep = (value: number, step?: number) => {
   if (!step) return value;
@@ -14,24 +8,24 @@ const respectStep = (value: number, step?: number) => {
 };
 
 interface InputRangeProps {
-  readonly title: string;
-  readonly value: number;
-  readonly min: number;
-  readonly max: number;
-  readonly step?: number;
-  readonly name: string;
-  readonly id: string;
-  readonly information?: string;
-  readonly unit?: string;
+  title: string;
+  value: number;
+  min: number;
+  max: number;
+  step?: number;
+  name: string;
+  id: string;
+  information?: string;
+  unit?: string;
   disabled?: boolean;
-  readonly onChange?: (e: Event) => void;
-  readonly onBlur?: (e: Event) => void;
+  onChange?: (e: Event) => void;
+  onBlur?: (e: Event) => void;
 }
 
 class InputRange extends HtmlNode {
-  private readonly props: InputRangeProps;
+  private props: InputRangeProps;
   private value: number;
-  private inputFieldValue: string;
+  private inputFieldValue: number;
   private rangeSpan: number;
   private currentValueInPercentage: number;
   private contexts: {
@@ -43,7 +37,7 @@ class InputRange extends HtmlNode {
 
     this.props = props;
     this.value = props.value;
-    this.inputFieldValue = formatNumberPretty(this.value, this.props.unit);
+    this.inputFieldValue = this.value;
     this.rangeSpan = props.max - props.min;
     this.currentValueInPercentage = parseInt(
       (100 * ((this.value - this.props.min) / this.rangeSpan)).toString(),
@@ -69,11 +63,11 @@ class InputRange extends HtmlNode {
 
   onChange(e: Event) {
     const currentTarget = e.currentTarget as HTMLInputElement;
-    this.inputFieldValue = currentTarget.value;
+    this.inputFieldValue = currentTarget.valueAsNumber;
   }
 
   onBlur(e: Event) {
-    const inputFieldValueAsNumber = parseInt(this.inputFieldValue.replace(/\D/g, ''), 10);
+    const inputFieldValueAsNumber = this.inputFieldValue;
     if (
       !isNaN(inputFieldValueAsNumber) &&
       inputFieldValueAsNumber >= this.props.min &&
@@ -89,7 +83,7 @@ class InputRange extends HtmlNode {
         this.props.onChange(e);
       }
 
-      this.inputFieldValue = formatNumberPretty(this.value, this.props.unit);
+      this.inputFieldValue = this.value;
       this.currentValueInPercentage = parseInt(
         (100 * ((this.value - this.props.min) / this.rangeSpan)).toString(),
         10
@@ -97,20 +91,20 @@ class InputRange extends HtmlNode {
 
       this.render();
     } else {
-      this.inputFieldValue = formatNumberPretty(this.value, this.props.unit);
+      this.inputFieldValue = this.value;
       this.updateInputField();
     }
   }
 
   onFocus(e: Event) {
     const currentTarget = e.currentTarget as HTMLInputElement;
-    currentTarget.value = formatFromPretty(this.inputFieldValue);
+    currentTarget.value = this.value.toString();
   }
 
   onInput(e: Event) {
     const currentTarget = e.currentTarget as HTMLInputElement;
     this.value = parseInt(currentTarget.value, 10);
-    this.inputFieldValue = prettyNumber(this.value, { postfix: this.props.unit });
+    this.inputFieldValue = this.value;
 
     this.currentValueInPercentage = parseInt(
       (100 * ((this.value - this.props.min) / this.rangeSpan)).toString(),
@@ -142,7 +136,7 @@ class InputRange extends HtmlNode {
   updateInputField() {
     const inputField = this.node.querySelector<HTMLInputElement>(`#${this.props.id}-input`);
     if (inputField) {
-      inputField.value = this.inputFieldValue;
+      inputField.value = this.inputFieldValue.toString();
     }
   }
 
@@ -159,13 +153,17 @@ class InputRange extends HtmlNode {
         <div class="waykeecom-stack waykeecom-stack--1">
           <div class="waykeecom-input-text">
             <input
-              type="text"
+              type="number"
+              pattern="[0-9]*"
               id="${id}-input"
               value="${this.inputFieldValue}"
               name="${name}"
               autocomplete="off"
               class="waykeecom-input-text__input"
               ${(step === 0 || disabled) && `disabled=""`}
+              min="${min}"
+              max="${max}"
+              ${step !== undefined && `step="${step}"`}
             />
             ${unit ? `<div class="waykeecom-input-text__unit">${unit}</div>` : ''}
           </div>
@@ -212,7 +210,6 @@ class InputRange extends HtmlNode {
       if (inputField) {
         inputField.addEventListener('change', (e) => this.onChange(e));
         inputField.addEventListener('blur', (e) => this.onBlur(e));
-        inputField.addEventListener('focus', (e) => this.onFocus(e));
       }
     }
   }
