@@ -23,13 +23,13 @@ class Intro extends StackNode {
 
     if (createdOrderId) {
       this.node.innerHTML = `
-        <h2 class="waykeecom-heading waykeecom-heading--2">Allt är klart, tack för din order!</h2>
+        <h3 class="waykeecom-heading waykeecom-heading--3">Allt är klart, tack för din order!</h3>
         <div class="waykeecom-content">
           <p>Ditt ordernummer är: 
             <strong>${createdOrderId}</strong>
           </p>
         </div>
-        <h3 class="waykeecom-heading waykeecom-heading--3">Det här händer nu:</h3>
+        <h4 class="waykeecom-heading waykeecom-heading--4">Det här händer nu:</h4>
         <div class="waykeecom-content">
           <ol>
             <li>En orderbekräftelse kommer att skickas till din e-postadress ${email}.*</li>
@@ -42,7 +42,7 @@ class Intro extends StackNode {
     `;
     } else {
       this.node.innerHTML = `
-        <h2 class="waykeecom-heading waykeecom-heading--2">Sammanställning</h2>
+        <h3 class="waykeecom-heading waykeecom-heading--2">Sammanställning</h3>
         <div class="waykeecom-content">
           <p>
             <strong>Strax klart!</strong>

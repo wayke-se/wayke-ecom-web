@@ -51,8 +51,8 @@ class Summary extends HtmlNode {
     const content = this.node.querySelector<HTMLDivElement>(`#${SUMMARY_NODE}`);
     if (content) {
       new Intro(content, { store, createdOrderId });
-      new TradeIn(content, { store, createdOrderId });
       new Order(content, { store, createdOrderId });
+      new TradeIn(content, { store, createdOrderId });
       new Delivery(content, { store, createdOrderId });
       new Customer(content, { store, createdOrderId });
       new ExecuteOrder(content, {

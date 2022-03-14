@@ -77,7 +77,14 @@ class TradeIn extends StackNode {
             </div>
           </div>
         </div>`
-            : `<div class="waykeecom-stack waykeecom-stack--2">Nej</div>`
+            : `<div class="waykeecom-stack waykeecom-stack--2">
+                <ul class="waykeecom-key-value-list">
+                  ${KeyValueListItem({
+                    key: 'Inbytesbil',
+                    value: 'Nej',
+                  })}
+                </ul>
+            </div>`
         }
         ${
           !createdOrderId

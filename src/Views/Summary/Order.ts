@@ -37,164 +37,168 @@ class Order extends StackNode {
     const paymentLease = state.order?.getPaymentOptions().find((x) => x.type === PaymentType.Lease);
 
     this.node.innerHTML = `
-      <h3 class="waykeecom-heading waykeecom-heading--3">Din order</h3>
-      ${ItemTileLarge({
-        vehicle: state.vehicle,
-        order: state.order,
-        meta: `
-          <div class="waykeecom-stack waykeecom-stack--2">
-            ${
-              state.paymentType === PaymentType.Loan && paymentLoan
-                ? `
-                <div class="waykeecom-stack waykeecom-stack--05">
-                  <div class="waykeecom-label">Billån</div>
-                </div>
-                <div class="waykeecom-stack waykeecom-stack--05">
-                  <ul class="waykeecom-key-value-list">
-                  ${
-                    paymentLookupResponse
-                      ? KeyValueListItem({
-                          key: paymentLoan.name || '???',
-                          value: prettyNumber(paymentLookupResponse.getCosts().monthlyCost, {
-                            postfix: 'kr/mån',
+      <div class="waykeecom-stack waykeecom-stack--2">
+        <h4 class="waykeecom-heading waykeecom-heading--4 waykeecom-no-margin">Din order</h4>
+      </div>
+      <div class="waykeecom-stack waykeecom-stack--2">
+        ${ItemTileLarge({
+          vehicle: state.vehicle,
+          order: state.order,
+          meta: `
+            <div class="waykeecom-stack waykeecom-stack--2">
+              ${
+                state.paymentType === PaymentType.Loan && paymentLoan
+                  ? `
+                  <div class="waykeecom-stack waykeecom-stack--05">
+                    <div class="waykeecom-label">Betalsätt</div>
+                  </div>
+                  <div class="waykeecom-stack waykeecom-stack--05">
+                    <ul class="waykeecom-key-value-list">
+                    ${
+                      paymentLookupResponse
+                        ? KeyValueListItem({
+                            key: paymentLoan.name || '???',
+                            value: prettyNumber(paymentLookupResponse.getCosts().monthlyCost, {
+                              postfix: 'kr/mån',
+                            }),
+                          })
+                        : ``
+                    }
+                    </ul>
+                  </div>
+                `
+                  : state.paymentType === PaymentType.Cash
+                  ? `
+                    <div class="waykeecom-stack waykeecom-stack--05">
+                      <div class="waykeecom-label">Betalsätt</div>
+                    </div>
+                    <div class="waykeecom-stack waykeecom-stack--05">
+                      <ul class="waykeecom-key-value-list">
+                        ${KeyValueListItem({
+                          key: 'Kontant',
+                          value: prettyNumber(state.vehicle?.price || '???', { postfix: 'kr' }),
+                        })}
+                      </ul>
+                    </div>
+                  `
+                  : state.paymentType === PaymentType.Lease
+                  ? `
+                    <div class="waykeecom-stack waykeecom-stack--05">
+                      <div class="waykeecom-label">Betalsätt</div>
+                    </div>
+                    <div class="waykeecom-stack waykeecom-stack--05">
+                      <ul class="waykeecom-key-value-list">
+                        ${KeyValueListItem({
+                          key: 'Leasing',
+                          value: prettyNumber(paymentLease?.price || '???', {
+                            postfix: paymentLease?.unit,
                           }),
-                        })
-                      : ``
-                  }
-                  </ul>
-                </div>
-              `
-                : state.paymentType === PaymentType.Cash
-                ? `
-                  <div class="waykeecom-stack waykeecom-stack--05">
-                    <div class="waykeecom-label">Kontant</div>
-                  </div>
-                  <div class="waykeecom-stack waykeecom-stack--05">
-                    <ul class="waykeecom-key-value-list">
-                      ${KeyValueListItem({
-                        key: 'Kontant',
-                        value: prettyNumber(state.vehicle?.price || '???', { postfix: 'kr' }),
-                      })}
-                    </ul>
-                  </div>
-                `
-                : state.paymentType === PaymentType.Lease
-                ? `
-                  <div class="waykeecom-stack waykeecom-stack--05">
-                    <div class="waykeecom-label">Leasing</div>
-                  </div>
-                  <div class="waykeecom-stack waykeecom-stack--05">
-                    <ul class="waykeecom-key-value-list">
-                      ${KeyValueListItem({
-                        key: 'Leasing',
-                        value: prettyNumber(paymentLease?.price || '???', {
-                          postfix: paymentLease?.unit,
-                        }),
-                      })}
-                    </ul>
-                  </div>
-                `
-                : ''
-            }
+                        })}
+                      </ul>
+                    </div>
+                  `
+                  : ''
+              }
+              ${
+                !createdOrderId
+                  ? `
+                    <div class="waykeecom-stack waykeecom-stack--05">
+                      <div class="waykeecom-align waykeecom-align--end">
+                        <button id="${EDIT_FINANCIAL}" title="Ändra finansiering" class="waykeecom-link">Ändra</button>
+                      </div>
+                    </div>
+                  `
+                  : ''
+              }
+            </div>
             ${
-              !createdOrderId
+              state.insurance || state.freeInsurance
                 ? `
-                  <div class="waykeecom-stack waykeecom-stack--05">
-                    <div class="waykeecom-align waykeecom-align--end">
-                      <button id="${EDIT_FINANCIAL}" title="Ändra finansiering" class="waykeecom-link">Ändra</button>
-                    </div>
-                  </div>
-                `
-                : ''
-            }
-          </div>
-          ${
-            state.insurance || state.freeInsurance
-              ? `
-              <div class="waykeecom-stack waykeecom-stack--2">
-                ${
-                  state.insurance
-                    ? `
-                    <div class="waykeecom-stack waykeecom-stack--05">
-                      <div class="waykeecom-label">Försäkring</div>
-                    </div>
-                    <div class="waykeecom-stack waykeecom-stack--05">
-                      <ul class="waykeecom-key-value-list">
-                        ${KeyValueListItem({
-                          key: state.insurance.name,
-                          value: prettyNumber(state.insurance.price, { postfix: 'kr/mån' }),
-                        })}
-                      </ul>
-                    </div>
-                  `
-                    : ''
-                }
-                ${
-                  state.freeInsurance
-                    ? `
-                    <div class="waykeecom-stack waykeecom-stack--05">
-                      <div class="waykeecom-label">Försäkring</div>
-                    </div>
-                    <div class="waykeecom-stack waykeecom-stack--05">
-                      <ul class="waykeecom-key-value-list">
-                        ${KeyValueListItem({
-                          key: state.freeInsurance.title,
-                          value: 'Gratis',
-                        })}
-                      </ul>
-                    </div>
-                  `
-                    : ''
-                }
-                ${
-                  !createdOrderId
-                    ? `
+                <div class="waykeecom-stack waykeecom-stack--2">
+                  ${
+                    state.insurance
+                      ? `
                       <div class="waykeecom-stack waykeecom-stack--05">
-                        <div class="waykeecom-align waykeecom-align--end">
-                          <button id="${EDIT_INSURANCE}" title="Ändra försäkring" class="waykeecom-link">Ändra</button>
-                        </div>
+                        <div class="waykeecom-label">Försäkring</div>
+                      </div>
+                      <div class="waykeecom-stack waykeecom-stack--05">
+                        <ul class="waykeecom-key-value-list">
+                          ${KeyValueListItem({
+                            key: state.insurance.name,
+                            value: prettyNumber(state.insurance.price, { postfix: 'kr/mån' }),
+                          })}
+                        </ul>
                       </div>
                     `
-                    : ''
-                }
-              </div>`
-              : ''
-          }
-          ${
-            !!state.accessories.length
-              ? `
-                <div class="waykeecom-stack waykeecom-stack--2">
-                  <div class="waykeecom-stack waykeecom-stack--05">
-                    <div class="waykeecom-label">Tillbehör</div>
-                  </div>
-                  <div class="waykeecom-stack waykeecom-stack--05">
-                    <ul class="waykeecom-key-value-list">
-                      ${state.accessories
-                        .map((accessory) =>
-                          KeyValueListItem({
-                            key: accessory.name,
-                            value: prettyNumber(accessory.price, { postfix: 'kr' }),
-                          })
-                        )
-                        .join('')}
-                    </ul>
-                  </div>
+                      : ''
+                  }
+                  ${
+                    state.freeInsurance
+                      ? `
+                      <div class="waykeecom-stack waykeecom-stack--05">
+                        <div class="waykeecom-label">Försäkring</div>
+                      </div>
+                      <div class="waykeecom-stack waykeecom-stack--05">
+                        <ul class="waykeecom-key-value-list">
+                          ${KeyValueListItem({
+                            key: state.freeInsurance.title,
+                            value: 'Gratis',
+                          })}
+                        </ul>
+                      </div>
+                    `
+                      : ''
+                  }
                   ${
                     !createdOrderId
                       ? `
                         <div class="waykeecom-stack waykeecom-stack--05">
                           <div class="waykeecom-align waykeecom-align--end">
-                            <button id="${EDIT_ACCESSORIES}" title="Ändra försäkring" class="waykeecom-link">Ändra</button>
+                            <button id="${EDIT_INSURANCE}" title="Ändra försäkring" class="waykeecom-link">Ändra</button>
                           </div>
                         </div>
                       `
                       : ''
                   }
                 </div>`
-              : ''
-          }
-        `,
-      })}
+                : ''
+            }
+            ${
+              !!state.accessories.length
+                ? `
+                  <div class="waykeecom-stack waykeecom-stack--2">
+                    <div class="waykeecom-stack waykeecom-stack--05">
+                      <div class="waykeecom-label">Tillbehör</div>
+                    </div>
+                    <div class="waykeecom-stack waykeecom-stack--05">
+                      <ul class="waykeecom-key-value-list">
+                        ${state.accessories
+                          .map((accessory) =>
+                            KeyValueListItem({
+                              key: accessory.name,
+                              value: prettyNumber(accessory.price, { postfix: 'kr' }),
+                            })
+                          )
+                          .join('')}
+                      </ul>
+                    </div>
+                    ${
+                      !createdOrderId
+                        ? `
+                          <div class="waykeecom-stack waykeecom-stack--05">
+                            <div class="waykeecom-align waykeecom-align--end">
+                              <button id="${EDIT_ACCESSORIES}" title="Ändra försäkring" class="waykeecom-link">Ändra</button>
+                            </div>
+                          </div>
+                        `
+                        : ''
+                    }
+                  </div>`
+                : ''
+            }
+          `,
+        })}
+      </div>
     `;
 
     if (!createdOrderId) {
