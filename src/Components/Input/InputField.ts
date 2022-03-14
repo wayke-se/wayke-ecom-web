@@ -14,6 +14,8 @@ interface InputFieldProps {
   readonly information?: string;
   readonly type?: string;
   readonly autocomplete?: string;
+  readonly pattern?: string;
+  readonly inputmode?: string;
   readonly onChange?: (e: Event) => void;
   readonly onBlur?: (e: Event) => void;
 }
@@ -64,6 +66,8 @@ class InputField extends HtmlNode {
       error,
       errorMessage,
       information,
+      pattern,
+      inputmode,
       onChange,
       onBlur,
     } = this.props;
@@ -75,8 +79,10 @@ class InputField extends HtmlNode {
       <div class="waykeecom-input-text">
         <input
           ${type ? `type="${type}"` : 'type="text"'}
-          ${type === 'number' ? `pattern="[0-9]*"` : ''}
+          ${type === 'number' ? `pattern="[0-9]*" inputmode="numeric"` : ''}
           id="${id}"
+          ${pattern ? `pattern="${pattern}"` : ''}
+          ${inputmode ? `inputmode="${inputmode}"` : ''}
           value="${value}"
           name="${name}"
           ${autocomplete ? `autocomplete="${autocomplete}"` : ''}

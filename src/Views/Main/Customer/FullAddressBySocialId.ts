@@ -196,6 +196,8 @@ class FullAddressBySocialId extends HtmlNode {
         errorMessage: 'Ange personnummer i formatet ÅÅÅÅMMDD-XXXX. Måste vara över 18 år.',
         name: 'socialId',
         placeholder: 'ÅÅÅÅMMDD-XXXX',
+        pattern: '[0-9]*',
+        inputmode: 'numeric',
         onChange: (e) => this.onChange(e),
         onBlur: (e) => this.onBlur(e),
       }
