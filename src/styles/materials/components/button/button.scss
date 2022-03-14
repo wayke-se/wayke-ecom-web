@@ -7,7 +7,7 @@
   color: $text;
 
   &:not([disabled]) {
-    &:hover {
+    @include hover {
       background-color: color.adjust($bg, $lightness: -5%);
     }
   }

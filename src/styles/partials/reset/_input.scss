@@ -5,14 +5,15 @@
 :where(
   #{$root-element} input,
   #{$root-element} textarea,
-  #{$root-element} select,
+  #{$root-element} select
 ) {
   font: inherit;
 }
 
-:where(
+:is(
   #{$root-element} input,
   #{$root-element} textarea,
+  #waykeecom-important
 ) {
   font-size: 16px; // Disables zoom on focus in iOS
 }

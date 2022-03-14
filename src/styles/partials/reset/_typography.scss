@@ -2,9 +2,10 @@
 
 @use '../../helpers' as *;
 
-:where(
+:is(
   #{$root-element} b,
   #{$root-element} strong,
+  #waykeecom-important
 ) {
   @include font-medium;
 }

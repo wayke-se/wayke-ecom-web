@@ -1,6 +1,5 @@
 import { OrderOptionsResponse } from '@wayke-se/ecom/dist-types/orders/order-options-response';
 import { IOrderVehicle } from '@wayke-se/ecom/dist-types/orders/types';
-import { Image } from '../Utils/constants';
 import { prettyNumber } from '../Utils/format';
 
 interface ItemTileLargeProps {
@@ -45,14 +44,6 @@ const ItemTileLarge = ({ vehicle, order, meta }: ItemTileLargeProps) => {
       </div>
       <div class="waykeecom-product-card__footer">
         <div class="waykeecom-product-card__price" aria-label="Pris">${price} kr</div>
-        <div class="waykeecom-product-card__branding">
-          <img
-            src="${Image.carfax.cl70x13}"
-            srcset="${Image.carfax.cl70x13_2x} 2x"
-            alt="Detta fordon är granskat med Carfax Risk Alert"
-            class="waykeecom-product-card__branding-logo"
-          />
-        </div>
       </div>
       ${
         meta

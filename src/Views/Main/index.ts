@@ -34,16 +34,19 @@ class Main extends HtmlNode {
 
     this.node.innerHTML = ``;
 
-    // TODO: Remove Aside and ItemTileSmall elements
+    // Create a node to append aside and stepper into. Required for portal to work as intended
+    const asideStepperWrapper = document.createElement('div');
+    this.node.appendChild(asideStepperWrapper);
+
     const pageFormAside = document.createElement('aside');
+    pageFormAside.className = 'waykeecom-cart';
     pageFormAside.setAttribute('aria-label', 'Fordonsinformation');
-    pageFormAside.setAttribute('hidden', '');
     pageFormAside.innerHTML = ItemTileSmall({ vehicle: state.vehicle, order: state.order });
-    //this.node.appendChild(pageFormAside);
+    asideStepperWrapper.appendChild(pageFormAside);
 
     const stepper = document.createElement('div');
     stepper.className = 'waykeecom-stepper';
-    this.node.appendChild(stepper);
+    asideStepperWrapper.appendChild(stepper);
 
     const size = stages?.length;
     // Render stages

@@ -83,26 +83,13 @@
   }
 
   &__footer {
-    display: flex;
-    align-items: center;
     margin-top: size(1);
   }
 
   &__price {
     @include font-medium;
 
-    flex: 1 1 auto;
     font-size: scss-var(font, size, small);
-  }
-
-  &__branding {
-    flex-shrink: 0;
-    padding-left: size(2);
-  }
-
-  &__branding-logo {
-    display: block;
-    max-width: 100%;
   }
 
   &__meta {

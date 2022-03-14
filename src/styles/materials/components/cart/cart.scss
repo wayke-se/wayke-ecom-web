@@ -1,0 +1,5 @@
+@use '../../../helpers' as *;
+
+.#{$namespace}cart {
+  margin-bottom: var(--#{$namespace}modal-gutter-y);
+}
