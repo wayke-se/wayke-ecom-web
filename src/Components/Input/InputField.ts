@@ -75,6 +75,7 @@ class InputField extends HtmlNode {
       <div class="waykeecom-input-text">
         <input
           ${type ? `type="${type}"` : 'type="text"'}
+          ${type === 'number' ? `pattern="[0-9]*"` : ''}
           id="${id}"
           value="${value}"
           name="${name}"
