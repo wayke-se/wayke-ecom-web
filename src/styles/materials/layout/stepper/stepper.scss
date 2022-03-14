@@ -23,7 +23,7 @@
       }
 
       #{$root}__icon {
-        display: flex;
+        display: block;
       }
     }
 
@@ -44,26 +44,12 @@
     align-items: center;
     justify-content: center;
     text-align: center;
-
-    .heading {
-      flex: 1 1 auto;
-    }
   }
 
   &__icon {
-    $icon-size: size(3);
-
-    flex-shrink: 0;
-    align-items: center;
-    justify-content: center;
     display: none;
-    width: $icon-size;
-    height: $icon-size;
+    flex-shrink: 0;
     margin-right: size(1.5);
-    border-radius: 50%;
-    background-color: color(semantic, success, alt);
-    color: color(semantic, success, text);
-    font-size: scss-var(font, size, regular);
   }
 
   &__stage-count {

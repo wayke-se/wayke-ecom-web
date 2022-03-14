@@ -23,26 +23,30 @@ class Intro extends StackNode {
 
     if (createdOrderId) {
       this.node.innerHTML = `
-        <h2 class="waykeecom-heading waykeecom-heading--2">Allt är klart, tack för din order!</h2>
-        <div class="waykeecom-content">
-          <p>Ditt ordernummer är: 
-            <strong>${createdOrderId}</strong>
-          </p>
+        <h3 class="waykeecom-heading waykeecom-heading--3">Tack för din order!</h3>
+        <div class="waykeecom-stack waykeecom-stack--2">
+          <div class="waykeecom-content">
+            <p>
+              <strong>Det här händer nu:</strong>
+            </p>
+            <ol>
+              <li>En orderbekräftelse kommer att skickas till din e-postadress ${email}.*</li>
+              <li>${contactInformation?.name} tar kontakt med dig för att gå igenom avtal, betalning och leverans.</li>
+              <li>Klart! Kör försiktigt ute på vägarna.</li>
+            </ol>
+          </div>
         </div>
-        <h3 class="waykeecom-heading waykeecom-heading--3">Det här händer nu:</h3>
-        <div class="waykeecom-content">
-          <ol>
-            <li>En orderbekräftelse kommer att skickas till din e-postadress ${email}.*</li>
-            <li>${contactInformation?.name} tar kontakt med dig för att gå igenom avtal, betalning och leverans.</li>
-            <li>Klart! Kör försiktigt ute på vägarna.</li>
-          </ol>
-          <p>*Orderbekräftelsen skickas normalt inom 10 minuter, men kan i undantagsfall dröja upp till 48 timmar.</p>
+        <div class="waykeecom-stack waykeecom-stack--2">
+          <div class="waykeecom-disclaimer-text">*Orderbekräftelsen skickas normalt inom 10 minuter, men kan i undantagsfall dröja upp till 48 timmar.</div>
+        </div>
+        <div class="waykeecom-stack waykeecom-stack--2">
+          <div class="waykeecom-heading waykeecom-heading--4">Ordernummer ${createdOrderId}</div>
         </div>
 
     `;
     } else {
       this.node.innerHTML = `
-        <h2 class="waykeecom-heading waykeecom-heading--2">Sammanställning</h2>
+        <h3 class="waykeecom-heading waykeecom-heading--2">Sammanställning</h3>
         <div class="waykeecom-content">
           <p>
             <strong>Strax klart!</strong>

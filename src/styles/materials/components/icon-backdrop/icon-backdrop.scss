@@ -1,0 +1,25 @@
+@use '../../../helpers' as *;
+
+.#{$namespace}icon-backdrop {
+  $backdrop-size: size(3);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: $backdrop-size;
+  height: $backdrop-size;
+  border-radius: 50%;
+  background-color: color(bg, alt);
+  color: color(text, main);
+  font-size: scss-var(font, size, regular);
+
+  &--success {
+    background-color: color(semantic, success, alt);
+    color: color(semantic, success, text);
+  }
+
+  &--error {
+    background-color: color(semantic, error, alt);
+    color: color(semantic, error, text);
+  }
+}

@@ -58,16 +58,16 @@ class TradeIn extends StackNode {
             <div class="waykeecom-stack waykeecom-stack--2">
               <ul class="waykeecom-key-value-list">
                 ${KeyValueListItem({
-                  key: 'Mätarställning',
+                  key: 'Miltal',
                   value: `${tradeIn.mileage} mil`,
-                })}
-                ${KeyValueListItem({
-                  key: 'Bilens skick',
-                  value: translateTradeInCondition[tradeIn.condition],
                 })}
                 ${KeyValueListItem({
                   key: 'Beskrivning',
                   value: `${tradeIn.description}`,
+                })}
+                ${KeyValueListItem({
+                  key: 'Bilens skick',
+                  value: translateTradeInCondition[tradeIn.condition],
                 })}
                 ${KeyValueListItem({
                   key: 'Ungefärligt värde',
@@ -77,7 +77,14 @@ class TradeIn extends StackNode {
             </div>
           </div>
         </div>`
-            : `<div class="waykeecom-stack waykeecom-stack--2">Nej</div>`
+            : `<div class="waykeecom-stack waykeecom-stack--2">
+                <ul class="waykeecom-key-value-list">
+                  ${KeyValueListItem({
+                    key: 'Inbytesbil',
+                    value: 'Nej',
+                  })}
+                </ul>
+            </div>`
         }
         ${
           !createdOrderId

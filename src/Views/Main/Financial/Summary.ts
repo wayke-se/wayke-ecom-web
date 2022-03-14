@@ -26,7 +26,7 @@ const LoanSummary = ({ loan, paymentLookupResponse }: LoanSummaryProps) => {
         tone: 'success',
         children: `
           <p><strong>Grattis! Din låneansökan har beviljats av ${loan.name}.</strong></p>
-          <p> Bilen är inte reserverad ännu. Slutför ordern genom att klicka dig igenom nästkommande steg. Har du frågor under tiden? Kontakta [handlaren] på tel [telefonnummer].</p>
+          <p>Bilen är inte reserverad ännu. Slutför ordern genom att klicka dig igenom nästkommande steg. Har du frågor under tiden? Kontakta [handlaren] på tel [telefonnummer].</p>
         `,
       })}
     </div>

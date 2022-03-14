@@ -73,24 +73,18 @@ class TradeIn extends HtmlNode {
       const keyValueItemsUpper: { key: string; value: string }[] = [];
 
       if (state.tradeIn && state.tradeInVehicle) {
-        keyValueItemsUpper.push({ key: 'Mätarställning', value: `${state.tradeIn.mileage} mil` });
-        if (state.tradeIn.condition)
-          keyValueItemsUpper.push({
-            key: 'Bilens skick',
-            value: translateTradeInCondition[state.tradeIn.condition],
-          });
+        keyValueItemsUpper.push({ key: 'Miltal', value: `${state.tradeIn.mileage} mil` });
         if (state.tradeIn.description)
           keyValueItemsUpper.push({
             key: 'Beskrivning',
             value: `${state.tradeIn.description}`,
           });
+        if (state.tradeIn.condition)
+          keyValueItemsUpper.push({
+            key: 'Bilens skick',
+            value: translateTradeInCondition[state.tradeIn.condition],
+          });
 
-        const keyValueItemsLower: { key: string; value: string }[] = [
-          {
-            key: 'Ungefärligt värde',
-            value: `~ ${prettyNumber(state.tradeInVehicle.valuation, { postfix: 'kr' })}`,
-          },
-        ];
         part.innerHTML = `
           <div class="waykeecom-stack waykeecom-stack--3">
             <div class="waykeecom-balloon">
@@ -115,21 +109,22 @@ class TradeIn extends HtmlNode {
               <div class="waykeecom-align waykeecom-align--end" id="${CHANGE_BUTTON_NODE}"></div>
             </div>
           </div>
-          <div class="waykeecom-stack waykeecom-stack--3">
-            <div class="waykeecom-shadow-box">
-              <div class="waykeecom-stack waykeecom-stack--2">
-                <ul class="waykeecom-key-value-list key-value-list--large-value">
-                  ${keyValueItemsLower.map((kv) => KeyValueListItem(kv)).join('')}
-                </ul>
-              </div>
-              <div class="waykeecom-stack waykeecom-stack--2">
-                ${Alert({
-                  tone: 'info',
-                  children:
-                    '<b>Vi skickar med uppgifter om din inbytesbil till bilhandlaren.</b> Observera att värderingen som utförs ger ett uppskattat inbytesvärde. Det slutgiltliga värdet avgörs när handlare kan bekräfta bilens skick.',
-                })}
+          <div class="waykeecom-stack waykeecom-stack--3 waykeecom-text-center">
+            <div class="waykeecom-stack waykeecom-stack--1">
+              <div class="waykeecom-text waykeecom-text--tone-alt waykeecom-text--size-small">Ungefärligt värde</div>
+            </div>
+            <div class="waykeecom-stack waykeecom-stack--1">
+              <div class="waykeecom-heading waykeecom-heading--2 waykeecom-no-margin">
+                ${prettyNumber(state.tradeInVehicle.valuation, { postfix: 'kr' })}
               </div>
             </div>
+          </div>
+          <div class="waykeecom-stack waykeecom-stack--3">
+            ${Alert({
+              tone: 'info',
+              children:
+                '<b>Vi skickar med uppgifter om din inbytesbil till bilhandlaren.</b> Observera att värderingen som utförs ger ett uppskattat inbytesvärde. Det slutgiltliga värdet avgörs när handlare kan bekräfta bilens skick.',
+            })}
           </div>
         `;
         part.querySelector(`#${CHANGE_BUTTON}`)?.addEventListener('click', () => this.onEdit());
