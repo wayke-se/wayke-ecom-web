@@ -28,4 +28,13 @@ window.addEventListener('DOMContentLoaded', (_) => {
   if (button2) {
     button2.addEventListener('click', () => context2.start());
   }
+
+  const context3 = new WaykeEcomWeb({
+    ...devConfig.CENTRAL_STORAGE,
+    ecomSdkConfig,
+  });
+  const button3 = document.querySelector<HTMLButtonElement>('#button3');
+  if (button3) {
+    button3.addEventListener('click', () => context3.start());
+  }
 });

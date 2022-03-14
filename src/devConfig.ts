@@ -40,4 +40,7 @@ export const devConfig = {
   ACCESSORIES: {
     id: '11082ecd-f484-46f4-82f2-0547f33ab4c2',
   },
+  CENTRAL_STORAGE: {
+    id: '998e9fbd-14d1-4012-b898-3d3253b2c4b3',
+  },
 };

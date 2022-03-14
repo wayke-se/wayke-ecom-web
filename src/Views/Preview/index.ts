@@ -44,11 +44,10 @@ class Preview extends HtmlNode {
       this.contexts.buttonProceed?.disabled(true);
 
       const order = await getOrder(state.id);
-      const { centralStorage } = state;
 
       const stages: StageTypes[] = [];
       this.props.stageOrderList.forEach((key) => {
-        if (key === 'centralStorage' && !centralStorage) return;
+        if (key === 'centralStorage' && !order.requiresDealerSelection()) return;
         if (key === 'tradeIn' && !order.allowsTradeIn) return;
         if (key === 'insurance' && !order.getInsuranceOption()) return;
         if (key === 'accessories' && !order.getAccessories().length) return;

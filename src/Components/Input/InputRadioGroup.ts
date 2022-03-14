@@ -11,9 +11,9 @@ export interface RadioItem {
 }
 
 interface InputRadioGroupProps {
-  readonly title: string;
+  readonly title?: string;
   readonly name: string;
-  readonly checked: string;
+  readonly checked?: string;
   readonly options: RadioItem[];
   error?: boolean;
   readonly errorMessage?: string;
@@ -54,7 +54,7 @@ class InputRadioGroup extends HtmlNode {
     const { title, options, name, checked, error, errorMessage, onClick } = this.props;
     this.node.innerHTML = `
      <fieldset class="waykeecom-input-group" role="radiogroup" aria-required="true">
-        <legend class="waykeecom-input-group__legend">${title}</legend>
+       ${title ? `<legend class="waykeecom-input-group__legend">${title}</legend>` : ''}
         ${options
           .map((option) => `<div class="waykeecom-input-group__item" id="${option.id}-node"></div>`)
           .join('')}

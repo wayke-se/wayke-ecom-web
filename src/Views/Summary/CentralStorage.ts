@@ -3,17 +3,17 @@ import { goTo } from '../../Redux/action';
 import { WaykeStore } from '../../Redux/store';
 import KeyValueListItem from '../../Templates/KeyValueListItem';
 
-const EDIT_DELIVERY = 'edit-delivery';
+const EDIT_CENTRAL_STORAGE = 'edit-central-storage';
 
-interface DeliveryProps {
+interface CentralStorageProps {
   readonly store: WaykeStore;
   readonly createdOrderId?: string;
 }
 
-class Centrallager extends StackNode {
-  private readonly props: DeliveryProps;
+class Delivery extends StackNode {
+  private readonly props: CentralStorageProps;
 
-  constructor(element: HTMLElement, props: DeliveryProps) {
+  constructor(element: HTMLElement, props: CentralStorageProps) {
     super(element);
     this.props = props;
     this.render();
@@ -25,18 +25,20 @@ class Centrallager extends StackNode {
 
   render() {
     const { store, createdOrderId } = this.props;
-    const state = store.getState();
+    const { stages, dealer, order } = store.getState();
+
+    const dealerName = order?.getDealerSites().find((x) => x.id === dealer)?.name;
 
     this.node.innerHTML = `
       <div class="waykeecom-stack waykeecom-stack--2">
-        <h4 class="waykeecom-heading waykeecom-heading--4 waykeecom-no-margin">Leverans</h4>
+        <h4 class="waykeecom-heading waykeecom-heading--4 waykeecom-no-margin">Centrallager</h4>
       </div>
       <div class="waykeecom-stack waykeecom-stack--2">
         <div class="waykeecom-stack waykeecom-stack--1">
           <ul class="waykeecom-key-value-list">
             ${KeyValueListItem({
-              key: 'Leveranssätt',
-              value: state.homeDelivery ? 'Hemleverans' : 'Hämta hos handlaren',
+              key: 'Val av handlare',
+              value: dealerName || '',
             })}
           </ul>
         </div>
@@ -45,7 +47,7 @@ class Centrallager extends StackNode {
             ? `
         <div class="waykeecom-stack waykeecom-stack--1">
           <div class="waykeecom-align waykeecom-align--end">
-            <button id="${EDIT_DELIVERY}" title="Ändra leveranssätt" class="waykeecom-link">Ändra</button>
+            <button id="${EDIT_CENTRAL_STORAGE}" title="Ändra centrallager" class="waykeecom-link">Ändra</button>
           </div>
         </div>
         `
@@ -55,14 +57,14 @@ class Centrallager extends StackNode {
     `;
 
     if (!createdOrderId) {
-      const editDeliveryIndex = state.stages?.findIndex((x) => x.name === 'delivery');
+      const editDeliveryIndex = stages?.findIndex((x) => x.name === 'centralStorage');
       if (editDeliveryIndex !== undefined) {
         document
-          .querySelector<HTMLButtonElement>(`#${EDIT_DELIVERY}`)
+          .querySelector<HTMLButtonElement>(`#${EDIT_CENTRAL_STORAGE}`)
           ?.addEventListener('click', () => this.onEdit(editDeliveryIndex + 1));
       }
     }
   }
 }
 
-export default Centrallager;
+export default Delivery;

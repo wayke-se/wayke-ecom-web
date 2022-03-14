@@ -9,6 +9,7 @@ import ExecuteOrder from './ExecuteOrder';
 import HtmlNode from '../../Components/Extension/HtmlNode';
 import { scrollTop } from '../../Utils/scroll';
 import watch from '../../Redux/watch';
+import CentralStorage from './CentralStorage';
 
 const SUMMARY_NODE = 'summary-node';
 
@@ -53,6 +54,7 @@ class Summary extends HtmlNode {
       new Intro(content, { store, createdOrderId });
       new TradeIn(content, { store, createdOrderId });
       new Order(content, { store, createdOrderId });
+      new CentralStorage(content, { store, createdOrderId });
       new Delivery(content, { store, createdOrderId });
       new Customer(content, { store, createdOrderId });
       new ExecuteOrder(content, {

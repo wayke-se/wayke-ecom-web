@@ -64,6 +64,14 @@ export const setHomeDelivery =
   (homeDelivery: boolean, lastStage: boolean) => (dispatch: Dispatch) =>
     dispatch({ type: SET_HOME_DELIVERY, homeDelivery, lastStage });
 
+export const SET_DEALER = 'SET_DEALER';
+export type SET_DEALER_TYPE = BaseAction<typeof SET_DEALER> & {
+  dealer: string;
+  lastStage: boolean;
+};
+export const setDealer = (dealer: string, lastStage: boolean) => (dispatch: Dispatch) =>
+  dispatch({ type: SET_DEALER, dealer, lastStage });
+
 export const INIT_TRADE_IN = 'INIT_TRADE_IN';
 export type INIT_TRADE_IN_TYPE = BaseAction<typeof INIT_TRADE_IN> & {
   lastStage: boolean;
@@ -178,6 +186,7 @@ export type Action =
   | SET_CONTACT_EMAIL_AND_PHONE_TYPE
   | SET_SOCIAL_ID_AND_ADDRESS_TYPE
   | SET_HOME_DELIVERY_TYPE
+  | SET_DEALER_TYPE
   | INIT_TRADE_IN_TYPE
   | SET_TRADE_IN_TYPE
   | SET_FINANCIAL_TYPE

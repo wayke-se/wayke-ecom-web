@@ -37,6 +37,7 @@ import {
   COMPLETE_STAGE,
   SET_CREATED_ORDER_ID,
   SET_CREDIT_ASSESSMENT_RESPONSE,
+  SET_DEALER,
 } from './action';
 
 let mock = {};
@@ -58,7 +59,6 @@ export interface ReducerState {
   wantTradeIn?: boolean;
   tradeIn?: TradeInCarDataPartial;
   tradeInVehicle?: IVehicle;
-  centralStorage: boolean;
   paymentType?: PaymentType;
   paymentLookupResponse?: PaymentLookupResponse;
   stages?: StageTypes[];
@@ -69,6 +69,7 @@ export interface ReducerState {
   createdOrderId?: string;
   creditAssessmentResponse?: ICreditAssessmentStatusResponse;
   caseId?: string;
+  dealer?: string;
 }
 
 const initNavigation: Navigation = {
@@ -93,7 +94,6 @@ const initialState: ReducerState = {
     socialId: '',
   },
   homeDelivery: false,
-  centralStorage: false,
   accessories: [],
   drivingDistance: DrivingDistance.Between0And1000,
   ...mock,
@@ -157,6 +157,7 @@ const reducer = (state = initialState, action: Action): ReducerState => {
       delete clean.paymentLookupResponse;
       delete clean.insurance;
       delete clean.freeInsurance;
+      delete clean.dealer;
       clean.accessories = [];
 
       return clean;
@@ -173,6 +174,31 @@ const reducer = (state = initialState, action: Action): ReducerState => {
       };
 
       return next;
+
+    case SET_DEALER:
+      navigation = getNextNavigationState(state.navigation.stage, action.lastStage);
+      topNavigation = { ...navigation }; // reset current stage
+
+      next = {
+        ...state,
+        navigation,
+        topNavigation,
+        dealer: action.dealer,
+      };
+
+      delete next.wantTradeIn;
+      delete next.tradeIn;
+      delete next.tradeInVehicle;
+      next.paymentType = resolveDefaultPaymentOption(state.order?.getPaymentOptions());
+      delete next.paymentLookupResponse;
+      delete next.insurance;
+      delete next.freeInsurance;
+      next.accessories = [];
+
+      return next;
+
+      return next;
+
     case SET_HOME_DELIVERY:
       navigation = getNextNavigationState(state.navigation.stage, action.lastStage);
       topNavigation = getNextTopNavigationState(next.topNavigation, navigation);
