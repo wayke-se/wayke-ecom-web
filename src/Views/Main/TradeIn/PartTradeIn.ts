@@ -209,9 +209,9 @@ class PartTradeIn extends HtmlNode {
   render() {
     this.node.innerHTML = `
       <div class="waykeecom-stack waykeecom-stack--3">
-        <h4 class="waykeecom-heading waykeecom-heading--4">Kontaktuppgifter</h4>
+        <h4 class="waykeecom-heading waykeecom-heading--4">Uppgifter om din inbytesbil</h4>
         <div class="waykeecom-content">
-          <p>Ange din e-postadress och ditt telefonnummer.</p>
+          <p>Ange registreringsnumret och aktuellt miltal för din inbytesbil så får du ett uppskattat inköpspris av oss. </p>
         </div>
       </div>
       <div class="waykeecom-stack waykeecom-stack--3">

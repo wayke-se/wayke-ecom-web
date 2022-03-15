@@ -101,7 +101,7 @@ class CentralStorage extends HtmlNode {
       new StageCompleted(content, {
         keyValueList: [
           {
-            key: 'Val av handlare',
+            key: 'Val av anläggning',
             value: dealer?.name || '',
           },
         ],
@@ -111,9 +111,9 @@ class CentralStorage extends HtmlNode {
     } else if (navigation.stage === index) {
       content.innerHTML = `
       <div class="waykeecom-stack waykeecom-stack--3">
-        <h4 class="waykeecom-heading waykeecom-heading--4">Vilken handlare vill du köpa ifrån?</h4>
+        <h4 class="waykeecom-heading waykeecom-heading--4">Vilken anläggning vill du köpa ifrån?</h4>
         <div class="waykeecom-content">
-          <p>Detta fordon är en centrallagerbil och finns tillgängligt från flera handlare. Välj den handlare du vill handla ifrån.</p>
+          <p>Detta fordon är en centrallagerbil och finns tillgängligt från flera anläggningar. Välj den anläggning du vill handla ifrån.</p>
         </div>
       </div>
 
@@ -123,7 +123,7 @@ class CentralStorage extends HtmlNode {
         this.requestError
           ? `<div class="waykeecom-stack waykeecom-stack--3">${Alert({
               tone: 'error',
-              children: `<p>Ett fel uppstod och det gick inte att välja ovanstående handlare. Försök igen.</p>`,
+              children: `<p>Ett fel uppstod och det gick inte att välja ovanstående anläggning. Försök igen.</p>`,
             })}</div>`
           : ''
       }

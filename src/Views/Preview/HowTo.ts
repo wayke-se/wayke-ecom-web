@@ -10,7 +10,7 @@ const TimelineItemByStage = {
   },
   centralStorage: {
     heading: 'Välj anläggning',
-    description: 'Välj vilken anläggnign',
+    description: 'Välj vilken anläggning du vill köpa bilen ifrån.',
   },
   delivery: {
     heading: 'Välj leveranssätt',
