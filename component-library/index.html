@@ -1,20 +1,32 @@
 <!DOCTYPE html>
 <html lang="se">
   <head>
-    <title>Component Library</title>
+    <title>Component Library - Wayke Ecom</title>
 
     <meta charset="UTF-8" />
-    <meta name="description" content="Volvo Additional Job Styles" />
+    <meta name="description" content="Component Library - Wayke Ecom" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="theme-color" content="#fff" />
+
+    <!-- Component Library styles -->
+    <link rel="stylesheet" href="styles.css" />
+
+    <!-- Wayke Ecom styles -->
     <link rel="stylesheet" href="index.css" />
   </head>
   <body>
-    <h1>Component Library</h1>
-    <div id="navigation"></div>
-    <div id="root"></div>
+    <div class="cl-root">
+      <div class="cl-header">
+        <h1 class="cl-header__title">Component Library</h1>
+      </div>
+      <div class="cl-body">
+        <nav class="cl-nav" id="cl-nav" aria-label="Component navigation"></nav>
+        <main class="cl-main" id="cl-main"></main>
+      </div>
+    </div>
+
     <script src="index.js"></script>
   </body>
 </html>

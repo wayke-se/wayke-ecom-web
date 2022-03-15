@@ -1,0 +1,122 @@
+/* Custom properties */
+
+:root {
+  --c-bg-main: #fff;
+  --c-bg-alt: #f5f5f5;
+  --c-primary: #5a835a;
+  --c-primary-text: #fff;
+  --c-border: #ccc;
+  --gutter: 40px;
+  --gutter-alt: 24px;
+}
+
+/* Base */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+html {
+  font-size: 100%;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background-color: var(--c-bg-main);
+  font-family: sans-serif;
+  font-size: 1rem;
+  line-height: 1.5;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@supports (font-size-adjust: 1) {
+  body {
+    font-size-adjust: 0.5;
+  }
+}
+
+/* Component Librabry UI */
+
+.cl-root {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.cl-header {
+  flex-shrink: 0;
+  padding: var(--gutter-alt);
+  background-color: var(--c-primary);
+  color: var(--c-primary-text);
+}
+
+.cl-header__title {
+  margin: 0;
+  font-size: 1.25rem;
+}
+
+.cl-body {
+  flex: 1 1 auto;
+  display: flex;
+  align-items: stretch;
+  overflow: hidden;
+}
+
+.cl-nav {
+  flex-shrink: 0;
+  width: 320px;
+  padding: calc(var(--gutter) - (var(--gutter-alt) / 3)) 0;
+  background-color: var(--c-bg-alt);
+  overflow: auto;
+}
+
+.cl-nav__item {
+  padding: calc(var(--gutter-alt) / 3) var(--gutter-alt);
+}
+
+.cl-nav__link {
+  display: block;
+}
+
+.cl-main {
+  flex: 1 1 auto;
+  padding: var(--gutter);
+  overflow: auto;
+}
+
+.cl-section + .cl-section {
+  margin-top: var(--gutter);
+}
+
+.cl-section__title {
+  margin-top: 0;
+  margin-bottom: 8px;
+  text-transform: capitalize;
+}
+
+.cl-section__body {
+  padding: var(--gutter-alt);
+  border: 1px solid var(--c-border);
+  border-radius: 4px;
+}
+
+@media (max-width: 800px) {
+  :root {
+    --gutter: 24px;
+  }
+
+  .cl-nav {
+    display: none;
+  }
+}

@@ -8,16 +8,26 @@ const loadHTML = async (htmlRelativeUrl: string) => {
 
 const resolve = async (url: string) => {
   const template = await loadHTML(url);
-  const root = document.getElementById('root');
+
+  // Component list
+  const root = document.getElementById('cl-main');
   if (root) {
     const { node } = new HtmlNode(root, { htmlTag: 'div', id: url });
-    node.innerHTML = template;
+    node.className = 'cl-section';
+    node.innerHTML = `
+      <h2 class="cl-section__title">${url.split('.').slice(0, -1).join('.').replace('-', ' ')}</h2>
+      <div class="cl-section__body">
+        ${template}
+      </div>
+    `;
   }
 
-  const navigation = document.getElementById('navigation');
+  // Navigation
+  const navigation = document.getElementById('cl-nav');
   if (navigation) {
-    const { node } = new HtmlNode(navigation, { htmlTag: 'div', id: url });
-    node.innerHTML = `<a href="#${url}">${url}</a>`;
+    const { node } = new HtmlNode(navigation, { htmlTag: 'div' });
+    node.className = 'cl-nav__item';
+    node.innerHTML = `<a href="#${url}" title="View component ${url}" class="cl-nav__link">${url}</a>`;
   }
 };
 
