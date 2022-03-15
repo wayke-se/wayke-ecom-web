@@ -16,6 +16,12 @@ const resolve = async (url: string) => {
     const { node } = new HtmlNode(root, { htmlTag: 'div', id: url });
     node.innerHTML = template;
   }
+
+  const navigation = document.getElementById('navigation');
+  if (navigation) {
+    const { node } = new HtmlNode(navigation, { htmlTag: 'div', id: url });
+    node.innerHTML = `<a href="#${url}">${url}</a>`;
+  }
 };
 
 window.addEventListener('DOMContentLoaded', async (_) => {
