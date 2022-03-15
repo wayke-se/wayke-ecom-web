@@ -5,6 +5,6 @@
   --#{$namespace}value-font-size: #{scss-var(font, size, regular)};
 
   &--large-value {
-    --#{$namespace}value-font-size: #{scss-var(font, size, xxlarge)};
+    --#{$namespace}value-font-size: #{scss-var(font, size, xlarge)};
   }
 }

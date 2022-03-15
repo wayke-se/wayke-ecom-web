@@ -109,22 +109,24 @@ class TradeIn extends HtmlNode {
               <div class="waykeecom-align waykeecom-align--end" id="${CHANGE_BUTTON_NODE}"></div>
             </div>
           </div>
-          <div class="waykeecom-stack waykeecom-stack--3 waykeecom-text-center">
-            <div class="waykeecom-stack waykeecom-stack--1">
-              <div class="waykeecom-text waykeecom-text--tone-alt waykeecom-text--size-small">Ungefärligt värde</div>
-            </div>
-            <div class="waykeecom-stack waykeecom-stack--1">
-              <div class="waykeecom-heading waykeecom-heading--2 waykeecom-no-margin">
-                ${prettyNumber(state.tradeInVehicle.valuation, { postfix: 'kr' })}
+          <div class="waykeecom-stack waykeecom-stack--3">
+            <div class="waykeecom-shadow-box">
+              <div class="waykeecom-stack waykeecom-stack--2">
+                <ul class="waykeecom-key-value-list waykeecom-key-value-list--large-value">
+                  ${KeyValueListItem({
+                    key: 'Ungefärligt värde',
+                    value: `~ ${prettyNumber(state.tradeInVehicle.valuation, { postfix: 'kr' })}`,
+                  })}
+                </ul>
+              </div>
+              <div class="waykeecom-stack waykeecom-stack--2">
+               ${Alert({
+                 tone: 'info',
+                 children:
+                   '<b>Vi skickar med uppgifter om din inbytesbil till bilhandlaren.</b> Observera att värderingen som utförs ger ett uppskattat inbytesvärde. Det slutgiltliga värdet avgörs när handlare kan bekräfta bilens skick.',
+               })}
               </div>
             </div>
-          </div>
-          <div class="waykeecom-stack waykeecom-stack--3">
-            ${Alert({
-              tone: 'info',
-              children:
-                '<b>Vi skickar med uppgifter om din inbytesbil till bilhandlaren.</b> Observera att värderingen som utförs ger ett uppskattat inbytesvärde. Det slutgiltliga värdet avgörs när handlare kan bekräfta bilens skick.',
-            })}
           </div>
         `;
         part.querySelector(`#${CHANGE_BUTTON}`)?.addEventListener('click', () => this.onEdit());
