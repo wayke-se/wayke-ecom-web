@@ -19,8 +19,10 @@ import watch, { unregisterAllSubscriptions } from './Redux/watch';
 import ConfirmClose from './Views/ConfirmClose';
 import { creditAssessmentCancelSigning } from './Data/creditAssessmentCancelSigning';
 import { useVwListner } from './Utils/vw';
+import { CallbackOrder } from './@types/CallbackOrder';
 
 const OrderIdQueryString = 'wayke-ecom-web-order-id';
+const OrderWaykeIdQueryString = 'wayke-ecom-web-id';
 
 export const WAYKE_ECOM_MODAL_ID = 'wayke-ecom-modal';
 
@@ -102,18 +104,31 @@ class App {
     );
 
     const params = new URLSearchParams(location.search);
-    const waykeOrderId = params.get('wayke-ecom-web-order-id');
-    if (waykeOrderId) {
-      this.render(waykeOrderId);
+    const waykeOrderId = params.get(OrderIdQueryString);
+    const waykeId = params.get(OrderWaykeIdQueryString);
+    if (waykeOrderId && waykeId) {
+      this.render({ orderId: waykeOrderId, id: waykeId });
     }
   }
 
   close() {
     const { caseId } = this.contexts.store.getState();
     const params = new URLSearchParams(location.search);
-    const waykeOrderId = params.get(OrderIdQueryString);
-    if (waykeOrderId) {
+    const orderId = params.get(OrderIdQueryString);
+    const orderWaykeId = params.get(OrderWaykeIdQueryString);
+    let urlChanged = false;
+    if (orderId) {
       params.delete(OrderIdQueryString);
+      urlChanged = true;
+      location.search = params.toString();
+    }
+
+    if (orderWaykeId) {
+      params.delete(OrderWaykeIdQueryString);
+      urlChanged = true;
+    }
+
+    if (urlChanged) {
       location.search = params.toString();
     }
 
@@ -149,7 +164,7 @@ class App {
     this.render();
   }
 
-  private render(waykeOrderId?: string) {
+  private render(callbackOrder?: CallbackOrder) {
     if (!this.contexts.unsubribeVwListner) {
       this.contexts.unsubribeVwListner = useVwListner();
     }
@@ -162,10 +177,10 @@ class App {
     if (this.contexts.modal.content) {
       this.contexts.modal.content.innerHTML = '';
 
-      if (waykeOrderId) {
+      if (callbackOrder) {
         new OrderCallback(this.contexts.modal.content, {
           store: this.contexts.store,
-          waykeOrderId,
+          callbackOrder,
         });
         return;
       }
