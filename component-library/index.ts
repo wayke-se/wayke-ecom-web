@@ -2,7 +2,7 @@ import HtmlNode from '../src/Components/Extension/HtmlNode';
 import '../src/styles/styles.scss';
 
 // List of html files
-const componentList = ['ComponentA.html', 'ComponentB.html', 'ComponentA.html'];
+const componentList = ['ComponentA.html', 'ComponentB.html', 'component-test.html'];
 
 const basePath = 'component/';
 const loadHTML = async (htmlRelativeUrl: string) => {
@@ -17,14 +17,20 @@ const resolve = async (url: string) => {
   if (root) {
     const { node } = new HtmlNode(root, { htmlTag: 'div', id: url });
     node.className = 'cl-section';
-    node.innerHTML = template;
+    node.innerHTML = `
+      <h2 class="cl-section__title">${url.split('.').slice(0, -1).join('.').replace('-', ' ')}</h2>
+      <div class="cl-section__body">
+        ${template}
+      </div>
+    `;
   }
 
   // Navigation
   const navigation = document.getElementById('cl-nav');
   if (navigation) {
-    const { node } = new HtmlNode(navigation, { htmlTag: 'div', id: url });
-    node.innerHTML = `<a href="#${url}">${url}</a>`;
+    const { node } = new HtmlNode(navigation, { htmlTag: 'div' });
+    node.className = 'cl-nav__item';
+    node.innerHTML = `<a href="#${url}" title="View component ${url}" class="cl-nav__link">${url}</a>`;
   }
 };
 
