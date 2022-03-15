@@ -177,7 +177,7 @@ class CentralStorage extends HtmlNode {
       this.contexts.proceedButton = new ButtonArrowRight(
         content.querySelector<HTMLDivElement>(`#${PROCEED_NODE}`),
         {
-          title: 'Fortsätt',
+          title: 'Gå vidare',
           id: PROCEED,
           disabled: !this.selectedDealer,
           onClick: () => this.onProceed(),

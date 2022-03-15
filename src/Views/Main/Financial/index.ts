@@ -262,7 +262,7 @@ class Financial extends HtmlNode {
           });
         } else {
           new ButtonArrowRight(part.querySelector<HTMLDivElement>(`#${PROCEED_NODE}`), {
-            title: 'Fortsätt',
+            title: 'Gå vidare',
             id: PROCEED,
             disabled: !this.paymentType,
             onClick: () => this.onProceed(),
