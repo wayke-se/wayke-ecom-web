@@ -246,3 +246,17 @@ body {
 .cl-sub-section + .cl-sub-section {
   margin-top: var(--cl-gutter-alt);
 }
+
+/* Icon */
+/* Used to display icons */
+
+.cl-icon-wrapper {
+  margin: -8px;
+}
+
+.cl-icon {
+  display: inline-block;
+  vertical-align: middle;
+  padding: 8px;
+  font-size: 1.125rem;
+}
