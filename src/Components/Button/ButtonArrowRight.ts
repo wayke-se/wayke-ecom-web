@@ -3,7 +3,7 @@ import HtmlNode from '../Extension/HtmlNode';
 
 interface ButtonArrowRightProps {
   readonly title: string;
-  readonly id: string;
+  readonly id?: string;
   disabled?: boolean;
   loading?: boolean;
   readonly onClick?: (e: Event) => void;
@@ -42,7 +42,7 @@ class ButtonArrowRight extends HtmlNode {
     this.node.innerHTML = `
       <button
         type="button"
-        id="${id}"
+        ${id ? `id="${id}"` : ''}
         title="${title}"
         ${disabled && `disabled=""`}
         class="waykeecom-button waykeecom-button--full-width waykeecom-button--action"
