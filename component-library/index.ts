@@ -10,9 +10,11 @@ const loadHTML = async (htmlRelativeUrl: string) => {
 
 const resolve = async (url: string) => {
   const template = await loadHTML(url);
-  const componentName =
-    template.match(regexComment)?.[0].replace(/<!--|-->/g, '') ||
-    url.split('.').slice(0, -1).join('.').replace('-', ' ');
+  const componentName = url.split('.').slice(0, -1).join('.').replace('-', ' ');
+  const componentDescription = template
+    .match(regexComment)?.[0]
+    ?.replace(/<!--|-->/g, '')
+    ?.trim();
 
   // Component list
   const root = document.getElementById('cl-main');
@@ -22,6 +24,11 @@ const resolve = async (url: string) => {
     node.className = 'cl-section';
     node.innerHTML = `
       <h2 class="cl-section__title">${componentName}</h2>
+      ${
+        componentDescription
+          ? `<div class="cl-section__description">${componentDescription}</div>`
+          : ''
+      }
       <div class="cl-section__body">
         ${template}
       </div>

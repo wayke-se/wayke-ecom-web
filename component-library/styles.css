@@ -7,6 +7,7 @@
   --cl-c-primary-text: #fff;
   --cl-c-border: #e8e8e8;
   --cl-c-text-main: #000;
+  --cl-c-text-alt: #757575;
   --cl-c-link: #1e4ce6;
   --cl-gutter: 40px;
   --cl-gutter-alt: 24px;
@@ -224,6 +225,11 @@ body {
   margin-bottom: 8px;
   font-size: 1.25rem;
   text-transform: capitalize;
+}
+
+.cl-section__description {
+  margin-bottom: 8px;
+  color: var(--cl-c-text-alt);
 }
 
 .cl-section__body {
