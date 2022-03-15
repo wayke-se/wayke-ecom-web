@@ -124,7 +124,7 @@ class LoanDetails extends HtmlNode {
       creditAmountPercentage,
     } = this.extractProps();
 
-    const disclaimerText = `Beräknat på ${interest * 100} % ränta (effektivt ${
+    const disclaimerText = `*Beräknat på ${interest * 100} % ränta (effektivt ${
       effectiveInterest * 100
     } %). Den ränta du får sätts vid avtalskrivning.`;
 

@@ -62,7 +62,7 @@ class StageCompletedFinancial extends HtmlNode {
       ];
 
       const decision = state.creditAssessmentResponse?.getRecommendation();
-      const disclaimerText = `Beräknat på ${interest * 100} % ränta (effektivt ${
+      const disclaimerText = `*Beräknat på ${interest * 100} % ränta (effektivt ${
         effectiveInterest * 100
       } %). Den ränta du får sätts vid avtalskrivning.`;
 
