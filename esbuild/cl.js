@@ -1,11 +1,10 @@
 const fs = require('fs');
-const esbuild = require('esbuild');
 
 const getFiles = () => fs.readdirSync('component-library/component');
 
 const { sassPlugin } = require('esbuild-sass-plugin');
 
-esbuild.serve(
+require('esbuild').serve(
   {
     servedir: 'component-library',
     port: 8000,
