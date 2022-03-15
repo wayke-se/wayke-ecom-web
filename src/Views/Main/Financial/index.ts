@@ -181,7 +181,7 @@ class Financial extends HtmlNode {
           <div class="waykeecom-box">
             <div class="waykeecom-stack waykeecom-stack--2">
               <ul class="waykeecom-unordered-list">
-                <li class="waykeecom-unordered-list__item">Låneansökan online med Mobilt BankID <img src="${
+                <li class="waykeecom-unordered-list__item">Låneansökan online med BankID <img src="${
                   Image.bankid
                 }" alt="BankID logotyp" class="waykeecom-image waykeecom-image--inline" aria-hidden="true" /> – svar direkt!</li>
                 <li class="waykeecom-unordered-list__item">Betalning sker hos ${
