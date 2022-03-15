@@ -33,6 +33,23 @@ const resolve = async (url: string) => {
 };
 
 window.addEventListener('DOMContentLoaded', async (_) => {
+  new EventSource(`http://localhost:${process.env.EVENT_STREAM_PORT}`).onmessage = async (ev) => {
+    const data = JSON.parse(ev.data) as string[];
+    const root = document.getElementById('cl-main');
+    if (root) {
+      root.innerHTML = '';
+    }
+
+    const navigation = document.getElementById('cl-nav');
+    if (navigation) {
+      navigation.innerHTML = '';
+    }
+
+    for (const url of data) {
+      await resolve(url);
+    }
+  };
+
   for (const url of process.env.COMPONENT_FILES as unknown as string[]) {
     await resolve(url);
   }
