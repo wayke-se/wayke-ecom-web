@@ -239,7 +239,7 @@ class Loan extends HtmlNode {
       });
     } else {
       new ButtonArrowRight(this.node.querySelector<HTMLDivElement>(`#${PROCEED_NODE}`), {
-        title: 'Fortsätt',
+        title: 'Gå vidare',
         id: PROCEED,
         onClick: () => onProceed(),
       });

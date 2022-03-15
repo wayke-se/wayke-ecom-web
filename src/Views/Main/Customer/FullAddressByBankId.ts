@@ -155,7 +155,7 @@ class FullAddressByBankId extends HtmlNode {
           <div class="waykeecom-stack waykeecom-stack--3">
             <h4 class="waykeecom-heading waykeecom-heading--4">Personuppgifter</h4>
             <div class="waykeecom-content">
-              <p>Identifiera dig med Mobilt BankID <img src="${
+              <p>Identifiera dig med BankID <img src="${
                 Image.bankid
               }" alt="BankID logotyp" class="waykeecom-image waykeecom-image--inline" aria-hidden="true" /> för att hämta dina uppgifter.</p>
             </div>
@@ -195,7 +195,7 @@ class FullAddressByBankId extends HtmlNode {
       `;
 
       new ButtonBankId(this.node.querySelector<HTMLDivElement>(`#${BANKID_START_NODE}`), {
-        title: 'Hämta uppgifter med Mobilt BankID',
+        title: 'Hämta med BankID',
         id: BANKID_START,
         onClick: () => {
           this.view = 2;

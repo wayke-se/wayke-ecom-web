@@ -224,7 +224,7 @@ class FullAddressBySocialId extends HtmlNode {
     this.contexts.buttonLinkToggle = new ButtonAsLink(
       this.node.querySelector<HTMLDivElement>(`#${LINK_TOGGLE_METHOD_NODE}`),
       {
-        title: 'Jag vill hämta uppgifter med Mobilt BankID',
+        title: 'Jag vill hämta uppgifter med BankID',
         id: LINK_TOGGLE_METHOD,
         onClick: () => this.props.onToggleMethod(),
       }

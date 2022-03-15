@@ -177,7 +177,7 @@ class EmailAndPhone extends HtmlNode {
       this.contexts.button = new ButtonArrowRight(
         this.node.querySelector<HTMLDivElement>(`#${PROCEED_NODE}`),
         {
-          title: 'Fortsätt',
+          title: 'Gå vidare',
           id: PROCEED,
           disabled: !(this.state.validation.email && this.state.validation.phone),
           onClick: () => this.onProceed(),

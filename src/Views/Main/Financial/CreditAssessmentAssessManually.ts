@@ -45,7 +45,7 @@ class CreditAssessmentAssessManually extends HtmlNode {
     });
 
     new ButtonArrowRight(this.node.querySelector(`#${PROCEED_NODE}`), {
-      title: 'Fortsätt',
+      title: 'Gå vidare',
       id: PROCEED,
       onClick: () => onProceed(),
     });

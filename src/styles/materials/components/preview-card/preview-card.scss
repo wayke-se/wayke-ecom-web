@@ -27,7 +27,7 @@
   }
 
   &__seller {
-    @include font-medium;
+    @include font-regular;
 
     margin-bottom: size(0.25);
     color: color(primary, main);

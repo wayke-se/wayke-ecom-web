@@ -403,7 +403,7 @@ class CreditAssessment extends HtmlNode {
       this.node.innerHTML = `
       <div class="waykeecom-stack waykeecom-stack--3">
         <h5 class="waykeecom-heading waykeecom-heading--4">Låneansökan</h5>
-        <p class="waykeecom-content">För att besvara din förfrågan om billån behöver Volvofinans Bank några fler uppgifter om dig och ditt hushåll. Frågorna tar bara någon minut att besvara. Bekräfta och signera sedan med Mobilt BankID – därefter får du ditt lånebesked direkt på skärmen och kan gå vidare med ditt bilköp. Blir du godkänd så gäller lånebeskedet genom hela köpet så länge inga tillägg görs – men din ansökan är inte bindande.</p>
+        <p class="waykeecom-content">För att besvara din förfrågan om billån behöver Volvofinans Bank några fler uppgifter om dig och ditt hushåll. Frågorna tar bara någon minut att besvara. Bekräfta och signera sedan med BankID – därefter får du ditt lånebesked direkt på skärmen och kan gå vidare med ditt bilköp. Blir du godkänd så gäller lånebeskedet genom hela köpet så länge inga tillägg görs – men din ansökan är inte bindande.</p>
       </div>
       <div class="waykeecom-stack waykeecom-stack--3">
         ${Alert({

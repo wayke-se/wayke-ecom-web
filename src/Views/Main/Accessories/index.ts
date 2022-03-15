@@ -91,7 +91,7 @@ class Accessories extends HtmlNode {
 
       new ButtonArrowRight(part.querySelector(`#${PROCEED_NODE}`), {
         id: PROCEED,
-        title: 'Fortsätt',
+        title: 'Gå vidare',
         onClick: () => this.onProceed(),
       });
     }

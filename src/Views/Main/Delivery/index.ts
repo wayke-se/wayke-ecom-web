@@ -158,7 +158,7 @@ class Delivery extends HtmlNode {
       });
 
       new ButtonArrowRight(part.querySelector<HTMLDivElement>(`#${PROCEED_NODE}`), {
-        title: 'Fortsätt',
+        title: 'Gå vidare',
         id: PROCEED,
         onClick: () => this.onProceed(),
       });
