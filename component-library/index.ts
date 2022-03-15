@@ -1,6 +1,8 @@
 import HtmlNode from '../src/Components/Extension/HtmlNode';
 import '../src/styles/styles.scss';
 
+const regexComment = /<!--(.|\n)*?-->/g;
+
 const basePath = 'component/';
 const loadHTML = async (htmlRelativeUrl: string) => {
   return fetch(`${basePath}${htmlRelativeUrl}`).then((response) => response.text());
@@ -8,12 +10,15 @@ const loadHTML = async (htmlRelativeUrl: string) => {
 
 const resolve = async (url: string) => {
   const template = await loadHTML(url);
-  const componentName = url.split('.').slice(0, -1).join('.').replace('-', ' ');
+  const componentName =
+    template.match(regexComment)?.[0].replace(/<!--|-->/g, '') ||
+    url.split('.').slice(0, -1).join('.').replace('-', ' ');
 
   // Component list
   const root = document.getElementById('cl-main');
   if (root) {
     const { node } = new HtmlNode(root, { htmlTag: 'div', id: url });
+
     node.className = 'cl-section';
     node.innerHTML = `
       <h2 class="cl-section__title">${componentName}</h2>
