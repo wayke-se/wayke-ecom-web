@@ -1,4 +1,4 @@
-import { IAddress } from '@wayke-se/ecom';
+// import { IAddress } from '@wayke-se/ecom';
 import { Customer, CustomerSocialId } from '../../../@types/Customer';
 import ButtonArrowRight from '../../../Components/Button/ButtonArrowRight';
 import ButtonAsLink from '../../../Components/Button/ButtonAsLink';
@@ -39,7 +39,7 @@ interface Part2SocialIdState {
   interact: SocialIdValidation;
 }
 
-const SOCIAL_ID_CACHE: { [key: string]: IAddress | undefined } = {};
+// const SOCIAL_ID_CACHE: { [key: string]: IAddress | undefined } = {};
 
 const initalState = (customer?: Customer): Part2SocialIdState => {
   const value = {
@@ -86,17 +86,19 @@ class FullAddressBySocialId extends HtmlNode {
     this.render();
 
     try {
+      /*
       const cache = SOCIAL_ID_CACHE[this.state.value.socialId];
       if (cache) {
         setSocialIdAndAddress(this.state.value.socialId, cache, lastStage)(store.dispatch);
         return;
       }
+      */
       this.contexts.buttonFetch?.loading(true);
       this.contexts.buttonLinkToggle?.disabled(true);
 
       const response = await getAddressBySsn(this.state.value.socialId);
       const address = response.getAddress();
-      SOCIAL_ID_CACHE[this.state.value.socialId] = address;
+      // SOCIAL_ID_CACHE[this.state.value.socialId] = address;
       setSocialIdAndAddress(
         this.state.value.socialId.replace(regexNumber, ''),
         address,

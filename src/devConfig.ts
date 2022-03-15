@@ -41,6 +41,6 @@ export const devConfig = {
     id: '11082ecd-f484-46f4-82f2-0547f33ab4c2',
   },
   CENTRAL_STORAGE: {
-    id: '998e9fbd-14d1-4012-b898-3d3253b2c4b3',
+    id: '8ddbcc2b-2677-428a-aa67-c2d9884b5702',
   },
 };
