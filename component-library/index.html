@@ -17,9 +17,16 @@
     <link rel="stylesheet" href="index.css" />
   </head>
   <body>
-    <h1>Component Library</h1>
-    <div id="navigation"></div>
-    <div id="root"></div>
+    <div class="cl-root">
+      <div class="cl-header">
+        <h1 class="cl-header__title">Component Library</h1>
+      </div>
+      <div class="cl-body">
+        <nav class="cl-nav" id="cl-nav" aria-label="Component navigation"></nav>
+        <main class="cl-main" id="cl-main"></main>
+      </div>
+    </div>
+
     <script src="index.js"></script>
   </body>
 </html>
