@@ -250,13 +250,11 @@ body {
 /* Icon */
 /* Used to display icons */
 
-.cl-icon-wrapper {
-  margin: -8px;
-}
-
 .cl-icon {
   display: inline-block;
   vertical-align: middle;
-  padding: 8px;
+  padding: 16px;
+  border: 1px solid var(--cl-c-border);
+  border-radius: 4px;
   font-size: 1.125rem;
 }
