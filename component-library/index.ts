@@ -1,5 +1,5 @@
-import HtmlNode from '../src/Components/Extension/HtmlNode';
 import '../src/styles/styles.scss';
+import HtmlNode from './html-node';
 
 const regexComment = /<!--(.|\n)*?-->/g;
 
