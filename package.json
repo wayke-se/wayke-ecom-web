@@ -1,12 +1,13 @@
 {
   "name": "@ourpeter/wayke-ecom-web-test",
-  "version": "1.7.18",
+  "version": "1.7.19",
   "description": "",
   "module": "dist/index.mjs",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
     "start": "node ./esbuild/start.js",
+    "cl": "node ./esbuild/cl.js",
     "build": "npm run clean && node ./esbuild/lib.js && node ./esbuild/cdn.js",
     "clean": "rimraf build && rimraf dist && rimraf dist-cdn",
     "test": "npm run lint && npm run typecheck",
@@ -22,7 +23,6 @@
   "author": "wayke",
   "license": "ISC",
   "devDependencies": {
-    "@babel/core": "^7.17.5",
     "@storybook/addon-actions": "^6.4.19",
     "@storybook/addon-essentials": "^6.4.19",
     "@storybook/addon-links": "^6.4.19",
