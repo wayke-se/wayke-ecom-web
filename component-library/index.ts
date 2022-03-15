@@ -30,7 +30,9 @@ const resolve = async (url: string) => {
           : ''
       }
       <div class="cl-section__body">
-        ${template}
+        <div class="waykeecom-root">
+          ${template}
+        </div>
       </div>
     `;
   }

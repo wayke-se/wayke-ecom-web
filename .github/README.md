@@ -23,6 +23,28 @@ Before merging to `test` update the version in package.json and add a postfix li
 | js    | https://test-cdn.wayketech.se/public-assets/wayke-ecom-web/1.0.0-alpha-1/index.js |
 | css   | https://test-cdn.wayketech.se/public-assets/wayke-ecom-web/1.0.0-alpha-1/index.css |
 
+## Component Library
+
+This repository uses a custom built component library to present the front-end components. To start the component library, run the following command.
+
+```bash
+npm run cl
+```
+
+The component library will start on http://localhost:8000/.
+
+### Add components
+
+All components should be documented in the component library. To add a new component to the library add a `html` file corresponding to the component name in `component-library/component`.
+
+The file name will be used as title for the component. To add a description - put a html comment on top of the file containing the description. See the example below.
+
+_example-component.html_
+```html
+<!-- This is a description describing the component. -->
+
+<div class="foo">Lorem ipsum</div>
+```
 
 ## CSS
 
