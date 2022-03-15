@@ -11,6 +11,7 @@ const loadHTML = async (htmlRelativeUrl: string) => {
 
 const resolve = async (url: string) => {
   const template = await loadHTML(url);
+  const componentName = url.split('.').slice(0, -1).join('.').replace('-', ' ');
 
   // Component list
   const root = document.getElementById('cl-main');
@@ -18,7 +19,7 @@ const resolve = async (url: string) => {
     const { node } = new HtmlNode(root, { htmlTag: 'div', id: url });
     node.className = 'cl-section';
     node.innerHTML = `
-      <h2 class="cl-section__title">${url.split('.').slice(0, -1).join('.').replace('-', ' ')}</h2>
+      <h2 class="cl-section__title">${componentName}</h2>
       <div class="cl-section__body">
         ${template}
       </div>
@@ -30,7 +31,7 @@ const resolve = async (url: string) => {
   if (navigation) {
     const { node } = new HtmlNode(navigation, { htmlTag: 'div' });
     node.className = 'cl-nav__item';
-    node.innerHTML = `<a href="#${url}" title="View component ${url}" class="cl-nav__link">${url}</a>`;
+    node.innerHTML = `<a href="#${url}" title="View component ${url}" class="cl-nav__link">${componentName}</a>`;
   }
 };
 

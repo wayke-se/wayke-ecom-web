@@ -3,11 +3,21 @@
 :root {
   --c-bg-main: #fff;
   --c-bg-alt: #f5f5f5;
-  --c-primary: #5a835a;
+  --c-primary: #363636;
   --c-primary-text: #fff;
-  --c-border: #ccc;
+  --c-border: #e8e8e8;
+  --c-text-main: #000;
+  --c-link: #1e4ce6;
   --gutter: 40px;
   --gutter-alt: 24px;
+  --font-weight-regular: 400;
+  --font-weight-bold: 700;
+}
+
+@media (max-width: 800px) {
+  :root {
+    --gutter: 24px;
+  }
 }
 
 /* Base */
@@ -32,9 +42,11 @@ html {
 body {
   margin: 0;
   background-color: var(--c-bg-main);
-  font-family: sans-serif;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: var(--font-weight-regular);
   font-size: 1rem;
   line-height: 1.5;
+  color: var(--c-text-main);
   -webkit-tap-highlight-color: transparent;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -46,13 +58,28 @@ body {
   }
 }
 
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: var(--font-weight-bold);
+}
+
 /* Component Librabry UI */
+
+/* Root */
+/* Element used to wrap the component library */
 
 .cl-root {
   display: flex;
   flex-direction: column;
   height: 100%;
 }
+
+/* Header */
+/* Header placed on top of the component library */
 
 .cl-header {
   flex-shrink: 0;
@@ -64,7 +91,13 @@ body {
 .cl-header__title {
   margin: 0;
   font-size: 1.25rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
+
+/* Body */
+/* Element containing the component display */
 
 .cl-body {
   flex: 1 1 auto;
@@ -72,6 +105,9 @@ body {
   align-items: stretch;
   overflow: hidden;
 }
+
+/* Nav */
+/* Used to navigate between components */
 
 .cl-nav {
   flex-shrink: 0;
@@ -81,13 +117,27 @@ body {
   overflow: auto;
 }
 
-.cl-nav__item {
-  padding: calc(var(--gutter-alt) / 3) var(--gutter-alt);
+@media (max-width: 800px) {
+  .cl-nav {
+    display: none;
+  }
 }
 
 .cl-nav__link {
   display: block;
+  padding: calc(var(--gutter-alt) / 3) var(--gutter-alt);
+  color: var(--c-text-main);
+  text-transform: capitalize;
+  text-decoration: none;
 }
+
+.cl-nav__link:hover {
+  background-color: rgba(0, 0, 0, 0.03);
+  color: var(--c-link);
+}
+
+/* Main */
+/* Element used as wrapper to list the components */
 
 .cl-main {
   flex: 1 1 auto;
@@ -95,13 +145,21 @@ body {
   overflow: auto;
 }
 
+/* Section */
+/* Used to separate different components from each other */
+
 .cl-section + .cl-section {
   margin-top: var(--gutter);
+}
+
+.cl-section:target .cl-section__title {
+  color: var(--c-link);
 }
 
 .cl-section__title {
   margin-top: 0;
   margin-bottom: 8px;
+  font-size: 1.25rem;
   text-transform: capitalize;
 }
 
@@ -111,12 +169,9 @@ body {
   border-radius: 4px;
 }
 
-@media (max-width: 800px) {
-  :root {
-    --gutter: 24px;
-  }
+/* Sub Section */
+/* Used in components to separate variants of the same component */
 
-  .cl-nav {
-    display: none;
-  }
+.cl-sub-section + .cl-sub-section {
+  margin-top: var(--gutter-alt);
 }
