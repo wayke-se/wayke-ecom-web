@@ -1,9 +1,6 @@
 import HtmlNode from '../src/Components/Extension/HtmlNode';
 import '../src/styles/styles.scss';
 
-// List of html files
-const componentList = ['ComponentA.html', 'ComponentB.html', 'component-test.html'];
-
 const basePath = 'component/';
 const loadHTML = async (htmlRelativeUrl: string) => {
   return fetch(`${basePath}${htmlRelativeUrl}`).then((response) => response.text());
@@ -36,7 +33,7 @@ const resolve = async (url: string) => {
 };
 
 window.addEventListener('DOMContentLoaded', async (_) => {
-  for (const url of componentList) {
+  for (const url of process.env.COMPONENT_FILES as unknown as string[]) {
     await resolve(url);
   }
 });
