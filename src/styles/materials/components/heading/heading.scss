@@ -32,9 +32,17 @@
 
   &--5 {
     font-size: scss-var(font, size, small);
+
+    &:not(.#{$namespace}no-margin) {
+      margin-bottom: size(1);
+    }
   }
   
   &--6 {
     font-size: scss-var(font, size, xsmall);
+
+    &:not(.#{$namespace}no-margin) {
+      margin-bottom: size(1);
+    }
   }
 }

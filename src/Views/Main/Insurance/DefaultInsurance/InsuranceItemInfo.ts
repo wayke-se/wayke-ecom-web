@@ -27,24 +27,25 @@ class InsuranceItemInfo extends HtmlNode {
 
   render() {
     const { freeInsurance, selected, onClose, onClick } = this.props;
-    const { description, logo, longDescription } = freeInsurance;
+    const { title, description, logo, longDescription } = freeInsurance;
 
     this.node.innerHTML = `
       <div class="waykeecom-nav-banner" id="${BUTTON_TOP_LEFT_NODE}"></div>
 
       <div class="waykeecom-stack waykeecom-stack--3">
-
         <div class="waykeecom-hstack waykeecom-hstack--align-center waykeecom-hstack--spacing-3">
           <div class="waykeecom-hstack__item waykeecom-hstack__item--grow">
-            <h3 class="waykeecom-heading waykeecom-heading--3 waykeecom-no-margin">${name}</h3>
+            <h3 class="waykeecom-heading waykeecom-heading--3 waykeecom-no-margin">${title}</h3>
           </div>
           <div class="waykeecom-hstack__item waykeecom-hstack__item--no-shrink">
             <div class="waykeecom-logo">
-              <img src="${logo}" alt="Tillverkarens logotyp för ${name}" class="waykeecom-logo__image waykeecom-logo__image--right" />
+              <img src="${logo}" alt="Tillverkarens logotyp för ${title}" class="waykeecom-logo__image waykeecom-logo__image--right" />
             </div>
           </div>
         </div>
-
+      </div>
+      <div class="waykeecom-stack waykeecom-stack--3">
+        <div class="waykeecom-font-medium">Gratis</div>
       </div>
       <div class="waykeecom-stack waykeecom-stack--3">
         <div class="waykeecom-content waykeecom-font-medium">
