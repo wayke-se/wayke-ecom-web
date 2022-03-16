@@ -6,6 +6,8 @@ import { addOrRemoveInsurance } from '../../../../Redux/action';
 import { WaykeStore } from '../../../../Redux/store';
 import watch from '../../../../Redux/watch';
 import { prettyNumber } from '../../../../Utils/format';
+import { createPortal, destroyPortal } from '../../../../Utils/portal';
+import InsuranceItemInfo from './InsuranceItemInfo';
 
 interface InsuranceItemProps {
   readonly store: WaykeStore;
@@ -15,6 +17,7 @@ interface InsuranceItemProps {
 
 class InsuranceItem extends HtmlNode {
   private readonly props: InsuranceItemProps;
+  private displayInfo = false;
 
   constructor(element: HTMLElement, props: InsuranceItemProps) {
     super(element);
@@ -25,6 +28,18 @@ class InsuranceItem extends HtmlNode {
     });
 
     this.render();
+  }
+
+  private onInfoOpen() {
+    this.displayInfo = true;
+    this.render();
+  }
+
+  private onInfoClose() {
+    this.displayInfo = false;
+    destroyPortal();
+    this.render();
+    this.node.parentElement?.scrollIntoView();
   }
 
   private onClick() {
@@ -39,15 +54,29 @@ class InsuranceItem extends HtmlNode {
       ? JSON.stringify(state.insurance).localeCompare(JSON.stringify(insurance)) === 0
       : false;
 
+    if (this.displayInfo) {
+      new InsuranceItemInfo(createPortal(), {
+        insurance,
+        selected,
+        onClick: () => {
+          this.onInfoClose();
+          this.onClick();
+        },
+        onClose: () => this.onInfoClose(),
+      });
+    }
+
     new GridItem(
       this.node,
       {
         logo,
+        id: key,
         title: insurance.name,
         description: insurance.description,
         price: prettyNumber(insurance.price, { postfix: 'kr/mån' }),
         selected,
         onClick: () => this.onClick(),
+        onInfo: () => this.onInfoOpen(),
       },
       key
     );
