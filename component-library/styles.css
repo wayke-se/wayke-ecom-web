@@ -10,6 +10,7 @@
   --cl-c-text-alt: #757575;
   --cl-gutter: 40px;
   --cl-gutter-alt: 24px;
+  --cl-font-family: 'Open Sans', sans-serif;
   --cl-font-weight-regular: 400;
   --cl-font-weight-bold: 700;
   --cl-line-height: 1.5;
@@ -43,7 +44,7 @@ html {
 body {
   margin: 0;
   background-color: var(--cl-c-bg-main);
-  font-family: 'Open Sans', sans-serif;
+  font-family: var(--cl-font-family);
   font-weight: var(--cl-font-weight-regular);
   font-size: 1rem;
   line-height: var(--cl-line-height);
@@ -247,6 +248,9 @@ body {
   margin-top: var(--cl-gutter-alt);
 }
 
+/* Helpers */
+/* Elements used to enhance the components display */
+
 /* Icon */
 /* Used to display icons */
 
@@ -257,4 +261,20 @@ body {
   border: 1px solid var(--cl-c-border);
   border-radius: 4px;
   font-size: 1.125rem;
+}
+
+/* Placeholder */
+/* Used to add a block placeholder for elements */
+
+.cl-placeholder {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50px;
+  padding: 16px;
+  background-color: #ebf5ff;
+  color: #567890;
+  border: 1px dashed currentColor;
+  border-radius: 4px;
+  font-family: var(--cl-font-family);
 }
