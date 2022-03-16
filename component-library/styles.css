@@ -209,6 +209,11 @@ body {
   overflow: auto;
 }
 
+.cl-main-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
 /* Section */
 /* Used to separate different components from each other */
 
@@ -277,4 +282,8 @@ body {
   border: 1px dashed currentColor;
   border-radius: 4px;
   font-family: var(--cl-font-family);
+}
+
+.cl-placeholder-text {
+  color: #567890;
 }
