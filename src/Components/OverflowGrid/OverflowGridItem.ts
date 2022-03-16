@@ -37,7 +37,7 @@ class GridItem extends HtmlNode {
 
     this.node.innerHTML = `
       <div class="waykeecom-tile">
-        ${image ? `<img src="${image}" alt="" class="waykeecom-tile__hero" />` : ''}
+        ${image ? `<img src="${image}" alt="${title}" class="waykeecom-tile__hero" />` : ''}
         <div class="waykeecom-tile__body">
           <div class="waykeecom-tile__header">
             <div class="waykeecom-tile__title">${title}</div>

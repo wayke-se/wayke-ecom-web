@@ -245,9 +245,9 @@ class PartTradeIn extends HtmlNode {
                 <div class="waykeecom-label">${this.state.value.registrationNumber}</div>
               </div>
               <div class="waykeecom-stack waykeecom-stack--05">
-                <span class="waykeecom-font-medium">${tradeInVehicle.manufacturer} ${
-        tradeInVehicle.modelSeries
-      }</span>
+                <span class="waykeecom-text waykeecom-text--font-medium">${
+                  tradeInVehicle.manufacturer
+                } ${tradeInVehicle.modelSeries}</span>
                 ${tradeInVehicle.modelName}, ${tradeInVehicle.modelYear}
               </div>
             </div>
@@ -262,7 +262,7 @@ class PartTradeIn extends HtmlNode {
               <div class="waykeecom-align waykeecom-align--end" id="${CHANGE_BUTTON_NODE}"></div>
             </div>
           </div>
-          <div class="waykeecom-stack waykeecom-stack--3 waykeecom-text-center">
+          <div class="waykeecom-stack waykeecom-stack--3 waykeecom-text waykeecom-text--align-center">
             <div class="waykeecom-stack waykeecom-stack--1">
               <div class="waykeecom-text waykeecom-text--tone-alt waykeecom-text--size-small">Ungefärligt värde</div>
             </div>

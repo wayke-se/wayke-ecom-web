@@ -151,9 +151,12 @@ class Financial extends HtmlNode {
                 <li class="waykeecom-unordered-list__item">Inga kostnader tillkommer.</li>
               </ul>
             </div>`,
-          meta: `<div class="waykeecom-font-medium">${prettyNumber(cash.price || '???', {
-            postfix: cash.unit,
-          })}</div>`,
+          meta: `<div class="waykeecom-text waykeecom-text--font-medium">${prettyNumber(
+            cash.price || '???',
+            {
+              postfix: cash.unit,
+            }
+          )}</div>`,
         });
       }
 
@@ -206,9 +209,12 @@ class Financial extends HtmlNode {
                 : ''
             }
           </div>`,
-          meta: `<div class="waykeecom-font-medium">${prettyNumber(loanPrice || '???', {
-            postfix: loan.unit,
-          })}</div>`,
+          meta: `<div class="waykeecom-text waykeecom-text--font-medium">${prettyNumber(
+            loanPrice || '???',
+            {
+              postfix: loan.unit,
+            }
+          )}</div>`,
         });
       }
 
@@ -234,9 +240,12 @@ class Financial extends HtmlNode {
                 <li>*Inkl. 1 500 mil/år, 36 mån.</li>
               </ul>
             </div>`,
-          meta: `<div class="waykeecom-font-medium">${prettyNumber(lease.price || '???', {
-            postfix: lease.unit,
-          })}</div>`,
+          meta: `<div class="waykeecom-text waykeecom-text--font-medium">${prettyNumber(
+            lease.price || '???',
+            {
+              postfix: lease.unit,
+            }
+          )}</div>`,
         });
         new InputRadioGroup(
           part.querySelector<HTMLDivElement>(`#${FINANCIAL_OPTION_SECOND_NODE}`),

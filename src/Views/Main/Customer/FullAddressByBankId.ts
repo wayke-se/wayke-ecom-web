@@ -189,7 +189,7 @@ class FullAddressByBankId extends HtmlNode {
             <div class="waykeecom-stack waykeecom-stack--2" id="${DISCLAIMER_SAFE_NODE}"></div>
           </div>
           <div class="waykeecom-stack waykeecom-stack--3">
-            <div class="waykeecom-text-center" id="${LINK_TOGGLE_METHOD_NODE}"></div>
+            <div class="waykeecom-text waykeecom-text--align-center" id="${LINK_TOGGLE_METHOD_NODE}"></div>
           </div>
         </div>
       `;

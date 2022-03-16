@@ -47,9 +47,11 @@ class TradeIn extends StackNode {
                 <div class="waykeecom-label">${tradeIn.registrationNumber}</div>
               </div>
               <div class="waykeecom-stack waykeecom-stack--05">
-                <span class="waykeecom-font-medium">${tradeInVehicle.manufacturer} ${
-                tradeInVehicle.modelSeries
-              }</span> ${tradeInVehicle.modelName} ${tradeInVehicle.modelYear}
+                <span class="waykeecom-text waykeecom-text--font-medium">${
+                  tradeInVehicle.manufacturer
+                } ${tradeInVehicle.modelSeries}</span> ${tradeInVehicle.modelName} ${
+                tradeInVehicle.modelYear
+              }
               </div>
             </div>
             <div class="waykeecom-stack waykeecom-stack--2">

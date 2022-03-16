@@ -135,7 +135,7 @@ class Delivery extends HtmlNode {
                   </div>
                 </div>
               `,
-              meta: `<div class="waykeecom-font-medium">${totalDeliveryCost} kr</div>`,
+              meta: `<div class="waykeecom-text waykeecom-text--font-medium">${totalDeliveryCost} kr</div>`,
               checked: !this.homeDelivery,
               onClick: (e) => this.onChange(e),
             });
@@ -147,7 +147,7 @@ class Delivery extends HtmlNode {
               title: 'Hemleverans',
               value: 'true',
               description: `<div class="waykeecom-box">Till din folkbokföringsadress</div>`,
-              meta: `<div class="waykeecom-font-medium">${totalDeliveryCost} kr</div>`,
+              meta: `<div class="waykeecom-text waykeecom-text--font-medium">${totalDeliveryCost} kr</div>`,
               checked: this.homeDelivery,
               onClick: (e) => this.onChange(e),
             });

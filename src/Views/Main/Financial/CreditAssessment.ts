@@ -434,7 +434,7 @@ class CreditAssessment extends HtmlNode {
         <hr class="waykeecom-separator" />
       </div>
 
-      <div class="waykeecom-stack waykeecom-stack--3 waykeecom-text-center">
+      <div class="waykeecom-stack waykeecom-stack--3 waykeecom-text waykeecom-text--align-center">
         <div class="waykeecom-stack waykeecom-stack--1">
           <div class="waykeecom-text waykeecom-text--tone-alt waykeecom-text--size-small">Totalt lånebelopp</div>
         </div>

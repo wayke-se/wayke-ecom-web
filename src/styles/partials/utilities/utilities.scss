@@ -3,16 +3,8 @@
 
 @use '../../helpers' as *;
 
-.#{$namespace}font-medium {
-  @include font-medium;
-}
-
 .#{$namespace}no-margin {
   margin: 0;
-}
-
-.#{$namespace}text-center {
-  text-align: center;
 }
 
 // Spacing utility classes

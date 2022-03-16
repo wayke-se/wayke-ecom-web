@@ -127,7 +127,7 @@ class BankIdSign extends HtmlNode {
       : descriptionSameDevice;
 
     this.node.innerHTML = `
-      <div class="waykeecom-text-center">
+      <div class="waykeecom-text waykeecom-text--align-center">
         <div class="waykeecom-stack waykeecom-stack--4" id="">
           <h4 class="waykeecom-heading waykeecom-heading--4">${methodTitle}</h4>
           <div class="waykeecom-content">
