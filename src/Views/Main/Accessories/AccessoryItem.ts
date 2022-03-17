@@ -54,7 +54,8 @@ class AccessoryItem extends HtmlNode {
   render() {
     const { store, accessory, key } = this.props;
     const state = store.getState();
-    const selected = state.accessories.findIndex((accessory) => accessory.id === accessory.id) > -1;
+    const selected =
+      state.accessories.findIndex((_accessory) => _accessory.id === accessory.id) > -1;
 
     if (this.displayInfo) {
       new AccessoryItemInfo(createPortal(), {
