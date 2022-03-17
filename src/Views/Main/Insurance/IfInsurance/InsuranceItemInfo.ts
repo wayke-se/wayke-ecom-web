@@ -1,7 +1,6 @@
 import { IInsuranceOption } from '@wayke-se/ecom';
 import ButtonAddRemove from '../../../../Components/Button/ButtonAddRemove';
 import ButtonAsLinkArrowLeft from '../../../../Components/Button/ButtonAsLinkArrowLeft';
-import ButtonAsLink from '../../../../Components/Button/ButtonAsLink';
 import ButtonClear from '../../../../Components/Button/ButtonClear';
 import HtmlNode from '../../../../Components/Extension/HtmlNode';
 import { prettyNumber } from '../../../../Utils/format';
@@ -100,12 +99,22 @@ class InsuranceItemInfo extends HtmlNode {
       </div>
       ${
         addons?.length
-          ? `<div class="waykeecom-stack waykeecom-stack--3" id="${ADDONS_NODE}"></div>`
+          ? `<div class="waykeecom-stack waykeecom-stack--3">
+              <fieldset class="waykeecom-input-group">
+                <legend class="waykeecom-input-group__legend">Tillval</legend>
+                <div id="${ADDONS_NODE}"></div>
+              </fieldset>
+            </div>`
           : ''
       }
       ${
         insuranceItems?.length
-          ? `<div class="waykeecom-stack waykeecom-stack--3" id="${ACCORDION_NODE}"></div>`
+          ? `
+            <div class="waykeecom-stack waykeecom-stack--3">
+              <h4 class="waykeecom-heading waykeecom-heading--4 waykeecom-no-margin">Försäkringen innehåller</h4>
+            </div>
+            <div class="waykeecom-stack waykeecom-stack--3" id="${ACCORDION_NODE}"></div>
+          `
           : ''
       }
       <div class="waykeecom-stack waykeecom-stack--3">
@@ -120,13 +129,13 @@ class InsuranceItemInfo extends HtmlNode {
     });
 
     if (!!addons?.length) {
-      const node = this.node.querySelector<HTMLElement>(`#${ACCORDION_NODE}`);
+      const node = this.node.querySelector<HTMLElement>(`#${ADDONS_NODE}`);
       addons.forEach((addon) => {
         this.contexts.checkboxes[addon.name] = new InputCheckbox(node, {
           id: addon.name,
           name: addon.name,
           title: addon.title,
-          description: addon.description,
+          description: `<div class="waykeecom-text waykeecom-text--tone-alt">${addon.description}</div>`,
           append: true,
           value: addon.name,
           checked: false,
@@ -148,8 +157,8 @@ class InsuranceItemInfo extends HtmlNode {
       );
     }
 
-    new ButtonAsLink(this.node.querySelector(`#${BUTTON_TOP_LEFT_NODE}`), {
-      title: legalDescription,
+    new ButtonAsLinkArrowLeft(this.node.querySelector(`#${BUTTON_TOP_LEFT_NODE}`), {
+      title: 'Tillbaka',
       onClick: () => onClose(),
     });
 

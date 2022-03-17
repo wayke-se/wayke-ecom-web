@@ -1,6 +1,6 @@
 @use '../../../helpers' as *;
 
-.#{$namespace}input-radio {
+.#{$namespace}input-checkbox {
   $root: &;
 
   --#{$namespace}icon-size: #{size(2)};
@@ -62,7 +62,7 @@
       flex-shrink: 0;
       width: var(--#{$namespace}icon-size);
       height: var(--#{$namespace}icon-size);
-      border-radius: 50%;
+      border-radius: scss-var(border, radius, main);
       background-color: color(bg, alt);
       margin-right: var(--#{$namespace}icon-margin);
       margin-top: calc((var(--#{$namespace}icon-size) - var(--#{$namespace}label-size) * var(--#{$namespace}label-line-height)) / -2);

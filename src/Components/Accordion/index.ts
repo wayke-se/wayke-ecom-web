@@ -48,9 +48,7 @@ class Accordion extends HtmlNode {
     }
 
     this.node.innerHTML = `
-      <div class="waykeecom-accordion">
-        ${content}
-      </div>
+      ${content}
     `;
   }
 }

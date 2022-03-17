@@ -22,7 +22,7 @@ class InputCheckbox extends HtmlNode {
       props.append
         ? {
             htmlTag: 'div',
-            className: 'waykeecom-input-radio',
+            className: 'waykeecom-input-checkbox',
             attributes: [{ key: 'role', value: 'checkbox' }],
           }
         : undefined
@@ -50,18 +50,16 @@ class InputCheckbox extends HtmlNode {
           name="${name}"
           ${disabled ? 'disabled=""' : ''}
           ${checked ? 'checked="true"' : ''}
-          class="waykeecom-input-radio__input"
+          class="waykeecom-input-checkbox__input"
         />
-        <div class="waykeecom-input-radio__header">
-          <label for="${id}" class="waykeecom-input-radio__label">${title}${
-      disabled ? `disabled` : ''
-    }</label>
-          ${meta ? `<div class="waykeecom-input-radio__meta">${meta}</div>` : ''}
+        <div class="waykeecom-input-checkbox__header">
+          <label for="${id}" class="waykeecom-input-checkbox__label">${title}</label>
+          ${meta ? `<div class="waykeecom-input-checkbox__meta">${meta}</div>` : ''}
         </div>
         ${
           description
             ? `
-            <label for="${id}" class="waykeecom-input-radio__description">
+            <label for="${id}" class="waykeecom-input-checkbox__description">
               ${description}
             </label>
           `
@@ -74,7 +72,7 @@ class InputCheckbox extends HtmlNode {
     }
 
     this.node.innerHTML = `
-      <div class="waykeecom-input-radio" role="checkbox">
+      <div class="waykeecom-input-checkbox" role="checkbox">
        ${content}
       </div>
     `;

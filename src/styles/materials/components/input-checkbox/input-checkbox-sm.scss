@@ -1,0 +1,5 @@
+@use '../../../helpers' as *;
+
+.#{$namespace}input-checkbox {
+  --#{$namespace}label-size: #{scss-var(font, size, regular)};
+}
