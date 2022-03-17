@@ -3,7 +3,10 @@ import { WaykeStore } from './store';
 
 const subscriptions: (() => void)[] = [];
 
-const registerSubsription = (s: () => void) => subscriptions.push(s);
+const registerSubsription = (s: () => void) => {
+  subscriptions.push(s);
+  return s;
+};
 
 export const unregisterAllSubscriptions = () => subscriptions.forEach((s) => s());
 
@@ -19,7 +22,7 @@ const watch = <T>(
   if (doNotRegister) {
     store.subscribe(w(callback));
   } else {
-    registerSubsription(store.subscribe(w(callback)));
+    return registerSubsription(store.subscribe(w(callback)));
   }
 };
 
