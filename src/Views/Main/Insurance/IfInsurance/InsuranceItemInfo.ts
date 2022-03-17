@@ -68,9 +68,6 @@ class InsuranceItemInfo extends HtmlNode {
       this.contexts.checkboxes[name]?.checked(checked);
 
       if (checked) {
-        selectedAddon.exclude.forEach((exclude) => {
-          this.contexts.checkboxes[exclude]?.disabled(true);
-        });
         this.addons.push(name);
       } else {
         const index = this.addons.indexOf(name);
@@ -78,6 +75,15 @@ class InsuranceItemInfo extends HtmlNode {
           this.addons.splice(index, 1);
         }
       }
+
+      [
+        ...new Set(
+          this.addons
+            .map((a) => this.props.insurance.addOns.find((x) => x.name === a)?.exclude)
+            .filter((x) => x)
+            .flat()
+        ),
+      ].forEach((exclude) => this.contexts.checkboxes[exclude as string]?.disabled(true));
     }
 
     const containChanges = InsuranceItemInfo.containChanges(this.initialAddons, this.addons);
@@ -175,7 +181,7 @@ class InsuranceItemInfo extends HtmlNode {
         this.contexts.checkboxes[addon.name] = new InputCheckbox(subNode.render(), {
           id: addon.name,
           name: addon.name,
-          title: addon.title,
+          title: `${addon.title} ${prettyNumber(addon.monthlyPrice, { postfix: 'kr/mån' })}`,
           description: `<div class="waykeecom-text waykeecom-text--tone-alt">${addon.description}</div>`,
           append: true,
           value: addon.name,
