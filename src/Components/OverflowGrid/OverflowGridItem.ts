@@ -14,6 +14,7 @@ interface GridItemProps {
   readonly image?: string;
   readonly logo?: string;
   readonly price?: string;
+  readonly priceDetails?: { key: string; value: string }[];
   readonly description?: string;
   readonly selected?: boolean;
   readonly onClick: () => void;
@@ -30,7 +31,8 @@ class GridItem extends HtmlNode {
   }
 
   render() {
-    const { id, title, image, logo, price, description, selected, onClick, onInfo } = this.props;
+    const { id, title, image, logo, price, priceDetails, description, selected, onClick, onInfo } =
+      this.props;
 
     const onInfoId = id && onInfo ? `${READ_MORE_NODE}-${id}` : undefined;
     const addRemoveButtonNodeId = id ? `${BUTTON_ADD_REMOVE_NODE}-${id}` : undefined;
@@ -48,6 +50,11 @@ class GridItem extends HtmlNode {
             </div>
           </div>
           <div class="waykeecom-tile__price">${price}</div>
+          ${
+            priceDetails?.length
+              ? `<ul>${priceDetails.map((d) => `${d.key}: ${d.value}`).join('')}</ul>`
+              : ''
+          }
           <div class="waykeecom-tile__description">
             ${description || ''}
           </div>

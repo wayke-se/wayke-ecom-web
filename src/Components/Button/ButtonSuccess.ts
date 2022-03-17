@@ -1,7 +1,7 @@
 import Loader from '../../Templates/Loader';
 import HtmlNode from '../Extension/HtmlNode';
 
-interface ButtonAltProps {
+interface ButtonSuccessProps {
   readonly title: string;
   readonly id?: string;
   disabled?: boolean;
@@ -9,10 +9,10 @@ interface ButtonAltProps {
   readonly onClick?: (e: Event) => void;
 }
 
-class ButtonAlt extends HtmlNode {
-  private readonly props: ButtonAltProps;
+class ButtonSuccess extends HtmlNode {
+  private readonly props: ButtonSuccessProps;
 
-  constructor(element: HTMLDivElement | null, props: ButtonAltProps) {
+  constructor(element: HTMLDivElement | null, props: ButtonSuccessProps) {
     super(element);
     this.props = props;
     this.render();
@@ -45,7 +45,7 @@ class ButtonAlt extends HtmlNode {
         ${id ? `id="${id}"` : ''}
         title="${title}"
         ${disabled && `disabled=""`}
-        class="waykeecom-button waykeecom-button--full-width waykeecom-button--action-alt"
+        class="waykeecom-button waykeecom-button--full-width waykeecom-button--success"
       >
         <span class="waykeecom-button__content">${title}</span>
         ${
@@ -64,4 +64,4 @@ class ButtonAlt extends HtmlNode {
   }
 }
 
-export default ButtonAlt;
+export default ButtonSuccess;

@@ -7,7 +7,7 @@ interface InputCheckboxProps {
   readonly description?: string;
   readonly meta?: string;
   readonly id: string;
-  readonly checked: boolean;
+  checked: boolean;
   readonly onClick?: (e: Event) => void;
   readonly append?: boolean;
   disabled?: boolean;
@@ -29,6 +29,13 @@ class InputCheckbox extends HtmlNode {
     );
     this.props = props;
     this.render();
+  }
+
+  checked(checked: boolean) {
+    if (this.props.checked !== checked) {
+      this.props.checked = checked;
+      this.render();
+    }
   }
 
   disabled(disabled: boolean) {
