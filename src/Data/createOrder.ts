@@ -62,11 +62,15 @@ export const createOrder = (store: WaykeStore) => {
     .withDeliveryType(state.homeDelivery ? DeliveryType.Delivery : DeliveryType.Pickup);
 
   if (state.insurance) {
-    const insurance = orders
-      .newInsurance()
-      .withDrivingDistance(state.drivingDistance)
-      //.withAddOns(insurance.addons) // optional
-      .build();
+    const insuranceBuilder = orders.newInsurance().withDrivingDistance(state.drivingDistance);
+    if (
+      state.insuranceAddOns?.addOns.length &&
+      state.insuranceAddOns.insurance === state.insurance.name
+    ) {
+      insuranceBuilder.withAddOns(state.insuranceAddOns.addOns);
+    }
+
+    const insurance = insuranceBuilder.build();
 
     requestBuilder.withInsurance(insurance);
   } else if (state.freeInsurance) {
