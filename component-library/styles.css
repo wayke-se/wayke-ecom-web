@@ -215,6 +215,7 @@ body {
 }
 
 .cl-main__container {
+  width: 100%;
   max-width: 1280px;
   padding: var(--cl-gutter);
   margin: 0 auto;
