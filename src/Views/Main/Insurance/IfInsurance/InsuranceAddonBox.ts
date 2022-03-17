@@ -2,7 +2,7 @@ import HtmlNode from '../../../../../component-library/html-node';
 
 class InsuracenAddonBox extends HtmlNode {
   constructor(element: HTMLElement | null) {
-    super(element, { htmlTag: 'div', className: 'waykeecom-stack waykeecom-stack--2' });
+    super(element, { htmlTag: 'div', className: 'waykeecom-stack waykeecom-stack--1' });
     this.render();
   }
 

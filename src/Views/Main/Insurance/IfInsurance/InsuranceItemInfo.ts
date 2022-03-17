@@ -181,7 +181,11 @@ class InsuranceItemInfo extends HtmlNode {
         this.contexts.checkboxes[addon.name] = new InputCheckbox(subNode.render(), {
           id: addon.name,
           name: addon.name,
-          title: `${addon.title} ${prettyNumber(addon.monthlyPrice, { postfix: 'kr/mån' })}`,
+          title: addon.title,
+          meta: `<div class="waykeecom-text waykeecom-text--font-medium">${prettyNumber(
+            addon.monthlyPrice,
+            { postfix: 'kr/mån' }
+          )}</div>`,
           description: `<div class="waykeecom-text waykeecom-text--tone-alt">${addon.description}</div>`,
           append: true,
           value: addon.name,
