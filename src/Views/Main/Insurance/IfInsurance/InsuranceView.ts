@@ -24,6 +24,8 @@ const SKIP_INSURANCES_NODE = `${SKIP_INSURANCES}-node`;
 const EDIT_DRIVING_DISTANCE = 'button-insurance-edit-driving-distance';
 const EDIT_DRIVING_DISTANCE_NODE = `${EDIT_DRIVING_DISTANCE}-node`;
 
+const IF_INSURANCE_CACHE: { [key: string]: IInsuranceOption[] | undefined } = {};
+
 interface InsuranceViewProps {
   readonly store: WaykeStore;
   readonly lastStage: boolean;
@@ -36,23 +38,28 @@ class InsuranceView extends HtmlNode {
   private insurances?: IInsuranceOption[];
   private contexts: {
     buttonProceed?: ButtonArrowRight;
-  } = {};
+    listners: ((() => void) | undefined)[];
+  } = { listners: [] };
 
   constructor(element: HTMLElement, props: InsuranceViewProps) {
     super(element);
     this.props = props;
 
-    watch(this.props.store, 'drivingDistance', () => {
+    const drivingDistanceListner = watch(this.props.store, 'drivingDistance', () => {
+      this.fetchInsurance();
+    });
+    this.contexts.listners.push(drivingDistanceListner);
+
+    const customerIdListner = watch(this.props.store, 'customer.socialId', () => {
       this.fetchInsurance();
     });
 
-    watch(this.props.store, 'customer.socialId', () => {
-      this.fetchInsurance();
-    });
+    this.contexts.listners.push(customerIdListner);
 
-    watch(this.props.store, 'insurance', () => {
+    const insuranceListner = watch(this.props.store, 'insurance', () => {
       this.render();
     });
+    this.contexts.listners.push(insuranceListner);
 
     this.fetchInsurance();
     this.render();
@@ -61,18 +68,27 @@ class InsuranceView extends HtmlNode {
   private fetchInsurance() {
     const state = this.props.store.getState();
     if (state.customer.socialId) {
-      this.getchInsurances();
+      this.getInsurances();
     }
   }
 
-  private async getchInsurances() {
+  private async getInsurances() {
+    const state = this.props.store.getState();
     this.requestError = false;
     this.render();
 
+    const cacheKey = `${state.customer.socialId}-${state.id}-${state.drivingDistance}`;
+    const cache = IF_INSURANCE_CACHE[cacheKey];
+    if (cache) {
+      this.insurances = cache;
+      this.render();
+      return;
+    }
+
     try {
-      const state = this.props.store.getState();
       const response = await getInsurances(this.props.store, state.drivingDistance);
       this.insurances = response.getInsuranceOptions();
+      IF_INSURANCE_CACHE[cacheKey] = this.insurances;
     } catch (e) {
       this.requestError = true;
     } finally {
@@ -81,6 +97,7 @@ class InsuranceView extends HtmlNode {
   }
 
   private onEditDrivingDistance() {
+    this.contexts.listners.forEach((x) => x?.());
     this.props.onEdit();
   }
 
@@ -138,7 +155,7 @@ class InsuranceView extends HtmlNode {
         });
         insuranceListNode
           .querySelector<HTMLButtonElement>('button')
-          ?.addEventListener('click', () => this.getchInsurances());
+          ?.addEventListener('click', () => this.getInsurances());
       } else {
         const insurances = this.insurances;
         if (insurances?.length) {

@@ -30,10 +30,12 @@ class IfInsurance extends HtmlNode {
   constructor(element: HTMLElement, props: IfInsuranceProps) {
     super(element);
     this.props = props;
+    this.showInsurances = !!this.props.store.getState().insurance;
     this.render();
   }
 
   private onChangeDistance(e: Event) {
+    this.showInsurances = false;
     const currentTarget = e.currentTarget as HTMLSelectElement;
     setDrivingDistance(currentTarget.value as DrivingDistance)(this.props.store.dispatch);
   }

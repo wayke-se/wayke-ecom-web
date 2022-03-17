@@ -1,4 +1,4 @@
-import { PaymentType } from '@wayke-se/ecom';
+import { IInsuranceAddon, PaymentType } from '@wayke-se/ecom';
 import StackNode from '../../Components/Extension/StackNode';
 import { goTo } from '../../Redux/action';
 import { WaykeStore } from '../../Redux/store';
@@ -127,6 +127,28 @@ class Order extends StackNode {
                             key: state.insurance.name,
                             value: prettyNumber(state.insurance.price, { postfix: 'kr/mån' }),
                           })}
+                          ${
+                            state.insuranceAddOns?.addOns.length &&
+                            state.insuranceAddOns.insurance === state.insurance.name
+                              ? state.insuranceAddOns.addOns
+                                  .map(
+                                    (addonName) =>
+                                      state.insurance?.addOns.find(
+                                        (addon) => addon.name === addonName
+                                      ) as IInsuranceAddon
+                                  )
+                                  .filter((x) => x)
+                                  .map((addon) =>
+                                    KeyValueListItem({
+                                      key: addon.title,
+                                      value: prettyNumber(addon.monthlyPrice, {
+                                        postfix: 'kr/mån',
+                                      }),
+                                    })
+                                  )
+                                  .join('')
+                              : ''
+                          }
                         </ul>
                       </div>
                     `
