@@ -10,6 +10,7 @@ import { addOrRemoveInsuranceAddon } from '../../../../Redux/action';
 import { WaykeStore } from '../../../../Redux/store';
 import ButtonSuccess from '../../../../Components/Button/ButtonSuccess';
 import ButtonAddRemove from '../../../../Components/Button/ButtonAddRemove';
+import InsuracenAddonBox from './InsuranceAddonBox';
 
 const BUTTON_TOP_LEFT_NODE = 'insurance-button-top-left-node';
 const BUTTON_BOTTOM_LEFT_NODE = 'insurance-button-bottom-left-node';
@@ -80,7 +81,7 @@ class InsuranceItemInfo extends HtmlNode {
     }
 
     const containChanges = InsuranceItemInfo.containChanges(this.initialAddons, this.addons);
-    this.contexts.updateButton?.disabled(this.props.selected ? false : !containChanges);
+    this.contexts.updateButton?.disabled(this.props.selected ? !containChanges : false);
   }
 
   onUpdate() {
@@ -170,7 +171,8 @@ class InsuranceItemInfo extends HtmlNode {
     if (!!addons?.length) {
       const node = this.node.querySelector<HTMLElement>(`#${ADDONS_NODE}`);
       addons.forEach((addon) => {
-        this.contexts.checkboxes[addon.name] = new InputCheckbox(node, {
+        const subNode = new InsuracenAddonBox(node);
+        this.contexts.checkboxes[addon.name] = new InputCheckbox(subNode.render(), {
           id: addon.name,
           name: addon.name,
           title: addon.title,
