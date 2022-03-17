@@ -52,7 +52,7 @@ class GridItem extends HtmlNode {
           <div class="waykeecom-tile__price">${price}</div>
           ${
             priceDetails?.length
-              ? `<div class="waykeecom-text waykeecom-text--tone-alt waykeecom-text--size-small">${priceDetails
+              ? `<div class="waykeecom-tile__price-disclaimer">${priceDetails
                   .map((d) => `${d.key} (${d.value})`)
                   .join(', ')}</div>`
               : ''
