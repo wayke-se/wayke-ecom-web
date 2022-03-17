@@ -139,9 +139,7 @@ class InsuranceItemInfo extends HtmlNode {
           rel="noopener noreferrer"
           target="_blank"
           class="waykeecom-link"
-        >
-          ${legalDescription}
-        </a>
+        >${legalDescription}</a>
       </div>
       ${
         addons?.length
