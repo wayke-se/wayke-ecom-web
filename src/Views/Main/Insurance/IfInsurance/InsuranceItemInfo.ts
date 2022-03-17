@@ -1,4 +1,4 @@
-import { IInsuranceAddon, IInsuranceOption } from '@wayke-se/ecom';
+import { IInsuranceOption } from '@wayke-se/ecom';
 import ButtonAddRemove from '../../../../Components/Button/ButtonAddRemove';
 import ButtonAsLinkArrowLeft from '../../../../Components/Button/ButtonAsLinkArrowLeft';
 import ButtonAsLink from '../../../../Components/Button/ButtonAsLink';
@@ -15,14 +15,6 @@ const BUTTON_INSURANCE_ADD_REMOVE_NODE = 'insurance-add-remove-node';
 
 const ADDONS_NODE = 'insurance-addons-node';
 const ACCORDION_NODE = 'insurance-accordion-node';
-
-type CustomInsuranceOption = IInsuranceOption & {
-  addOns: IInsuranceOption['addons'];
-};
-
-type CustomIInsuranceAddon = IInsuranceAddon & {
-  exclude: IInsuranceAddon['excludes'];
-};
 
 interface InsuranceItemInfoProps {
   readonly insurance: IInsuranceOption;
@@ -46,17 +38,14 @@ class InsuranceItemInfo extends HtmlNode {
   onClick(e: Event) {
     const currentTarget = e.currentTarget as HTMLInputElement;
     const { name, checked } = currentTarget;
-    const addons = (this.props.insurance as CustomInsuranceOption).addOns;
-    const selectedAddon = addons.find((x) => x.name === name);
+    const selectedAddon = this.props.insurance.addOns.find((x) => x.name === name);
     if (selectedAddon) {
-      const excludes = (selectedAddon as CustomIInsuranceAddon).exclude;
-
       Object.keys(this.contexts.checkboxes).forEach((key) => {
         this.contexts.checkboxes[key]?.disabled(false);
       });
 
       if (checked) {
-        excludes.forEach((exclude) => {
+        selectedAddon.exclude.forEach((exclude) => {
           this.contexts.checkboxes[exclude]?.disabled(true);
         });
       }
@@ -66,7 +55,7 @@ class InsuranceItemInfo extends HtmlNode {
   render() {
     const { insurance, selected, onClose, onClick } = this.props;
     const { name, description, legalDescription, legalUrl, insuranceItems } = insurance;
-    const addons = (insurance as CustomInsuranceOption).addOns;
+    const addons = insurance.addOns;
 
     this.node.innerHTML = `
       <div class="waykeecom-nav-banner" id="${BUTTON_TOP_LEFT_NODE}"></div>
