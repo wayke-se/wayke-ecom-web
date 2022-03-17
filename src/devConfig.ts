@@ -29,7 +29,7 @@ export const devConfig = {
     useBankid: true,
   },
   INSURANCE: {
-    id: '11082ecd-f484-46f4-82f2-0547f33ab4c2',
+    id: '1466e6e8-d9d9-40da-8266-7b264d4e3517',
   },
   CREDIT_ASSESSMENT: {
     id: '66c573e4-ac81-4d68-b268-6d4f82b6bede',

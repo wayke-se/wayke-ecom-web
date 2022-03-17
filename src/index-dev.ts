@@ -10,7 +10,7 @@ window.addEventListener('DOMContentLoaded', (_) => {
   };
 
   const context = new WaykeEcomWeb({
-    ...devConfig.ACCESSORIES,
+    ...devConfig.INSURANCE,
     ecomSdkConfig,
     rootId: 'custom-id',
   });
