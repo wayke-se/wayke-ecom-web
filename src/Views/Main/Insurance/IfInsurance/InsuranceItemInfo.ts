@@ -1,5 +1,4 @@
 import { IInsuranceOption } from '@wayke-se/ecom';
-import ButtonAddRemove from '../../../../Components/Button/ButtonAddRemove';
 import ButtonAsLinkArrowLeft from '../../../../Components/Button/ButtonAsLinkArrowLeft';
 import ButtonAsLink from '../../../../Components/Button/ButtonAsLink';
 import ButtonClear from '../../../../Components/Button/ButtonClear';
@@ -8,6 +7,10 @@ import { prettyNumber } from '../../../../Utils/format';
 import { scrollTop } from '../../../../Utils/scroll';
 import Accordion from '../../../../Components/Accordion';
 import InputCheckbox from '../../../../Components/Input/InputCheckbox';
+import { addOrRemoveInsuranceAddon } from '../../../../Redux/action';
+import { WaykeStore } from '../../../../Redux/store';
+import ButtonSuccess from '../../../../Components/Button/ButtonSuccess';
+import ButtonAddRemove from '../../../../Components/Button/ButtonAddRemove';
 
 const BUTTON_TOP_LEFT_NODE = 'insurance-button-top-left-node';
 const BUTTON_BOTTOM_LEFT_NODE = 'insurance-button-bottom-left-node';
@@ -17,6 +20,7 @@ const ADDONS_NODE = 'insurance-addons-node';
 const ACCORDION_NODE = 'insurance-accordion-node';
 
 interface InsuranceItemInfoProps {
+  readonly store: WaykeStore;
   readonly insurance: IInsuranceOption;
   readonly selected: boolean;
   readonly onClick: () => void;
@@ -25,37 +29,72 @@ interface InsuranceItemInfoProps {
 
 class InsuranceItemInfo extends HtmlNode {
   private readonly props: InsuranceItemInfoProps;
+  private initialAddons: string[] = [];
+  private addons: string[] = [];
   private contexts: {
+    updateButton?: ButtonSuccess | ButtonAddRemove;
     checkboxes: { [key: string]: InputCheckbox | undefined };
   } = { checkboxes: {} };
 
   constructor(element: HTMLElement, props: InsuranceItemInfoProps) {
     super(element);
     this.props = props;
+
+    const { insuranceAddOns } = this.props.store.getState();
+    if (!!insuranceAddOns?.insurance && insuranceAddOns.insurance === this.props.insurance.name) {
+      this.addons = [...insuranceAddOns.addOns];
+    }
+
+    this.initialAddons = [...this.addons];
+
     this.render();
+  }
+
+  private static containChanges(_initialAddons: string[], _addons: string[]) {
+    const initialAddons = [..._initialAddons].sort();
+    const addons = [..._addons].sort();
+    return initialAddons.join().localeCompare(addons.join()) !== 0;
   }
 
   onClick(e: Event) {
     const currentTarget = e.currentTarget as HTMLInputElement;
     const { name, checked } = currentTarget;
     const selectedAddon = this.props.insurance.addOns.find((x) => x.name === name);
+
     if (selectedAddon) {
       Object.keys(this.contexts.checkboxes).forEach((key) => {
         this.contexts.checkboxes[key]?.disabled(false);
       });
+      this.contexts.checkboxes[name]?.checked(checked);
 
       if (checked) {
         selectedAddon.exclude.forEach((exclude) => {
           this.contexts.checkboxes[exclude]?.disabled(true);
         });
+        this.addons.push(name);
+      } else {
+        const index = this.addons.indexOf(name);
+        if (index > -1) {
+          this.addons.splice(index, 1);
+        }
       }
     }
+
+    const containChanges = InsuranceItemInfo.containChanges(this.initialAddons, this.addons);
+    this.contexts.updateButton?.disabled(this.props.selected ? false : !containChanges);
+  }
+
+  onUpdate() {
+    addOrRemoveInsuranceAddon(this.props.insurance, this.addons)(this.props.store.dispatch);
+    this.props.onClose();
   }
 
   render() {
-    const { insurance, selected, onClose, onClick } = this.props;
+    const { insurance, selected, onClose } = this.props;
     const { name, description, legalDescription, legalUrl, insuranceItems } = insurance;
     const addons = insurance.addOns;
+
+    const containChanges = InsuranceItemInfo.containChanges(this.initialAddons, this.addons);
 
     this.node.innerHTML = `
       <div class="waykeecom-nav-banner" id="${BUTTON_TOP_LEFT_NODE}"></div>
@@ -129,7 +168,7 @@ class InsuranceItemInfo extends HtmlNode {
           description: addon.description,
           append: true,
           value: addon.name,
-          checked: false,
+          checked: this.addons.indexOf(addon.name) > -1,
           onClick: (e) => this.onClick(e),
         });
       });
@@ -158,11 +197,26 @@ class InsuranceItemInfo extends HtmlNode {
       onClick: () => onClose(),
     });
 
-    new ButtonAddRemove(this.node.querySelector(`#${BUTTON_INSURANCE_ADD_REMOVE_NODE}`), {
-      selected,
-      fullSize: true,
-      onClick: () => onClick(),
-    });
+    if (selected) {
+      this.contexts.updateButton = new ButtonSuccess(
+        this.node.querySelector(`#${BUTTON_INSURANCE_ADD_REMOVE_NODE}`),
+        {
+          title: selected ? 'Uppdatera' : 'Välj',
+          disabled: selected ? !containChanges : undefined,
+          onClick: () => this.onUpdate(),
+        }
+      );
+    } else {
+      this.contexts.updateButton = new ButtonAddRemove(
+        this.node.querySelector(`#${BUTTON_INSURANCE_ADD_REMOVE_NODE}`),
+        {
+          selected: false,
+          fullSize: true,
+          disabled: selected ? !containChanges : undefined,
+          onClick: () => this.onUpdate(),
+        }
+      );
+    }
 
     scrollTop();
   }

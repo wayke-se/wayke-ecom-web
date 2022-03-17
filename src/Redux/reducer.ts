@@ -12,6 +12,7 @@ import { OrderOptionsResponse } from '@wayke-se/ecom/dist-types/orders/order-opt
 import { IAccessory, IOrderVehicle } from '@wayke-se/ecom/dist-types/orders/types';
 import { PaymentLookupResponse } from '@wayke-se/ecom/dist-types/payments/payment-lookup-response';
 import { Customer } from '../@types/Customer';
+import { Insurance } from '../@types/Insurance';
 import { Navigation } from '../@types/Navigation';
 import { StageTypes } from '../@types/Stages';
 import { TradeInCarDataPartial } from '../@types/TradeIn';
@@ -32,6 +33,7 @@ import {
   GO_TO,
   SET_OR_REMOVE_ACCESSORY,
   SET_OR_REMOVE_INSURANCE,
+  SET_OR_REMOVE_INSURANCE_ADDONS,
   SET_OR_REMOVE_FREE_INSURANCE,
   SET_DRIVING_DISTANCE,
   COMPLETE_STAGE,
@@ -65,6 +67,7 @@ export interface ReducerState {
   accessories: IAccessory[];
   drivingDistance: DrivingDistance;
   insurance?: IInsuranceOption;
+  insuranceAddOns?: Insurance;
   freeInsurance?: IAvailableInsuranceOption;
   createdOrderId?: string;
   creditAssessmentResponse?: ICreditAssessmentStatusResponse;
@@ -126,7 +129,6 @@ let index: number;
 const reducer = (state = initialState, action: Action): ReducerState => {
   let navigation: Navigation;
   let topNavigation: Navigation;
-
   next = { ...state };
 
   switch (action.type) {
@@ -156,6 +158,7 @@ const reducer = (state = initialState, action: Action): ReducerState => {
       clean.paymentType = resolveDefaultPaymentOption(state.order?.getPaymentOptions());
       delete clean.paymentLookupResponse;
       delete clean.insurance;
+      delete clean.insuranceAddOns;
       delete clean.freeInsurance;
       delete clean.dealer;
       clean.accessories = [];
@@ -192,10 +195,9 @@ const reducer = (state = initialState, action: Action): ReducerState => {
       next.paymentType = resolveDefaultPaymentOption(state.order?.getPaymentOptions());
       delete next.paymentLookupResponse;
       delete next.insurance;
+      delete next.insuranceAddOns;
       delete next.freeInsurance;
       next.accessories = [];
-
-      return next;
 
       return next;
 
@@ -271,11 +273,23 @@ const reducer = (state = initialState, action: Action): ReducerState => {
 
       return next;
 
+    case SET_OR_REMOVE_INSURANCE_ADDONS:
+      next.insurance = action.insurance;
+      next.insuranceAddOns = {
+        insurance: action.insurance.name,
+        addOns: action.insuranceAddons,
+      };
+      return next;
+
     case SET_OR_REMOVE_INSURANCE:
       if (!isSame(next.insurance, action.insurance)) {
         next.insurance = action.insurance;
       } else {
         next.insurance = undefined;
+      }
+
+      if (next.insuranceAddOns?.insurance) {
+        next.insuranceAddOns = undefined;
       }
 
       return next;

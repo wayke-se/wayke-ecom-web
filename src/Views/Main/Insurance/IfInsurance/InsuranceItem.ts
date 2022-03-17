@@ -50,12 +50,22 @@ class InsuranceItem extends HtmlNode {
     const { store, insurance, key } = this.props;
     const state = store.getState();
     const logo = state.order?.getInsuranceOption()?.logo;
+    const selectedAddons =
+      state.insuranceAddOns?.insurance === insurance.name
+        ? state.insuranceAddOns.addOns.map((k) => {
+            const match = insurance.addOns.find((x) => x.name === k);
+            return {
+              key: match?.title || k,
+              value: prettyNumber(match?.monthlyPrice.toString() || '', { postfix: 'kr/mån' }),
+            };
+          })
+        : undefined;
     const selected = state.insurance
       ? JSON.stringify(state.insurance).localeCompare(JSON.stringify(insurance)) === 0
       : false;
-
     if (this.displayInfo) {
       new InsuranceItemInfo(createPortal(), {
+        store: this.props.store,
         insurance,
         selected,
         onClick: () => {
@@ -70,11 +80,12 @@ class InsuranceItem extends HtmlNode {
       this.node,
       {
         logo,
+        selected,
         id: key,
         title: insurance.name,
         description: insurance.description,
         price: prettyNumber(insurance.price, { postfix: 'kr/mån' }),
-        selected,
+        priceDetails: selectedAddons,
         onClick: () => this.onClick(),
         onInfo: () => this.onInfoOpen(),
       },

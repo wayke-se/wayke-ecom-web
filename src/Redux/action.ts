@@ -129,6 +129,17 @@ export type SET_OR_REMOVE_INSURANCE_TYPE = BaseAction<typeof SET_OR_REMOVE_INSUR
 export const addOrRemoveInsurance = (insurance: IInsuranceOption) => (dispatch: Dispatch) =>
   dispatch({ type: SET_OR_REMOVE_INSURANCE, insurance });
 
+export const SET_OR_REMOVE_INSURANCE_ADDONS = 'SET_OR_REMOVE_INSURANCE_ADDONS';
+export type SET_OR_REMOVE_INSURANCE_ADDONS_TYPE = BaseAction<
+  typeof SET_OR_REMOVE_INSURANCE_ADDONS
+> & {
+  insurance: IInsuranceOption;
+  insuranceAddons: string[];
+};
+export const addOrRemoveInsuranceAddon =
+  (insurance: IInsuranceOption, insuranceAddons: string[]) => (dispatch: Dispatch) =>
+    dispatch({ type: SET_OR_REMOVE_INSURANCE_ADDONS, insurance, insuranceAddons });
+
 export const SET_OR_REMOVE_FREE_INSURANCE = 'SET_OR_REMOVE_FREE_INSURANCE';
 export type SET_OR_REMOVE_FREE_INSURANCE_TYPE = BaseAction<typeof SET_OR_REMOVE_FREE_INSURANCE> & {
   freeInsurance?: IAvailableInsuranceOption;
@@ -192,6 +203,7 @@ export type Action =
   | SET_FINANCIAL_TYPE
   | SET_PAYMENT_LOOKUP_RESPONSE_TYPE
   | SET_DRIVING_DISTANCE_TYPE
+  | SET_OR_REMOVE_INSURANCE_ADDONS_TYPE
   | SET_OR_REMOVE_INSURANCE_TYPE
   | SET_OR_REMOVE_FREE_INSURANCE_TYPE
   | SET_OR_REMOVE_ACCESSORY_TYPE
