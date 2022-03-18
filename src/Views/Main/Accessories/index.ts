@@ -6,6 +6,7 @@ import { goTo, completeStage } from '../../../Redux/action';
 import { WaykeStore } from '../../../Redux/store';
 import watch from '../../../Redux/watch';
 import ListItem from '../../../Templates/ListItem';
+import { prettyNumber } from '../../../Utils/format';
 import AccessoryList from './AccessoryList';
 
 const PROCEED = 'button-accessories-proceed';
@@ -56,14 +57,10 @@ class Accessories extends HtmlNode {
 
     if (state.navigation.stage > index || (completed && state.navigation.stage !== index)) {
       new StageCompleted(content, {
-        keyValueList: [
-          {
-            key: 'Tillbehör',
-            value: state.accessories.length
-              ? state.accessories.map((accessory) => accessory.name).join(', ')
-              : 'Inga',
-          },
-        ],
+        keyValueList: state.accessories.map((accessory) => ({
+          key: accessory.name,
+          value: prettyNumber(accessory.price, { postfix: 'kr' }),
+        })),
         changeButtonTitle: 'Ändra tillbehör',
         onEdit: () => this.onEdit(),
       });

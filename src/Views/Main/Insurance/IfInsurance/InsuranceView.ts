@@ -4,7 +4,7 @@ import ButtonAsLink from '../../../../Components/Button/ButtonAsLink';
 import ButtonSkip from '../../../../Components/Button/ButtonSkip';
 import HtmlNode from '../../../../Components/Extension/HtmlNode';
 import { getInsurances } from '../../../../Data/getInsurances';
-import { completeStage } from '../../../../Redux/action';
+import { addOrRemoveInsurance, completeStage } from '../../../../Redux/action';
 import { WaykeStore } from '../../../../Redux/store';
 import watch from '../../../../Redux/watch';
 import Alert from '../../../../Templates/Alert';
@@ -57,7 +57,7 @@ class InsuranceView extends HtmlNode {
     this.contexts.listners.push(customerIdListner);
 
     const insuranceListner = watch(this.props.store, 'insurance', () => {
-      this.render();
+      this.contexts.buttonProceed?.disabled(!this.props.store.getState().insurance);
     });
     this.contexts.listners.push(insuranceListner);
 
@@ -106,6 +106,7 @@ class InsuranceView extends HtmlNode {
   }
 
   private onSkipInsurances() {
+    addOrRemoveInsurance()(this.props.store.dispatch);
     completeStage(this.props.lastStage)(this.props.store.dispatch);
   }
 

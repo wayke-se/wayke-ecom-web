@@ -67,7 +67,7 @@ export const createOrder = (store: WaykeStore) => {
       state.insuranceAddOns?.addOns.length &&
       state.insuranceAddOns.insurance === state.insurance.name
     ) {
-      insuranceBuilder.withAddOns(state.insuranceAddOns.addOns);
+      insuranceBuilder.withAddOns(state.insuranceAddOns.addOns.map((x) => x.name));
     }
 
     const insurance = insuranceBuilder.build();

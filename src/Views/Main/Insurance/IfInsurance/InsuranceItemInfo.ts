@@ -1,4 +1,4 @@
-import { IInsuranceOption } from '@wayke-se/ecom';
+import { IInsuranceAddon, IInsuranceOption } from '@wayke-se/ecom';
 import ButtonAsLinkArrowLeft from '../../../../Components/Button/ButtonAsLinkArrowLeft';
 import ButtonClear from '../../../../Components/Button/ButtonClear';
 import HtmlNode from '../../../../Components/Extension/HtmlNode';
@@ -23,14 +23,13 @@ interface InsuranceItemInfoProps {
   readonly store: WaykeStore;
   readonly insurance: IInsuranceOption;
   readonly selected: boolean;
-  readonly onClick: () => void;
   readonly onClose: () => void;
 }
 
 class InsuranceItemInfo extends HtmlNode {
   private readonly props: InsuranceItemInfoProps;
-  private initialAddons: string[] = [];
-  private addons: string[] = [];
+  private initialAddons: IInsuranceAddon[] = [];
+  private addons: IInsuranceAddon[] = [];
   private contexts: {
     updateButton?: ButtonSuccess | ButtonAddRemove;
     checkboxes: { [key: string]: InputCheckbox | undefined };
@@ -50,7 +49,7 @@ class InsuranceItemInfo extends HtmlNode {
     this.render();
   }
 
-  private static containChanges(_initialAddons: string[], _addons: string[]) {
+  private static containChanges(_initialAddons: IInsuranceAddon[], _addons: IInsuranceAddon[]) {
     const initialAddons = [..._initialAddons].sort();
     const addons = [..._addons].sort();
     return initialAddons.join().localeCompare(addons.join()) !== 0;
@@ -68,22 +67,17 @@ class InsuranceItemInfo extends HtmlNode {
       this.contexts.checkboxes[name]?.checked(checked);
 
       if (checked) {
-        this.addons.push(name);
+        this.addons.push(selectedAddon);
       } else {
-        const index = this.addons.indexOf(name);
+        const index = this.addons.findIndex((x) => x.name === selectedAddon.name);
         if (index > -1) {
           this.addons.splice(index, 1);
         }
       }
 
-      [
-        ...new Set(
-          this.addons
-            .map((a) => this.props.insurance.addOns.find((x) => x.name === a)?.exclude)
-            .filter((x) => x)
-            .flat()
-        ),
-      ].forEach((exclude) => this.contexts.checkboxes[exclude as string]?.disabled(true));
+      [...new Set(this.addons.map((a) => a.exclude).flat())].forEach((exclude) =>
+        this.contexts.checkboxes[exclude as string]?.disabled(true)
+      );
     }
 
     const containChanges = InsuranceItemInfo.containChanges(this.initialAddons, this.addons);
@@ -187,7 +181,7 @@ class InsuranceItemInfo extends HtmlNode {
           description: `<div class="waykeecom-text waykeecom-text--tone-alt">${addon.description}</div>`,
           append: true,
           value: addon.name,
-          checked: this.addons.indexOf(addon.name) > -1,
+          checked: this.addons.findIndex((x) => x.name === addon.name) > -1,
           onClick: (e) => this.onClick(e),
         });
       });

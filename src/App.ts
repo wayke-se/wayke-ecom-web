@@ -78,13 +78,23 @@ class App {
     this.root.dataset.version = packageJson.version;
 
     // Stage order setup
+
+    /** Original order
+      'centralStorage',
+      'customer',
+      'financial',
+      'tradeIn',
+      'accessories',
+      'insurance',
+      'delivery',
+    */
     this.stageOrderList = [
       'centralStorage',
       'customer',
-      'insurance',
-      'tradeIn',
-      'financial',
       'accessories',
+      'financial',
+      'tradeIn',
+      'insurance',
       'delivery',
     ];
 

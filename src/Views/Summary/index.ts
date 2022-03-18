@@ -42,8 +42,7 @@ class Summary extends HtmlNode {
 
   render() {
     const { store, onClose } = this.props;
-    const state = store.getState();
-    const createdOrderId = state.createdOrderId;
+    const { createdOrderId, stages } = store.getState();
 
     this.node.innerHTML = `
       <div id="${SUMMARY_NODE}"></div>
@@ -53,8 +52,13 @@ class Summary extends HtmlNode {
     if (content) {
       new Intro(content, { store, createdOrderId });
       new Order(content, { store, createdOrderId });
-      new TradeIn(content, { store, createdOrderId });
-      new CentralStorage(content, { store, createdOrderId });
+      if (stages?.find((x) => x.name === 'tradeIn')) {
+        new TradeIn(content, { store, createdOrderId });
+      }
+
+      if (stages?.find((x) => x.name === 'centralStorage')) {
+        new CentralStorage(content, { store, createdOrderId });
+      }
       new Delivery(content, { store, createdOrderId });
       new Customer(content, { store, createdOrderId });
       new ExecuteOrder(content, {

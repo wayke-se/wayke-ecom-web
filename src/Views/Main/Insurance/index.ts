@@ -1,6 +1,6 @@
 import HtmlNode from '../../../Components/Extension/HtmlNode';
 import StageCompleted from '../../../Components/StageCompleted';
-import { completeStage, goTo } from '../../../Redux/action';
+import { addOrRemoveInsurance, completeStage, goTo } from '../../../Redux/action';
 import { WaykeStore } from '../../../Redux/store';
 import { KeyValueListItemProps } from '../../../Templates/KeyValueListItem';
 import { translateDrivingDistance } from '../../../Utils/constants';
@@ -8,6 +8,7 @@ import ListItem from '../../../Templates/ListItem';
 import watch from '../../../Redux/watch';
 import IfInsurance from './IfInsurance';
 import DefaultInsurance from './DefaultInsurance';
+import { prettyNumber } from '../../../Utils/format';
 
 interface InsuranceProps {
   readonly store: WaykeStore;
@@ -30,6 +31,7 @@ class Insurance extends HtmlNode {
   }
 
   private onSkipInsurances() {
+    addOrRemoveInsurance()(this.props.store.dispatch);
     completeStage(this.props.lastStage)(this.props.store.dispatch);
   }
 
@@ -57,9 +59,18 @@ class Insurance extends HtmlNode {
           value: translateDrivingDistance[state.drivingDistance],
         });
         keyValueOptions.push({
-          key: 'Försäkring',
-          value: state.insurance.name,
+          key: state.insurance.name,
+          value: prettyNumber(state.insurance.price, { postfix: 'kr/mån' }),
         });
+
+        if (state.insuranceAddOns?.insurance === state.insurance.name) {
+          state.insuranceAddOns.addOns.forEach((addon) =>
+            keyValueOptions.push({
+              key: addon.title,
+              value: prettyNumber(addon.monthlyPrice, { postfix: 'kr/mån' }),
+            })
+          );
+        }
       } else if (state.freeInsurance) {
         keyValueOptions.push({
           key: 'Försäkring',

@@ -6,6 +6,7 @@ import {
   IAvailableInsuranceOption,
   IVehicle,
   PaymentType,
+  IInsuranceAddon,
 } from '@wayke-se/ecom';
 import { OrderOptionsResponse } from '@wayke-se/ecom/dist-types/orders/order-options-response';
 import { IAccessory } from '@wayke-se/ecom/dist-types/orders/types';
@@ -126,7 +127,7 @@ export const SET_OR_REMOVE_INSURANCE = 'SET_OR_REMOVE_INSURANCE';
 export type SET_OR_REMOVE_INSURANCE_TYPE = BaseAction<typeof SET_OR_REMOVE_INSURANCE> & {
   insurance?: IInsuranceOption;
 };
-export const addOrRemoveInsurance = (insurance: IInsuranceOption) => (dispatch: Dispatch) =>
+export const addOrRemoveInsurance = (insurance?: IInsuranceOption) => (dispatch: Dispatch) =>
   dispatch({ type: SET_OR_REMOVE_INSURANCE, insurance });
 
 export const SET_OR_REMOVE_INSURANCE_ADDONS = 'SET_OR_REMOVE_INSURANCE_ADDONS';
@@ -134,10 +135,10 @@ export type SET_OR_REMOVE_INSURANCE_ADDONS_TYPE = BaseAction<
   typeof SET_OR_REMOVE_INSURANCE_ADDONS
 > & {
   insurance: IInsuranceOption;
-  insuranceAddons: string[];
+  insuranceAddons: IInsuranceAddon[];
 };
 export const addOrRemoveInsuranceAddon =
-  (insurance: IInsuranceOption, insuranceAddons: string[]) => (dispatch: Dispatch) =>
+  (insurance: IInsuranceOption, insuranceAddons: IInsuranceAddon[]) => (dispatch: Dispatch) =>
     dispatch({ type: SET_OR_REMOVE_INSURANCE_ADDONS, insurance, insuranceAddons });
 
 export const SET_OR_REMOVE_FREE_INSURANCE = 'SET_OR_REMOVE_FREE_INSURANCE';

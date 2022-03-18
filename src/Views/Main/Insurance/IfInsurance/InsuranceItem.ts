@@ -53,10 +53,9 @@ class InsuranceItem extends HtmlNode {
     const selectedAddons =
       state.insuranceAddOns?.insurance === insurance.name
         ? state.insuranceAddOns.addOns.map((k) => {
-            const match = insurance.addOns.find((x) => x.name === k);
             return {
-              key: match?.title || k,
-              value: prettyNumber(match?.monthlyPrice.toString() || '', { postfix: 'kr/mån' }),
+              key: k?.title,
+              value: prettyNumber(k?.monthlyPrice.toString() || '', { postfix: 'kr/mån' }),
             };
           })
         : undefined;
@@ -68,10 +67,6 @@ class InsuranceItem extends HtmlNode {
         store: this.props.store,
         insurance,
         selected,
-        onClick: () => {
-          this.onInfoClose();
-          this.onClick();
-        },
         onClose: () => this.onInfoClose(),
       });
     }

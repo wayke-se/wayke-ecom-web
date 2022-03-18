@@ -1,4 +1,4 @@
-import { IInsuranceAddon, PaymentType } from '@wayke-se/ecom';
+import { PaymentType } from '@wayke-se/ecom';
 import StackNode from '../../Components/Extension/StackNode';
 import { goTo } from '../../Redux/action';
 import { WaykeStore } from '../../Redux/store';
@@ -112,6 +112,39 @@ class Order extends StackNode {
               }
             </div>
             ${
+              !!state.accessories.length
+                ? `
+                  <div class="waykeecom-stack waykeecom-stack--2">
+                    <div class="waykeecom-stack waykeecom-stack--05">
+                      <div class="waykeecom-label">Tillbehör</div>
+                    </div>
+                    <div class="waykeecom-stack waykeecom-stack--05">
+                      <ul class="waykeecom-key-value-list">
+                        ${state.accessories
+                          .map((accessory) =>
+                            KeyValueListItem({
+                              key: accessory.name,
+                              value: prettyNumber(accessory.price, { postfix: 'kr' }),
+                            })
+                          )
+                          .join('')}
+                      </ul>
+                    </div>
+                    ${
+                      !createdOrderId
+                        ? `
+                          <div class="waykeecom-stack waykeecom-stack--05">
+                            <div class="waykeecom-align waykeecom-align--end">
+                              <button id="${EDIT_ACCESSORIES}" title="Ändra försäkring" class="waykeecom-link">Ändra</button>
+                            </div>
+                          </div>
+                        `
+                        : ''
+                    }
+                  </div>`
+                : ''
+            }
+            ${
               state.insurance || state.freeInsurance
                 ? `
                 <div class="waykeecom-stack waykeecom-stack--2">
@@ -131,13 +164,6 @@ class Order extends StackNode {
                             state.insuranceAddOns?.addOns.length &&
                             state.insuranceAddOns.insurance === state.insurance.name
                               ? state.insuranceAddOns.addOns
-                                  .map(
-                                    (addonName) =>
-                                      state.insurance?.addOns.find(
-                                        (addon) => addon.name === addonName
-                                      ) as IInsuranceAddon
-                                  )
-                                  .filter((x) => x)
                                   .map((addon) =>
                                     KeyValueListItem({
                                       key: addon.title,
@@ -185,39 +211,7 @@ class Order extends StackNode {
                 </div>`
                 : ''
             }
-            ${
-              !!state.accessories.length
-                ? `
-                  <div class="waykeecom-stack waykeecom-stack--2">
-                    <div class="waykeecom-stack waykeecom-stack--05">
-                      <div class="waykeecom-label">Tillbehör</div>
-                    </div>
-                    <div class="waykeecom-stack waykeecom-stack--05">
-                      <ul class="waykeecom-key-value-list">
-                        ${state.accessories
-                          .map((accessory) =>
-                            KeyValueListItem({
-                              key: accessory.name,
-                              value: prettyNumber(accessory.price, { postfix: 'kr' }),
-                            })
-                          )
-                          .join('')}
-                      </ul>
-                    </div>
-                    ${
-                      !createdOrderId
-                        ? `
-                          <div class="waykeecom-stack waykeecom-stack--05">
-                            <div class="waykeecom-align waykeecom-align--end">
-                              <button id="${EDIT_ACCESSORIES}" title="Ändra försäkring" class="waykeecom-link">Ändra</button>
-                            </div>
-                          </div>
-                        `
-                        : ''
-                    }
-                  </div>`
-                : ''
-            }
+           
           `,
         })}
       </div>
