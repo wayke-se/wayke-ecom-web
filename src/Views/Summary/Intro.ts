@@ -3,7 +3,6 @@ import { WaykeStore } from '../../Redux/store';
 
 interface IntroProps {
   readonly store: WaykeStore;
-  readonly createdOrderId?: string;
 }
 
 class Intro extends StackNode {
@@ -16,10 +15,10 @@ class Intro extends StackNode {
   }
 
   render() {
-    const { store, createdOrderId } = this.props;
-    const state = store.getState();
-    const email = state.customer.email;
-    const contactInformation = state.order?.getContactInformation();
+    const { store } = this.props;
+    const { customer, order, createdOrderId } = store.getState();
+    const email = customer.email;
+    const contactInformation = order?.getContactInformation();
 
     if (createdOrderId) {
       this.node.innerHTML = `
@@ -44,17 +43,6 @@ class Intro extends StackNode {
         </div>
 
     `;
-    } else {
-      this.node.innerHTML = `
-        <h3 class="waykeecom-heading waykeecom-heading--2">Sammanställning</h3>
-        <div class="waykeecom-content">
-          <p>
-            <strong>Strax klart!</strong>
-          </p>
-          <p>Granska och godkänn din order för att reservera bilen. Efter det kommer ${contactInformation?.name} att kontakta dig för att slutföra köpet.</p>
-          <p>Köpet blir bindande först när du signerat det definitiva affärsförslaget med ${contactInformation?.name}. Det är även då betalningen sker. </p>
-        </div>
-      `;
     }
   }
 }

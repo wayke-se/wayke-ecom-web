@@ -1,15 +1,11 @@
 import StackNode from '../../Components/Extension/StackNode';
-import { goTo, initTradeIn } from '../../Redux/action';
 import { WaykeStore } from '../../Redux/store';
 import KeyValueListItem from '../../Templates/KeyValueListItem';
 import { translateTradeInCondition } from '../../Utils/constants';
 import { prettyNumber } from '../../Utils/format';
 
-const EDIT_TRADE_IN = 'edit-trade-in';
-
 interface TradeInProps {
   readonly store: WaykeStore;
-  readonly createdOrderId?: string;
 }
 
 class TradeIn extends StackNode {
@@ -20,14 +16,8 @@ class TradeIn extends StackNode {
     this.render();
   }
 
-  private onEdit(lastStage: boolean, index: number) {
-    const { store } = this.props;
-    initTradeIn(lastStage)(store.dispatch);
-    goTo('main', index)(store.dispatch);
-  }
-
   render() {
-    const { store, createdOrderId } = this.props;
+    const { store } = this.props;
     const state = store.getState();
     const { order, tradeIn, tradeInVehicle } = state;
     if (!order?.allowsTradeIn) return;
@@ -88,29 +78,8 @@ class TradeIn extends StackNode {
                 </ul>
             </div>`
         }
-        ${
-          !createdOrderId
-            ? `
-            <div class="waykeecom-stack waykeecom-stack--2">
-              <div class="waykeecom-align waykeecom-align--end">
-                <button id="${EDIT_TRADE_IN}" title="Ändra inbytesbil" class="waykeecom-link">Ändra</button>
-              </div>
-            </div>`
-            : ''
-        }
       </div>
     `;
-
-    if (!createdOrderId) {
-      const editTradeInIndex = state.stages?.findIndex((x) => x.name === 'tradeIn');
-      if (editTradeInIndex !== undefined && state.stages) {
-        const lastStage = editTradeInIndex === state.stages.length - 1;
-
-        document
-          .querySelector<HTMLButtonElement>(`#${EDIT_TRADE_IN}`)
-          ?.addEventListener('click', () => this.onEdit(lastStage, editTradeInIndex + 1));
-      }
-    }
   }
 }
 

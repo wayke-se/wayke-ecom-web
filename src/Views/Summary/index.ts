@@ -4,8 +4,6 @@ import Intro from './Intro';
 import Order from './Order';
 import Delivery from './Delivery';
 import Customer from './Customer';
-import Disclaimer from './Disclaimer';
-import ExecuteOrder from './ExecuteOrder';
 import HtmlNode from '../../Components/Extension/HtmlNode';
 import { scrollTop } from '../../Utils/scroll';
 import watch from '../../Redux/watch';
@@ -41,8 +39,8 @@ class Summary extends HtmlNode {
   }
 
   render() {
-    const { store, onClose } = this.props;
-    const { createdOrderId, stages } = store.getState();
+    const { store } = this.props;
+    const { stages } = store.getState();
 
     this.node.innerHTML = `
       <div id="${SUMMARY_NODE}"></div>
@@ -50,25 +48,17 @@ class Summary extends HtmlNode {
 
     const content = this.node.querySelector<HTMLDivElement>(`#${SUMMARY_NODE}`);
     if (content) {
-      new Intro(content, { store, createdOrderId });
-      new Order(content, { store, createdOrderId });
+      new Intro(content, { store });
+      new Order(content, { store });
       if (stages?.find((x) => x.name === 'tradeIn')) {
-        new TradeIn(content, { store, createdOrderId });
+        new TradeIn(content, { store });
       }
 
       if (stages?.find((x) => x.name === 'centralStorage')) {
-        new CentralStorage(content, { store, createdOrderId });
+        new CentralStorage(content, { store });
       }
-      new Delivery(content, { store, createdOrderId });
-      new Customer(content, { store, createdOrderId });
-      new ExecuteOrder(content, {
-        store,
-        createdOrderId,
-        onClose,
-      });
-      if (!createdOrderId) {
-        new Disclaimer(content, { store });
-      }
+      new Delivery(content, { store });
+      new Customer(content, { store });
     }
   }
 }

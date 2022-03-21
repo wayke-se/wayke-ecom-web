@@ -1,18 +1,12 @@
 import { PaymentType } from '@wayke-se/ecom';
 import StackNode from '../../Components/Extension/StackNode';
-import { goTo } from '../../Redux/action';
 import { WaykeStore } from '../../Redux/store';
 import ItemTileLarge from '../../Templates/ItemTileLarge';
 import KeyValueListItem from '../../Templates/KeyValueListItem';
 import { prettyNumber } from '../../Utils/format';
 
-const EDIT_FINANCIAL = 'edit-financial';
-const EDIT_INSURANCE = 'edit-insurance';
-const EDIT_ACCESSORIES = 'edit-accessory';
-
 interface OrderProps {
   readonly store: WaykeStore;
-  readonly createdOrderId?: string;
 }
 
 class Order extends StackNode {
@@ -24,12 +18,8 @@ class Order extends StackNode {
     this.render();
   }
 
-  private onEdit(index: number) {
-    goTo('main', index)(this.props.store.dispatch);
-  }
-
   render() {
-    const { store, createdOrderId } = this.props;
+    const { store } = this.props;
     const state = store.getState();
 
     const paymentLoan = state.order?.getPaymentOptions().find((x) => x.type === PaymentType.Loan);
@@ -99,17 +89,6 @@ class Order extends StackNode {
                   `
                   : ''
               }
-              ${
-                !createdOrderId
-                  ? `
-                    <div class="waykeecom-stack waykeecom-stack--05">
-                      <div class="waykeecom-align waykeecom-align--end">
-                        <button id="${EDIT_FINANCIAL}" title="Ändra finansiering" class="waykeecom-link">Ändra</button>
-                      </div>
-                    </div>
-                  `
-                  : ''
-              }
             </div>
             ${
               !!state.accessories.length
@@ -130,17 +109,6 @@ class Order extends StackNode {
                           .join('')}
                       </ul>
                     </div>
-                    ${
-                      !createdOrderId
-                        ? `
-                          <div class="waykeecom-stack waykeecom-stack--05">
-                            <div class="waykeecom-align waykeecom-align--end">
-                              <button id="${EDIT_ACCESSORIES}" title="Ändra försäkring" class="waykeecom-link">Ändra</button>
-                            </div>
-                          </div>
-                        `
-                        : ''
-                    }
                   </div>`
                 : ''
             }
@@ -197,17 +165,6 @@ class Order extends StackNode {
                     `
                       : ''
                   }
-                  ${
-                    !createdOrderId
-                      ? `
-                        <div class="waykeecom-stack waykeecom-stack--05">
-                          <div class="waykeecom-align waykeecom-align--end">
-                            <button id="${EDIT_INSURANCE}" title="Ändra försäkring" class="waykeecom-link">Ändra</button>
-                          </div>
-                        </div>
-                      `
-                      : ''
-                  }
                 </div>`
                 : ''
             }
@@ -216,29 +173,6 @@ class Order extends StackNode {
         })}
       </div>
     `;
-
-    if (!createdOrderId) {
-      const editFinancialIndex = state.stages?.findIndex((x) => x.name === 'financial');
-      if (editFinancialIndex !== undefined) {
-        document
-          .querySelector<HTMLButtonElement>(`#${EDIT_FINANCIAL}`)
-          ?.addEventListener('click', () => this.onEdit(editFinancialIndex + 1));
-      }
-
-      const editInsuranceIndex = state.stages?.findIndex((x) => x.name === 'insurance');
-      if (editInsuranceIndex !== undefined) {
-        document
-          .querySelector<HTMLButtonElement>(`#${EDIT_INSURANCE}`)
-          ?.addEventListener('click', () => this.onEdit(editInsuranceIndex + 1));
-      }
-
-      const editAccessoryIndex = state.stages?.findIndex((x) => x.name === 'accessories');
-      if (editAccessoryIndex !== undefined) {
-        document
-          .querySelector<HTMLButtonElement>(`#${EDIT_ACCESSORIES}`)
-          ?.addEventListener('click', () => this.onEdit(editAccessoryIndex + 1));
-      }
-    }
   }
 }
 
