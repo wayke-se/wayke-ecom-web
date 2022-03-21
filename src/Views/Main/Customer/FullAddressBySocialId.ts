@@ -8,7 +8,6 @@ import { WaykeStore } from '../../../Redux/store';
 import Alert from '../../../Templates/Alert';
 import { renderConditional } from '../../../Utils/render';
 import { validationMethods } from '../../../Utils/validationMethods';
-import DisclaimerSafe from './DisclaimerSafe';
 import HtmlNode from '../../../Components/Extension/HtmlNode';
 import { regexNumber } from '../../../Utils/regex';
 
@@ -18,8 +17,6 @@ const SOCIAL_ID_INFO = 'contact-social-id-info';
 
 const PROCEED = `${SOCIAL_ID_INPUT_ID}-proceed`;
 const PROCEED_NODE = `${SOCIAL_ID_INPUT_ID}-proceed-node`;
-
-const DISCLAIMER_SAFE_NODE = 'address-disclaimer-node';
 
 const validation = {
   socialId: validationMethods.requiredSsnOver18,
@@ -163,7 +160,9 @@ class FullAddressBySocialId extends HtmlNode {
         </div>
         <div class="waykeecom-stack waykeecom-stack--3">
           <div class="waykeecom-stack waykeecom-stack--2" id="${PROCEED_NODE}"></div>
-          <div class="waykeecom-stack waykeecom-stack--2" id="${DISCLAIMER_SAFE_NODE}"></div>
+          <div class="waykeecom-stack waykeecom-stack--2">
+            Dina uppgifter lagras och sparas säkert. Läs mer i vår <a href="#" title="" target="_blank" rel="noopener noreferrer" class="waykeecom-link">personuppgiftspolicy</a>.
+          </div>
         </div>
       </div>
     `;
@@ -198,8 +197,6 @@ class FullAddressBySocialId extends HtmlNode {
         onClick: () => this.onFetchAddress(),
       }
     );
-
-    new DisclaimerSafe(this.node.querySelector(`#${DISCLAIMER_SAFE_NODE}`));
 
     this.updateProceedButton();
   }
