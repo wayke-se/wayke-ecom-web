@@ -1,4 +1,5 @@
 import ButtonArrowRight from '../../../Components/Button/ButtonArrowRight';
+import ButtonSkip from '../../../Components/Button/ButtonSkip';
 import HtmlNode from '../../../Components/Extension/HtmlNode';
 import StageCompleted from '../../../Components/StageCompleted';
 
@@ -11,6 +12,10 @@ import AccessoryList from './AccessoryList';
 
 const PROCEED = 'button-accessories-proceed';
 const PROCEED_NODE = `${PROCEED}-node`;
+
+const SKIP = 'button-accessories-skip';
+const SKIP_NODE = `${SKIP}-node`;
+
 const ACCESSORY_GRID_LIST_NODE = 'accessory-grid-list-node';
 
 interface AccessoriesProps {
@@ -78,7 +83,11 @@ class Accessories extends HtmlNode {
         </div>
 
         <div class="waykeecom-stack waykeecom-stack--3" id="${ACCESSORY_GRID_LIST_NODE}"></div>
-        <div class="waykeecom-stack waykeecom-stack--3" id="${PROCEED_NODE}"></div>
+
+        <div class="waykeecom-stack waykeecom-stack--3">
+          <div class="waykeecom-stack waykeecom-stack--1" id="${PROCEED_NODE}"></div>
+          <div class="waykeecom-stack waykeecom-stack--1" id="${SKIP_NODE}"></div>
+      </div>
       `;
 
       new AccessoryList(part.querySelector<HTMLDivElement>(`#${ACCESSORY_GRID_LIST_NODE}`), {
@@ -89,6 +98,11 @@ class Accessories extends HtmlNode {
       new ButtonArrowRight(part.querySelector(`#${PROCEED_NODE}`), {
         id: PROCEED,
         title: 'Gå vidare',
+        onClick: () => this.onProceed(),
+      });
+
+      new ButtonSkip(part.querySelector<HTMLDivElement>(`#${SKIP_NODE}`), {
+        title: 'Hoppa över detta steg',
         onClick: () => this.onProceed(),
       });
     }

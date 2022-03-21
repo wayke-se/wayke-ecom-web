@@ -2,7 +2,7 @@ import HtmlNode from '../Extension/HtmlNode';
 
 interface ButtonSkipProps {
   title: string;
-  id: string;
+  id?: string;
   onClick?: (e: Event) => void;
 }
 
@@ -19,7 +19,12 @@ class ButtonSkip extends HtmlNode {
     const { title, id, onClick } = this.props;
 
     this.node.innerHTML = `
-      <button type="button" id="${id}" title="${title}" class="waykeecom-button waykeecom-button--full-width waykeecom-button--action-clear">
+      <button
+        type="button"
+        ${id ? `id="${id}"` : ''}
+        title="${title}"
+        class="waykeecom-button waykeecom-button--full-width waykeecom-button--action-clear"
+      >
       <span class="waykeecom-button__content">
           <svg
             xmlns="http://www.w3.org/2000/svg"
