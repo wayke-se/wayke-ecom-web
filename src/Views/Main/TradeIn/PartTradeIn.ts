@@ -8,7 +8,7 @@ import ButtonArrowRight from '../../../Components/Button/ButtonArrowRight';
 import InputField from '../../../Components/Input/InputField';
 import InputTextarea from '../../../Components/Input/InputTextarea';
 import ButtonSkip from '../../../Components/Button/ButtonSkip';
-import InputRadioGroup from '../../../Components/Input/InputRadioGroup';
+import InputRadioGroup, { RadioItem } from '../../../Components/Input/InputRadioGroup';
 import HtmlNode from '../../../Components/Extension/HtmlNode';
 import { VehicleLookupResponse } from '@wayke-se/ecom/dist-types/vehicles/vehicle-lookup-response';
 import { prettyNumber } from '../../../Utils/format';
@@ -68,21 +68,45 @@ type INPUT_RADIO_KEYS = keyof Omit<
 
 // const TRADE_IN_CACHE: { [key: string]: IVehicle | undefined } = {};
 
-const RadioElements = [
+const RadioElements: RadioItem[] = [
   {
     id: `radio-${VehicleCondition.VeryGood}`,
     value: VehicleCondition.VeryGood,
     title: 'Mycket bra skick',
+    description: `
+    <div class="waykeecom-box">
+      <ul class="waykeecom-unordered-list">
+        <li class="waykeecom-unordered-list__item">Inga repor eller skador</li>
+        <li class="waykeecom-unordered-list__item">Servad vid varje tillfälle med stämplar i serviceboken</li>
+        <li class="waykeecom-unordered-list__item">Däck med väldigt bra mönsterdjup (5-8 mm)</li>
+      </ul>
+    </div>`,
   },
   {
     id: `radio-${VehicleCondition.Good}`,
     value: VehicleCondition.Good,
     title: 'Bra skick',
+    description: `
+    <div class="waykeecom-box">
+      <ul class="waykeecom-unordered-list">
+        <li class="waykeecom-unordered-list__item">Några mindre repor och/eller skador</li>
+        <li class="waykeecom-unordered-list__item">Servad vid varje tillfälle med stämplar i serviceboken</li>
+        <li class="waykeecom-unordered-list__item">Däck som inte behöver bytas (mönsterdjup om 3-5 mm)</li>
+      </ul>
+    </div>`,
   },
   {
     id: `radio-${VehicleCondition.Ok}`,
     value: VehicleCondition.Ok,
     title: 'Helt okej skick',
+    description: `
+    <div class="waykeecom-box">
+      <ul class="waykeecom-unordered-list">
+        <li class="waykeecom-unordered-list__item">Finns en del repor och skador</li>
+        <li class="waykeecom-unordered-list__item">Inte servad vid varje tillfälle</li>
+        <li class="waykeecom-unordered-list__item">Däck som behöver bytas (mönsterdjup under 3 mm)</li>
+      </ul>
+    </div>`,
   },
 ];
 const initalState = (tradeIn?: TradeInCarDataPartial): PartTradeInState => {
