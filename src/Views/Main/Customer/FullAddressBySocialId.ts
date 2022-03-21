@@ -1,4 +1,3 @@
-// import { IAddress } from '@wayke-se/ecom';
 import { Customer, CustomerSocialId } from '../../../@types/Customer';
 import ButtonArrowRight from '../../../Components/Button/ButtonArrowRight';
 import ButtonAsLink from '../../../Components/Button/ButtonAsLink';
@@ -20,9 +19,6 @@ const SOCIAL_ID_INFO = 'contact-social-id-info';
 const PROCEED = `${SOCIAL_ID_INPUT_ID}-proceed`;
 const PROCEED_NODE = `${SOCIAL_ID_INPUT_ID}-proceed-node`;
 
-const LINK_TOGGLE_METHOD_NODE = 'link-toggle-method-node';
-const LINK_TOGGLE_METHOD = 'link-toggle-method';
-
 const DISCLAIMER_SAFE_NODE = 'address-disclaimer-node';
 
 const validation = {
@@ -38,8 +34,6 @@ interface Part2SocialIdState {
   validation: SocialIdValidation;
   interact: SocialIdValidation;
 }
-
-// const SOCIAL_ID_CACHE: { [key: string]: IAddress | undefined } = {};
 
 const initalState = (customer?: Customer): Part2SocialIdState => {
   const value = {
@@ -57,7 +51,6 @@ const initalState = (customer?: Customer): Part2SocialIdState => {
 interface FullAddressBySocialIdProps {
   readonly store: WaykeStore;
   readonly lastStage: boolean;
-  readonly onToggleMethod: () => void;
 }
 
 class FullAddressBySocialId extends HtmlNode {
@@ -86,19 +79,10 @@ class FullAddressBySocialId extends HtmlNode {
     this.render();
 
     try {
-      /*
-      const cache = SOCIAL_ID_CACHE[this.state.value.socialId];
-      if (cache) {
-        setSocialIdAndAddress(this.state.value.socialId, cache, lastStage)(store.dispatch);
-        return;
-      }
-      */
       this.contexts.buttonFetch?.loading(true);
-      this.contexts.buttonLinkToggle?.disabled(true);
 
       const response = await getAddressBySsn(this.state.value.socialId);
       const address = response.getAddress();
-      // SOCIAL_ID_CACHE[this.state.value.socialId] = address;
       setSocialIdAndAddress(
         this.state.value.socialId.replace(regexNumber, ''),
         address,
@@ -108,7 +92,6 @@ class FullAddressBySocialId extends HtmlNode {
       this.requestError = true;
     } finally {
       this.contexts.buttonFetch?.loading(false);
-      this.contexts.buttonLinkToggle?.disabled(false);
       this.render();
     }
   }
@@ -182,9 +165,6 @@ class FullAddressBySocialId extends HtmlNode {
           <div class="waykeecom-stack waykeecom-stack--2" id="${PROCEED_NODE}"></div>
           <div class="waykeecom-stack waykeecom-stack--2" id="${DISCLAIMER_SAFE_NODE}"></div>
         </div>
-        <div class="waykeecom-stack waykeecom-stack--3">
-          <div class="waykeecom-text waykeecom-text--align-center" id="${LINK_TOGGLE_METHOD_NODE}"></div>
-        </div>
       </div>
     `;
 
@@ -220,15 +200,6 @@ class FullAddressBySocialId extends HtmlNode {
     );
 
     new DisclaimerSafe(this.node.querySelector(`#${DISCLAIMER_SAFE_NODE}`));
-
-    this.contexts.buttonLinkToggle = new ButtonAsLink(
-      this.node.querySelector<HTMLDivElement>(`#${LINK_TOGGLE_METHOD_NODE}`),
-      {
-        title: 'Jag vill hämta uppgifter med BankID',
-        id: LINK_TOGGLE_METHOD,
-        onClick: () => this.props.onToggleMethod(),
-      }
-    );
 
     this.updateProceedButton();
   }

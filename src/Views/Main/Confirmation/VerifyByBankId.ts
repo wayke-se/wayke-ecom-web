@@ -4,29 +4,31 @@ import ButtonBankId from '../../../Components/Button/ButtonBankId';
 import ButtonAsLink from '../../../Components/Button/ButtonAsLink';
 import { getBankIdAuth } from '../../../Data/getBankIdAuth';
 import { getBankIdStatus } from '../../../Data/getBankIdStatus';
-import { setSocialIdAndAddress } from '../../../Redux/action';
 import Alert from '../../../Templates/Alert';
 import { isMobile } from '../../../Utils/isMobile';
-import { Image } from '../../../Utils/constants';
 import BankIdSign from '../../../Components/BankId/BankIdSign';
 import DisclaimerSafe from './DisclaimerSafe';
 import HtmlNode from '../../../Components/Extension/HtmlNode';
 import { validationMethods } from '../../../Utils/validationMethods';
 import { createPortal, destroyPortal } from '../../../Utils/portal';
 import { WaykeStore } from '../../../Redux/store';
+import { setCreatedOrderId } from '../../../Redux/action';
+import { createOrder } from '../../../Data/createOrder';
+import { creditAssessmentAccept } from '../../../Data/creditAssessmentAccept';
 
 const BANKID_START_NODE = `bankid-start-node`;
 const BANKID_START = `bankid-start`;
 
 const DISCLAIMER_SAFE_NODE = 'address-disclaimer-node';
 
-interface FullAddressByBankIdProps {
+interface VerifyByBankIdProps {
   readonly store: WaykeStore;
+  readonly index: number;
   readonly lastStage: boolean;
 }
 
-class FullAddressByBankId extends HtmlNode {
-  private readonly props: FullAddressByBankIdProps;
+class VerifyByBankId extends HtmlNode {
+  private readonly props: VerifyByBankIdProps;
   private bankidStatusInterval?: NodeJS.Timer;
   private view: number = 1;
   private contexts: {
@@ -34,13 +36,32 @@ class FullAddressByBankId extends HtmlNode {
     bankId?: BankIdSign;
   } = {};
   private ageError = false;
+  private requestError = false;
+  private socialIdNotMatchingError = false;
 
-  constructor(element: HTMLElement, props: FullAddressByBankIdProps) {
+  constructor(element: HTMLElement, props: VerifyByBankIdProps) {
     super(element, { htmlTag: 'div', className: 'waykeecom-stack waykeecom-stack--2' });
     this.props = props;
     this.ageError = false;
 
     this.render();
+  }
+
+  private async onCreateOrder() {
+    const { store } = this.props;
+    this.requestError = false;
+    try {
+      const response = await createOrder(store);
+      setCreatedOrderId(response.getId())(store.dispatch);
+      const state = store.getState();
+      const caseId = state.caseId;
+      if (caseId) {
+        creditAssessmentAccept(caseId);
+      }
+    } catch (e) {
+      this.requestError = true;
+      this.render();
+    }
   }
 
   private bankIdStatus(reference: string, method: AuthMethod) {
@@ -53,21 +74,26 @@ class FullAddressByBankId extends HtmlNode {
           const socialId = response.getPersonalNumber();
 
           if (address && socialId) {
+            const state = this.props.store.getState();
             const over18 = validationMethods.requiredSsnOver18(socialId);
-            if (over18) {
-              setSocialIdAndAddress(
-                socialId,
-                address,
-                this.props.lastStage
-              )(this.props.store.dispatch);
-            } else {
+            if (!over18) {
               this.view = 1;
               this.ageError = true;
               clearInterval(this.bankidStatusInterval as NodeJS.Timer);
+              destroyPortal();
+              this.render();
+              return;
+            } else if (state.customer.socialId !== socialId) {
+              this.view = 1;
+              this.socialIdNotMatchingError = true;
+              clearInterval(this.bankidStatusInterval as NodeJS.Timer);
+              destroyPortal();
               this.render();
               return;
             }
-            destroyPortal();
+
+            this.contexts.bankId?.setDescription('Verifiering klar, ordern skapas nu...');
+            await this.onCreateOrder();
           }
         }
         if (response.shouldRenew()) {
@@ -126,12 +152,14 @@ class FullAddressByBankId extends HtmlNode {
 
   render() {
     const mobile = isMobile();
+    const { navigation } = this.props.store.getState();
+
     if (this.view === 2) {
       this.contexts.bankId = new BankIdSign(createPortal(), {
         method: mobile ? AuthMethod.SameDevice : AuthMethod.QrCode,
         descriptionQrCode:
-          'För att hämta dina uppgifter, starta din BankID applikation på din andra enhet.',
-        descriptionSameDevice: 'För att hämta dina uppgifter, starta din BankID-applikation.',
+          'För att verifiera din identitet, starta din BankID applikation på din andra enhet.',
+        descriptionSameDevice: 'För att verifiera din identitet, starta din BankID-applikation.',
         onAbort: () => this.onAbort(),
         onStart: (method: AuthMethod) => this.onStartBankIdAuth(method),
       });
@@ -142,25 +170,12 @@ class FullAddressByBankId extends HtmlNode {
         </div>
         <div class="waykeecom-stack waykeecom-stack--2">
           <div class="waykeecom-stack waykeecom-stack--3">
-            <h4 class="waykeecom-heading waykeecom-heading--4">Personuppgifter</h4>
+            <h4 class="waykeecom-heading waykeecom-heading--4">Starx klart!</h4>
             <div class="waykeecom-content">
-              <p>Identifiera dig med BankID <img src="${
-                Image.bankid
-              }" alt="BankID logotyp" class="waykeecom-image waykeecom-image--inline" aria-hidden="true" /> för att hämta dina uppgifter.</p>
+              <p>För att reservera bilen åt dig behöver vi bara verifiera din identitet med Mobilt BankID. Efter det kommer [handlaren] att kontakta dig för att slutföra köpet.
+
+              <p>Köpet blir bindande först när du signerat det definitiva affärsförslaget med [handlaren]. Det är även då betalningen sker.</p>
             </div>
-          </div>
-          <div class="waykeecom-stack waykeecom-stack--3">
-            ${Alert({
-              tone: 'info',
-              children: `
-                <p>Vi kommer hämta följande uppgifter om dig:</p>
-                <ul>
-                  <li>Personnummer</li>
-                  <li>Namn</li>
-                  <li>Folkbokföringsadress</li>
-                </ul>
-              `,
-            })}
           </div>
           ${
             this.ageError
@@ -173,6 +188,17 @@ class FullAddressByBankId extends HtmlNode {
           `
               : ''
           }
+          ${
+            this.socialIdNotMatchingError
+              ? `
+           <div class="waykeecom-stack waykeecom-stack--3">${Alert({
+             tone: 'error',
+             children:
+               '<p>Personnummret i första steget matchar inte med det som är kopplat mot bankid</p>',
+           })}</div>
+          `
+              : ''
+          }
           <div class="waykeecom-stack waykeecom-stack--3">
             <div class="waykeecom-stack waykeecom-stack--2" id="${BANKID_START_NODE}"></div>
             <div class="waykeecom-stack waykeecom-stack--2" id="${DISCLAIMER_SAFE_NODE}"></div>
@@ -181,7 +207,7 @@ class FullAddressByBankId extends HtmlNode {
       `;
 
       new ButtonBankId(this.node.querySelector<HTMLDivElement>(`#${BANKID_START_NODE}`), {
-        title: 'Hämta med BankID',
+        title: 'Genomför order',
         id: BANKID_START,
         onClick: () => {
           this.view = 2;
@@ -190,8 +216,12 @@ class FullAddressByBankId extends HtmlNode {
       });
 
       new DisclaimerSafe(this.node.querySelector(`#${DISCLAIMER_SAFE_NODE}`));
+
+      if (navigation.stage === this.props.index) {
+        this.node.parentElement?.scrollIntoView();
+      }
     }
   }
 }
 
-export default FullAddressByBankId;
+export default VerifyByBankId;

@@ -2,7 +2,6 @@ import { Customer } from '../../../@types/Customer';
 import HtmlNode from '../../../Components/Extension/HtmlNode';
 import { WaykeStore } from '../../../Redux/store';
 import KeyValueListItem, { KeyValueListItemProps } from '../../../Templates/KeyValueListItem';
-import FullAddressByBankId from './FullAddressByBankId';
 import FullAddressBySocialId from './FullAddressBySocialId';
 
 interface FullAddressProps {
@@ -11,7 +10,6 @@ interface FullAddressProps {
 }
 class FullAddress extends HtmlNode {
   private readonly props: FullAddressProps;
-  private useBankId: boolean = true;
   private state: Customer;
 
   constructor(element: HTMLDivElement, props: FullAddressProps) {
@@ -21,11 +19,6 @@ class FullAddress extends HtmlNode {
     const state = this.props.store.getState();
     this.state = state.customer;
 
-    this.render();
-  }
-
-  private onToggleMethod() {
-    this.useBankId = !this.useBankId;
     this.render();
   }
 
@@ -46,19 +39,10 @@ class FullAddress extends HtmlNode {
       `;
     } else {
       this.node.innerHTML = '';
-      if (this.useBankId) {
-        new FullAddressByBankId(this.node, {
-          store,
-          lastStage,
-          onToggleMethod: () => this.onToggleMethod(),
-        });
-      } else {
-        new FullAddressBySocialId(this.node, {
-          store,
-          lastStage,
-          onToggleMethod: () => this.onToggleMethod(),
-        });
-      }
+      new FullAddressBySocialId(this.node, {
+        store,
+        lastStage,
+      });
     }
   }
 }

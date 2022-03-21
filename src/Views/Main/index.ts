@@ -1,6 +1,5 @@
 import ItemTileSmall from '../../Templates/ItemTileSmall';
 import { WaykeStore } from '../../Redux/store';
-import Summary from './Summary';
 import Confirmation from './Confirmation';
 import HtmlNode from '../../Components/Extension/HtmlNode';
 import watch from '../../Redux/watch';
@@ -55,12 +54,11 @@ class Main extends HtmlNode {
         new stage.component(stepper, {
           store,
           index: index + 1,
-          lastStage: size === index + 1,
+          lastStage: false, //size === index + 1,
         })
     );
 
-    new Summary(stepper);
-    new Confirmation(stepper);
+    new Confirmation(stepper, { store, index: (size || 0) + 1, lastStage: true });
   }
 }
 

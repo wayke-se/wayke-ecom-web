@@ -322,8 +322,13 @@ const reducer = (state = initialState, action: Action): ReducerState => {
       };
 
     case SET_CREATED_ORDER_ID:
+      navigation = getNextNavigationState(state.navigation.stage, true);
+      topNavigation = getNextTopNavigationState(next.topNavigation, navigation);
+
       next = {
         ...state,
+        navigation,
+        topNavigation,
         createdOrderId: action.id,
       };
 
