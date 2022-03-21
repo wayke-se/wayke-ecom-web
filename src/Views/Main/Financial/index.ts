@@ -83,7 +83,7 @@ class Financial extends HtmlNode {
     const completed = state.topNavigation.stage > this.props.index;
     const content = ListItem(this.node, {
       completed,
-      title: 'Finansiering',
+      title: 'Ägandeform',
       active: state.navigation.stage === this.props.index,
       id: 'financial',
     });

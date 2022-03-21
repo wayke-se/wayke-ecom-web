@@ -21,7 +21,7 @@ const TimelineItemByStage = {
     description: 'Få den värderad direkt online.',
   },
   financial: {
-    heading: 'Välj finansiering',
+    heading: 'Ägandeform',
     description:
       'Betala allt på en gång, delbetala och gör låneansökan direkt online eller upplev flexibiliteten med att privatleasa.',
   },
