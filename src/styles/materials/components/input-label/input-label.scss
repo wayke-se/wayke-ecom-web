@@ -41,6 +41,7 @@
   }
 
   &__help-btn {
+    position: relative;
     font-size: scss-var(font, size, regular);
     color: color(primary, main);
     border-radius: 50%; // Used to display a round focus outline
@@ -48,6 +49,17 @@
 
     &:hover {
       color: color.adjust(color(primary, main), $lightness: -5%);
+    }
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: size(5);
+      height: size(5);
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
     }
   }
 
