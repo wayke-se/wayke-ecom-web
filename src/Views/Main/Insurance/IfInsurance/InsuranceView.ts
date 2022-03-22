@@ -152,7 +152,7 @@ class InsuranceView extends HtmlNode {
         insuranceListNode.innerHTML = Alert({
           tone: 'error',
           children:
-            '<p>Det gick inte att hämta försäkringar. <button class="waykeecom-link">Klicka här</button> för att försöka igen.</p>',
+            '<p>Det gick inte att hämta försäkringar. <button type="button" titlte="Försök igen" class="waykeecom-link waykeecom-link--align-baseline waykeecom-link--current-color">Klicka här för att försöka igen</button>.</p>',
         });
         insuranceListNode
           .querySelector<HTMLButtonElement>('button')

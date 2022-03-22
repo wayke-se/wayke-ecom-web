@@ -40,6 +40,14 @@
     align-items: center;
   }
 
+  &--align-baseline {
+    vertical-align: baseline;
+  }
+
+  &--current-color {
+    color: currentColor;
+  }
+
   &__content {
     display: block;
 
