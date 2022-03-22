@@ -3,10 +3,10 @@
 .#{$namespace}stepper {
   $root: &;
 
-  counter-reset: stage;
+  counter-reset: #{$namespace}stepper-stage;
 
   &__item {
-    counter-increment: stage;
+    counter-increment: #{$namespace}stepper-stage;
 
     // Current stage
     // &--is-active {}
@@ -54,7 +54,7 @@
 
   &__stage-count {
     &::before {
-      content: counter(stage);
+      content: counter(#{$namespace}stepper-stage);
     }
   }
 
