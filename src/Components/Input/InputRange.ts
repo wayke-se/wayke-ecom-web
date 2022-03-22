@@ -1,5 +1,5 @@
-import InputHelp from '../../Templates/InputHelp';
 import HtmlNode from '../Extension/HtmlNode';
+import InputInformation from './InputInformation';
 
 const respectStep = (value: number, step?: number) => {
   if (!step) return value;
@@ -147,7 +147,6 @@ class InputRange extends HtmlNode {
     this.node.innerHTML = `
       <div class="waykeecom-input-label">
         <label for="${id}" class="waykeecom-input-label__label">${title}</label>
-        ${information ? `${InputHelp()}${information ? information : ''}` : ''}
       </div>
       <div role="range">
         <div class="waykeecom-stack waykeecom-stack--1">
@@ -193,7 +192,9 @@ class InputRange extends HtmlNode {
     `;
 
     if (information) {
-      this.node.querySelector('button')?.addEventListener('click', () => this.onOpenInformation());
+      new InputInformation(this.node.querySelector<HTMLElement>('.waykeecom-input-label'), {
+        information,
+      });
     }
 
     if (allowSlider) {

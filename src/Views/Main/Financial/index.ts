@@ -223,6 +223,7 @@ class Financial extends HtmlNode {
           title: 'Köp bilen',
           checked: this.paymentType as string,
           name: 'paymentType',
+          information: `<p>Du köper bilen och äger den själv, antingen genom att betala hela bilen med egna medel eller genom ett billån. Du ansvarar själv för försäljningen av bilen och väljer såklart helt fritt när den ska äga rum.</p>`,
           options: firstGroupOptions,
           onClick: (e) => this.onChange(e),
         });
@@ -253,6 +254,7 @@ class Financial extends HtmlNode {
             title: 'Leasa bilen',
             checked: this.paymentType as string,
             name: 'paymentType',
+            information: `<p>Du står inte som ägare på bilen utan betalar en avtalad månadsavgift där det mesta ingår. När avtalstiden går ut är det bara att lämna tillbaka bilen till bilhandlaren.</p>`,
             options: secondGroupOptions,
             onClick: (e) => this.onChange(e),
           }

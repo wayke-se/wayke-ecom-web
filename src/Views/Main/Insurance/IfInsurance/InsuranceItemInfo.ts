@@ -139,7 +139,7 @@ class InsuranceItemInfo extends HtmlNode {
         addons?.length
           ? `<div class="waykeecom-stack waykeecom-stack--3">
               <fieldset class="waykeecom-input-group">
-                <legend class="waykeecom-input-group__legend">Tillval</legend>
+                <legend class="waykeecom-input-label"><div class="waykeecom-input-label__label">Tillval</div></legend>
                 <div id="${ADDONS_NODE}"></div>
               </fieldset>
             </div>`

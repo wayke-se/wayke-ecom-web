@@ -1,6 +1,7 @@
 import HtmlNode from '../Extension/HtmlNode';
 import InputError from './InputError';
 import InputRadioField from './InputRadioField';
+import InputInformation from './InputInformation';
 
 export interface RadioItem {
   id: string;
@@ -16,6 +17,7 @@ interface InputRadioGroupProps {
   readonly checked?: string;
   readonly options: RadioItem[];
   error?: boolean;
+  information?: string;
   readonly errorMessage?: string;
   readonly onClick: (e: Event) => void;
 }
@@ -51,10 +53,14 @@ class InputRadioGroup extends HtmlNode {
   }
 
   render() {
-    const { title, options, name, checked, error, errorMessage, onClick } = this.props;
+    const { title, options, name, checked, error, errorMessage, information, onClick } = this.props;
     this.node.innerHTML = `
      <fieldset class="waykeecom-input-group" role="radiogroup" aria-required="true">
-       ${title ? `<legend class="waykeecom-input-group__legend">${title}</legend>` : ''}
+       ${
+         title
+           ? `<legend class="waykeecom-input-label"><div class="waykeecom-input-label__label">${title}</div></legend>`
+           : ''
+       }
         ${options
           .map((option) => `<div class="waykeecom-input-group__item" id="${option.id}-node"></div>`)
           .join('')}
@@ -82,6 +88,12 @@ class InputRadioGroup extends HtmlNode {
           onClick: (e) => onClick(e),
         })
     );
+
+    if (information) {
+      new InputInformation(this.node.querySelector<HTMLElement>('.waykeecom-input-label'), {
+        information,
+      });
+    }
   }
 }
 

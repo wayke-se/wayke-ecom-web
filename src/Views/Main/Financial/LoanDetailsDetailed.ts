@@ -78,11 +78,11 @@ class LoanDetailsDetailed extends HtmlNode {
                 value: `${duration} mån`,
               })}
 
-              ${KeyValueListItem({ key: 'Ränta', value: `${interest * 100}%**` })}
+              ${KeyValueListItem({ key: 'Ränta', value: `${interest * 100} %*` })}
 
               ${KeyValueListItem({
                 key: 'Effektiv ränta',
-                value: `${effectiveInterest * 100}%**`,
+                value: `${effectiveInterest * 100} %*`,
               })}
 
               ${
@@ -108,7 +108,7 @@ class LoanDetailsDetailed extends HtmlNode {
           </div>
           <div class="waykeecom-stack waykeecom-stack--2">
             <div class="waykeecom-disclaimer-text">
-              <p>**Det här är inte den slutgiltiga offerten. Räntan kan komma att ändras ifall det sker justeringar i initial amorteringsplan, tillägg i utrustning eller andra ändringar som påverkar det initiala prisförslaget.</p>
+              <p>*Det här är inte den slutgiltiga offerten. Räntan kan komma att ändras ifall det sker justeringar i initial amorteringsplan, tillägg i utrustning eller andra ändringar som påverkar det initiala prisförslaget.</p>
               <p>Om marknadsräntan förändras kan månadskostnaden komma att ändras i motsvarande mån. Månadskostnaden kan också komma att påverkas utifrån den kreditriskbedömning som görs efter en kreditupplysning.</p>
             </div>
           </div>

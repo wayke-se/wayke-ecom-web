@@ -10,16 +10,16 @@
   margin: 0;
   min-width: 0;
 
-  &__legend {
-    @include font-medium;
-    
+  .#{$namespace}input-label {
+    width: 100%;
     padding: 0;
-    margin-bottom: size(1);
-    color: color(text, main);
-    font-size: var(--#{$namespace}legend-font-size);
 
     #{$root}--has-error & {
       color: color(semantic, error, text);
+    }
+
+    &:not(.#{$namespace}no-margin) {
+      margin-bottom: size(1);
     }
   }
 
