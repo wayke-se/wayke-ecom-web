@@ -25,6 +25,7 @@ class StageCompleted extends HtmlNode {
             .map((keyValue) =>
               KeyValueListItem({
                 key: keyValue.key,
+                image: keyValue.image,
                 value: keyValue.value,
               })
             )

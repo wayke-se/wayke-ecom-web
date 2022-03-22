@@ -62,10 +62,24 @@ class Accessories extends HtmlNode {
 
     if (state.navigation.stage > index || (completed && state.navigation.stage !== index)) {
       new StageCompleted(content, {
-        keyValueList: state.accessories.map((accessory) => ({
-          key: accessory.name,
-          value: prettyNumber(accessory.price, { postfix: 'kr' }),
-        })),
+        keyValueList: !!state.accessories.length
+          ? state.accessories.map((accessory) => ({
+              key: accessory.name,
+              image: accessory.media[0]
+                ? {
+                    src: `${accessory.media[0].url}?w=32&h=32`,
+                    srcSet: `${accessory.media[0].url}?w=64&h=64 2x`,
+                    alt: accessory.name,
+                  }
+                : undefined,
+              value: prettyNumber(accessory.price, { postfix: 'kr' }),
+            }))
+          : [
+              {
+                key: 'Tillbehör',
+                value: 'Inga valda',
+              },
+            ],
         changeButtonTitle: 'Ändra tillbehör',
         onEdit: () => this.onEdit(),
       });
