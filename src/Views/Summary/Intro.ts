@@ -18,7 +18,7 @@ class Intro extends StackNode {
     const { store } = this.props;
     const { customer, order, createdOrderId } = store.getState();
     const email = customer.email;
-    const contactInformation = order?.getContactInformation();
+    const contactInformation = order?.contactInformation;
 
     if (createdOrderId) {
       this.node.innerHTML = `

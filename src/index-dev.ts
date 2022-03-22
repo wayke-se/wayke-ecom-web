@@ -10,11 +10,11 @@ window.addEventListener('DOMContentLoaded', (_) => {
   };
 
   const context = new WaykeEcomWeb({
-    ...devConfig.INSURANCE,
+    ...devConfig.PAYMENT,
     ecomSdkConfig,
     rootId: 'custom-id',
   });
-  context.start();
+  // context.start();
   const button = document.querySelector<HTMLButtonElement>('#button');
   if (button) {
     button.addEventListener('click', () => context.start());

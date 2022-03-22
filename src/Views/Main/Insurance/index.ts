@@ -89,7 +89,7 @@ class Insurance extends HtmlNode {
         onEdit: () => this.onEdit(),
       });
     } else if (state.navigation.stage === index) {
-      const insuranceOptions = state.order?.getInsuranceOption();
+      const insuranceOptions = state.order?.insuranceOption;
       if (!insuranceOptions) throw 'Missing insurance';
 
       switch (insuranceOptions?.institute) {

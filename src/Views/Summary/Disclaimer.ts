@@ -19,7 +19,7 @@ class Disclaimer extends StackNode {
     const state = this.props.store.getState();
     if (!state.order) throw 'no order';
 
-    const conditionsPdfUri = state.order?.getConditionsPdfUri();
+    const conditionsPdfUri = state.order?.conditionsPdfUri;
 
     this.node.innerHTML = `
       <div class="waykeecom-disclaimer">

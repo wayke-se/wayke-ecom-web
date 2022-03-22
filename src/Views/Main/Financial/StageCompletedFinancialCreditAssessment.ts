@@ -20,7 +20,7 @@ class StageCompletedFinancialCreditAssessment extends HtmlNode {
   render() {
     const { store, decision } = this.props;
     const state = store.getState();
-    const contactInformation = state.order?.getContactInformation();
+    const contactInformation = state.order?.contactInformation;
 
     if (decision === CreditAssessmentRecommendation.Approve) {
       this.node.innerHTML = `

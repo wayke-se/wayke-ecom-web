@@ -1,13 +1,5 @@
-import {
-  AuthMethod,
-  Employment,
-  MaritalStatus,
-  ICreditAssessmentInquiry,
-  IPaymentOption,
-  ICreditAssessmentStatusResponse,
-} from '@wayke-se/ecom';
+import { AuthMethod, Employment, MaritalStatus, ICreditAssessmentInquiry } from '@wayke-se/ecom';
 import { ICreditAssessmentHouseholdEconomy } from '@wayke-se/ecom/dist-types/credit-assessment/types';
-import { PaymentLookupResponse } from '@wayke-se/ecom/dist-types/payments/payment-lookup-response';
 import Accordion from '../../../Components/Accordion';
 import BankIdSign from '../../../Components/BankId/BankIdSign';
 import ButtonBankId from '../../../Components/Button/ButtonBankId';
@@ -29,6 +21,10 @@ import { scrollTop } from '../../../Utils/scroll';
 import { validationMethods } from '../../../Utils/validationMethods';
 import CreditAssessmentResult from './CreditAssessmentResult';
 import createTerm from './utils';
+import { PaymentLookup } from '../../../@types/PaymentLookup';
+import { ICreditAssessmentStatus } from '../../../@types/CreditAssessmentStatus';
+import { convertCreditAssessmentStatusResponse } from '../../../Utils/convert';
+import { PaymentOption } from '../../../@types/OrderOptions';
 
 const MARITAL_STATUS = `credit-assessment-martial-status`;
 const MARITAL_STATUS_NODE = `${MARITAL_STATUS}-node`;
@@ -141,8 +137,8 @@ const mock: ICreditAssessmentHouseholdEconomy = {
 
 interface CreditAssessmentProps {
   readonly store: WaykeStore;
-  readonly loan: IPaymentOption;
-  readonly paymentLookupResponse: PaymentLookupResponse;
+  readonly loan: PaymentOption;
+  readonly paymentLookupResponse: PaymentLookup;
   readonly onProceed: () => void;
 }
 
@@ -164,7 +160,7 @@ class CreditAssessment extends HtmlNode {
   } = {};
   private caseError?: string;
   private bankidError = false;
-  private creditAssessmentResponse?: ICreditAssessmentStatusResponse;
+  private creditAssessmentResponse?: ICreditAssessmentStatus;
 
   constructor(element: HTMLDivElement | undefined | null, props: CreditAssessmentProps) {
     super(element);
@@ -262,8 +258,11 @@ class CreditAssessment extends HtmlNode {
             clearInterval(this.bankidStatusInterval);
           }
           this.view = 3;
-          this.creditAssessmentResponse = response;
-          setCreditAssessmentResponse(caseId, response)(this.props.store.dispatch);
+          this.creditAssessmentResponse = convertCreditAssessmentStatusResponse(response);
+          setCreditAssessmentResponse(
+            caseId,
+            this.creditAssessmentResponse
+          )(this.props.store.dispatch);
           destroyPortal();
           this.render();
         }
@@ -336,14 +335,14 @@ class CreditAssessment extends HtmlNode {
       this.contexts.performApplicationButton?.disabled(true);
       const { customer } = store.getState();
 
-      const { monthlyCost } = paymentLookupResponse.getCosts();
-      const { interest } = paymentLookupResponse.getInterests();
+      const { monthlyCost } = paymentLookupResponse.costs;
+      const { interest } = paymentLookupResponse.interests;
 
-      const downPayment = paymentLookupResponse.getDownPaymentSpec().current;
-      const duration = paymentLookupResponse.getDurationSpec().current;
-      const creditAmount = paymentLookupResponse.getCreditAmount();
-      const price = paymentLookupResponse.getPrice();
-      const financialProductId = paymentLookupResponse.getFinancialProductCode() as string;
+      const downPayment = paymentLookupResponse.downPaymentSpec.current;
+      const duration = paymentLookupResponse.durationSpec.current;
+      const creditAmount = paymentLookupResponse.creditAmount;
+      const price = paymentLookupResponse.price;
+      const financialProductId = paymentLookupResponse.financialProductCode as string;
 
       const assessmentCase: ICreditAssessmentInquiry = {
         customer: {
@@ -382,8 +381,8 @@ class CreditAssessment extends HtmlNode {
 
     const mobile = isMobile();
     const { order } = store.getState();
-    const creditAmount = paymentLookupResponse.getCreditAmount();
-    const branchName = order?.getContactInformation()?.name;
+    const creditAmount = paymentLookupResponse.creditAmount;
+    const branchName = order?.contactInformation?.name;
 
     if (this.view === 3 && this.creditAssessmentResponse) {
       new CreditAssessmentResult(createPortal(), {

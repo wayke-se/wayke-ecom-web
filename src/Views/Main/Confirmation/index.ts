@@ -2,6 +2,7 @@ import HtmlNode from '../../../Components/Extension/HtmlNode';
 import { WaykeStore } from '../../../Redux/store';
 import watch from '../../../Redux/watch';
 import ListItem from '../../../Templates/ListItem';
+import Payment from './Payment';
 import VerifyByBankId from './VerifyByBankId';
 
 interface ConfirmationProps {
@@ -12,6 +13,7 @@ interface ConfirmationProps {
 
 class Confirmation extends HtmlNode {
   private readonly props: ConfirmationProps;
+  private view = 1;
 
   constructor(element: HTMLDivElement, props: ConfirmationProps) {
     super(element);
@@ -37,10 +39,15 @@ class Confirmation extends HtmlNode {
       active: navigation.stage === index,
     });
 
-    new VerifyByBankId(content, { lastStage: true, index, store: this.props.store });
-
     if (navigation.stage === index) {
-      content.parentElement?.scrollIntoView();
+      if (navigation.subStage === 2) {
+        new Payment(content, { store });
+      } else {
+        new VerifyByBankId(content, { lastStage: true, index, store: this.props.store });
+      }
+      if (navigation.stage === index) {
+        content.parentElement?.scrollIntoView();
+      }
     }
   }
 }

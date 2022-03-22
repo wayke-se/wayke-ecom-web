@@ -48,7 +48,7 @@ class InsuranceItem extends HtmlNode {
   render() {
     const { store, freeInsurance, key } = this.props;
     const state = store.getState();
-    const logo = state.order?.getInsuranceOption()?.logo;
+    const logo = state.order?.insuranceOption?.logo;
 
     const selected = state.freeInsurance
       ? JSON.stringify(state.freeInsurance).localeCompare(

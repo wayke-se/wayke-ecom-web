@@ -11,6 +11,7 @@ import { Vehicle } from '../../@types/Vehicle';
 import CheckList from '../../Components/Checklist/Checklist';
 import HtmlNode from '../../Components/Extension/HtmlNode';
 import Alert from '../../Templates/Alert';
+import { convertOrderOptionsResponse } from '../../Utils/convert';
 
 const PROCEED_BUTTON = 'preview-proceed';
 const PROCEED_BUTTON_NODE = `${PROCEED_BUTTON}-node`;
@@ -43,14 +44,14 @@ class Preview extends HtmlNode {
     try {
       this.contexts.buttonProceed?.disabled(true);
 
-      const order = await getOrder(state.id);
-
+      const _order = await getOrder(state.id);
+      const order = convertOrderOptionsResponse(_order);
       const stages: StageTypes[] = [];
       this.props.stageOrderList.forEach((key) => {
-        if (key === 'centralStorage' && !order.requiresDealerSelection()) return;
+        if (key === 'centralStorage' && !order.requiresDealerSelection) return;
         if (key === 'tradeIn' && !order.allowsTradeIn) return;
-        if (key === 'insurance' && !order.getInsuranceOption()) return;
-        if (key === 'accessories' && !order.getAccessories().length) return;
+        if (key === 'insurance' && !order.insuranceOption) return;
+        if (key === 'accessories' && !order.accessories.length) return;
 
         stages.push(stageMap[key]);
       });

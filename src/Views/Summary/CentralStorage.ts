@@ -20,7 +20,7 @@ class Delivery extends StackNode {
     const { store } = this.props;
     const { dealer, order } = store.getState();
 
-    const dealerName = order?.getDealerSites().find((x) => x.id === dealer)?.name;
+    const dealerName = order?.dealerSites.find((x) => x.id === dealer)?.name;
 
     this.node.innerHTML = `
       <div class="waykeecom-stack waykeecom-stack--2">

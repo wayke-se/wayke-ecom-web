@@ -1,10 +1,10 @@
-import { OrderOptionsResponse } from '@wayke-se/ecom/dist-types/orders/order-options-response';
 import { IOrderVehicle } from '@wayke-se/ecom/dist-types/orders/types';
+import { OrderOptions } from '../@types/OrderOptions';
 import { prettyNumber } from '../Utils/format';
 
 interface ItemTileLargeProps {
   vehicle?: IOrderVehicle;
-  order?: OrderOptionsResponse;
+  order?: OrderOptions;
   meta?: string;
 }
 
@@ -14,7 +14,7 @@ const ItemTileLarge = ({ vehicle, order, meta }: ItemTileLargeProps) => {
   const shortDescription = vehicle?.shortDescription;
   const price = prettyNumber(vehicle?.price || NaN);
 
-  const sellerName = order?.getContactInformation()?.name;
+  const sellerName = order?.contactInformation?.name;
   return `
   <div class="waykeecom-product-card">
     ${

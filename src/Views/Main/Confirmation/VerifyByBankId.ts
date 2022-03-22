@@ -51,10 +51,18 @@ class VerifyByBankId extends HtmlNode {
     const { store } = this.props;
     this.requestError = false;
     try {
+      const { order } = store.getState();
       const response = await createOrder(store);
-      setCreatedOrderId(response.getId())(store.dispatch);
-      const state = store.getState();
-      const caseId = state.caseId;
+
+      const paymentRequired = order?.isPaymentRequired;
+      if (paymentRequired) {
+        destroyPortal();
+      }
+
+      const payment = response.getPayment();
+
+      setCreatedOrderId(response.getId(), payment)(store.dispatch);
+      const { caseId } = store.getState();
       if (caseId) {
         creditAssessmentAccept(caseId);
       }

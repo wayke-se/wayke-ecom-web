@@ -1,4 +1,4 @@
-import { OrderOptionsResponse } from '@wayke-se/ecom/dist-types/orders/order-options-response';
+import { OrderOptions } from '../../@types/OrderOptions';
 import { StageTypes } from '../../@types/Stages';
 import TimelineItem from '../../Templates/TimelineItem';
 import { Image } from '../../Utils/constants';
@@ -35,7 +35,7 @@ const TimelineItemByStage = {
 
 interface HowToProps {
   readonly stageOrderList?: StageTypes[];
-  readonly order?: OrderOptionsResponse;
+  readonly order?: OrderOptions;
 }
 
 const HowTo = ({ order, stageOrderList }: HowToProps) => `
@@ -59,7 +59,7 @@ const HowTo = ({ order, stageOrderList }: HowToProps) => `
   <div class="waykeecom-stack waykeecom-stack--3">
     <div class="waykeecom-content">
       <p>Efter att ordern är genomförd tar ${
-        order?.getContactInformation()?.name
+        order?.contactInformation?.name
       } kontakt med dig så kommer ni 
       tillsammans fram till detaljer kring betalning och skriver avtal. </p>
     </div>

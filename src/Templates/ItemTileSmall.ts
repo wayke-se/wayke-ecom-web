@@ -1,10 +1,10 @@
-import { OrderOptionsResponse } from '@wayke-se/ecom/dist-types/orders/order-options-response';
+import { OrderOptions } from '../@types/OrderOptions';
 import { Vehicle } from '../@types/Vehicle';
 import { prettyNumber } from '../Utils/format';
 
 interface ItemTileSmallProps {
   vehicle?: Vehicle;
-  order?: OrderOptionsResponse;
+  order?: OrderOptions;
 }
 
 const ItemTileSmall = ({ vehicle, order }: ItemTileSmallProps) => {
@@ -13,7 +13,7 @@ const ItemTileSmall = ({ vehicle, order }: ItemTileSmallProps) => {
   const shortDescription = vehicle?.shortDescription;
   const price = prettyNumber(vehicle?.price || NaN);
 
-  const sellerName = order?.getContactInformation()?.name;
+  const sellerName = order?.contactInformation?.name;
 
   return `
   <div class="waykeecom-preview-card">

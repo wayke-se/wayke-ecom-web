@@ -1,5 +1,6 @@
-import { IPaymentOption, IPaymentRangeSpec } from '@wayke-se/ecom';
-import { PaymentLookupResponse } from '@wayke-se/ecom/dist-types/payments/payment-lookup-response';
+import { IPaymentRangeSpec } from '@wayke-se/ecom';
+import { PaymentOption } from '../../../@types/OrderOptions';
+import { PaymentLookup } from '../../../@types/PaymentLookup';
 import ButtonArrowRight from '../../../Components/Button/ButtonArrowRight';
 import HtmlNode from '../../../Components/Extension/HtmlNode';
 import InputRange from '../../../Components/Input/InputRange';
@@ -7,6 +8,7 @@ import { getPayment } from '../../../Data/getPayment';
 import { setPaymentLookupResponse } from '../../../Redux/action';
 import { WaykeStore } from '../../../Redux/store';
 import Alert from '../../../Templates/Alert';
+import { convertPaymentLookupResponse } from '../../../Utils/convert';
 import CreditAssessment from './CreditAssessment';
 import LoanDetails from './LoanDetails';
 
@@ -37,9 +39,9 @@ interface PaymentState {
 
 interface LoanProps {
   readonly store: WaykeStore;
-  readonly loan: IPaymentOption;
+  readonly loan: PaymentOption;
   readonly vehicleId: string;
-  readonly paymentLookupResponse?: PaymentLookupResponse;
+  readonly paymentLookupResponse?: PaymentLookup;
   readonly onProceed: () => void;
 }
 
@@ -48,7 +50,7 @@ type LoanNames = 'downPayment' | 'duration' | 'residual';
 class Loan extends HtmlNode {
   private readonly props: LoanProps;
   private paymentState: PaymentState;
-  private paymentLookupResponse: PaymentLookupResponse;
+  private paymentLookupResponse: PaymentLookup;
   private paymentRequestFailed?: boolean;
   private lastEditedField: LoanNames = 'downPayment';
   private contexts: {
@@ -61,18 +63,17 @@ class Loan extends HtmlNode {
   constructor(element: HTMLDivElement, props: LoanProps) {
     super(element);
     this.props = props;
-    if (!this.props.loan.loanDetails) throw 'err';
+    const loanDetails = this.props.loan.loanDetails;
+    if (!loanDetails) throw 'err';
 
-    this.paymentLookupResponse = this.props.paymentLookupResponse || this.props.loan.loanDetails;
+    this.paymentLookupResponse = this.props.paymentLookupResponse || loanDetails;
     this.paymentState = {
       vehicleId: this.props.vehicleId,
       dealerId: '',
-      downPayment: this.paymentLookupResponse.getDownPaymentSpec(),
-      duration: this.paymentLookupResponse.getDurationSpec(),
-      residual: this.paymentLookupResponse.getResidualValueSpec(),
+      downPayment: this.paymentLookupResponse.downPaymentSpec,
+      duration: this.paymentLookupResponse.durationSpec,
+      residual: this.paymentLookupResponse.residualValueSpec,
     };
-
-    this.paymentLookupResponse.shouldUseCreditScoring();
 
     this.render();
   }
@@ -94,12 +95,12 @@ class Loan extends HtmlNode {
         duration: this.paymentState.duration.current,
         residual: this.paymentState.residual?.current,
       });
-      this.paymentLookupResponse = response;
+      this.paymentLookupResponse = convertPaymentLookupResponse(response);
       this.paymentState = {
         ...this.paymentState,
-        downPayment: response.getDownPaymentSpec(),
-        duration: response.getDurationSpec(),
-        residual: response.getResidualValueSpec(),
+        downPayment: this.paymentLookupResponse.downPaymentSpec,
+        duration: this.paymentLookupResponse.durationSpec,
+        residual: this.paymentLookupResponse.residualValueSpec,
       };
       setPaymentLookupResponse(response)(this.props.store.dispatch);
       this.update();
@@ -133,8 +134,8 @@ class Loan extends HtmlNode {
   render() {
     const { store, loan, onProceed } = this.props;
     const state = store.getState();
-    const dealer = state.order?.getContactInformation();
-    const shouldUseCreditScoring = this.paymentLookupResponse.shouldUseCreditScoring();
+    const dealer = state.order?.contactInformation;
+    const shouldUseCreditScoring = this.paymentLookupResponse.shouldUseCreditScoring;
 
     const requestError = this.paymentRequestFailed
       ? ` <div class="waykeecom-stack waykeecom-stack--3">${Alert({

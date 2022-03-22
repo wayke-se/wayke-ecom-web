@@ -1,4 +1,4 @@
-import { CreditAssessmentRecommendation, ICreditAssessmentStatusResponse } from '@wayke-se/ecom';
+import { CreditAssessmentRecommendation } from '@wayke-se/ecom';
 import ButtonArrowRight from '../../../Components/Button/ButtonArrowRight';
 import ButtonClear from '../../../Components/Button/ButtonClear';
 import HtmlNode from '../../../Components/Extension/HtmlNode';
@@ -16,7 +16,6 @@ const ABORT_NODE = `${ABORT}-node`;
 
 interface CreditAssessmentAssessManuallyProps {
   readonly store: WaykeStore;
-  readonly creditAssessmentResponse: ICreditAssessmentStatusResponse;
   readonly onProceed: () => void;
   readonly onGoBack: () => void;
 }

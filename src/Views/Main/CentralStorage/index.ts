@@ -8,6 +8,7 @@ import { WaykeStore } from '../../../Redux/store';
 import watch from '../../../Redux/watch';
 import Alert from '../../../Templates/Alert';
 import ListItem from '../../../Templates/ListItem';
+import { convertOrderOptionsResponse } from '../../../Utils/convert';
 
 const PROCEED = 'button-central-storage-proceed';
 const PROCEED_NODE = `${PROCEED}-node`;
@@ -51,7 +52,7 @@ class CentralStorage extends HtmlNode {
       this.contexts.proceedButton?.loading(true);
 
       const order = await getOrder(id, selectedDealer);
-      setOrder(order, vehicle);
+      setOrder(convertOrderOptionsResponse(order), vehicle);
       setDealer(selectedDealer, this.props.lastStage)(this.props.store.dispatch);
 
       this.contexts.proceedButton?.loading(false);
@@ -82,7 +83,7 @@ class CentralStorage extends HtmlNode {
   render() {
     const { order, navigation, topNavigation } = this.props.store.getState();
     const { index } = this.props;
-    const dealers = order?.getDealerSites() || [];
+    const dealers = order?.dealerSites || [];
 
     const completed = topNavigation.stage > index;
     const active = navigation.stage === index;

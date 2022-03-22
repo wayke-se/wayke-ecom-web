@@ -1,23 +1,25 @@
 import {
   DrivingDistance,
   IAddress,
-  ICreditAssessmentStatusResponse,
   IInsuranceOption,
   IAvailableInsuranceOption,
   IVehicle,
   PaymentType,
   IInsuranceAddon,
 } from '@wayke-se/ecom';
-import { OrderOptionsResponse } from '@wayke-se/ecom/dist-types/orders/order-options-response';
 import { IAccessory } from '@wayke-se/ecom/dist-types/orders/types';
 import { PaymentLookupResponse } from '@wayke-se/ecom/dist-types/payments/payment-lookup-response';
 import { Dispatch } from 'redux';
 import { BaseAction } from '../@types/BaseAction';
+import { ICreditAssessmentStatus } from '../@types/CreditAssessmentStatus';
 import { PartialCustomer } from '../@types/Customer';
 import { ViewTypes } from '../@types/Navigation';
+import { OrderOptions } from '../@types/OrderOptions';
+import { PaymentLookup } from '../@types/PaymentLookup';
 import { StageTypes } from '../@types/Stages';
 import { TradeInCarData } from '../@types/TradeIn';
 import { Vehicle } from '../@types/Vehicle';
+import { convertPaymentLookupResponse } from '../Utils/convert';
 
 export const RESET = 'RESET';
 export type RESET_TYPE = BaseAction<typeof RESET> & {
@@ -27,10 +29,10 @@ export const reset = (id: string) => (dispatch: Dispatch) => dispatch({ type: RE
 
 export const SET_ORDER = 'SET_ORDER';
 export type SET_ORDER_TYPE = BaseAction<typeof SET_ORDER> & {
-  order: OrderOptionsResponse;
+  order: OrderOptions;
   vehicle?: Vehicle;
 };
-export const setOrder = (order: OrderOptionsResponse, vehicle?: Vehicle) => (dispatch: Dispatch) =>
+export const setOrder = (order: OrderOptions, vehicle?: Vehicle) => (dispatch: Dispatch) =>
   dispatch({ type: SET_ORDER, order, vehicle });
 
 export const SET_ID = 'SET_ID';
@@ -102,11 +104,14 @@ export const setFinancial =
 
 export const SET_PAYMENT_LOOKUP_RESPONSE = 'SET_PAYMENT_LOOKUP_RESPONSE';
 export type SET_PAYMENT_LOOKUP_RESPONSE_TYPE = BaseAction<typeof SET_PAYMENT_LOOKUP_RESPONSE> & {
-  paymentLookupResponse: PaymentLookupResponse;
+  paymentLookupResponse: PaymentLookup;
 };
 export const setPaymentLookupResponse =
   (paymentLookupResponse: PaymentLookupResponse) => (dispatch: Dispatch) =>
-    dispatch({ type: SET_PAYMENT_LOOKUP_RESPONSE, paymentLookupResponse });
+    dispatch({
+      type: SET_PAYMENT_LOOKUP_RESPONSE,
+      paymentLookupResponse: convertPaymentLookupResponse(paymentLookupResponse),
+    });
 
 export const SET_DRIVING_DISTANCE = 'SET_DRIVING_DISTANCE';
 export type SET_DRIVING_DISTANCE_TYPE = BaseAction<typeof SET_DRIVING_DISTANCE> & {
@@ -175,20 +180,21 @@ export const setStages = (stages: StageTypes[]) => (dispatch: Dispatch) =>
 export const SET_CREATED_ORDER_ID = 'SET_CREATED_ORDER_ID';
 export type SET_CREATED_ORDER_ID_TYPE = BaseAction<typeof SET_CREATED_ORDER_ID> & {
   id: string;
+  payment?: { type: string; url: string };
 };
-export const setCreatedOrderId = (id: string) => (dispatch: Dispatch) =>
-  dispatch({ type: SET_CREATED_ORDER_ID, id });
+export const setCreatedOrderId =
+  (id: string, payment?: { type: string; url: string }) => (dispatch: Dispatch) =>
+    dispatch({ type: SET_CREATED_ORDER_ID, id, payment });
 
 export const SET_CREDIT_ASSESSMENT_RESPONSE = 'SET_CREDIT_ASSESSMENT_RESPONSE';
 export type SET_CREDIT_ASSESSMENT_RESPONSE_TYPE = BaseAction<
   typeof SET_CREDIT_ASSESSMENT_RESPONSE
 > & {
   caseId?: string;
-  creditAssessmentResponse?: ICreditAssessmentStatusResponse;
+  creditAssessmentResponse?: ICreditAssessmentStatus;
 };
 export const setCreditAssessmentResponse =
-  (caseId?: string, creditAssessmentResponse?: ICreditAssessmentStatusResponse) =>
-  (dispatch: Dispatch) =>
+  (caseId?: string, creditAssessmentResponse?: ICreditAssessmentStatus) => (dispatch: Dispatch) =>
     dispatch({ type: SET_CREDIT_ASSESSMENT_RESPONSE, caseId, creditAssessmentResponse });
 
 export type Action =

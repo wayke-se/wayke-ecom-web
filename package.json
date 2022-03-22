@@ -40,7 +40,7 @@
     "typescript": "^4.5.5"
   },
   "dependencies": {
-    "@wayke-se/ecom": "^3.7.0-alpha.5",
+    "@wayke-se/ecom": "^3.7.0-alpha.10",
     "redux": "^4.1.2",
     "redux-watch": "^1.2.0"
   },

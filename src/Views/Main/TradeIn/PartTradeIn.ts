@@ -10,11 +10,12 @@ import InputTextarea from '../../../Components/Input/InputTextarea';
 import ButtonSkip from '../../../Components/Button/ButtonSkip';
 import InputRadioGroup, { RadioItem } from '../../../Components/Input/InputRadioGroup';
 import HtmlNode from '../../../Components/Extension/HtmlNode';
-import { VehicleLookupResponse } from '@wayke-se/ecom/dist-types/vehicles/vehicle-lookup-response';
 import { prettyNumber } from '../../../Utils/format';
 import KeyValueListItem from '../../../Templates/KeyValueListItem';
 import { translateTradeInCondition } from '../../../Utils/constants';
 import ButtonAsLink from '../../../Components/Button/ButtonAsLink';
+import { convertVehicleLookupResponse } from '../../../Utils/convert';
+import { VehicleLookup } from '../../../@types/VehicleLookup';
 
 const REGISTRATION_NUMBER_ID = 'trade-in-registrationNumber';
 const REGISTRATION_NUMBER_NODE = `${REGISTRATION_NUMBER_ID}-node`;
@@ -136,7 +137,7 @@ interface PartTradeInProps {
 class PartTradeIn extends HtmlNode {
   private readonly props: PartTradeInProps;
   private state: PartTradeInState;
-  private response?: VehicleLookupResponse;
+  private response?: VehicleLookup;
   private contexts: {
     registrationNumber?: InputField;
     mileage?: InputField;
@@ -167,7 +168,8 @@ class PartTradeIn extends HtmlNode {
         this.state.validation.condition
       ) {
         const value = this.state.value as TradeInCarData;
-        const response = await getTradeInVehicle(value);
+        const _response = await getTradeInVehicle(value);
+        const response = convertVehicleLookupResponse(_response);
         this.response = response;
         this.render();
       }
@@ -186,7 +188,7 @@ class PartTradeIn extends HtmlNode {
 
   private onProceed() {
     if (this.response) {
-      const vehicle = this.response.getVehicle();
+      const vehicle = this.response.vehicle;
       const value = this.state.value as TradeInCarData;
       setTradeIn(this.props.lastStage, value, vehicle)(this.props.store.dispatch);
     }
@@ -246,7 +248,7 @@ class PartTradeIn extends HtmlNode {
     if (this.response) {
       const keyValueItemsUpper: { key: string; value: string }[] = [];
 
-      const tradeInVehicle = this.response.getVehicle();
+      const tradeInVehicle = this.response.vehicle;
       keyValueItemsUpper.push({ key: 'Miltal', value: `${this.state.value.mileage} mil` });
       if (this.state.value.description) {
         keyValueItemsUpper.push({

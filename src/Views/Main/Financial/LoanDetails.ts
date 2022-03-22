@@ -1,5 +1,5 @@
-import { IPaymentOption } from '@wayke-se/ecom';
-import { PaymentLookupResponse } from '@wayke-se/ecom/dist-types/payments/payment-lookup-response';
+import { PaymentOption } from '../../../@types/OrderOptions';
+import { PaymentLookup } from '../../../@types/PaymentLookup';
 import PieChart from '../../../Components/Chart/PieChart';
 import HtmlNode from '../../../Components/Extension/HtmlNode';
 import LoanDetailsBasic from './LoanDetailsBasic';
@@ -12,8 +12,8 @@ const LOAN_DETAILS_BASIC_NODE = 'finance-details-basic';
 const LOAN_DETAILS_DETAILED_NODE = 'finance-details-detailed';
 
 interface LoanDetailsProps {
-  paymentLookupResponse: PaymentLookupResponse;
-  loan: IPaymentOption;
+  paymentLookupResponse: PaymentLookup;
+  loan: PaymentOption;
 }
 
 class LoanDetails extends HtmlNode {
@@ -34,15 +34,15 @@ class LoanDetails extends HtmlNode {
 
   private extractProps() {
     const { loan, paymentLookupResponse } = this.props;
-    const { monthlyCost, totalCreditCost } = paymentLookupResponse.getCosts();
-    const { interest, effectiveInterest } = paymentLookupResponse.getInterests();
+    const { monthlyCost, totalCreditCost } = paymentLookupResponse.costs;
+    const { interest, effectiveInterest } = paymentLookupResponse.interests;
 
-    const downPayment = paymentLookupResponse.getDownPaymentSpec().current;
-    const duration = paymentLookupResponse.getDurationSpec().current;
-    const { administrationFee, setupFee } = paymentLookupResponse.getFees();
-    const creditAmount = paymentLookupResponse.getCreditAmount();
+    const downPayment = paymentLookupResponse.downPaymentSpec.current;
+    const duration = paymentLookupResponse.durationSpec.current;
+    const { administrationFee, setupFee } = paymentLookupResponse.fees;
+    const creditAmount = paymentLookupResponse.creditAmount;
 
-    const publicUrl = loan.loanDetails?.getPublicURL();
+    const publicUrl = paymentLookupResponse.publicURL;
 
     const total = downPayment + creditAmount;
     const downPaymentPercentage = Math.round((downPayment / total) * 100);

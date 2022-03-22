@@ -43,4 +43,7 @@ export const devConfig = {
   CENTRAL_STORAGE: {
     id: '8ddbcc2b-2677-428a-aa67-c2d9884b5702',
   },
+  PAYMENT: {
+    id: 'f93eae85-4090-482f-97eb-ae7783ad4d93',
+  },
 };

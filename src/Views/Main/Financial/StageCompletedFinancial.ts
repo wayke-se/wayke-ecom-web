@@ -1,5 +1,6 @@
-import { IPaymentOption, PaymentType } from '@wayke-se/ecom';
-import { PaymentLookupResponse } from '@wayke-se/ecom/dist-types/payments/payment-lookup-response';
+import { PaymentType } from '@wayke-se/ecom';
+import { PaymentOption } from '../../../@types/OrderOptions';
+import { PaymentLookup } from '../../../@types/PaymentLookup';
 import HtmlNode from '../../../Components/Extension/HtmlNode';
 import { WaykeStore } from '../../../Redux/store';
 import KeyValueListItem, { KeyValueListItemProps } from '../../../Templates/KeyValueListItem';
@@ -11,8 +12,8 @@ const CREDIT_ASSESSMENT_RESULT_NODE = `${CREDIT_ASSESSMENT_RESULT}-node`;
 
 interface StageCompletedFinancialProps {
   readonly store: WaykeStore;
-  readonly loan?: IPaymentOption;
-  readonly paymentLookupResponse?: PaymentLookupResponse;
+  readonly loan?: PaymentOption;
+  readonly paymentLookupResponse?: PaymentLookup;
   readonly paymentType: PaymentType;
   readonly onEdit: () => void;
 }
@@ -28,15 +29,17 @@ class StageCompletedFinancial extends HtmlNode {
 
   render() {
     const { store, paymentType, loan, paymentLookupResponse, onEdit } = this.props;
+    const loanDetails = loan?.loanDetails;
+
     if (paymentType === PaymentType.Loan) {
       const state = this.props.store.getState();
-      const currentPaymentLookupResponse = paymentLookupResponse || loan?.loanDetails;
-      if (!loan || !currentPaymentLookupResponse) throw 'Missing loan';
+      const currentPaymentLookupResponse = paymentLookupResponse || loanDetails;
+      if (!loanDetails || !currentPaymentLookupResponse) throw 'Missing loan';
 
-      const downPayment = currentPaymentLookupResponse.getDownPaymentSpec().current;
-      const creditAmount = currentPaymentLookupResponse.getCreditAmount();
-      const duration = currentPaymentLookupResponse.getDurationSpec().current;
-      const { interest, effectiveInterest } = currentPaymentLookupResponse.getInterests();
+      const downPayment = currentPaymentLookupResponse.downPaymentSpec.current;
+      const creditAmount = currentPaymentLookupResponse.creditAmount;
+      const duration = currentPaymentLookupResponse.durationSpec.current;
+      const { interest, effectiveInterest } = currentPaymentLookupResponse.interests;
 
       const keyValueList: KeyValueListItemProps[] = [
         {
@@ -61,7 +64,7 @@ class StageCompletedFinancial extends HtmlNode {
         },
       ];
 
-      const decision = state.creditAssessmentResponse?.getRecommendation();
+      const decision = state.creditAssessmentResponse?.recommendation;
       const disclaimerText = `*Beräknat på ${interest * 100} % ränta (effektivt ${
         effectiveInterest * 100
       } %). Den ränta du får sätts vid avtalskrivning.`;

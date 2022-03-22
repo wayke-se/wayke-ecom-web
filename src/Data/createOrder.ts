@@ -18,12 +18,12 @@ export const createOrder = (store: WaykeStore) => {
 
   const paymentBuilder = orders.newPayment().withType(state.paymentType);
   if (state.paymentType === PaymentType.Loan) {
-    const duration = state.paymentLookupResponse?.getDurationSpec().current as number;
-    const downPayment = state.paymentLookupResponse?.getDownPaymentSpec().current as number;
-    const residual = state.paymentLookupResponse?.getResidualValueSpec().current as number;
-    const externalId = state.order
-      ?.getPaymentOptions()
-      .find((x) => x.type === PaymentType.Loan)?.externalId;
+    const duration = state.paymentLookupResponse?.durationSpec.current as number;
+    const downPayment = state.paymentLookupResponse?.downPaymentSpec.current as number;
+    const residual = state.paymentLookupResponse?.residualValueSpec.current as number;
+    const externalId = state.order?.paymentOptions.find(
+      (x) => x.type === PaymentType.Loan
+    )?.externalId;
 
     paymentBuilder
       .withDuration(duration) // months, only applicable when payment type === PaymentType.Loan
@@ -35,10 +35,10 @@ export const createOrder = (store: WaykeStore) => {
     }
 
     if (state.creditAssessmentResponse) {
-      const scoreId = state.creditAssessmentResponse.getScoringId();
-      const recommendation = state.creditAssessmentResponse.getRecommendation();
-      const decision = state.creditAssessmentResponse.getDecision();
-      const financialProductCode = state.paymentLookupResponse?.getFinancialProductCode();
+      const scoreId = state.creditAssessmentResponse.scoringId;
+      const recommendation = state.creditAssessmentResponse.recommendation;
+      const decision = state.creditAssessmentResponse.decision;
+      const financialProductCode = state.paymentLookupResponse?.financialProductCode;
       if (!scoreId || !recommendation || !decision || !financialProductCode)
         throw 'Missing credit assessment data';
 
@@ -54,11 +54,24 @@ export const createOrder = (store: WaykeStore) => {
   }
   const payment = paymentBuilder.build();
 
+  const params = new URLSearchParams(window.location.search);
+  params.set('wayke-ecom-web-id', state.id);
+
+  const callbackUrl = `${window.location.origin}${window.location.pathname}?${params.toString()}${
+    window.location.hash
+  }`;
+
+  params.set('wayke-ecom-web-payment', 'true');
+  const paymentUrl = `${window.location.origin}${window.location.pathname}?${params.toString()}${
+    window.location.hash
+  }`;
+
   const requestBuilder = orders
     .newCreateRequest()
     .forVehicle(state.id)
     .withCustomer(customer)
     .withPayment(payment)
+    .withUrls(callbackUrl, paymentUrl)
     .withDeliveryType(state.homeDelivery ? DeliveryType.Delivery : DeliveryType.Pickup);
 
   if (state.insurance) {

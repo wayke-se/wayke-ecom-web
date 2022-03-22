@@ -1,19 +1,18 @@
 import {
   DrivingDistance,
   IAddress,
-  ICreditAssessmentStatusResponse,
   IInsuranceOption,
   IVehicle,
   PaymentType,
-  IPaymentOption,
   IAvailableInsuranceOption,
 } from '@wayke-se/ecom';
-import { OrderOptionsResponse } from '@wayke-se/ecom/dist-types/orders/order-options-response';
 import { IAccessory, IOrderVehicle } from '@wayke-se/ecom/dist-types/orders/types';
-import { PaymentLookupResponse } from '@wayke-se/ecom/dist-types/payments/payment-lookup-response';
+import { ICreditAssessmentStatus } from '../@types/CreditAssessmentStatus';
 import { Customer } from '../@types/Customer';
 import { Insurance } from '../@types/Insurance';
 import { Navigation } from '../@types/Navigation';
+import { OrderOptions, PaymentOption } from '../@types/OrderOptions';
+import { PaymentLookup } from '../@types/PaymentLookup';
 import { StageTypes } from '../@types/Stages';
 import { TradeInCarDataPartial } from '../@types/TradeIn';
 import { isSame } from '../Utils/compare';
@@ -54,7 +53,7 @@ export interface ReducerState {
   topNavigation: Navigation;
   navigation: Navigation;
   vehicle?: IOrderVehicle;
-  order?: OrderOptionsResponse;
+  order?: OrderOptions;
   customer: Customer;
   address?: IAddress;
   homeDelivery: boolean;
@@ -62,7 +61,7 @@ export interface ReducerState {
   tradeIn?: TradeInCarDataPartial;
   tradeInVehicle?: IVehicle;
   paymentType?: PaymentType;
-  paymentLookupResponse?: PaymentLookupResponse;
+  paymentLookupResponse?: PaymentLookup;
   stages?: StageTypes[];
   accessories: IAccessory[];
   drivingDistance: DrivingDistance;
@@ -70,9 +69,10 @@ export interface ReducerState {
   insuranceAddOns?: Insurance;
   freeInsurance?: IAvailableInsuranceOption;
   createdOrderId?: string;
-  creditAssessmentResponse?: ICreditAssessmentStatusResponse;
+  creditAssessmentResponse?: ICreditAssessmentStatus;
   caseId?: string;
   dealer?: string;
+  payment?: { type: string; url: string };
 }
 
 const initNavigation: Navigation = {
@@ -114,7 +114,7 @@ const getNextTopNavigationState = (currentTopNavigation: Navigation, nextNavigat
       : next.topNavigation
     : { ...currentTopNavigation, stage: currentTopNavigation.stage + 1 }; // all stages are completed
 
-const resolveDefaultPaymentOption = (paymentOptions?: IPaymentOption[]) => {
+const resolveDefaultPaymentOption = (paymentOptions?: PaymentOption[]) => {
   if (!paymentOptions) return undefined;
   // If only cash payment is available, pre select
   const paymentType =
@@ -142,8 +142,8 @@ const reducer = (state = initialState, action: Action): ReducerState => {
       return {
         ...state,
         order: action.order,
-        paymentType: resolveDefaultPaymentOption(action.order?.getPaymentOptions()),
-        vehicle: { ...action.order.getOrderVehicle(), ...(action.vehicle || {}) },
+        paymentType: resolveDefaultPaymentOption(action.order?.paymentOptions),
+        vehicle: { ...action.order.orderVehicle, ...(action.vehicle || {}) },
       };
     case SET_CONTACT_EMAIL_AND_PHONE:
       const clean: ReducerState = {
@@ -155,7 +155,7 @@ const reducer = (state = initialState, action: Action): ReducerState => {
       delete clean.wantTradeIn;
       delete clean.tradeIn;
       delete clean.tradeInVehicle;
-      clean.paymentType = resolveDefaultPaymentOption(state.order?.getPaymentOptions());
+      clean.paymentType = resolveDefaultPaymentOption(state.order?.paymentOptions);
       delete clean.paymentLookupResponse;
       delete clean.insurance;
       delete clean.insuranceAddOns;
@@ -192,7 +192,7 @@ const reducer = (state = initialState, action: Action): ReducerState => {
       delete next.wantTradeIn;
       delete next.tradeIn;
       delete next.tradeInVehicle;
-      next.paymentType = resolveDefaultPaymentOption(state.order?.getPaymentOptions());
+      next.paymentType = resolveDefaultPaymentOption(state.order?.paymentOptions);
       delete next.paymentLookupResponse;
       delete next.insurance;
       delete next.insuranceAddOns;
@@ -322,7 +322,11 @@ const reducer = (state = initialState, action: Action): ReducerState => {
       };
 
     case SET_CREATED_ORDER_ID:
-      navigation = getNextNavigationState(state.navigation.stage, true);
+      if (action.payment) {
+        navigation = { view: 'main', stage: state.navigation.stage, subStage: 2 };
+      } else {
+        navigation = getNextNavigationState(state.navigation.stage, true);
+      }
       topNavigation = getNextTopNavigationState(next.topNavigation, navigation);
 
       next = {
@@ -330,6 +334,7 @@ const reducer = (state = initialState, action: Action): ReducerState => {
         navigation,
         topNavigation,
         createdOrderId: action.id,
+        payment: action.payment,
       };
 
       return next;

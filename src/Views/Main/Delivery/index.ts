@@ -60,7 +60,7 @@ class Delivery extends HtmlNode {
     const state = store.getState();
     if (!state.order) throw 'Missing order...';
 
-    const contactInformation = state.order.getContactInformation();
+    const contactInformation = state.order.contactInformation;
     if (!contactInformation) throw 'Missing dealer contact information';
 
     const completed = state.topNavigation.stage > index;
@@ -101,7 +101,7 @@ class Delivery extends HtmlNode {
         <div class="waykeecom-stack waykeecom-stack--3" id="${PROCEED_NODE}"></div>
       `;
 
-      const deliveryOptions = state.order.getDeliveryOptions();
+      const deliveryOptions = state.order.deliveryOptions;
       deliveryOptions.forEach((deliveryOption) => {
         const addressDistance = state.address?.distance;
         const totalDeliveryCost = getTotalDeliveryCost(addressDistance, deliveryOption) || 0;

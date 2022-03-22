@@ -84,7 +84,7 @@ class Accessories extends HtmlNode {
         onEdit: () => this.onEdit(),
       });
     } else if (state.navigation.stage === index) {
-      const accessories = state.order?.getAccessories() || [];
+      const accessories = state.order?.accessories || [];
 
       part.innerHTML = `
         <div class="waykeecom-stack waykeecom-stack--3">

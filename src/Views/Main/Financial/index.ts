@@ -1,5 +1,4 @@
 import { PaymentType } from '@wayke-se/ecom';
-import { PaymentLookupResponse } from '@wayke-se/ecom/dist-types/payments/payment-lookup-response';
 import ButtonArrowRight from '../../../Components/Button/ButtonArrowRight';
 import HtmlNode from '../../../Components/Extension/HtmlNode';
 import InputRadioGroup, { RadioItem } from '../../../Components/Input/InputRadioGroup';
@@ -11,6 +10,7 @@ import ListItem from '../../../Templates/ListItem';
 import Loan from './Loan';
 import StageCompletedFinancial from './StageCompletedFinancial';
 import watch from '../../../Redux/watch';
+import { PaymentLookup } from '../../../@types/PaymentLookup';
 
 const PROCEED = 'button-financial-proceed';
 const PROCEED_NODE = `${PROCEED}-node`;
@@ -36,7 +36,7 @@ interface FinancialProps {
 class Financial extends HtmlNode {
   private readonly props: FinancialProps;
   private paymentType?: PaymentType;
-  private paymentLookupResponse?: PaymentLookupResponse;
+  private paymentLookupResponse?: PaymentLookup;
 
   constructor(element: HTMLDivElement, props: FinancialProps) {
     super(element);
@@ -78,7 +78,7 @@ class Financial extends HtmlNode {
     const { id, order, paymentLookupResponse } = state;
     if (!order) throw 'No order available';
 
-    const paymentOptions = order.getPaymentOptions();
+    const paymentOptions = order.paymentOptions;
 
     const completed = state.topNavigation.stage > this.props.index;
     const content = ListItem(this.node, {
@@ -96,11 +96,12 @@ class Financial extends HtmlNode {
       this.paymentType
     ) {
       const loan = paymentOptions.find((x) => x.type === PaymentType.Loan);
+
       new StageCompletedFinancial(content, {
         store: this.props.store,
         loan,
         paymentType: this.paymentType,
-        paymentLookupResponse: loan?.loanDetails || paymentLookupResponse,
+        paymentLookupResponse: loan?.loanDetails ? loan.loanDetails : paymentLookupResponse,
         onEdit: () => this.onEdit(),
       });
     } else if (state.navigation.stage === this.props.index) {
@@ -135,7 +136,7 @@ class Financial extends HtmlNode {
 
       content.appendChild(part);
 
-      const contactInformation = order.getContactInformation();
+      const contactInformation = order.contactInformation;
 
       const firstGroupOptions: RadioItem[] = [];
       if (cash) {
@@ -161,20 +162,18 @@ class Financial extends HtmlNode {
       }
 
       if (loan) {
-        const loanPrice = this.paymentLookupResponse?.getCosts().monthlyCost || loan.price;
+        const loanPrice = this.paymentLookupResponse?.costs.monthlyCost || loan.price;
         const duration =
-          this.paymentLookupResponse?.getDurationSpec().current ||
-          loan.loanDetails?.getDurationSpec().current;
+          this.paymentLookupResponse?.durationSpec.current ||
+          loan.loanDetails?.durationSpec.current;
 
         const interest =
-          this.paymentLookupResponse?.getInterests().interest ||
-          loan.loanDetails?.getInterests().interest ||
+          this.paymentLookupResponse?.interests.interest ||
+          loan.loanDetails?.interests.interest ||
           NaN;
 
         const getCreditAmount =
-          this.paymentLookupResponse?.getCreditAmount() ||
-          loan.loanDetails?.getCreditAmount() ||
-          NaN;
+          this.paymentLookupResponse?.creditAmount || loan.loanDetails?.creditAmount || NaN;
 
         firstGroupOptions.push({
           id: RADIO_FINANCIAL_LOAN,

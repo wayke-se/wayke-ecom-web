@@ -21,7 +21,8 @@ import { creditAssessmentCancelSigning } from './Data/creditAssessmentCancelSign
 import { useVwListner } from './Utils/vw';
 import { CallbackOrder } from './@types/CallbackOrder';
 
-const OrderIdQueryString = 'wayke-ecom-web-order-id';
+const OrderIdQueryString = 'order';
+const Payment3DSecurityCallback = 'wayke-ecom-web-payment';
 const OrderWaykeIdQueryString = 'wayke-ecom-web-id';
 
 export const WAYKE_ECOM_MODAL_ID = 'wayke-ecom-modal';
@@ -63,7 +64,6 @@ class App {
       };
     }
     config.bind(props.ecomSdkConfig);
-
     const createdRoot = document.createElement('div');
     createdRoot.className = 'waykeecom-root';
     this.root = createdRoot;
@@ -114,10 +114,15 @@ class App {
     );
 
     const params = new URLSearchParams(location.search);
-    const waykeOrderId = params.get(OrderIdQueryString);
+    const waykeOrderId = params.get(OrderIdQueryString) || undefined;
+    const payment3dSecurityCallback = !!params.get(Payment3DSecurityCallback);
     const waykeId = params.get(OrderWaykeIdQueryString);
-    if (waykeOrderId && waykeId) {
-      this.render({ orderId: waykeOrderId, id: waykeId });
+    if (waykeId && waykeId === this.props.id && (waykeOrderId || payment3dSecurityCallback)) {
+      this.render({
+        paymentCallback: payment3dSecurityCallback,
+        orderId: waykeOrderId,
+        id: waykeId,
+      });
     }
   }
 

@@ -1,18 +1,18 @@
 import { IPaymentOption, PaymentType } from '@wayke-se/ecom';
-import { PaymentLookupResponse } from '@wayke-se/ecom/dist-types/payments/payment-lookup-response';
+import { PaymentLookup } from '../../../@types/PaymentLookup';
 import Alert from '../../../Templates/Alert';
 import KeyValueListItem from '../../../Templates/KeyValueListItem';
 import { prettyNumber } from '../../../Utils/format';
 
 interface LoanSummaryProps {
   loan: IPaymentOption;
-  paymentLookupResponse: PaymentLookupResponse;
+  paymentLookupResponse: PaymentLookup;
 }
 
 const LoanSummary = ({ loan, paymentLookupResponse }: LoanSummaryProps) => {
-  const downPayment = paymentLookupResponse.getDownPaymentSpec().current;
-  const duration = paymentLookupResponse.getDurationSpec().current;
-  const creditAmount = paymentLookupResponse.getCreditAmount();
+  const downPayment = paymentLookupResponse.downPaymentSpec.current;
+  const duration = paymentLookupResponse.durationSpec.current;
+  const creditAmount = paymentLookupResponse.creditAmount;
 
   return `
     <div class="waykeecom-stack waykeecom-stack--2">
@@ -57,7 +57,7 @@ const LoanSummary = ({ loan, paymentLookupResponse }: LoanSummaryProps) => {
 
 interface SummaryProps {
   loan?: IPaymentOption;
-  paymentLookupResponse?: PaymentLookupResponse;
+  paymentLookupResponse?: PaymentLookup;
   paymentType: PaymentType;
   changeButtonId: string;
 }

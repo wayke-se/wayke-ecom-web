@@ -49,7 +49,7 @@ class InsuranceItem extends HtmlNode {
   render() {
     const { store, insurance, key } = this.props;
     const state = store.getState();
-    const logo = state.order?.getInsuranceOption()?.logo;
+    const logo = state.order?.insuranceOption?.logo;
     const selectedAddons =
       state.insuranceAddOns?.insurance === insurance.name
         ? state.insuranceAddOns.addOns.map((k) => {

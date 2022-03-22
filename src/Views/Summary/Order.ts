@@ -22,9 +22,9 @@ class Order extends StackNode {
     const { store } = this.props;
     const state = store.getState();
 
-    const paymentLoan = state.order?.getPaymentOptions().find((x) => x.type === PaymentType.Loan);
+    const paymentLoan = state.order?.paymentOptions.find((x) => x.type === PaymentType.Loan);
     const paymentLookupResponse = state.paymentLookupResponse || paymentLoan?.loanDetails;
-    const paymentLease = state.order?.getPaymentOptions().find((x) => x.type === PaymentType.Lease);
+    const paymentLease = state.order?.paymentOptions.find((x) => x.type === PaymentType.Lease);
 
     this.node.innerHTML = `
       <div class="waykeecom-stack waykeecom-stack--2">
@@ -48,7 +48,7 @@ class Order extends StackNode {
                       paymentLookupResponse
                         ? KeyValueListItem({
                             key: paymentLoan.name || '???',
-                            value: prettyNumber(paymentLookupResponse.getCosts().monthlyCost, {
+                            value: prettyNumber(paymentLookupResponse.costs.monthlyCost, {
                               postfix: 'kr/mån',
                             }),
                           })
