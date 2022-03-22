@@ -601,6 +601,11 @@ class CreditAssessment extends HtmlNode {
           autocomplete: 'off',
           placeholder: '',
           type: 'number',
+          information: `
+            <p><span class="waykeecom-text waykeecom-text--font-medium">Hur många barn försörjer du?</span></p>
+            <p>Fyll i antal barn som får barn- eller studiebidrag och som du försörjer. Barn som bor hemma och arbetar och kan försörja sig själva behöver inte räknas med.</p>
+            <p>För dig som har delad vårdnad: ange samtliga barn som bor minst 50 % i hushållet.</p>
+          `,
           onChange: (e) => this.onChange(e),
           onBlur: (e) => this.onBlur(e),
         }
@@ -619,6 +624,15 @@ class CreditAssessment extends HtmlNode {
           placeholder: '',
           unit: 'kr',
           type: 'number',
+          information: `
+            <p><span class="waykeecom-text waykeecom-text--font-medium">Hur stor inkomst har ert hushåll per månad före skatt?</span></p>
+            <p>Ange hur stor hushållets totala inkomst är. Exempel på inkomster kan vara:</p>
+            <ul>
+              <li>Lön</li>
+              <li>Pension</li>
+              <li>Kapitalinkomst</li>
+            </ul>
+          `,
           onChange: (e) => this.onChange(e),
           onBlur: (e) => this.onBlur(e),
         }
@@ -638,6 +652,17 @@ class CreditAssessment extends HtmlNode {
           placeholder: '',
           unit: 'kr',
           type: 'number',
+          information: `
+            <p><span class="waykeecom-text waykeecom-text--font-medium">Hur stora utgifter för ert boende har ditt hushåll varje månad?</span></p>
+            <p>Ange hur stor hushållets ungefärliga boendekostnader är. Exempel på kostnader kan vara:</p>
+            <ul>
+              <li>Hyra</li>
+              <li>Avgift till förening</li>
+              <li>Driftkostnader</li>
+              <li>Räntekostnader</li>
+            </ul>
+            <p><span class="waykeecom-text waykeecom-text--italic">Amorteringskostnader ingår inte i beräkningen.</span></p>
+          `,
           onChange: (e) => this.onChange(e),
           onBlur: (e) => this.onBlur(e),
         }
@@ -656,6 +681,17 @@ class CreditAssessment extends HtmlNode {
           placeholder: '',
           unit: 'kr',
           type: 'number',
+          information: `
+            <p><span class="waykeecom-text waykeecom-text--font-medium">Hur mycket andra skulder har ert hushåll?</span></p>
+            <p>Ange kostnaden för samtliga övriga lån och skulder som hushållet har. Exempel på andra lån och skulder kan vara:</p>
+            <ul>
+              <li>Andra billån</li>
+              <li>Bostadslån</li>
+              <li>Studielån</li>
+              <li>Blanco/privatlån</li>
+              <li>Kortkredit</li>
+            </ul>
+          `,
           onChange: (e) => this.onChange(e),
           onBlur: (e) => this.onBlur(e),
         }

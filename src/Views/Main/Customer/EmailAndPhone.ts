@@ -4,7 +4,6 @@ import InputField from '../../../Components/Input/InputField';
 
 import { setContactAndPhone } from '../../../Redux/action';
 import { WaykeStore } from '../../../Redux/store';
-//import EmailHelp from '../../../Templates/EmailHelp';
 import KeyValueListItem from '../../../Templates/KeyValueListItem';
 import { validationMethods } from '../../../Utils/validationMethods';
 import HtmlNode from '../../../Components/Extension/HtmlNode';
@@ -152,7 +151,6 @@ class EmailAndPhone extends HtmlNode {
           name: 'email',
           autocomplete: 'email',
           placeholder: 'Ange din e-postadress',
-          //information: EmailHelp(),
           onChange: (e) => this.onChange(e),
           onBlur: (e) => this.onBlur(e),
         }

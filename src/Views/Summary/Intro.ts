@@ -26,7 +26,7 @@ class Intro extends StackNode {
         <div class="waykeecom-stack waykeecom-stack--2">
           <div class="waykeecom-content">
             <p>
-              <strong>Det här händer nu:</strong>
+              <span class="waykeecom-text waykeecom-text--font-medium">Det här händer nu:</span>
             </p>
             <ol>
               <li>En orderbekräftelse kommer att skickas till din e-postadress ${email}.*</li>
