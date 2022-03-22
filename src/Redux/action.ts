@@ -20,6 +20,7 @@ import { StageTypes } from '../@types/Stages';
 import { TradeInCarData } from '../@types/TradeIn';
 import { Vehicle } from '../@types/Vehicle';
 import { convertPaymentLookupResponse } from '../Utils/convert';
+import { ReducerState } from './reducer';
 
 export const RESET = 'RESET';
 export type RESET_TYPE = BaseAction<typeof RESET> & {
@@ -197,6 +198,13 @@ export const setCreditAssessmentResponse =
   (caseId?: string, creditAssessmentResponse?: ICreditAssessmentStatus) => (dispatch: Dispatch) =>
     dispatch({ type: SET_CREDIT_ASSESSMENT_RESPONSE, caseId, creditAssessmentResponse });
 
+export const SET_STATE = 'SET_STATE';
+export type SET_STATE_TYPE = BaseAction<typeof SET_STATE> & {
+  state: ReducerState;
+};
+export const setState = (state: ReducerState) => (dispatch: Dispatch) =>
+  dispatch({ type: SET_STATE, state });
+
 export type Action =
   | RESET_TYPE
   | SET_ORDER_TYPE
@@ -218,4 +226,5 @@ export type Action =
   | SET_STAGES_TYPE
   | COMPLETE_STAGE_TYPE
   | SET_CREATED_ORDER_ID_TYPE
-  | SET_CREDIT_ASSESSMENT_RESPONSE_TYPE;
+  | SET_CREDIT_ASSESSMENT_RESPONSE_TYPE
+  | SET_STATE_TYPE;

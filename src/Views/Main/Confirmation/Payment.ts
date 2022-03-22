@@ -22,7 +22,7 @@ class Payment extends HtmlNode {
   init() {
     const { payment: _payment } = this.props.store.getState();
     const payment = _payment as unknown as { type: string; url: string };
-    sessionStorage.setItem('payment', JSON.stringify(payment));
+    sessionStorage.setItem('wayke-ecom-state', JSON.stringify(this.props.store.getState()));
 
     switch (payment.type as SupportedPaymentTypes) {
       case 'swedbank':

@@ -39,6 +39,7 @@ import {
   SET_CREATED_ORDER_ID,
   SET_CREDIT_ASSESSMENT_RESPONSE,
   SET_DEALER,
+  SET_STATE,
 } from './action';
 
 let mock = {};
@@ -345,6 +346,9 @@ const reducer = (state = initialState, action: Action): ReducerState => {
         caseId: action.caseId,
         creditAssessmentResponse: action.creditAssessmentResponse,
       };
+
+    case SET_STATE:
+      return { ...action.state };
     default:
       return state;
   }

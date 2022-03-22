@@ -3,6 +3,7 @@ import { WaykeStore } from '../../Redux/store';
 import Confirmation from './Confirmation';
 import HtmlNode from '../../Components/Extension/HtmlNode';
 import watch from '../../Redux/watch';
+import { stageMap } from '../../Utils/stage';
 
 interface MainProps {
   readonly store: WaykeStore;
@@ -51,7 +52,7 @@ class Main extends HtmlNode {
     // Render stages
     stages?.forEach(
       (stage, index) =>
-        new stage.component(stepper, {
+        new stageMap[stage.name].component(stepper, {
           store,
           index: index + 1,
           lastStage: false, //size === index + 1,

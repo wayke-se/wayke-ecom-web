@@ -5,7 +5,7 @@ import packageJson from '../package.json';
 
 import { Vehicle } from './@types/Vehicle';
 import { createStore, WaykeStore } from './Redux/store';
-import { reset, setId } from './Redux/action';
+import { reset, setId, setState } from './Redux/action';
 
 import Preview from './Views/Preview';
 import Main from './Views/Main';
@@ -20,6 +20,7 @@ import ConfirmClose from './Views/ConfirmClose';
 import { creditAssessmentCancelSigning } from './Data/creditAssessmentCancelSigning';
 import { useVwListner } from './Utils/vw';
 import { CallbackOrder } from './@types/CallbackOrder';
+import { ReducerState } from './Redux/reducer';
 
 const OrderIdQueryString = 'order';
 const Payment3DSecurityCallback = 'wayke-ecom-web-payment';
@@ -118,11 +119,23 @@ class App {
     const payment3dSecurityCallback = !!params.get(Payment3DSecurityCallback);
     const waykeId = params.get(OrderWaykeIdQueryString);
     if (waykeId && waykeId === this.props.id && (waykeOrderId || payment3dSecurityCallback)) {
-      this.render({
-        paymentCallback: payment3dSecurityCallback,
-        orderId: waykeOrderId,
-        id: waykeId,
-      });
+      if (payment3dSecurityCallback) {
+        const stateAsString = sessionStorage.getItem('wayke-ecom-state');
+        sessionStorage.removeItem('wayke-ecom-state');
+        const state = stateAsString
+          ? (JSON.parse(stateAsString) as unknown as ReducerState | undefined)
+          : undefined;
+        if (state) {
+          this.view = state.navigation.view;
+          setState(state as unknown as ReducerState)(this.contexts.store.dispatch);
+          // this.render();
+        }
+      } else if (waykeOrderId) {
+        this.render({
+          orderId: waykeOrderId,
+          id: waykeId,
+        });
+      }
     }
   }
 
