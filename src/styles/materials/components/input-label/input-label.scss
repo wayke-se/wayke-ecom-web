@@ -1,6 +1,9 @@
 @use 'sass:color';
 @use '../../../helpers' as *;
 
+// Note: This component is also used as legend in input-group
+// Make sure to check that component as well after making changes in this component
+
 .#{$namespace}input-label {
   $root: &;
 

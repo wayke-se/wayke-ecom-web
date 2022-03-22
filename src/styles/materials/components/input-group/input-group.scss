@@ -3,13 +3,19 @@
 .#{$namespace}input-group {
   $root: &;
 
-  --#{$namespace}legend-font-size: #{scss-var(font, size, xsmall)};
-
   border: 0;
   padding: 0;
   margin: 0;
   min-width: 0;
 
+  &__item {
+    & + & {
+      margin-top: size(2);
+    }
+  }
+
+  // This component uses input-label for styling on the legend
+  // This makes it possible to use input-label's help and share it's components
   .#{$namespace}input-label {
     width: 100%;
     padding: 0;
@@ -20,12 +26,6 @@
 
     &:not(.#{$namespace}no-margin) {
       margin-bottom: size(1);
-    }
-  }
-
-  &__item {
-    & + & {
-      margin-top: size(2);
     }
   }
 }

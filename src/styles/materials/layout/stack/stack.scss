@@ -6,8 +6,6 @@ $stack-size: (
   '2': 2,
   '3': 3,
   '4': 4,
-  '6': 6,
-  '8': 8,
 );
 
 @each $stack-name, $stack-value in $stack-size {
