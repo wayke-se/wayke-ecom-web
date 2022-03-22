@@ -51,6 +51,7 @@
       color: color.adjust(color(primary, main), $lightness: -5%);
     }
 
+    // Increase hitbox of button to increase accessibility
     &::before {
       content: '';
       position: absolute;
@@ -64,7 +65,7 @@
   }
 
   &__foldout {
-    $content-margin: 0.75em;
+    $content-margin: 0.75em; // Same value as in content component
 
     @include remove-direct-child-edge-margins;
 
