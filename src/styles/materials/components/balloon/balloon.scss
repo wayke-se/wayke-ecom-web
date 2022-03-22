@@ -5,4 +5,8 @@
   background-color: color(bg, alt);
   border-radius: scss-var(border, radius, alt);
   font-size: scss-var(font, size, small);
+
+  &--info {
+    background-color: color(semantic, info, alt);
+  }
 }

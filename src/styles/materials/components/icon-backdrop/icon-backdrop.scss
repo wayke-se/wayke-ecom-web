@@ -22,4 +22,15 @@
     background-color: color(semantic, error, alt);
     color: color(semantic, error, text);
   }
+
+  &--info {
+    background-color: color(semantic, info, alt);
+    color: color(semantic, info, text);
+  }
+
+  // Darker variant of info used on info alt background
+  &--info-alt {
+    background-color: color(semantic, info, main);
+    color: color(semantic, info, text);
+  }
 }

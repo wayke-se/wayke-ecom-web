@@ -13,6 +13,7 @@ import ButtonBankId from '../../../Components/Button/ButtonBankId';
 import HtmlNode from '../../../Components/Extension/HtmlNode';
 import InputField from '../../../Components/Input/InputField';
 import InputRadioGroup from '../../../Components/Input/InputRadioGroup';
+import Accordion from '../../../Components/Accordion';
 import { creditAssessmentCancelSigning } from '../../../Data/creditAssessmentCancelSigning';
 import { creditAssessmentGetStatus } from '../../../Data/creditAssessmentGetStatus';
 import { creditAssessmentNewCase } from '../../../Data/creditAssessmentNewCase';
@@ -51,6 +52,8 @@ const HOUSEHOLD_DEBT_NODE = `${HOUSEHOLD_DEBT}-node`;
 
 const PERFORM_APPLICATION = `credit-assessment-perform-application`;
 const PERFORM_APPLICATION_NODE = `${PERFORM_APPLICATION}-node`;
+
+const WHY_DESCRIPTION = `why-description-node`;
 
 export interface CreditAssessmentHouseholdEconomyValidation {
   maritalStatus: boolean;
@@ -406,10 +409,7 @@ class CreditAssessment extends HtmlNode {
         <p class="waykeecom-content">För att besvara din förfrågan om billån behöver Volvofinans Bank några fler uppgifter om dig och ditt hushåll. Frågorna tar bara någon minut att besvara. Bekräfta och signera sedan med BankID – därefter får du ditt lånebesked direkt på skärmen och kan gå vidare med ditt bilköp. Blir du godkänd så gäller lånebeskedet genom hela köpet så länge inga tillägg görs – men din ansökan är inte bindande.</p>
       </div>
       <div class="waykeecom-stack waykeecom-stack--3">
-        ${Alert({
-          tone: 'info',
-          children: '<p>Varför måste jag svara på allt detta?</p>',
-        })}
+        <div class="waykeecom-balloon waykeecom-balloon--info" id="${WHY_DESCRIPTION}"></div>
       </div>
       <div class="waykeecom-stack waykeecom-stack--3">
         <div class="waykeecom-stack waykeecom-stack--2">
@@ -675,6 +675,30 @@ class CreditAssessment extends HtmlNode {
           },
         }
       );
+
+      new Accordion(this.node.querySelector<HTMLDivElement>(`#${WHY_DESCRIPTION}`), {
+        id: 'accordion-why-description',
+        title: `
+          <div class="waykeecom-hstack waykeecom-hstack--align-center waykeecom-hstack--spacing-1">
+            <div class="waykeecom-hstack__item waykeecom-hstack__item--no-shrink" aria-hidden="true">
+              <div class="waykeecom-icon-backdrop waykeecom-icon-backdrop--info-alt">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 16 16"
+                  class="waykeecom-icon"
+                  data-icon="Info"
+                >
+                 <path d="M7 6h2v8H7V6zm0-4v2h2V2H7z" />
+                </svg>
+              </div>
+            </div>
+            <div class="waykeecom-hstack__item">Varför måste jag svara på allt detta?</div>
+          </div>`,
+        description: `<div class="waykeecom-content">
+            <p>Volvofinans Bank, liksom alla banker i Sverige, är enligt lagen om åtgärder mot penningtvätt och finansiering av terrorism skyldiga att ha god kännedom om sina kunder. Därför måste vi ställa frågor om dig som kund. Den information vi får om dig behandlas konfidentiellt och omfattas av banksekretessen och GDPR.<p>
+            <p><a href="#" title="" target="_blank" rel="noopener norefferer" class="waykeecom-link">Läs mer om detta här</a></p>
+          </div>`,
+      });
 
       if (scrollIntoView || this.caseError || this.bankidError) {
         this.node.querySelector(`#${PERFORM_APPLICATION_NODE}`)?.scrollIntoView();
