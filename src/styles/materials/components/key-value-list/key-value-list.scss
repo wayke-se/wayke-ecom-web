@@ -25,13 +25,26 @@
   }
 
   &__key {
-    flex-shrink: 0;
     @include font-medium;
-    
+
+    flex-shrink: 0; 
+    display: flex;
+    align-items: center;
+    max-width: 80%;
     padding-right: size(2);
     font-size: var(--#{$namespace}key-font-size);
     line-height: scss-var(font, line-height, main);
     margin-top: calc(((var(--#{$namespace}key-font-size) * #{scss-var(font, line-height, main)}) - (var(--#{$namespace}value-font-size) * #{scss-var(font, line-height, main)})) / -2);
+  }
+
+  &__key-image {
+    flex-shrink: 0;
+    display: block;
+    width: size(4);
+    height: size(4);
+    border-radius: scss-var(border, radius, main);
+    object-fit: cover;
+    margin-right: size(1);
   }
 
   &__value {

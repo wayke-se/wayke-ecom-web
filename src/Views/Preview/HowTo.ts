@@ -6,7 +6,6 @@ import { Image } from '../../Utils/constants';
 const TimelineItemByStage = {
   customer: {
     heading: 'Dina kunduppgifter',
-    description: `Hämtas smidigt med BankID <img src="${Image.bankid}" alt="BankID logotyp" class="waykeecom-image waykeecom-image--inline" aria-hidden="true" />`,
   },
   centralStorage: {
     heading: 'Välj anläggning',
@@ -22,8 +21,7 @@ const TimelineItemByStage = {
   },
   financial: {
     heading: 'Ägandeform',
-    description:
-      'Betala allt på en gång, delbetala och gör låneansökan direkt online eller upplev flexibiliteten med att privatleasa.',
+    description: `Betala allt på en gång, delbetala och gör låneansökan direkt online <img src="${Image.bankid}" alt="BankID logotyp" class="waykeecom-image waykeecom-image--inline" aria-hidden="true" /> eller upplev flexibiliteten med privatleasing.`,
   },
   insurance: {
     heading: 'Vill du teckna en försäkring?',
@@ -52,7 +50,7 @@ const HowTo = ({ order, stageOrderList }: HowToProps) => `
       <ol class="waykeecom-timeline" aria-label="Tillvägagångssätt">
         ${stageOrderList?.map((stage) => TimelineItem(TimelineItemByStage[stage.name])).join('')}
         ${TimelineItem({
-          heading: 'Sammanställning och orderbekräftelse',
+          heading: 'Klart!',
           final: true,
         })}
       </ol>

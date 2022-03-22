@@ -2,6 +2,7 @@ import { Customer, CustomerSocialId } from '../../../@types/Customer';
 import ButtonArrowRight from '../../../Components/Button/ButtonArrowRight';
 import ButtonAsLink from '../../../Components/Button/ButtonAsLink';
 import InputField from '../../../Components/Input/InputField';
+import Disclaimer from '../../../Components/Disclaimer/Disclaimer';
 import { getAddressBySsn } from '../../../Data/getAddress';
 import { setSocialIdAndAddress } from '../../../Redux/action';
 import { WaykeStore } from '../../../Redux/store';
@@ -17,6 +18,7 @@ const SOCIAL_ID_INFO = 'contact-social-id-info';
 
 const PROCEED = `${SOCIAL_ID_INPUT_ID}-proceed`;
 const PROCEED_NODE = `${SOCIAL_ID_INPUT_ID}-proceed-node`;
+const DISCLAIMER_NODE = `${SOCIAL_ID_INPUT_ID}-disclaimer-node`;
 
 const validation = {
   socialId: validationMethods.requiredSsnOver18,
@@ -160,9 +162,7 @@ class FullAddressBySocialId extends HtmlNode {
         </div>
         <div class="waykeecom-stack waykeecom-stack--3">
           <div class="waykeecom-stack waykeecom-stack--2" id="${PROCEED_NODE}"></div>
-          <div class="waykeecom-stack waykeecom-stack--2">
-            Dina uppgifter lagras och sparas säkert. Läs mer i vår <a href="#" title="" target="_blank" rel="noopener noreferrer" class="waykeecom-link">personuppgiftspolicy</a>.
-          </div>
+          <div class="waykeecom-stack waykeecom-stack--2" id="${DISCLAIMER_NODE}"></div>
         </div>
       </div>
     `;
@@ -197,6 +197,10 @@ class FullAddressBySocialId extends HtmlNode {
         onClick: () => this.onFetchAddress(),
       }
     );
+
+    new Disclaimer(this.node.querySelector<HTMLDivElement>(`#${DISCLAIMER_NODE}`), {
+      text: `Dina uppgifter lagras och sparas säkert. Läs mer i vår <a href="#" title="" target="_blank" rel="noopener noreferrer" class="waykeecom-link">personuppgiftspolicy</a>.`,
+    });
 
     this.updateProceedButton();
   }
