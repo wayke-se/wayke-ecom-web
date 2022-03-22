@@ -123,7 +123,7 @@ class TradeIn extends HtmlNode {
                ${Alert({
                  tone: 'info',
                  children:
-                   '<b>Vi skickar med uppgifter om din inbytesbil till bilhandlaren.</b> Observera att värderingen som utförs ger ett uppskattat inbytesvärde. Det slutgiltliga värdet avgörs när handlare kan bekräfta bilens skick.',
+                   '<span class="waykeecom-text waykeecom-text--font-medium">Vi skickar med uppgifter om din inbytesbil till bilhandlaren.</span> Observera att värderingen som utförs ger ett uppskattat inbytesvärde. Det slutgiltliga värdet avgörs när handlare kan bekräfta bilens skick.',
                })}
               </div>
             </div>
