@@ -9,7 +9,7 @@
   display: block;
   width: 100%;
   min-height: 150px;
-  max-height: 500px;
+  max-height: 300px;
   padding: var(--#{$namespace}textarea-padding);
   border: scss-var(border, width, main) solid color(border, main);
   border-radius: scss-var(border, radius, main);
