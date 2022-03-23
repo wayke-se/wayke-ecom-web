@@ -4,7 +4,7 @@ import HtmlNode from './Extension/HtmlNode';
 interface StageCompletedProps {
   keyValueList: KeyValueListItemProps[];
   changeButtonTitle: string;
-  onEdit: () => void;
+  onEdit?: () => void;
 }
 
 class StageCompleted extends HtmlNode {
@@ -32,14 +32,22 @@ class StageCompleted extends HtmlNode {
             .join('')}
         </ul>
       </div>
-      <div class="waykeecom-stack waykeecom-stack--1">
-        <div class="waykeecom-align waykeecom-align--end">
-          <button type="button" title="${changeButtonTitle}" class="waykeecom-link">Ändra</button>
-        </div>
-      </div>
+      ${
+        onEdit
+          ? `
+          <div class="waykeecom-stack waykeecom-stack--1">
+            <div class="waykeecom-align waykeecom-align--end">
+              <button type="button" title="${changeButtonTitle}" class="waykeecom-link">Ändra</button>
+            </div>
+          </div>
+          `
+          : ''
+      }
     `;
 
-    this.node.querySelector('button')?.addEventListener('click', () => onEdit());
+    if (onEdit) {
+      this.node.querySelector('button')?.addEventListener('click', () => onEdit());
+    }
   }
 }
 

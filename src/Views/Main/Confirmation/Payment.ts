@@ -41,10 +41,11 @@ class Payment extends HtmlNode {
         <div class="waykeecom-content">
           <p class="waykeecom-content__p">Genomför en förskottsbetalning på 5% av bilens pris (10 995 kr) för att reservera bilen. Välj hur du vill genomföra betalningen.</p>
           <p class="waykeecom-content__p">Resterande del av kontantinsatsen 32 985 kr med eventuellt avdrag av värde för inbytesbil betalas hos [handlaren] vid kontraktskrivning. </p>
-          <p class="waykeecom-content__p">Kort => Credit => 4925000000000004</p>
-          <p class="waykeecom-content__p">3d Secure => 4761739001010416</p>
-          <p class="waykeecom-content__p">MM/ÅÅ: 12/25</p>
-          <p class="waykeecom-content__p">CVC: 123</p>
+          <p class="waykeecom-content__p">Korttyp <span class="waykeecom-text waykeecom-text--font-medium">Credit</span></p>
+          <p class="waykeecom-content__p">Kort utan 3d secure <span class="waykeecom-text waykeecom-text--font-medium">4925000000000004</span></p>
+          <p class="waykeecom-content__p">Kort med 3d secure <span class="waykeecom-text waykeecom-text--font-medium">4761739001010416</span></p>
+          <p class="waykeecom-content__p">MM/ÅÅ: <span class="waykeecom-text waykeecom-text--font-medium">12/25</span></p>
+          <p class="waykeecom-content__p">CVC: <span class="waykeecom-text waykeecom-text--font-medium">123</span></p>
         </div>
       </div>
       <div class="waykeecom-stack waykeecom-stack--3">

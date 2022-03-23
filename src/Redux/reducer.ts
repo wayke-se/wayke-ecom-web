@@ -74,6 +74,7 @@ export interface ReducerState {
   caseId?: string;
   dealer?: string;
   payment?: { type: string; url: string };
+  stateLoadedFromSession?: boolean;
 }
 
 const initNavigation: Navigation = {
