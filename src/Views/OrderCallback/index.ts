@@ -23,9 +23,11 @@ class OrderCallback extends HtmlNode {
 
     if (!state.order) {
       this.node.innerHTML = `
-        <p>Tack för ditt köp</p>
-        <p>Order id: ${callbackOrder.orderId}</p>
-        <p>Wayke id: ${callbackOrder.id}</p>
+        <div class="waykeecom-content">
+          <p class="waykeecom-content__p">Tack för ditt köp</p>
+          <p class="waykeecom-content__p">Order id: ${callbackOrder.orderId}</p>
+          <p class="waykeecom-content__p">Wayke id: ${callbackOrder.id}</p>
+      </div>
       `;
       return;
     }

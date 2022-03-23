@@ -133,7 +133,7 @@ class FullAddressBySocialId extends HtmlNode {
         <div class="waykeecom-stack waykeecom-stack--3">
           <h4 class="waykeecom-heading waykeecom-heading--4">Personuppgifter</h4>
           <div class="waykeecom-content">
-            <p>Ange ditt personnummer för att hämta ditt namn och din adress.</p>
+            <p class="waykeecom-content__p">Ange ditt personnummer för att hämta ditt namn och din adress.</p>
           </div>
         </div>
         <div class="waykeecom-stack waykeecom-stack--3" id="${SOCIAL_ID_NODE}"></div>
@@ -144,7 +144,7 @@ class FullAddressBySocialId extends HtmlNode {
           <div class="waykeecom-stack waykeecom-stack--3" id="${SOCIAL_ID_NODE}">
             ${Alert({
               tone: 'error',
-              children: '<p>Tyvärr fick vi ingen träff på personnumret du angav.</p>',
+              children: 'Tyvärr fick vi ingen träff på personnumret du angav.',
             })}
           </div>`
         )}
@@ -152,11 +152,13 @@ class FullAddressBySocialId extends HtmlNode {
           ${Alert({
             tone: 'info',
             children: `
-              <p>Vi kommer hämta följande uppgifter om dig:</p>
-              <ul>
-                <li>Namn</li>
-                <li>Folkbokföringsadress</li>
-              </ul>
+              <div class="waykeecom-content waykeecom-content--inherit-size">
+                <p class="waykeecom-content__p">Vi kommer hämta följande uppgifter om dig:</p>
+                <ul class="waykeecom-content__ul">
+                  <li class="waykeecom-content__li">Namn</li>
+                  <li class="waykeecom-content__li">Folkbokföringsadress</li>
+                </ul>
+              </div>
             `,
           })}
         </div>

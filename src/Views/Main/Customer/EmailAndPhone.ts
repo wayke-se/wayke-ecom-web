@@ -129,7 +129,7 @@ class EmailAndPhone extends HtmlNode {
       <div class="waykeecom-stack waykeecom-stack--3">
         <h4 class="waykeecom-heading waykeecom-heading--4">Kontaktuppgifter</h4>
         <div class="waykeecom-content">
-          <p>Ange din e-postadress och ditt telefonnummer.</p>
+          <p class="waykeecom-content__p">Ange din e-postadress och ditt telefonnummer.</p>
         </div>
       </div>
 

@@ -114,7 +114,7 @@ class CentralStorage extends HtmlNode {
       <div class="waykeecom-stack waykeecom-stack--3">
         <h4 class="waykeecom-heading waykeecom-heading--4">Vilken anläggning vill du köpa ifrån?</h4>
         <div class="waykeecom-content">
-          <p>Detta fordon är en centrallagerbil och finns tillgängligt från flera anläggningar. Välj den anläggning du vill handla ifrån.</p>
+          <p class="waykeecom-content__p">Detta fordon är en centrallagerbil och finns tillgängligt från flera anläggningar. Välj den anläggning du vill handla ifrån.</p>
         </div>
       </div>
 
@@ -124,7 +124,7 @@ class CentralStorage extends HtmlNode {
         this.requestError
           ? `<div class="waykeecom-stack waykeecom-stack--3">${Alert({
               tone: 'error',
-              children: `<p>Ett fel uppstod och det gick inte att välja ovanstående anläggning. Försök igen.</p>`,
+              children: `Ett fel uppstod och det gick inte att välja ovanstående anläggning. Försök igen.`,
             })}</div>`
           : ''
       }

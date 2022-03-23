@@ -277,7 +277,7 @@ class CreditAssessment extends HtmlNode {
       } catch (e) {
         clearInterval(this.bankidStatusInterval as NodeJS.Timer);
         this.contexts.bankId?.setErrorMessage(
-          '<p>Det gick inte att hämta status kring nuvanrade BankId signering. Nytt försök sker igenom om 2 sekunder</p>'
+          'Det gick inte att hämta status kring nuvanrade BankId signering. Nytt försök sker igenom om 2 sekunder'
         );
       }
     }, 2000);
@@ -412,7 +412,9 @@ class CreditAssessment extends HtmlNode {
       this.node.innerHTML = `
       <div class="waykeecom-stack waykeecom-stack--3">
         <h5 class="waykeecom-heading waykeecom-heading--4">Låneansökan</h5>
-        <p class="waykeecom-content">För att besvara din förfrågan om billån behöver Volvofinans Bank några fler uppgifter om dig och ditt hushåll. Frågorna tar bara någon minut att besvara. Bekräfta och signera sedan med BankID – därefter får du ditt lånebesked direkt på skärmen och kan gå vidare med ditt bilköp. Blir du godkänd så gäller lånebeskedet genom hela köpet så länge inga tillägg görs – men din ansökan är inte bindande.</p>
+        <div class="waykeecom-content">
+          <p class="waykeecom-content__p">För att besvara din förfrågan om billån behöver Volvofinans Bank några fler uppgifter om dig och ditt hushåll. Frågorna tar bara någon minut att besvara. Bekräfta och signera sedan med BankID – därefter får du ditt lånebesked direkt på skärmen och kan gå vidare med ditt bilköp. Blir du godkänd så gäller lånebeskedet genom hela köpet så länge inga tillägg görs – men din ansökan är inte bindande.</p>
+        </div>
       </div>
       <div class="waykeecom-stack waykeecom-stack--3">
         <div class="waykeecom-balloon waykeecom-balloon--info" id="${WHY_DESCRIPTION}"></div>
@@ -454,7 +456,7 @@ class CreditAssessment extends HtmlNode {
       <div class="waykeecom-stack waykeecom-stack--3">
         ${Alert({
           tone: 'info',
-          children: `<p>Du betalar inget i detta steg, detta är bara en låneansökan. Köpet slutförs sedan vid möte med ${branchName}.</p>`,
+          children: `Du betalar inget i detta steg, detta är bara en låneansökan. Köpet slutförs sedan vid möte med ${branchName}.`,
         })}
       </div>
 
@@ -464,9 +466,9 @@ class CreditAssessment extends HtmlNode {
             <div class="waykeecom-stack waykeecom-stack--3">
               ${Alert({
                 tone: 'error',
-                children: `<p>Det gick inte att starta en låneansökan, försök igen.${
+                children: `Det gick inte att starta en låneansökan, försök igen.${
                   this.caseError !== undefined ? this.caseError : ''
-                }</p>`,
+                }`,
               })}
             </div>
           `
@@ -479,7 +481,7 @@ class CreditAssessment extends HtmlNode {
           <div class="waykeecom-stack waykeecom-stack--3">
             ${Alert({
               tone: 'error',
-              children: `<p>Ett fel uppstod med BankId, försök igen.</p>`,
+              children: `Ett fel uppstod med BankId, försök igen.`,
             })}
           </div>
           `
@@ -608,9 +610,11 @@ class CreditAssessment extends HtmlNode {
           placeholder: '',
           type: 'number',
           information: `
-            <p><span class="waykeecom-text waykeecom-text--font-medium">Hur många barn försörjer du?</span></p>
-            <p>Fyll i antal barn som får barn- eller studiebidrag och som du försörjer. Barn som bor hemma och arbetar och kan försörja sig själva behöver inte räknas med.</p>
-            <p>För dig som har delad vårdnad: ange samtliga barn som bor minst 50 % i hushållet.</p>
+            <div class="waykeecom-content waykeecom-content--inherit-size">
+              <p class="waykeecom-content__p"><span class="waykeecom-text waykeecom-text--font-medium">Hur många barn försörjer du?</span></p>
+              <p class="waykeecom-content__p">Fyll i antal barn som får barn- eller studiebidrag och som du försörjer. Barn som bor hemma och arbetar och kan försörja sig själva behöver inte räknas med.</p>
+              <p class="waykeecom-content__p">För dig som har delad vårdnad: ange samtliga barn som bor minst 50 % i hushållet.</p>
+            </div>
           `,
           onChange: (e) => this.onChange(e),
           onBlur: (e) => this.onBlur(e),
@@ -631,13 +635,15 @@ class CreditAssessment extends HtmlNode {
           unit: 'kr',
           type: 'number',
           information: `
-            <p><span class="waykeecom-text waykeecom-text--font-medium">Hur stor inkomst har ert hushåll per månad före skatt?</span></p>
-            <p>Ange hur stor hushållets totala inkomst är. Exempel på inkomster kan vara:</p>
-            <ul>
-              <li>Lön</li>
-              <li>Pension</li>
-              <li>Kapitalinkomst</li>
-            </ul>
+            <div class="waykeecom-content waykeecom-content--inherit-size">
+              <p class="waykeecom-content__p"><span class="waykeecom-text waykeecom-text--font-medium">Hur stor inkomst har ert hushåll per månad före skatt?</span></p>
+              <p class="waykeecom-content__p">Ange hur stor hushållets totala inkomst är. Exempel på inkomster kan vara:</p>
+              <ul class="waykeecom-content__ul">
+                <li class="waykeecom-content__li">Lön</li>
+                <li class="waykeecom-content__li">Pension</li>
+                <li class="waykeecom-content__li">Kapitalinkomst</li>
+              </ul>
+            </div>
           `,
           onChange: (e) => this.onChange(e),
           onBlur: (e) => this.onBlur(e),
@@ -659,15 +665,17 @@ class CreditAssessment extends HtmlNode {
           unit: 'kr',
           type: 'number',
           information: `
-            <p><span class="waykeecom-text waykeecom-text--font-medium">Hur stora utgifter för ert boende har ditt hushåll varje månad?</span></p>
-            <p>Ange hur stor hushållets ungefärliga boendekostnader är. Exempel på kostnader kan vara:</p>
-            <ul>
-              <li>Hyra</li>
-              <li>Avgift till förening</li>
-              <li>Driftkostnader</li>
-              <li>Räntekostnader</li>
-            </ul>
-            <p><span class="waykeecom-text waykeecom-text--italic">Amorteringskostnader ingår inte i beräkningen.</span></p>
+            <div class="waykeecom-content waykeecom-content--inherit-size">
+              <p class="waykeecom-content__p"><span class="waykeecom-text waykeecom-text--font-medium">Hur stora utgifter för ert boende har ditt hushåll varje månad?</span></p>
+              <p class="waykeecom-content__p">Ange hur stor hushållets ungefärliga boendekostnader är. Exempel på kostnader kan vara:</p>
+              <ul class="waykeecom-content__ul">
+                <li class="waykeecom-content__li">Hyra</li>
+                <li class="waykeecom-content__li">Avgift till förening</li>
+                <li class="waykeecom-content__li">Driftkostnader</li>
+                <li class="waykeecom-content__li">Räntekostnader</li>
+              </ul>
+              <p class="waykeecom-content__p"><span class="waykeecom-text waykeecom-text--italic">Amorteringskostnader ingår inte i beräkningen.</span></p>
+            </div>
           `,
           onChange: (e) => this.onChange(e),
           onBlur: (e) => this.onBlur(e),
@@ -688,15 +696,17 @@ class CreditAssessment extends HtmlNode {
           unit: 'kr',
           type: 'number',
           information: `
-            <p><span class="waykeecom-text waykeecom-text--font-medium">Hur mycket andra skulder har ert hushåll?</span></p>
-            <p>Ange kostnaden för samtliga övriga lån och skulder som hushållet har. Exempel på andra lån och skulder kan vara:</p>
-            <ul>
-              <li>Andra billån</li>
-              <li>Bostadslån</li>
-              <li>Studielån</li>
-              <li>Blanco/privatlån</li>
-              <li>Kortkredit</li>
-            </ul>
+            <div class="waykeecom-content waykeecom-content--inherit-size">
+              <p class="waykeecom-content__p"><span class="waykeecom-text waykeecom-text--font-medium">Hur mycket andra skulder har ert hushåll?</span></p>
+              <p class="waykeecom-content__p">Ange kostnaden för samtliga övriga lån och skulder som hushållet har. Exempel på andra lån och skulder kan vara:</p>
+              <ul class="waykeecom-content__ul">
+                <li class="waykeecom-content__li">Andra billån</li>
+                <li class="waykeecom-content__li">Bostadslån</li>
+                <li class="waykeecom-content__li">Studielån</li>
+                <li class="waykeecom-content__li">Blanco/privatlån</li>
+                <li class="waykeecom-content__li">Kortkredit</li>
+              </ul>
+            </div>
           `,
           onChange: (e) => this.onChange(e),
           onBlur: (e) => this.onBlur(e),
@@ -751,8 +761,8 @@ class CreditAssessment extends HtmlNode {
             <div class="waykeecom-hstack__item">Varför måste jag svara på allt detta?</div>
           </div>`,
         description: `<div class="waykeecom-content">
-            <p>Volvofinans Bank, liksom alla banker i Sverige, är enligt lagen om åtgärder mot penningtvätt och finansiering av terrorism skyldiga att ha god kännedom om sina kunder. Därför måste vi ställa frågor om dig som kund. Den information vi får om dig behandlas konfidentiellt och omfattas av banksekretessen och GDPR.<p>
-            <p><a href="#" title="" target="_blank" rel="noopener norefferer" class="waykeecom-link">Läs mer om detta här</a></p>
+            <p class="waykeecom-content__p">Volvofinans Bank, liksom alla banker i Sverige, är enligt lagen om åtgärder mot penningtvätt och finansiering av terrorism skyldiga att ha god kännedom om sina kunder. Därför måste vi ställa frågor om dig som kund. Den information vi får om dig behandlas konfidentiellt och omfattas av banksekretessen och GDPR.</p>
+            <p class="waykeecom-content__p"><a href="#" title="" target="_blank" rel="noopener norefferer" class="waykeecom-link">Läs mer om detta här</a></p>
           </div>`,
       });
 

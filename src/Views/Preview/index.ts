@@ -81,7 +81,7 @@ class Preview extends HtmlNode {
           this.requestError
             ? Alert({
                 tone: 'error',
-                children: `<p>Ett fel uppstod och det gick inte att initiera modulen. Försök igen.</p>`,
+                children: `Ett fel uppstod och det gick inte att initiera modulen. Försök igen.`,
               })
             : Loader()
         }

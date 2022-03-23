@@ -91,7 +91,7 @@ class Accessories extends HtmlNode {
           <div class="waykeecom-stack waykeecom-stack--2">
             <h4 class="waykeecom-heading waykeecom-heading--4">Vill du köpa till ett tillbehör till din nya bil?</h4>
             <div class="waykeecom-content">
-              <p>Här visar vi några av de tillbehör som passar din nya bil.</p>
+              <p class="waykeecom-content__p">Här visar vi några av de tillbehör som passar din nya bil.</p>
             </div>
           </div>
         </div>

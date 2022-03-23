@@ -147,10 +147,10 @@ class Financial extends HtmlNode {
           description: `
             <div class="waykeecom-box">
               <div class="waykeecom-content waykeecom-content--inherit-size">
-                <ul>
-                  <li>Betalning sker hos ${contactInformation?.name} vid 
+                <ul class="waykeecom-content__ul">
+                  <li class="waykeecom-content__li">Betalning sker hos ${contactInformation?.name} vid 
                   kontraktskrivning.</li>
-                  <li>Inga kostnader tillkommer.</li>
+                  <li class="waykeecom-content__li">Inga kostnader tillkommer.</li>
                 </ul>
               </div>
             </div>`,
@@ -185,8 +185,8 @@ class Financial extends HtmlNode {
           <div class="waykeecom-box">
             <div class="waykeecom-stack waykeecom-stack--2">
               <div class="waykeecom-content waykeecom-content--inherit-size">
-                <ul>
-                  <li>
+                <ul class="waykeecom-content__ul">
+                  <li class="waykeecom-content__li">
                     <div>
                       <span class="waykeecom-text waykeecom-text--valign-middle">Låneansökan online med BankID </span>
                       <img src="${
@@ -195,9 +195,11 @@ class Financial extends HtmlNode {
                       <span class="waykeecom-text waykeecom-text--valign-middle"> – svar direkt!</span>
                     </div>
                   </li>
-                  <li>Betalning sker hos ${contactInformation?.name} vid 
+                  <li class="waykeecom-content__li">Betalning sker hos ${
+                    contactInformation?.name
+                  } vid 
                   kontraktskrivning.</li>
-                  <li>*Beräknat på ${prettyNumber(getCreditAmount, {
+                  <li class="waykeecom-content__li">*Beräknat på ${prettyNumber(getCreditAmount, {
                     postfix: 'kr',
                   })} kr, ${duration} mån, ${interest * 100}% ränta.</li>
                 </ul>
@@ -227,7 +229,11 @@ class Financial extends HtmlNode {
           title: 'Köp bilen',
           checked: this.paymentType as string,
           name: 'paymentType',
-          information: `<p>Du köper bilen och äger den själv, antingen genom att betala hela bilen med egna medel eller genom ett billån. Du ansvarar själv för försäljningen av bilen och väljer såklart helt fritt när den ska äga rum.</p>`,
+          information: `
+            <div class="waykeecom-content waykeecom-content--inherit-size">
+              <p class="waykeecom-content__p">Du köper bilen och äger den själv, antingen genom att betala hela bilen med egna medel eller genom ett billån. Du ansvarar själv för försäljningen av bilen och väljer såklart helt fritt när den ska äga rum.</p>
+            </div>
+          `,
           options: firstGroupOptions,
           onClick: (e) => this.onChange(e),
         });
@@ -242,8 +248,8 @@ class Financial extends HtmlNode {
           description: `
             <div class="waykeecom-box">
               <div class="waykeecom-content waykeecom-content--inherit-size">
-                <ul>
-                  <li>*Inkl. 1 500 mil/år, 36 mån.</li>
+                <ul class="waykeecom-content__ul">
+                  <li class="waykeecom-content__li">*Inkl. 1 500 mil/år, 36 mån.</li>
                 </ul>
               </div>
             </div>`,
@@ -260,7 +266,11 @@ class Financial extends HtmlNode {
             title: 'Leasa bilen',
             checked: this.paymentType as string,
             name: 'paymentType',
-            information: `<p>Du står inte som ägare på bilen utan betalar en avtalad månadsavgift där det mesta ingår. När avtalstiden går ut är det bara att lämna tillbaka bilen till bilhandlaren.</p>`,
+            information: `
+              <div class="waykeecom-content waykeecom-content--inherit-size">
+                <p class="waykeecom-content__p">Du står inte som ägare på bilen utan betalar en avtalad månadsavgift där det mesta ingår. När avtalstiden går ut är det bara att lämna tillbaka bilen till bilhandlaren.</p>
+              </div>
+            `,
             options: secondGroupOptions,
             onClick: (e) => this.onChange(e),
           }

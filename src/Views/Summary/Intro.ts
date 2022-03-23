@@ -25,13 +25,13 @@ class Intro extends StackNode {
         <h3 class="waykeecom-heading waykeecom-heading--3">Tack för din order!</h3>
         <div class="waykeecom-stack waykeecom-stack--2">
           <div class="waykeecom-content">
-            <p>
+            <p class="waykeecom-content__p">
               <span class="waykeecom-text waykeecom-text--font-medium">Det här händer nu:</span>
             </p>
-            <ol>
-              <li>En orderbekräftelse kommer att skickas till din e-postadress ${email}.*</li>
-              <li>${contactInformation?.name} tar kontakt med dig för att gå igenom avtal, betalning och leverans.</li>
-              <li>Klart! Kör försiktigt ute på vägarna.</li>
+            <ol class="waykeecom-content__ol">
+              <li class="waykeecom-content__li">En orderbekräftelse kommer att skickas till din e-postadress ${email}.*</li>
+              <li class="waykeecom-content__li">${contactInformation?.name} tar kontakt med dig för att gå igenom avtal, betalning och leverans.</li>
+              <li class="waykeecom-content__li">Klart! Kör försiktigt ute på vägarna.</li>
             </ol>
           </div>
         </div>

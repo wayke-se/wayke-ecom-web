@@ -131,10 +131,10 @@ class BankIdSign extends HtmlNode {
         <div class="waykeecom-stack waykeecom-stack--4" id="">
           <h4 class="waykeecom-heading waykeecom-heading--4">${methodTitle}</h4>
           <div class="waykeecom-content">
-            <p>${methodDescription}</p>
+            <p class="waykeecom-content__p">${methodDescription}</p>
           </div>
         </div>
-        ${info ? ` <div class="waykeecom-stack waykeecom-stack--4"><p>${info}</p></div>` : ''}
+        ${info ? ` <div class="waykeecom-stack waykeecom-stack--4">${info}</div>` : ''}
 
         ${
           !finalizing
