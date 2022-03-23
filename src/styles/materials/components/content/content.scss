@@ -6,7 +6,7 @@
 
   --#{$namespace}content-font-size: #{scss-var(font, size, small)};
 
-  @include remove-direct-child-edge-margins;
+  @include remove-direct-child-outer-y-margins;
 
   &:not(#{$root}--inherit-size) {
     font-size: var(--#{$namespace}content-font-size);

@@ -82,8 +82,8 @@ class IfInsurance extends HtmlNode {
 
         <div class="waykeecom-stack waykeecom-stack--3">
           <div class="waykeecom-stack waykeecom-stack--1" id="${SHOW_INSURANCES_NODE}"></div>
-          <div class="waykeecom-stack waykeecom-stack--1" id="${SHOW_INSURANCES_DISCLAIMER_NODE}"></div>
           <div class="waykeecom-stack waykeecom-stack--1" id="${SKIP_INSURANCES_NODE}"></div>
+          <div class="waykeecom-stack waykeecom-stack--1" id="${SHOW_INSURANCES_DISCLAIMER_NODE}"></div>
         </div>
       `;
       new InputSelect(this.node.querySelector<HTMLDivElement>(`#${DISTANCE_NODE}`), {
