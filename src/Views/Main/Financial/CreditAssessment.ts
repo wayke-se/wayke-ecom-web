@@ -127,15 +127,17 @@ const initalState = (
   };
 };
 
+/*
 const mock: ICreditAssessmentHouseholdEconomy = {
   employment: Employment.FullTimeEmployed,
   householdChildren: 0,
   householdDebt: 0,
-  householdHousingCost: 6000,
-  householdIncome: 80000,
-  income: 40000,
+  householdHousingCost: 0,
+  householdIncome: 0,
+  income: 0,
   maritalStatus: MaritalStatus.Married,
 };
+*/
 
 interface CreditAssessmentProps {
   readonly store: WaykeStore;
@@ -167,7 +169,7 @@ class CreditAssessment extends HtmlNode {
   constructor(element: HTMLDivElement | undefined | null, props: CreditAssessmentProps) {
     super(element);
     this.props = props;
-    this.state = initalState(mock);
+    this.state = initalState();
 
     this.render();
   }
