@@ -45,9 +45,7 @@ class Confirmation extends HtmlNode {
       } else {
         new VerifyByBankId(content, { lastStage: true, index, store: this.props.store });
       }
-      if (navigation.stage === index) {
-        content.parentElement?.scrollIntoView();
-      }
+      content.parentElement?.scrollIntoView();
     }
   }
 }

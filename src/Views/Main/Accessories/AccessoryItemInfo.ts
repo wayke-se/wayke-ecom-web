@@ -29,7 +29,6 @@ class AccessoryItemInfo extends HtmlNode {
   render() {
     const { accessory, selected, onClick, onClose } = this.props;
     const { name, media, logoUrl, price, shortDescription, longDescription, salePrice } = accessory;
-    const image = media?.[0]?.url;
 
     this.node.innerHTML = `
       <div class="waykeecom-nav-banner" id="${BUTTON_TOP_LEFT_NODE}"></div>
@@ -50,12 +49,18 @@ class AccessoryItemInfo extends HtmlNode {
       </div>
       <div class="waykeecom-stack waykeecom-stack--3">
         ${
-          image
+          !!media.length
             ? `
               <ul class="waykeecom-overflow-gallery">
-                <li class="waykeecom-overflow-gallery__item">
-                  <img src="${image}" alt="${name}" class="waykeecom-overflow-gallery__image" />
-                </li>
+                ${media
+                  .map(
+                    (m) => `
+                    <li class="waykeecom-overflow-gallery__item">
+                      <img src="${m.url}" alt="${name}" class="waykeecom-overflow-gallery__image" />
+                    </li>
+                    `
+                  )
+                  .join('')}
               </ul>
             `
             : ''

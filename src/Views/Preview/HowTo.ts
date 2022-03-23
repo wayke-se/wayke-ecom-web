@@ -1,4 +1,5 @@
-import { OrderOptions } from '../../@types/OrderOptions';
+import { PaymentType } from '@wayke-se/ecom';
+import { OrderOptions, PaymentOption } from '../../@types/OrderOptions';
 import { StageTypes } from '../../@types/Stages';
 import TimelineItem from '../../Templates/TimelineItem';
 import { Image } from '../../Utils/constants';
@@ -33,12 +34,40 @@ const TimelineItemByStage = {
   },
 };
 
+const getFinancialDescription = (options?: PaymentOption[]) => {
+  const paymentTypes = options?.map((x) => x.type) || [];
+  const hasCash = paymentTypes.find((x) => x === PaymentType.Cash);
+  const hasLease = paymentTypes.find((x) => x === PaymentType.Lease);
+  const hasLoan = paymentTypes.find((x) => x === PaymentType.Loan);
+
+  if (hasCash && hasLoan && hasLease) {
+    return 'Kontant, billån eller privatleasing';
+  } else if (hasCash && hasLease) {
+    return 'Kontant eller privatleasing';
+  } else if (hasCash && hasLoan) {
+    return 'Kontant eller billån';
+  } else if (hasLoan && hasLease) {
+    return 'Billån eller privatleasing';
+  } else if (hasCash) {
+    return 'Kontant';
+  } else if (hasLoan) {
+    return 'Billån';
+  } else if (hasLease) {
+    return 'privatleasing';
+  }
+  return '???';
+};
+
 interface HowToProps {
   readonly stageOrderList?: StageTypes[];
   readonly order?: OrderOptions;
 }
 
-const HowTo = ({ order, stageOrderList }: HowToProps) => `
+const HowTo = ({ order, stageOrderList }: HowToProps) => {
+  const timelineItemByStage = TimelineItemByStage;
+  timelineItemByStage.financial.description = getFinancialDescription(order?.paymentOptions);
+
+  return `
   <div class="waykeecom-stack waykeecom-stack--3">
     <h4 class="waykeecom-heading waykeecom-heading--4">Så här köper du bilen online</h4>
     <div class="waykeecom-content">
@@ -74,5 +103,6 @@ const HowTo = ({ order, stageOrderList }: HowToProps) => `
     </div>
   </div>
 `;
+};
 
 export default HowTo;
