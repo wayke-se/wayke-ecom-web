@@ -155,7 +155,7 @@ class Financial extends HtmlNode {
               </div>
             </div>`,
           meta: `<div class="waykeecom-text waykeecom-text--font-medium">${prettyNumber(
-            cash.price || '???',
+            cash.price,
             {
               postfix: cash.unit,
             }
@@ -199,7 +199,9 @@ class Financial extends HtmlNode {
                   kontraktskrivning.</li>
                   <li>*Beräknat på ${prettyNumber(getCreditAmount, {
                     postfix: 'kr',
-                  })} kr, ${duration} mån, ${interest * 100}% ränta.</li>
+                  })} kr, ${duration} mån, ${prettyNumber(interest * 100, {
+            decimals: 2,
+          })}% ränta.</li>
                 </ul>
               </div>
             </div>
@@ -213,12 +215,9 @@ class Financial extends HtmlNode {
                 : ''
             }
           </div>`,
-          meta: `<div class="waykeecom-text waykeecom-text--font-medium">${prettyNumber(
-            loanPrice || '???',
-            {
-              postfix: loan.unit,
-            }
-          )}</div>`,
+          meta: `<div class="waykeecom-text waykeecom-text--font-medium">${prettyNumber(loanPrice, {
+            postfix: loan.unit,
+          })}</div>`,
         });
       }
 
@@ -248,7 +247,7 @@ class Financial extends HtmlNode {
               </div>
             </div>`,
           meta: `<div class="waykeecom-text waykeecom-text--font-medium">${prettyNumber(
-            lease.price || '???',
+            lease?.price,
             {
               postfix: lease.unit,
             }

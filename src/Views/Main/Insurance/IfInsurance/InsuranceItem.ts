@@ -55,7 +55,7 @@ class InsuranceItem extends HtmlNode {
         ? state.insuranceAddOns.addOns.map((k) => {
             return {
               key: k?.title,
-              value: prettyNumber(k?.monthlyPrice.toString() || '', { postfix: 'kr/mån' }),
+              value: prettyNumber(k?.monthlyPrice, { postfix: 'kr/mån' }),
             };
           })
         : undefined;
