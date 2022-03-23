@@ -6,6 +6,7 @@ import StageCompleted from '../../../Components/StageCompleted';
 import { goTo, setHomeDelivery } from '../../../Redux/action';
 import { WaykeStore } from '../../../Redux/store';
 import { getTotalDeliveryCost } from '../../../Utils/delivery';
+import { prettyNumber } from '../../../Utils/format';
 import ListItem from '../../../Templates/ListItem';
 import watch from '../../../Redux/watch';
 
@@ -93,9 +94,11 @@ class Delivery extends HtmlNode {
           </div>
         </div>
 
-        <div class="waykeecom-stack waykeecom-stack--2">
-          <div class="waykeecom-stack waykeecom-stack--3" id="${RADIO_HOME_FALSE_NODE}"></div>
-          <div class="waykeecom-stack waykeecom-stack--3" id="${RADIO_HOME_TRUE_NODE}"></div>
+        <div class="waykeecom-stack waykeecom-stack--3">
+          <fieldset class="waykeecom-input-group" role="radiogroup" aria-required="true" aria-label="Leveranssätt">
+            <div class="waykeecom-input-group__item" id="${RADIO_HOME_FALSE_NODE}"></div>
+            <div class="waykeecom-input-group__item" id="${RADIO_HOME_TRUE_NODE}"></div>
+          </fieldset>
         </div>
 
         <div class="waykeecom-stack waykeecom-stack--3" id="${PROCEED_NODE}"></div>
@@ -135,7 +138,12 @@ class Delivery extends HtmlNode {
                   </div>
                 </div>
               `,
-              meta: `<div class="waykeecom-text waykeecom-text--font-medium">${totalDeliveryCost} kr</div>`,
+              meta: `<div class="waykeecom-text waykeecom-text--font-bold">${prettyNumber(
+                totalDeliveryCost,
+                {
+                  postfix: 'kr',
+                }
+              )}</div>`,
               checked: !this.homeDelivery,
               onClick: (e) => this.onChange(e),
             });
@@ -147,7 +155,12 @@ class Delivery extends HtmlNode {
               title: 'Hemleverans',
               value: 'true',
               description: `<div class="waykeecom-box">Till din folkbokföringsadress</div>`,
-              meta: `<div class="waykeecom-text waykeecom-text--font-medium">${totalDeliveryCost} kr</div>`,
+              meta: `<div class="waykeecom-text waykeecom-text--font-bold">${prettyNumber(
+                totalDeliveryCost,
+                {
+                  postfix: 'kr',
+                }
+              )}</div>`,
               checked: this.homeDelivery,
               onClick: (e) => this.onChange(e),
             });

@@ -154,12 +154,9 @@ class Financial extends HtmlNode {
                 </ul>
               </div>
             </div>`,
-          meta: `<div class="waykeecom-text waykeecom-text--font-medium">${prettyNumber(
-            cash.price,
-            {
-              postfix: cash.unit,
-            }
-          )}</div>`,
+          meta: `<div class="waykeecom-text waykeecom-text--font-bold">${prettyNumber(cash.price, {
+            postfix: cash.unit,
+          })}</div>`,
         });
       }
 
@@ -217,7 +214,7 @@ class Financial extends HtmlNode {
                 : ''
             }
           </div>`,
-          meta: `<div class="waykeecom-text waykeecom-text--font-medium">${prettyNumber(loanPrice, {
+          meta: `<div class="waykeecom-text waykeecom-text--font-bold">${prettyNumber(loanPrice, {
             postfix: loan.unit,
           })}</div>`,
         });
@@ -252,7 +249,7 @@ class Financial extends HtmlNode {
                 </ul>
               </div>
             </div>`,
-          meta: `<div class="waykeecom-text waykeecom-text--font-medium">${prettyNumber(
+          meta: `<div class="waykeecom-text waykeecom-text--font-bold">${prettyNumber(
             lease?.price,
             {
               postfix: lease.unit,

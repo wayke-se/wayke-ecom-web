@@ -118,7 +118,7 @@ class InsuranceItemInfo extends HtmlNode {
         </div>
       </div>
       <div class="waykeecom-stack waykeecom-stack--3">
-        <div class="waykeecom-text waykeecom-text--font-medium">${prettyNumber(insurance.price, {
+        <div class="waykeecom-text waykeecom-text--font-bold">${prettyNumber(insurance.price, {
           postfix: 'kr/mån',
         })}</div>
       </div>
@@ -174,7 +174,7 @@ class InsuranceItemInfo extends HtmlNode {
           id: addon.name,
           name: addon.name,
           title: addon.title,
-          meta: `<div class="waykeecom-text waykeecom-text--font-medium">${prettyNumber(
+          meta: `<div class="waykeecom-text waykeecom-text--font-bold">${prettyNumber(
             addon.monthlyPrice,
             { postfix: 'kr/mån' }
           )}</div>`,
