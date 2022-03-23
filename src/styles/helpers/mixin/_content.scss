@@ -18,6 +18,7 @@
     margin: $content-margin 0;
   }
 
+  ol,
   ul {
     list-style: none;
     margin: $content-margin 0;
@@ -27,27 +28,29 @@
       display: flex;
 
       &::before {
-        content: '\2022';
         flex-shrink: 0;
-        width: 3ch;
+        min-width: calc(3ch - #{size(0.5)}); // Magic number to allow three digits in ol
+        padding-right: #{size(0.5)};
+      }
+    }
+  }
+
+  ul {
+    li {
+      &::before {
+        content: '\2022';
       }
     }
   }
 
   ol {
-    list-style: none;
-    margin: $content-margin 0;
-    padding: 0;
     counter-reset: ol-counter;
 
     li {
-      display: flex;
       counter-increment: ol-counter;
 
       &::before {
         content: counter(ol-counter) '.';
-        flex-shrink: 0;
-        width: 3ch;
       }
     }
   }
