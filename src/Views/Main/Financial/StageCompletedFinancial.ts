@@ -15,7 +15,7 @@ interface StageCompletedFinancialProps {
   readonly loan?: PaymentOption;
   readonly paymentLookupResponse?: PaymentLookup;
   readonly paymentType: PaymentType;
-  readonly onEdit: () => void;
+  readonly onEdit?: () => void;
 }
 
 class StageCompletedFinancial extends HtmlNode {
@@ -117,15 +117,23 @@ class StageCompletedFinancial extends HtmlNode {
           })}
         </ul>
       </div>
-      <div class="waykeecom-stack waykeecom-stack--1">
-        <div class="waykeecom-align waykeecom-align--end">
-          <button type="button" title="Ändra finansiering" class="waykeecom-link">Ändra</button>
-        </div>
-      </div>
+      ${
+        onEdit
+          ? `
+          <div class="waykeecom-stack waykeecom-stack--1">
+            <div class="waykeecom-align waykeecom-align--end">
+              <button type="button" title="Ändra finansiering" class="waykeecom-link">Ändra</button>
+            </div>
+          </div>
+          `
+          : ''
+      }
     `;
     }
 
-    this.node.querySelector('button')?.addEventListener('click', () => onEdit());
+    if (onEdit) {
+      this.node.querySelector('button')?.addEventListener('click', () => onEdit());
+    }
   }
 }
 

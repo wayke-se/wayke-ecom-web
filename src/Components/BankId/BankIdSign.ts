@@ -37,12 +37,19 @@ class BankIdSign extends HtmlNode {
     super(element);
     this.props = props;
 
-    const mobile = isMobile();
-    if (mobile) {
-      this.props.onStart(AuthMethod.SameDevice);
-    } else {
-      this.props.onStart(AuthMethod.QrCode);
-    }
+    /**
+     * setTimeout allows the instance to be created so that if onStart method fails,
+     * it can access the instance method of setErrorMessage
+     */
+    setTimeout(() => {
+      const mobile = isMobile();
+      if (mobile) {
+        this.props.onStart(AuthMethod.SameDevice);
+      } else {
+        this.props.onStart(AuthMethod.QrCode);
+      }
+    }, 1);
+
     this.render();
     scrollTop();
   }

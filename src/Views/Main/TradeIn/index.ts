@@ -105,9 +105,15 @@ class TradeIn extends HtmlNode {
                 ${keyValueItemsUpper.map((kv) => KeyValueListItem(kv)).join('')}
               </ul>
             </div>
-            <div class="waykeecom-stack waykeecom-stack--1">
-              <div class="waykeecom-align waykeecom-align--end" id="${CHANGE_BUTTON_NODE}"></div>
-            </div>
+            ${
+              !state.stateLoadedFromSession
+                ? `
+                  <div class="waykeecom-stack waykeecom-stack--1">
+                    <div class="waykeecom-align waykeecom-align--end" id="${CHANGE_BUTTON_NODE}"></div>
+                  </div>
+                `
+                : ''
+            }
           </div>
           <div class="waykeecom-stack waykeecom-stack--3">
             <div class="waykeecom-shadow-box">
@@ -138,16 +144,24 @@ class TradeIn extends HtmlNode {
             ${keyValueItemsUpper.map((kv) => KeyValueListItem(kv)).join('')}
             </ul>
           </div>
-          <div class="waykeecom-stack waykeecom-stack--1">
-            <div class="waykeecom-align waykeecom-align--end" id="${CHANGE_BUTTON_NODE}"></div>
-          </div>
+          ${
+            !state.stateLoadedFromSession
+              ? `
+                <div class="waykeecom-stack waykeecom-stack--1">
+                  <div class="waykeecom-align waykeecom-align--end" id="${CHANGE_BUTTON_NODE}"></div>
+                </div>
+              `
+              : ''
+          }
         `;
       }
-      new ButtonAsLink(part.querySelector(`#${CHANGE_BUTTON_NODE}`), {
-        id: CHANGE_BUTTON,
-        title: 'Ändra',
-        onClick: () => this.onEdit(),
-      });
+      if (!state.stateLoadedFromSession) {
+        new ButtonAsLink(part.querySelector(`#${CHANGE_BUTTON_NODE}`), {
+          id: CHANGE_BUTTON,
+          title: 'Ändra',
+          onClick: () => this.onEdit(),
+        });
+      }
     } else if (state.navigation.stage === index) {
       if (state.wantTradeIn && state.tradeIn) {
         new PartTradeIn(part, { store, lastStage });

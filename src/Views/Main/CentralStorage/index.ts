@@ -81,7 +81,8 @@ class CentralStorage extends HtmlNode {
   }
 
   render() {
-    const { order, navigation, topNavigation } = this.props.store.getState();
+    const { order, navigation, topNavigation, stateLoadedFromSession } =
+      this.props.store.getState();
     const { index } = this.props;
     const dealers = order?.dealerSites || [];
 
@@ -107,7 +108,7 @@ class CentralStorage extends HtmlNode {
           },
         ],
         changeButtonTitle: 'Ändra',
-        onEdit: () => this.onEdit(),
+        onEdit: !stateLoadedFromSession ? () => this.onEdit() : undefined,
       });
     } else if (navigation.stage === index) {
       content.innerHTML = `

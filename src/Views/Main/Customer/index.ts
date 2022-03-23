@@ -70,7 +70,7 @@ class Customer extends HtmlNode {
       new StageCompleted(content, {
         keyValueList,
         changeButtonTitle: 'Ändra dina uppgifter',
-        onEdit: () => this.onChange(),
+        onEdit: !state.stateLoadedFromSession ? () => this.onChange() : undefined,
       });
     } else if (state.navigation.stage === index) {
       new EmailAndPhone(content, { store });

@@ -167,6 +167,7 @@ class App {
     if (caseId) {
       creditAssessmentCancelSigning(caseId);
     }
+    sessionStorage.removeItem('wayke-ecom-state');
     reset(this.props.id)(this.contexts.store.dispatch);
   }
 

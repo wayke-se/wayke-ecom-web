@@ -80,7 +80,7 @@ class Delivery extends HtmlNode {
           },
         ],
         changeButtonTitle: 'Ändra leveranssätt',
-        onEdit: () => this.onEdit(),
+        onEdit: !state.stateLoadedFromSession ? () => this.onEdit() : undefined,
       });
     } else if (state.navigation.stage === index) {
       const part = document.createElement('div');

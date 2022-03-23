@@ -86,7 +86,7 @@ class Insurance extends HtmlNode {
       new StageCompleted(content, {
         keyValueList: keyValueOptions,
         changeButtonTitle: 'Ändra försäkring',
-        onEdit: () => this.onEdit(),
+        onEdit: !state.stateLoadedFromSession ? () => this.onEdit() : undefined,
       });
     } else if (state.navigation.stage === index) {
       const insuranceOptions = state.order?.insuranceOption;
