@@ -18,15 +18,17 @@ const LoanSummary = ({ loan, paymentLookupResponse }: LoanSummaryProps) => {
     <div class="waykeecom-stack waykeecom-stack--2">
       <h4 class="waykeecom-heading waykeecom-heading--4">Billån</h4>
       <div class="waykeecom-content">
-        <p>Ordern är snart klar, här ser du ditt lånebesked:</p>
+        <p class="waykeecom-content__p">Ordern är snart klar, här ser du ditt lånebesked:</p>
       </div>
     </div>
     <div class="waykeecom-stack waykeecom-stack--2">
       ${Alert({
         tone: 'success',
         children: `
-          <p><span class="waykeecom-text waykeecom-text--font-medium">Grattis! Din låneansökan har beviljats av ${loan.name}.</span></p>
-          <p>Bilen är inte reserverad ännu. Slutför ordern genom att klicka dig igenom nästkommande steg. Har du frågor under tiden? Kontakta [handlaren] på tel [telefonnummer].</p>
+          <div class="waykeecom-content waykeecom-content--inherit-size">
+            <p class="waykeecom-content__p"><span class="waykeecom-text waykeecom-text--font-medium">Grattis! Din låneansökan har beviljats av ${loan.name}.</span></p>
+            <p class="waykeecom-content__p">Bilen är inte reserverad ännu. Slutför ordern genom att klicka dig igenom nästkommande steg. Har du frågor under tiden? Kontakta [handlaren] på tel [telefonnummer].</p>
+          </div>
         `,
       })}
     </div>

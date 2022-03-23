@@ -2,12 +2,74 @@
 
 .#{$namespace}content {
   $root: &;
+  $content-margin: 0.75em;
 
   --#{$namespace}content-font-size: #{scss-var(font, size, small)};
 
-  @include content;
+  @include remove-direct-child-edge-margins;
 
   &:not(#{$root}--inherit-size) {
     font-size: var(--#{$namespace}content-font-size);
+  }
+
+  p,
+  &__p {
+    margin: $content-margin 0;
+  }
+
+  img:not([class]),
+  &__img {
+    display: block;
+    width: 100%;
+    margin: $content-margin 0;
+  }
+
+  ol,
+  &__ol,
+  ul,
+  &__ul {
+    list-style: none;
+    margin: $content-margin 0;
+    padding: 0;
+
+    li,
+    #{$root}__li {
+      display: flex;
+
+      &::before {
+        flex-shrink: 0;
+        min-width: calc(3ch - #{size(0.5)}); // Magic number to allow three digits in ol
+        padding-right: #{size(0.5)};
+      }
+    }
+  }
+
+  ul,
+  &__ul {
+    li,
+    #{$root}__li {
+      &::before {
+        content: '\2022';
+      }
+    }
+  }
+
+  ol,
+  &__ol {
+    counter-reset: ol-counter;
+
+    li,
+    #{$root}__li {
+      counter-increment: ol-counter;
+
+      &::before {
+        content: counter(ol-counter) '.';
+      }
+    }
+  }
+
+  li + li,
+  &__li + &__li {
+    margin-top: 0.25em;
   }
 }

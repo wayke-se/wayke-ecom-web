@@ -170,7 +170,7 @@ class TradeIn extends HtmlNode {
           <div class="waykeecom-stack waykeecom-stack--3">
             <h4 class="waykeecom-heading waykeecom-heading--4">Har du en inbytesbil?</h4>
             <div class="waykeecom-content">
-              <p>Har du en bil du vill byta in när du köper din nya bil? Här får du ett uppskattat inköpspris av oss direkt online.</p>
+              <p class="waykeecom-content__p">Har du en bil du vill byta in när du köper din nya bil? Här får du ett uppskattat inköpspris av oss direkt online.</p>
             </div>
           </div>
           

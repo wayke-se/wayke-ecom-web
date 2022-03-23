@@ -119,7 +119,7 @@ class InsuranceView extends HtmlNode {
       <div class="waykeecom-stack waykeecom-stack--3">
         <h4 class="waykeecom-heading waykeecom-heading--4">Vill du teckna en försäkring på din nya bil?</h4>
         <div class="waykeecom-content">
-          <p>Nedan visas förslag på försäkringar som passar dig och din nya bil. I både hel- och halvförsäkring ingår trafikförsäkring som är obligatoriskt att ha. Ifall du har valt att finansiera bilen med ett billån är priset du ser rabatterat.</p>
+          <p class="waykeecom-content__p">Nedan visas förslag på försäkringar som passar dig och din nya bil. I både hel- och halvförsäkring ingår trafikförsäkring som är obligatoriskt att ha. Ifall du har valt att finansiera bilen med ett billån är priset du ser rabatterat.</p>
         </div>
       </div>
       <div class="waykeecom-stack waykeecom-stack--3">
@@ -152,7 +152,7 @@ class InsuranceView extends HtmlNode {
         insuranceListNode.innerHTML = Alert({
           tone: 'error',
           children:
-            '<p>Det gick inte att hämta försäkringar. <button type="button" titlte="Försök igen" class="waykeecom-link waykeecom-link--align-baseline waykeecom-link--current-color">Klicka här för att försöka igen</button>.</p>',
+            'Det gick inte att hämta försäkringar. <button type="button" titlte="Försök igen" class="waykeecom-link waykeecom-link--align-baseline waykeecom-link--current-color">Klicka här för att försöka igen</button>.',
         });
         insuranceListNode
           .querySelector<HTMLButtonElement>('button')

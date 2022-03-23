@@ -39,14 +39,13 @@ class Payment extends HtmlNode {
       <div class="waykeecom-stack waykeecom-stack--3">
         <h4 class="waykeecom-heading waykeecom-heading--4">Välj betalsätt</h4>
         <div class="waykeecom-content">
-          <p>Genomför en förskottsbetalning på 5% av bilens pris (10 995 kr) för att reservera bilen. Välj hur du vill genomföra betalningen.</p>
-
-          <p>Resterande del av kontantinsatsen 32 985 kr med eventuellt avdrag av värde för inbytesbil betalas hos [handlaren] vid kontraktskrivning. </p>
-          <p>Korttyp <b>Credit</b></p>
-          <p>Kort utan 3d secure <b>4925000000000004</b></p>
-          <p>Kort med 3d secure <b>4761739001010416</b></p>
-          <p>MM/ÅÅ: <b>12/25</b></p>
-          <p>CVC: <b>123</b></p>
+          <p class="waykeecom-content__p">Genomför en förskottsbetalning på 5% av bilens pris (10 995 kr) för att reservera bilen. Välj hur du vill genomföra betalningen.</p>
+          <p class="waykeecom-content__p">Resterande del av kontantinsatsen 32 985 kr med eventuellt avdrag av värde för inbytesbil betalas hos [handlaren] vid kontraktskrivning. </p>
+          <p class="waykeecom-content__p">Korttyp <span class="waykeecom-text waykeecom-text--font-medium">Credit</span></p>
+          <p class="waykeecom-content__p">Kort utan 3d secure <span class="waykeecom-text waykeecom-text--font-medium">4925000000000004</span></p>
+          <p class="waykeecom-content__p">Kort med 3d secure <span class="waykeecom-text waykeecom-text--font-medium">4761739001010416</span></p>
+          <p class="waykeecom-content__p">MM/ÅÅ: <span class="waykeecom-text waykeecom-text--font-medium">12/25</span></p>
+          <p class="waykeecom-content__p">CVC: <span class="waykeecom-text waykeecom-text--font-medium">123</span></p>
         </div>
       </div>
       <div class="waykeecom-stack waykeecom-stack--3">

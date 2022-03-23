@@ -80,12 +80,12 @@ class AccessoryItemInfo extends HtmlNode {
       </div>
       <div class="waykeecom-stack waykeecom-stack--3">
         <div class="waykeecom-content waykeecom-text waykeecom-text--font-medium">
-          <p>${shortDescription}</p>
+          <p class="waykeecom-content__p">${shortDescription}</p>
         </div>
       </div>
       <div class="waykeecom-stack waykeecom-stack--3">
         <div class="waykeecom-content">
-          <p>${longDescription}</p>
+          <p class="waykeecom-content__p">${longDescription}</p>
         </div>
       </div>
       <div class="waykeecom-stack waykeecom-stack--3">

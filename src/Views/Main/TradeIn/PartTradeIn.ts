@@ -77,10 +77,10 @@ const RadioElements: RadioItem[] = [
     description: `
     <div class="waykeecom-box">
       <div class="waykeecom-content waykeecom-content--inherit-size">
-        <ul>
-          <li>Inga repor eller skador</li>
-          <li>Servad vid varje tillfälle med stämplar i serviceboken</li>
-          <li>Däck med väldigt bra mönsterdjup (5-8 mm)</li>
+        <ul class="waykeecom-content__ul">
+          <li class="waykeecom-content__li">Inga repor eller skador</li>
+          <li class="waykeecom-content__li">Servad vid varje tillfälle med stämplar i serviceboken</li>
+          <li class="waykeecom-content__li">Däck med väldigt bra mönsterdjup (5-8 mm)</li>
         </ul>
       </div>
     </div>`,
@@ -92,10 +92,10 @@ const RadioElements: RadioItem[] = [
     description: `
     <div class="waykeecom-box">
       <div class="waykeecom-content waykeecom-content--inherit-size">
-        <ul>
-          <li>Några mindre repor och/eller skador</li>
-          <li>Servad vid varje tillfälle med stämplar i serviceboken</li>
-          <li>Däck som inte behöver bytas (mönsterdjup om 3-5 mm)</li>
+        <ul class="waykeecom-content__ul">
+          <li class="waykeecom-content__li">Några mindre repor och/eller skador</li>
+          <li class="waykeecom-content__li">Servad vid varje tillfälle med stämplar i serviceboken</li>
+          <li class="waykeecom-content__li">Däck som inte behöver bytas (mönsterdjup om 3-5 mm)</li>
         </ul>
       </div>
     </div>`,
@@ -107,10 +107,10 @@ const RadioElements: RadioItem[] = [
     description: `
     <div class="waykeecom-box">
       <div class="waykeecom-content waykeecom-content--inherit-size">
-        <ul>
-          <li>Finns en del repor och skador</li>
-          <li>Inte servad vid varje tillfälle</li>
-          <li>Däck som behöver bytas (mönsterdjup under 3 mm)</li>
+        <ul class="waykeecom-content__ul">
+          <li class="waykeecom-content__li">Finns en del repor och skador</li>
+          <li class="waykeecom-content__li">Inte servad vid varje tillfälle</li>
+          <li class="waykeecom-content__li">Däck som behöver bytas (mönsterdjup under 3 mm)</li>
         </ul>
       </div>
     </div>`,
@@ -338,7 +338,7 @@ class PartTradeIn extends HtmlNode {
       <div class="waykeecom-stack waykeecom-stack--3">
         <h4 class="waykeecom-heading waykeecom-heading--4">Uppgifter om din inbytesbil</h4>
         <div class="waykeecom-content">
-          <p>Ange registreringsnumret och aktuellt miltal för din inbytesbil så får du ett uppskattat inköpspris av oss. </p>
+          <p class="waykeecom-content__p">Ange registreringsnumret och aktuellt miltal för din inbytesbil så får du ett uppskattat inköpspris av oss. </p>
         </div>
       </div>
       <div class="waykeecom-stack waykeecom-stack--3">
@@ -352,7 +352,7 @@ class PartTradeIn extends HtmlNode {
           ? `<div class="waykeecom-stack waykeecom-stack--3">${Alert({
               tone: 'error',
               children:
-                '<p>Tyvärr fick vi ingen träff på registreringsnummret du angav. Vänligen kontrollera att registreringsnummret stämmer.</p>',
+                'Tyvärr fick vi ingen träff på registreringsnummret du angav. Vänligen kontrollera att registreringsnummret stämmer.',
             })}</div>`
           : ''
       }

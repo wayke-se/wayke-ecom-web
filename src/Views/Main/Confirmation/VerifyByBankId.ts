@@ -113,7 +113,7 @@ class VerifyByBankId extends HtmlNode {
       } catch (e) {
         clearInterval(this.bankidStatusInterval as NodeJS.Timer);
         this.contexts.bankId?.setErrorMessage(
-          '<p>Det gick inte att hämta status kring nuvanrade BankId signering/p>'
+          'Det gick inte att hämta status kring nuvanrade BankId signering.'
         );
       }
     }, 2000);
@@ -137,7 +137,7 @@ class VerifyByBankId extends HtmlNode {
           this.contexts.bankId?.update(method, autoLaunchUrl);
         } catch (e) {
           const _e = e as { message: string };
-          this.contexts.bankId?.setErrorMessage(`<p>Error: ${_e.message}</p>`);
+          this.contexts.bankId?.setErrorMessage(`Error: ${_e.message}`);
         }
       } else {
         const qrCode = response.getQrCode() as string;
@@ -145,7 +145,7 @@ class VerifyByBankId extends HtmlNode {
       }
     } catch (e) {
       this.contexts.bankId?.setErrorMessage(
-        '<p>Det gick tyvärr inte att initiera BankId. Vänligen försök igen.</p>'
+        'Det gick tyvärr inte att initiera BankId. Vänligen försök igen.'
       );
     } finally {
       this.contexts.buttonLinkToggle?.disabled(false);
@@ -179,8 +179,8 @@ class VerifyByBankId extends HtmlNode {
         <div class="waykeecom-stack waykeecom-stack--3">
           <h4 class="waykeecom-heading waykeecom-heading--4">Strax klart!</h4>
           <div class="waykeecom-content">
-            <p>För att reservera bilen åt dig behöver vi bara verifiera din identitet med BankID. Efter det kommer handlaren att kontakta dig för att slutföra köpet.
-            <p>Köpet blir bindande först när du signerat det definitiva affärsförslaget med handlaren. Det är även då betalningen sker.</p>
+            <p class="waykeecom-content__p">För att reservera bilen åt dig behöver vi bara verifiera din identitet med BankID. Efter det kommer handlaren att kontakta dig för att slutföra köpet.
+            <p class="waykeecom-content__p">Köpet blir bindande först när du signerat det definitiva affärsförslaget med handlaren. Det är även då betalningen sker.</p>
           </div>
         </div>
         ${
@@ -189,7 +189,7 @@ class VerifyByBankId extends HtmlNode {
           <div class="waykeecom-stack waykeecom-stack--3">${Alert({
             tone: 'error',
             children:
-              '<p>Du måste vara över 18 år för att kunna fortsätta. Identifiering med BankId visar att du är under 18 år gammal.</p>',
+              'Du måste vara över 18 år för att kunna fortsätta. Identifiering med BankId visar att du är under 18 år gammal.',
           })}</div>
         `
             : ''
@@ -200,7 +200,7 @@ class VerifyByBankId extends HtmlNode {
           <div class="waykeecom-stack waykeecom-stack--3">${Alert({
             tone: 'error',
             children:
-              '<p>Personnummret i första steget matchar inte med det som är kopplat mot bankid</p>',
+              'Personnummret i första steget matchar inte med det som är kopplat mot bankid',
           })}</div>
         `
             : ''

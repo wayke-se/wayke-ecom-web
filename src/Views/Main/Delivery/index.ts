@@ -88,7 +88,7 @@ class Delivery extends HtmlNode {
         <div class="waykeecom-stack waykeecom-stack--3">
           <h4 class="waykeecom-heading waykeecom-heading--4">Hur vill du ha din bil levererad?</h4>
           <div class="waykeecom-content">
-            <p>Välj ifall du vill ha bilen levererad hem till dig eller ifall du vill hämta 
+            <p class="waykeecom-content__p">Välj ifall du vill ha bilen levererad hem till dig eller ifall du vill hämta 
             den hos ${contactInformation.name}.</p>
           </div>
         </div>

@@ -75,7 +75,7 @@ class StageCompletedFinancial extends HtmlNode {
         <div class="waykeecom-stack waykeecom-stack--2">
           <h4 class="waykeecom-heading waykeecom-heading--4">Billån</h4>
           <div class="waykeecom-content">
-            <p>Ordern är snart klar, här ser du ditt lånebesked:</p>
+            <p class="waykeecom-content__p">Ordern är snart klar, här ser du ditt lånebesked:</p>
           </div>
         </div>
         ${

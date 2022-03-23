@@ -68,8 +68,6 @@
   }
 
   &__foldout {
-    @include content;
- 
     width: 100%;
     background-color: color(bg, alt);
     padding: size(1.5);

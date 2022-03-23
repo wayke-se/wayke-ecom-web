@@ -1,8 +1,6 @@
 @use '../../../helpers' as *;
 
 .#{$namespace}disclaimer-text {
-  @include content;
-  
   font-size: scss-var(font, size, xsmall);
   color: color(text, alt);
 }

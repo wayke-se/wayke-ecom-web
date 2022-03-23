@@ -45,7 +45,7 @@ class ConfirmClose extends HtmlNode {
         </div>
         <div class="waykeecom-stack waykeecom-stack--2">
           <div class="waykeecom-content">
-            <p>Du har inte klickat dig igenom alla steg som krävs för att ordern ska slutföras och bilen ska reserveras till dig. Är du säker på att du vill avsluta din order?</p>
+            <p class="waykeecom-content__p">Du har inte klickat dig igenom alla steg som krävs för att ordern ska slutföras och bilen ska reserveras till dig. Är du säker på att du vill avsluta din order?</p>
           </div>
         </div>
       </div>

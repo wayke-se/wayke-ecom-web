@@ -34,9 +34,11 @@ class Disclaimer extends StackNode {
           </svg>
         </div>
         <div class="waykeecom-disclaimer__text">
-          <p>Dina uppgifter lagras och sparas säkert. Läs mer i vår <a href="#" title="" target="_blank" rel="noopener noreferrer" class="waykeecom-link">personuppgiftspolicy</a>.</p>
-          <p>Genom att gå vidare godkänner jag Waykes <a href="${conditionsPdfUri}" title="" target="_blank" rel="noopener noreferrer" class="waykeecom-link">användarvillkor</a>.</p>
-          <p>Vi reserverar oss för eventuell ändring i tillgången av utbjudna bilar.</p>
+          <div class="waykeecom-content">
+            <p class="waykeecom-content__p">Dina uppgifter lagras och sparas säkert. Läs mer i vår <a href="#" title="" target="_blank" rel="noopener noreferrer" class="waykeecom-link">personuppgiftspolicy</a>.</p>
+            <p class="waykeecom-content__p">Genom att gå vidare godkänner jag Waykes <a href="${conditionsPdfUri}" title="" target="_blank" rel="noopener noreferrer" class="waykeecom-link">användarvillkor</a>.</p>
+            <p class="waykeecom-content__p">Vi reserverar oss för eventuell ändring i tillgången av utbjudna bilar.</p>
+          </div>
         </div>
       </div>
     `;

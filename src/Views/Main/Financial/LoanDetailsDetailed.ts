@@ -111,8 +111,10 @@ class LoanDetailsDetailed extends HtmlNode {
           </div>
           <div class="waykeecom-stack waykeecom-stack--2">
             <div class="waykeecom-disclaimer-text">
-              <p>*Det här är inte den slutgiltiga offerten. Räntan kan komma att ändras ifall det sker justeringar i initial amorteringsplan, tillägg i utrustning eller andra ändringar som påverkar det initiala prisförslaget.</p>
-              <p>Om marknadsräntan förändras kan månadskostnaden komma att ändras i motsvarande mån. Månadskostnaden kan också komma att påverkas utifrån den kreditriskbedömning som görs efter en kreditupplysning.</p>
+              <div class="waykeecom-content waykeecom-content--inherit-size">
+                <p class="waykeecom-content__p">*Det här är inte den slutgiltiga offerten. Räntan kan komma att ändras ifall det sker justeringar i initial amorteringsplan, tillägg i utrustning eller andra ändringar som påverkar det initiala prisförslaget.</p>
+                <p class="waykeecom-content__p">Om marknadsräntan förändras kan månadskostnaden komma att ändras i motsvarande mån. Månadskostnaden kan också komma att påverkas utifrån den kreditriskbedömning som görs efter en kreditupplysning.</p>
+              </div>
             </div>
           </div>
           ${
