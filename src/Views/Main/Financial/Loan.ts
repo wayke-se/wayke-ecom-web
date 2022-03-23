@@ -133,8 +133,8 @@ class Loan extends HtmlNode {
 
   render() {
     const { store, loan, onProceed } = this.props;
-    const state = store.getState();
-    const dealer = state.order?.contactInformation;
+    const { order } = store.getState();
+    const name = order?.contactInformation?.name;
     const shouldUseCreditScoring = this.paymentLookupResponse.shouldUseCreditScoring;
 
     const requestError = this.paymentRequestFailed
@@ -151,9 +151,7 @@ class Loan extends HtmlNode {
       <div class="waykeecom-stack waykeecom-stack--3">
         <h5 class="waykeecom-heading waykeecom-heading--4">Billån</h5>
         <div class="waykeecom-content">
-          <p class="waykeecom-content__p">Finansiera bilen med billån via Volvofinans Bank. Gör din låneansökan här - och få besked direkt. Kom ihåg, köpet är inte bindande förrän du signerat det definitiva affärsförslaget som tas fram av ${
-            dealer?.name
-          }.</p>
+          <p class="waykeecom-content__p">Finansiera bilen med billån via Volvofinans Bank. Gör din låneansökan här - och få besked direkt. Kom ihåg, köpet är inte bindande förrän du signerat det definitiva affärsförslaget som tas fram av ${name}.</p>
           <p class="waykeecom-content__p">Ange din tänkta kontantinsats och hur många månader du vill lägga upp ditt lån på.</p>
         </div>
       </div>
@@ -191,8 +189,8 @@ class Loan extends HtmlNode {
         information: `
           <div class="waykeecom-content waykeecom-content--inherit-size">
             <p class="waykeecom-content__p"><span class="waykeecom-text waykeecom-text--font-medium">Hur mycket av dina egna pengar vill du lägga?</span></p>
-            <p class="waykeecom-content__p">Kontantinsatsen är en del av bilens pris som du betalar med egna pengar. Den behöver vara minst 20% av priset på bilen. Kontantinsatsen betalar du senare i samband med avtalsskrivning hos handlaren.</p>
-            <p class="waykeecom-content__p">Ifall du har en inbytesbil kan du betala kontantinsatsen med den. Detta kommer du överens om tillsammans med handlaren vid avtalsskrivning. </p>
+            <p class="waykeecom-content__p">Kontantinsatsen är en del av bilens pris som du betalar med egna pengar. Den behöver vara minst 20% av priset på bilen. Kontantinsatsen betalar du senare i samband med avtalsskrivning hos ${name}.</p>
+            <p class="waykeecom-content__p">Ifall du har en inbytesbil kan du betala kontantinsatsen med den. Detta kommer du överens om tillsammans med ${name} vid avtalsskrivning. </p>
           </div>
         `,
       }
