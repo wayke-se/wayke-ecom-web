@@ -78,11 +78,14 @@ class LoanDetailsDetailed extends HtmlNode {
                 value: `${duration} mån`,
               })}
 
-              ${KeyValueListItem({ key: 'Ränta', value: `${interest * 100} %*` })}
+              ${KeyValueListItem({
+                key: 'Ränta',
+                value: prettyNumber(interest * 100, { postfix: '%', decimals: 2 }),
+              })}
 
               ${KeyValueListItem({
                 key: 'Effektiv ränta',
-                value: `${effectiveInterest * 100} %*`,
+                value: prettyNumber(effectiveInterest * 100, { postfix: '%', decimals: 2 }),
               })}
 
               ${

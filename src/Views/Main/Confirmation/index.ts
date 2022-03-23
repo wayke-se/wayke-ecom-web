@@ -28,13 +28,13 @@ class Confirmation extends HtmlNode {
 
   render() {
     const { store, index } = this.props;
-    const { topNavigation, navigation } = store.getState();
+    const { topNavigation, navigation, order } = store.getState();
 
     const completed = topNavigation.stage > index;
 
     const content = ListItem(this.node, {
       completed,
-      title: 'Slutför order',
+      title: order?.isPaymentRequired ? 'Betalning' : 'Slutför ordern',
       id: 'confirmation',
       active: navigation.stage === index,
     });

@@ -115,10 +115,10 @@ class App {
     );
 
     const params = new URLSearchParams(location.search);
-    const waykeOrderId = params.get(OrderIdQueryString) || undefined;
+    const orderUrl = params.get(OrderIdQueryString) || undefined;
     const payment3dSecurityCallback = !!params.get(Payment3DSecurityCallback);
     const waykeId = params.get(OrderWaykeIdQueryString);
-    if (waykeId && waykeId === this.props.id && (waykeOrderId || payment3dSecurityCallback)) {
+    if (waykeId && waykeId === this.props.id && (orderUrl || payment3dSecurityCallback)) {
       if (payment3dSecurityCallback) {
         const stateAsString = sessionStorage.getItem('wayke-ecom-state');
         sessionStorage.removeItem('wayke-ecom-state');
@@ -131,9 +131,9 @@ class App {
             this.contexts.store.dispatch
           );
         }
-      } else if (waykeOrderId) {
+      } else if (orderUrl) {
         this.render({
-          orderId: waykeOrderId,
+          orderUrl,
           id: waykeId,
         });
       }
@@ -211,6 +211,7 @@ class App {
         new OrderCallback(this.contexts.modal.content, {
           store: this.contexts.store,
           callbackOrder,
+          onClose: () => this.close(),
         });
         return;
       }

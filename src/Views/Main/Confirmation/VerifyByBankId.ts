@@ -163,7 +163,7 @@ class VerifyByBankId extends HtmlNode {
 
   render() {
     const mobile = isMobile();
-    const { navigation } = this.props.store.getState();
+    const { navigation, order } = this.props.store.getState();
 
     if (this.view === 2) {
       this.contexts.bankId = new BankIdSign(createPortal(), {
@@ -175,12 +175,14 @@ class VerifyByBankId extends HtmlNode {
         onStart: (method: AuthMethod) => this.onStartBankIdAuth(method),
       });
     } else {
+      const name = order?.contactInformation?.name;
+
       this.node.innerHTML = `
         <div class="waykeecom-stack waykeecom-stack--3">
           <h4 class="waykeecom-heading waykeecom-heading--4">Strax klart!</h4>
           <div class="waykeecom-content">
-            <p class="waykeecom-content__p">För att reservera bilen åt dig behöver vi bara verifiera din identitet med BankID. Efter det kommer handlaren att kontakta dig för att slutföra köpet.
-            <p class="waykeecom-content__p">Köpet blir bindande först när du signerat det definitiva affärsförslaget med handlaren. Det är även då betalningen sker.</p>
+            <p class="waykeecom-content__p">För att reservera bilen åt dig behöver vi bara verifiera din identitet med BankID. Efter det kommer ${name} att kontakta dig för att slutföra köpet.
+            <p class="waykeecom-content__p">Köpet blir bindande först när du signerat det definitiva affärsförslaget med ${name}. Det är även då betalningen sker.</p>
           </div>
         </div>
         ${

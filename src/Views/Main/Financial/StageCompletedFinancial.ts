@@ -65,9 +65,11 @@ class StageCompletedFinancial extends HtmlNode {
       ];
 
       const decision = state.creditAssessmentResponse?.recommendation;
-      const disclaimerText = `*Beräknat på ${interest * 100} % ränta (effektivt ${
-        effectiveInterest * 100
-      } %). Den ränta du får sätts vid avtalskrivning.`;
+      const disclaimerText = `*Beräknat på ${prettyNumber(interest * 100, {
+        decimals: 2,
+      })} % ränta (effektivt ${prettyNumber(effectiveInterest * 100, {
+        decimals: 2,
+      })} %). Den ränta du får sätts vid avtalskrivning.`;
 
       this.node.innerHTML = `
         <div class="waykeecom-stack waykeecom-stack--2">
