@@ -76,11 +76,13 @@ const RadioElements: RadioItem[] = [
     title: 'Mycket bra skick',
     description: `
     <div class="waykeecom-box">
-      <ul>
-        <li>Inga repor eller skador</li>
-        <li>Servad vid varje tillfälle med stämplar i serviceboken</li>
-        <li>Däck med väldigt bra mönsterdjup (5-8 mm)</li>
-      </ul>
+      <div class="waykeecom-content waykeecom-content--inherit-size">
+        <ul>
+          <li>Inga repor eller skador</li>
+          <li>Servad vid varje tillfälle med stämplar i serviceboken</li>
+          <li>Däck med väldigt bra mönsterdjup (5-8 mm)</li>
+        </ul>
+      </div>
     </div>`,
   },
   {
@@ -89,11 +91,13 @@ const RadioElements: RadioItem[] = [
     title: 'Bra skick',
     description: `
     <div class="waykeecom-box">
-      <ul>
-        <li>Några mindre repor och/eller skador</li>
-        <li>Servad vid varje tillfälle med stämplar i serviceboken</li>
-        <li>Däck som inte behöver bytas (mönsterdjup om 3-5 mm)</li>
-      </ul>
+      <div class="waykeecom-content waykeecom-content--inherit-size">
+        <ul>
+          <li>Några mindre repor och/eller skador</li>
+          <li>Servad vid varje tillfälle med stämplar i serviceboken</li>
+          <li>Däck som inte behöver bytas (mönsterdjup om 3-5 mm)</li>
+        </ul>
+      </div>
     </div>`,
   },
   {
@@ -102,11 +106,13 @@ const RadioElements: RadioItem[] = [
     title: 'Helt okej skick',
     description: `
     <div class="waykeecom-box">
-      <ul>
-        <li>Finns en del repor och skador</li>
-        <li>Inte servad vid varje tillfälle</li>
-        <li>Däck som behöver bytas (mönsterdjup under 3 mm)</li>
-      </ul>
+      <div class="waykeecom-content waykeecom-content--inherit-size">
+        <ul>
+          <li>Finns en del repor och skador</li>
+          <li>Inte servad vid varje tillfälle</li>
+          <li>Däck som behöver bytas (mönsterdjup under 3 mm)</li>
+        </ul>
+      </div>
     </div>`,
   },
 ];

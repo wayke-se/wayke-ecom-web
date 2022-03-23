@@ -1,7 +1,13 @@
 @use '../../../helpers' as *;
 
 .#{$namespace}content {
+  $root: &;
+
+  --#{$namespace}content-font-size: #{scss-var(font, size, small)};
+
   @include content;
-  
-  font-size: scss-var(font, size, small);
+
+  &:not(#{$root}--inherit-size) {
+    font-size: var(--#{$namespace}content-font-size);
+  }
 }
