@@ -45,7 +45,7 @@ class InsuranceItemInfo extends HtmlNode {
         </div>
       </div>
       <div class="waykeecom-stack waykeecom-stack--3">
-        <div class="waykeecom-text waykeecom-text--font-medium">Gratis</div>
+        <div class="waykeecom-text waykeecom-text--font-bold">Gratis</div>
       </div>
       <div class="waykeecom-stack waykeecom-stack--3">
         <div class="waykeecom-content waykeecom-text waykeecom-text--font-medium">

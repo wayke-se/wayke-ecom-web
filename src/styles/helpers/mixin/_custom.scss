@@ -1,6 +1,7 @@
 /// Custom mixins
 
-@mixin remove-direct-child-edge-margins {
+// Remove top and bottom margins from the first and last child
+@mixin remove-direct-child-outer-y-margins {
   & > * {
     &:first-child {
       margin-top: 0;
@@ -12,6 +13,7 @@
   }
 }
 
+// Hide scrollbar in scrollable elements
 @mixin hide-scrollbar {
   scrollbar-width: none;
   -ms-overflow-style: none;

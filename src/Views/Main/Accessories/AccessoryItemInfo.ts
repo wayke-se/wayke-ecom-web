@@ -70,7 +70,7 @@ class AccessoryItemInfo extends HtmlNode {
       <div class="waykeecom-stack waykeecom-stack--3">
         ${
           salePrice
-            ? `<div class="waykeecom-text waykeecom-text--font-medium">${prettyNumber(salePrice, {
+            ? `<div class="waykeecom-text waykeecom-text--font-bold">${prettyNumber(salePrice, {
                 postfix: 'kr',
               })}<span class="waykeecom-text waykeecom-text--tone-alt waykeecom-text--line-through">(${prettyNumber(
                 price,
@@ -78,7 +78,7 @@ class AccessoryItemInfo extends HtmlNode {
                   postfix: 'kr',
                 }
               )})</span></div>`
-            : `<div class="waykeecom-text waykeecom-text--font-medium">${prettyNumber(price, {
+            : `<div class="waykeecom-text waykeecom-text--font-bold">${prettyNumber(price, {
                 postfix: 'kr',
               })}</div>`
         }
