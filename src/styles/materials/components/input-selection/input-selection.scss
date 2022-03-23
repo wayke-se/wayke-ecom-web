@@ -1,6 +1,6 @@
 @use '../../../helpers' as *;
 
-.#{$namespace}input-checkbox {
+.#{$namespace}input-selection {
   $root: &;
 
   --#{$namespace}icon-size: #{size(2)};
@@ -17,13 +17,52 @@
       ~ #{$root}__header {
         #{$root}__label {
           @include font-medium;
+        }
+      }
+    }
 
+    // Radio Button
+    &[type='radio'] {
+      ~ #{$root}__header {
+        #{$root}__label {
           &::before {
-            background-color: color(action, main);
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16"><path d="M12.3 3.3 6 9.6 3.7 7.3c-.4-.4-1-.4-1.4 0-.4.4-.4 1 0 1.4l3 3c.4.4 1 .4 1.4 0l7-7c.4-.4.4-1 0-1.4-.4-.4-1-.4-1.4 0z" fill="%23#{str-replace(#{color(action, text)}, "#", "")}"/></svg>');
-            background-repeat: no-repeat;
-            background-size: calc(var(--#{$namespace}icon-size) * 0.6);
-            background-position: 50%;
+            border-radius: 50%;
+          }
+        }
+      }
+
+      &:checked {
+        ~ #{$root}__header {
+          #{$root}__label {
+            &::before {
+              background-color: color(bg, main);
+              box-shadow: inset 0 0 0 size(0.625) color(action, main);
+            }
+          }
+        }
+      }
+    }
+
+    // Checkbox
+    &[type='checkbox'] {
+      ~ #{$root}__header {
+        #{$root}__label {
+          &::before {
+            border-radius: scss-var(border, radius, main);
+          }
+        }
+      }
+
+      &:checked {
+        ~ #{$root}__header {
+          #{$root}__label {
+            &::before {
+              background-color: color(action, main);
+              background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16"><path d="M12.3 3.3 6 9.6 3.7 7.3c-.4-.4-1-.4-1.4 0-.4.4-.4 1 0 1.4l3 3c.4.4 1 .4 1.4 0l7-7c.4-.4.4-1 0-1.4-.4-.4-1-.4-1.4 0z" fill="%23#{str-replace(#{color(action, text)}, "#", "")}"/></svg>');
+              background-repeat: no-repeat;
+              background-size: calc(var(--#{$namespace}icon-size) * 0.6);
+              background-position: 50%;
+            }
           }
         }
       }
@@ -39,7 +78,7 @@
 
     @include focus {
       outline: none;
-      
+
       ~ #{$root}__header {
         #{$root}__label {
           &::before {
@@ -65,10 +104,9 @@
       flex-shrink: 0;
       width: var(--#{$namespace}icon-size);
       height: var(--#{$namespace}icon-size);
-      border-radius: scss-var(border, radius, main);
-      background-color: color(bg, alt);
       margin-right: var(--#{$namespace}icon-margin);
       margin-top: calc((var(--#{$namespace}icon-size) - var(--#{$namespace}label-size) * var(--#{$namespace}label-line-height)) / -2);
+      background-color: color(bg, alt);
       cursor: pointer;
     }
   }
@@ -80,7 +118,7 @@
 
   &__description {
     @include content;
-    
+
     display: block;
     padding-top: size(1);
     padding-left: calc(var(--#{$namespace}icon-size) + var(--#{$namespace}icon-margin));

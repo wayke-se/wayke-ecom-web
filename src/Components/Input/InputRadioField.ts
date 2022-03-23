@@ -23,23 +23,23 @@ class InputRadioField extends HtmlNode {
   render() {
     const { id, title, value, name, checked, meta, description, onClick } = this.props;
     this.node.innerHTML = `
-      <div class="waykeecom-input-radio" role="radio">
+      <div class="waykeecom-input-selection" role="radio">
         <input
           type="radio"
           id="${id}"
           value="${value}"
           name="${name}"
           ${checked ? 'checked="true"' : ''}
-          class="waykeecom-input-radio__input"
+          class="waykeecom-input-selection__input"
         />
-        <div class="waykeecom-input-radio__header">
-          <label for="${id}" class="waykeecom-input-radio__label">${title}</label>
-          ${meta ? `<div class="waykeecom-input-radio__meta">${meta}</div>` : ''}
+        <div class="waykeecom-input-selection__header">
+          <label for="${id}" class="waykeecom-input-selection__label">${title}</label>
+          ${meta ? `<div class="waykeecom-input-selection__meta">${meta}</div>` : ''}
         </div>
         ${
           description
             ? `
-              <label for="${id}" class="waykeecom-input-radio__description">
+              <label for="${id}" class="waykeecom-input-selection__description">
                 ${description}
               </label>
             `
