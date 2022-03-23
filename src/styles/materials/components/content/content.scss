@@ -1,48 +1,7 @@
 @use '../../../helpers' as *;
 
 .#{$namespace}content {
-  $content-margin: 0.75em;
-
-  @include remove-direct-child-edge-margins;
+  @include content;
   
   font-size: scss-var(font, size, small);
-
-  p {
-    margin: $content-margin 0;
-  }
-
-  img:not([class]) {
-    display: block;
-    width: 100%;
-    margin: $content-margin 0;
-  }
-
-  ul {
-    padding-left: size(4);
-    margin: $content-margin 0;
-  }
-
-  ol {
-    list-style: none;
-    margin: $content-margin 0;
-    padding: 0;
-    counter-reset: ol-counter;
-    
-    li {
-      display: flex;
-      counter-increment: ol-counter;
-
-      &::before {
-        content: counter(ol-counter) ".";
-        flex-shrink: 0;
-        width: 3ch;
-      }
-    }
-  }
-
-  li {
-    & + li {
-      margin-top: size(1);
-    }
-  }
 }

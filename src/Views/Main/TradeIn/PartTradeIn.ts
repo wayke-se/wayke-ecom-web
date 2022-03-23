@@ -76,10 +76,10 @@ const RadioElements: RadioItem[] = [
     title: 'Mycket bra skick',
     description: `
     <div class="waykeecom-box">
-      <ul class="waykeecom-unordered-list">
-        <li class="waykeecom-unordered-list__item">Inga repor eller skador</li>
-        <li class="waykeecom-unordered-list__item">Servad vid varje tillfälle med stämplar i serviceboken</li>
-        <li class="waykeecom-unordered-list__item">Däck med väldigt bra mönsterdjup (5-8 mm)</li>
+      <ul>
+        <li>Inga repor eller skador</li>
+        <li>Servad vid varje tillfälle med stämplar i serviceboken</li>
+        <li>Däck med väldigt bra mönsterdjup (5-8 mm)</li>
       </ul>
     </div>`,
   },
@@ -89,10 +89,10 @@ const RadioElements: RadioItem[] = [
     title: 'Bra skick',
     description: `
     <div class="waykeecom-box">
-      <ul class="waykeecom-unordered-list">
-        <li class="waykeecom-unordered-list__item">Några mindre repor och/eller skador</li>
-        <li class="waykeecom-unordered-list__item">Servad vid varje tillfälle med stämplar i serviceboken</li>
-        <li class="waykeecom-unordered-list__item">Däck som inte behöver bytas (mönsterdjup om 3-5 mm)</li>
+      <ul>
+        <li>Några mindre repor och/eller skador</li>
+        <li>Servad vid varje tillfälle med stämplar i serviceboken</li>
+        <li>Däck som inte behöver bytas (mönsterdjup om 3-5 mm)</li>
       </ul>
     </div>`,
   },
@@ -102,10 +102,10 @@ const RadioElements: RadioItem[] = [
     title: 'Helt okej skick',
     description: `
     <div class="waykeecom-box">
-      <ul class="waykeecom-unordered-list">
-        <li class="waykeecom-unordered-list__item">Finns en del repor och skador</li>
-        <li class="waykeecom-unordered-list__item">Inte servad vid varje tillfälle</li>
-        <li class="waykeecom-unordered-list__item">Däck som behöver bytas (mönsterdjup under 3 mm)</li>
+      <ul>
+        <li>Finns en del repor och skador</li>
+        <li>Inte servad vid varje tillfälle</li>
+        <li>Däck som behöver bytas (mönsterdjup under 3 mm)</li>
       </ul>
     </div>`,
   },

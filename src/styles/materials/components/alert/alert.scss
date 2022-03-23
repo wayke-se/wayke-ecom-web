@@ -86,23 +86,11 @@
   }
 
   &__content {
-    @include remove-direct-child-edge-margins;
+    @include content;
 
     flex: 1 1 auto;
     min-width: 0;
     font-size: var(--#{$namespace}content-size);
     line-height: var(--#{$namespace}content-line-height);
-
-    p,
-    ul,
-    ol {
-      margin: size(1.5) 0;
-    }
-
-    ul,
-    ol {
-      padding: 0;
-      list-style-position: inside;
-    }
   }
 }

@@ -1,7 +1,7 @@
 @use '../../../helpers' as *;
 
 .#{$namespace}disclaimer-text {
-  @include remove-direct-child-edge-margins;
+  @include content;
   
   font-size: scss-var(font, size, xsmall);
   color: color(text, alt);

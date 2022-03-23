@@ -3,6 +3,7 @@
 /// @use '[path_to_helpers]/helpers/mixins' as *;
 
 @forward '_appearance';
+@forward '_content';
 @forward '_custom';
 @forward '_focus';
 @forward '_hover';

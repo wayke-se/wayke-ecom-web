@@ -179,8 +179,8 @@ class VerifyByBankId extends HtmlNode {
         <div class="waykeecom-stack waykeecom-stack--3">
           <h4 class="waykeecom-heading waykeecom-heading--4">Strax klart!</h4>
           <div class="waykeecom-content">
-            <p>För att reservera bilen åt dig behöver vi bara verifiera din identitet med Mobilt BankID. Efter det kommer [handlaren] att kontakta dig för att slutföra köpet.
-            <p>Köpet blir bindande först när du signerat det definitiva affärsförslaget med [handlaren]. Det är även då betalningen sker.</p>
+            <p>För att reservera bilen åt dig behöver vi bara verifiera din identitet med BankID. Efter det kommer handlaren att kontakta dig för att slutföra köpet.
+            <p>Köpet blir bindande först när du signerat det definitiva affärsförslaget med handlaren. Det är även då betalningen sker.</p>
           </div>
         </div>
         ${

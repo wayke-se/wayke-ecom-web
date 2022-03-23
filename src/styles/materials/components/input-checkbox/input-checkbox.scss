@@ -79,6 +79,8 @@
   }
 
   &__description {
+    @include content;
+    
     display: block;
     padding-top: size(1);
     padding-left: calc(var(--#{$namespace}icon-size) + var(--#{$namespace}icon-margin));
