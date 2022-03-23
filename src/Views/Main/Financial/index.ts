@@ -146,11 +146,13 @@ class Financial extends HtmlNode {
           title: 'Kontant',
           description: `
             <div class="waykeecom-box">
-              <ul class="waykeecom-unordered-list">
-                <li class="waykeecom-unordered-list__item">Betalning sker hos ${contactInformation?.name} vid 
-                kontraktskrivning.</li>
-                <li class="waykeecom-unordered-list__item">Inga kostnader tillkommer.</li>
-              </ul>
+              <div class="waykeecom-content waykeecom-content--inherit-size">
+                <ul>
+                  <li>Betalning sker hos ${contactInformation?.name} vid 
+                  kontraktskrivning.</li>
+                  <li>Inga kostnader tillkommer.</li>
+                </ul>
+              </div>
             </div>`,
           meta: `<div class="waykeecom-text waykeecom-text--font-medium">${prettyNumber(
             cash.price || '???',
@@ -182,21 +184,24 @@ class Financial extends HtmlNode {
           description: `
           <div class="waykeecom-box">
             <div class="waykeecom-stack waykeecom-stack--2">
-              <ul class="waykeecom-unordered-list">
-                <li class="waykeecom-unordered-list__item">Låneansökan online med BankID <img src="${
-                  Image.bankid
-                }" alt="BankID logotyp" class="waykeecom-image waykeecom-image--inline" aria-hidden="true" /> – svar direkt!</li>
-                <li class="waykeecom-unordered-list__item">Betalning sker hos ${
-                  contactInformation?.name
-                } vid 
-                kontraktskrivning.</li>
-                <li class="waykeecom-unordered-list__item">*Beräknat på ${prettyNumber(
-                  getCreditAmount,
-                  {
+              <div class="waykeecom-content waykeecom-content--inherit-size">
+                <ul>
+                  <li>
+                    <div>
+                      <span class="waykeecom-text waykeecom-text--valign-middle">Låneansökan online med BankID </span>
+                      <img src="${
+                        Image.bankid
+                      }" alt="BankID logotyp" class="waykeecom-image waykeecom-image--inline" aria-hidden="true" />
+                      <span class="waykeecom-text waykeecom-text--valign-middle"> – svar direkt!</span>
+                    </div>
+                  </li>
+                  <li>Betalning sker hos ${contactInformation?.name} vid 
+                  kontraktskrivning.</li>
+                  <li>*Beräknat på ${prettyNumber(getCreditAmount, {
                     postfix: 'kr',
-                  }
-                )} kr, ${duration} mån, ${interest * 100}% ränta.</li>
-              </ul>
+                  })} kr, ${duration} mån, ${interest * 100}% ränta.</li>
+                </ul>
+              </div>
             </div>
             ${
               loan.logo
@@ -236,9 +241,11 @@ class Financial extends HtmlNode {
           value: PaymentType.Lease,
           description: `
             <div class="waykeecom-box">
-              <ul>
-                <li>*Inkl. 1 500 mil/år, 36 mån.</li>
-              </ul>
+              <div class="waykeecom-content waykeecom-content--inherit-size">
+                <ul>
+                  <li>*Inkl. 1 500 mil/år, 36 mån.</li>
+                </ul>
+              </div>
             </div>`,
           meta: `<div class="waykeecom-text waykeecom-text--font-medium">${prettyNumber(
             lease.price || '???',

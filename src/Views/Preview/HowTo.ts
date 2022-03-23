@@ -21,7 +21,7 @@ const TimelineItemByStage = {
   },
   financial: {
     heading: 'Ägandeform',
-    description: `Betala allt på en gång, delbetala och gör låneansökan direkt online <img src="${Image.bankid}" alt="BankID logotyp" class="waykeecom-image waykeecom-image--inline" aria-hidden="true" /> eller upplev flexibiliteten med privatleasing.`,
+    description: `<span class="waykeecom-text waykeecom-text--valign-middle">Betala allt på en gång, delbetala och gör låneansökan direkt online </span><img src="${Image.bankid}" alt="BankID logotyp" class="waykeecom-image waykeecom-image--inline" aria-hidden="true" /><span class="waykeecom-text waykeecom-text--valign-middle"> eller upplev flexibiliteten med privatleasing.</span>`,
   },
   insurance: {
     heading: 'Vill du teckna en försäkring?',

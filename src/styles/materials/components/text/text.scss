@@ -22,6 +22,11 @@
     }
   }
 
+  // Vertical align
+  &--valign-middle {
+    vertical-align: middle;
+  }
+
   // Font
   &--font-light {
     @include font-light;

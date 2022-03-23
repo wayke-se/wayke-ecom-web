@@ -68,25 +68,13 @@
   }
 
   &__foldout {
-    $content-margin: 0.75em; // Same value as in content component
-
-    @include remove-direct-child-edge-margins;
-
+    @include content;
+ 
     width: 100%;
     background-color: color(bg, alt);
     padding: size(1.5);
     margin-top: size(0.5);
     border-radius: scss-var(border, radius, main);
     font-size: scss-var(font, size, xsmall);
-
-    p,
-    ul,
-    ol {
-      margin: $content-margin 0;
-    }
-
-    ul {
-      padding-left: size(4);
-    }
   }
 }
