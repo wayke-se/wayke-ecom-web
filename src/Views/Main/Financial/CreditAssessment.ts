@@ -7,6 +7,7 @@ import HtmlNode from '../../../Components/Extension/HtmlNode';
 import InputField from '../../../Components/Input/InputField';
 import InputRadioGroup from '../../../Components/Input/InputRadioGroup';
 import Disclaimer from '../../../Components/Disclaimer/Disclaimer';
+import DisclaimerPadlock from '../../../Components/Disclaimer/DisclaimerPadlock';
 import { creditAssessmentCancelSigning } from '../../../Data/creditAssessmentCancelSigning';
 import { creditAssessmentGetStatus } from '../../../Data/creditAssessmentGetStatus';
 import { creditAssessmentNewCase } from '../../../Data/creditAssessmentNewCase';
@@ -51,6 +52,7 @@ const PERFORM_APPLICATION = `credit-assessment-perform-application`;
 const PERFORM_APPLICATION_NODE = `${PERFORM_APPLICATION}-node`;
 
 const DISCLAIMER_NODE = `disclaimer-node`;
+const DISCLAIMER_SAFE_NODE = `disclaimer-safe-node`;
 
 const WHY_DESCRIPTION = `why-description-node`;
 
@@ -484,7 +486,10 @@ class CreditAssessment extends HtmlNode {
       
       <div class="waykeecom-stack waykeecom-stack--3">
         <div class="waykeecom-stack waykeecom-stack--2" id="${PERFORM_APPLICATION_NODE}"></div>
-          <div class="waykeecom-stack waykeecom-stack--2" id="${DISCLAIMER_NODE}"></div>
+        <div class="waykeecom-stack waykeecom-stack--2">
+          <div class="waykeecom-stack waykeecom-stack--1" id="${DISCLAIMER_NODE}"></div>
+          <div class="waykeecom-stack waykeecom-stack--1" id="${DISCLAIMER_SAFE_NODE}"></div>
+        </div>
       </div>
     `;
 
@@ -718,7 +723,11 @@ class CreditAssessment extends HtmlNode {
       );
 
       new Disclaimer(this.node.querySelector<HTMLDivElement>(`#${DISCLAIMER_NODE}`), {
-        text: `Genom att klicka på ”Genomför låneansökan” godkänner jag att Volvofinans Bank gör en kreditupplysning på mig baserat på informationen ovan och jag bekräftar att jag läst <a href="#" title="" target="_blank" rel="noopener noreferrer" class="waykeecom-link">Volvofinans Banks dataskyddspolicy</a>. Dina uppgifter lagras och sparas säkert.`,
+        text: `Genom att klicka på ”Genomför låneansökan” godkänner jag att Volvofinans Bank gör en kreditupplysning på mig baserat på informationen ovan och jag bekräftar att jag läst <a href="#" title="" target="_blank" rel="noopener noreferrer" class="waykeecom-link">Volvofinans Banks dataskyddspolicy</a>.`,
+      });
+
+      new DisclaimerPadlock(this.node.querySelector<HTMLDivElement>(`#${DISCLAIMER_SAFE_NODE}`), {
+        text: 'Dina uppgifter lagras och sparas säkert.',
       });
 
       new Accordion(this.node.querySelector<HTMLDivElement>(`#${WHY_DESCRIPTION}`), {

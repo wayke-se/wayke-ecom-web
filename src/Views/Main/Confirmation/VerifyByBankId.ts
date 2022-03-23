@@ -2,12 +2,13 @@ import { AuthMethod } from '@wayke-se/ecom';
 
 import ButtonBankId from '../../../Components/Button/ButtonBankId';
 import ButtonAsLink from '../../../Components/Button/ButtonAsLink';
+import Disclaimer from '../../../Components/Disclaimer/Disclaimer';
+import DisclaimerPadlock from '../../../Components/Disclaimer/DisclaimerPadlock';
 import { getBankIdAuth } from '../../../Data/getBankIdAuth';
 import { getBankIdStatus } from '../../../Data/getBankIdStatus';
 import Alert from '../../../Templates/Alert';
 import { isMobile } from '../../../Utils/isMobile';
 import BankIdSign from '../../../Components/BankId/BankIdSign';
-import DisclaimerSafe from './DisclaimerSafe';
 import HtmlNode from '../../../Components/Extension/HtmlNode';
 import { validationMethods } from '../../../Utils/validationMethods';
 import { createPortal, destroyPortal } from '../../../Utils/portal';
@@ -19,7 +20,9 @@ import { creditAssessmentAccept } from '../../../Data/creditAssessmentAccept';
 const BANKID_START_NODE = `bankid-start-node`;
 const BANKID_START = `bankid-start`;
 
-const DISCLAIMER_SAFE_NODE = 'address-disclaimer-node';
+const DISCLAIMER_NODE = 'address-disclaimer-node';
+const DISCLAIMER_SAFE_NODE = 'address-disclaimer-safe-node';
+const DISCLAIMER_RESERVATION_NODE = 'address-disclaimer-reservation-node';
 
 interface VerifyByBankIdProps {
   readonly store: WaykeStore;
@@ -173,43 +176,41 @@ class VerifyByBankId extends HtmlNode {
       });
     } else {
       this.node.innerHTML = `
-        <div class="waykeecom-stack waykeecom-stack--2">
-          <hr class="waykeecom-separator" />
-        </div>
-        <div class="waykeecom-stack waykeecom-stack--2">
-          <div class="waykeecom-stack waykeecom-stack--3">
-            <h4 class="waykeecom-heading waykeecom-heading--4">Starx klart!</h4>
-            <div class="waykeecom-content">
-              <p>För att reservera bilen åt dig behöver vi bara verifiera din identitet med Mobilt BankID. Efter det kommer [handlaren] att kontakta dig för att slutföra köpet.
-
-              <p>Köpet blir bindande först när du signerat det definitiva affärsförslaget med [handlaren]. Det är även då betalningen sker.</p>
-            </div>
+        <div class="waykeecom-stack waykeecom-stack--3">
+          <h4 class="waykeecom-heading waykeecom-heading--4">Strax klart!</h4>
+          <div class="waykeecom-content">
+            <p>För att reservera bilen åt dig behöver vi bara verifiera din identitet med Mobilt BankID. Efter det kommer [handlaren] att kontakta dig för att slutföra köpet.
+            <p>Köpet blir bindande först när du signerat det definitiva affärsförslaget med [handlaren]. Det är även då betalningen sker.</p>
           </div>
-          ${
-            this.ageError
-              ? `
-           <div class="waykeecom-stack waykeecom-stack--3">${Alert({
-             tone: 'error',
-             children:
-               '<p>Du måste vara över 18 år för att kunna fortsätta. Identifiering med BankId visar att du är under 18 år gammal.</p>',
-           })}</div>
-          `
-              : ''
-          }
-          ${
-            this.socialIdNotMatchingError
-              ? `
-           <div class="waykeecom-stack waykeecom-stack--3">${Alert({
-             tone: 'error',
-             children:
-               '<p>Personnummret i första steget matchar inte med det som är kopplat mot bankid</p>',
-           })}</div>
-          `
-              : ''
-          }
-          <div class="waykeecom-stack waykeecom-stack--3">
-            <div class="waykeecom-stack waykeecom-stack--2" id="${BANKID_START_NODE}"></div>
-            <div class="waykeecom-stack waykeecom-stack--2" id="${DISCLAIMER_SAFE_NODE}"></div>
+        </div>
+        ${
+          this.ageError
+            ? `
+          <div class="waykeecom-stack waykeecom-stack--3">${Alert({
+            tone: 'error',
+            children:
+              '<p>Du måste vara över 18 år för att kunna fortsätta. Identifiering med BankId visar att du är under 18 år gammal.</p>',
+          })}</div>
+        `
+            : ''
+        }
+        ${
+          this.socialIdNotMatchingError
+            ? `
+          <div class="waykeecom-stack waykeecom-stack--3">${Alert({
+            tone: 'error',
+            children:
+              '<p>Personnummret i första steget matchar inte med det som är kopplat mot bankid</p>',
+          })}</div>
+        `
+            : ''
+        }
+        <div class="waykeecom-stack waykeecom-stack--3">
+          <div class="waykeecom-stack waykeecom-stack--2" id="${BANKID_START_NODE}"></div>
+          <div class="waykeecom-stack waykeecom-stack--2">
+            <div class="waykeecom-stack waykeecom-stack--1" id="${DISCLAIMER_NODE}"></div>
+            <div class="waykeecom-stack waykeecom-stack--1" id="${DISCLAIMER_SAFE_NODE}"></div>
+            <div class="waykeecom-stack waykeecom-stack--1" id="${DISCLAIMER_RESERVATION_NODE}"></div>
           </div>
         </div>
       `;
@@ -223,7 +224,17 @@ class VerifyByBankId extends HtmlNode {
         },
       });
 
-      new DisclaimerSafe(this.node.querySelector(`#${DISCLAIMER_SAFE_NODE}`));
+      new Disclaimer(this.node.querySelector<HTMLDivElement>(`#${DISCLAIMER_NODE}`), {
+        text: `Genom att gå vidare bekräftar du att du tagit del av Waykes <a href="#" title="" target="_blank" rel="noopener noreferrer" class="waykeecom-link">köpvillkor</a> och <a href="#" title="" target="_blank" rel="noopener noreferrer" class="waykeecom-link">villkor för ångerrätt</a>.`,
+      });
+
+      new DisclaimerPadlock(this.node.querySelector<HTMLDivElement>(`#${DISCLAIMER_SAFE_NODE}`), {
+        text: 'Dina uppgifter lagras och sparas säkert. Läs mer i vår <a href="#" title="" target="_blank" rel="noopener noreferrer" class="waykeecom-link">personuppgiftspolicy</a>.',
+      });
+
+      new Disclaimer(this.node.querySelector<HTMLDivElement>(`#${DISCLAIMER_RESERVATION_NODE}`), {
+        text: 'Vi reserverar oss för eventuell ändring i tillgången av utbjudna bilar.',
+      });
 
       if (navigation.stage === this.props.index) {
         this.node.parentElement?.scrollIntoView();

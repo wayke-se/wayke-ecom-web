@@ -1,6 +1,8 @@
 import { DrivingDistance } from '@wayke-se/ecom';
 import ButtonArrowRight from '../../../../Components/Button/ButtonArrowRight';
 import ButtonSkip from '../../../../Components/Button/ButtonSkip';
+import Disclaimer from '../../../../Components/Disclaimer/Disclaimer';
+import Alert from '../../../../Templates/Alert';
 import HtmlNode from '../../../../Components/Extension/HtmlNode';
 import InputSelect from '../../../../Components/Input/InputSelect';
 import { setDrivingDistance } from '../../../../Redux/action';
@@ -11,8 +13,11 @@ import InsuranceView from './InsuranceView';
 const DISTANCE = 'select-insurance-distance';
 const DISTANCE_NODE = `${DISTANCE}-node`;
 
+const INSURANCE_INFO_NODE = `insurance-info-node`;
+
 const SHOW_INSURANCES = 'button-insurances-show';
 const SHOW_INSURANCES_NODE = `${SHOW_INSURANCES}-node`;
+const SHOW_INSURANCES_DISCLAIMER_NODE = `${SHOW_INSURANCES}-disclaimer-node`;
 
 const SKIP_INSURANCES = 'button-insurances-skip';
 const SKIP_INSURANCES_NODE = `${SKIP_INSURANCES}-node`;
@@ -53,6 +58,10 @@ class IfInsurance extends HtmlNode {
   render() {
     const { store, lastStage, onSkip } = this.props;
     const state = store.getState();
+
+    const insuranceDisclaimerTitle =
+      state.order?.insuranceOption?.title || '[Okänt försäkringsbolag]';
+
     if (this.showInsurances) {
       new InsuranceView(this.node, {
         store,
@@ -61,20 +70,21 @@ class IfInsurance extends HtmlNode {
       });
     } else {
       this.node.innerHTML = `
-       <div class="waykeecom-stack waykeecom-stack--3">
-          <div class="waykeecom-stack waykeecom-stack--2">
-              <h4 class="waykeecom-heading waykeecom-heading--4">Vill du teckna en försäkring på din nya bil?</h4>
-              <div class="waykeecom-content">
-                <p>Ange din uppskattade körsträcka för att se din försäkringskostnad. Därefter presenterar vi förslag på försäkringar som passar dig och din nya bil. I både hel- och halvförsäkring ingår trafikförsäkring som är obligatoriskt att ha. Ifall du har valt att finansiera bilen med ett billån är priset du ser rabatterat.</p>
-              </div>
-            </div>
-            <div class="waykeecom-stack waykeecom-stack--2" id="${DISTANCE_NODE}"></div>
+        <div class="waykeecom-stack waykeecom-stack--3">
+          <h4 class="waykeecom-heading waykeecom-heading--4">Vill du teckna en försäkring på din nya bil?</h4>
+          <div class="waykeecom-content">
+            <p>Ange din uppskattade körsträcka för att se din försäkringskostnad. Därefter presenterar vi förslag på försäkringar som passar dig och din nya bil. I både hel- och halvförsäkring ingår trafikförsäkring som är obligatoriskt att ha. Ifall du har valt att finansiera bilen med ett billån är priset du ser rabatterat.</p>
           </div>
+        </div>
 
-          <div class="waykeecom-stack waykeecom-stack--3">
-            <div class="waykeecom-stack waykeecom-stack--1" id="${SHOW_INSURANCES_NODE}"></div>
-            <div class="waykeecom-stack waykeecom-stack--1" id="${SKIP_INSURANCES_NODE}"></div>
-          </div>
+        <div class="waykeecom-stack waykeecom-stack--3" id="${INSURANCE_INFO_NODE}"></div>
+        <div class="waykeecom-stack waykeecom-stack--3" id="${DISTANCE_NODE}"></div>
+
+        <div class="waykeecom-stack waykeecom-stack--3">
+          <div class="waykeecom-stack waykeecom-stack--1" id="${SHOW_INSURANCES_NODE}"></div>
+          <div class="waykeecom-stack waykeecom-stack--1" id="${SHOW_INSURANCES_DISCLAIMER_NODE}"></div>
+          <div class="waykeecom-stack waykeecom-stack--1" id="${SKIP_INSURANCES_NODE}"></div>
+        </div>
       `;
       new InputSelect(this.node.querySelector<HTMLDivElement>(`#${DISTANCE_NODE}`), {
         id: DISTANCE,
@@ -111,6 +121,21 @@ class IfInsurance extends HtmlNode {
         title: 'Visa försäkringar',
         onClick: () => this.onShowInsurances(),
       });
+
+      const insuranceInfoNode = this.node.querySelector<HTMLDivElement>(`#${INSURANCE_INFO_NODE}`);
+      if (insuranceInfoNode) {
+        insuranceInfoNode.innerHTML = Alert({
+          tone: 'info',
+          children: `Vi är anknutna försäkringsförmedlare till ${insuranceDisclaimerTitle}, If Skadeförsäkring. Försäkringsgivare är If Skadeförsäkring (publ). Vad detta innebär kan du läsa mer om på försäkringsförmedlarens hemsida.`,
+        });
+      }
+
+      new Disclaimer(
+        this.node.querySelector<HTMLDivElement>(`#${SHOW_INSURANCES_DISCLAIMER_NODE}`),
+        {
+          text: `Genom att du klickar på Visa försäkringar så godkänner du att vi skickar dina uppgifter vidare till ${insuranceDisclaimerTitle} för att de ska kunna ge dig ett pris på försäkring. Hur de hanterar dina personuppgifter kan du läsa om på deras hemsida.`,
+        }
+      );
 
       new ButtonSkip(this.node.querySelector<HTMLDivElement>(`#${SKIP_INSURANCES_NODE}`), {
         id: SKIP_INSURANCES,

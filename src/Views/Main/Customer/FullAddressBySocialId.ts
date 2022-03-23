@@ -2,7 +2,7 @@ import { Customer, CustomerSocialId } from '../../../@types/Customer';
 import ButtonArrowRight from '../../../Components/Button/ButtonArrowRight';
 import ButtonAsLink from '../../../Components/Button/ButtonAsLink';
 import InputField from '../../../Components/Input/InputField';
-import Disclaimer from '../../../Components/Disclaimer/Disclaimer';
+import DisclaimerPadlock from '../../../Components/Disclaimer/DisclaimerPadlock';
 import { getAddressBySsn } from '../../../Data/getAddress';
 import { setSocialIdAndAddress } from '../../../Redux/action';
 import { WaykeStore } from '../../../Redux/store';
@@ -198,7 +198,7 @@ class FullAddressBySocialId extends HtmlNode {
       }
     );
 
-    new Disclaimer(this.node.querySelector<HTMLDivElement>(`#${DISCLAIMER_NODE}`), {
+    new DisclaimerPadlock(this.node.querySelector<HTMLDivElement>(`#${DISCLAIMER_NODE}`), {
       text: `Dina uppgifter lagras och sparas säkert. Läs mer i vår <a href="#" title="" target="_blank" rel="noopener noreferrer" class="waykeecom-link">personuppgiftspolicy</a>.`,
     });
 
