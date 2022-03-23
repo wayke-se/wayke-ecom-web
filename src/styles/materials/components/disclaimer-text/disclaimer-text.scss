@@ -3,6 +3,6 @@
 .#{$namespace}disclaimer-text {
   @include remove-direct-child-edge-margins;
   
-  font-size: scss-var(font, size, small);
+  font-size: scss-var(font, size, xsmall);
   color: color(text, alt);
 }

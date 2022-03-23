@@ -1,27 +1,24 @@
 @use '../../../helpers' as *;
 
 .#{$namespace}disclaimer {
-  $icon-size: scss-var(font, size, regular);
-  $text-size: scss-var(font, size, xsmall);
-  $text-line-height: scss-var(font, line-height, main);
-
-  display: flex;
-  justify-content: center;
+  text-align: center;
+  font-size: scss-var(font, size, xsmall);
 
   &__icon {
-    flex-shrink: 0;
-    margin-top: calc(($icon-size - $text-size * $text-line-height) / -2);
+    display: inline-block;
+    vertical-align: middle;
+    padding-right: 0.25em;
+    margin: size(-0.25) 0;
+    font-size: scss-var(font, size, regular);
     color: color(text, alt);
-    font-size: $icon-size;
-    padding-right: size(1);
   }
 
   &__text {
-    font-size: $text-size;
-    line-height: $text-line-height;
+    display: inline;
+    vertical-align: middle;
+  }
 
-    & > p {
-      margin: 0;
-    }
+  p {
+    margin: 0;
   }
 }
