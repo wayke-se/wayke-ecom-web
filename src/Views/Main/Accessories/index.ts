@@ -81,7 +81,7 @@ class Accessories extends HtmlNode {
               },
             ],
         changeButtonTitle: 'Ändra tillbehör',
-        onEdit: !state.stateLoadedFromSession ? () => this.onEdit() : undefined,
+        onEdit: !state.createdOrderId ? () => this.onEdit() : undefined,
       });
     } else if (state.navigation.stage === index) {
       const accessories = state.order?.accessories || [];

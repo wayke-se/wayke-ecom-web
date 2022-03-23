@@ -102,7 +102,7 @@ class Financial extends HtmlNode {
         loan,
         paymentType: this.paymentType,
         paymentLookupResponse: loan?.loanDetails ? loan.loanDetails : paymentLookupResponse,
-        onEdit: !state.stateLoadedFromSession ? () => this.onEdit() : undefined,
+        onEdit: !state.createdOrderId ? () => this.onEdit() : undefined,
       });
     } else if (state.navigation.stage === this.props.index) {
       const cash = paymentOptions.find((x) => x.type === PaymentType.Cash);

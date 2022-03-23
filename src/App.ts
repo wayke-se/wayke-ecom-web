@@ -127,8 +127,9 @@ class App {
           : undefined;
         if (state) {
           this.view = state.navigation.view;
-          setState(state as unknown as ReducerState)(this.contexts.store.dispatch);
-          // this.render();
+          setState({ ...state, stateLoadedFromSession: true } as unknown as ReducerState)(
+            this.contexts.store.dispatch
+          );
         }
       } else if (waykeOrderId) {
         this.render({

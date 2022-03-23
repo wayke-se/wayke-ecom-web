@@ -106,7 +106,7 @@ class TradeIn extends HtmlNode {
               </ul>
             </div>
             ${
-              !state.stateLoadedFromSession
+              !state.createdOrderId
                 ? `
                   <div class="waykeecom-stack waykeecom-stack--1">
                     <div class="waykeecom-align waykeecom-align--end" id="${CHANGE_BUTTON_NODE}"></div>
@@ -145,7 +145,7 @@ class TradeIn extends HtmlNode {
             </ul>
           </div>
           ${
-            !state.stateLoadedFromSession
+            !state.createdOrderId
               ? `
                 <div class="waykeecom-stack waykeecom-stack--1">
                   <div class="waykeecom-align waykeecom-align--end" id="${CHANGE_BUTTON_NODE}"></div>
@@ -155,7 +155,7 @@ class TradeIn extends HtmlNode {
           }
         `;
       }
-      if (!state.stateLoadedFromSession) {
+      if (!state.createdOrderId) {
         new ButtonAsLink(part.querySelector(`#${CHANGE_BUTTON_NODE}`), {
           id: CHANGE_BUTTON,
           title: 'Ändra',
