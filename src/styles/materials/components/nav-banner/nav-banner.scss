@@ -4,12 +4,17 @@
   margin-bottom: var(--#{$namespace}modal-gutter-y);
   margin-left: var(--#{$namespace}modal-gutter-negative-x);
   margin-right: var(--#{$namespace}modal-gutter-negative-x);
-  padding: size(1.5) var(--#{$namespace}modal-gutter-x);
+  padding: size(2) var(--#{$namespace}modal-gutter-x);
   background-color: color(bg, contrast);
   color: color(text, inverted);
 
   // Force color of link placed in this component
   .#{$namespace}link {
     color: currentColor;
+
+    // Display flex instead of inline-flex to align correctly
+    &--has-content {
+      display: flex;
+    }
   }
 }

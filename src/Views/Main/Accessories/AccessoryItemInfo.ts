@@ -51,17 +51,43 @@ class AccessoryItemInfo extends HtmlNode {
         ${
           !!media.length
             ? `
-              <ul class="waykeecom-overflow-gallery">
-                ${media
-                  .map(
-                    (m) => `
-                    <li class="waykeecom-overflow-gallery__item">
-                      <img src="${m.url}" alt="${name}" class="waykeecom-overflow-gallery__image" />
-                    </li>
-                    `
-                  )
-                  .join('')}
-              </ul>
+              <div class="waykeecom-overflow-gallery">
+                <ul class="waykeecom-overflow-gallery__list">
+                  ${media
+                    .map(
+                      (m) => `
+                      <li class="waykeecom-overflow-gallery__item">
+                        <img src="${m.url}" alt="${name}" class="waykeecom-overflow-gallery__image" />
+                      </li>
+                      `
+                    )
+                    .join('')}
+                </ul>
+                <div class="waykeecom-overflow-gallery__nav waykeecom-overflow-gallery__nav--prev">
+                  <button type="button" title="Visa föegående bild" class="waykeecom-icon-button">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 16 16"
+                      class="waykeecom-icon"
+                      data-icon="Chevron left"
+                    >
+                      <path d="m5.4 7 5.2-5 1 1-5.2 5 5.2 5-1.1 1-5.2-5-1-1 1.1-1z" />
+                    </svg>
+                  </button>
+                </div>
+                <div class="waykeecom-overflow-gallery__nav waykeecom-overflow-gallery__nav--next">
+                  <button type="button" title="Visa nästa bild" class="waykeecom-icon-button">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 16 16"
+                      class="waykeecom-icon"
+                      data-icon="Chevron right"
+                    >
+                      <path d="m10.5 9-5.2 5-1-1 5.2-5-5.2-5 1.1-1 5.2 5 1 1-1.1 1z" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
             `
             : ''
         }

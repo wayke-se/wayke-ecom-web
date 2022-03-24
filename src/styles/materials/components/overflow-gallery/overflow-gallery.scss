@@ -1,16 +1,20 @@
 @use '../../../helpers' as *;
 
 .#{$namespace}overflow-gallery {
-  @include hide-scrollbar;
+  position: relative;
   
-  display: flex;
-  align-items: stretch;
-  list-style: none;
-  padding: 0;
-  margin: 0 var(--#{$namespace}modal-gutter-negative-x);
-  overflow: auto;
-  overscroll-behavior-x: contain;
-  scroll-snap-type: x mandatory;
+  &__list {
+    @include hide-scrollbar;
+
+    display: flex;
+    align-items: stretch;
+    list-style: none;
+    padding: 0;
+    margin: 0 var(--#{$namespace}modal-gutter-negative-x);
+    overflow: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+  }
 
   &__item {
     flex: 1 0 auto;
@@ -29,5 +33,20 @@
     width: 100%;
     object-fit: cover;
     aspect-ratio: scss-var(aspect-ratio, landscape);
+  }
+
+  &__nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1;
+
+    &--prev {
+      left: 0;
+    }
+
+    &--next {
+      right: 0;
+    }
   }
 }
