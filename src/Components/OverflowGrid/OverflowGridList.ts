@@ -1,7 +1,7 @@
 import HtmlNode from '../Extension/HtmlNode';
 import Arrow from './Arrow';
 
-const getRightVariables = (ref: HTMLUListElement | undefined) => {
+const getRightVariables = (ref: HTMLUListElement | undefined | null) => {
   const itemWidth = ref?.children?.[0]?.clientWidth || 0;
   const scrollWidth = ref?.scrollWidth || 0;
   const scrollLeft = ref?.scrollLeft || 0;
@@ -106,18 +106,21 @@ class OverflowGridList extends HtmlNode {
       onClick: () => this.onPrev(),
     });
 
-    const { itemWidth, scrollLeft, overflowElementScrollWidth } = getRightVariables(
-      this.overflowElement
-    );
-    const left = scrollLeft + itemWidth;
-    const rightHide =
-      overflowElementScrollWidth !== scrollLeft && left >= overflowElementScrollWidth;
-
     this.contexts.right = new Arrow(this.node.querySelector<HTMLUListElement>(`#${NEXT_ID}`), {
       direction: 'right',
-      hide: rightHide,
+      hide: true,
       onClick: () => this.onNext(),
     });
+
+    setTimeout(() => {
+      const { itemWidth, scrollLeft, overflowElementScrollWidth } = getRightVariables(
+        this.overflowElement
+      );
+      const left = scrollLeft + itemWidth;
+      const rightHide =
+        overflowElementScrollWidth === scrollLeft && left >= overflowElementScrollWidth;
+      this.contexts.right?.hide(rightHide);
+    }, 50);
   }
 }
 

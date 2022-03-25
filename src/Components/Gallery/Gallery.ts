@@ -44,7 +44,7 @@ class Gallery extends HtmlNode {
   onPrev() {
     const listRef = this.contexts.overflowElement;
     if (listRef) {
-      const itemWidth = listRef.children?.[0]?.clientWidth || 0;
+      const itemWidth = listRef?.clientWidth || 0;
       const scrollLeft = listRef.scrollLeft || 0;
       if (scrollLeft > 0) {
         this.contexts.right?.hide(false);
@@ -126,18 +126,21 @@ class Gallery extends HtmlNode {
       onClick: () => this.onPrev(),
     });
 
-    const { itemWidth, scrollLeft, overflowElementScrollWidth } = getRightVariables(
-      this.contexts.overflowElement
-    );
-    const left = scrollLeft + itemWidth;
-    const rightHide =
-      overflowElementScrollWidth !== scrollLeft && left >= overflowElementScrollWidth;
-
     this.contexts.right = new Arrow(this.node.querySelector<HTMLUListElement>(`#${NEXT_ID}`), {
       direction: 'right',
-      hide: rightHide,
+      hide: true,
       onClick: () => this.onNext(),
     });
+
+    setTimeout(() => {
+      const { itemWidth, scrollLeft, overflowElementScrollWidth } = getRightVariables(
+        this.contexts.overflowElement
+      );
+      const left = scrollLeft + itemWidth;
+      const rightHide =
+        overflowElementScrollWidth === scrollLeft && left >= overflowElementScrollWidth;
+      this.contexts.right?.hide(rightHide);
+    }, 50);
   }
 }
 
