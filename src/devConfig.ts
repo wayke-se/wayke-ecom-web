@@ -46,4 +46,7 @@ export const devConfig = {
   PAYMENT: {
     id: 'f93eae85-4090-482f-97eb-ae7783ad4d93',
   },
+  TRYGG_HANSA: {
+    id: '4067df91-a7b7-488d-8a9b-cdac06807e3a',
+  },
 };

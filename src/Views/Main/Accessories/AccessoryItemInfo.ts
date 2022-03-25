@@ -5,10 +5,12 @@ import ButtonAsLinkArrowLeft from '../../../Components/Button/ButtonAsLinkArrowL
 import HtmlNode from '../../../Components/Extension/HtmlNode';
 import { prettyNumber } from '../../../Utils/format';
 import { scrollTop } from '../../../Utils/scroll';
+import Gallery from '../../../Components/Gallery/Gallery';
 
 const BUTTON_TOP_LEFT_NODE = 'accessory-button-top-left-node';
 const BUTTON_BOTTOM_LEFT_NODE = 'accessory-button-bottom-left-node';
 const BUTTON_ACCESSORY_ADD_REMOVE_NODE = 'accessory-add-remove-node';
+const ACCESSORY_GALLERY_NODE = 'accessory-gallery-node';
 
 interface AccessoryItemInfoProps {
   readonly accessory: IAccessory;
@@ -47,51 +49,7 @@ class AccessoryItemInfo extends HtmlNode {
         </div>
 
       </div>
-      <div class="waykeecom-stack waykeecom-stack--3">
-        ${
-          !!media.length
-            ? `
-              <div class="waykeecom-overflow-gallery">
-                <ul class="waykeecom-overflow-gallery__list">
-                  ${media
-                    .map(
-                      (m) => `
-                      <li class="waykeecom-overflow-gallery__item">
-                        <img src="${m.url}" alt="${name}" class="waykeecom-overflow-gallery__image" />
-                      </li>
-                      `
-                    )
-                    .join('')}
-                </ul>
-                <div class="waykeecom-overflow-gallery__nav waykeecom-overflow-gallery__nav--prev">
-                  <button type="button" title="Visa föegående bild" class="waykeecom-icon-button">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 16 16"
-                      class="waykeecom-icon"
-                      data-icon="Chevron left"
-                    >
-                      <path d="m5.4 7 5.2-5 1 1-5.2 5 5.2 5-1.1 1-5.2-5-1-1 1.1-1z" />
-                    </svg>
-                  </button>
-                </div>
-                <div class="waykeecom-overflow-gallery__nav waykeecom-overflow-gallery__nav--next">
-                  <button type="button" title="Visa nästa bild" class="waykeecom-icon-button">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 16 16"
-                      class="waykeecom-icon"
-                      data-icon="Chevron right"
-                    >
-                      <path d="m10.5 9-5.2 5-1-1 5.2-5-5.2-5 1.1-1 5.2 5 1 1-1.1 1z" />
-                    </svg>
-                  </button>
-                </div>
-              </div>
-            `
-            : ''
-        }
-      </div>
+      <div class="waykeecom-stack waykeecom-stack--3" id="${ACCESSORY_GALLERY_NODE}"></div>
       
       <div class="waykeecom-stack waykeecom-stack--3">
         ${
@@ -124,6 +82,11 @@ class AccessoryItemInfo extends HtmlNode {
         <div class="waykeecom-stack waykeecom-stack--1" id="${BUTTON_BOTTOM_LEFT_NODE}"></div>
       </div>
     `;
+
+    new Gallery(this.node.querySelector(`#${ACCESSORY_GALLERY_NODE}`), {
+      id: `gallery-${accessory.id}`,
+      media: media.map((m, i) => ({ url: m.url, alt: `Bild ${i + 1}` })),
+    });
 
     new ButtonAsLinkArrowLeft(this.node.querySelector(`#${BUTTON_TOP_LEFT_NODE}`), {
       title: 'Tillbaka',
