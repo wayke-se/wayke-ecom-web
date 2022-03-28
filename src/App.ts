@@ -173,8 +173,9 @@ class App {
   }
 
   private closeWithConfirm() {
-    const firstView = this.contexts.store.getState().navigation.view === 'preview';
-    if (firstView) {
+    const { navigation, createdOrderId } = this.contexts.store.getState();
+    const firstView = navigation.view === 'preview';
+    if (firstView || createdOrderId) {
       this.close();
       return;
     }
