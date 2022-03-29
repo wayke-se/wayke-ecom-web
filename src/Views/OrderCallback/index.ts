@@ -2,7 +2,7 @@ import { CallbackOrder } from '../../@types/CallbackOrder';
 import { PaymentOrderResponse } from '../../@types/PaymentOrderResponse';
 import HtmlNode from '../../Components/Extension/HtmlNode';
 import { WaykeStore } from '../../Redux/store';
-import Loader from '../../Templates/Loader';
+// import Loader from '../../Templates/Loader';
 // import Summary from '../Summary';
 interface OrderCallbackProps {
   readonly store: WaykeStore;
@@ -20,7 +20,7 @@ class OrderCallback extends HtmlNode {
     this.props = props;
     sessionStorage.removeItem('wayke-ecom-state');
     this.render();
-    this.loadOrder();
+    // this.loadOrder();
   }
 
   async loadOrder() {
@@ -51,15 +51,6 @@ class OrderCallback extends HtmlNode {
           <p class="waykeecom-content__p">Tack för ditt köp</p>
           <p class="waykeecom-content__p">Order id: ${callbackOrder.orderUrl}</p>
           <p class="waykeecom-content__p">Wayke id: ${callbackOrder.id}</p>
-        </div>
-        <div>
-          ${
-            this.order
-              ? JSON.stringify(this.order)
-              : this.orderFetchFailed
-              ? 'Det gick inte att hämta ordern'
-              : Loader()
-          }
         </div>
       `;
   }
