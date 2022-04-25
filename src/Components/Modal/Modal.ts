@@ -5,6 +5,7 @@ import ModalClose from './ModalClose';
 import ModalContainer from './ModalContainer';
 import ModalDialog from './ModalDialog';
 import ModalHeader from './ModalHeader';
+import ModalFooter from './ModalFooter';
 
 interface ModalProps {
   readonly title: string;
@@ -47,6 +48,9 @@ class Modal extends HtmlNode {
     });
     const body = new ModalBody(dialog.node, {
       id: `${id}-body`,
+    });
+    new ModalFooter(dialog.node, {
+      id: `${id}-footer`,
     });
     return body.node;
   }

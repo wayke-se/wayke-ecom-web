@@ -1,24 +1,28 @@
 /// Custom mixins
 
-// Remove top and bottom margins from the first and last child
-@mixin remove-direct-child-outer-y-margins {
-  & > * {
-    &:first-child {
-      margin-top: 0;
-    }
+@use "../variable" as *;
 
-    &:last-child {
-      margin-bottom: 0;
-    }
-  }
-}
+// Create CSS variables for modal gutter
+@mixin create-modal-gutter($x, $y) {
+  // This mixin creates CSS variables for modal gutter.
+  // The following CSS variables are generated:
+  // --#{$namespace}modal-gutter-x
+  // --#{$namespace}modal-gutter-y
+  // --#{$namespace}modal-gutter
+  // --#{$namespace}modal-gutter-negative-x
+  // --#{$namespace}modal-gutter-negative-y
+  // --#{$namespace}modal-gutter-negative
 
-// Hide scrollbar in scrollable elements
-@mixin hide-scrollbar {
-  scrollbar-width: none;
-  -ms-overflow-style: none;
+  --#{$namespace}modal-gutter-x: #{$x};
+  --#{$namespace}modal-gutter-negative-x: #{$x * -1};
+  --#{$namespace}modal-gutter-y: #{$y};
+  --#{$namespace}modal-gutter-negative-y: #{$y * -1};
 
-  &::-webkit-scrollbar {
-    display: none;
+  @if $x == $y {
+    --#{$namespace}modal-gutter: #{$x};
+    --#{$namespace}modal-gutter-negative: #{$x * -1};
+  } @else {
+    --#{$namespace}modal-gutter: #{$y} #{$x};
+    --#{$namespace}modal-gutter-negative: #{$y * -1} #{$x * -1};
   }
 }

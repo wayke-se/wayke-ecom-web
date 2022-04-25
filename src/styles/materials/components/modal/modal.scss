@@ -64,6 +64,22 @@
     padding: var(--#{$namespace}modal-gutter);
   }
 
+  &__footer {
+    @include font-regular;
+    
+    display: flex;
+    justify-content: center;
+    padding: var(--#{$namespace}modal-gutter);
+    padding-top: 0;
+    font-size: scss-var(font, size, small);
+  }
+
+  &__footer-logo {
+    display: block;
+    width: size(5);
+    fill: currentColor;
+  }
+
   &__close {
     position: fixed;
     right: var(--#{$namespace}modal-gutter-x);

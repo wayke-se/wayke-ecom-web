@@ -3,17 +3,10 @@
 .#{$namespace}stepper {
   &__item {
     padding: size(4) 0;
+    border-bottom: 1px solid color(border, main);
     
     &:first-child {
       padding-top: 0;
-    }
-
-    &:last-child {
-      padding-bottom: 0;
-    }
-    
-    & + & {
-      border-top: 1px solid color(border, main);
     }
   }
 }

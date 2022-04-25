@@ -2,7 +2,6 @@
 
 .#{$namespace}footer {
   padding: var(--#{$namespace}modal-gutter);
-  margin: var(--#{$namespace}modal-gutter-negative);
-  margin-top: var(--#{$namespace}modal-gutter-y);
+  margin: var(--#{$namespace}modal-gutter-y) var(--#{$namespace}modal-gutter-negative-x) 0 var(--#{$namespace}modal-gutter-negative-x);
   background-color: color(bg, alt);
 }

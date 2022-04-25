@@ -1,12 +1,17 @@
 @use '../../../helpers' as *;
 
 .#{$namespace}stepper {
-  margin: var(--#{$namespace}modal-gutter-negative);
-  margin-top: 0;
+  margin: 0 var(--#{$namespace}modal-gutter-negative-x);
 
   &__item {
-    padding: size(4) var(--#{$namespace}modal-gutter-x);
-    border-top: size(1) solid color(bg, alt);
+    $item-border: size(1) solid color(bg, alt);
+
+    padding: var(--#{$namespace}modal-gutter);
+    border-top: $item-border;
+
+    &:last-child {
+      border-bottom: $item-border;
+    }
   }
 
   &__break {
