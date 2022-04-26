@@ -1,7 +1,7 @@
 {
-  "name": "@ourpeter/wayke-ecom-web-test",
-  "version": "1.7.36",
-  "description": "",
+  "name": "@wayke-se/wayke-ecom-web",
+  "version": "0.0.1",
+  "description": "Wayke Ecom Web",
   "module": "dist/index.mjs",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -18,7 +18,7 @@
     "stylelint": "stylelint '**/*.scss'",
     "prepare": "husky install"
   },
-  "author": "wayke",
+  "author": "Wayke",
   "license": "ISC",
   "devDependencies": {
     "@types/node": "^17.0.18",

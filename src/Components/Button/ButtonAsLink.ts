@@ -28,7 +28,7 @@ class ButtonAsLink extends HtmlNode {
         ${id ? `id="${id}"` : ''}
         title="${title}"
         class="waykeecom-link"
-        ${disabled && `disabled=""`}
+        ${disabled ? `disabled=""` : ''}
       >
         ${title}
       </button>
