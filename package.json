@@ -22,7 +22,7 @@
   "license": "ISC",
   "devDependencies": {
     "@types/node": "^17.0.18",
-    "@types/redux-watch": "^1.1.0",
+    "@types/object-path": "^0.11.1",
     "@typescript-eslint/eslint-plugin": "^5.12.0",
     "@typescript-eslint/parser": "^5.12.0",
     "esbuild": "^0.14.22",
@@ -41,8 +41,8 @@
   },
   "dependencies": {
     "@wayke-se/ecom": "^3.7.0-alpha.10",
-    "redux": "^4.1.2",
-    "redux-watch": "^1.2.0"
+    "object-path": "^0.11.8",
+    "redux": "^4.1.2"
   },
   "files": [
     "dist"
