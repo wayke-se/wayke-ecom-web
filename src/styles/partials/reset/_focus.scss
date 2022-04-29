@@ -18,7 +18,7 @@
   #{$root-element} button,
   #{$root-element} input,
   #{$root-element} select,
-  #{$root-element} textarea,
+  #{$root-element} textarea
 ) {
   @include focus {
     @include focus-style;
