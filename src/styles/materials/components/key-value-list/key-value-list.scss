@@ -1,7 +1,7 @@
 @use '../../../helpers' as *;
 
 .#{$namespace}key-value-list {
-  --#{$namespace}key-font-size: #{scss-var(font, size, small)};
+  --#{$namespace}key-font-size: #{scss-var(font, size, xsmall)};
   --#{$namespace}value-font-size: #{scss-var(font, size, small)};
 
   $root: &;
