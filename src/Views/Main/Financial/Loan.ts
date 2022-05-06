@@ -135,7 +135,7 @@ class Loan extends HtmlNode {
     const { store, loan, onProceed } = this.props;
     const { order } = store.getState();
     const name = order?.contactInformation?.name;
-    const shouldUseCreditScoring = this.paymentLookupResponse.shouldUseCreditScoring;
+    const shouldUseCreditScoring = loan.loanDetails?.shouldUseCreditScoring;
 
     const requestError = this.paymentRequestFailed
       ? ` <div class="waykeecom-stack waykeecom-stack--3">${Alert({
@@ -151,7 +151,11 @@ class Loan extends HtmlNode {
       <div class="waykeecom-stack waykeecom-stack--3">
         <h5 class="waykeecom-heading waykeecom-heading--4">Billån</h5>
         <div class="waykeecom-content">
-          <p class="waykeecom-content__p">Finansiera bilen med billån via Volvofinans Bank. Gör din låneansökan här - och få besked direkt. Kom ihåg, köpet är inte bindande förrän du signerat det definitiva affärsförslaget som tas fram av ${name}.</p>
+          <p class="waykeecom-content__p">Finansiera bilen med billån via ${loan?.name}.${
+      shouldUseCreditScoring
+        ? `Gör din låneansökan här - och få besked direkt. Kom ihåg, köpet är inte bindande förrän du signerat det definitiva affärsförslaget som tas fram av ${name}.`
+        : ''
+    }</p>
           <p class="waykeecom-content__p">Ange din tänkta kontantinsats och hur många månader du vill lägga upp ditt lån på.</p>
         </div>
       </div>

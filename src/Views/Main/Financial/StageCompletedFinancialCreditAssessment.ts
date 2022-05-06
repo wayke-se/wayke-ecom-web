@@ -1,4 +1,4 @@
-import { CreditAssessmentRecommendation } from '@wayke-se/ecom';
+import { CreditAssessmentRecommendation, PaymentType } from '@wayke-se/ecom';
 import HtmlNode from '../../../Components/Extension/HtmlNode';
 import { WaykeStore } from '../../../Redux/store';
 import Alert from '../../../Templates/Alert';
@@ -20,7 +20,9 @@ class StageCompletedFinancialCreditAssessment extends HtmlNode {
   render() {
     const { store, decision } = this.props;
     const state = store.getState();
-    const contactInformation = state.order?.contactInformation;
+    const { order } = state;
+    const loan = order?.paymentOptions.find((x) => x.type === PaymentType.Loan);
+    const contactInformation = order?.contactInformation;
 
     if (decision === CreditAssessmentRecommendation.Approve) {
       this.node.innerHTML = `
@@ -28,7 +30,7 @@ class StageCompletedFinancialCreditAssessment extends HtmlNode {
         tone: 'success',
         children: `
           <div class="waykeecom-content waykeecom-content--inherit-size">
-            <p class="waykeecom-content__p"><string>Grattis! Din låneansökan har beviljats av Volvofinans Bank.</strong></p>
+            <p class="waykeecom-content__p"><string>Grattis! Din låneansökan har beviljats av ${loan?.name}.</strong></p>
             <p class="waykeecom-content__p">Slutför ordern genom att klicka dig igenom nästkommande steg. Har du frågor under tiden? Kontakta ${contactInformation?.name} på tel ${contactInformation?.phone}.</p>
           </div>
         `,

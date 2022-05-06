@@ -105,13 +105,16 @@ class Financial extends HtmlNode {
         onEdit: !state.createdOrderId ? () => this.onEdit() : undefined,
       });
     } else if (state.navigation.stage === this.props.index) {
+      const vehicle = state.order?.orderVehicle;
       const cash = paymentOptions.find((x) => x.type === PaymentType.Cash);
       const loan = paymentOptions.find((x) => x.type === PaymentType.Loan);
       const lease = paymentOptions.find((x) => x.type === PaymentType.Lease);
 
       part.innerHTML = `
         <div class="waykeecom-stack waykeecom-stack--3">
-          <h4 class="waykeecom-heading waykeecom-heading--4 waykeecom-no-margin">Hur vill du finansiera din Volvo XC60?</h4>
+          <h4 class="waykeecom-heading waykeecom-heading--4 waykeecom-no-margin">Hur vill du finansiera din ${
+            vehicle?.title
+          } ${vehicle?.shortDescription}?</h4>
         </div>
 
         ${
@@ -174,6 +177,8 @@ class Financial extends HtmlNode {
         const getCreditAmount =
           this.paymentLookupResponse?.creditAmount || loan.loanDetails?.creditAmount || NaN;
 
+        const shouldUseCreditScoring = loan.loanDetails?.shouldUseCreditScoring;
+
         firstGroupOptions.push({
           id: RADIO_FINANCIAL_LOAN,
           value: PaymentType.Loan,
@@ -183,15 +188,19 @@ class Financial extends HtmlNode {
             <div class="waykeecom-stack waykeecom-stack--2">
               <div class="waykeecom-content waykeecom-content--inherit-size">
                 <ul class="waykeecom-content__ul">
+                ${
+                  shouldUseCreditScoring
+                    ? `
                   <li class="waykeecom-content__li">
                     <div>
                       <span class="waykeecom-text waykeecom-text--valign-middle">Låneansökan online med BankID </span>
-                      <img src="${
-                        Image.bankid
-                      }" alt="BankID logotyp" class="waykeecom-image waykeecom-image--inline" aria-hidden="true" />
+                      <img src="${Image.bankid}" alt="BankID logotyp" class="waykeecom-image waykeecom-image--inline" aria-hidden="true" />
                       <span class="waykeecom-text waykeecom-text--valign-middle"> – svar direkt!</span>
                     </div>
                   </li>
+                  `
+                    : ''
+                }
                   <li class="waykeecom-content__li">Betalning sker hos ${
                     contactInformation?.name
                   } vid 

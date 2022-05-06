@@ -1,4 +1,10 @@
-import { AuthMethod, Employment, MaritalStatus, ICreditAssessmentInquiry } from '@wayke-se/ecom';
+import {
+  AuthMethod,
+  Employment,
+  MaritalStatus,
+  ICreditAssessmentInquiry,
+  PaymentType,
+} from '@wayke-se/ecom';
 import { ICreditAssessmentHouseholdEconomy } from '@wayke-se/ecom/dist-types/credit-assessment/types';
 import Accordion from '../../../Components/Accordion';
 import BankIdSign from '../../../Components/BankId/BankIdSign';
@@ -127,18 +133,6 @@ const initalState = (
   };
 };
 
-/*
-const mock: ICreditAssessmentHouseholdEconomy = {
-  employment: Employment.FullTimeEmployed,
-  householdChildren: 0,
-  householdDebt: 0,
-  householdHousingCost: 0,
-  householdIncome: 0,
-  income: 0,
-  maritalStatus: MaritalStatus.Married,
-};
-*/
-
 interface CreditAssessmentProps {
   readonly store: WaykeStore;
   readonly loan: PaymentOption;
@@ -244,15 +238,18 @@ class CreditAssessment extends HtmlNode {
   }
 
   private bankIdStatus(caseId: string, method: AuthMethod) {
+    const loan = this.props.store
+      .getState()
+      .order?.paymentOptions.find((x) => x.type === PaymentType.Loan);
     this.bankidStatusInterval = setInterval(async () => {
       try {
         const response = await creditAssessmentGetStatus(caseId);
 
         const status = response.getStatus();
         if (status === 'signed') {
-          this.contexts.bankId?.setTitle('Väntar på Volvofinans Bank...');
+          this.contexts.bankId?.setTitle(`Väntar på ${loan?.name}...`);
           this.contexts.bankId?.setDescription(
-            'Hämtar uppgifter från Volvofinans Bank. Vänta kvar det kan ta några sekunder.'
+            `Hämtar uppgifter från ${loan?.name}. Vänta kvar det kan ta några sekunder.`
           );
           this.contexts.bankId?.setFinalizing(true);
         }
@@ -385,6 +382,8 @@ class CreditAssessment extends HtmlNode {
 
     const mobile = isMobile();
     const { order } = store.getState();
+
+    const loan = order?.paymentOptions.find((x) => x.type === PaymentType.Loan);
     const creditAmount = paymentLookupResponse.creditAmount;
     const branchName = order?.contactInformation?.name;
 
@@ -413,7 +412,9 @@ class CreditAssessment extends HtmlNode {
       <div class="waykeecom-stack waykeecom-stack--3">
         <h5 class="waykeecom-heading waykeecom-heading--4">Låneansökan</h5>
         <div class="waykeecom-content">
-          <p class="waykeecom-content__p">För att besvara din förfrågan om billån behöver Volvofinans Bank några fler uppgifter om dig och ditt hushåll. Frågorna tar bara någon minut att besvara. Bekräfta och signera sedan med BankID – därefter får du ditt lånebesked direkt på skärmen och kan gå vidare med ditt bilköp. Blir du godkänd så gäller lånebeskedet genom hela köpet så länge inga tillägg görs – men din ansökan är inte bindande.</p>
+          <p class="waykeecom-content__p">För att besvara din förfrågan om billån behöver ${
+            loan?.name
+          } några fler uppgifter om dig och ditt hushåll. Frågorna tar bara någon minut att besvara. Bekräfta och signera sedan med BankID – därefter får du ditt lånebesked direkt på skärmen och kan gå vidare med ditt bilköp. Blir du godkänd så gäller lånebeskedet genom hela köpet så länge inga tillägg görs – men din ansökan är inte bindande.</p>
         </div>
       </div>
       <div class="waykeecom-stack waykeecom-stack--3">
@@ -735,7 +736,7 @@ class CreditAssessment extends HtmlNode {
       );
 
       new Disclaimer(this.node.querySelector<HTMLDivElement>(`#${DISCLAIMER_NODE}`), {
-        text: `Genom att klicka på ”Genomför låneansökan” godkänner jag att Volvofinans Bank gör en kreditupplysning på mig baserat på informationen ovan och jag bekräftar att jag läst <a href="#" title="" target="_blank" rel="noopener noreferrer" class="waykeecom-link">Volvofinans Banks dataskyddspolicy</a>.`,
+        text: `Genom att klicka på ”Genomför låneansökan” godkänner jag att ${loan?.name} gör en kreditupplysning på mig baserat på informationen ovan och jag bekräftar att jag läst <a href="#" title="" target="_blank" rel="noopener noreferrer" class="waykeecom-link">${loan?.name} dataskyddspolicy</a>.`,
       });
 
       new DisclaimerPadlock(this.node.querySelector<HTMLDivElement>(`#${DISCLAIMER_SAFE_NODE}`), {
@@ -761,7 +762,7 @@ class CreditAssessment extends HtmlNode {
             <div class="waykeecom-hstack__item">Varför måste jag svara på allt detta?</div>
           </div>`,
         description: `<div class="waykeecom-content">
-            <p class="waykeecom-content__p">Volvofinans Bank, liksom alla banker i Sverige, är enligt lagen om åtgärder mot penningtvätt och finansiering av terrorism skyldiga att ha god kännedom om sina kunder. Därför måste vi ställa frågor om dig som kund. Den information vi får om dig behandlas konfidentiellt och omfattas av banksekretessen och GDPR.</p>
+            <p class="waykeecom-content__p">${loan?.name}, liksom alla banker i Sverige, är enligt lagen om åtgärder mot penningtvätt och finansiering av terrorism skyldiga att ha god kännedom om sina kunder. Därför måste vi ställa frågor om dig som kund. Den information vi får om dig behandlas konfidentiellt och omfattas av banksekretessen och GDPR.</p>
             <p class="waykeecom-content__p"><a href="#" title="" target="_blank" rel="noopener norefferer" class="waykeecom-link">Läs mer om detta här</a></p>
           </div>`,
       });
