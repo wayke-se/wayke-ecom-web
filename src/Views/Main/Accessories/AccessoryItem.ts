@@ -7,6 +7,7 @@ import { WaykeStore } from '../../../Redux/store';
 import watch from '../../../Redux/watch';
 import { prettyNumber } from '../../../Utils/format';
 import { createPortal, destroyPortal } from '../../../Utils/portal';
+import userEvent, { Step, UserEvent } from '../../../Utils/userEvent';
 import AccessoryItemInfo from './AccessoryItemInfo';
 
 interface AccessoryItemProps {
@@ -48,6 +49,15 @@ class AccessoryItem extends HtmlNode {
   }
 
   private onClick() {
+    const { store, accessory } = this.props;
+    const state = store.getState();
+    const selected =
+      state.accessories.findIndex((_accessory) => _accessory.id === accessory.id) > -1;
+    userEvent(
+      !selected ? UserEvent.ACCESSORY_SELECTED : UserEvent.ACCESSORY_UNSELECTED,
+      Step.ACCESSORY
+    );
+
     addOrRemoveAccessory(this.props.accessory)(this.props.store.dispatch);
   }
 

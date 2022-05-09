@@ -32,6 +32,7 @@ import { PaymentLookup } from '../../../@types/PaymentLookup';
 import { ICreditAssessmentStatus } from '../../../@types/CreditAssessmentStatus';
 import { convertCreditAssessmentStatusResponse } from '../../../Utils/convert';
 import { PaymentOption } from '../../../@types/OrderOptions';
+import userEvent, { Step, UserEvent } from '../../../Utils/userEvent';
 
 const MARITAL_STATUS = `credit-assessment-martial-status`;
 const MARITAL_STATUS_NODE = `${MARITAL_STATUS}-node`;
@@ -243,7 +244,19 @@ class CreditAssessment extends HtmlNode {
       .order?.paymentOptions.find((x) => x.type === PaymentType.Loan);
     this.bankidStatusInterval = setInterval(async () => {
       try {
+        userEvent(
+          method === AuthMethod.SameDevice
+            ? UserEvent.FINANCIAL_CREDIT_SCORING_STATUS_SAME_DEVICE_REQUESTED
+            : UserEvent.FINANCIAL_CREDIT_SCORING_STATUS_QR_REQUESTED,
+          Step.FINANCIAL_CREDIT_SCORING
+        );
         const response = await creditAssessmentGetStatus(caseId);
+        userEvent(
+          method === AuthMethod.SameDevice
+            ? UserEvent.FINANCIAL_CREDIT_SCORING_STATUS_SAME_DEVICE_SUCCEEDED
+            : UserEvent.FINANCIAL_CREDIT_SCORING_STATUS_QR_SUCCEEDED,
+          Step.FINANCIAL_CREDIT_SCORING
+        );
 
         const status = response.getStatus();
         if (status === 'signed') {
@@ -252,6 +265,10 @@ class CreditAssessment extends HtmlNode {
             `Hämtar uppgifter från ${loan?.name}. Vänta kvar det kan ta några sekunder.`
           );
           this.contexts.bankId?.setFinalizing(true);
+          userEvent(
+            UserEvent.FINANCIAL_CREDIT_SCORING_SIGNING_SIGNED,
+            Step.FINANCIAL_CREDIT_SCORING
+          );
         }
 
         if (response.isScored()) {
@@ -266,6 +283,10 @@ class CreditAssessment extends HtmlNode {
           )(this.props.store.dispatch);
           destroyPortal();
           this.render();
+          userEvent(
+            UserEvent.FINANCIAL_CREDIT_SCORING_SIGNING_SCORED,
+            Step.FINANCIAL_CREDIT_SCORING
+          );
         }
 
         if (response.shouldRenewSigning()) {
@@ -275,6 +296,12 @@ class CreditAssessment extends HtmlNode {
         clearInterval(this.bankidStatusInterval as NodeJS.Timer);
         this.contexts.bankId?.setErrorMessage(
           'Det gick inte att hämta status kring nuvanrade BankId signering. Nytt försök sker igenom om 2 sekunder'
+        );
+        userEvent(
+          method === AuthMethod.SameDevice
+            ? UserEvent.FINANCIAL_CREDIT_SCORING_STATUS_SAME_DEVICE_FAILED
+            : UserEvent.FINANCIAL_CREDIT_SCORING_STATUS_QR_FAILED,
+          Step.FINANCIAL_CREDIT_SCORING
         );
       }
     }, 2000);
@@ -288,8 +315,16 @@ class CreditAssessment extends HtmlNode {
     }
 
     try {
+      userEvent(
+        UserEvent.FINANCIAL_CREDIT_SCORING_CREATE_CASE_REQUESTED,
+        Step.FINANCIAL_CREDIT_SCORING
+      );
       this.contexts.bankId?.update(method);
       const response = await creditAssessmentSignCase({ caseId, method });
+      userEvent(
+        UserEvent.FINANCIAL_CREDIT_SCORING_CREATE_CASE_SUCCEEDED,
+        Step.FINANCIAL_CREDIT_SCORING
+      );
       this.bankIdStatus(caseId, method);
       if (method === AuthMethod.SameDevice) {
         const autoLaunchUrl = response.getAutoLaunchUrl() as string;
@@ -299,6 +334,10 @@ class CreditAssessment extends HtmlNode {
         this.contexts.bankId?.update(method, qrCode);
       }
     } catch (e) {
+      userEvent(
+        UserEvent.FINANCIAL_CREDIT_SCORING_CREATE_CASE_FAILED,
+        Step.FINANCIAL_CREDIT_SCORING
+      );
       if (this.bankidStatusInterval) {
         clearInterval(this.bankidStatusInterval);
       }

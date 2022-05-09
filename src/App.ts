@@ -21,6 +21,12 @@ import { creditAssessmentCancelSigning } from './Data/creditAssessmentCancelSign
 import { useVwListner } from './Utils/vw';
 import { CallbackOrder } from './@types/CallbackOrder';
 import { ReducerState } from './Redux/reducer';
+import {
+  registerUserEventListner,
+  Step,
+  unregisterUserEventListner,
+  UserEvent,
+} from './Utils/userEvent';
 
 const OrderIdQueryString = 'order';
 const Payment3DSecurityCallback = 'wayke-ecom-web-payment';
@@ -39,6 +45,7 @@ interface AppProps {
   vehicle?: Vehicle;
   ecomSdkConfig: EcomSdkConfig;
   useBankid?: boolean;
+  onUserEvent?: (userEvent: UserEvent, currentStep: Step) => void;
 }
 
 class App {
@@ -64,6 +71,11 @@ class App {
         env: {},
       };
     }
+
+    if (props.onUserEvent) {
+      registerUserEventListner(props.onUserEvent);
+    }
+
     config.bind(props.ecomSdkConfig);
     const createdRoot = document.createElement('div');
     createdRoot.className = 'waykeecom-root';
@@ -170,6 +182,9 @@ class App {
     }
     sessionStorage.removeItem('wayke-ecom-state');
     reset(this.props.id)(this.contexts.store.dispatch);
+    if (this.props.onUserEvent) {
+      unregisterUserEventListner(this.props.onUserEvent);
+    }
   }
 
   private closeWithConfirm() {

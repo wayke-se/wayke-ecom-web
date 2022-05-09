@@ -6,6 +6,7 @@ import { addOrRemoveFreeInsurance } from '../../../../Redux/action';
 import { WaykeStore } from '../../../../Redux/store';
 import watch from '../../../../Redux/watch';
 import { createPortal, destroyPortal } from '../../../../Utils/portal';
+import userEvent, { Step, UserEvent } from '../../../../Utils/userEvent';
 import InsuranceItemInfo from './InsuranceItemInfo';
 
 interface InsuranceItemProps {
@@ -42,6 +43,13 @@ class InsuranceItem extends HtmlNode {
   }
 
   private onClick() {
+    const { freeInsurance } = this.props.store.getState();
+    if (freeInsurance && this.props.freeInsurance !== freeInsurance) {
+      userEvent(UserEvent.INSURANCE_SELECTED, Step.INSURANCE);
+    } else {
+      userEvent(UserEvent.INSURANCE_UNSELECTED, Step.INSURANCE);
+    }
+
     addOrRemoveFreeInsurance(this.props.freeInsurance)(this.props.store.dispatch);
   }
 

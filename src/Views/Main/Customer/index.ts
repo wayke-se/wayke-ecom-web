@@ -7,6 +7,7 @@ import ListItem from '../../../Templates/ListItem';
 import EmailAndPhone from './EmailAndPhone';
 import FullAddress from './FullAddress';
 import watch from '../../../Redux/watch';
+import userEvent, { Step, UserEvent } from '../../../Utils/userEvent';
 
 interface CustomerProps {
   readonly store: WaykeStore;
@@ -30,6 +31,7 @@ class Customer extends HtmlNode {
 
   private onChange() {
     goTo('main', this.props.index)(this.props.store.dispatch);
+    userEvent(UserEvent.CUSTOMER_EDIT, Step.CUSTOMER_EMAIL_AND_PHONE);
   }
 
   render() {

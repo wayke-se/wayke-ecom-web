@@ -9,6 +9,7 @@ import watch from '../../../Redux/watch';
 import IfInsurance from './IfInsurance';
 import DefaultInsurance from './DefaultInsurance';
 import { prettyNumber } from '../../../Utils/format';
+import userEvent, { Step, UserEvent } from '../../../Utils/userEvent';
 
 interface InsuranceProps {
   readonly store: WaykeStore;
@@ -33,10 +34,12 @@ class Insurance extends HtmlNode {
   private onSkipInsurances() {
     addOrRemoveInsurance()(this.props.store.dispatch);
     completeStage(this.props.lastStage)(this.props.store.dispatch);
+    userEvent(UserEvent.INSURANCE_SKIPPED, Step.INSURANCE);
   }
 
   private onEdit() {
     goTo('main', this.props.index)(this.props.store.dispatch);
+    userEvent(UserEvent.INSURANCE_EDIT, Step.INSURANCE);
   }
 
   render() {

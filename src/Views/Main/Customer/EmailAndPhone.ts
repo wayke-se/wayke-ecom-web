@@ -7,6 +7,7 @@ import { WaykeStore } from '../../../Redux/store';
 import KeyValueListItem from '../../../Templates/KeyValueListItem';
 import { validationMethods } from '../../../Utils/validationMethods';
 import HtmlNode from '../../../Components/Extension/HtmlNode';
+import userEvent, { Step, UserEvent } from '../../../Utils/userEvent';
 
 const EMAIL_NODE = 'contact-email-node';
 const EMAIL_INPUT_ID = 'contact-email';
@@ -106,6 +107,7 @@ class EmailAndPhone extends HtmlNode {
       email: this.state.value.email.trim(),
       phone: this.state.value.phone.trim(),
     })(this.props.store.dispatch);
+    userEvent(UserEvent.CUSTOMER_EMAIL_AND_PHONE_SET, Step.CUSTOMER_EMAIL_AND_PHONE);
   }
 
   render() {

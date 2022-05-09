@@ -9,6 +9,7 @@ import { setDrivingDistance } from '../../../../Redux/action';
 import { WaykeStore } from '../../../../Redux/store';
 import { translateDrivingDistance } from '../../../../Utils/constants';
 import InsuranceView from './InsuranceView';
+import userEvent, { Step, UserEvent } from '../../../../Utils/userEvent';
 
 const DISTANCE = 'select-insurance-distance';
 const DISTANCE_NODE = `${DISTANCE}-node`;
@@ -42,17 +43,39 @@ class IfInsurance extends HtmlNode {
   private onChangeDistance(e: Event) {
     this.showInsurances = false;
     const currentTarget = e.currentTarget as HTMLSelectElement;
-    setDrivingDistance(currentTarget.value as DrivingDistance)(this.props.store.dispatch);
+    const distance = currentTarget.value as DrivingDistance;
+    setDrivingDistance(distance)(this.props.store.dispatch);
+    switch (distance) {
+      case DrivingDistance.Between0And1000:
+        userEvent(UserEvent.INSURANCE_MILEAGE_BETWEEN_0_AND_1000_SELECTED, Step.INSURANCE_IF);
+        break;
+      case DrivingDistance.Between1000And1500:
+        userEvent(UserEvent.INSURANCE_MILEAGE_BETWEEN_1000_AND_1500_SELECTED, Step.INSURANCE_IF);
+        break;
+      case DrivingDistance.Between1500And2000:
+        userEvent(UserEvent.INSURANCE_MILEAGE_BETWEEN_1500_AND_2000_SELECTED, Step.INSURANCE_IF);
+        break;
+      case DrivingDistance.Between2000And2500:
+        userEvent(UserEvent.INSURANCE_MILEAGE_BETWEEN_2000_AND_2500_SELECTED, Step.INSURANCE_IF);
+        break;
+      case DrivingDistance.Over2500:
+        userEvent(UserEvent.INSURANCE_MILEAGE_OVER_2500_SELECTED, Step.INSURANCE_IF);
+        break;
+      default:
+        break;
+    }
   }
 
   private onShowInsurances() {
     this.showInsurances = true;
     this.render();
+    userEvent(UserEvent.INSURANCE_SHOW, Step.INSURANCE_IF);
   }
 
   private onEdit() {
     this.showInsurances = false;
     this.render();
+    userEvent(UserEvent.INSURANCE_EDIT_MILEAGE, Step.INSURANCE_IF);
   }
 
   render() {

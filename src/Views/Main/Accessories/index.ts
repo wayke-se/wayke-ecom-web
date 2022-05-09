@@ -8,6 +8,7 @@ import { WaykeStore } from '../../../Redux/store';
 import watch from '../../../Redux/watch';
 import ListItem from '../../../Templates/ListItem';
 import { prettyNumber } from '../../../Utils/format';
+import userEvent, { Step, UserEvent } from '../../../Utils/userEvent';
 import AccessoryList from './AccessoryList';
 
 const PROCEED = 'button-accessories-proceed';
@@ -44,6 +45,7 @@ class Accessories extends HtmlNode {
 
   private onEdit() {
     goTo('main', this.props.index)(this.props.store.dispatch);
+    userEvent(UserEvent.ACCESSORY_EDIT, Step.ACCESSORY);
   }
 
   render() {

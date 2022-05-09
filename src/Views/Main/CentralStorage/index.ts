@@ -9,6 +9,7 @@ import watch from '../../../Redux/watch';
 import Alert from '../../../Templates/Alert';
 import ListItem from '../../../Templates/ListItem';
 import { convertOrderOptionsResponse } from '../../../Utils/convert';
+import userEvent, { Step, UserEvent } from '../../../Utils/userEvent';
 
 const PROCEED = 'button-central-storage-proceed';
 const PROCEED_NODE = `${PROCEED}-node`;
@@ -55,6 +56,8 @@ class CentralStorage extends HtmlNode {
       setOrder(convertOrderOptionsResponse(order), vehicle);
       setDealer(selectedDealer, this.props.lastStage)(this.props.store.dispatch);
 
+      userEvent(UserEvent.CENTRAL_STORAGE_SELECTED, Step.CENTRAL_STORAGE);
+
       this.contexts.proceedButton?.loading(false);
     } catch (e) {
       this.contexts.proceedButton?.loading(false);
@@ -68,10 +71,12 @@ class CentralStorage extends HtmlNode {
     const value = currentTarget.value;
     this.selectedDealer = value;
     this.contexts.proceedButton?.disabled(false);
+    userEvent(UserEvent.CENTRAL_STORAGE_SELECTED, Step.CENTRAL_STORAGE);
   }
 
   private onEdit() {
     goTo('main', this.props.index)(this.props.store.dispatch);
+    userEvent(UserEvent.CENTRAL_STORAGE_EDIT, Step.CENTRAL_STORAGE);
   }
 
   private onProceed() {

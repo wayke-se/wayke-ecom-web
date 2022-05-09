@@ -11,6 +11,7 @@ import Loan from './Loan';
 import StageCompletedFinancial from './StageCompletedFinancial';
 import watch from '../../../Redux/watch';
 import { PaymentLookup } from '../../../@types/PaymentLookup';
+import userEvent, { Step, UserEvent } from '../../../Utils/userEvent';
 
 const PROCEED = 'button-financial-proceed';
 const PROCEED_NODE = `${PROCEED}-node`;
@@ -61,16 +62,39 @@ class Financial extends HtmlNode {
     const value = currentTarget.value as PaymentType;
     this.paymentType = value;
     this.render(true);
+    switch (this.paymentType) {
+      case PaymentType.Cash:
+        userEvent(UserEvent.FINANCIAL_CASH_SELECTED, Step.FINANCIAL);
+        break;
+      case PaymentType.Lease:
+        userEvent(UserEvent.FINANCIAL_LEASE_SELECTED, Step.FINANCIAL);
+      case PaymentType.Loan:
+        userEvent(UserEvent.FINANCIAL_LOAN_SELECTED, Step.FINANCIAL);
+      default:
+        break;
+    }
   }
 
   private onProceed() {
     if (this.paymentType) {
       setFinancial(this.paymentType, this.props.lastStage)(this.props.store.dispatch);
+      switch (this.paymentType) {
+        case PaymentType.Cash:
+          userEvent(UserEvent.FINANCIAL_CASH_SET, Step.FINANCIAL);
+          break;
+        case PaymentType.Lease:
+          userEvent(UserEvent.FINANCIAL_LEASE_SET, Step.FINANCIAL);
+        case PaymentType.Loan:
+          userEvent(UserEvent.FINANCIAL_LOAN_SET, Step.FINANCIAL);
+        default:
+          break;
+      }
     }
   }
 
   private onEdit() {
     goTo('main', this.props.index)(this.props.store.dispatch);
+    userEvent(UserEvent.FINANCIAL_EDIT_CLICKED, Step.FINANCIAL);
   }
 
   render(preventScrollIntoView?: boolean) {

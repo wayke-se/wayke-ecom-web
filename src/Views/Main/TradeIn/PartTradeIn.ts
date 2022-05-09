@@ -16,6 +16,7 @@ import { translateTradeInCondition } from '../../../Utils/constants';
 import ButtonAsLink from '../../../Components/Button/ButtonAsLink';
 import { convertVehicleLookupResponse } from '../../../Utils/convert';
 import { VehicleLookup } from '../../../@types/VehicleLookup';
+import userEvent, { Step, UserEvent } from '../../../Utils/userEvent';
 
 const REGISTRATION_NUMBER_ID = 'trade-in-registrationNumber';
 const REGISTRATION_NUMBER_NODE = `${REGISTRATION_NUMBER_ID}-node`;
@@ -166,6 +167,8 @@ class PartTradeIn extends HtmlNode {
     this.render();
 
     try {
+      userEvent(UserEvent.TRADE_IN_VALUATION_REQUESTED, Step.TRADE_IN_DETAILS);
+
       this.contexts.buttonFetch?.loading(true);
       if (
         this.state.validation.registrationNumber &&
@@ -178,10 +181,12 @@ class PartTradeIn extends HtmlNode {
         const response = convertVehicleLookupResponse(_response);
         this.response = response;
         this.render();
+        userEvent(UserEvent.TRADE_IN_VALUATION_SUCCEEDED, Step.TRADE_IN_DETAILS);
       }
     } catch (e) {
       this.requestError = true;
       this.render();
+      userEvent(UserEvent.TRADE_IN_VALUATION_FAILED, Step.TRADE_IN_DETAILS);
     } finally {
       this.contexts.buttonFetch?.loading(false);
     }
@@ -190,6 +195,7 @@ class PartTradeIn extends HtmlNode {
   private onEdit() {
     this.response = undefined;
     this.render();
+    userEvent(UserEvent.TRADE_IN_SKIPPED, Step.TRADE_IN_DETAILS);
   }
 
   private onProceed() {
@@ -197,6 +203,7 @@ class PartTradeIn extends HtmlNode {
       const vehicle = this.response.vehicle;
       const value = this.state.value as TradeInCarData;
       setTradeIn(this.props.lastStage, value, vehicle)(this.props.store.dispatch);
+      userEvent(UserEvent.TRADE_IN_SET, Step.TRADE_IN_DETAILS);
     }
   }
 
@@ -208,6 +215,20 @@ class PartTradeIn extends HtmlNode {
     this.state.value[name] = value;
     this.state.validation[name] = validation[name](value);
     this.updateProceedButton();
+
+    switch (value) {
+      case VehicleCondition.VeryGood:
+        userEvent(UserEvent.TRADE_IN_CONDITION_VERY_GOOD_SELECTED, Step.TRADE_IN_DETAILS);
+        break;
+      case VehicleCondition.Good:
+        userEvent(UserEvent.TRADE_IN_CONDITION_GOOD_SELECTED, Step.TRADE_IN_DETAILS);
+        break;
+      case VehicleCondition.Ok:
+        userEvent(UserEvent.TRADE_IN_CONDITION_OK_SELECTED, Step.TRADE_IN_DETAILS);
+        break;
+      default:
+        break;
+    }
   }
 
   private onChange(e: Event) {
@@ -253,6 +274,7 @@ class PartTradeIn extends HtmlNode {
 
   private onNoTradeIn() {
     setTradeIn(this.props.lastStage)(this.props.store.dispatch);
+    userEvent(UserEvent.TRADE_IN_SELECTED, Step.TRADE_IN_DETAILS);
   }
 
   render() {
