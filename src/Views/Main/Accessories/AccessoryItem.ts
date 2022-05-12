@@ -7,7 +7,7 @@ import { WaykeStore } from '../../../Redux/store';
 import watch from '../../../Redux/watch';
 import { prettyNumber } from '../../../Utils/format';
 import { createPortal, destroyPortal } from '../../../Utils/portal';
-import ecomEvent, { Step, EcomEvent, EcomView } from '../../../Utils/ecomEvent';
+import ecomEvent, { EcomStep, EcomEvent, EcomView } from '../../../Utils/ecomEvent';
 import AccessoryItemInfo from './AccessoryItemInfo';
 
 interface AccessoryItemProps {
@@ -37,13 +37,13 @@ class AccessoryItem extends HtmlNode {
   }
 
   private onInfoOpen() {
-    ecomEvent(EcomView.MAIN, EcomEvent.ACCESSORY_INFORMATION_TOGGLE, Step.ACCESSORY);
+    ecomEvent(EcomView.MAIN, EcomEvent.ACCESSORY_INFORMATION_TOGGLE, EcomStep.ACCESSORY);
     this.displayInfo = true;
     this.render();
   }
 
   private onInfoClose() {
-    ecomEvent(EcomView.MAIN, EcomEvent.ACCESSORY_INFORMATION_TOGGLE, Step.ACCESSORY);
+    ecomEvent(EcomView.MAIN, EcomEvent.ACCESSORY_INFORMATION_TOGGLE, EcomStep.ACCESSORY);
     this.displayInfo = false;
     destroyPortal();
     this.render();
@@ -58,7 +58,7 @@ class AccessoryItem extends HtmlNode {
     ecomEvent(
       EcomView.MAIN,
       !selected ? EcomEvent.ACCESSORY_SELECTED : EcomEvent.ACCESSORY_UNSELECTED,
-      Step.ACCESSORY
+      EcomStep.ACCESSORY
     );
 
     addOrRemoveAccessory(this.props.accessory)(this.props.store.dispatch);

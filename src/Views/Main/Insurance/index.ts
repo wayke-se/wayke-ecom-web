@@ -9,7 +9,7 @@ import watch from '../../../Redux/watch';
 import IfInsurance from './IfInsurance';
 import DefaultInsurance from './DefaultInsurance';
 import { prettyNumber } from '../../../Utils/format';
-import ecomEvent, { Step, EcomEvent, EcomView } from '../../../Utils/ecomEvent';
+import ecomEvent, { EcomStep, EcomEvent, EcomView } from '../../../Utils/ecomEvent';
 
 interface InsuranceProps {
   readonly store: WaykeStore;
@@ -33,7 +33,7 @@ class Insurance extends HtmlNode {
 
   private getStep() {
     const { order } = this.props.store.getState();
-    return order?.insuranceOption?.institute === 'IF' ? Step.INSURANCE_IF : Step.INSURANCE;
+    return order?.insuranceOption?.institute === 'IF' ? EcomStep.INSURANCE_IF : EcomStep.INSURANCE;
   }
 
   private onSkipInsurances() {

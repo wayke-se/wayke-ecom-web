@@ -5,7 +5,7 @@ import GridItem from '../../../../Components/OverflowGrid/OverflowGridItem';
 import { addOrRemoveInsurance } from '../../../../Redux/action';
 import { WaykeStore } from '../../../../Redux/store';
 import watch from '../../../../Redux/watch';
-import ecomEvent, { EcomEvent, EcomView, Step } from '../../../../Utils/ecomEvent';
+import ecomEvent, { EcomEvent, EcomView, EcomStep } from '../../../../Utils/ecomEvent';
 import { prettyNumber } from '../../../../Utils/format';
 import { createPortal, destroyPortal } from '../../../../Utils/portal';
 import InsuranceItemInfo from './InsuranceItemInfo';
@@ -32,13 +32,13 @@ class InsuranceItem extends HtmlNode {
   }
 
   private onInfoOpen() {
-    ecomEvent(EcomView.MAIN, EcomEvent.INSURANCE_INFORMATION_TOGGLE, Step.INSURANCE_IF);
+    ecomEvent(EcomView.MAIN, EcomEvent.INSURANCE_INFORMATION_TOGGLE, EcomStep.INSURANCE_IF);
     this.displayInfo = true;
     this.render();
   }
 
   private onInfoClose() {
-    ecomEvent(EcomView.MAIN, EcomEvent.INSURANCE_INFORMATION_TOGGLE, Step.INSURANCE_IF);
+    ecomEvent(EcomView.MAIN, EcomEvent.INSURANCE_INFORMATION_TOGGLE, EcomStep.INSURANCE_IF);
     this.displayInfo = false;
     destroyPortal();
     this.render();
@@ -48,9 +48,9 @@ class InsuranceItem extends HtmlNode {
   private onClick() {
     const { insurance } = this.props.store.getState();
     if (!insurance || (insurance && this.props.insurance.name !== insurance.name)) {
-      ecomEvent(EcomView.MAIN, EcomEvent.INSURANCE_SELECTED, Step.INSURANCE_IF);
+      ecomEvent(EcomView.MAIN, EcomEvent.INSURANCE_SELECTED, EcomStep.INSURANCE_IF);
     } else {
-      ecomEvent(EcomView.MAIN, EcomEvent.INSURANCE_UNSELECTED, Step.INSURANCE_IF);
+      ecomEvent(EcomView.MAIN, EcomEvent.INSURANCE_UNSELECTED, EcomStep.INSURANCE_IF);
     }
 
     addOrRemoveInsurance(this.props.insurance)(this.props.store.dispatch);

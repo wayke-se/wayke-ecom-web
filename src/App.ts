@@ -23,7 +23,7 @@ import { CallbackOrder } from './@types/CallbackOrder';
 import { ReducerState } from './Redux/reducer';
 import ecomEvent, {
   registerEventListner,
-  Step,
+  EcomStep,
   unregisterEventListner,
   EcomEvent,
   EcomView,
@@ -47,7 +47,7 @@ interface AppProps {
   vehicle?: Vehicle;
   ecomSdkConfig: EcomSdkConfig;
   useBankid?: boolean;
-  onEvent?: (view: EcomView, event: EcomEvent, currentStep?: Step) => void;
+  onEvent?: (view: EcomView, event: EcomEvent, currentStep?: EcomStep) => void;
 }
 
 class App {

@@ -16,7 +16,7 @@ import { WaykeStore } from '../../../Redux/store';
 import { setCreatedOrderId } from '../../../Redux/action';
 import { createOrder } from '../../../Data/createOrder';
 import { creditAssessmentAccept } from '../../../Data/creditAssessmentAccept';
-import ecomEvent, { Step, EcomEvent, EcomView } from '../../../Utils/ecomEvent';
+import ecomEvent, { EcomStep, EcomEvent, EcomView } from '../../../Utils/ecomEvent';
 
 const BANKID_START_NODE = `bankid-start-node`;
 const BANKID_START = `bankid-start`;
@@ -58,19 +58,19 @@ class VerifyByBankId extends HtmlNode {
         ecomEvent(
           EcomView.MAIN,
           EcomEvent.CONFIRMATION_ACCEPT_CREDIT_ASSESSMENT_REQUEST,
-          Step.CONFIRMATION
+          EcomStep.CONFIRMATION
         );
         await creditAssessmentAccept(caseId);
         ecomEvent(
           EcomView.MAIN,
           EcomEvent.CONFIRMATION_ACCEPT_CREDIT_ASSESSMENT_SUCCEEDED,
-          Step.CONFIRMATION
+          EcomStep.CONFIRMATION
         );
       } catch (e) {
         ecomEvent(
           EcomView.MAIN,
           EcomEvent.CONFIRMATION_ACCEPT_CREDIT_ASSESSMENT_FAILED,
-          Step.CONFIRMATION
+          EcomStep.CONFIRMATION
         );
       }
     }
@@ -80,11 +80,19 @@ class VerifyByBankId extends HtmlNode {
     const { store } = this.props;
     this.requestError = false;
     try {
-      ecomEvent(EcomView.MAIN, EcomEvent.CONFIRMATION_CREATE_ORDER_REQUESTED, Step.CONFIRMATION);
+      ecomEvent(
+        EcomView.MAIN,
+        EcomEvent.CONFIRMATION_CREATE_ORDER_REQUESTED,
+        EcomStep.CONFIRMATION
+      );
 
       const { order } = store.getState();
       const response = await createOrder(store);
-      ecomEvent(EcomView.MAIN, EcomEvent.CONFIRMATION_CREATE_ORDER_SUCCEEDED, Step.CONFIRMATION);
+      ecomEvent(
+        EcomView.MAIN,
+        EcomEvent.CONFIRMATION_CREATE_ORDER_SUCCEEDED,
+        EcomStep.CONFIRMATION
+      );
 
       const paymentRequired = order?.isPaymentRequired;
       if (paymentRequired) {
@@ -96,7 +104,7 @@ class VerifyByBankId extends HtmlNode {
       setCreatedOrderId(response.getId(), payment)(store.dispatch);
       this.acceptCreditAssessment();
     } catch (e) {
-      ecomEvent(EcomView.MAIN, EcomEvent.CONFIRMATION_CREATE_ORDER_FAILED, Step.CONFIRMATION);
+      ecomEvent(EcomView.MAIN, EcomEvent.CONFIRMATION_CREATE_ORDER_FAILED, EcomStep.CONFIRMATION);
       this.requestError = true;
       this.render();
     }
@@ -110,7 +118,7 @@ class VerifyByBankId extends HtmlNode {
           method === AuthMethod.SameDevice
             ? EcomEvent.CONFIRMATION_BANKID_STATUS_SAME_DEVICE_REQUESTED
             : EcomEvent.CONFIRMATION_BANKID_STATUS_QR_REQUESTED,
-          Step.CONFIRMATION
+          EcomStep.CONFIRMATION
         );
 
         const response = await getBankIdStatus(reference);
@@ -119,7 +127,7 @@ class VerifyByBankId extends HtmlNode {
           method === AuthMethod.SameDevice
             ? EcomEvent.CONFIRMATION_BANKID_STATUS_SAME_DEVICE_SUCCEEDED
             : EcomEvent.CONFIRMATION_BANKID_STATUS_QR_SUCCEEDED,
-          Step.CONFIRMATION
+          EcomStep.CONFIRMATION
         );
 
         if (response.isCompleted()) {
@@ -136,7 +144,7 @@ class VerifyByBankId extends HtmlNode {
                 method === AuthMethod.SameDevice
                   ? EcomEvent.CONFIRMATION_BANKID_STATUS_SAME_DEVICE_COMPLETED_NOT_OVER_18
                   : EcomEvent.CONFIRMATION_BANKID_STATUS_QR_COMPLETED_NOT_OVER_18,
-                Step.CONFIRMATION
+                EcomStep.CONFIRMATION
               );
               this.view = 1;
               this.ageError = true;
@@ -150,7 +158,7 @@ class VerifyByBankId extends HtmlNode {
                 method === AuthMethod.SameDevice
                   ? EcomEvent.CONFIRMATION_BANKID_STATUS_SAME_DEVICE_COMPLETED_SSN_MISSMATCH
                   : EcomEvent.CONFIRMATION_BANKID_STATUS_QR_COMPLETED_SSN_MISSMATCH,
-                Step.CONFIRMATION
+                EcomStep.CONFIRMATION
               );
               this.view = 1;
               this.socialIdNotMatchingError = true;
@@ -164,7 +172,7 @@ class VerifyByBankId extends HtmlNode {
               method === AuthMethod.SameDevice
                 ? EcomEvent.CONFIRMATION_BANKID_STATUS_SAME_DEVICE_COMPLETED
                 : EcomEvent.CONFIRMATION_BANKID_STATUS_QR_COMPLETED,
-              Step.CONFIRMATION
+              EcomStep.CONFIRMATION
             );
             this.contexts.bankId?.setDescription('Verifiering klar, ordern skapas nu...');
             await this.onCreateOrder();
@@ -175,7 +183,7 @@ class VerifyByBankId extends HtmlNode {
             method === AuthMethod.SameDevice
               ? EcomEvent.CONFIRMATION_BANKID_STATUS_SAME_DEVICE_SHOULD_RENEW
               : EcomEvent.CONFIRMATION_BANKID_STATUS_QR_SHOULD_RENEW,
-            Step.CONFIRMATION
+            EcomStep.CONFIRMATION
           );
           this.onStartBankIdAuth(method);
         }
@@ -189,7 +197,7 @@ class VerifyByBankId extends HtmlNode {
           method === AuthMethod.SameDevice
             ? EcomEvent.CONFIRMATION_BANKID_STATUS_SAME_DEVICE_FAILED
             : EcomEvent.CONFIRMATION_BANKID_STATUS_QR_FAILED,
-          Step.CONFIRMATION
+          EcomStep.CONFIRMATION
         );
       }
     }, 2000);
@@ -201,11 +209,11 @@ class VerifyByBankId extends HtmlNode {
     }
 
     try {
-      ecomEvent(EcomView.MAIN, EcomEvent.CONFIRMATION_BANKID_INIT_REQUESTED, Step.CONFIRMATION);
+      ecomEvent(EcomView.MAIN, EcomEvent.CONFIRMATION_BANKID_INIT_REQUESTED, EcomStep.CONFIRMATION);
       this.contexts.bankId?.update(method);
       this.contexts.buttonLinkToggle?.disabled(true);
       const response = await getBankIdAuth(method);
-      ecomEvent(EcomView.MAIN, EcomEvent.CONFIRMATION_BANKID_INIT_SUCCEEDED, Step.CONFIRMATION);
+      ecomEvent(EcomView.MAIN, EcomEvent.CONFIRMATION_BANKID_INIT_SUCCEEDED, EcomStep.CONFIRMATION);
       const reference = response.getOrderRef();
       this.bankIdStatus(reference, method);
 
@@ -222,7 +230,7 @@ class VerifyByBankId extends HtmlNode {
         this.contexts.bankId?.update(method, qrCode);
       }
     } catch (e) {
-      ecomEvent(EcomView.MAIN, EcomEvent.CONFIRMATION_BANKID_INIT_FAILED, Step.CONFIRMATION);
+      ecomEvent(EcomView.MAIN, EcomEvent.CONFIRMATION_BANKID_INIT_FAILED, EcomStep.CONFIRMATION);
       this.contexts.bankId?.setErrorMessage(
         'Det gick tyvärr inte att initiera BankId. Vänligen försök igen.'
       );
@@ -232,7 +240,7 @@ class VerifyByBankId extends HtmlNode {
   }
 
   private onAbort() {
-    ecomEvent(EcomView.MAIN, EcomEvent.CONFIRMATION_BANKID_ABORTED, Step.CONFIRMATION);
+    ecomEvent(EcomView.MAIN, EcomEvent.CONFIRMATION_BANKID_ABORTED, EcomStep.CONFIRMATION);
     this.view = 1;
     if (this.bankidStatusInterval) {
       clearInterval(this.bankidStatusInterval);

@@ -183,7 +183,7 @@ export enum EcomEvent {
   SUMMARY_ACTIVE = 'SUMMARY_ACTIVE',
 }
 
-export enum Step {
+export enum EcomStep {
   CENTRAL_STORAGE = 'CENTRAL_STORAGE',
 
   CUSTOMER_EMAIL_AND_PHONE = 'CUSTOMER_EMAIL_AND_PHONE',
@@ -211,7 +211,7 @@ export enum EcomView {
   SUMMARY = 'SUMMARY',
 }
 
-type Listner = (view: EcomView, ecomEvent: EcomEvent, currentStep?: Step) => void;
+type Listner = (view: EcomView, ecomEvent: EcomEvent, currentStep?: EcomStep) => void;
 
 const listners: Listner[] = [];
 
@@ -229,12 +229,12 @@ export const unregisterEventListner = (fn: Listner) => {
 interface EventHistory {
   view: EcomView;
   ecomEvent: EcomEvent;
-  currentStep?: Step;
+  currentStep?: EcomStep;
 }
 
 export const eventHistory: EventHistory[] = [];
 export const getLastHistory = () => eventHistory[eventHistory.length - 1];
-const ecomEvent = (view: EcomView, ecomEvent: EcomEvent, currentStep?: Step) => {
+const ecomEvent = (view: EcomView, ecomEvent: EcomEvent, currentStep?: EcomStep) => {
   eventHistory.push({ view, ecomEvent, currentStep });
   listners.forEach((fn) => fn(view, ecomEvent, currentStep));
 };

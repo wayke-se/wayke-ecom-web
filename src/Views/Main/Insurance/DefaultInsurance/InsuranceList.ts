@@ -2,7 +2,7 @@ import { IAvailableInsuranceOption } from '@wayke-se/ecom';
 import HtmlNode from '../../../../Components/Extension/HtmlNode';
 import OverflowGridList from '../../../../Components/OverflowGrid/OverflowGridList';
 import { WaykeStore } from '../../../../Redux/store';
-import ecomEvent, { EcomEvent, EcomView, Step } from '../../../../Utils/ecomEvent';
+import ecomEvent, { EcomEvent, EcomView, EcomStep } from '../../../../Utils/ecomEvent';
 import InsuranceItem from './InsuranceItem';
 
 interface InsuranceListProps {
@@ -24,7 +24,7 @@ class InsuranceList extends HtmlNode {
     const { store, insurances } = this.props;
     const listRef = new OverflowGridList(this.node, {
       id: 'insurance-list',
-      onClick: () => ecomEvent(EcomView.MAIN, EcomEvent.INSURANCE_ARROW, Step.INSURANCE),
+      onClick: () => ecomEvent(EcomView.MAIN, EcomEvent.INSURANCE_ARROW, EcomStep.INSURANCE),
     });
     const { overflowElement } = listRef;
     if (overflowElement) {

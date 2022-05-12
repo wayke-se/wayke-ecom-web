@@ -1,7 +1,7 @@
 import { EcomSdkConfig } from './@types/EcomSdkConfig';
 import WaykeEcomWeb from './App';
 import { devConfig } from './devConfig';
-import { Step, EcomEvent, EcomView } from './Utils/ecomEvent';
+import { EcomStep, EcomEvent, EcomView } from './Utils/ecomEvent';
 
 window.addEventListener('DOMContentLoaded', (_) => {
   const ecomSdkConfig: EcomSdkConfig = {
@@ -14,9 +14,9 @@ window.addEventListener('DOMContentLoaded', (_) => {
     ...devConfig.TRYGG_HANSA,
     ecomSdkConfig,
     rootId: 'custom-id',
-    onEvent: (view: EcomView, event: EcomEvent, currentStep?: Step) =>
+    onEvent: (view: EcomView, event: EcomEvent, step?: EcomStep) =>
       // eslint-disable-next-line
-      console.log({ view, event, currentStep }),
+      console.log({ view, event, step }),
   });
   context.start();
   const button = document.querySelector<HTMLButtonElement>('#button');

@@ -8,7 +8,7 @@ import { WaykeStore } from '../../../Redux/store';
 import watch from '../../../Redux/watch';
 import ListItem from '../../../Templates/ListItem';
 import { prettyNumber } from '../../../Utils/format';
-import ecomEvent, { Step, EcomEvent, EcomView } from '../../../Utils/ecomEvent';
+import ecomEvent, { EcomStep, EcomEvent, EcomView } from '../../../Utils/ecomEvent';
 import AccessoryList from './AccessoryList';
 
 const PROCEED = 'button-accessories-proceed';
@@ -44,7 +44,7 @@ class Accessories extends HtmlNode {
   }
 
   private onEdit() {
-    ecomEvent(EcomView.MAIN, EcomEvent.ACCESSORY_EDIT, Step.ACCESSORY);
+    ecomEvent(EcomView.MAIN, EcomEvent.ACCESSORY_EDIT, EcomStep.ACCESSORY);
     goTo('main', this.props.index)(this.props.store.dispatch);
   }
 
@@ -55,7 +55,7 @@ class Accessories extends HtmlNode {
     const completed = state.topNavigation.stage > index;
     const active = state.navigation.stage === index;
     if (active) {
-      ecomEvent(EcomView.MAIN, EcomEvent.ACCESSORY_ACTIVE, Step.ACCESSORY);
+      ecomEvent(EcomView.MAIN, EcomEvent.ACCESSORY_ACTIVE, EcomStep.ACCESSORY);
     }
     const content = ListItem(this.node, {
       completed,

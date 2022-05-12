@@ -11,7 +11,7 @@ import { prettyNumber } from '../../../Utils/format';
 import { translateTradeInCondition } from '../../../Utils/constants';
 import HtmlNode from '../../../Components/Extension/HtmlNode';
 import watch from '../../../Redux/watch';
-import ecomEvent, { Step, EcomEvent, EcomView } from '../../../Utils/ecomEvent';
+import ecomEvent, { EcomStep, EcomEvent, EcomView } from '../../../Utils/ecomEvent';
 
 const TRADE_IN_YES = 'button-trade-in-yes';
 const TRADE_IN_YES_NODE = `${TRADE_IN_YES}-node`;
@@ -43,17 +43,17 @@ class TradeIn extends HtmlNode {
   }
 
   private onEdit() {
-    ecomEvent(EcomView.MAIN, EcomEvent.TRADE_IN_EDIT, Step.TRADE_IN);
+    ecomEvent(EcomView.MAIN, EcomEvent.TRADE_IN_EDIT, EcomStep.TRADE_IN);
     goTo('main', this.props.index)(this.props.store.dispatch);
   }
 
   private onYesTradeIn() {
-    ecomEvent(EcomView.MAIN, EcomEvent.TRADE_IN_SELECTED, Step.TRADE_IN);
+    ecomEvent(EcomView.MAIN, EcomEvent.TRADE_IN_SELECTED, EcomStep.TRADE_IN);
     initTradeIn(this.props.lastStage)(this.props.store.dispatch);
   }
 
   private onNoTradeIn() {
-    ecomEvent(EcomView.MAIN, EcomEvent.TRADE_IN_SKIPPED, Step.TRADE_IN);
+    ecomEvent(EcomView.MAIN, EcomEvent.TRADE_IN_SKIPPED, EcomStep.TRADE_IN);
     setTradeIn(this.props.lastStage)(this.props.store.dispatch);
   }
 
@@ -68,7 +68,7 @@ class TradeIn extends HtmlNode {
       ecomEvent(
         EcomView.MAIN,
         EcomEvent.TRADE_IN_ACTIVE,
-        state.navigation.subStage === 1 ? Step.TRADE_IN : Step.TRADE_IN_DETAILS
+        state.navigation.subStage === 1 ? EcomStep.TRADE_IN : EcomStep.TRADE_IN_DETAILS
       );
     }
     const content = ListItem(this.node, {

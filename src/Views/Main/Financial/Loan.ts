@@ -9,7 +9,7 @@ import { setPaymentLookupResponse } from '../../../Redux/action';
 import { WaykeStore } from '../../../Redux/store';
 import Alert from '../../../Templates/Alert';
 import { convertPaymentLookupResponse } from '../../../Utils/convert';
-import ecomEvent, { EcomEvent, EcomView, Step } from '../../../Utils/ecomEvent';
+import ecomEvent, { EcomEvent, EcomView, EcomStep } from '../../../Utils/ecomEvent';
 import CreditAssessment from './CreditAssessment';
 import LoanDetails from './LoanDetails';
 
@@ -202,7 +202,7 @@ class Loan extends HtmlNode {
           ecomEvent(
             EcomView.MAIN,
             EcomEvent.FINANCIAL_LOAN_DOWNPAYMENT_INFORMATION_TOGGLE,
-            Step.FINANCIAL
+            EcomStep.FINANCIAL
           );
         },
       }

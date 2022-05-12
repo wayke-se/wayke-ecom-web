@@ -7,7 +7,7 @@ import ListItem from '../../../Templates/ListItem';
 import EmailAndPhone from './EmailAndPhone';
 import FullAddress from './FullAddress';
 import watch from '../../../Redux/watch';
-import ecomEvent, { Step, EcomEvent, EcomView } from '../../../Utils/ecomEvent';
+import ecomEvent, { EcomStep, EcomEvent, EcomView } from '../../../Utils/ecomEvent';
 
 interface CustomerProps {
   readonly store: WaykeStore;
@@ -30,7 +30,7 @@ class Customer extends HtmlNode {
   }
 
   private onChange() {
-    ecomEvent(EcomView.MAIN, EcomEvent.CUSTOMER_EDIT, Step.CUSTOMER_EMAIL_AND_PHONE);
+    ecomEvent(EcomView.MAIN, EcomEvent.CUSTOMER_EDIT, EcomStep.CUSTOMER_EMAIL_AND_PHONE);
     goTo('main', this.props.index)(this.props.store.dispatch);
   }
 
@@ -45,7 +45,9 @@ class Customer extends HtmlNode {
       ecomEvent(
         EcomView.MAIN,
         EcomEvent.CUSTOMER_ACTIVE,
-        state.navigation.subStage === 1 ? Step.CUSTOMER_EMAIL_AND_PHONE : Step.CUSTOMER_ADDRESS
+        state.navigation.subStage === 1
+          ? EcomStep.CUSTOMER_EMAIL_AND_PHONE
+          : EcomStep.CUSTOMER_ADDRESS
       );
     }
     const content = ListItem(this.node, {
