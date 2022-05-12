@@ -11,6 +11,7 @@ import Alert from '../../../../Templates/Alert';
 import KeyValueListItem from '../../../../Templates/KeyValueListItem';
 import Loader from '../../../../Templates/Loader';
 import { translateDrivingDistance } from '../../../../Utils/constants';
+import ecomEvent, { EcomEvent, EcomView, Step } from '../../../../Utils/ecomEvent';
 import InsuranceList from './InsuranceList';
 
 const INSURANCE_GRID_LIST_NODE = 'insurance-grid-list-node';
@@ -79,17 +80,23 @@ class InsuranceView extends HtmlNode {
 
     const cacheKey = `${state.customer.socialId}-${state.id}-${state.drivingDistance}`;
     const cache = IF_INSURANCE_CACHE[cacheKey];
+    ecomEvent(EcomView.MAIN, EcomEvent.INSURANCE_GET_INSURANCES_REQUESTED, Step.INSURANCE_IF);
     if (cache) {
       this.insurances = cache;
+
+      ecomEvent(EcomView.MAIN, EcomEvent.INSURANCE_GET_INSURANCES_SUCCEEDED, Step.INSURANCE_IF);
       this.render();
       return;
     }
 
     try {
       const response = await getInsurances(this.props.store, state.drivingDistance);
+
+      ecomEvent(EcomView.MAIN, EcomEvent.INSURANCE_GET_INSURANCES_SUCCEEDED, Step.INSURANCE_IF);
       this.insurances = response.getInsuranceOptions();
       IF_INSURANCE_CACHE[cacheKey] = this.insurances;
     } catch (e) {
+      ecomEvent(EcomView.MAIN, EcomEvent.INSURANCE_GET_INSURANCES_FAILED, Step.INSURANCE_IF);
       this.requestError = true;
     } finally {
       this.render();
@@ -106,6 +113,7 @@ class InsuranceView extends HtmlNode {
   }
 
   private onSkipInsurances() {
+    ecomEvent(EcomView.MAIN, EcomEvent.INSURANCE_SKIPPED, Step.INSURANCE_IF);
     addOrRemoveInsurance()(this.props.store.dispatch);
     completeStage(this.props.lastStage)(this.props.store.dispatch);
   }

@@ -77,10 +77,14 @@ class Delivery extends HtmlNode {
     if (!contactInformation) throw 'Missing dealer contact information';
 
     const completed = state.topNavigation.stage > index;
+    const active = state.navigation.stage === index;
+    if (active) {
+      ecomEvent(EcomView.MAIN, EcomEvent.DELIVERY_ACTIVE, Step.DELIVERY);
+    }
     const content = ListItem(this.node, {
       completed,
       title: 'Leverans',
-      active: state.navigation.stage === index,
+      active,
       id: 'delivery',
     });
 

@@ -296,9 +296,7 @@ class CreditAssessment extends HtmlNode {
           )(this.props.store.dispatch);
           destroyPortal();
           this.render();
-        }
-
-        if (response.shouldRenewSigning()) {
+        } else if (response.shouldRenewSigning()) {
           ecomEvent(
             EcomView.MAIN,
             method === AuthMethod.SameDevice

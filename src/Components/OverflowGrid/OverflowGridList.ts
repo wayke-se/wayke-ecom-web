@@ -15,8 +15,13 @@ const getRightVariables = (ref: HTMLUListElement | undefined | null) => {
     overflowElementScrollWidth,
   };
 };
+interface OverflowGridListProps {
+  id: string;
+  onClick?: () => void;
+}
+
 class OverflowGridList extends HtmlNode {
-  private readonly id: string;
+  private readonly props: OverflowGridListProps;
   overflowElement?: HTMLUListElement | null;
   private timeout?: NodeJS.Timeout;
   private contexts: {
@@ -24,13 +29,16 @@ class OverflowGridList extends HtmlNode {
     right?: Arrow;
   } = {};
 
-  constructor(element: HTMLElement, id: string) {
+  constructor(element: HTMLElement, props: OverflowGridListProps) {
     super(element, { htmlTag: 'div', className: 'waykeecom-overflow-grid' });
-    this.id = id;
+    this.props = props;
     this.render();
   }
 
   onPrev() {
+    if (this.props.onClick) {
+      this.props.onClick();
+    }
     const listRef = this.overflowElement;
     if (listRef) {
       const itemWidth = listRef.children?.[0]?.clientWidth || 0;
@@ -50,6 +58,9 @@ class OverflowGridList extends HtmlNode {
   }
 
   onNext() {
+    if (this.props.onClick) {
+      this.props.onClick();
+    }
     const listRef = this.overflowElement;
     if (listRef) {
       const { itemWidth, scrollLeft, overflowElementScrollWidth } = getRightVariables(listRef);
@@ -86,18 +97,19 @@ class OverflowGridList extends HtmlNode {
   }
 
   render() {
-    const PREV_ID = `${this.id}-prev`;
-    const NEXT_ID = `${this.id}-next`;
+    const PREV_ID = `${this.props.id}-prev`;
+    const NEXT_ID = `${this.props.id}-next`;
 
     this.node.innerHTML = `
       <div class="waykeecom-overflow-grid__nav waykeecom-overflow-grid__nav--prev" id="${PREV_ID}"></div>
       <div class="waykeecom-overflow-grid__nav waykeecom-overflow-grid__nav--next" id="${NEXT_ID}"></div>
       <div class="waykeecom-overflow-grid__list-wrapper">
-        <ul class="waykeecom-overflow-grid__list" id="${this.id}"></ul>
+        <ul class="waykeecom-overflow-grid__list" id="${this.props.id}"></ul>
       </div>
     `;
 
-    this.overflowElement = this.node.querySelector<HTMLUListElement>(`#${this.id}`) || undefined;
+    this.overflowElement =
+      this.node.querySelector<HTMLUListElement>(`#${this.props.id}`) || undefined;
     this.overflowElement?.addEventListener('scroll', () => this.scrollHandler());
 
     this.contexts.left = new Arrow(this.node.querySelector<HTMLUListElement>(`#${PREV_ID}`), {

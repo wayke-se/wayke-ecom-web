@@ -31,11 +31,13 @@ class InsuranceItem extends HtmlNode {
   }
 
   private onInfoOpen() {
+    ecomEvent(EcomView.MAIN, EcomEvent.INSURANCE_INFORMATION_TOGGLE, Step.INSURANCE);
     this.displayInfo = true;
     this.render();
   }
 
   private onInfoClose() {
+    ecomEvent(EcomView.MAIN, EcomEvent.INSURANCE_INFORMATION_TOGGLE, Step.INSURANCE);
     this.displayInfo = false;
     destroyPortal();
     this.render();

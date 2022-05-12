@@ -162,15 +162,14 @@ class VerifyByBankId extends HtmlNode {
             ecomEvent(
               EcomView.MAIN,
               method === AuthMethod.SameDevice
-                ? EcomEvent.CONFIRMATION_BANKID_STATUS_SAME_DEVICE_SHOULD_RENEW
-                : EcomEvent.CONFIRMATION_BANKID_STATUS_QR_SHOULD_RENEW,
+                ? EcomEvent.CONFIRMATION_BANKID_STATUS_SAME_DEVICE_COMPLETED
+                : EcomEvent.CONFIRMATION_BANKID_STATUS_QR_COMPLETED,
               Step.CONFIRMATION
             );
             this.contexts.bankId?.setDescription('Verifiering klar, ordern skapas nu...');
             await this.onCreateOrder();
           }
-        }
-        if (response.shouldRenew()) {
+        } else if (response.shouldRenew()) {
           ecomEvent(
             EcomView.MAIN,
             method === AuthMethod.SameDevice

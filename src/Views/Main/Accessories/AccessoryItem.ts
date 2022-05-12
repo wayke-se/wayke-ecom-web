@@ -37,11 +37,13 @@ class AccessoryItem extends HtmlNode {
   }
 
   private onInfoOpen() {
+    ecomEvent(EcomView.MAIN, EcomEvent.ACCESSORY_INFORMATION_TOGGLE, Step.ACCESSORY);
     this.displayInfo = true;
     this.render();
   }
 
   private onInfoClose() {
+    ecomEvent(EcomView.MAIN, EcomEvent.ACCESSORY_INFORMATION_TOGGLE, Step.ACCESSORY);
     this.displayInfo = false;
     destroyPortal();
     this.render();

@@ -53,10 +53,14 @@ class Accessories extends HtmlNode {
     const state = store.getState();
 
     const completed = state.topNavigation.stage > index;
+    const active = state.navigation.stage === index;
+    if (active) {
+      ecomEvent(EcomView.MAIN, EcomEvent.ACCESSORY_ACTIVE, Step.ACCESSORY);
+    }
     const content = ListItem(this.node, {
       completed,
       title: 'Tillbehör',
-      active: state.navigation.stage === index,
+      active,
       id: 'accessories',
     });
 

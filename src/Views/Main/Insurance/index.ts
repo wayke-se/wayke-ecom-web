@@ -31,14 +31,19 @@ class Insurance extends HtmlNode {
     this.render();
   }
 
+  private getStep() {
+    const { order } = this.props.store.getState();
+    return order?.insuranceOption?.institute === 'IF' ? Step.INSURANCE_IF : Step.INSURANCE;
+  }
+
   private onSkipInsurances() {
     addOrRemoveInsurance()(this.props.store.dispatch);
     completeStage(this.props.lastStage)(this.props.store.dispatch);
-    ecomEvent(EcomView.MAIN, EcomEvent.INSURANCE_SKIPPED, Step.INSURANCE);
+    ecomEvent(EcomView.MAIN, EcomEvent.INSURANCE_SKIPPED, this.getStep());
   }
 
   private onEdit() {
-    ecomEvent(EcomView.MAIN, EcomEvent.INSURANCE_EDIT, Step.INSURANCE);
+    ecomEvent(EcomView.MAIN, EcomEvent.INSURANCE_EDIT, this.getStep());
     goTo('main', this.props.index)(this.props.store.dispatch);
   }
 
@@ -47,10 +52,14 @@ class Insurance extends HtmlNode {
     const state = store.getState();
 
     const completed = state.topNavigation.stage > index;
+    const active = state.navigation.stage === index;
+    if (active) {
+      ecomEvent(EcomView.MAIN, EcomEvent.INSURANCE_ACTIVE, this.getStep());
+    }
     const content = ListItem(this.node, {
       completed,
       title: 'Försäkring',
-      active: state.navigation.stage === index,
+      active,
       id: 'insurance',
     });
 

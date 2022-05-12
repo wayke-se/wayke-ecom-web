@@ -40,7 +40,7 @@ class Customer extends HtmlNode {
 
     const completed = state.topNavigation.stage > index;
 
-    const active = state.navigation.stage === index;
+    const active = state.navigation.stage === index && !state.createdOrderId;
     if (active) {
       ecomEvent(
         EcomView.MAIN,

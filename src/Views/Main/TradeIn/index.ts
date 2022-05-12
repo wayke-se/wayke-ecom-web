@@ -48,13 +48,13 @@ class TradeIn extends HtmlNode {
   }
 
   private onYesTradeIn() {
-    initTradeIn(this.props.lastStage)(this.props.store.dispatch);
     ecomEvent(EcomView.MAIN, EcomEvent.TRADE_IN_SELECTED, Step.TRADE_IN);
+    initTradeIn(this.props.lastStage)(this.props.store.dispatch);
   }
 
   private onNoTradeIn() {
-    setTradeIn(this.props.lastStage)(this.props.store.dispatch);
     ecomEvent(EcomView.MAIN, EcomEvent.TRADE_IN_SKIPPED, Step.TRADE_IN);
+    setTradeIn(this.props.lastStage)(this.props.store.dispatch);
   }
 
   render() {
@@ -63,10 +63,18 @@ class TradeIn extends HtmlNode {
     if (!state.order?.allowsTradeIn) return;
 
     const completed = state.topNavigation.stage > index;
+    const active = state.navigation.stage === index;
+    if (active) {
+      ecomEvent(
+        EcomView.MAIN,
+        EcomEvent.TRADE_IN_ACTIVE,
+        state.navigation.subStage === 1 ? Step.TRADE_IN : Step.TRADE_IN_DETAILS
+      );
+    }
     const content = ListItem(this.node, {
       title: 'Inbytesbil',
-      active: state.navigation.stage === index,
-      completed: state.topNavigation.stage > index,
+      active,
+      completed,
       id: 'trade-in',
     });
     content.innerHTML = '';

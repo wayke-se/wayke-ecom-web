@@ -77,7 +77,6 @@ class Financial extends HtmlNode {
 
   private onProceed() {
     if (this.paymentType) {
-      setFinancial(this.paymentType, this.props.lastStage)(this.props.store.dispatch);
       switch (this.paymentType) {
         case PaymentType.Cash:
           ecomEvent(EcomView.MAIN, EcomEvent.FINANCIAL_CASH_SET, Step.FINANCIAL);
@@ -89,6 +88,7 @@ class Financial extends HtmlNode {
         default:
           break;
       }
+      setFinancial(this.paymentType, this.props.lastStage)(this.props.store.dispatch);
     }
   }
 

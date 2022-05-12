@@ -84,14 +84,14 @@ class IfInsurance extends HtmlNode {
 
   private onShowInsurances() {
     this.showInsurances = true;
-    this.render();
     ecomEvent(EcomView.MAIN, EcomEvent.INSURANCE_SHOW, Step.INSURANCE_IF);
+    this.render();
   }
 
   private onEdit() {
     this.showInsurances = false;
-    this.render();
     ecomEvent(EcomView.MAIN, EcomEvent.INSURANCE_EDIT_MILEAGE, Step.INSURANCE_IF);
+    this.render();
   }
 
   render() {

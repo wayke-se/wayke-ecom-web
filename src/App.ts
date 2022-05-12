@@ -206,8 +206,14 @@ class App {
       id: WAYKE_ECOM_MODAL_ID,
     });
 
+    const lastEvent = getLastHistory();
+    ecomEvent(lastEvent.view, EcomEvent.CONFIRM_CLOSE_ACTIVE);
     new ConfirmClose(this.contexts.modal.content, {
-      onConfirmClose: () => this.close(),
+      onConfirmClose: () => {
+        const lastEvent = getLastHistory();
+        ecomEvent(lastEvent.view, EcomEvent.CONFIRM_CLOSE_CONFIRMED, lastEvent.currentStep);
+        this.close();
+      },
       onAbortClose: () => {
         const lastEvent = getLastHistory();
         ecomEvent(lastEvent.view, EcomEvent.CONFIRM_CLOSE_ABORTED, lastEvent.currentStep);
@@ -221,7 +227,7 @@ class App {
       registerEventListner(this.props.onEvent);
     }
 
-    ecomEvent(EcomView.MAIN, EcomEvent.START);
+    ecomEvent(EcomView.PREVIEW, EcomEvent.START);
     this.render();
   }
 
