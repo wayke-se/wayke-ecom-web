@@ -20,6 +20,7 @@ interface InputRadioGroupProps {
   information?: string;
   readonly errorMessage?: string;
   readonly onClick: (e: Event) => void;
+  readonly onClickInformation?: (visible: boolean) => void;
 }
 
 class InputRadioGroup extends HtmlNode {
@@ -53,7 +54,17 @@ class InputRadioGroup extends HtmlNode {
   }
 
   render() {
-    const { title, options, name, checked, error, errorMessage, information, onClick } = this.props;
+    const {
+      title,
+      options,
+      name,
+      checked,
+      error,
+      errorMessage,
+      information,
+      onClick,
+      onClickInformation,
+    } = this.props;
     this.node.innerHTML = `
      <fieldset class="waykeecom-input-group" role="radiogroup" aria-required="true">
        ${
@@ -92,6 +103,7 @@ class InputRadioGroup extends HtmlNode {
     if (information) {
       new InputInformation(this.node.querySelector<HTMLElement>('.waykeecom-input-label'), {
         information,
+        onClickInformation,
       });
     }
   }

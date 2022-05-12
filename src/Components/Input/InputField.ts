@@ -18,6 +18,7 @@ interface InputFieldProps {
   readonly inputmode?: string;
   readonly onChange?: (e: Event) => void;
   readonly onBlur?: (e: Event) => void;
+  readonly onClickInformation?: (visible: boolean) => void;
 }
 
 class InputField extends HtmlNode {
@@ -70,6 +71,7 @@ class InputField extends HtmlNode {
       inputmode,
       onChange,
       onBlur,
+      onClickInformation,
     } = this.props;
 
     this.node.innerHTML = `
@@ -104,6 +106,7 @@ class InputField extends HtmlNode {
     if (information) {
       new InputInformation(this.node.querySelector<HTMLElement>('.waykeecom-input-label'), {
         information,
+        onClickInformation,
       });
     }
 

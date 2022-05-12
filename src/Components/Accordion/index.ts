@@ -5,6 +5,7 @@ interface AccordionProps {
   readonly title: string;
   readonly description: string;
   readonly append?: boolean;
+  readonly onClick?: () => void;
 }
 
 class Accordion extends HtmlNode {
@@ -18,7 +19,7 @@ class Accordion extends HtmlNode {
   }
 
   render() {
-    const { title, description } = this.props;
+    const { title, description, onClick } = this.props;
 
     const content = `
       <input
@@ -50,6 +51,10 @@ class Accordion extends HtmlNode {
     this.node.innerHTML = `
       ${content}
     `;
+
+    if (onClick) {
+      this.node.querySelector('input')?.addEventListener('click', () => onClick());
+    }
   }
 }
 

@@ -12,6 +12,7 @@ import CheckList from '../../Components/Checklist/Checklist';
 import HtmlNode from '../../Components/Extension/HtmlNode';
 import Alert from '../../Templates/Alert';
 import { convertOrderOptionsResponse } from '../../Utils/convert';
+import ecomEvent, { EcomEvent, EcomView } from '../../Utils/ecomEvent';
 
 const PROCEED_BUTTON = 'preview-proceed';
 const PROCEED_BUTTON_NODE = `${PROCEED_BUTTON}-node`;
@@ -68,6 +69,7 @@ class Preview extends HtmlNode {
   }
 
   private onProceed() {
+    ecomEvent(EcomView.PREVIEW, EcomEvent.PREVIEW_PROCEED);
     goTo('main')(this.props.store.dispatch);
   }
 

@@ -9,6 +9,7 @@ import { setPaymentLookupResponse } from '../../../Redux/action';
 import { WaykeStore } from '../../../Redux/store';
 import Alert from '../../../Templates/Alert';
 import { convertPaymentLookupResponse } from '../../../Utils/convert';
+import ecomEvent, { EcomEvent, EcomView, Step } from '../../../Utils/ecomEvent';
 import CreditAssessment from './CreditAssessment';
 import LoanDetails from './LoanDetails';
 
@@ -197,6 +198,13 @@ class Loan extends HtmlNode {
             <p class="waykeecom-content__p">Ifall du har en inbytesbil kan du betala kontantinsatsen med den. Detta kommer du överens om tillsammans med ${name} vid avtalsskrivning. </p>
           </div>
         `,
+        onClickInformation: () => {
+          ecomEvent(
+            EcomView.MAIN,
+            EcomEvent.FINANCIAL_LOAN_DOWNPAYMENT_INFORMATION_TOGGLE,
+            Step.FINANCIAL
+          );
+        },
       }
     );
 

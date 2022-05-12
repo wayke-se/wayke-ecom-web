@@ -11,7 +11,7 @@ import { renderConditional } from '../../../Utils/render';
 import { validationMethods } from '../../../Utils/validationMethods';
 import HtmlNode from '../../../Components/Extension/HtmlNode';
 import { regexNumber } from '../../../Utils/regex';
-import userEvent, { Step, UserEvent } from '../../../Utils/userEvent';
+import ecomEvent, { Step, EcomEvent, EcomView } from '../../../Utils/ecomEvent';
 
 const SOCIAL_ID_NODE = 'contact-socialId-node';
 const SOCIAL_ID_INPUT_ID = 'contact-socialId';
@@ -79,22 +79,22 @@ class FullAddressBySocialId extends HtmlNode {
     this.render();
 
     try {
-      userEvent(UserEvent.CUSTOMER_ADDRESS_BY_SSN_REQUESTED, Step.CUSTOMER_ADDRESS);
+      ecomEvent(EcomView.MAIN, EcomEvent.CUSTOMER_ADDRESS_BY_SSN_REQUESTED, Step.CUSTOMER_ADDRESS);
       this.contexts.buttonFetch?.loading(true);
 
       const response = await getAddressBySsn(this.state.value.socialId);
 
-      userEvent(UserEvent.CUSTOMER_ADDRESS_BY_SSN_SUCCEEDED, Step.CUSTOMER_ADDRESS);
+      ecomEvent(EcomView.MAIN, EcomEvent.CUSTOMER_ADDRESS_BY_SSN_SUCCEEDED, Step.CUSTOMER_ADDRESS);
       const address = response.getAddress();
       setSocialIdAndAddress(
         this.state.value.socialId.replace(regexNumber, ''),
         address,
         lastStage
       )(store.dispatch);
-      userEvent(UserEvent.CUSTOMER_ADDRESS_SET, Step.CUSTOMER_ADDRESS);
+      ecomEvent(EcomView.MAIN, EcomEvent.CUSTOMER_ADDRESS_SET, Step.CUSTOMER_ADDRESS);
     } catch (e) {
       this.requestError = true;
-      userEvent(UserEvent.CUSTOMER_ADDRESS_BY_SSN_FAILED, Step.CUSTOMER_ADDRESS);
+      ecomEvent(EcomView.MAIN, EcomEvent.CUSTOMER_ADDRESS_BY_SSN_FAILED, Step.CUSTOMER_ADDRESS);
     } finally {
       this.contexts.buttonFetch?.loading(false);
       this.render();

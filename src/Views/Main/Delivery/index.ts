@@ -9,7 +9,7 @@ import { getTotalDeliveryCost } from '../../../Utils/delivery';
 import { prettyNumber } from '../../../Utils/format';
 import ListItem from '../../../Templates/ListItem';
 import watch from '../../../Redux/watch';
-import userEvent, { Step, UserEvent } from '../../../Utils/userEvent';
+import ecomEvent, { Step, EcomEvent, EcomView } from '../../../Utils/ecomEvent';
 
 const RADIO_HOME_TRUE = 'radio-home-delivery-true';
 const RADIO_HOME_TRUE_NODE = `${RADIO_HOME_TRUE}-node`;
@@ -47,23 +47,25 @@ class Delivery extends HtmlNode {
     const currentTarget = e.currentTarget as HTMLInputElement;
     const value = currentTarget.value === 'true';
     this.homeDelivery = value;
-    userEvent(
-      this.homeDelivery ? UserEvent.DELIVERY_HOME_SELECTED : UserEvent.DELIVERY_DEALER_SELECTED,
+    ecomEvent(
+      EcomView.MAIN,
+      this.homeDelivery ? EcomEvent.DELIVERY_HOME_SELECTED : EcomEvent.DELIVERY_DEALER_SELECTED,
       Step.DELIVERY
     );
   }
 
   private onProceed() {
     setHomeDelivery(this.homeDelivery, this.props.lastStage)(this.props.store.dispatch);
-    userEvent(
-      this.homeDelivery ? UserEvent.DELIVERY_HOME_SET : UserEvent.DELIVERY_DEALER_SET,
+    ecomEvent(
+      EcomView.MAIN,
+      this.homeDelivery ? EcomEvent.DELIVERY_HOME_SET : EcomEvent.DELIVERY_DEALER_SET,
       Step.DELIVERY
     );
   }
 
   private onEdit() {
+    ecomEvent(EcomView.MAIN, EcomEvent.DELIVERY_EDIT, Step.DELIVERY);
     goTo('main', this.props.index)(this.props.store.dispatch);
-    userEvent(UserEvent.DELIVERY_EDIT, Step.DELIVERY);
   }
 
   render() {

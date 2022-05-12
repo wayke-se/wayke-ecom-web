@@ -9,7 +9,7 @@ import watch from '../../../Redux/watch';
 import Alert from '../../../Templates/Alert';
 import ListItem from '../../../Templates/ListItem';
 import { convertOrderOptionsResponse } from '../../../Utils/convert';
-import userEvent, { Step, UserEvent } from '../../../Utils/userEvent';
+import ecomEvent, { Step, EcomEvent, EcomView } from '../../../Utils/ecomEvent';
 
 const PROCEED = 'button-central-storage-proceed';
 const PROCEED_NODE = `${PROCEED}-node`;
@@ -53,10 +53,10 @@ class CentralStorage extends HtmlNode {
       this.contexts.proceedButton?.loading(true);
 
       const order = await getOrder(id, selectedDealer);
+
+      ecomEvent(EcomView.MAIN, EcomEvent.CENTRAL_STORAGE_SET, Step.CENTRAL_STORAGE);
       setOrder(convertOrderOptionsResponse(order), vehicle);
       setDealer(selectedDealer, this.props.lastStage)(this.props.store.dispatch);
-
-      userEvent(UserEvent.CENTRAL_STORAGE_SELECTED, Step.CENTRAL_STORAGE);
 
       this.contexts.proceedButton?.loading(false);
     } catch (e) {
@@ -71,12 +71,12 @@ class CentralStorage extends HtmlNode {
     const value = currentTarget.value;
     this.selectedDealer = value;
     this.contexts.proceedButton?.disabled(false);
-    userEvent(UserEvent.CENTRAL_STORAGE_SELECTED, Step.CENTRAL_STORAGE);
+    ecomEvent(EcomView.MAIN, EcomEvent.CENTRAL_STORAGE_SELECTED, Step.CENTRAL_STORAGE);
   }
 
   private onEdit() {
+    ecomEvent(EcomView.MAIN, EcomEvent.CENTRAL_STORAGE_EDIT, Step.CENTRAL_STORAGE);
     goTo('main', this.props.index)(this.props.store.dispatch);
-    userEvent(UserEvent.CENTRAL_STORAGE_EDIT, Step.CENTRAL_STORAGE);
   }
 
   private onProceed() {
@@ -92,6 +92,11 @@ class CentralStorage extends HtmlNode {
 
     const completed = topNavigation.stage > index;
     const active = navigation.stage === index;
+
+    if (active) {
+      ecomEvent(EcomView.MAIN, EcomEvent.CENTRAL_STORAGE_ACTIVE, Step.CENTRAL_STORAGE);
+    }
+
     const content = ListItem(this.node, {
       completed,
       active,

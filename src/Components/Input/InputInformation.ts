@@ -5,6 +5,7 @@ const foldoutClassName = 'waykeecom-input-label__foldout';
 
 interface InputInformationProps {
   readonly information?: string;
+  readonly onClickInformation?: (visible: boolean) => void;
 }
 
 class InputInformation extends HtmlNode {
@@ -20,6 +21,9 @@ class InputInformation extends HtmlNode {
 
   onClick() {
     this.open = !this.open;
+    if (this.props.onClickInformation) {
+      this.props.onClickInformation(this.open);
+    }
     this.render();
   }
 

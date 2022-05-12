@@ -21,12 +21,14 @@ import { creditAssessmentCancelSigning } from './Data/creditAssessmentCancelSign
 import { useVwListner } from './Utils/vw';
 import { CallbackOrder } from './@types/CallbackOrder';
 import { ReducerState } from './Redux/reducer';
-import {
-  registerUserEventListner,
+import ecomEvent, {
+  registerEventListner,
   Step,
-  unregisterUserEventListner,
-  UserEvent,
-} from './Utils/userEvent';
+  unregisterEventListner,
+  EcomEvent,
+  EcomView,
+  getLastHistory,
+} from './Utils/ecomEvent';
 
 const OrderIdQueryString = 'order';
 const Payment3DSecurityCallback = 'wayke-ecom-web-payment';
@@ -45,7 +47,7 @@ interface AppProps {
   vehicle?: Vehicle;
   ecomSdkConfig: EcomSdkConfig;
   useBankid?: boolean;
-  onUserEvent?: (userEvent: UserEvent, currentStep: Step) => void;
+  onEvent?: (view: EcomView, event: EcomEvent, currentStep?: Step) => void;
 }
 
 class App {
@@ -72,9 +74,11 @@ class App {
       };
     }
 
-    if (props.onUserEvent) {
-      registerUserEventListner(props.onUserEvent);
+    /*
+    if (props.onEvent) {
+      registerEventListner(props.onEvent);
     }
+    */
 
     config.bind(props.ecomSdkConfig);
     const createdRoot = document.createElement('div');
@@ -153,6 +157,8 @@ class App {
   }
 
   close() {
+    const lastEvent = getLastHistory();
+    ecomEvent(lastEvent.view, EcomEvent.CLOSE, lastEvent.currentStep);
     const { caseId } = this.contexts.store.getState();
     const params = new URLSearchParams(location.search);
     const orderId = params.get(OrderIdQueryString);
@@ -182,8 +188,8 @@ class App {
     }
     sessionStorage.removeItem('wayke-ecom-state');
     reset(this.props.id)(this.contexts.store.dispatch);
-    if (this.props.onUserEvent) {
-      unregisterUserEventListner(this.props.onUserEvent);
+    if (this.props.onEvent) {
+      unregisterEventListner(this.props.onEvent);
     }
   }
 
@@ -202,11 +208,20 @@ class App {
 
     new ConfirmClose(this.contexts.modal.content, {
       onConfirmClose: () => this.close(),
-      onAbortClose: () => this.render(),
+      onAbortClose: () => {
+        const lastEvent = getLastHistory();
+        ecomEvent(lastEvent.view, EcomEvent.CONFIRM_CLOSE_ABORTED, lastEvent.currentStep);
+        this.render();
+      },
     });
   }
 
   start() {
+    if (this.props.onEvent) {
+      registerEventListner(this.props.onEvent);
+    }
+
+    ecomEvent(EcomView.MAIN, EcomEvent.START);
     this.render();
   }
 

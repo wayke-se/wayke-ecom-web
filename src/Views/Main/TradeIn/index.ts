@@ -11,7 +11,7 @@ import { prettyNumber } from '../../../Utils/format';
 import { translateTradeInCondition } from '../../../Utils/constants';
 import HtmlNode from '../../../Components/Extension/HtmlNode';
 import watch from '../../../Redux/watch';
-import userEvent, { Step, UserEvent } from '../../../Utils/userEvent';
+import ecomEvent, { Step, EcomEvent, EcomView } from '../../../Utils/ecomEvent';
 
 const TRADE_IN_YES = 'button-trade-in-yes';
 const TRADE_IN_YES_NODE = `${TRADE_IN_YES}-node`;
@@ -43,18 +43,18 @@ class TradeIn extends HtmlNode {
   }
 
   private onEdit() {
+    ecomEvent(EcomView.MAIN, EcomEvent.TRADE_IN_EDIT, Step.TRADE_IN);
     goTo('main', this.props.index)(this.props.store.dispatch);
-    userEvent(UserEvent.TRADE_IN_EDIT, Step.TRADE_IN);
   }
 
   private onYesTradeIn() {
     initTradeIn(this.props.lastStage)(this.props.store.dispatch);
-    userEvent(UserEvent.TRADE_IN_SELECTED, Step.TRADE_IN);
+    ecomEvent(EcomView.MAIN, EcomEvent.TRADE_IN_SELECTED, Step.TRADE_IN);
   }
 
   private onNoTradeIn() {
     setTradeIn(this.props.lastStage)(this.props.store.dispatch);
-    userEvent(UserEvent.TRADE_IN_SKIPPED, Step.TRADE_IN);
+    ecomEvent(EcomView.MAIN, EcomEvent.TRADE_IN_SKIPPED, Step.TRADE_IN);
   }
 
   render() {

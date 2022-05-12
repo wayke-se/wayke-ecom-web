@@ -11,7 +11,7 @@ import Loan from './Loan';
 import StageCompletedFinancial from './StageCompletedFinancial';
 import watch from '../../../Redux/watch';
 import { PaymentLookup } from '../../../@types/PaymentLookup';
-import userEvent, { Step, UserEvent } from '../../../Utils/userEvent';
+import ecomEvent, { Step, EcomEvent, EcomView } from '../../../Utils/ecomEvent';
 
 const PROCEED = 'button-financial-proceed';
 const PROCEED_NODE = `${PROCEED}-node`;
@@ -64,12 +64,12 @@ class Financial extends HtmlNode {
     this.render(true);
     switch (this.paymentType) {
       case PaymentType.Cash:
-        userEvent(UserEvent.FINANCIAL_CASH_SELECTED, Step.FINANCIAL);
+        ecomEvent(EcomView.MAIN, EcomEvent.FINANCIAL_CASH_SELECTED, Step.FINANCIAL);
         break;
       case PaymentType.Lease:
-        userEvent(UserEvent.FINANCIAL_LEASE_SELECTED, Step.FINANCIAL);
+        ecomEvent(EcomView.MAIN, EcomEvent.FINANCIAL_LEASE_SELECTED, Step.FINANCIAL);
       case PaymentType.Loan:
-        userEvent(UserEvent.FINANCIAL_LOAN_SELECTED, Step.FINANCIAL);
+        ecomEvent(EcomView.MAIN, EcomEvent.FINANCIAL_LOAN_SELECTED, Step.FINANCIAL);
       default:
         break;
     }
@@ -80,12 +80,12 @@ class Financial extends HtmlNode {
       setFinancial(this.paymentType, this.props.lastStage)(this.props.store.dispatch);
       switch (this.paymentType) {
         case PaymentType.Cash:
-          userEvent(UserEvent.FINANCIAL_CASH_SET, Step.FINANCIAL);
+          ecomEvent(EcomView.MAIN, EcomEvent.FINANCIAL_CASH_SET, Step.FINANCIAL);
           break;
         case PaymentType.Lease:
-          userEvent(UserEvent.FINANCIAL_LEASE_SET, Step.FINANCIAL);
+          ecomEvent(EcomView.MAIN, EcomEvent.FINANCIAL_LEASE_SET, Step.FINANCIAL);
         case PaymentType.Loan:
-          userEvent(UserEvent.FINANCIAL_LOAN_SET, Step.FINANCIAL);
+          ecomEvent(EcomView.MAIN, EcomEvent.FINANCIAL_LOAN_SET, Step.FINANCIAL);
         default:
           break;
       }
@@ -93,8 +93,8 @@ class Financial extends HtmlNode {
   }
 
   private onEdit() {
+    ecomEvent(EcomView.MAIN, EcomEvent.FINANCIAL_EDIT, Step.FINANCIAL);
     goTo('main', this.props.index)(this.props.store.dispatch);
-    userEvent(UserEvent.FINANCIAL_EDIT_CLICKED, Step.FINANCIAL);
   }
 
   render(preventScrollIntoView?: boolean) {
@@ -265,6 +265,9 @@ class Financial extends HtmlNode {
           `,
           options: firstGroupOptions,
           onClick: (e) => this.onChange(e),
+          onClickInformation: () => {
+            ecomEvent(EcomView.MAIN, EcomEvent.FINANCIAL_INFORMATION_TOGGLE, Step.FINANCIAL);
+          },
         });
       }
 

@@ -20,6 +20,7 @@ interface InputRangeProps {
   disabled?: boolean;
   onChange?: (e: Event) => void;
   onBlur?: (e: Event) => void;
+  onClickInformation?: (visible: boolean) => void;
 }
 
 class InputRange extends HtmlNode {
@@ -141,7 +142,19 @@ class InputRange extends HtmlNode {
   }
 
   render() {
-    const { title, min, max, step, name, id, information, unit, disabled, onChange } = this.props;
+    const {
+      title,
+      min,
+      max,
+      step,
+      name,
+      id,
+      information,
+      unit,
+      disabled,
+      onChange,
+      onClickInformation,
+    } = this.props;
     const allowSlider = min !== max;
 
     this.node.innerHTML = `
@@ -194,6 +207,7 @@ class InputRange extends HtmlNode {
     if (information) {
       new InputInformation(this.node.querySelector<HTMLElement>('.waykeecom-input-label'), {
         information,
+        onClickInformation,
       });
     }
 
