@@ -115,7 +115,7 @@ class StageCompletedFinancial extends HtmlNode {
         <ul class="waykeecom-key-value-list">
           ${KeyValueListItem({
             key: 'Finansiering',
-            value: paymentType === PaymentType.Cash ? 'Kontant' : 'Leasing',
+            value: paymentType === PaymentType.Cash ? 'Kontant' : 'Privatleasing',
           })}
         </ul>
       </div>

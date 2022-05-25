@@ -205,7 +205,7 @@ class Financial extends HtmlNode {
                     contactInformation?.name
                   } vid 
                   kontraktskrivning.</li>
-                  <li class="waykeecom-content__li">*Beräknat på ${prettyNumber(getCreditAmount, {
+                  <li class="waykeecom-content__li">Beräknat på ${prettyNumber(getCreditAmount, {
                     postfix: 'kr',
                   })} kr, ${duration} mån, ${prettyNumber(interest * 100, {
             decimals: 2,
@@ -254,7 +254,7 @@ class Financial extends HtmlNode {
             <div class="waykeecom-box">
               <div class="waykeecom-content waykeecom-content--inherit-size">
                 <ul class="waykeecom-content__ul">
-                  <li class="waykeecom-content__li">*Inkl. 1 500 mil/år, 36 mån.</li>
+                  <li class="waykeecom-content__li">Inkl. 1 500 mil/år, 36 mån.</li>
                 </ul>
               </div>
             </div>`,

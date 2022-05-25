@@ -3,6 +3,7 @@ import ButtonAddRemove from '../../../../Components/Button/ButtonAddRemove';
 import ButtonAsLinkArrowLeft from '../../../../Components/Button/ButtonAsLinkArrowLeft';
 import ButtonClear from '../../../../Components/Button/ButtonClear';
 import HtmlNode from '../../../../Components/Extension/HtmlNode';
+import { asHtml } from '../../../../Utils/parser';
 import { scrollTop } from '../../../../Utils/scroll';
 
 const BUTTON_TOP_LEFT_NODE = 'insurance-button-top-left-node';
@@ -52,11 +53,17 @@ class InsuranceItemInfo extends HtmlNode {
           <p class="waykeecom-content__p">${description}</p>
         </div>
       </div>
-      <div class="waykeecom-stack waykeecom-stack--3">
-        <div class="waykeecom-content">
-          <p class="waykeecom-content__p">${longDescription}</p>
+      ${
+        longDescription
+          ? `
+        <div class="waykeecom-stack waykeecom-stack--3">
+          <div class="waykeecom-content">
+            <p class="waykeecom-content__p">${asHtml(longDescription)}</p>
+          </div>
         </div>
-      </div>
+      `
+          : ''
+      }
       <div class="waykeecom-stack waykeecom-stack--3">
         <div class="waykeecom-stack waykeecom-stack--1" id="${BUTTON_INSURANCE_ADD_REMOVE_NODE}"></div>
         <div class="waykeecom-stack waykeecom-stack--1" id="${BUTTON_BOTTOM_LEFT_NODE}"></div>

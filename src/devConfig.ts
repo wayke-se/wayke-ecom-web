@@ -47,6 +47,6 @@ export const devConfig = {
     id: 'f93eae85-4090-482f-97eb-ae7783ad4d93',
   },
   TRYGG_HANSA: {
-    id: '4067df91-a7b7-488d-8a9b-cdac06807e3a',
+    id: '1466e6e8-d9d9-40da-8266-7b264d4e3517',
   },
 };

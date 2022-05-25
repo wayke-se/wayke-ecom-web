@@ -65,7 +65,11 @@ interface SummaryProps {
 }
 
 const Summary = ({ paymentType, loan, paymentLookupResponse, changeButtonId }: SummaryProps) => {
-  const paymentTypeTitle = PaymentType.Cash ? 'Kontant' : PaymentType.Loan ? 'Billån' : 'Leasing';
+  const paymentTypeTitle = PaymentType.Cash
+    ? 'Kontant'
+    : PaymentType.Loan
+    ? 'Billån'
+    : 'Privatleasing';
   return `
   ${
     paymentType === PaymentType.Loan && loan && paymentLookupResponse
