@@ -158,7 +158,9 @@ class App {
 
   close() {
     const lastEvent = getLastHistory();
-    ecomEvent(lastEvent.view, EcomEvent.CLOSE, lastEvent.currentStep);
+    if (lastEvent) {
+      ecomEvent(lastEvent.view, EcomEvent.CLOSE, lastEvent.currentStep);
+    }
     const { caseId } = this.contexts.store.getState();
     const params = new URLSearchParams(location.search);
     const orderId = params.get(OrderIdQueryString);
@@ -207,7 +209,9 @@ class App {
     });
 
     const lastEvent = getLastHistory();
-    ecomEvent(lastEvent.view, EcomEvent.CONFIRM_CLOSE_ACTIVE);
+    if (lastEvent) {
+      ecomEvent(lastEvent.view, EcomEvent.CONFIRM_CLOSE_ACTIVE);
+    }
     new ConfirmClose(this.contexts.modal.content, {
       onConfirmClose: () => {
         const lastEvent = getLastHistory();
