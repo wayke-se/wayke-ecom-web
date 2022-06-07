@@ -317,7 +317,7 @@ class CreditAssessment extends HtmlNode {
     if (this.bankidStatusInterval) {
       clearInterval(this.bankidStatusInterval);
       if (currentCaseId) {
-        creditAssessmentCancelSigning(currentCaseId);
+        await creditAssessmentCancelSigning(currentCaseId);
         setCreditAssessmentResponse()(store.dispatch);
       }
     }
