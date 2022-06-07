@@ -10,7 +10,7 @@ window.addEventListener('DOMContentLoaded', (_) => {
   };
 
   const context = new WaykeEcomWeb({
-    ...devConfig.TRYGG_HANSA,
+    ...devConfig.CREDIT_ASSESSMENT,
     ecomSdkConfig,
     rootId: 'custom-id',
   });

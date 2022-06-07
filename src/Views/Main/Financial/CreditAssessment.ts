@@ -313,16 +313,16 @@ class CreditAssessment extends HtmlNode {
     const { store } = this.props;
     this.caseError = undefined;
     this.bankidError = false;
+    const currentCaseId = store.getState().caseId;
     if (this.bankidStatusInterval) {
       clearInterval(this.bankidStatusInterval);
-      const caseId = store.getState().caseId;
-      if (caseId) {
-        creditAssessmentCancelSigning(caseId);
+      if (currentCaseId) {
+        creditAssessmentCancelSigning(currentCaseId);
         setCreditAssessmentResponse()(store.dispatch);
       }
     }
 
-    const caseId = await this.newCreditAssessmentCase();
+    const caseId = currentCaseId || (await this.newCreditAssessmentCase());
     if (caseId) {
       setCreditAssessmentResponse(caseId)(store.dispatch);
       this.onStartBankIdAuth(method);
