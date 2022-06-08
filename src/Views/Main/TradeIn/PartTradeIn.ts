@@ -213,6 +213,11 @@ class PartTradeIn extends HtmlNode {
   private onChange(e: Event) {
     const currentTarget = e.currentTarget as HTMLInputElement;
     const name = currentTarget.name as INPUT_STRING_KEYS;
+
+    if (name === 'registrationNumber') {
+      currentTarget.value = currentTarget.value.toUpperCase();
+    }
+
     const value = currentTarget.value;
 
     this.state.value[name] = value;
