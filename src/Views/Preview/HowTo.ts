@@ -1,8 +1,7 @@
-import { PaymentType } from '@wayke-se/ecom';
+import { PaymentType, IDeliveryOption } from '@wayke-se/ecom';
 import { OrderOptions, PaymentOption } from '../../@types/OrderOptions';
 import { StageTypes } from '../../@types/Stages';
 import TimelineItem from '../../Templates/TimelineItem';
-import { Image } from '../../Utils/constants';
 
 const TimelineItemByStage = {
   customer: {
@@ -14,7 +13,7 @@ const TimelineItemByStage = {
   },
   delivery: {
     heading: 'Välj leveranssätt',
-    description: 'Hemleverans eller hämta hos handlaren.',
+    description: '',
   },
   tradeIn: {
     heading: 'Har du inbytesbil?',
@@ -22,11 +21,11 @@ const TimelineItemByStage = {
   },
   financial: {
     heading: 'Ägandeform',
-    description: `<span class="waykeecom-text waykeecom-text--valign-middle">Betala allt på en gång, delbetala och gör låneansökan direkt online </span><img src="${Image.bankid}" alt="BankID logotyp" class="waykeecom-image waykeecom-image--inline" aria-hidden="true" /><span class="waykeecom-text waykeecom-text--valign-middle"> eller upplev flexibiliteten med privatleasing.</span>`,
+    description: '',
   },
   insurance: {
     heading: 'Vill du teckna en försäkring?',
-    description: 'Se förslag på försäkringar som passar din nya bil direkt i köpflödet.',
+    description: 'Se förslag på försäkringar som passar din nya bil.',
   },
   accessories: {
     heading: 'Tillbehör',
@@ -41,19 +40,32 @@ const getFinancialDescription = (options?: PaymentOption[]) => {
   const hasLoan = paymentTypes.find((x) => x === PaymentType.Loan);
 
   if (hasCash && hasLoan && hasLease) {
-    return 'Kontant, billån eller privatleasing';
+    return 'Denna bil kan du köpa kontant, privatleasa eller finansiera med ett billån.';
   } else if (hasCash && hasLease) {
-    return 'Kontant eller privatleasing';
+    return 'Denna bil kan du köpa kontant eller privatleasa.';
   } else if (hasCash && hasLoan) {
-    return 'Kontant eller billån';
+    return 'Denna bil kan du köpa kontant eller finansiera med ett billån';
   } else if (hasLoan && hasLease) {
-    return 'Billån eller privatleasing';
+    return 'Denna bil kan du privatleasa eller finansiera med ett billån';
   } else if (hasCash) {
-    return 'Kontant';
+    return 'Denna bil kan du köpa kontant.';
   } else if (hasLoan) {
-    return 'Billån';
+    return 'Denna bil kan du finansiera med ett billån';
   } else if (hasLease) {
-    return 'privatleasing';
+    return 'Denna bil kan du privatleasa.';
+  }
+  return '???';
+};
+
+const getDeliveryDescription = (options?: IDeliveryOption[]) => {
+  const hasPickup = options?.find((x) => x.type === 'Pickup');
+  const hasHomeDelivery = options?.find((x) => x.type === 'Delivery');
+  if (hasPickup && hasHomeDelivery) {
+    return 'Hemleverans eller hämta hos handlaren.';
+  } else if (hasPickup) {
+    return 'Hämta hos handlaren.';
+  } else if (hasHomeDelivery) {
+    return 'Hemleverans.';
   }
   return '???';
 };
@@ -66,6 +78,7 @@ interface HowToProps {
 const HowTo = ({ order, stageOrderList }: HowToProps) => {
   const timelineItemByStage = TimelineItemByStage;
   timelineItemByStage.financial.description = getFinancialDescription(order?.paymentOptions);
+  timelineItemByStage.delivery.description = getDeliveryDescription(order?.deliveryOptions);
 
   return `
   <div class="waykeecom-stack waykeecom-stack--3">
