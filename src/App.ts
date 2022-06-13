@@ -21,6 +21,14 @@ import { creditAssessmentCancelSigning } from './Data/creditAssessmentCancelSign
 import { useVwListner } from './Utils/vw';
 import { CallbackOrder } from './@types/CallbackOrder';
 import { ReducerState } from './Redux/reducer';
+import ecomEvent, {
+  registerEventListner,
+  EcomStep,
+  unregisterEventListner,
+  EcomEvent,
+  EcomView,
+  getLastHistory,
+} from './Utils/ecomEvent';
 
 const OrderIdQueryString = 'order';
 const Payment3DSecurityCallback = 'wayke-ecom-web-payment';
@@ -39,6 +47,7 @@ interface AppProps {
   vehicle?: Vehicle;
   ecomSdkConfig: EcomSdkConfig;
   useBankid?: boolean;
+  onEvent?: (view: EcomView, event: EcomEvent, currentStep?: EcomStep) => void;
 }
 
 class App {
@@ -64,6 +73,13 @@ class App {
         env: {},
       };
     }
+
+    /*
+    if (props.onEvent) {
+      registerEventListner(props.onEvent);
+    }
+    */
+
     config.bind(props.ecomSdkConfig);
     const createdRoot = document.createElement('div');
     createdRoot.className = 'waykeecom-root';
@@ -141,6 +157,10 @@ class App {
   }
 
   close() {
+    const lastEvent = getLastHistory();
+    if (lastEvent) {
+      ecomEvent(lastEvent.view, EcomEvent.CLOSE, lastEvent.currentStep);
+    }
     const { caseId } = this.contexts.store.getState();
     const params = new URLSearchParams(location.search);
     const orderId = params.get(OrderIdQueryString);
@@ -170,6 +190,9 @@ class App {
     }
     sessionStorage.removeItem('wayke-ecom-state');
     reset(this.props.id)(this.contexts.store.dispatch);
+    if (this.props.onEvent) {
+      unregisterEventListner(this.props.onEvent);
+    }
   }
 
   private closeWithConfirm() {
@@ -185,13 +208,30 @@ class App {
       id: WAYKE_ECOM_MODAL_ID,
     });
 
+    const lastEvent = getLastHistory();
+    if (lastEvent) {
+      ecomEvent(lastEvent.view, EcomEvent.CONFIRM_CLOSE_ACTIVE);
+    }
     new ConfirmClose(this.contexts.modal.content, {
-      onConfirmClose: () => this.close(),
-      onAbortClose: () => this.render(),
+      onConfirmClose: () => {
+        const lastEvent = getLastHistory();
+        ecomEvent(lastEvent.view, EcomEvent.CONFIRM_CLOSE_CONFIRMED, lastEvent.currentStep);
+        this.close();
+      },
+      onAbortClose: () => {
+        const lastEvent = getLastHistory();
+        ecomEvent(lastEvent.view, EcomEvent.CONFIRM_CLOSE_ABORTED, lastEvent.currentStep);
+        this.render();
+      },
     });
   }
 
   start() {
+    if (this.props.onEvent) {
+      registerEventListner(this.props.onEvent);
+    }
+
+    ecomEvent(EcomView.PREVIEW, EcomEvent.START);
     this.render();
   }
 

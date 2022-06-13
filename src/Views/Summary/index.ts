@@ -8,6 +8,7 @@ import HtmlNode from '../../Components/Extension/HtmlNode';
 import { scrollTop } from '../../Utils/scroll';
 import watch from '../../Redux/watch';
 import CentralStorage from './CentralStorage';
+import ecomEvent, { EcomEvent, EcomView } from '../../Utils/ecomEvent';
 
 const SUMMARY_NODE = 'summary-node';
 
@@ -22,6 +23,7 @@ class Summary extends HtmlNode {
   constructor(element: HTMLElement, props: SummaryProps) {
     super(element);
     this.props = props;
+    ecomEvent(EcomView.SUMMARY, EcomEvent.SUMMARY_ACTIVE);
 
     watch<number>(this.props.store, 'navigation.view', (view) => {
       if (view === 3) {

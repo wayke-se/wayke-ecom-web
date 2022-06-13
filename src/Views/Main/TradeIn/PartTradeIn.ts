@@ -16,6 +16,7 @@ import { translateTradeInCondition } from '../../../Utils/constants';
 import ButtonAsLink from '../../../Components/Button/ButtonAsLink';
 import { convertVehicleLookupResponse } from '../../../Utils/convert';
 import { VehicleLookup } from '../../../@types/VehicleLookup';
+import ecomEvent, { EcomStep, EcomEvent, EcomView } from '../../../Utils/ecomEvent';
 
 const REGISTRATION_NUMBER_ID = 'trade-in-registrationNumber';
 const REGISTRATION_NUMBER_NODE = `${REGISTRATION_NUMBER_ID}-node`;
@@ -166,6 +167,8 @@ class PartTradeIn extends HtmlNode {
     this.render();
 
     try {
+      ecomEvent(EcomView.MAIN, EcomEvent.TRADE_IN_VALUATION_REQUESTED, EcomStep.TRADE_IN_DETAILS);
+
       this.contexts.buttonFetch?.loading(true);
       if (
         this.state.validation.registrationNumber &&
@@ -178,10 +181,12 @@ class PartTradeIn extends HtmlNode {
         const response = convertVehicleLookupResponse(_response);
         this.response = response;
         this.render();
+        ecomEvent(EcomView.MAIN, EcomEvent.TRADE_IN_VALUATION_SUCCEEDED, EcomStep.TRADE_IN_DETAILS);
       }
     } catch (e) {
       this.requestError = true;
       this.render();
+      ecomEvent(EcomView.MAIN, EcomEvent.TRADE_IN_VALUATION_FAILED, EcomStep.TRADE_IN_DETAILS);
     } finally {
       this.contexts.buttonFetch?.loading(false);
     }
@@ -190,6 +195,7 @@ class PartTradeIn extends HtmlNode {
   private onEdit() {
     this.response = undefined;
     this.render();
+    ecomEvent(EcomView.MAIN, EcomEvent.TRADE_IN_SKIPPED, EcomStep.TRADE_IN_DETAILS);
   }
 
   private onProceed() {
@@ -197,6 +203,7 @@ class PartTradeIn extends HtmlNode {
       const vehicle = this.response.vehicle;
       const value = this.state.value as TradeInCarData;
       setTradeIn(this.props.lastStage, value, vehicle)(this.props.store.dispatch);
+      ecomEvent(EcomView.MAIN, EcomEvent.TRADE_IN_SET, EcomStep.TRADE_IN_DETAILS);
     }
   }
 
@@ -208,6 +215,32 @@ class PartTradeIn extends HtmlNode {
     this.state.value[name] = value;
     this.state.validation[name] = validation[name](value);
     this.updateProceedButton();
+
+    switch (value) {
+      case VehicleCondition.VeryGood:
+        ecomEvent(
+          EcomView.MAIN,
+          EcomEvent.TRADE_IN_CONDITION_VERY_GOOD_SELECTED,
+          EcomStep.TRADE_IN_DETAILS
+        );
+        break;
+      case VehicleCondition.Good:
+        ecomEvent(
+          EcomView.MAIN,
+          EcomEvent.TRADE_IN_CONDITION_GOOD_SELECTED,
+          EcomStep.TRADE_IN_DETAILS
+        );
+        break;
+      case VehicleCondition.Ok:
+        ecomEvent(
+          EcomView.MAIN,
+          EcomEvent.TRADE_IN_CONDITION_OK_SELECTED,
+          EcomStep.TRADE_IN_DETAILS
+        );
+        break;
+      default:
+        break;
+    }
   }
 
   private onChange(e: Event) {
@@ -253,6 +286,7 @@ class PartTradeIn extends HtmlNode {
 
   private onNoTradeIn() {
     setTradeIn(this.props.lastStage)(this.props.store.dispatch);
+    ecomEvent(EcomView.MAIN, EcomEvent.TRADE_IN_SELECTED, EcomStep.TRADE_IN_DETAILS);
   }
 
   render() {

@@ -32,6 +32,7 @@ import { PaymentLookup } from '../../../@types/PaymentLookup';
 import { ICreditAssessmentStatus } from '../../../@types/CreditAssessmentStatus';
 import { convertCreditAssessmentStatusResponse } from '../../../Utils/convert';
 import { PaymentOption } from '../../../@types/OrderOptions';
+import ecomEvent, { EcomStep, EcomEvent, EcomView } from '../../../Utils/ecomEvent';
 
 const MARITAL_STATUS = `credit-assessment-martial-status`;
 const MARITAL_STATUS_NODE = `${MARITAL_STATUS}-node`;
@@ -221,6 +222,11 @@ class CreditAssessment extends HtmlNode {
   }
 
   private onAbort() {
+    ecomEvent(
+      EcomView.MAIN,
+      EcomEvent.FINANCIAL_CREDIT_SCORING_ABORTED,
+      EcomStep.FINANCIAL_CREDIT_SCORING
+    );
     const { store } = this.props;
     this.view = 1;
     if (this.bankidStatusInterval) {
@@ -243,7 +249,21 @@ class CreditAssessment extends HtmlNode {
       .order?.paymentOptions.find((x) => x.type === PaymentType.Loan);
     this.bankidStatusInterval = setInterval(async () => {
       try {
+        ecomEvent(
+          EcomView.MAIN,
+          method === AuthMethod.SameDevice
+            ? EcomEvent.FINANCIAL_CREDIT_SCORING_BANKID_STATUS_SAME_DEVICE_REQUESTED
+            : EcomEvent.FINANCIAL_CREDIT_SCORING_BANKID_STATUS_QR_REQUESTED,
+          EcomStep.FINANCIAL_CREDIT_SCORING
+        );
         const response = await creditAssessmentGetStatus(caseId);
+        ecomEvent(
+          EcomView.MAIN,
+          method === AuthMethod.SameDevice
+            ? EcomEvent.FINANCIAL_CREDIT_SCORING_BANKID_STATUS_SAME_DEVICE_SUCCEEDED
+            : EcomEvent.FINANCIAL_CREDIT_SCORING_BANKID_STATUS_QR_SUCCEEDED,
+          EcomStep.FINANCIAL_CREDIT_SCORING
+        );
 
         const status = response.getStatus();
         if (status === 'signed') {
@@ -252,9 +272,19 @@ class CreditAssessment extends HtmlNode {
             `Hämtar uppgifter från ${loan?.name}. Vänta kvar det kan ta några sekunder.`
           );
           this.contexts.bankId?.setFinalizing(true);
+          ecomEvent(
+            EcomView.MAIN,
+            EcomEvent.FINANCIAL_CREDIT_SCORING_SIGNING_SIGNED,
+            EcomStep.FINANCIAL_CREDIT_SCORING
+          );
         }
 
         if (response.isScored()) {
+          ecomEvent(
+            EcomView.MAIN,
+            EcomEvent.FINANCIAL_CREDIT_SCORING_SIGNING_SCORED,
+            EcomStep.FINANCIAL_CREDIT_SCORING
+          );
           if (this.bankidStatusInterval) {
             clearInterval(this.bankidStatusInterval);
           }
@@ -266,15 +296,27 @@ class CreditAssessment extends HtmlNode {
           )(this.props.store.dispatch);
           destroyPortal();
           this.render();
-        }
-
-        if (response.shouldRenewSigning()) {
+        } else if (response.shouldRenewSigning()) {
+          ecomEvent(
+            EcomView.MAIN,
+            method === AuthMethod.SameDevice
+              ? EcomEvent.FINANCIAL_CREDIT_SCORING_BANKID_STATUS_SAME_DEVICE_SHOULD_RENEW
+              : EcomEvent.FINANCIAL_CREDIT_SCORING_BANKID_STATUS_QR_SHOULD_RENEW,
+            EcomStep.FINANCIAL_CREDIT_SCORING
+          );
           this.onStartBankIdAuth(method);
         }
       } catch (e) {
         clearInterval(this.bankidStatusInterval as NodeJS.Timer);
         this.contexts.bankId?.setErrorMessage(
           'Det gick inte att hämta status kring nuvanrade BankId signering. Nytt försök sker igenom om 2 sekunder'
+        );
+        ecomEvent(
+          EcomView.MAIN,
+          method === AuthMethod.SameDevice
+            ? EcomEvent.FINANCIAL_CREDIT_SCORING_BANKID_STATUS_SAME_DEVICE_FAILED
+            : EcomEvent.FINANCIAL_CREDIT_SCORING_BANKID_STATUS_QR_FAILED,
+          EcomStep.FINANCIAL_CREDIT_SCORING
         );
       }
     }, 2000);
@@ -288,8 +330,18 @@ class CreditAssessment extends HtmlNode {
     }
 
     try {
+      ecomEvent(
+        EcomView.MAIN,
+        EcomEvent.FINANCIAL_CREDIT_SCORING_BANKID_INIT_REQUESTED,
+        EcomStep.FINANCIAL_CREDIT_SCORING
+      );
       this.contexts.bankId?.update(method);
       const response = await creditAssessmentSignCase({ caseId, method });
+      ecomEvent(
+        EcomView.MAIN,
+        EcomEvent.FINANCIAL_CREDIT_SCORING_BANKID_INIT_SUCCEEDED,
+        EcomStep.FINANCIAL_CREDIT_SCORING
+      );
       this.bankIdStatus(caseId, method);
       if (method === AuthMethod.SameDevice) {
         const autoLaunchUrl = response.getAutoLaunchUrl() as string;
@@ -299,6 +351,11 @@ class CreditAssessment extends HtmlNode {
         this.contexts.bankId?.update(method, qrCode);
       }
     } catch (e) {
+      ecomEvent(
+        EcomView.MAIN,
+        EcomEvent.FINANCIAL_CREDIT_SCORING_BANKID_INIT_FAILED,
+        EcomStep.FINANCIAL_CREDIT_SCORING
+      );
       if (this.bankidStatusInterval) {
         clearInterval(this.bankidStatusInterval);
       }
@@ -322,10 +379,33 @@ class CreditAssessment extends HtmlNode {
       }
     }
 
-    const caseId = currentCaseId || (await this.newCreditAssessmentCase());
-    if (caseId) {
-      setCreditAssessmentResponse(caseId)(store.dispatch);
+    if (currentCaseId) {
+      setCreditAssessmentResponse(currentCaseId)(store.dispatch);
       this.onStartBankIdAuth(method);
+    } else {
+      try {
+        ecomEvent(
+          EcomView.MAIN,
+          EcomEvent.FINANCIAL_CREDIT_SCORING_CREATE_CASE_REQUESTED,
+          EcomStep.FINANCIAL_CREDIT_SCORING
+        );
+        const caseId = await this.newCreditAssessmentCase();
+        ecomEvent(
+          EcomView.MAIN,
+          EcomEvent.FINANCIAL_CREDIT_SCORING_CREATE_CASE_SUCCEEDED,
+          EcomStep.FINANCIAL_CREDIT_SCORING
+        );
+        if (caseId) {
+          setCreditAssessmentResponse(caseId)(store.dispatch);
+          this.onStartBankIdAuth(method);
+        }
+      } catch (e) {
+        ecomEvent(
+          EcomView.MAIN,
+          EcomEvent.FINANCIAL_CREDIT_SCORING_CREATE_CASE_FAILED,
+          EcomStep.FINANCIAL_CREDIT_SCORING
+        );
+      }
     }
   }
 
@@ -619,6 +699,13 @@ class CreditAssessment extends HtmlNode {
           `,
           onChange: (e) => this.onChange(e),
           onBlur: (e) => this.onBlur(e),
+          onClickInformation: () => {
+            ecomEvent(
+              EcomView.MAIN,
+              EcomEvent.FINANCIAL_LOAN_HOUSEHOLD_CHILDREN_INFORMATION_TOGGLE,
+              EcomStep.FINANCIAL
+            );
+          },
         }
       );
 
@@ -648,6 +735,13 @@ class CreditAssessment extends HtmlNode {
           `,
           onChange: (e) => this.onChange(e),
           onBlur: (e) => this.onBlur(e),
+          onClickInformation: () => {
+            ecomEvent(
+              EcomView.MAIN,
+              EcomEvent.FINANCIAL_LOAN_HOUSEHOLD_INCOME_INFORMATION_TOGGLE,
+              EcomStep.FINANCIAL
+            );
+          },
         }
       );
 
@@ -680,6 +774,13 @@ class CreditAssessment extends HtmlNode {
           `,
           onChange: (e) => this.onChange(e),
           onBlur: (e) => this.onBlur(e),
+          onClickInformation: () => {
+            ecomEvent(
+              EcomView.MAIN,
+              EcomEvent.FINANCIAL_LOAN_HOUSEHOLD_DEBT_INFORMATION_TOGGLE,
+              EcomStep.FINANCIAL
+            );
+          },
         }
       );
 
@@ -711,6 +812,13 @@ class CreditAssessment extends HtmlNode {
           `,
           onChange: (e) => this.onChange(e),
           onBlur: (e) => this.onBlur(e),
+          onClickInformation: () => {
+            ecomEvent(
+              EcomView.MAIN,
+              EcomEvent.FINANCIAL_LOAN_HOUSEHOLD_COST_INFORMATION_TOGGLE,
+              EcomStep.FINANCIAL
+            );
+          },
         }
       );
 
@@ -765,6 +873,13 @@ class CreditAssessment extends HtmlNode {
             <p class="waykeecom-content__p">${loan?.name}, liksom alla banker i Sverige, är enligt lagen om åtgärder mot penningtvätt och finansiering av terrorism skyldiga att ha god kännedom om sina kunder. Därför måste vi ställa frågor om dig som kund. Den information vi får om dig behandlas konfidentiellt och omfattas av banksekretessen och GDPR.</p>
             <p class="waykeecom-content__p"><a href="#" title="" target="_blank" rel="noopener norefferer" class="waykeecom-link">Läs mer om detta här</a></p>
           </div>`,
+        onClick: () => {
+          ecomEvent(
+            EcomView.MAIN,
+            EcomEvent.FINANCIAL_LOAN_KYC_INFORMATION_TOGGLE,
+            EcomStep.FINANCIAL
+          );
+        },
       });
 
       if (scrollIntoView || this.caseError || this.bankidError) {

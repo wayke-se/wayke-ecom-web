@@ -9,6 +9,7 @@ import watch from '../../../Redux/watch';
 import IfInsurance from './IfInsurance';
 import DefaultInsurance from './DefaultInsurance';
 import { prettyNumber } from '../../../Utils/format';
+import ecomEvent, { EcomStep, EcomEvent, EcomView } from '../../../Utils/ecomEvent';
 
 interface InsuranceProps {
   readonly store: WaykeStore;
@@ -30,12 +31,19 @@ class Insurance extends HtmlNode {
     this.render();
   }
 
+  private getStep() {
+    const { order } = this.props.store.getState();
+    return order?.insuranceOption?.institute === 'IF' ? EcomStep.INSURANCE_IF : EcomStep.INSURANCE;
+  }
+
   private onSkipInsurances() {
     addOrRemoveInsurance()(this.props.store.dispatch);
     completeStage(this.props.lastStage)(this.props.store.dispatch);
+    ecomEvent(EcomView.MAIN, EcomEvent.INSURANCE_SKIPPED, this.getStep());
   }
 
   private onEdit() {
+    ecomEvent(EcomView.MAIN, EcomEvent.INSURANCE_EDIT, this.getStep());
     goTo('main', this.props.index)(this.props.store.dispatch);
   }
 
@@ -44,10 +52,14 @@ class Insurance extends HtmlNode {
     const state = store.getState();
 
     const completed = state.topNavigation.stage > index;
+    const active = state.navigation.stage === index;
+    if (active) {
+      ecomEvent(EcomView.MAIN, EcomEvent.INSURANCE_ACTIVE, this.getStep());
+    }
     const content = ListItem(this.node, {
       completed,
       title: 'Försäkring',
-      active: state.navigation.stage === index,
+      active,
       id: 'insurance',
     });
 

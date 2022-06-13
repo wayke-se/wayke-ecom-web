@@ -11,6 +11,7 @@ import { WaykeStore } from '../../../../Redux/store';
 import ButtonSuccess from '../../../../Components/Button/ButtonSuccess';
 import ButtonAddRemove from '../../../../Components/Button/ButtonAddRemove';
 import InsuracenAddonBox from './InsuranceAddonBox';
+import ecomEvent, { EcomEvent, EcomView, EcomStep } from '../../../../Utils/ecomEvent';
 
 const BUTTON_TOP_LEFT_NODE = 'insurance-button-top-left-node';
 const BUTTON_BOTTOM_LEFT_NODE = 'insurance-button-bottom-left-node';
@@ -67,8 +68,10 @@ class InsuranceItemInfo extends HtmlNode {
       this.contexts.checkboxes[name]?.checked(checked);
 
       if (checked) {
+        ecomEvent(EcomView.MAIN, EcomEvent.INSURANCE_ADDON_SELECTED, EcomStep.INSURANCE_IF);
         this.addons.push(selectedAddon);
       } else {
+        ecomEvent(EcomView.MAIN, EcomEvent.INSURANCE_ADDON_UNSELECTED, EcomStep.INSURANCE_IF);
         const index = this.addons.findIndex((x) => x.name === selectedAddon.name);
         if (index > -1) {
           this.addons.splice(index, 1);
@@ -85,6 +88,13 @@ class InsuranceItemInfo extends HtmlNode {
   }
 
   onUpdate() {
+    const { insurance } = this.props.store.getState();
+    if (!insurance || (insurance && this.props.insurance.name !== insurance.name)) {
+      ecomEvent(EcomView.MAIN, EcomEvent.INSURANCE_SELECTED, EcomStep.INSURANCE_IF);
+    } else {
+      ecomEvent(EcomView.MAIN, EcomEvent.INSURANCE_UNSELECTED, EcomStep.INSURANCE_IF);
+    }
+
     addOrRemoveInsuranceAddon(this.props.insurance, this.addons)(this.props.store.dispatch);
     this.props.onClose();
   }

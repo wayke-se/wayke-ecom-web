@@ -9,6 +9,7 @@ import { getTotalDeliveryCost } from '../../../Utils/delivery';
 import { prettyNumber } from '../../../Utils/format';
 import ListItem from '../../../Templates/ListItem';
 import watch from '../../../Redux/watch';
+import ecomEvent, { EcomStep, EcomEvent, EcomView } from '../../../Utils/ecomEvent';
 
 const RADIO_HOME_TRUE = 'radio-home-delivery-true';
 const RADIO_HOME_TRUE_NODE = `${RADIO_HOME_TRUE}-node`;
@@ -46,13 +47,24 @@ class Delivery extends HtmlNode {
     const currentTarget = e.currentTarget as HTMLInputElement;
     const value = currentTarget.value === 'true';
     this.homeDelivery = value;
+    ecomEvent(
+      EcomView.MAIN,
+      this.homeDelivery ? EcomEvent.DELIVERY_HOME_SELECTED : EcomEvent.DELIVERY_DEALER_SELECTED,
+      EcomStep.DELIVERY
+    );
   }
 
   private onProceed() {
     setHomeDelivery(this.homeDelivery, this.props.lastStage)(this.props.store.dispatch);
+    ecomEvent(
+      EcomView.MAIN,
+      this.homeDelivery ? EcomEvent.DELIVERY_HOME_SET : EcomEvent.DELIVERY_DEALER_SET,
+      EcomStep.DELIVERY
+    );
   }
 
   private onEdit() {
+    ecomEvent(EcomView.MAIN, EcomEvent.DELIVERY_EDIT, EcomStep.DELIVERY);
     goTo('main', this.props.index)(this.props.store.dispatch);
   }
 
@@ -65,10 +77,14 @@ class Delivery extends HtmlNode {
     if (!contactInformation) throw 'Missing dealer contact information';
 
     const completed = state.topNavigation.stage > index;
+    const active = state.navigation.stage === index;
+    if (active) {
+      ecomEvent(EcomView.MAIN, EcomEvent.DELIVERY_ACTIVE, EcomStep.DELIVERY);
+    }
     const content = ListItem(this.node, {
       completed,
       title: 'Leverans',
-      active: state.navigation.stage === index,
+      active,
       id: 'delivery',
     });
 

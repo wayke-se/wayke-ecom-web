@@ -11,6 +11,7 @@ import Loan from './Loan';
 import StageCompletedFinancial from './StageCompletedFinancial';
 import watch from '../../../Redux/watch';
 import { PaymentLookup } from '../../../@types/PaymentLookup';
+import ecomEvent, { EcomStep, EcomEvent, EcomView } from '../../../Utils/ecomEvent';
 
 const PROCEED = 'button-financial-proceed';
 const PROCEED_NODE = `${PROCEED}-node`;
@@ -61,15 +62,38 @@ class Financial extends HtmlNode {
     const value = currentTarget.value as PaymentType;
     this.paymentType = value;
     this.render(true);
+    switch (this.paymentType) {
+      case PaymentType.Cash:
+        ecomEvent(EcomView.MAIN, EcomEvent.FINANCIAL_CASH_SELECTED, EcomStep.FINANCIAL);
+        break;
+      case PaymentType.Lease:
+        ecomEvent(EcomView.MAIN, EcomEvent.FINANCIAL_LEASE_SELECTED, EcomStep.FINANCIAL);
+      case PaymentType.Loan:
+        ecomEvent(EcomView.MAIN, EcomEvent.FINANCIAL_LOAN_SELECTED, EcomStep.FINANCIAL);
+      default:
+        break;
+    }
   }
 
   private onProceed() {
     if (this.paymentType) {
+      switch (this.paymentType) {
+        case PaymentType.Cash:
+          ecomEvent(EcomView.MAIN, EcomEvent.FINANCIAL_CASH_SET, EcomStep.FINANCIAL);
+          break;
+        case PaymentType.Lease:
+          ecomEvent(EcomView.MAIN, EcomEvent.FINANCIAL_LEASE_SET, EcomStep.FINANCIAL);
+        case PaymentType.Loan:
+          ecomEvent(EcomView.MAIN, EcomEvent.FINANCIAL_LOAN_SET, EcomStep.FINANCIAL);
+        default:
+          break;
+      }
       setFinancial(this.paymentType, this.props.lastStage)(this.props.store.dispatch);
     }
   }
 
   private onEdit() {
+    ecomEvent(EcomView.MAIN, EcomEvent.FINANCIAL_EDIT, EcomStep.FINANCIAL);
     goTo('main', this.props.index)(this.props.store.dispatch);
   }
 
@@ -241,6 +265,9 @@ class Financial extends HtmlNode {
           `,
           options: firstGroupOptions,
           onClick: (e) => this.onChange(e),
+          onClickInformation: () => {
+            ecomEvent(EcomView.MAIN, EcomEvent.FINANCIAL_INFORMATION_TOGGLE, EcomStep.FINANCIAL);
+          },
         });
       }
 

@@ -6,6 +6,7 @@ import { addOrRemoveFreeInsurance } from '../../../../Redux/action';
 import { WaykeStore } from '../../../../Redux/store';
 import watch from '../../../../Redux/watch';
 import { createPortal, destroyPortal } from '../../../../Utils/portal';
+import ecomEvent, { EcomStep, EcomEvent, EcomView } from '../../../../Utils/ecomEvent';
 import InsuranceItemInfo from './InsuranceItemInfo';
 
 interface InsuranceItemProps {
@@ -30,11 +31,13 @@ class InsuranceItem extends HtmlNode {
   }
 
   private onInfoOpen() {
+    ecomEvent(EcomView.MAIN, EcomEvent.INSURANCE_INFORMATION_TOGGLE, EcomStep.INSURANCE);
     this.displayInfo = true;
     this.render();
   }
 
   private onInfoClose() {
+    ecomEvent(EcomView.MAIN, EcomEvent.INSURANCE_INFORMATION_TOGGLE, EcomStep.INSURANCE);
     this.displayInfo = false;
     destroyPortal();
     this.render();
@@ -42,6 +45,13 @@ class InsuranceItem extends HtmlNode {
   }
 
   private onClick() {
+    const { freeInsurance } = this.props.store.getState();
+    if (freeInsurance && this.props.freeInsurance !== freeInsurance) {
+      ecomEvent(EcomView.MAIN, EcomEvent.INSURANCE_SELECTED, EcomStep.INSURANCE);
+    } else {
+      ecomEvent(EcomView.MAIN, EcomEvent.INSURANCE_UNSELECTED, EcomStep.INSURANCE);
+    }
+
     addOrRemoveFreeInsurance(this.props.freeInsurance)(this.props.store.dispatch);
   }
 

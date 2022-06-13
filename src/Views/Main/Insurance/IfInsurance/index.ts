@@ -9,6 +9,7 @@ import { setDrivingDistance } from '../../../../Redux/action';
 import { WaykeStore } from '../../../../Redux/store';
 import { translateDrivingDistance } from '../../../../Utils/constants';
 import InsuranceView from './InsuranceView';
+import ecomEvent, { EcomStep, EcomEvent, EcomView } from '../../../../Utils/ecomEvent';
 
 const DISTANCE = 'select-insurance-distance';
 const DISTANCE_NODE = `${DISTANCE}-node`;
@@ -42,16 +43,58 @@ class IfInsurance extends HtmlNode {
   private onChangeDistance(e: Event) {
     this.showInsurances = false;
     const currentTarget = e.currentTarget as HTMLSelectElement;
-    setDrivingDistance(currentTarget.value as DrivingDistance)(this.props.store.dispatch);
+    const distance = currentTarget.value as DrivingDistance;
+    setDrivingDistance(distance)(this.props.store.dispatch);
+    switch (distance) {
+      case DrivingDistance.Between0And1000:
+        ecomEvent(
+          EcomView.MAIN,
+          EcomEvent.INSURANCE_MILEAGE_BETWEEN_0_AND_1000_SELECTED,
+          EcomStep.INSURANCE_IF
+        );
+        break;
+      case DrivingDistance.Between1000And1500:
+        ecomEvent(
+          EcomView.MAIN,
+          EcomEvent.INSURANCE_MILEAGE_BETWEEN_1000_AND_1500_SELECTED,
+          EcomStep.INSURANCE_IF
+        );
+        break;
+      case DrivingDistance.Between1500And2000:
+        ecomEvent(
+          EcomView.MAIN,
+          EcomEvent.INSURANCE_MILEAGE_BETWEEN_1500_AND_2000_SELECTED,
+          EcomStep.INSURANCE_IF
+        );
+        break;
+      case DrivingDistance.Between2000And2500:
+        ecomEvent(
+          EcomView.MAIN,
+          EcomEvent.INSURANCE_MILEAGE_BETWEEN_2000_AND_2500_SELECTED,
+          EcomStep.INSURANCE_IF
+        );
+        break;
+      case DrivingDistance.Over2500:
+        ecomEvent(
+          EcomView.MAIN,
+          EcomEvent.INSURANCE_MILEAGE_OVER_2500_SELECTED,
+          EcomStep.INSURANCE_IF
+        );
+        break;
+      default:
+        break;
+    }
   }
 
   private onShowInsurances() {
     this.showInsurances = true;
+    ecomEvent(EcomView.MAIN, EcomEvent.INSURANCE_SHOW, EcomStep.INSURANCE_IF);
     this.render();
   }
 
   private onEdit() {
     this.showInsurances = false;
+    ecomEvent(EcomView.MAIN, EcomEvent.INSURANCE_EDIT_MILEAGE, EcomStep.INSURANCE_IF);
     this.render();
   }
 
