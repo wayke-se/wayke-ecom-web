@@ -10,7 +10,6 @@ import ListItem from '../../../Templates/ListItem';
 import Loan from './Loan';
 import StageCompletedFinancial from './StageCompletedFinancial';
 import watch from '../../../Redux/watch';
-import { PaymentLookup } from '../../../@types/PaymentLookup';
 import ecomEvent, { EcomStep, EcomEvent, EcomView } from '../../../Utils/ecomEvent';
 
 const PROCEED = 'button-financial-proceed';
@@ -37,7 +36,6 @@ interface FinancialProps {
 class Financial extends HtmlNode {
   private readonly props: FinancialProps;
   private paymentType?: PaymentType;
-  private paymentLookupResponse?: PaymentLookup;
 
   constructor(element: HTMLDivElement, props: FinancialProps) {
     super(element);
@@ -50,10 +48,9 @@ class Financial extends HtmlNode {
     });
 
     const state = this.props.store.getState();
-    const { paymentLookupResponse, paymentType } = state;
+    const { paymentType } = state;
 
     this.paymentType = paymentType;
-    this.paymentLookupResponse = paymentLookupResponse;
     this.render();
   }
 
@@ -125,7 +122,7 @@ class Financial extends HtmlNode {
         store: this.props.store,
         loan,
         paymentType: this.paymentType,
-        paymentLookupResponse: loan?.loanDetails ? loan.loanDetails : paymentLookupResponse,
+        paymentLookupResponse: paymentLookupResponse || loan?.loanDetails,
         onEdit: !state.createdOrderId ? () => this.onEdit() : undefined,
       });
     } else if (state.navigation.stage === this.props.index) {
@@ -188,18 +185,15 @@ class Financial extends HtmlNode {
       }
 
       if (loan) {
-        const loanPrice = this.paymentLookupResponse?.costs.monthlyCost || loan.price;
+        const loanPrice = paymentLookupResponse?.costs.monthlyCost || loan.price;
         const duration =
-          this.paymentLookupResponse?.durationSpec.current ||
-          loan.loanDetails?.durationSpec.current;
+          paymentLookupResponse?.durationSpec.current || loan.loanDetails?.durationSpec.current;
 
         const interest =
-          this.paymentLookupResponse?.interests.interest ||
-          loan.loanDetails?.interests.interest ||
-          NaN;
+          paymentLookupResponse?.interests.interest || loan.loanDetails?.interests.interest || NaN;
 
         const getCreditAmount =
-          this.paymentLookupResponse?.creditAmount || loan.loanDetails?.creditAmount || NaN;
+          paymentLookupResponse?.creditAmount || loan.loanDetails?.creditAmount || NaN;
 
         const shouldUseCreditScoring = loan.loanDetails?.shouldUseCreditScoring;
 
@@ -231,7 +225,7 @@ class Financial extends HtmlNode {
                   kontraktskrivning.</li>
                   <li class="waykeecom-content__li">Beräknat på ${prettyNumber(getCreditAmount, {
                     postfix: 'kr',
-                  })} kr, ${duration} mån, ${prettyNumber(interest * 100, {
+                  })}, ${duration} mån, ${prettyNumber(interest * 100, {
             decimals: 2,
           })}% ränta.</li>
                 </ul>
@@ -316,7 +310,7 @@ class Financial extends HtmlNode {
             store: this.props.store,
             loan,
             vehicleId: id,
-            paymentLookupResponse: this.paymentLookupResponse,
+            paymentLookupResponse,
             onProceed: () => this.onProceed(),
           });
         } else {

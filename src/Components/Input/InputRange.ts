@@ -24,10 +24,13 @@ interface InputRangeProps {
 }
 
 class InputRange extends HtmlNode {
-  private props: InputRangeProps;
+  private readonly props: InputRangeProps;
   private value: number;
   private inputFieldValue: number;
+  private min: number;
+  private max: number;
   private rangeSpan: number;
+  private isDisabled?: boolean;
   private currentValueInPercentage: number;
   private contexts: {
     rangeSlider?: HTMLInputElement;
@@ -38,19 +41,34 @@ class InputRange extends HtmlNode {
 
     this.props = props;
     this.value = props.value;
+    this.min = props.min;
+    this.max = props.max;
+    this.isDisabled = props.disabled;
     this.inputFieldValue = this.value;
-    this.rangeSpan = props.max - props.min;
+    this.rangeSpan = this.max - this.min;
     this.currentValueInPercentage = parseInt(
-      (100 * ((this.value - this.props.min) / this.rangeSpan)).toString(),
+      (100 * ((this.value - this.min) / this.rangeSpan)).toString(),
       10
     );
 
     this.render();
   }
 
+  update(value: number, min: number, max: number) {
+    this.value = value;
+    this.inputFieldValue = value;
+    this.min = min;
+    this.max = max;
+    this.rangeSpan = max - min;
+    this.isDisabled = !this.rangeSpan;
+    const percentage = parseInt((100 * ((this.value - min) / this.rangeSpan)).toString(), 10);
+    this.currentValueInPercentage = !isNaN(percentage) ? percentage : 0;
+    this.render();
+  }
+
   disabled(disabled: boolean) {
-    if (this.props.disabled !== disabled) {
-      this.props.disabled = disabled;
+    if (this.isDisabled !== disabled) {
+      this.isDisabled = disabled;
       this.render();
     }
   }
@@ -71,8 +89,8 @@ class InputRange extends HtmlNode {
     const inputFieldValueAsNumber = this.inputFieldValue;
     if (
       !isNaN(inputFieldValueAsNumber) &&
-      inputFieldValueAsNumber >= this.props.min &&
-      inputFieldValueAsNumber <= this.props.max
+      inputFieldValueAsNumber >= this.min &&
+      inputFieldValueAsNumber <= this.max
     ) {
       const modifiedNumberInRespectWithSteps = respectStep(
         inputFieldValueAsNumber,
@@ -86,7 +104,7 @@ class InputRange extends HtmlNode {
 
       this.inputFieldValue = this.value;
       this.currentValueInPercentage = parseInt(
-        (100 * ((this.value - this.props.min) / this.rangeSpan)).toString(),
+        (100 * ((this.value - this.min) / this.rangeSpan)).toString(),
         10
       );
 
@@ -108,7 +126,7 @@ class InputRange extends HtmlNode {
     this.inputFieldValue = this.value;
 
     this.currentValueInPercentage = parseInt(
-      (100 * ((this.value - this.props.min) / this.rangeSpan)).toString(),
+      (100 * ((this.value - this.min) / this.rangeSpan)).toString(),
       10
     );
 
@@ -142,20 +160,8 @@ class InputRange extends HtmlNode {
   }
 
   render() {
-    const {
-      title,
-      min,
-      max,
-      step,
-      name,
-      id,
-      information,
-      unit,
-      disabled,
-      onChange,
-      onClickInformation,
-    } = this.props;
-    const allowSlider = min !== max;
+    const { title, step, name, id, information, unit, onChange, onClickInformation } = this.props;
+    const allowSlider = this.min !== this.max;
 
     this.node.innerHTML = `
       <div class="waykeecom-input-label">
@@ -172,9 +178,9 @@ class InputRange extends HtmlNode {
               name="${name}"
               autocomplete="off"
               class="waykeecom-input-text__input"
-              ${(step === 0 || disabled) && `disabled=""`}
-              min="${min}"
-              max="${max}"
+              ${(step === 0 || this.isDisabled || !allowSlider) && `disabled=""`}
+              min="${this.min}"
+              max="${this.max}"
               ${step !== undefined && `step="${step}"`}
             />
             ${unit ? `<div class="waykeecom-input-text__unit">${unit}</div>` : ''}
@@ -188,13 +194,13 @@ class InputRange extends HtmlNode {
                 <input
                   type="range"
                   id="${id}"
-                  min="${min}"
-                  max="${max}"
+                  min="${this.min}"
+                  max="${this.max}"
                   ${step !== undefined && `step="${step}"`}
                   value="${this.value}"
                   name="${name}"
                   class="waykeecom-input-range__input"
-                  ${disabled && `disabled=""`}
+                  ${this.isDisabled && `disabled=""`}
                 />
               </div>
             </div>

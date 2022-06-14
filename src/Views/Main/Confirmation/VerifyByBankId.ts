@@ -264,6 +264,8 @@ class VerifyByBankId extends HtmlNode {
       });
     } else {
       const name = order?.contactInformation?.name;
+      const conditionsPdfUri = order?.conditionsPdfUri;
+      const policy = 'https://www.wayke.se/personuppgiftspolicy-wayke';
 
       this.node.innerHTML = `
         <div class="waykeecom-stack waykeecom-stack--3">
@@ -315,11 +317,11 @@ class VerifyByBankId extends HtmlNode {
       });
 
       new Disclaimer(this.node.querySelector<HTMLDivElement>(`#${DISCLAIMER_NODE}`), {
-        text: `Genom att gå vidare bekräftar du att du tagit del av Waykes <a href="#" title="" target="_blank" rel="noopener noreferrer" class="waykeecom-link">köpvillkor</a> och <a href="#" title="" target="_blank" rel="noopener noreferrer" class="waykeecom-link">villkor för ångerrätt</a>.`,
+        text: `Genom att gå vidare bekräftar du att du tagit del av Waykes <a href="${conditionsPdfUri}" title="" target="_blank" rel="noopener noreferrer" class="waykeecom-link">köpvillkor och villkor för ångerrätt</a>.`,
       });
 
       new DisclaimerPadlock(this.node.querySelector<HTMLDivElement>(`#${DISCLAIMER_SAFE_NODE}`), {
-        text: 'Dina uppgifter lagras och sparas säkert. Läs mer i vår <a href="#" title="" target="_blank" rel="noopener noreferrer" class="waykeecom-link">personuppgiftspolicy</a>.',
+        text: `Dina uppgifter lagras och sparas säkert. Läs mer i vår <a href="${policy}" title="" target="_blank" rel="noopener noreferrer" class="waykeecom-link">personuppgiftspolicy</a>.`,
       });
 
       new Disclaimer(this.node.querySelector<HTMLDivElement>(`#${DISCLAIMER_RESERVATION_NODE}`), {

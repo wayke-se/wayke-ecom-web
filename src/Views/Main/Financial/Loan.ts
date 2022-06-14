@@ -7,11 +7,11 @@ import InputRange from '../../../Components/Input/InputRange';
 import { getPayment } from '../../../Data/getPayment';
 import { setPaymentLookupResponse } from '../../../Redux/action';
 import { WaykeStore } from '../../../Redux/store';
-import Alert from '../../../Templates/Alert';
 import { convertPaymentLookupResponse } from '../../../Utils/convert';
 import ecomEvent, { EcomEvent, EcomView, EcomStep } from '../../../Utils/ecomEvent';
 import CreditAssessment from './CreditAssessment';
 import LoanDetails from './LoanDetails';
+import ErrorAlert from '../../../Components/ErrorAlert';
 
 const DOWNPAYMENT_RANGE_NODE = 'downpayment-range-node';
 const DOWNPAYMENT_RANGE = 'downpayment-range';
@@ -29,6 +29,7 @@ const CREDIT_ASSESMENT_NODE = 'credit-assessment-node';
 
 const PROCEED = 'credit-assessment-proceed';
 const PROCEED_NODE = `${PROCEED}-node`;
+const ERROR_NODE = 'loan-error-node';
 
 interface PaymentState {
   vehicleId: string;
@@ -51,14 +52,15 @@ type LoanNames = 'downPayment' | 'duration' | 'residual';
 class Loan extends HtmlNode {
   private readonly props: LoanProps;
   private paymentState: PaymentState;
+  private previousState: PaymentState;
   private paymentLookupResponse: PaymentLookup;
-  private paymentRequestFailed?: boolean;
-  private lastEditedField: LoanNames = 'downPayment';
   private contexts: {
     downPayment?: InputRange;
     duration?: InputRange;
     residual?: InputRange;
     loanDetails?: LoanDetails;
+    proceedButton?: ButtonArrowRight;
+    errorAlert?: ErrorAlert;
   } = {};
 
   constructor(element: HTMLDivElement, props: LoanProps) {
@@ -75,6 +77,7 @@ class Loan extends HtmlNode {
       duration: this.paymentLookupResponse.durationSpec,
       residual: this.paymentLookupResponse.residualValueSpec,
     };
+    this.previousState = JSON.parse(JSON.stringify(this.paymentState));
 
     this.render();
   }
@@ -83,12 +86,7 @@ class Loan extends HtmlNode {
     this.contexts.downPayment?.disabled(true);
     this.contexts.duration?.disabled(true);
     this.contexts.residual?.disabled(true);
-
-    if (this.paymentRequestFailed) {
-      this.paymentRequestFailed = false;
-      this.render();
-    }
-
+    this.contexts.proceedButton?.disabled(true);
     try {
       const response = await getPayment({
         vehicleId: this.paymentState.vehicleId,
@@ -96,6 +94,7 @@ class Loan extends HtmlNode {
         duration: this.paymentState.duration.current,
         residual: this.paymentState.residual?.current,
       });
+      this.previousState = JSON.parse(JSON.stringify(this.paymentState));
       this.paymentLookupResponse = convertPaymentLookupResponse(response);
       this.paymentState = {
         ...this.paymentState,
@@ -105,12 +104,50 @@ class Loan extends HtmlNode {
       };
       setPaymentLookupResponse(response)(this.props.store.dispatch);
       this.update();
+
+      this.contexts.errorAlert?.update(undefined);
+      this.contexts.downPayment?.update(
+        this.paymentState.downPayment.current,
+        this.paymentState.downPayment.min,
+        this.paymentState.downPayment.max
+      );
+      this.contexts.residual?.update(
+        this.paymentState.residual.current * 100,
+        this.paymentState.residual.min * 100,
+        this.paymentState.residual.max * 100
+      );
+      this.contexts.duration?.update(
+        this.paymentState.duration.current,
+        this.paymentState.duration.min,
+        this.paymentState.duration.max
+      );
+    } catch (e) {
+      this.contexts.errorAlert?.update(`Ett fel uppstod, försök igen.`);
       this.contexts.downPayment?.disabled(false);
       this.contexts.duration?.disabled(false);
       this.contexts.residual?.disabled(false);
-    } catch (e) {
-      this.paymentRequestFailed = true;
-      this.render();
+
+      /*Roll back to previous state */
+      this.contexts.downPayment?.update(
+        this.previousState.downPayment.current,
+        this.previousState.downPayment.min,
+        this.previousState.downPayment.max
+      );
+      this.contexts.residual?.update(
+        this.previousState.residual.current * 100,
+        this.previousState.residual.min * 100,
+        this.previousState.residual.max * 100
+      );
+      this.contexts.duration?.update(
+        this.previousState.duration.current,
+        this.previousState.duration.min,
+        this.previousState.duration.max
+      );
+    } finally {
+      this.contexts.downPayment?.disabled(false);
+      this.contexts.duration?.disabled(false);
+      this.contexts.residual?.disabled(false);
+      this.contexts.proceedButton?.disabled(false);
     }
   }
 
@@ -121,7 +158,6 @@ class Loan extends HtmlNode {
 
     this.paymentState[name].current =
       name === 'residual' ? parseInt(value, 10) / 100 : parseInt(value, 10);
-    this.lastEditedField = name;
     this.payment();
   }
 
@@ -137,13 +173,6 @@ class Loan extends HtmlNode {
     const { order } = store.getState();
     const name = order?.contactInformation?.name;
     const shouldUseCreditScoring = loan.loanDetails?.shouldUseCreditScoring;
-
-    const requestError = this.paymentRequestFailed
-      ? ` <div class="waykeecom-stack waykeecom-stack--3">${Alert({
-          tone: 'error',
-          children: `Ett fel uppstod, försök igen.`,
-        })}</div>`
-      : '';
 
     this.node.innerHTML = `
       <div class="waykeecom-stack waykeecom-stack--3">
@@ -162,12 +191,9 @@ class Loan extends HtmlNode {
       </div>
       <div class="waykeecom-stack waykeecom-stack--3">
         <div class="waykeecom-stack waykeecom-stack--3" id="${DOWNPAYMENT_RANGE_NODE}"></div>
-        ${this.lastEditedField === 'downPayment' ? requestError : ''}
         <div class="waykeecom-stack waykeecom-stack--3" id="${DURATION_RANGE_NODE}"></div>
-        ${this.lastEditedField === 'duration' ? requestError : ''}
         <div class="waykeecom-stack waykeecom-stack--3" id="${RESIDUAL_RANGE_NODE}"></div>
-        ${this.lastEditedField === 'residual' ? requestError : ''}
-       
+        <div class="waykeecom-stack waykeecom-stack--3" id="${ERROR_NODE}"></div>
 
         <div class="waykeecom-stack waykeecom-stack--3" id="${LOAN_DETAILS_NODE}"></div>
       </div>
@@ -240,6 +266,11 @@ class Loan extends HtmlNode {
       );
     }
 
+    this.contexts.errorAlert = new ErrorAlert(
+      this.node.querySelector<HTMLDivElement>(`#${ERROR_NODE}`),
+      {}
+    );
+
     this.contexts.loanDetails = new LoanDetails(
       this.node.querySelector<HTMLDivElement>(`#${LOAN_DETAILS_NODE}`),
       {
@@ -256,11 +287,14 @@ class Loan extends HtmlNode {
         onProceed: () => onProceed(),
       });
     } else {
-      new ButtonArrowRight(this.node.querySelector<HTMLDivElement>(`#${PROCEED_NODE}`), {
-        title: 'Gå vidare',
-        id: PROCEED,
-        onClick: () => onProceed(),
-      });
+      this.contexts.proceedButton = new ButtonArrowRight(
+        this.node.querySelector<HTMLDivElement>(`#${PROCEED_NODE}`),
+        {
+          title: 'Gå vidare',
+          id: PROCEED,
+          onClick: () => onProceed(),
+        }
+      );
     }
   }
 }

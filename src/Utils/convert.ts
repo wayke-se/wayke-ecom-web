@@ -35,7 +35,7 @@ export const convertCreditAssessmentStatusResponse = (cCAr: ICreditAssessmentSta
     signingMessage: cCAr.getSigningMessage(),
     shouldRenewSigning: cCAr.shouldRenewSigning(),
     isSigned: cCAr.isSigned(),
-    address: cCAr.getAddress(),
+    address: undefined, // cCAr.getAddress(),
     pendingScoring: cCAr.hasPendingScoring(),
     isScored: cCAr.isScored(),
     hasScoringError: cCAr.hasScoringError(),

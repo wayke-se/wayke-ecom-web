@@ -46,7 +46,6 @@ interface AppProps {
   id: string;
   vehicle?: Vehicle;
   ecomSdkConfig: EcomSdkConfig;
-  useBankid?: boolean;
   onEvent?: (view: EcomView, event: EcomEvent, currentStep?: EcomStep) => void;
 }
 
@@ -73,12 +72,6 @@ class App {
         env: {},
       };
     }
-
-    /*
-    if (props.onEvent) {
-      registerEventListner(props.onEvent);
-    }
-    */
 
     config.bind(props.ecomSdkConfig);
     const createdRoot = document.createElement('div');
