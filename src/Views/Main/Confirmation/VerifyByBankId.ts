@@ -47,6 +47,7 @@ class VerifyByBankId extends HtmlNode {
   private ageError = false;
   private requestError = false;
   private socialIdNotMatchingError = false;
+  private notAvailable = false;
   private confirmConditions: boolean = false;
 
   constructor(element: HTMLElement, props: VerifyByBankIdProps) {
@@ -84,6 +85,7 @@ class VerifyByBankId extends HtmlNode {
 
   private async onCreateOrder() {
     const { store } = this.props;
+    this.notAvailable = false;
     this.requestError = false;
     try {
       ecomEvent(
@@ -109,9 +111,20 @@ class VerifyByBankId extends HtmlNode {
 
       setCreatedOrderId(response.getId(), payment)(store.dispatch);
       this.acceptCreditAssessment();
-    } catch (e) {
+    } catch (ee) {
+      const e = ee as { message?: string };
+      this.view = 1;
+      clearInterval(this.bankidStatusInterval as NodeJS.Timer);
       ecomEvent(EcomView.MAIN, EcomEvent.CONFIRMATION_CREATE_ORDER_FAILED, EcomStep.CONFIRMATION);
-      this.requestError = true;
+      if (e.message === 'The vehicle is not available for purchase') {
+        this.requestError = false;
+        this.notAvailable = true;
+      } else {
+        this.notAvailable = false;
+        this.requestError = true;
+      }
+      destroyPortal();
+
       this.render();
     }
   }
@@ -299,6 +312,29 @@ class VerifyByBankId extends HtmlNode {
         `
             : ''
         }
+
+        ${
+          this.requestError
+            ? `
+          <div class="waykeecom-stack waykeecom-stack--3">${Alert({
+            tone: 'error',
+            children: 'Ett fel uppstod och det gick inte att skapa ordern, försök igen.',
+          })}</div>
+        `
+            : ''
+        }
+
+        ${
+          this.notAvailable
+            ? `
+          <div class="waykeecom-stack waykeecom-stack--3">${Alert({
+            tone: 'error',
+            children: 'Den här bilen finns tyvärr inte längre tillgänglig.',
+          })}</div>
+        `
+            : ''
+        }
+
         ${
           this.socialIdNotMatchingError
             ? `
@@ -324,6 +360,7 @@ class VerifyByBankId extends HtmlNode {
         {
           checked: this.confirmConditions,
           id: CONFIRM_CONDITIONS,
+          disabled: this.notAvailable,
           name: 'confirmConditions',
           title: `<span class="waykeecom-text waykeecom-text--margin-right">Jag godkänner </span><a href="${conditionsPdfUri}" title="" target="_blank" rel="noopener noreferrer" class="waykeecom-link waykeecom-link--no-external-icon">köpvillkor och villkor för ångerrätt</a>.`,
           value: 'confirmConditions',
@@ -336,7 +373,7 @@ class VerifyByBankId extends HtmlNode {
         {
           title: 'Genomför order',
           id: BANKID_START,
-          disabled: !this.confirmConditions,
+          disabled: !this.confirmConditions || this.notAvailable,
           onClick: () => {
             this.view = 2;
             this.render();
