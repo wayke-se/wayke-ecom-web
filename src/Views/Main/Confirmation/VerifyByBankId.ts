@@ -17,12 +17,15 @@ import { setCreatedOrderId } from '../../../Redux/action';
 import { createOrder } from '../../../Data/createOrder';
 import { creditAssessmentAccept } from '../../../Data/creditAssessmentAccept';
 import ecomEvent, { EcomStep, EcomEvent, EcomView } from '../../../Utils/ecomEvent';
+import InputCheckbox from '../../../Components/Input/InputCheckbox';
+
+const CONFIRM_CONDITIONS = 'confirm-conditions';
+const CONFIRM_CONDITIONS_NODE = `${CONFIRM_CONDITIONS}-node`;
 
 const BANKID_START_NODE = `bankid-start-node`;
 const BANKID_START = `bankid-start`;
 
-const DISCLAIMER_NODE = 'address-disclaimer-node';
-const DISCLAIMER_SAFE_NODE = 'address-disclaimer-safe-node';
+const DISCLAIMER_POLICY_NODE = 'address-disclaimer-policy-node';
 const DISCLAIMER_RESERVATION_NODE = 'address-disclaimer-reservation-node';
 
 interface VerifyByBankIdProps {
@@ -38,10 +41,13 @@ class VerifyByBankId extends HtmlNode {
   private contexts: {
     buttonLinkToggle?: ButtonAsLink;
     bankId?: BankIdSign;
+    confirmConditions?: InputCheckbox;
+    startBankid?: ButtonBankId;
   } = {};
   private ageError = false;
   private requestError = false;
   private socialIdNotMatchingError = false;
+  private confirmConditions: boolean = false;
 
   constructor(element: HTMLElement, props: VerifyByBankIdProps) {
     super(element, { htmlTag: 'div', className: 'waykeecom-stack waykeecom-stack--2' });
@@ -249,6 +255,13 @@ class VerifyByBankId extends HtmlNode {
     this.render();
   }
 
+  private onCheckbox(e: Event) {
+    const currentTarget = e.currentTarget as HTMLInputElement;
+    this.confirmConditions = currentTarget.checked;
+    this.contexts.confirmConditions?.checked(this.confirmConditions);
+    this.contexts.startBankid?.disabled(!this.confirmConditions);
+  }
+
   render() {
     const mobile = isMobile();
     const { navigation, order } = this.props.store.getState();
@@ -298,29 +311,40 @@ class VerifyByBankId extends HtmlNode {
             : ''
         }
         <div class="waykeecom-stack waykeecom-stack--3">
+          <div class="waykeecom-stack waykeecom-stack--2" id="${CONFIRM_CONDITIONS_NODE}"></div>
           <div class="waykeecom-stack waykeecom-stack--2" id="${BANKID_START_NODE}"></div>
           <div class="waykeecom-stack waykeecom-stack--2">
-            <div class="waykeecom-stack waykeecom-stack--1" id="${DISCLAIMER_NODE}"></div>
-            <div class="waykeecom-stack waykeecom-stack--1" id="${DISCLAIMER_SAFE_NODE}"></div>
+            <div class="waykeecom-stack waykeecom-stack--1" id="${DISCLAIMER_POLICY_NODE}"></div>
             <div class="waykeecom-stack waykeecom-stack--1" id="${DISCLAIMER_RESERVATION_NODE}"></div>
           </div>
         </div>
       `;
+      this.contexts.confirmConditions = new InputCheckbox(
+        this.node.querySelector<HTMLDivElement>(`#${CONFIRM_CONDITIONS_NODE}`),
+        {
+          checked: this.confirmConditions,
+          id: CONFIRM_CONDITIONS,
+          name: 'confirmConditions',
+          title: `<span class="waykeecom-text waykeecom-text--margin-right">Jag godkänner </span><a href="${conditionsPdfUri}" title="" target="_blank" rel="noopener noreferrer" class="waykeecom-link waykeecom-link--no-external-icon">köpvillkor och villkor för ångerrätt</a>.`,
+          value: 'confirmConditions',
+          onClick: (e) => this.onCheckbox(e),
+        }
+      );
 
-      new ButtonBankId(this.node.querySelector<HTMLDivElement>(`#${BANKID_START_NODE}`), {
-        title: 'Genomför order',
-        id: BANKID_START,
-        onClick: () => {
-          this.view = 2;
-          this.render();
-        },
-      });
+      this.contexts.startBankid = new ButtonBankId(
+        this.node.querySelector<HTMLDivElement>(`#${BANKID_START_NODE}`),
+        {
+          title: 'Genomför order',
+          id: BANKID_START,
+          disabled: !this.confirmConditions,
+          onClick: () => {
+            this.view = 2;
+            this.render();
+          },
+        }
+      );
 
-      new Disclaimer(this.node.querySelector<HTMLDivElement>(`#${DISCLAIMER_NODE}`), {
-        text: `Genom att gå vidare bekräftar du att du tagit del av Waykes <a href="${conditionsPdfUri}" title="" target="_blank" rel="noopener noreferrer" class="waykeecom-link">köpvillkor och villkor för ångerrätt</a>.`,
-      });
-
-      new DisclaimerPadlock(this.node.querySelector<HTMLDivElement>(`#${DISCLAIMER_SAFE_NODE}`), {
+      new DisclaimerPadlock(this.node.querySelector<HTMLDivElement>(`#${DISCLAIMER_POLICY_NODE}`), {
         text: `Dina uppgifter lagras och sparas säkert. Läs mer i vår <a href="${policy}" title="" target="_blank" rel="noopener noreferrer" class="waykeecom-link">personuppgiftspolicy</a>.`,
       });
 

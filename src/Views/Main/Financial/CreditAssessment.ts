@@ -99,6 +99,20 @@ const validation = {
   householdDebt: validationMethods.requiredNumber,
 };
 
+const mock: ICreditAssessmentHouseholdEconomy = {
+  maritalStatus: MaritalStatus.Married,
+  income: 50000,
+  employment: Employment.FullTimeEmployed,
+  householdChildren: 0,
+  householdDebt: 0,
+  householdHousingCost: 2000,
+  householdIncome: 100000,
+};
+
+const getMock = (): ICreditAssessmentHouseholdEconomy | undefined => {
+  return location.hostname === 'localhost' ? { ...mock } : undefined;
+};
+
 const initalState = (
   creditAssessmentHouseholdEconomy?: ICreditAssessmentHouseholdEconomy
 ): CreditAssessmentHouseholdEconomyState => {
@@ -164,7 +178,7 @@ class CreditAssessment extends HtmlNode {
   constructor(element: HTMLDivElement | undefined | null, props: CreditAssessmentProps) {
     super(element);
     this.props = props;
-    this.state = initalState();
+    this.state = initalState(getMock());
 
     this.render();
   }

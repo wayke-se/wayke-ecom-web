@@ -13,14 +13,6 @@
     left: -9999px;
     opacity: 0;
 
-    &:checked {
-      ~ #{$root}__header {
-        #{$root}__label {
-          @include font-medium;
-        }
-      }
-    }
-
     // Radio Button
     &[type='radio'] {
       ~ #{$root}__header {
