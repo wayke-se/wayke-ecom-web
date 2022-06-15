@@ -18,17 +18,23 @@ export const createOrder = (store: WaykeStore) => {
 
   const paymentBuilder = orders.newPayment().withType(state.paymentType);
   if (state.paymentType === PaymentType.Loan) {
-    const duration = state.paymentLookupResponse?.durationSpec.current as number;
-    const downPayment = state.paymentLookupResponse?.downPaymentSpec.current as number;
-    const residual = state.paymentLookupResponse?.residualValueSpec.current as number;
+    const loan = state.order?.paymentOptions.find((x) => x.type === PaymentType.Loan);
+
+    const loanDetails = state.paymentLookupResponse || loan?.loanDetails;
+
+    const duration = loanDetails?.durationSpec.current as number;
+    const downPayment = loanDetails?.downPaymentSpec.current as number;
+    const residual = loanDetails?.residualValueSpec?.current as number;
     const externalId = state.order?.paymentOptions.find(
       (x) => x.type === PaymentType.Loan
     )?.externalId;
 
     paymentBuilder
       .withDuration(duration) // months, only applicable when payment type === PaymentType.Loan
-      .withDownPayment(downPayment) // only applicable when payment type === PaymentType.Loan
-      .withResidualValue(residual); // only applicable when payment type === PaymentType.Loan
+      .withDownPayment(downPayment); // only applicable when payment type === PaymentType.Loan
+    if (residual) {
+      paymentBuilder.withResidualValue(residual); // only applicable when payment type === PaymentType.Loan
+    }
 
     if (externalId) {
       paymentBuilder.withExternalId(externalId); // only applicable when payment type === PaymentType.Loan
@@ -38,7 +44,7 @@ export const createOrder = (store: WaykeStore) => {
       const scoreId = state.creditAssessmentResponse.scoringId;
       const recommendation = state.creditAssessmentResponse.recommendation;
       const decision = state.creditAssessmentResponse.decision;
-      const financialProductCode = state.paymentLookupResponse?.financialProductCode;
+      const financialProductCode = loanDetails?.financialProductCode;
       if (!scoreId || !recommendation || !decision || !financialProductCode)
         throw 'Missing credit assessment data';
 

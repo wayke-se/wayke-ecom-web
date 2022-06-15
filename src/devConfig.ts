@@ -30,6 +30,6 @@ export const devConfig = {
     id: '1466e6e8-d9d9-40da-8266-7b264d4e3517',
   },
   TEST: {
-    id: '3eb67dce-1bad-4d48-a470-55c8148d4b20',
+    id: 'b3b47770-5d88-40e4-849f-2c4bdd9051e2',
   },
 };
