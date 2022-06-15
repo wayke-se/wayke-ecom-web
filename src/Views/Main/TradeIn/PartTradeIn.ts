@@ -372,6 +372,7 @@ class PartTradeIn extends HtmlNode {
         title: 'Hoppa över detta steg',
         onClick: () => this.onNoTradeIn(),
       });
+      this.node.parentElement?.parentElement?.scrollIntoView();
     } else {
       this.node.innerHTML = `
       <div class="waykeecom-stack waykeecom-stack--3">
@@ -435,6 +436,8 @@ class PartTradeIn extends HtmlNode {
         autocomplete: 'off',
         placeholder: 'Ange bilens miltal',
         unit: 'mil',
+        pattern: '[0-9]*',
+        inputmode: 'numeric',
         onChange: (e) => this.onChange(e),
         onBlur: (e) => this.onBlur(e),
       });
