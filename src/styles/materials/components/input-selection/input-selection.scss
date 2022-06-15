@@ -61,8 +61,7 @@
     }
 
     &[disabled] {
-      ~ #{$root}__header,
-      ~ #{$root}__description {
+      ~ #{$root}__header {
         opacity: 0.37;
         cursor: not-allowed;
       }
