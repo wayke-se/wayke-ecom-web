@@ -10,6 +10,7 @@ import { prettyNumber } from '../../../Utils/format';
 import ListItem from '../../../Templates/ListItem';
 import watch from '../../../Redux/watch';
 import ecomEvent, { EcomStep, EcomEvent, EcomView } from '../../../Utils/ecomEvent';
+import Alert from '../../../Templates/Alert';
 
 const RADIO_HOME_TRUE = 'radio-home-delivery-true';
 const RADIO_HOME_TRUE_NODE = `${RADIO_HOME_TRUE}-node`;
@@ -154,29 +155,46 @@ class Delivery extends HtmlNode {
                   </div>
                 </div>
               `,
-              meta: `<div class="waykeecom-text waykeecom-text--font-bold">${prettyNumber(
-                totalDeliveryCost,
-                {
-                  postfix: 'kr',
-                }
-              )}</div>`,
+              meta: `<div class="waykeecom-text waykeecom-text--font-bold">${
+                totalDeliveryCost === 0
+                  ? 'Gratis'
+                  : prettyNumber(totalDeliveryCost, {
+                      postfix: 'kr',
+                    })
+              }</div>`,
               checked: !this.homeDelivery,
               onClick: (e) => this.onChange(e),
             });
             break;
           case DeliveryType.Delivery:
+            const distance = state.address?.distance?.value || 0;
+            const maxDistance = deliveryOption.unitPrice || 0;
+
+            const tooFarAway = distance > maxDistance;
+
             new InputRadioField(part.querySelector<HTMLInputElement>(`#${RADIO_HOME_TRUE_NODE}`), {
               id: RADIO_HOME_FALSE,
               name: 'homeDelivery',
               title: 'Hemleverans',
               value: 'true',
-              description: `<div class="waykeecom-box">Till din folkbokföringsadress</div>`,
-              meta: `<div class="waykeecom-text waykeecom-text--font-bold">${prettyNumber(
-                totalDeliveryCost,
-                {
-                  postfix: 'kr',
-                }
-              )}</div>`,
+              disabled: tooFarAway,
+              description: `<div class="waykeecom-box">
+                <div class="waykeecom-stack waykeecom-stack--2">Till din folkbokföringsadress</div>
+                ${
+                  tooFarAway
+                    ? `<div class="waykeecom-stack waykeecom-stack--2">${Alert({
+                        tone: 'info',
+                        children: 'Tyvärr kan vi inte erbjuda hemleverans till din adress.',
+                      })}</div>`
+                    : ''
+                }</div>`,
+              meta: `<div class="waykeecom-text waykeecom-text--font-bold">${
+                tooFarAway
+                  ? '-'
+                  : prettyNumber(totalDeliveryCost, {
+                      postfix: 'kr',
+                    })
+              }</div>`,
               checked: this.homeDelivery,
               onClick: (e) => this.onChange(e),
             });

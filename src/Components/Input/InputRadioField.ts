@@ -8,6 +8,7 @@ interface InputRadioFieldProps {
   readonly meta?: string;
   readonly id: string;
   readonly checked: boolean;
+  readonly disabled?: boolean;
   readonly onClick?: (e: Event) => void;
 }
 
@@ -21,7 +22,7 @@ class InputRadioField extends HtmlNode {
   }
 
   render() {
-    const { id, title, value, name, checked, meta, description, onClick } = this.props;
+    const { id, title, value, name, checked, meta, description, disabled, onClick } = this.props;
     this.node.innerHTML = `
       <div class="waykeecom-input-selection" role="radio">
         <input
@@ -30,6 +31,7 @@ class InputRadioField extends HtmlNode {
           value="${value}"
           name="${name}"
           ${checked ? 'checked="true"' : ''}
+          ${disabled ? 'disabled=""' : ''} 
           class="waykeecom-input-selection__input"
         />
         <div class="waykeecom-input-selection__header">
