@@ -69,7 +69,7 @@ export interface ReducerState {
   insurance?: IInsuranceOption;
   insuranceAddOns?: Insurance;
   freeInsurance?: IAvailableInsuranceOption;
-  createdOrderId?: string;
+  createdOrderId?: string | null;
   creditAssessmentResponse?: ICreditAssessmentStatus;
   caseId?: string;
   dealer?: string;

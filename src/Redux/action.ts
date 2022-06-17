@@ -180,11 +180,12 @@ export const setStages = (stages: StageTypes[]) => (dispatch: Dispatch) =>
 
 export const SET_CREATED_ORDER_ID = 'SET_CREATED_ORDER_ID';
 export type SET_CREATED_ORDER_ID_TYPE = BaseAction<typeof SET_CREATED_ORDER_ID> & {
-  id: string;
+  id: string | null | undefined;
   payment?: { type: string; url: string };
 };
 export const setCreatedOrderId =
-  (id: string, payment?: { type: string; url: string }) => (dispatch: Dispatch) =>
+  (id: string | null | undefined, payment?: { type: string; url: string }) =>
+  (dispatch: Dispatch) =>
     dispatch({ type: SET_CREATED_ORDER_ID, id, payment });
 
 export const SET_CREDIT_ASSESSMENT_RESPONSE = 'SET_CREDIT_ASSESSMENT_RESPONSE';

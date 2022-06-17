@@ -109,7 +109,7 @@ class VerifyByBankId extends HtmlNode {
 
       const payment = response.getPayment();
 
-      setCreatedOrderId(response.getId(), payment)(store.dispatch);
+      setCreatedOrderId(response.getOrderNumber(), payment)(store.dispatch);
       this.acceptCreditAssessment();
     } catch (ee) {
       const e = ee as { message?: string };
