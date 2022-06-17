@@ -291,7 +291,7 @@ class VerifyByBankId extends HtmlNode {
     } else {
       const name = order?.contactInformation?.name;
       const conditionsPdfUri = order?.conditionsPdfUri;
-      const policy = 'https://www.wayke.se/personuppgiftspolicy-wayke';
+      const policy = 'https://www.wayke.se/trygghet-naer-det-kommer-till-dina-personuppgifter';
 
       this.node.innerHTML = `
         <div class="waykeecom-stack waykeecom-stack--3">
@@ -371,7 +371,7 @@ class VerifyByBankId extends HtmlNode {
       this.contexts.startBankid = new ButtonBankId(
         this.node.querySelector<HTMLDivElement>(`#${BANKID_START_NODE}`),
         {
-          title: 'Genomför order',
+          title: 'Reservera bilen',
           id: BANKID_START,
           disabled: !this.confirmConditions || this.notAvailable,
           onClick: () => {
@@ -382,7 +382,7 @@ class VerifyByBankId extends HtmlNode {
       );
 
       new DisclaimerPadlock(this.node.querySelector<HTMLDivElement>(`#${DISCLAIMER_POLICY_NODE}`), {
-        text: `Dina uppgifter lagras och sparas säkert. Läs mer i vår <a href="${policy}" title="" target="_blank" rel="noopener noreferrer" class="waykeecom-link">personuppgiftspolicy</a>.`,
+        text: `Dina personuppgifter behandlas och sparas i enlighet med vår <a href="${policy}" title="personuppgiftspolicy" target="_blank" rel="noopener noreferrer" class="waykeecom-link">personuppgiftspolicy</a>.`,
       });
 
       new Disclaimer(this.node.querySelector<HTMLDivElement>(`#${DISCLAIMER_RESERVATION_NODE}`), {

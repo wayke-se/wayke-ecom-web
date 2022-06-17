@@ -139,6 +139,8 @@ class FullAddressBySocialId extends HtmlNode {
   }
 
   render() {
+    const policy = 'https://www.wayke.se/trygghet-naer-det-kommer-till-dina-personuppgifter';
+
     this.node.innerHTML = `
       <div class="waykeecom-stack waykeecom-stack--2">
         <hr class="waykeecom-separator" />
@@ -215,7 +217,7 @@ class FullAddressBySocialId extends HtmlNode {
     );
 
     new DisclaimerPadlock(this.node.querySelector<HTMLDivElement>(`#${DISCLAIMER_NODE}`), {
-      text: `Dina uppgifter lagras och sparas säkert. Läs mer i vår <a href="#" title="" target="_blank" rel="noopener noreferrer" class="waykeecom-link">personuppgiftspolicy</a>.`,
+      text: `Dina personuppgifter behandlas och sparas i enlighet med vår <a href="${policy}" title="personuppgiftspolicy" target="_blank" rel="noopener noreferrer" class="waykeecom-link">personuppgiftspolicy</a>.`,
     });
 
     this.updateProceedButton();
