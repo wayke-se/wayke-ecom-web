@@ -112,9 +112,9 @@ class Loan extends HtmlNode {
         this.paymentState.downPayment.max
       );
       this.contexts.residual?.update(
-        this.paymentState.residual.current * 100,
-        this.paymentState.residual.min * 100,
-        this.paymentState.residual.max * 100
+        parseInt(`${this.paymentState.residual.current * 100}`, 10),
+        parseInt(`${this.paymentState.residual.min * 100}`, 10),
+        parseInt(`${this.paymentState.residual.max * 100}`, 10)
       );
       this.contexts.duration?.update(
         this.paymentState.duration.current,
@@ -133,10 +133,11 @@ class Loan extends HtmlNode {
         this.previousState.downPayment.min,
         this.previousState.downPayment.max
       );
+
       this.contexts.residual?.update(
-        this.previousState.residual.current * 100,
-        this.previousState.residual.min * 100,
-        this.previousState.residual.max * 100
+        parseInt(`${this.previousState.residual.current * 100}`, 10),
+        parseInt(`${this.previousState.residual.min * 100}`, 10),
+        parseInt(`${this.previousState.residual.max * 100}`, 10)
       );
       this.contexts.duration?.update(
         this.previousState.duration.current,
@@ -155,7 +156,7 @@ class Loan extends HtmlNode {
     const currentTarget = e.currentTarget as HTMLInputElement;
     const name = currentTarget.name as LoanNames;
     const value = currentTarget.value;
-
+    currentTarget.value = value;
     this.paymentState[name].current =
       name === 'residual' ? parseInt(value, 10) / 100 : parseInt(value, 10);
     this.payment();
@@ -254,13 +255,13 @@ class Loan extends HtmlNode {
         this.node.querySelector<HTMLDivElement>(`#${RESIDUAL_RANGE_NODE}`),
         {
           title: 'Restvärde',
-          value: this.paymentState.residual.current * 100,
+          value: parseInt(`${this.paymentState.residual.current * 100}`, 10),
           id: RESIDUAL_RANGE,
           name: 'residual',
           onChange: (e) => this.onChange(e),
-          min: this.paymentState.residual.min * 100,
-          max: this.paymentState.residual.max * 100,
-          step: this.paymentState.residual.step * 100,
+          min: parseInt(`${this.paymentState.residual.min * 100}`, 10),
+          max: parseInt(`${this.paymentState.residual.max * 100}`, 10),
+          step: parseInt(`${this.paymentState.residual.step * 100}`, 10),
           unit: '%',
         }
       );
