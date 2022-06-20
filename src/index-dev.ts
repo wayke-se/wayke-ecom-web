@@ -11,7 +11,7 @@ window.addEventListener('DOMContentLoaded', (_) => {
   };
 
   const context = new WaykeEcomWeb({
-    ...devConfig.CREDIT_ASSESSMENT,
+    ...devConfig.DEFAULT,
     ecomSdkConfig,
     rootId: 'custom-id',
     /*

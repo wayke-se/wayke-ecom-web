@@ -7,6 +7,7 @@ import { prettyNumber } from '../../Utils/format';
 
 interface OrderProps {
   readonly store: WaykeStore;
+  readonly cdnMedia?: string;
 }
 
 class Order extends StackNode {
@@ -19,7 +20,7 @@ class Order extends StackNode {
   }
 
   render() {
-    const { store } = this.props;
+    const { store, cdnMedia } = this.props;
     const state = store.getState();
 
     const paymentLoan = state.order?.paymentOptions.find((x) => x.type === PaymentType.Loan);
@@ -34,6 +35,7 @@ class Order extends StackNode {
         ${ItemTileLarge({
           vehicle: state.vehicle,
           order: state.order,
+          cdnMedia,
           meta: `
             <div class="waykeecom-stack waykeecom-stack--2">
               ${

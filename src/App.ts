@@ -36,6 +36,20 @@ const OrderWaykeIdQueryString = 'wayke-ecom-web-id';
 
 export const WAYKE_ECOM_MODAL_ID = 'wayke-ecom-modal';
 
+const TEST_HOST = 'ecom.wayketech.se';
+const PROD_HOST = 'ecom.wayke.se';
+const resolveCdnMedia = (url: string) => {
+  const _url = new URL(url);
+  switch (_url.host) {
+    case PROD_HOST:
+      return 'https://cdn.wayke.se';
+    case TEST_HOST:
+      return 'https://test-cdn.wayketech.se';
+    default:
+      return undefined;
+  }
+};
+
 export interface AppState {
   stage: number;
   order?: IOrderOptionsResponse;
@@ -54,6 +68,7 @@ class App {
   private readonly props: AppProps;
   private view: ViewTypes;
   private stageOrderList: StageMapKeys[];
+  private readonly cdnMedia?: string;
   private readonly contexts: {
     store: WaykeStore;
     modal?: Modal;
@@ -74,6 +89,7 @@ class App {
     }
 
     config.bind(props.ecomSdkConfig);
+    this.cdnMedia = resolveCdnMedia(props.ecomSdkConfig.api.address);
     const createdRoot = document.createElement('div');
     createdRoot.className = 'waykeecom-root';
     this.root = createdRoot;
@@ -256,14 +272,19 @@ class App {
             store: this.contexts.store,
             stageOrderList: this.stageOrderList,
             vehicle: this.props.vehicle,
+            cdnMedia: this.cdnMedia,
           });
           break;
         case 'main':
-          new Main(this.contexts.modal.content, { store: this.contexts.store });
+          new Main(this.contexts.modal.content, {
+            store: this.contexts.store,
+            cdnMedia: this.cdnMedia,
+          });
           break;
         case 'summary':
           new Summary(this.contexts.modal.content, {
             store: this.contexts.store,
+            cdnMedia: this.cdnMedia,
             onClose: () => this.close(),
           });
           break;

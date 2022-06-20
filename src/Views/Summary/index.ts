@@ -14,6 +14,7 @@ const SUMMARY_NODE = 'summary-node';
 
 interface SummaryProps {
   readonly store: WaykeStore;
+  readonly cdnMedia?: string;
   readonly onClose: () => void;
 }
 
@@ -41,7 +42,7 @@ class Summary extends HtmlNode {
   }
 
   render() {
-    const { store } = this.props;
+    const { store, cdnMedia } = this.props;
     const { stages } = store.getState();
 
     this.node.innerHTML = `
@@ -51,7 +52,7 @@ class Summary extends HtmlNode {
     const content = this.node.querySelector<HTMLDivElement>(`#${SUMMARY_NODE}`);
     if (content) {
       new Intro(content, { store });
-      new Order(content, { store });
+      new Order(content, { store, cdnMedia });
       if (stages?.find((x) => x.name === 'tradeIn')) {
         new TradeIn(content, { store });
       }

@@ -7,6 +7,7 @@ import { stageMap } from '../../Utils/stage';
 
 interface MainProps {
   readonly store: WaykeStore;
+  cdnMedia?: string;
 }
 
 class Main extends HtmlNode {
@@ -27,7 +28,7 @@ class Main extends HtmlNode {
   }
 
   render() {
-    const { store } = this.props;
+    const { store, cdnMedia } = this.props;
     const state = store.getState();
     const { order, stages } = state;
     if (!order) throw 'No order available';
@@ -41,7 +42,11 @@ class Main extends HtmlNode {
     const pageFormAside = document.createElement('aside');
     pageFormAside.className = 'waykeecom-cart';
     pageFormAside.setAttribute('aria-label', 'Fordonsinformation');
-    pageFormAside.innerHTML = ItemTileSmall({ vehicle: state.vehicle, order: state.order });
+    pageFormAside.innerHTML = ItemTileSmall({
+      vehicle: state.vehicle,
+      order: state.order,
+      cdnMedia,
+    });
     asideStepperWrapper.appendChild(pageFormAside);
 
     const stepper = document.createElement('div');

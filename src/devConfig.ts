@@ -3,7 +3,7 @@ export const devConfig = {
     id: 'f98cde44-ea7f-49af-a60b-4dcd7ad6d862',
   },
   DEFAULT: {
-    id: 'f71d0afb-02aa-4f79-a9bc-9632a7454ca6',
+    id: 'bb6edde6-7c04-4588-ab30-97fd58ba10c6',
   },
   MULTIPLE_FINANCIAL: {
     id: '3eb67dce-1bad-4d48-a470-55c8148d4b20',
