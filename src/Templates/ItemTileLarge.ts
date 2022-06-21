@@ -1,7 +1,7 @@
 import { IOrderVehicle } from '@wayke-se/ecom/dist-types/orders/types';
 import { OrderOptions } from '../@types/OrderOptions';
 import { toCdnMedia } from '../Utils/cdn';
-import { prettyNumber } from '../Utils/format';
+import { formatShortDescription, prettyNumber } from '../Utils/format';
 
 interface ItemTileLargeProps {
   vehicle?: IOrderVehicle;
@@ -13,7 +13,6 @@ interface ItemTileLargeProps {
 const ItemTileLarge = ({ vehicle, order, meta, cdnMedia }: ItemTileLargeProps) => {
   const imageUrls = vehicle?.imageUrls;
   const vehicleTitle = vehicle?.title;
-  const shortDescription = vehicle?.shortDescription;
   const price = prettyNumber(vehicle?.price || NaN);
 
   const sellerName = order?.contactInformation?.name;
@@ -45,7 +44,9 @@ const ItemTileLarge = ({ vehicle, order, meta, cdnMedia }: ItemTileLargeProps) =
         ${sellerName}
       </div>
       <div class="waykeecom-product-card__heading" aria-label="Modell">
-        <span class="waykeecom-product-card__title">${vehicleTitle}</span> ${shortDescription}
+        <span class="waykeecom-product-card__title">${vehicleTitle}</span> ${formatShortDescription(
+    vehicle
+  )}
       </div>
       <div class="waykeecom-product-card__footer">
         <div class="waykeecom-product-card__price" aria-label="Pris">${price} kr</div>

@@ -1,3 +1,5 @@
+import { Vehicle } from '../@types/Vehicle';
+
 export const removeSpaces = (value: string | number) => value.toString().replace(/\s/g, '');
 
 interface PrettyNumberSettings {
@@ -22,4 +24,15 @@ export const prettyNumber = (value: number | undefined, settings?: PrettyNumberS
     /\B(?=(\d{3})+(?!\d))/g,
     ' '
   )}${settings?.postfix ? ` ${settings.postfix}` : ''}`;
+};
+
+const removeParts = (orginal: string, remove: string) => {
+  const orginalSplitt = orginal.split(' ');
+  const removeSplitted = remove.split(' ').map((x) => x.toLowerCase());
+  return orginalSplitt.filter((x) => !removeSplitted.includes(x.toLowerCase())).join(' ');
+};
+
+export const formatShortDescription = (vehicle?: Vehicle) => {
+  if (!vehicle) return undefined;
+  return removeParts(vehicle.shortDescription || '', vehicle.title || '');
 };

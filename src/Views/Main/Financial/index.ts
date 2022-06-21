@@ -5,7 +5,7 @@ import InputRadioGroup, { RadioItem } from '../../../Components/Input/InputRadio
 import { goTo, setFinancial } from '../../../Redux/action';
 import { WaykeStore } from '../../../Redux/store';
 import { Image } from '../../../Utils/constants';
-import { prettyNumber } from '../../../Utils/format';
+import { formatShortDescription, prettyNumber } from '../../../Utils/format';
 import ListItem from '../../../Templates/ListItem';
 import Loan from './Loan';
 import StageCompletedFinancial from './StageCompletedFinancial';
@@ -135,7 +135,7 @@ class Financial extends HtmlNode {
         <div class="waykeecom-stack waykeecom-stack--3">
           <h4 class="waykeecom-heading waykeecom-heading--4 waykeecom-no-margin">Hur vill du finansiera din ${
             vehicle?.title
-          } ${vehicle?.shortDescription}?</h4>
+          } ${formatShortDescription(vehicle)}?</h4>
         </div>
 
         ${
