@@ -257,30 +257,32 @@ class CreditAssessment extends HtmlNode {
     this.render(true);
   }
 
-  private bankIdStatus(caseId: string, method: AuthMethod) {
+  private bankIdStatus(caseId: string, method: AuthMethod, supressTracking = false) {
+    if (!supressTracking) {
+      ecomEvent(
+        EcomView.MAIN,
+        method === AuthMethod.SameDevice
+          ? EcomEvent.FINANCIAL_CREDIT_SCORING_BANKID_STATUS_SAME_DEVICE_REQUESTED
+          : EcomEvent.FINANCIAL_CREDIT_SCORING_BANKID_STATUS_QR_REQUESTED,
+        EcomStep.FINANCIAL_CREDIT_SCORING
+      );
+    }
     const loan = this.props.store
       .getState()
       .order?.paymentOptions.find((x) => x.type === PaymentType.Loan);
     this.bankidStatusInterval = setInterval(async () => {
       try {
-        ecomEvent(
-          EcomView.MAIN,
-          method === AuthMethod.SameDevice
-            ? EcomEvent.FINANCIAL_CREDIT_SCORING_BANKID_STATUS_SAME_DEVICE_REQUESTED
-            : EcomEvent.FINANCIAL_CREDIT_SCORING_BANKID_STATUS_QR_REQUESTED,
-          EcomStep.FINANCIAL_CREDIT_SCORING
-        );
         const response = await creditAssessmentGetStatus(caseId);
-        ecomEvent(
-          EcomView.MAIN,
-          method === AuthMethod.SameDevice
-            ? EcomEvent.FINANCIAL_CREDIT_SCORING_BANKID_STATUS_SAME_DEVICE_SUCCEEDED
-            : EcomEvent.FINANCIAL_CREDIT_SCORING_BANKID_STATUS_QR_SUCCEEDED,
-          EcomStep.FINANCIAL_CREDIT_SCORING
-        );
-
         const status = response.getStatus();
         if (status === 'signed') {
+          ecomEvent(
+            EcomView.MAIN,
+            method === AuthMethod.SameDevice
+              ? EcomEvent.FINANCIAL_CREDIT_SCORING_BANKID_STATUS_SAME_DEVICE_SUCCEEDED
+              : EcomEvent.FINANCIAL_CREDIT_SCORING_BANKID_STATUS_QR_SUCCEEDED,
+            EcomStep.FINANCIAL_CREDIT_SCORING
+          );
+
           this.contexts.bankId?.setTitle(`Väntar på ${loan?.name}...`);
           this.contexts.bankId?.setDescription(
             `Hämtar uppgifter från ${loan?.name}. Vänta kvar det kan ta några sekunder.`
@@ -311,32 +313,18 @@ class CreditAssessment extends HtmlNode {
           destroyPortal();
           this.render();
         } else if (response.shouldRenewSigning()) {
-          ecomEvent(
-            EcomView.MAIN,
-            method === AuthMethod.SameDevice
-              ? EcomEvent.FINANCIAL_CREDIT_SCORING_BANKID_STATUS_SAME_DEVICE_SHOULD_RENEW
-              : EcomEvent.FINANCIAL_CREDIT_SCORING_BANKID_STATUS_QR_SHOULD_RENEW,
-            EcomStep.FINANCIAL_CREDIT_SCORING
-          );
-          this.onStartBankIdAuth(method);
+          this.onStartBankIdAuth(method, true);
         }
       } catch (e) {
         clearInterval(this.bankidStatusInterval as NodeJS.Timer);
         this.contexts.bankId?.setErrorMessage(
           'Det gick inte att hämta status kring nuvanrade BankId signering. Nytt försök sker igenom om 2 sekunder'
         );
-        ecomEvent(
-          EcomView.MAIN,
-          method === AuthMethod.SameDevice
-            ? EcomEvent.FINANCIAL_CREDIT_SCORING_BANKID_STATUS_SAME_DEVICE_FAILED
-            : EcomEvent.FINANCIAL_CREDIT_SCORING_BANKID_STATUS_QR_FAILED,
-          EcomStep.FINANCIAL_CREDIT_SCORING
-        );
       }
     }, 2000);
   }
 
-  private async onStartBankIdAuth(method: AuthMethod) {
+  private async onStartBankIdAuth(method: AuthMethod, supressTracking = false) {
     const caseId = this.props.store.getState().caseId;
     if (!caseId) throw 'Missing caseID';
     if (this.bankidStatusInterval) {
@@ -344,19 +332,23 @@ class CreditAssessment extends HtmlNode {
     }
 
     try {
-      ecomEvent(
-        EcomView.MAIN,
-        EcomEvent.FINANCIAL_CREDIT_SCORING_BANKID_INIT_REQUESTED,
-        EcomStep.FINANCIAL_CREDIT_SCORING
-      );
+      if (!supressTracking) {
+        ecomEvent(
+          EcomView.MAIN,
+          EcomEvent.FINANCIAL_CREDIT_SCORING_BANKID_INIT_REQUESTED,
+          EcomStep.FINANCIAL_CREDIT_SCORING
+        );
+      }
       this.contexts.bankId?.update(method);
       const response = await creditAssessmentSignCase({ caseId, method });
-      ecomEvent(
-        EcomView.MAIN,
-        EcomEvent.FINANCIAL_CREDIT_SCORING_BANKID_INIT_SUCCEEDED,
-        EcomStep.FINANCIAL_CREDIT_SCORING
-      );
-      this.bankIdStatus(caseId, method);
+      if (!supressTracking) {
+        ecomEvent(
+          EcomView.MAIN,
+          EcomEvent.FINANCIAL_CREDIT_SCORING_BANKID_INIT_SUCCEEDED,
+          EcomStep.FINANCIAL_CREDIT_SCORING
+        );
+      }
+      this.bankIdStatus(caseId, method, supressTracking);
       if (method === AuthMethod.SameDevice) {
         const autoLaunchUrl = response.getAutoLaunchUrl() as string;
         this.contexts.bankId?.update(method, autoLaunchUrl);

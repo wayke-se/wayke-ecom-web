@@ -129,25 +129,20 @@ class VerifyByBankId extends HtmlNode {
     }
   }
 
-  private bankIdStatus(reference: string, method: AuthMethod) {
+  private bankIdStatus(reference: string, method: AuthMethod, supressTracking = false) {
+    if (!supressTracking) {
+      ecomEvent(
+        EcomView.MAIN,
+        method === AuthMethod.SameDevice
+          ? EcomEvent.CONFIRMATION_BANKID_STATUS_SAME_DEVICE_REQUESTED
+          : EcomEvent.CONFIRMATION_BANKID_STATUS_QR_REQUESTED,
+        EcomStep.CONFIRMATION
+      );
+    }
+
     this.bankidStatusInterval = setInterval(async () => {
       try {
-        ecomEvent(
-          EcomView.MAIN,
-          method === AuthMethod.SameDevice
-            ? EcomEvent.CONFIRMATION_BANKID_STATUS_SAME_DEVICE_REQUESTED
-            : EcomEvent.CONFIRMATION_BANKID_STATUS_QR_REQUESTED,
-          EcomStep.CONFIRMATION
-        );
-
         const response = await getBankIdStatus(reference);
-        ecomEvent(
-          EcomView.MAIN,
-          method === AuthMethod.SameDevice
-            ? EcomEvent.CONFIRMATION_BANKID_STATUS_SAME_DEVICE_SUCCEEDED
-            : EcomEvent.CONFIRMATION_BANKID_STATUS_QR_SUCCEEDED,
-          EcomStep.CONFIRMATION
-        );
 
         if (response.isCompleted()) {
           clearInterval(this.bankidStatusInterval as NodeJS.Timer);
@@ -161,8 +156,8 @@ class VerifyByBankId extends HtmlNode {
               ecomEvent(
                 EcomView.MAIN,
                 method === AuthMethod.SameDevice
-                  ? EcomEvent.CONFIRMATION_BANKID_STATUS_SAME_DEVICE_COMPLETED_NOT_OVER_18
-                  : EcomEvent.CONFIRMATION_BANKID_STATUS_QR_COMPLETED_NOT_OVER_18,
+                  ? EcomEvent.CONFIRMATION_BANKID_STATUS_SAME_DEVICE_SUCCEEDED_NOT_OVER_18
+                  : EcomEvent.CONFIRMATION_BANKID_STATUS_QR_SUCCEEDED_NOT_OVER_18,
                 EcomStep.CONFIRMATION
               );
               this.view = 1;
@@ -175,8 +170,8 @@ class VerifyByBankId extends HtmlNode {
               ecomEvent(
                 EcomView.MAIN,
                 method === AuthMethod.SameDevice
-                  ? EcomEvent.CONFIRMATION_BANKID_STATUS_SAME_DEVICE_COMPLETED_SSN_MISSMATCH
-                  : EcomEvent.CONFIRMATION_BANKID_STATUS_QR_COMPLETED_SSN_MISSMATCH,
+                  ? EcomEvent.CONFIRMATION_BANKID_STATUS_SAME_DEVICE_SUCCEEDED_SSN_MISSMATCH
+                  : EcomEvent.CONFIRMATION_BANKID_STATUS_QR_SUCCEEDED_SSN_MISSMATCH,
                 EcomStep.CONFIRMATION
               );
               this.view = 1;
@@ -189,52 +184,50 @@ class VerifyByBankId extends HtmlNode {
             ecomEvent(
               EcomView.MAIN,
               method === AuthMethod.SameDevice
-                ? EcomEvent.CONFIRMATION_BANKID_STATUS_SAME_DEVICE_COMPLETED
-                : EcomEvent.CONFIRMATION_BANKID_STATUS_QR_COMPLETED,
+                ? EcomEvent.CONFIRMATION_BANKID_STATUS_SAME_DEVICE_SUCCEEDED
+                : EcomEvent.CONFIRMATION_BANKID_STATUS_QR_SUCCEEDED,
               EcomStep.CONFIRMATION
             );
             this.contexts.bankId?.setDescription('Verifiering klar, ordern skapas nu...');
             await this.onCreateOrder();
           }
         } else if (response.shouldRenew()) {
-          ecomEvent(
-            EcomView.MAIN,
-            method === AuthMethod.SameDevice
-              ? EcomEvent.CONFIRMATION_BANKID_STATUS_SAME_DEVICE_SHOULD_RENEW
-              : EcomEvent.CONFIRMATION_BANKID_STATUS_QR_SHOULD_RENEW,
-            EcomStep.CONFIRMATION
-          );
-          this.onStartBankIdAuth(method);
+          this.onStartBankIdAuth(method, true);
         }
       } catch (e) {
         clearInterval(this.bankidStatusInterval as NodeJS.Timer);
         this.contexts.bankId?.setErrorMessage(
           'Det gick inte att hämta status kring nuvanrade BankId signering.'
         );
-        ecomEvent(
-          EcomView.MAIN,
-          method === AuthMethod.SameDevice
-            ? EcomEvent.CONFIRMATION_BANKID_STATUS_SAME_DEVICE_FAILED
-            : EcomEvent.CONFIRMATION_BANKID_STATUS_QR_FAILED,
-          EcomStep.CONFIRMATION
-        );
       }
     }, 2000);
   }
 
-  private async onStartBankIdAuth(method: AuthMethod) {
+  private async onStartBankIdAuth(method: AuthMethod, supressTracking = false) {
     if (this.bankidStatusInterval) {
       clearInterval(this.bankidStatusInterval);
     }
 
     try {
-      ecomEvent(EcomView.MAIN, EcomEvent.CONFIRMATION_BANKID_INIT_REQUESTED, EcomStep.CONFIRMATION);
+      if (!supressTracking) {
+        ecomEvent(
+          EcomView.MAIN,
+          EcomEvent.CONFIRMATION_BANKID_INIT_REQUESTED,
+          EcomStep.CONFIRMATION
+        );
+      }
       this.contexts.bankId?.update(method);
       this.contexts.buttonLinkToggle?.disabled(true);
       const response = await getBankIdAuth(method);
-      ecomEvent(EcomView.MAIN, EcomEvent.CONFIRMATION_BANKID_INIT_SUCCEEDED, EcomStep.CONFIRMATION);
+      if (!supressTracking) {
+        ecomEvent(
+          EcomView.MAIN,
+          EcomEvent.CONFIRMATION_BANKID_INIT_SUCCEEDED,
+          EcomStep.CONFIRMATION
+        );
+      }
       const reference = response.getOrderRef();
-      this.bankIdStatus(reference, method);
+      this.bankIdStatus(reference, method, supressTracking);
 
       if (method === AuthMethod.SameDevice) {
         try {
