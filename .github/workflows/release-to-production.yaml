@@ -33,26 +33,26 @@ jobs:
         run: |
           npm run build
 
-#      - name: Publish package to npm
-#        run: |
-#          npm ci
-#          npm publish --access public
-#        env:
-#          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: Publish package to npm
+        run: |
+          npm ci
+          npm publish --access public --tag latest
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
-#      - name: Use Python 3.8
-#        uses: actions/setup-python@v1
-#        with:
-#          python-version: "3.8"
+      - name: Use Python 3.8
+        uses: actions/setup-python@v1
+        with:
+          python-version: "3.8"
 
-#      - name: Install Python packages
-#        run: |
-#          pip install azure-storage-blob
-#          pip install aiohttp
+      - name: Install Python packages
+        run: |
+          pip install azure-storage-blob
+          pip install aiohttp
 
-#      - name: Execute py script and upload files
-#        run: |
-#          python3 deploy/deploy.py
-#        env:
-#          BLOB_STORAGE_CONNECTION_STRING: ${{ secrets.BLOB_STORAGE_CONNECTION_STRING }}
-#          UPLOAD_MAP_FILES: false
+      - name: Execute py script and upload files
+        run: |
+          python3 deploy/deploy.py
+        env:
+          BLOB_STORAGE_CONNECTION_STRING: ${{ secrets.BLOB_STORAGE_CONNECTION_STRING }}
+          UPLOAD_MAP_FILES: false
