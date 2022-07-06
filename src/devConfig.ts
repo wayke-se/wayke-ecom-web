@@ -9,7 +9,7 @@ export const devConfig = {
     id: '3eb67dce-1bad-4d48-a470-55c8148d4b20',
   },
   INSURANCE: {
-    id: '1466e6e8-d9d9-40da-8266-7b264d4e3517',
+    id: 'a6e51801-8f59-4421-b918-63ec18f476c5',
   },
   CREDIT_ASSESSMENT: {
     id: '693ae9e4-3f7e-4471-a334-6090ee92f712',

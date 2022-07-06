@@ -89,6 +89,7 @@
     flex: 1 1 auto;
     display: flex;
     line-height: var(--#{$namespace}label-line-height);
+    user-select: none;
 
     &::before {
       content: '';

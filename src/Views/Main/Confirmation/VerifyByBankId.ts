@@ -270,7 +270,7 @@ class VerifyByBankId extends HtmlNode {
 
   render() {
     const mobile = isMobile();
-    const { navigation, order } = this.props.store.getState();
+    const { navigation, order, insurance } = this.props.store.getState();
 
     if (this.view === 2) {
       this.contexts.bankId = new BankIdSign(createPortal(), {
@@ -355,7 +355,11 @@ class VerifyByBankId extends HtmlNode {
           id: CONFIRM_CONDITIONS,
           disabled: this.notAvailable,
           name: 'confirmConditions',
-          title: `<span class="waykeecom-text waykeecom-text--margin-right">Jag godkänner </span><a href="${conditionsPdfUri}" title="" target="_blank" rel="noopener noreferrer" class="waykeecom-link waykeecom-link--no-external-icon">köpvillkor och villkor för ångerrätt</a>.`,
+          title: `<div>Jag godkänner <a href="${conditionsPdfUri}" title="" target="_blank" rel="noopener noreferrer" class="waykeecom-link">köpvillkor och villkor för ångerrätt</a>${
+            insurance
+              ? ' <span class="waykeecom-text waykeecom-text--margin-left">samt har tagit del av information kring försäkringsförmedling</span>'
+              : ''
+          }.</div>`,
           value: 'confirmConditions',
           onClick: (e) => this.onCheckbox(e),
         }
