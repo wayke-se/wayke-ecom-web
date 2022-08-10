@@ -6,6 +6,7 @@ import HtmlNode from '../../../Components/Extension/HtmlNode';
 import { prettyNumber } from '../../../Utils/format';
 import { scrollTop } from '../../../Utils/scroll';
 import Gallery from '../../../Components/Gallery/Gallery';
+import ecomEvent, { EcomEvent, EcomStep, EcomView } from '../../../Utils/ecomEvent';
 
 const BUTTON_TOP_LEFT_NODE = 'accessory-button-top-left-node';
 const BUTTON_BOTTOM_LEFT_NODE = 'accessory-button-bottom-left-node';
@@ -26,6 +27,19 @@ class AccessoryItemInfo extends HtmlNode {
     super(element);
     this.props = props;
     this.render();
+  }
+
+  private onGalleryImagePaging() {
+    const { accessory } = this.props;
+    ecomEvent(
+      EcomView.MAIN,
+      EcomEvent.ACCESSORY_INFORMATION_GALLERY_IMAGE_PAGING,
+      EcomStep.ACCESSORY,
+      {
+        id: accessory.id,
+        label: accessory.name,
+      }
+    );
   }
 
   render() {
@@ -86,6 +100,7 @@ class AccessoryItemInfo extends HtmlNode {
     new Gallery(this.node.querySelector(`#${ACCESSORY_GALLERY_NODE}`), {
       id: `gallery-${accessory.id}`,
       media: media.map((m, i) => ({ url: m.url, alt: `Bild ${i + 1}` })),
+      onGalleryImagePaging: () => this.onGalleryImagePaging(),
     });
 
     new ButtonAsLinkArrowLeft(this.node.querySelector(`#${BUTTON_TOP_LEFT_NODE}`), {

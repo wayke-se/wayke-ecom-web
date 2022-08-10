@@ -19,6 +19,7 @@ interface AccessoryItemProps {
 class AccessoryItem extends HtmlNode {
   private readonly props: AccessoryItemProps;
   private displayInfo = false;
+  private exposureTracked = false;
 
   constructor(element: HTMLElement, props: AccessoryItemProps) {
     super(element);
@@ -37,13 +38,21 @@ class AccessoryItem extends HtmlNode {
   }
 
   private onInfoOpen() {
-    ecomEvent(EcomView.MAIN, EcomEvent.ACCESSORY_INFORMATION_TOGGLE, EcomStep.ACCESSORY);
+    const { accessory } = this.props;
+    ecomEvent(EcomView.MAIN, EcomEvent.ACCESSORY_INFORMATION_OPEN, EcomStep.ACCESSORY, {
+      id: accessory.id,
+      label: accessory.name,
+    });
     this.displayInfo = true;
     this.render();
   }
 
   private onInfoClose() {
-    ecomEvent(EcomView.MAIN, EcomEvent.ACCESSORY_INFORMATION_TOGGLE, EcomStep.ACCESSORY);
+    const { accessory } = this.props;
+    ecomEvent(EcomView.MAIN, EcomEvent.ACCESSORY_INFORMATION_CLOSE, EcomStep.ACCESSORY, {
+      id: accessory.id,
+      label: accessory.name,
+    });
     this.displayInfo = false;
     destroyPortal();
     this.render();
@@ -58,10 +67,23 @@ class AccessoryItem extends HtmlNode {
     ecomEvent(
       EcomView.MAIN,
       !selected ? EcomEvent.ACCESSORY_SELECTED : EcomEvent.ACCESSORY_UNSELECTED,
-      EcomStep.ACCESSORY
+      EcomStep.ACCESSORY,
+      {
+        id: accessory.id,
+        label: accessory.name,
+      }
     );
 
     addOrRemoveAccessory(this.props.accessory)(this.props.store.dispatch);
+  }
+
+  private trackExposure() {
+    const { accessory } = this.props;
+    this.exposureTracked = true;
+    ecomEvent(EcomView.MAIN, EcomEvent.ACCESSORY_EXPOSURE, EcomStep.ACCESSORY, {
+      id: accessory.id,
+      label: accessory.name,
+    });
   }
 
   render() {
@@ -94,6 +116,7 @@ class AccessoryItem extends HtmlNode {
         selected,
         onClick: () => this.onClick(),
         onInfo: () => this.onInfoOpen(),
+        inViewPort: this.exposureTracked ? undefined : () => this.trackExposure(),
       },
       key
     );

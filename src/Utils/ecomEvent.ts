@@ -91,10 +91,13 @@ export enum EcomEvent {
 
   ACCESSORY_ACTIVE = 'ACCESSORY_ACTIVE',
   ACCESSORY_EDIT = 'ACCESSORY_EDIT',
+  ACCESSORY_EXPOSURE = 'ACCESSORY_EXPOSURE',
   ACCESSORY_SKIPPED = 'ACCESSORY_SKIPPED',
   ACCESSORY_SELECTED = 'ACCESSORY_SELECTED',
   ACCESSORY_UNSELECTED = 'ACCESSORY_UNSELECTED',
-  ACCESSORY_INFORMATION_TOGGLE = 'ACCESSORY_INFORMATION_TOGGLE',
+  ACCESSORY_INFORMATION_OPEN = 'ACCESSORY_INFORMATION_OPEN',
+  ACCESSORY_INFORMATION_CLOSE = 'ACCESSORY_INFORMATION_CLOSE',
+  ACCESSORY_INFORMATION_GALLERY_IMAGE_PAGING = 'ACCESSORY_INFORMATION_GALLERY_IMAGE_PAGING',
   ACCESSORY_ARROWS = 'ACCESSORY_ARROWS',
 
   CONFIRMATION_BANKID_ABORTED = 'CONFIRMATION_BANKID_ABORTED',
@@ -148,7 +151,12 @@ export enum EcomView {
   SUMMARY = 'SUMMARY',
 }
 
-type Listner = (view: EcomView, ecomEvent: EcomEvent, currentStep?: EcomStep) => void;
+type Listner = (
+  view: EcomView,
+  ecomEvent: EcomEvent,
+  currentStep?: EcomStep,
+  data?: { [key: string]: any }
+) => void;
 
 const listners: Listner[] = [];
 
@@ -167,13 +175,19 @@ interface EventHistory {
   view: EcomView;
   ecomEvent: EcomEvent;
   currentStep?: EcomStep;
+  data?: { [key: string]: any };
 }
 
 export const eventHistory: EventHistory[] = [];
 export const getLastHistory = () => eventHistory[eventHistory.length - 1];
-const ecomEvent = (view: EcomView, ecomEvent: EcomEvent, currentStep?: EcomStep) => {
+const ecomEvent = (
+  view: EcomView,
+  ecomEvent: EcomEvent,
+  currentStep?: EcomStep,
+  data?: { [key: string]: any }
+) => {
   eventHistory.push({ view, ecomEvent, currentStep });
-  listners.forEach((fn) => fn(view, ecomEvent, currentStep));
+  listners.forEach((fn) => fn(view, ecomEvent, currentStep, data));
 };
 
 export default ecomEvent;

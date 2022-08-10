@@ -11,13 +11,13 @@ window.addEventListener('DOMContentLoaded', (_) => {
   };
 
   const context = new WaykeEcomWeb({
-    ...devConfig.INSURANCE,
+    ...devConfig.DEFAULT,
     ecomSdkConfig,
     rootId: 'custom-id',
 
-    onEvent: (view: EcomView, event: EcomEvent, step?: EcomStep) =>
+    onEvent: (view: EcomView, event: EcomEvent, step?: EcomStep, data?: any) =>
       // eslint-disable-next-line
-      console.log({ view, event, step }),
+      console.log({ view, event, step, data}),
   });
   context.start();
   const button = document.querySelector<HTMLButtonElement>('#button');

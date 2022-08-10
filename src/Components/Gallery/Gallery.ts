@@ -9,6 +9,7 @@ interface Media {
 interface GalleryProps {
   id: string;
   media: Media[];
+  onGalleryImagePaging?: () => void;
 }
 
 const getRightVariables = (ref: HTMLUListElement | undefined) => {
@@ -56,6 +57,9 @@ class Gallery extends HtmlNode {
         if (left <= 0) {
           this.contexts.left?.hide(true);
         }
+        if (this.props.onGalleryImagePaging) {
+          this.props.onGalleryImagePaging();
+        }
       }
     }
   }
@@ -73,6 +77,9 @@ class Gallery extends HtmlNode {
         });
         if (left >= overflowElementScrollWidth) {
           this.contexts.right?.hide(true);
+        }
+        if (this.props.onGalleryImagePaging) {
+          this.props.onGalleryImagePaging();
         }
       }
     }

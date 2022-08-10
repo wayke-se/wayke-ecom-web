@@ -19,15 +19,39 @@ interface GridItemProps {
   readonly selected?: boolean;
   readonly onClick: () => void;
   readonly onInfo?: () => void;
+  readonly inViewPort?: () => void;
 }
 
 class GridItem extends HtmlNode {
   private readonly props: GridItemProps;
+  private hasBeenInViewPort = false;
 
   constructor(element: HTMLElement, props: GridItemProps, id: string) {
     super(element, { htmlTag: 'li', className: 'waykeecom-overflow-grid__item', id });
     this.props = props;
     this.render();
+    this.attachInViewportTrigger();
+  }
+
+  private attachInViewportTrigger() {
+    if (this.props.inViewPort && !this.hasBeenInViewPort) {
+      const observer = new IntersectionObserver(
+        (changes) => {
+          if (!this.hasBeenInViewPort) {
+            for (const change of changes) {
+              if (change.intersectionRatio === 1) {
+                this.hasBeenInViewPort = true;
+                if (this.props.inViewPort) {
+                  this.props.inViewPort();
+                }
+              }
+            }
+          }
+        },
+        { threshold: [1] }
+      );
+      observer.observe(this.node);
+    }
   }
 
   render() {
