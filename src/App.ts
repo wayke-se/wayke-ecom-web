@@ -60,7 +60,7 @@ interface AppProps {
   id: string;
   vehicle?: Vehicle;
   ecomSdkConfig: EcomSdkConfig;
-  onEvent?: (view: EcomView, event: EcomEvent, currentStep?: EcomStep) => void;
+  onEvent?: (view: EcomView, event: EcomEvent, currentStep?: EcomStep, data?: any) => void;
 }
 
 class App {
