@@ -40,6 +40,7 @@ class StageCompletedFinancial extends HtmlNode {
       const creditAmount = currentPaymentLookupResponse.creditAmount;
       const duration = currentPaymentLookupResponse.durationSpec.current;
       const { interest, effectiveInterest } = currentPaymentLookupResponse.interests;
+      const { monthlyCost } = currentPaymentLookupResponse.costs;
 
       const keyValueList: KeyValueListItemProps[] = [
         {
@@ -60,7 +61,7 @@ class StageCompletedFinancial extends HtmlNode {
         },
         {
           key: 'Månadskostnad för lånet',
-          value: prettyNumber(downPayment, { postfix: 'kr*' }),
+          value: prettyNumber(monthlyCost, { postfix: 'kr*' }),
         },
       ];
 

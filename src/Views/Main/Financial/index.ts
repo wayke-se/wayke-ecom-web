@@ -185,16 +185,10 @@ class Financial extends HtmlNode {
       }
 
       if (loan) {
-        const loanPrice = paymentLookupResponse?.costs.monthlyCost || loan.price;
-        const duration =
-          paymentLookupResponse?.durationSpec.current || loan.loanDetails?.durationSpec.current;
-
-        const interest =
-          paymentLookupResponse?.interests.interest || loan.loanDetails?.interests.interest || NaN;
-
-        const getCreditAmount =
-          paymentLookupResponse?.creditAmount || loan.loanDetails?.creditAmount || NaN;
-
+        const loanPrice = loan.price;
+        const duration = loan.loanDetails?.durationSpec.default;
+        const interest = loan.loanDetails?.interests.interest || NaN;
+        const getCreditAmount = loan.loanDetails?.creditAmount || NaN;
         const shouldUseCreditScoring = loan.loanDetails?.shouldUseCreditScoring;
 
         firstGroupOptions.push({

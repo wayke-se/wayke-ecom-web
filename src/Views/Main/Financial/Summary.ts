@@ -13,6 +13,7 @@ const LoanSummary = ({ loan, paymentLookupResponse }: LoanSummaryProps) => {
   const downPayment = paymentLookupResponse.downPaymentSpec.current;
   const duration = paymentLookupResponse.durationSpec.current;
   const creditAmount = paymentLookupResponse.creditAmount;
+  const { monthlyCost } = paymentLookupResponse.costs;
 
   return `
     <div class="waykeecom-stack waykeecom-stack--2">
@@ -46,7 +47,7 @@ const LoanSummary = ({ loan, paymentLookupResponse }: LoanSummaryProps) => {
           ${KeyValueListItem({ key: 'Avbetalningsperoid', value: `${duration} mån` })}
           ${KeyValueListItem({
             key: 'Månadskostnad för lånet',
-            value: prettyNumber(downPayment, { postfix: 'kr*' }),
+            value: prettyNumber(monthlyCost, { postfix: 'kr*' }),
           })}
         </ul>
       </div>
