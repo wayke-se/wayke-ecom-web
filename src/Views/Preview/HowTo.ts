@@ -84,7 +84,7 @@ const HowTo = ({ order, stageOrderList }: HowToProps) => {
   <div class="waykeecom-stack waykeecom-stack--3">
     <h4 class="waykeecom-heading waykeecom-heading--4">Så här köper du bilen online</h4>
     <div class="waykeecom-content">
-      <p class="waykeecom-content__p">På Wayke kan du tryggt köpa din nästa bil online. Reservera bilen genom att klicka dig igenom vårt köpflöde med följande steg:</p>
+      <p class="waykeecom-content__p">Hos oss kan du tryggt köpa din nästa bil online. Reservera bilen genom att klicka dig igenom vårt köpflöde med följande steg:</p>
     </div>
   </div>
   <div class="waykeecom-stack waykeecom-stack--3">
