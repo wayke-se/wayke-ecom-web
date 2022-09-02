@@ -7,12 +7,12 @@ Repository for Wayke Ecom Web.
 __Using npm__
 
 ```bash
-npm install @wayke-se/wayke-ecom-web
+npm install @wayke-se/ecom-web
 ```
 
 ```js
-import WaykeEcomWeb from "@wayke-se/wayke-ecom-web";
-import "@wayke-se/wayke-ecom-web/dist/index.css";
+import WaykeEcomWeb from "@wayke-se/ecom-web";
+import "@wayke-se/ecom-web/dist/index.css";
 
 const context = new WaykeEcomWeb({
     id: "36364808-671a-49da-b69a-5e0fc4cfe83e",
