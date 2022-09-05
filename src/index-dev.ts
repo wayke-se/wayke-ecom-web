@@ -23,7 +23,7 @@ window.addEventListener('DOMContentLoaded', (_) => {
   context.start();
   const button = document.querySelector<HTMLButtonElement>('#button');
   if (button) {
-    button.addEventListener('click', () => context.start());
+    button.addEventListener('click', () => context.destory());
   }
 
   const context2 = new WaykeEcomWeb({

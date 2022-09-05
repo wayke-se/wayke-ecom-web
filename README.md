@@ -84,7 +84,7 @@ new WaykeEcomWeb({
 ```
 
 ### Instance
-Instance contains two public methods, `.start()` and `.close()`.
+Instance contains three public methods, `.start()`, `.close()` and `.destroy()`.
 
 ### Required
 * `id` Id of the vehicle from Wayke

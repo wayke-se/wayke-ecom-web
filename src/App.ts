@@ -205,6 +205,11 @@ class App {
     }
   }
 
+  destory() {
+    this.close();
+    this.root.remove();
+  }
+
   private closeWithConfirm() {
     const { navigation, createdOrderId } = this.contexts.store.getState();
     const firstView = navigation.view === 'preview';
