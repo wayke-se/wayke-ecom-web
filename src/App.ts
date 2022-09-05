@@ -205,7 +205,7 @@ class App {
     }
   }
 
-  destory() {
+  destroy() {
     this.close();
     this.root.remove();
   }
