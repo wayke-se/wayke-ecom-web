@@ -100,6 +100,7 @@ Instance contains two public methods, `.start()` and `.close()`.
 * `vehicle` Used to override specific vehicle data properties provided from Wayke.
 * `ecomSdkConfig.bankIdThumbprint` By default Wayke's BankId certificate is used to verify customer identity. There is an optional configuration property `bankIdThumbprint` which allows for dealers to use their own BankId certificate. If the certificate's thumbprint is set that certificate will be used instead, given that it is correctly setup in the Dealer back-office.
 * `logo` Logo to be displayed in the header of the modal.
+* `logoX2` Logo to be displayed in the header with higher resolution of the modal.
 
 
 ## CSS specificity

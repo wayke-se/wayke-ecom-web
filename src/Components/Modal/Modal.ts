@@ -11,6 +11,7 @@ interface ModalProps {
   readonly title: string;
   readonly id: string;
   readonly logo?: string;
+  readonly logoX2?: string;
   readonly onClose?: () => void;
 }
 
@@ -45,6 +46,7 @@ class Modal extends HtmlNode {
     new ModalHeader(dialog.node, {
       title,
       logo: this.props.logo,
+      logoX2: this.props.logoX2,
       onClose,
       id: `${id}-header`,
     });

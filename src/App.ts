@@ -61,6 +61,7 @@ interface AppProps {
   vehicle?: Vehicle;
   ecomSdkConfig: EcomSdkConfig;
   logo?: string;
+  logoX2?: string;
   onEvent?: (view: EcomView, event: EcomEvent, currentStep?: EcomStep, data?: any) => void;
 }
 
@@ -216,6 +217,7 @@ class App {
       title: 'Wayke Ecom',
       id: WAYKE_ECOM_MODAL_ID,
       logo: this.props.logo,
+      logoX2: this.props.logoX2,
     });
 
     const lastEvent = getLastHistory();
@@ -253,6 +255,7 @@ class App {
       title: 'Wayke Ecom',
       id: WAYKE_ECOM_MODAL_ID,
       logo: this.props.logo,
+      logoX2: this.props.logoX2,
       onClose: () => this.closeWithConfirm(),
     });
 

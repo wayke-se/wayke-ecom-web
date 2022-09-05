@@ -4,6 +4,7 @@ interface ModalHeaderProps {
   readonly title: string;
   readonly id: string;
   readonly logo?: string;
+  readonly logoX2?: string;
   readonly onClose?: () => void;
 }
 
@@ -21,14 +22,19 @@ class ModalHeader extends HtmlNode {
   }
 
   render() {
-    const { title, logo, onClose } = this.props;
+    const { title, logo, logoX2, onClose } = this.props;
     this.node.innerHTML = `
       <div class="waykeecom-header">
         <div class="waykeecom-header__logo">
           <h2 class="waykeecom-no-margin">
           ${
             logo
-              ? `<img src="${logo}" srcset="${logo} 2x" alt="${title}" class="waykeecom-image">`
+              ? `<img
+                  src="${logo}"
+                  ${logo ? `srcset="${logoX2} 2x"` : ''}
+                  alt="${title}"
+                  class="waykeecom-image"
+                >`
               : `
             <span class="waykeecom-sr-only" id="wayke-ecom-title">${title}</span>
             <svg class="waykeecom-header__logo--wordmark" viewBox="0 0 548.95 123.3" preserveAspectRatio="xMinYMid" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
