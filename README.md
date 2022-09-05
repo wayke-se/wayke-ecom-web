@@ -79,6 +79,7 @@ new WaykeEcomWeb({
     bankIdThumbprint: "[Dealer Specific BankId Certificate Thumbprint]" // OPTIONAL
   },
   logo: 'https://placehold.jp/140x25.png', // OPTIONAL
+  logoX2: 'https://placehold.jp/280x50.png', // OPTIONAL
 });
 ```
 
