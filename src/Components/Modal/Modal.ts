@@ -10,6 +10,7 @@ import ModalFooter from './ModalFooter';
 interface ModalProps {
   readonly title: string;
   readonly id: string;
+  readonly logo?: string;
   readonly onClose?: () => void;
 }
 
@@ -43,6 +44,7 @@ class Modal extends HtmlNode {
     new ModalClose(dialog.node, { id: `${id}-close`, onClose });
     new ModalHeader(dialog.node, {
       title,
+      logo: this.props.logo,
       onClose,
       id: `${id}-header`,
     });

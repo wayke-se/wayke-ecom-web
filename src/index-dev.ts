@@ -14,10 +14,11 @@ window.addEventListener('DOMContentLoaded', (_) => {
     ...devConfig.DEFAULT,
     ecomSdkConfig,
     rootId: 'custom-id',
+    logo: 'https://placehold.jp/140x25.png',
 
     onEvent: (view: EcomView, event: EcomEvent, step?: EcomStep, data?: any) =>
       // eslint-disable-next-line
-      console.log({ view, event, step, data}),
+      console.log({ view, event, step, data }),
   });
   context.start();
   const button = document.querySelector<HTMLButtonElement>('#button');

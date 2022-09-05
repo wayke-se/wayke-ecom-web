@@ -60,6 +60,7 @@ interface AppProps {
   id: string;
   vehicle?: Vehicle;
   ecomSdkConfig: EcomSdkConfig;
+  logo?: string;
   onEvent?: (view: EcomView, event: EcomEvent, currentStep?: EcomStep, data?: any) => void;
 }
 
@@ -80,7 +81,6 @@ class App {
   constructor(props: AppProps) {
     if (!props.id) throw 'Missing id';
     this.props = props;
-
     if (!window.process) {
       window.process = {
         ...((window.process || {}) as NodeJS.Process),
@@ -215,6 +215,7 @@ class App {
     this.contexts.modal = new Modal(this.root, {
       title: 'Wayke Ecom',
       id: WAYKE_ECOM_MODAL_ID,
+      logo: this.props.logo,
     });
 
     const lastEvent = getLastHistory();
@@ -251,6 +252,7 @@ class App {
     this.contexts.modal = new Modal(this.root, {
       title: 'Wayke Ecom',
       id: WAYKE_ECOM_MODAL_ID,
+      logo: this.props.logo,
       onClose: () => this.closeWithConfirm(),
     });
 

@@ -78,6 +78,7 @@ new WaykeEcomWeb({
     },
     bankIdThumbprint: "[Dealer Specific BankId Certificate Thumbprint]" // OPTIONAL
   },
+  logo: 'https://placehold.jp/140x25.png', // OPTIONAL
 });
 ```
 
@@ -98,6 +99,7 @@ Instance contains two public methods, `.start()` and `.close()`.
 * `rootId` Choose the element, id, that WakeEcomWeb should append to, by default it will be appended to the body.
 * `vehicle` Used to override specific vehicle data properties provided from Wayke.
 * `ecomSdkConfig.bankIdThumbprint` By default Wayke's BankId certificate is used to verify customer identity. There is an optional configuration property `bankIdThumbprint` which allows for dealers to use their own BankId certificate. If the certificate's thumbprint is set that certificate will be used instead, given that it is correctly setup in the Dealer back-office.
+* `logo` Logo to be displayed in the header of the modal.
 
 
 ## CSS specificity
