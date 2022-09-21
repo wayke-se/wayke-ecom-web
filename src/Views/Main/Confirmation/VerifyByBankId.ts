@@ -18,6 +18,7 @@ import { createOrder } from '../../../Data/createOrder';
 import { creditAssessmentAccept } from '../../../Data/creditAssessmentAccept';
 import ecomEvent, { EcomStep, EcomEvent, EcomView } from '../../../Utils/ecomEvent';
 import InputCheckbox from '../../../Components/Input/InputCheckbox';
+import { registerInterval } from '../../../Utils/intervals';
 
 const CONFIRM_CONDITIONS = 'confirm-conditions';
 const CONFIRM_CONDITIONS_NODE = `${CONFIRM_CONDITIONS}-node`;
@@ -201,6 +202,7 @@ class VerifyByBankId extends HtmlNode {
         );
       }
     }, 2000);
+    registerInterval('bankidStatusInterval', this.bankidStatusInterval as unknown as number);
   }
 
   private async onStartBankIdAuth(method: AuthMethod, supressTracking = false) {

@@ -29,6 +29,7 @@ import ecomEvent, {
   EcomView,
   getLastHistory,
 } from './Utils/ecomEvent';
+import { unregisterAllIntervals } from './Utils/intervals';
 
 const OrderIdQueryString = 'order';
 const Payment3DSecurityCallback = 'wayke-ecom-web-payment';
@@ -105,16 +106,6 @@ class App {
     this.root.dataset.version = packageJson.version;
 
     // Stage order setup
-
-    /** Original order
-      'centralStorage',
-      'customer',
-      'financial',
-      'tradeIn',
-      'accessories',
-      'insurance',
-      'delivery',
-    */
     this.stageOrderList = [
       'centralStorage',
       'customer',
@@ -194,6 +185,7 @@ class App {
     this.root.innerHTML = '';
     this.contexts?.unsubribeVwListner?.();
 
+    unregisterAllIntervals();
     unregisterAllSubscriptions();
     if (caseId) {
       creditAssessmentCancelSigning(caseId);
@@ -213,6 +205,7 @@ class App {
   private closeWithConfirm() {
     const { navigation, createdOrderId } = this.contexts.store.getState();
     const firstView = navigation.view === 'preview';
+    unregisterAllIntervals();
     if (firstView || createdOrderId) {
       this.close();
       return;

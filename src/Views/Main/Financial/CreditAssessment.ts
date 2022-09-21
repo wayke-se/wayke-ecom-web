@@ -33,6 +33,7 @@ import { ICreditAssessmentStatus } from '../../../@types/CreditAssessmentStatus'
 import { convertCreditAssessmentStatusResponse } from '../../../Utils/convert';
 import { PaymentOption } from '../../../@types/OrderOptions';
 import ecomEvent, { EcomStep, EcomEvent, EcomView } from '../../../Utils/ecomEvent';
+import { registerInterval } from '../../../Utils/intervals';
 
 const MARITAL_STATUS = `credit-assessment-martial-status`;
 const MARITAL_STATUS_NODE = `${MARITAL_STATUS}-node`;
@@ -322,6 +323,7 @@ class CreditAssessment extends HtmlNode {
         );
       }
     }, 2000);
+    registerInterval('bankidStatusInterval-credit', this.bankidStatusInterval as unknown as number);
   }
 
   private async onStartBankIdAuth(method: AuthMethod, supressTracking = false) {
