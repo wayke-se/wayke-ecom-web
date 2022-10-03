@@ -21,4 +21,8 @@
       fill: color(text, main);
     }
   }
+
+  &__image {
+    height: scss-var(size, header, height);
+  }
 }
