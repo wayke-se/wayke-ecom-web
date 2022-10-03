@@ -21,7 +21,7 @@
       fill: color(text, main);
     }
 
-    .#{$namespace}-image {
+    img {
       height: scss-var(size, header, height);
     }
   }
