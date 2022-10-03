@@ -20,9 +20,9 @@
       height: scss-var(size, header, height);
       fill: color(text, main);
     }
-  }
 
-  &__image {
-    height: scss-var(size, header, height);
+    .#{$namespace}-image {
+      height: scss-var(size, header, height);
+    }
   }
 }
