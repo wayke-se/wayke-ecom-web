@@ -7,6 +7,7 @@ import { prettyNumber } from '../../../Utils/format';
 import { scrollTop } from '../../../Utils/scroll';
 import Gallery from '../../../Components/Gallery/Gallery';
 import ecomEvent, { EcomEvent, EcomStep, EcomView } from '../../../Utils/ecomEvent';
+import { asHtml } from '../../../Utils/parser';
 
 const BUTTON_TOP_LEFT_NODE = 'accessory-button-top-left-node';
 const BUTTON_BOTTOM_LEFT_NODE = 'accessory-button-bottom-left-node';
@@ -70,7 +71,7 @@ class AccessoryItemInfo extends HtmlNode {
           salePrice
             ? `<div class="waykeecom-text waykeecom-text--font-bold">${prettyNumber(salePrice, {
                 postfix: 'kr',
-              })}<span class="waykeecom-text waykeecom-text--tone-alt waykeecom-text--line-through">(${prettyNumber(
+              })}<span class="waykeecom-text waykeecom-text--tone-alt waykeecom-text--line-through"> (${prettyNumber(
                 price,
                 {
                   postfix: 'kr',
@@ -88,7 +89,7 @@ class AccessoryItemInfo extends HtmlNode {
       </div>
       <div class="waykeecom-stack waykeecom-stack--3">
         <div class="waykeecom-content">
-          <p class="waykeecom-content__p">${longDescription}</p>
+          <p class="waykeecom-content__p">${asHtml(longDescription)}</p>
         </div>
       </div>
       <div class="waykeecom-stack waykeecom-stack--3">
