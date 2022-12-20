@@ -4,69 +4,66 @@ Repository for Wayke Ecom Web.
 
 ## Getting started
 
-__Using npm__
+**Using npm**
 
 ```bash
 npm install @wayke-se/ecom-web
 ```
 
 ```js
-import WaykeEcomWeb from "@wayke-se/ecom-web";
-import "@wayke-se/ecom-web/dist/index.css";
+import WaykeEcomWeb from '@wayke-se/ecom-web';
+import '@wayke-se/ecom-web/dist/index.css';
 
 const context = new WaykeEcomWeb({
-    id: "36364808-671a-49da-b69a-5e0fc4cfe83e",
-    ecomSdkConfig: {
-      api: {
-        address: "https://ecom.wayketech.se",
-      },
+  id: '36364808-671a-49da-b69a-5e0fc4cfe83e',
+  ecomSdkConfig: {
+    api: {
+      address: 'https://ecom.wayketech.se',
     },
+  },
 });
 
 constext.start();
 ```
 
-__Using cdn__
+**Using cdn**
 The associated css is injected into head by default once a `new WaykeEcomWeb(...)` is called. This can be turned off by adding `disablecssinjection` to the script tag.
 
-
 ```html
-  <button id="ecom-button">Start</button>
+<button id="ecom-button">Start</button>
 
-   <script
-    type="module"
-    src="https://cdn.wayke.se/public-assets/wayke-ecom-web/x.x.x/index.js"
-  ></script>
+<script
+  type="module"
+  src="https://cdn.wayke.se/public-assets/wayke-ecom-web/x.x.x/index.js"
+></script>
 
-  <script>
-    window.addEventListener("DOMContentLoaded", (_) => {
-      var context = new WaykeEcomWeb({
-        id: "36364808-671a-49da-b69a-5e0fc4cfe83e",
-        ecomSdkConfig: {
-          api: {
-            address: "https://ecom.wayketech.se",
-          },
+<script>
+  window.addEventListener('DOMContentLoaded', (_) => {
+    var context = new WaykeEcomWeb({
+      id: '36364808-671a-49da-b69a-5e0fc4cfe83e',
+      ecomSdkConfig: {
+        api: {
+          address: 'https://ecom.wayketech.se',
         },
-      });
-      
-      document
-        .getElementById('ecom-button')
-        .addEventListener('click', () => context.start());
+      },
     });
-  </script>
+
+    document.getElementById('ecom-button').addEventListener('click', () => context.start());
+  });
+</script>
 ```
 
 ## Full configuration
 
 ```js
 new WaykeEcomWeb({
-  id: "36364808-671a-49da-b69a-5e0fc4cfe83e",
-  rootId: "random-element-id",
+  id: '36364808-671a-49da-b69a-5e0fc4cfe83e',
+  rootId: 'random-element-id',
   vehicle: {
     title: 'Lorem ipsum',
     shortDescription: 'Lorem ipsum',
     price: 250000,
-    imageUrls: ["https://www...", "https://www..."],
+    imageUrls: ['https://www...', 'https://www...'],
     modelYear: 2013,
     milage: 4900,
     gearBox: 'Automat',
@@ -74,39 +71,59 @@ new WaykeEcomWeb({
   },
   ecomSdkConfig: {
     api: {
-      address: "https://ecom.wayketech.se",
+      address: 'https://ecom.wayketech.se',
     },
-    bankIdThumbprint: "[Dealer Specific BankId Certificate Thumbprint]" // OPTIONAL
+    bankIdThumbprint: '[Dealer Specific BankId Certificate Thumbprint]', // OPTIONAL
   },
   logo: 'https://placehold.jp/180x40.png', // OPTIONAL
   logoX2: 'https://placehold.jp/360x80.png', // OPTIONAL
+  onEvent: (view, event, step, data) => // OPTIONAL
+    console.log({
+      view,
+      event,
+      step,
+      data,
+    }),
 });
 ```
 
 ### Instance
+
 Instance contains three public methods, `.start()`, `.close()` and `.destroy()`.
 
 ### Required
-* `id` Id of the vehicle from Wayke
-* `ecomSdkConfig.api.address` Should be one of the following urls below:
 
-| Environment | Url |
-| ----------- | --- |
-| Test | https://ecom.wayketech.se |
-| Production | https://ecom.wayke.se |
+- `id` Id of the vehicle from Wayke
+- `ecomSdkConfig.api.address` Should be one of the following urls below:
 
+| Environment | Url                       |
+| ----------- | ------------------------- |
+| Test        | https://ecom.wayketech.se |
+| Production  | https://ecom.wayke.se     |
 
 ### Optional
-* `rootId` Choose the element, id, that WakeEcomWeb should append to, by default it will be appended to the body.
-* `vehicle` Used to override specific vehicle data properties provided from Wayke.
-* `ecomSdkConfig.bankIdThumbprint` By default Wayke's BankId certificate is used to verify customer identity. There is an optional configuration property `bankIdThumbprint` which allows for dealers to use their own BankId certificate. If the certificate's thumbprint is set that certificate will be used instead, given that it is correctly setup in the Dealer back-office.
-* `logo` Logo to be displayed in the header of the modal.
-* `logoX2` Logo to be displayed in the header with higher resolution of the modal.
 
+- `rootId` Choose the element, id, that WakeEcomWeb should append to, by default it will be appended to the body.
+- `vehicle` Used to override specific vehicle data properties provided from Wayke.
+- `ecomSdkConfig.bankIdThumbprint` By default Wayke's BankId certificate is used to verify customer identity. There is an optional configuration property `bankIdThumbprint` which allows for dealers to use their own BankId certificate. If the certificate's thumbprint is set that certificate will be used instead, given that it is correctly setup in the Dealer back-office.
+- `logo` Logo to be displayed in the header of the modal.
+- `logoX2` Logo to be displayed in the header with higher resolution of the modal.
+- `onEvent` Attack function to listen for callback. Callback will be called with 3 parameters
+
+### onEvent argsuments
+
+| Parameter | Value     | Optional |
+| --------- | --------- | -------- |
+| view      | EcomView  | false    |
+| event     | EcomEvent | false    |
+| step      | EcomStep  | true     |
+| data      | any       | true     |
+
+Above types are located in `src/Utils/ecomEvent.ts`
 
 ## CSS specificity
 
-⚠️ __We can guarantee to not overwrite any of the host site _CSS_. But it is possible for the host site to overwrite the styling in _Wayke Ecom_. Read how to prevent such overwrites below.__
+⚠️ **We can guarantee to not overwrite any of the host site _CSS_. But it is possible for the host site to overwrite the styling in _Wayke Ecom_. Read how to prevent such overwrites below.**
 
 All _CSS_ class names are prefixed using the namespace `.waykeecom-*`. This will prevent this widget to overwrite any _CSS_ applied to the website on which it is implemented on. However, we can not guarantee other _CSS_ files won't overwrite the _CSS_ in _Wayke Ecom_. This is due to it is impossible to protect against element selectors.
 

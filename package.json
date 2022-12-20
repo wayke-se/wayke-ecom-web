@@ -1,10 +1,11 @@
 {
   "name": "@wayke-se/ecom-web",
-  "version": "1.4.5",
+  "version": "1.4.6",
   "description": "Wayke Ecom Web",
   "module": "dist/index.mjs",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "homepage": "https://github.com/wayke-se/wayke-ecom-web",
   "scripts": {
     "start": "node ./esbuild/start.js",
     "cl": "node ./esbuild/cl.js",
