@@ -42,6 +42,7 @@ class VerifyByBankId extends HtmlNode {
   private readonly props: VerifyByBankIdProps;
   private bankidStatusInterval?: NodeJS.Timer;
   private bankidQrCodeInterval?: NodeJS.Timer;
+  private focusTimeout?: NodeJS.Timer;
   private view: number = 1;
   private contexts: {
     buttonLinkToggle?: ButtonAsLink;
@@ -84,23 +85,24 @@ class VerifyByBankId extends HtmlNode {
   }
 
   private async onFocus() {
-    // eslint-disable-next-line
-    console.log('ON focus', JSON.stringify(this.bankidRequestRef));
-    if (this.bankidRequestRef?.method === AuthMethod.SameDevice) {
-      const { reference, method } = this.bankidRequestRef;
-      this.clearBankidRequestRef();
-      // eslint-disable-next-line
-      console.log('fetching status');
-      try {
-        const response = await getBankIdStatus(reference);
-        this.handleBankidStatusResponse(response, method);
-      } catch (e) {
-        this.clearIntervals();
-        this.contexts.bankId?.setErrorMessage(
-          'Det gick inte att hämta status kring nuvanrade BankId signering.'
-        );
+    clearTimeout(this.focusTimeout);
+    this.focusTimeout = setTimeout(async () => {
+      if (this.bankidRequestRef?.method === AuthMethod.SameDevice) {
+        try {
+          const response = await getBankIdStatus(this.bankidRequestRef.reference);
+          this.handleBankidStatusResponse(response, this.bankidRequestRef.method);
+        } catch (e) {
+          this.clearIntervals();
+          this.contexts.bankId?.setErrorMessage(
+            'Det gick inte att hämta status kring nuvanrade BankId signering.'
+          );
+        }
       }
-    }
+    }, 500);
+  }
+
+  private onSameDeviceClick() {
+    this.addWindowEvents();
   }
 
   private setBankidRequestRef(reference: string, method: AuthMethod) {
@@ -108,8 +110,6 @@ class VerifyByBankId extends HtmlNode {
       reference,
       method,
     };
-    // eslint-disable-next-line
-    console.log('setBankidRequestRef', JSON.stringify(this.bankidRequestRef));
   }
 
   private clearBankidRequestRef() {
@@ -276,7 +276,7 @@ class VerifyByBankId extends HtmlNode {
     }
     try {
       this.setBankidRequestRef(reference, AuthMethod.SameDevice);
-      this.addWindowEvents();
+      //this.addWindowEvents();
       const autoLaunchUrl = response.getAutoLaunchUrl() as string;
       this.contexts.bankId?.update(AuthMethod.SameDevice, autoLaunchUrl);
     } catch (e) {
@@ -333,7 +333,7 @@ class VerifyByBankId extends HtmlNode {
       if (method === AuthMethod.QrCode) {
         this.startBankidWithQr(reference, supressTracking);
       } else {
-        this.startBankidSameDevice(response, method, supressTracking);
+        this.startBankidSameDevice(response, reference, supressTracking);
       }
     } catch (e) {
       ecomEvent(EcomView.MAIN, EcomEvent.CONFIRMATION_BANKID_INIT_FAILED, EcomStep.CONFIRMATION);
@@ -375,6 +375,7 @@ class VerifyByBankId extends HtmlNode {
         descriptionSameDevice: 'För att verifiera din identitet, starta din BankID-applikation.',
         onAbort: () => this.onAbort(),
         onStart: (method: AuthMethod) => this.onStartBankIdAuth(method),
+        onSameDeviceClick: () => this.onSameDeviceClick(),
       });
     } else {
       const name = order?.contactInformation?.name;

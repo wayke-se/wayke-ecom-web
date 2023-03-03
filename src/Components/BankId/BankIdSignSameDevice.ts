@@ -7,6 +7,7 @@ import HtmlNode from '../Extension/HtmlNode';
 interface BankIdSignSameDeviceProps {
   readonly autoLaunchUrl?: string;
   readonly errorMessage?: string;
+  onClick?: () => void;
 }
 
 class BankIdSignSameDevice extends HtmlNode {
@@ -42,7 +43,12 @@ class BankIdSignSameDevice extends HtmlNode {
     new ButtonBankId(this.node, {
       title: 'Öppna BankID',
       disabled: !autoLaunchUrl,
-      onClick: () => window.open(autoLaunchUrl, '_blank'),
+      onClick: () => {
+        window.open(autoLaunchUrl, '_blank');
+        if (this.props.onClick) {
+          this.props.onClick();
+        }
+      },
       htmlNodesettings: {
         htmlTag: 'div',
         className: 'waykeecom-stack waykeecom-stack--4',

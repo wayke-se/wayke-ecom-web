@@ -28,6 +28,7 @@ interface BankIdSignProps {
   finalizing?: boolean;
   readonly onStart: (method: AuthMethod) => void;
   readonly onAbort: () => void;
+  readonly onSameDeviceClick?: () => void;
 }
 
 class BankIdSign extends HtmlNode {
@@ -168,6 +169,7 @@ class BankIdSign extends HtmlNode {
         new BankIdSignSameDevice(this.node.querySelector<HTMLDivElement>(`#${AUTH_METHOD_NODE}`), {
           autoLaunchUrl,
           errorMessage,
+          onClick: () => this.props?.onSameDeviceClick?.(),
         });
       } else if (method === AuthMethod.QrCode) {
         new BankIdSignQrCode(this.node.querySelector<HTMLDivElement>(`#${AUTH_METHOD_NODE}`), {
