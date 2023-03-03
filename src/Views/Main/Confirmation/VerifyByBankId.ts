@@ -84,9 +84,20 @@ class VerifyByBankId extends HtmlNode {
   }
 
   private async onFocus() {
+    // eslint-disable-next-line
+    console.log('ON focus', JSON.stringify(this.bankidRequestRef));
     if (this.bankidRequestRef?.method === AuthMethod.SameDevice) {
-      const response = await getBankIdStatus(this.bankidRequestRef.reference);
-      this.handleBankidStatusResponse(response, this.bankidRequestRef.method);
+      // eslint-disable-next-line
+      console.log('fetching status');
+      try {
+        const response = await getBankIdStatus(this.bankidRequestRef.reference);
+        this.handleBankidStatusResponse(response, this.bankidRequestRef.method);
+      } catch (e) {
+        this.clearIntervals();
+        this.contexts.bankId?.setErrorMessage(
+          'Det gick inte att hämta status kring nuvanrade BankId signering.'
+        );
+      }
     }
   }
 
@@ -95,6 +106,8 @@ class VerifyByBankId extends HtmlNode {
       reference,
       method,
     };
+    // eslint-disable-next-line
+    console.log('setBankidRequestRef', JSON.stringify(this.bankidRequestRef));
   }
 
   private clearBankidRequestRef() {
@@ -260,8 +273,8 @@ class VerifyByBankId extends HtmlNode {
       );
     }
     try {
-      this.addWindowEvents();
       this.setBankidRequestRef(reference, AuthMethod.SameDevice);
+      this.addWindowEvents();
       const autoLaunchUrl = response.getAutoLaunchUrl() as string;
       this.contexts.bankId?.update(AuthMethod.SameDevice, autoLaunchUrl);
     } catch (e) {
