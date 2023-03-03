@@ -53,12 +53,64 @@ class VerifyByBankId extends HtmlNode {
   private notAvailable = false;
   private confirmConditions: boolean = false;
 
+  private bankidRequestRef:
+    | {
+        reference: string;
+        method: AuthMethod;
+        supressTracking: boolean;
+      }
+    | undefined = undefined;
+
   constructor(element: HTMLElement, props: VerifyByBankIdProps) {
     super(element, { htmlTag: 'div', className: 'waykeecom-stack waykeecom-stack--2' });
     this.props = props;
     this.ageError = false;
 
     this.render();
+  }
+
+  private addWindowEvents() {
+    this.removeWindowEvents();
+    window.addEventListener('blur', () => this.onBlur());
+    window.addEventListener('focus', () => this.onFocus());
+  }
+  private removeWindowEvents() {
+    window.removeEventListener('blur', () => this.onBlur());
+    window.removeEventListener('focus', () => this.onFocus());
+  }
+
+  private clearIntervals() {
+    clearInterval(this.bankidQrCodeInterval as NodeJS.Timer);
+    clearInterval(this.bankidStatusInterval as NodeJS.Timer);
+  }
+
+  private onBlur() {
+    if (this.bankidRequestRef?.method === AuthMethod.SameDevice) {
+      this.clearIntervals();
+    }
+  }
+
+  private onFocus() {
+    if (this.bankidRequestRef?.method === AuthMethod.SameDevice) {
+      this.clearIntervals();
+      this.bankIdStatus(
+        this.bankidRequestRef.reference,
+        this.bankidRequestRef.method,
+        this.bankidRequestRef.supressTracking
+      );
+    }
+  }
+
+  private setBankidRef(reference: string, method: AuthMethod, supressTracking: boolean) {
+    this.bankidRequestRef = {
+      reference,
+      method,
+      supressTracking,
+    };
+  }
+
+  private clearBankidRequestRef() {
+    this.bankidRequestRef = undefined;
   }
 
   private async acceptCreditAssessment() {
@@ -117,7 +169,9 @@ class VerifyByBankId extends HtmlNode {
     } catch (ee) {
       const e = ee as { message?: string };
       this.view = 1;
-      clearInterval(this.bankidStatusInterval as NodeJS.Timer);
+
+      this.clearBankidRequestRef();
+      this.clearIntervals();
       ecomEvent(EcomView.MAIN, EcomEvent.CONFIRMATION_CREATE_ORDER_FAILED, EcomStep.CONFIRMATION);
       if (e.message === 'The vehicle is not available for purchase') {
         this.requestError = false;
@@ -148,8 +202,9 @@ class VerifyByBankId extends HtmlNode {
         const response = await getBankIdStatus(reference);
 
         if (response.isCompleted()) {
-          clearInterval(this.bankidStatusInterval as NodeJS.Timer);
-          clearInterval(this.bankidQrCodeInterval as NodeJS.Timer);
+          this.removeWindowEvents();
+          this.clearBankidRequestRef();
+          this.clearIntervals();
           const address = response.getAddress();
           const socialId = response.getPersonalNumber();
 
@@ -195,8 +250,9 @@ class VerifyByBankId extends HtmlNode {
           }
         }
       } catch (e) {
-        clearInterval(this.bankidStatusInterval as NodeJS.Timer);
-        clearInterval(this.bankidQrCodeInterval as NodeJS.Timer);
+        this.clearBankidRequestRef();
+        this.removeWindowEvents();
+        this.clearIntervals();
         this.contexts.bankId?.setErrorMessage(
           'Det gick inte att hämta status kring nuvanrade BankId signering.'
         );
@@ -211,8 +267,9 @@ class VerifyByBankId extends HtmlNode {
           const qrCode = response.getQrCode();
           this.contexts.bankId?.update(method, qrCode);
         } catch (e) {
-          clearInterval(this.bankidQrCodeInterval as NodeJS.Timer);
-          clearInterval(this.bankidStatusInterval as NodeJS.Timer);
+          this.clearBankidRequestRef();
+          this.removeWindowEvents();
+          this.clearIntervals();
           this.contexts.bankId?.setErrorMessage(
             'Det gick inte att hämta ny QR-kod för BankId signering.'
           );
@@ -224,6 +281,7 @@ class VerifyByBankId extends HtmlNode {
   }
 
   private async onStartBankIdAuth(method: AuthMethod, supressTracking = false) {
+    this.addWindowEvents();
     if (this.bankidStatusInterval) {
       clearInterval(this.bankidStatusInterval);
     }
@@ -252,6 +310,7 @@ class VerifyByBankId extends HtmlNode {
       }
       const reference = response.getOrderRef();
       this.bankIdStatus(reference, method, supressTracking);
+      this.setBankidRef(reference, method, supressTracking);
 
       if (method === AuthMethod.SameDevice) {
         try {
@@ -263,6 +322,8 @@ class VerifyByBankId extends HtmlNode {
         }
       }
     } catch (e) {
+      this.removeWindowEvents();
+      this.clearBankidRequestRef();
       ecomEvent(EcomView.MAIN, EcomEvent.CONFIRMATION_BANKID_INIT_FAILED, EcomStep.CONFIRMATION);
       this.contexts.bankId?.setErrorMessage(
         'Det gick tyvärr inte att initiera BankId. Vänligen försök igen.'
@@ -273,11 +334,12 @@ class VerifyByBankId extends HtmlNode {
   }
 
   private onAbort() {
+    this.clearBankidRequestRef();
+    this.removeWindowEvents();
+    this.clearIntervals();
     ecomEvent(EcomView.MAIN, EcomEvent.CONFIRMATION_BANKID_ABORTED, EcomStep.CONFIRMATION);
     this.view = 1;
-    if (this.bankidStatusInterval) {
-      clearInterval(this.bankidStatusInterval);
-    }
+
     destroyPortal();
     this.render();
   }
