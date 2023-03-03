@@ -87,11 +87,13 @@ class VerifyByBankId extends HtmlNode {
     // eslint-disable-next-line
     console.log('ON focus', JSON.stringify(this.bankidRequestRef));
     if (this.bankidRequestRef?.method === AuthMethod.SameDevice) {
+      const { reference, method } = this.bankidRequestRef;
+      this.clearBankidRequestRef();
       // eslint-disable-next-line
       console.log('fetching status');
       try {
-        const response = await getBankIdStatus(this.bankidRequestRef.reference);
-        this.handleBankidStatusResponse(response, this.bankidRequestRef.method);
+        const response = await getBankIdStatus(reference);
+        this.handleBankidStatusResponse(response, method);
       } catch (e) {
         this.clearIntervals();
         this.contexts.bankId?.setErrorMessage(
