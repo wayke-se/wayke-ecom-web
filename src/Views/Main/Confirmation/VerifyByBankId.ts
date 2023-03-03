@@ -19,6 +19,7 @@ import { creditAssessmentAccept } from '../../../Data/creditAssessmentAccept';
 import ecomEvent, { EcomStep, EcomEvent, EcomView } from '../../../Utils/ecomEvent';
 import InputCheckbox from '../../../Components/Input/InputCheckbox';
 import { registerInterval } from '../../../Utils/intervals';
+import { getBankIdQrCode } from '../../../Data/getBankIdQrCode';
 
 const CONFIRM_CONDITIONS = 'confirm-conditions';
 const CONFIRM_CONDITIONS_NODE = `${CONFIRM_CONDITIONS}-node`;
@@ -38,6 +39,7 @@ interface VerifyByBankIdProps {
 class VerifyByBankId extends HtmlNode {
   private readonly props: VerifyByBankIdProps;
   private bankidStatusInterval?: NodeJS.Timer;
+  private bankidQrCodeInterval?: NodeJS.Timer;
   private view: number = 1;
   private contexts: {
     buttonLinkToggle?: ButtonAsLink;
@@ -147,6 +149,7 @@ class VerifyByBankId extends HtmlNode {
 
         if (response.isCompleted()) {
           clearInterval(this.bankidStatusInterval as NodeJS.Timer);
+          clearInterval(this.bankidQrCodeInterval as NodeJS.Timer);
           const address = response.getAddress();
           const socialId = response.getPersonalNumber();
 
@@ -163,7 +166,6 @@ class VerifyByBankId extends HtmlNode {
               );
               this.view = 1;
               this.ageError = true;
-              clearInterval(this.bankidStatusInterval as NodeJS.Timer);
               destroyPortal();
               this.render();
               return;
@@ -177,7 +179,6 @@ class VerifyByBankId extends HtmlNode {
               );
               this.view = 1;
               this.socialIdNotMatchingError = true;
-              clearInterval(this.bankidStatusInterval as NodeJS.Timer);
               destroyPortal();
               this.render();
               return;
@@ -192,22 +193,43 @@ class VerifyByBankId extends HtmlNode {
             this.contexts.bankId?.setDescription('Verifiering klar, ordern skapas nu...');
             await this.onCreateOrder();
           }
-        } else if (response.shouldRenew()) {
-          this.onStartBankIdAuth(method, true);
         }
       } catch (e) {
         clearInterval(this.bankidStatusInterval as NodeJS.Timer);
+        clearInterval(this.bankidQrCodeInterval as NodeJS.Timer);
         this.contexts.bankId?.setErrorMessage(
           'Det gick inte att hämta status kring nuvanrade BankId signering.'
         );
       }
     }, 2000);
     registerInterval('bankidStatusInterval', this.bankidStatusInterval as unknown as number);
+
+    if (method === AuthMethod.QrCode) {
+      this.bankidQrCodeInterval = setInterval(async () => {
+        try {
+          const response = await getBankIdQrCode(reference);
+          const qrCode = response.getQrCode();
+          this.contexts.bankId?.update(method, qrCode);
+        } catch (e) {
+          clearInterval(this.bankidQrCodeInterval as NodeJS.Timer);
+          clearInterval(this.bankidStatusInterval as NodeJS.Timer);
+          this.contexts.bankId?.setErrorMessage(
+            'Det gick inte att hämta ny QR-kod för BankId signering.'
+          );
+        }
+      }, 1000);
+
+      registerInterval('bankidQrCodeInterval', this.bankidQrCodeInterval as unknown as number);
+    }
   }
 
   private async onStartBankIdAuth(method: AuthMethod, supressTracking = false) {
     if (this.bankidStatusInterval) {
       clearInterval(this.bankidStatusInterval);
+    }
+
+    if (this.bankidQrCodeInterval) {
+      clearInterval(this.bankidQrCodeInterval);
     }
 
     try {
@@ -239,9 +261,6 @@ class VerifyByBankId extends HtmlNode {
           const _e = e as { message: string };
           this.contexts.bankId?.setErrorMessage(`Error: ${_e.message}`);
         }
-      } else {
-        const qrCode = response.getQrCode() as string;
-        this.contexts.bankId?.update(method, qrCode);
       }
     } catch (e) {
       ecomEvent(EcomView.MAIN, EcomEvent.CONFIRMATION_BANKID_INIT_FAILED, EcomStep.CONFIRMATION);
