@@ -44,7 +44,7 @@ import {
 
 let mock = {};
 try {
-  mock = require('../../statemock.json');
+  //mock = require('../../statemock.json');
 } catch (e) {
   mock = {};
 }

@@ -19,6 +19,9 @@ import { creditAssessmentAccept } from '../../../Data/creditAssessmentAccept';
 import ecomEvent, { EcomStep, EcomEvent, EcomView } from '../../../Utils/ecomEvent';
 import InputCheckbox from '../../../Components/Input/InputCheckbox';
 import { registerInterval } from '../../../Utils/intervals';
+import { getBankIdQrCode } from '../../../Data/getBankIdQrCode';
+import { BankIdCollectResponse } from '@wayke-se/ecom/dist-types/bankid/bankid-collect-response';
+import { BankIdAuthResponse } from '@wayke-se/ecom/dist-types/bankid/bankid-auth-response';
 
 const CONFIRM_CONDITIONS = 'confirm-conditions';
 const CONFIRM_CONDITIONS_NODE = `${CONFIRM_CONDITIONS}-node`;
@@ -38,6 +41,8 @@ interface VerifyByBankIdProps {
 class VerifyByBankId extends HtmlNode {
   private readonly props: VerifyByBankIdProps;
   private bankidStatusInterval?: NodeJS.Timer;
+  private bankidQrCodeInterval?: NodeJS.Timer;
+  private focusTimeout?: NodeJS.Timer;
   private view: number = 1;
   private contexts: {
     buttonLinkToggle?: ButtonAsLink;
@@ -51,12 +56,64 @@ class VerifyByBankId extends HtmlNode {
   private notAvailable = false;
   private confirmConditions: boolean = false;
 
+  private bankidRequestRef:
+    | {
+        reference: string;
+        method: AuthMethod;
+      }
+    | undefined = undefined;
+
   constructor(element: HTMLElement, props: VerifyByBankIdProps) {
     super(element, { htmlTag: 'div', className: 'waykeecom-stack waykeecom-stack--2' });
     this.props = props;
     this.ageError = false;
 
     this.render();
+  }
+
+  private addWindowEvents() {
+    this.removeWindowEvents();
+    window.addEventListener('focus', () => this.onFocus());
+  }
+  private removeWindowEvents() {
+    window.removeEventListener('focus', () => this.onFocus());
+  }
+
+  private clearIntervals() {
+    clearInterval(this.bankidQrCodeInterval as NodeJS.Timer);
+    clearInterval(this.bankidStatusInterval as NodeJS.Timer);
+  }
+
+  private async onFocus() {
+    clearTimeout(this.focusTimeout);
+    this.focusTimeout = setTimeout(async () => {
+      if (this.bankidRequestRef?.method === AuthMethod.SameDevice) {
+        try {
+          const response = await getBankIdStatus(this.bankidRequestRef.reference);
+          this.handleBankidStatusResponse(response, this.bankidRequestRef.method);
+        } catch (e) {
+          this.clearIntervals();
+          this.contexts.bankId?.setErrorMessage(
+            'Det gick inte att hämta status kring nuvanrade BankId signering.'
+          );
+        }
+      }
+    }, 500);
+  }
+
+  private onSameDeviceClick() {
+    this.addWindowEvents();
+  }
+
+  private setBankidRequestRef(reference: string, method: AuthMethod) {
+    this.bankidRequestRef = {
+      reference,
+      method,
+    };
+  }
+
+  private clearBankidRequestRef() {
+    this.bankidRequestRef = undefined;
   }
 
   private async acceptCreditAssessment() {
@@ -115,7 +172,6 @@ class VerifyByBankId extends HtmlNode {
     } catch (ee) {
       const e = ee as { message?: string };
       this.view = 1;
-      clearInterval(this.bankidStatusInterval as NodeJS.Timer);
       ecomEvent(EcomView.MAIN, EcomEvent.CONFIRMATION_CREATE_ORDER_FAILED, EcomStep.CONFIRMATION);
       if (e.message === 'The vehicle is not available for purchase') {
         this.requestError = false;
@@ -130,85 +186,130 @@ class VerifyByBankId extends HtmlNode {
     }
   }
 
-  private bankIdStatus(reference: string, method: AuthMethod, supressTracking = false) {
+  private async handleBankidStatusResponse(response: BankIdCollectResponse, method: AuthMethod) {
+    if (response.isCompleted()) {
+      this.removeWindowEvents();
+      this.clearBankidRequestRef();
+      this.clearIntervals();
+      const address = response.getAddress();
+      const socialId = response.getPersonalNumber();
+
+      if (address && socialId) {
+        const state = this.props.store.getState();
+        const over18 = validationMethods.requiredSsnOver18(socialId);
+        if (!over18) {
+          ecomEvent(
+            EcomView.MAIN,
+            method === AuthMethod.SameDevice
+              ? EcomEvent.CONFIRMATION_BANKID_STATUS_SAME_DEVICE_SUCCEEDED_NOT_OVER_18
+              : EcomEvent.CONFIRMATION_BANKID_STATUS_QR_SUCCEEDED_NOT_OVER_18,
+            EcomStep.CONFIRMATION
+          );
+          this.view = 1;
+          this.ageError = true;
+          destroyPortal();
+          this.render();
+          return;
+        } else if (state.customer.socialId !== socialId) {
+          ecomEvent(
+            EcomView.MAIN,
+            method === AuthMethod.SameDevice
+              ? EcomEvent.CONFIRMATION_BANKID_STATUS_SAME_DEVICE_SUCCEEDED_SSN_MISSMATCH
+              : EcomEvent.CONFIRMATION_BANKID_STATUS_QR_SUCCEEDED_SSN_MISSMATCH,
+            EcomStep.CONFIRMATION
+          );
+          this.view = 1;
+          this.socialIdNotMatchingError = true;
+          destroyPortal();
+          this.render();
+          return;
+        }
+        ecomEvent(
+          EcomView.MAIN,
+          method === AuthMethod.SameDevice
+            ? EcomEvent.CONFIRMATION_BANKID_STATUS_SAME_DEVICE_SUCCEEDED
+            : EcomEvent.CONFIRMATION_BANKID_STATUS_QR_SUCCEEDED,
+          EcomStep.CONFIRMATION
+        );
+        this.contexts.bankId?.setDescription('Verifiering klar, ordern skapas nu...');
+        await this.onCreateOrder();
+      }
+    }
+  }
+
+  private bankidStatus = async (reference: string) => {
+    try {
+      const response = await getBankIdStatus(reference);
+      this.handleBankidStatusResponse(response, AuthMethod.QrCode);
+    } catch (e) {
+      this.clearIntervals();
+      this.contexts.bankId?.setErrorMessage(
+        'Det gick inte att hämta status kring nuvanrade BankId signering.'
+      );
+    }
+  };
+
+  private qrCode = async (reference: string) => {
+    try {
+      const response = await getBankIdQrCode(reference);
+      const qrCode = response.getQrCode();
+      this.contexts.bankId?.update(AuthMethod.QrCode, qrCode);
+    } catch (e) {
+      this.clearIntervals();
+      this.contexts.bankId?.setErrorMessage(
+        'Det gick inte att hämta ny QR-kod för BankId signering.'
+      );
+    }
+  };
+
+  private async startBankidSameDevice(
+    response: BankIdAuthResponse,
+    reference: string,
+    supressTracking = false
+  ) {
     if (!supressTracking) {
       ecomEvent(
         EcomView.MAIN,
-        method === AuthMethod.SameDevice
-          ? EcomEvent.CONFIRMATION_BANKID_STATUS_SAME_DEVICE_REQUESTED
-          : EcomEvent.CONFIRMATION_BANKID_STATUS_QR_REQUESTED,
+        EcomEvent.CONFIRMATION_BANKID_STATUS_SAME_DEVICE_REQUESTED,
+        EcomStep.CONFIRMATION
+      );
+    }
+    try {
+      this.setBankidRequestRef(reference, AuthMethod.SameDevice);
+      //this.addWindowEvents();
+      const autoLaunchUrl = response.getAutoLaunchUrl() as string;
+      this.contexts.bankId?.update(AuthMethod.SameDevice, autoLaunchUrl);
+    } catch (e) {
+      this.removeWindowEvents();
+      this.clearBankidRequestRef();
+      const _e = e as { message: string };
+      this.contexts.bankId?.setErrorMessage(`Error: ${_e.message}`);
+    }
+  }
+
+  private async startBankidWithQr(reference: string, supressTracking = false) {
+    if (!supressTracking) {
+      ecomEvent(
+        EcomView.MAIN,
+        EcomEvent.CONFIRMATION_BANKID_STATUS_QR_REQUESTED,
         EcomStep.CONFIRMATION
       );
     }
 
-    this.bankidStatusInterval = setInterval(async () => {
-      try {
-        const response = await getBankIdStatus(reference);
-
-        if (response.isCompleted()) {
-          clearInterval(this.bankidStatusInterval as NodeJS.Timer);
-          const address = response.getAddress();
-          const socialId = response.getPersonalNumber();
-
-          if (address && socialId) {
-            const state = this.props.store.getState();
-            const over18 = validationMethods.requiredSsnOver18(socialId);
-            if (!over18) {
-              ecomEvent(
-                EcomView.MAIN,
-                method === AuthMethod.SameDevice
-                  ? EcomEvent.CONFIRMATION_BANKID_STATUS_SAME_DEVICE_SUCCEEDED_NOT_OVER_18
-                  : EcomEvent.CONFIRMATION_BANKID_STATUS_QR_SUCCEEDED_NOT_OVER_18,
-                EcomStep.CONFIRMATION
-              );
-              this.view = 1;
-              this.ageError = true;
-              clearInterval(this.bankidStatusInterval as NodeJS.Timer);
-              destroyPortal();
-              this.render();
-              return;
-            } else if (state.customer.socialId !== socialId) {
-              ecomEvent(
-                EcomView.MAIN,
-                method === AuthMethod.SameDevice
-                  ? EcomEvent.CONFIRMATION_BANKID_STATUS_SAME_DEVICE_SUCCEEDED_SSN_MISSMATCH
-                  : EcomEvent.CONFIRMATION_BANKID_STATUS_QR_SUCCEEDED_SSN_MISSMATCH,
-                EcomStep.CONFIRMATION
-              );
-              this.view = 1;
-              this.socialIdNotMatchingError = true;
-              clearInterval(this.bankidStatusInterval as NodeJS.Timer);
-              destroyPortal();
-              this.render();
-              return;
-            }
-            ecomEvent(
-              EcomView.MAIN,
-              method === AuthMethod.SameDevice
-                ? EcomEvent.CONFIRMATION_BANKID_STATUS_SAME_DEVICE_SUCCEEDED
-                : EcomEvent.CONFIRMATION_BANKID_STATUS_QR_SUCCEEDED,
-              EcomStep.CONFIRMATION
-            );
-            this.contexts.bankId?.setDescription('Verifiering klar, ordern skapas nu...');
-            await this.onCreateOrder();
-          }
-        } else if (response.shouldRenew()) {
-          this.onStartBankIdAuth(method, true);
-        }
-      } catch (e) {
-        clearInterval(this.bankidStatusInterval as NodeJS.Timer);
-        this.contexts.bankId?.setErrorMessage(
-          'Det gick inte att hämta status kring nuvanrade BankId signering.'
-        );
-      }
+    this.bankidStatusInterval = setInterval(() => {
+      this.bankidStatus(reference);
     }, 2000);
     registerInterval('bankidStatusInterval', this.bankidStatusInterval as unknown as number);
+
+    this.qrCode(reference);
+    this.bankidQrCodeInterval = setInterval(async () => {
+      this.qrCode(reference);
+    }, 1000);
+    registerInterval('bankidQrCodeInterval', this.bankidQrCodeInterval as unknown as number);
   }
 
   private async onStartBankIdAuth(method: AuthMethod, supressTracking = false) {
-    if (this.bankidStatusInterval) {
-      clearInterval(this.bankidStatusInterval);
-    }
+    this.clearIntervals();
 
     try {
       if (!supressTracking) {
@@ -229,19 +330,10 @@ class VerifyByBankId extends HtmlNode {
         );
       }
       const reference = response.getOrderRef();
-      this.bankIdStatus(reference, method, supressTracking);
-
-      if (method === AuthMethod.SameDevice) {
-        try {
-          const autoLaunchUrl = response.getAutoLaunchUrl() as string;
-          this.contexts.bankId?.update(method, autoLaunchUrl);
-        } catch (e) {
-          const _e = e as { message: string };
-          this.contexts.bankId?.setErrorMessage(`Error: ${_e.message}`);
-        }
+      if (method === AuthMethod.QrCode) {
+        this.startBankidWithQr(reference, supressTracking);
       } else {
-        const qrCode = response.getQrCode() as string;
-        this.contexts.bankId?.update(method, qrCode);
+        this.startBankidSameDevice(response, reference, supressTracking);
       }
     } catch (e) {
       ecomEvent(EcomView.MAIN, EcomEvent.CONFIRMATION_BANKID_INIT_FAILED, EcomStep.CONFIRMATION);
@@ -254,11 +346,12 @@ class VerifyByBankId extends HtmlNode {
   }
 
   private onAbort() {
+    this.clearBankidRequestRef();
+    this.removeWindowEvents();
+    this.clearIntervals();
     ecomEvent(EcomView.MAIN, EcomEvent.CONFIRMATION_BANKID_ABORTED, EcomStep.CONFIRMATION);
     this.view = 1;
-    if (this.bankidStatusInterval) {
-      clearInterval(this.bankidStatusInterval);
-    }
+
     destroyPortal();
     this.render();
   }
@@ -282,6 +375,7 @@ class VerifyByBankId extends HtmlNode {
         descriptionSameDevice: 'För att verifiera din identitet, starta din BankID-applikation.',
         onAbort: () => this.onAbort(),
         onStart: (method: AuthMethod) => this.onStartBankIdAuth(method),
+        onSameDeviceClick: () => this.onSameDeviceClick(),
       });
     } else {
       const name = order?.contactInformation?.name;
