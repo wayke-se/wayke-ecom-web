@@ -69,7 +69,7 @@
     height: $track-height;
     margin: 0;
     background-color: color(bg, alt);
-    background-image: linear-gradient(to right, color(primary, main) 0%, color(bg, alt) 0%);
+    background-image: linear-gradient(to right, color(primary, main) var(--percentage, 0%), color(bg, alt) var(--percentage, 0%));
     cursor: pointer;
 
     &:active {
