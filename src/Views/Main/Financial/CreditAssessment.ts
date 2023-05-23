@@ -174,6 +174,7 @@ class CreditAssessment extends HtmlNode {
   } = {};
   private caseError?: string;
   private bankidError = false;
+  private signed = false;
   private creditAssessmentResponse?: ICreditAssessmentStatus;
 
   constructor(element: HTMLDivElement | undefined | null, props: CreditAssessmentProps) {
@@ -275,7 +276,7 @@ class CreditAssessment extends HtmlNode {
       try {
         const response = await creditAssessmentGetStatus(caseId);
         const status = response.getStatus();
-        if (status === 'signed') {
+        if (!this.signed && status === 'signed') {
           ecomEvent(
             EcomView.MAIN,
             method === AuthMethod.SameDevice
@@ -284,6 +285,7 @@ class CreditAssessment extends HtmlNode {
             EcomStep.FINANCIAL_CREDIT_SCORING
           );
 
+          this.signed = true;
           this.contexts.bankId?.setTitle(`Väntar på ${loan?.name}...`);
           this.contexts.bankId?.setDescription(
             `Hämtar uppgifter från ${loan?.name}. Vänta kvar det kan ta några sekunder.`
@@ -313,16 +315,23 @@ class CreditAssessment extends HtmlNode {
           )(this.props.store.dispatch);
           destroyPortal();
           this.render();
-        } else if (response.shouldRenewSigning()) {
-          this.onStartBankIdAuth(method, true);
+        } else if (response.hasScoringError()) {
+          clearInterval(this.bankidStatusInterval as NodeJS.Timer);
+          this.contexts.bankId?.setFinalizing(false);
+          this.contexts.bankId?.setErrorMessage(`Ett fel uppstod`);
+        }
+        if (!this.signed && method === AuthMethod.QrCode) {
+          const qrCode = response.getQrCode() as string;
+          this.contexts.bankId?.update(method, qrCode);
         }
       } catch (e) {
         clearInterval(this.bankidStatusInterval as NodeJS.Timer);
+        this.contexts.bankId?.setFinalizing(false);
         this.contexts.bankId?.setErrorMessage(
-          'Det gick inte att hämta status kring nuvanrade BankId signering. Nytt försök sker igenom om 2 sekunder'
+          'Det gick inte att hämta status kring nuvanrade BankId signering'
         );
       }
-    }, 2000);
+    }, 1000);
     registerInterval('bankidStatusInterval-credit', this.bankidStatusInterval as unknown as number);
   }
 
@@ -351,6 +360,7 @@ class CreditAssessment extends HtmlNode {
         );
       }
       this.bankIdStatus(caseId, method, supressTracking);
+
       if (method === AuthMethod.SameDevice) {
         const autoLaunchUrl = response.getAutoLaunchUrl() as string;
         this.contexts.bankId?.update(method, autoLaunchUrl);
@@ -378,6 +388,7 @@ class CreditAssessment extends HtmlNode {
     const { store } = this.props;
     this.caseError = undefined;
     this.bankidError = false;
+    this.signed = false;
     const currentCaseId = store.getState().caseId;
     if (this.bankidStatusInterval) {
       clearInterval(this.bankidStatusInterval);
