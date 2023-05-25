@@ -34,6 +34,7 @@ import { convertCreditAssessmentStatusResponse } from '../../../Utils/convert';
 import { PaymentOption } from '../../../@types/OrderOptions';
 import ecomEvent, { EcomStep, EcomEvent, EcomView } from '../../../Utils/ecomEvent';
 import { registerInterval } from '../../../Utils/intervals';
+import { creditAssessmentDecline } from '../../../Data/creditAssessmentDecline';
 
 const MARITAL_STATUS = `credit-assessment-martial-status`;
 const MARITAL_STATUS_NODE = `${MARITAL_STATUS}-node`;
@@ -237,7 +238,7 @@ class CreditAssessment extends HtmlNode {
     );
   }
 
-  private onAbort() {
+  private async onAbort() {
     ecomEvent(
       EcomView.MAIN,
       EcomEvent.FINANCIAL_CREDIT_SCORING_ABORTED,
@@ -251,7 +252,8 @@ class CreditAssessment extends HtmlNode {
 
     const caseId = store.getState().caseId;
     if (caseId) {
-      creditAssessmentCancelSigning(caseId);
+      await creditAssessmentCancelSigning(caseId);
+      await creditAssessmentDecline(caseId);
       setCreditAssessmentResponse()(store.dispatch);
     }
     destroyPortal();
@@ -296,6 +298,13 @@ class CreditAssessment extends HtmlNode {
             EcomEvent.FINANCIAL_CREDIT_SCORING_SIGNING_SIGNED,
             EcomStep.FINANCIAL_CREDIT_SCORING
           );
+        }
+
+        if (status === 'signingFailed') {
+          clearInterval(this.bankidStatusInterval as NodeJS.Timer);
+          this.contexts.bankId?.setFinalizing(false);
+          this.contexts.bankId?.setErrorMessage('Ett fel uppstod');
+          return;
         }
 
         if (response.isScored()) {
@@ -394,12 +403,14 @@ class CreditAssessment extends HtmlNode {
       clearInterval(this.bankidStatusInterval);
       if (currentCaseId) {
         await creditAssessmentCancelSigning(currentCaseId);
+        await creditAssessmentDecline(currentCaseId);
         setCreditAssessmentResponse()(store.dispatch);
       }
     }
 
     if (currentCaseId) {
-      setCreditAssessmentResponse(currentCaseId)(store.dispatch);
+      const caseId = await this.newCreditAssessmentCase();
+      setCreditAssessmentResponse(caseId)(store.dispatch);
       this.onStartBankIdAuth(method);
     } else {
       try {
