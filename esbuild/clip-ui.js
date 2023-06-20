@@ -1,7 +1,7 @@
-import * as esbuild from 'esbuild';
-import { sassPlugin } from 'esbuild-sass-plugin';
+const { sassPlugin } = require('esbuild-sass-plugin');
+const { build } = require('esbuild');
 
-const Shared = {
+const shared = {
   entryPoints: ['src/styles/styles.scss'],
   bundle: true,
   minify: true,
@@ -14,9 +14,7 @@ const Shared = {
   plugins: [sassPlugin()],
 };
 
-const ctx = esbuild.build({
-  ...Shared,
-  outfile: 'clip-ui/static/build/styles.css',
+build({
+  ...shared,
+  outfile: 'clip-ui/static/styles.css',
 });
-
-await ctx;
