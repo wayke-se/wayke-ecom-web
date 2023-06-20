@@ -1,17 +1,18 @@
 /* eslint-disable no-console */
+import * as esbuild from 'esbuild';
+import { sassPlugin } from 'esbuild-sass-plugin';
+import npmDts from 'npm-dts';
+import packageJson from '../package.json' assert { type: 'json' };
 
-const { sassPlugin } = require('esbuild-sass-plugin');
-const { Generator } = require('npm-dts');
-const { build } = require('esbuild');
-const { dependencies, peerDependencies } = require('../package.json');
-
-const shared = {
+const Shared = {
   entryPoints: ['src/index.ts'],
   bundle: true,
   minify: true,
   sourcemap: true,
   logLevel: 'info',
-  external: Object.keys(dependencies).concat(Object.keys(peerDependencies || {})),
+  external: Object.keys(packageJson.dependencies).concat(
+    Object.keys(packageJson.peerDependencies || {})
+  ),
   loader: {
     '.js': 'jsx',
     '.woff': 'file',
@@ -23,25 +24,34 @@ const shared = {
   plugins: [sassPlugin()],
 };
 
-build({
-  ...shared,
+const ctx = esbuild.build({
+  ...Shared,
   outfile: 'dist/index.js',
 });
 
-build({
-  ...shared,
+await ctx;
+
+const ctxEsm = esbuild.build({
+  ...Shared,
   outfile: 'dist/index.mjs',
   format: 'esm',
 });
 
+await ctxEsm;
+
 const timetaken = '⚡ Generating types done in';
 console.time(timetaken);
-new Generator({
+const generator = new npmDts.Generator({
   entry: 'src/index.ts',
   output: 'dist/index.d.ts',
   help: true,
   logLevel: 'debug',
-})
-  .generate()
-  .then(() => console.timeEnd(timetaken))
-  .catch(() => console.log('Error occured while generating types'));
+});
+
+try {
+  await generator.generate();
+} catch (e) {
+  console.log('Error occured while generating types');
+} finally {
+  console.timeEnd(timetaken);
+}

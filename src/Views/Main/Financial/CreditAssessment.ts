@@ -4,8 +4,9 @@ import {
   MaritalStatus,
   ICreditAssessmentInquiry,
   PaymentType,
+  HousingType,
+  ICreditAssessmentHouseholdEconomy,
 } from '@wayke-se/ecom';
-import { ICreditAssessmentHouseholdEconomy } from '@wayke-se/ecom/dist-types/credit-assessment/types';
 import Accordion from '../../../Components/Accordion';
 import BankIdSign from '../../../Components/BankId/BankIdSign';
 import ButtonBankId from '../../../Components/Button/ButtonBankId';
@@ -35,6 +36,7 @@ import { PaymentOption } from '../../../@types/OrderOptions';
 import ecomEvent, { EcomStep, EcomEvent, EcomView } from '../../../Utils/ecomEvent';
 import { registerInterval } from '../../../Utils/intervals';
 import { creditAssessmentDecline } from '../../../Data/creditAssessmentDecline';
+import InputSelect from '../../../Components/Input/InputSelect';
 
 const MARITAL_STATUS = `credit-assessment-martial-status`;
 const MARITAL_STATUS_NODE = `${MARITAL_STATUS}-node`;
@@ -48,14 +50,26 @@ const EMPLOYMENT_NODE = `${EMPLOYMENT}-node`;
 const HOUSEHOLD_CHILDREN = `credit-assessment-household-children`;
 const HOUSEHOLD_CHILDREN_NODE = `${HOUSEHOLD_CHILDREN}-node`;
 
-const HOUSEHOLD_INCOME = `credit-assessment-household-income`;
-const HOUSEHOLD_INCOME_NODE = `${HOUSEHOLD_INCOME}-node`;
+const HOUSING_COST = `credit-assessment-housing-cost`;
+const HOUSING_COST_NODE = `${HOUSING_COST}-node`;
 
-const HOUSEHOLD_HOUSING_COST = `credit-assessment-household-housing-cost`;
-const HOUSEHOLD_HOUSING_COST_NODE = `${HOUSEHOLD_HOUSING_COST}-node`;
+const DEBT_SPECIFICATION_CARD_CREDIT = `credit-assessment-debt-specification-card-credit`;
+const DEBT_SPECIFICATION_CARD_CREDIT_NODE = `${DEBT_SPECIFICATION_CARD_CREDIT}-node`;
 
-const HOUSEHOLD_DEBT = `credit-assessment-household-debt`;
-const HOUSEHOLD_DEBT_NODE = `${HOUSEHOLD_DEBT}-node`;
+const DEBT_SPECIFICATION_CAR_LOAN = `credit-assessment-debt-specification-car-loan`;
+const DEBT_SPECIFICATION_CAR_LOAN_NODE = `${DEBT_SPECIFICATION_CAR_LOAN}-node`;
+
+const DEBT_SPECIFICATION_COLLATERAL = `credit-assessment-debt-specification-collateral`;
+const DEBT_SPECIFICATION_COLLATERAL_NODE = `${DEBT_SPECIFICATION_COLLATERAL}-node`;
+
+const DEBT_SPECIFICATION_LEASING_FEES = `credit-assessment-debt-specification-leasing-fees`;
+const DEBT_SPECIFICATION_LEASING_FEES_NODE = `${DEBT_SPECIFICATION_LEASING_FEES}-node`;
+
+const DEBT_SPECIFICATION_PRIVATE_LOAN = `credit-assessment-debt-specification-private-loan`;
+const DEBT_SPECIFICATION_PRIVATE_LOAN_NODE = `${DEBT_SPECIFICATION_PRIVATE_LOAN}-node`;
+
+const HOUSING_TYPE = `credit-assessment-housing-type`;
+const HOUSING_TYPE_NODE = `${HOUSING_TYPE}-node`;
 
 const PERFORM_APPLICATION = `credit-assessment-perform-application`;
 const PERFORM_APPLICATION_NODE = `${PERFORM_APPLICATION}-node`;
@@ -70,9 +84,13 @@ export interface CreditAssessmentHouseholdEconomyValidation {
   income: boolean;
   employment: boolean;
   householdChildren: boolean;
-  householdIncome: boolean;
-  householdHousingCost: boolean;
-  householdDebt: boolean;
+  housingCost: boolean;
+  'debtSpecification.cardCredits': boolean;
+  'debtSpecification.carLoan': boolean;
+  'debtSpecification.collateral': boolean;
+  'debtSpecification.leasingFees': boolean;
+  'debtSpecification.privateLoan': boolean;
+  housingType: boolean;
 }
 
 interface CreditAssessmentHouseholdEconomy {
@@ -80,9 +98,13 @@ interface CreditAssessmentHouseholdEconomy {
   income: string;
   employment: string;
   householdChildren: string;
-  householdIncome: string;
-  householdHousingCost: string;
-  householdDebt: string;
+  housingCost: string;
+  'debtSpecification.cardCredits': string;
+  'debtSpecification.carLoan': string;
+  'debtSpecification.collateral': string;
+  'debtSpecification.leasingFees': string;
+  'debtSpecification.privateLoan': string;
+  housingType: string;
 }
 
 interface CreditAssessmentHouseholdEconomyState {
@@ -96,9 +118,13 @@ const validation = {
   income: validationMethods.requiredNumber,
   employment: validationMethods.requiredAssessmentEmplyment,
   householdChildren: validationMethods.requiredNumber,
-  householdIncome: validationMethods.requiredNumber,
-  householdHousingCost: validationMethods.requiredNumber,
-  householdDebt: validationMethods.requiredNumber,
+  housingCost: validationMethods.requiredNumber,
+  'debtSpecification.cardCredits': validationMethods.optionalNumber,
+  'debtSpecification.carLoan': validationMethods.optionalNumber,
+  'debtSpecification.collateral': validationMethods.optionalNumber,
+  'debtSpecification.leasingFees': validationMethods.optionalNumber,
+  'debtSpecification.privateLoan': validationMethods.optionalNumber,
+  housingType: validationMethods.requiredHousingType,
 };
 
 const mock: ICreditAssessmentHouseholdEconomy = {
@@ -106,9 +132,15 @@ const mock: ICreditAssessmentHouseholdEconomy = {
   income: 50000,
   employment: Employment.FullTimeEmployed,
   householdChildren: 0,
-  householdDebt: 0,
-  householdHousingCost: 2000,
-  householdIncome: 100000,
+  housingCost: 2000,
+  debtSpecification: {
+    cardCredits: 0,
+    carLoan: 0,
+    collateral: 0,
+    leasingFees: 0,
+    privateLoan: 0,
+  },
+  housingType: HousingType.Apartment,
 };
 
 const getMock = (): ICreditAssessmentHouseholdEconomy | undefined => {
@@ -123,9 +155,18 @@ const initalState = (
     income: creditAssessmentHouseholdEconomy?.income.toString() || '',
     employment: creditAssessmentHouseholdEconomy?.employment.toString() || '',
     householdChildren: creditAssessmentHouseholdEconomy?.householdChildren.toString() || '',
-    householdIncome: creditAssessmentHouseholdEconomy?.householdIncome.toString() || '',
-    householdHousingCost: creditAssessmentHouseholdEconomy?.householdHousingCost.toString() || '',
-    householdDebt: creditAssessmentHouseholdEconomy?.householdDebt.toString() || '',
+    housingCost: creditAssessmentHouseholdEconomy?.housingCost.toString() || '',
+    'debtSpecification.cardCredits':
+      creditAssessmentHouseholdEconomy?.debtSpecification.cardCredits.toString() || '',
+    'debtSpecification.carLoan':
+      creditAssessmentHouseholdEconomy?.debtSpecification.carLoan.toString() || '',
+    'debtSpecification.collateral':
+      creditAssessmentHouseholdEconomy?.debtSpecification.collateral.toString() || '',
+    'debtSpecification.leasingFees':
+      creditAssessmentHouseholdEconomy?.debtSpecification.leasingFees.toString() || '',
+    'debtSpecification.privateLoan':
+      creditAssessmentHouseholdEconomy?.debtSpecification.privateLoan.toString() || '',
+    housingType: creditAssessmentHouseholdEconomy?.housingType.toString() || '',
   };
   return {
     value,
@@ -134,18 +175,36 @@ const initalState = (
       income: validation.income(value.income),
       employment: validation.employment(value.employment),
       householdChildren: validation.householdChildren(value.householdChildren),
-      householdIncome: validation.householdIncome(value.householdIncome),
-      householdHousingCost: validation.householdHousingCost(value.householdHousingCost),
-      householdDebt: validation.householdDebt(value.householdDebt),
+      housingCost: validation.housingCost(value.housingCost),
+      'debtSpecification.cardCredits': validation['debtSpecification.cardCredits'](
+        value['debtSpecification.cardCredits']
+      ),
+      'debtSpecification.carLoan': validation['debtSpecification.carLoan'](
+        value['debtSpecification.carLoan']
+      ),
+      'debtSpecification.collateral': validation['debtSpecification.collateral'](
+        value['debtSpecification.collateral']
+      ),
+      'debtSpecification.leasingFees': validation['debtSpecification.leasingFees'](
+        value['debtSpecification.leasingFees']
+      ),
+      'debtSpecification.privateLoan': validation['debtSpecification.privateLoan'](
+        value['debtSpecification.privateLoan']
+      ),
+      housingType: validation.housingType(value.housingType),
     },
     interact: {
       maritalStatus: false,
       income: false,
       employment: false,
       householdChildren: false,
-      householdIncome: false,
-      householdHousingCost: false,
-      householdDebt: false,
+      housingCost: false,
+      'debtSpecification.cardCredits': false,
+      'debtSpecification.carLoan': false,
+      'debtSpecification.collateral': false,
+      'debtSpecification.leasingFees': false,
+      'debtSpecification.privateLoan': false,
+      housingType: false,
     },
   };
 };
@@ -166,10 +225,15 @@ class CreditAssessment extends HtmlNode {
     maritalStatus?: InputRadioGroup;
     income?: InputField;
     employment?: InputRadioGroup;
-    householdChildren?: InputField;
+    householdChildren?: InputSelect;
     householdIncome?: InputField;
-    householdHousingCost?: InputField;
-    householdDebt?: InputField;
+    housingCost?: InputField;
+    'debtSpecification.cardCredits'?: InputField;
+    'debtSpecification.carLoan'?: InputField;
+    'debtSpecification.collateral'?: InputField;
+    'debtSpecification.leasingFees'?: InputField;
+    'debtSpecification.privateLoan'?: InputField;
+    housingType?: InputRadioGroup;
     performApplicationButton?: ButtonBankId;
     bankId?: BankIdSign;
   } = {};
@@ -208,16 +272,44 @@ class CreditAssessment extends HtmlNode {
     this.updateProceedButton();
   }
 
+  private onChangeSelect(e: Event) {
+    const currentTarget = e.currentTarget as HTMLInputElement;
+    const name = currentTarget.name as 'householdChildren';
+
+    const value = currentTarget.value;
+    this.state.value[name] = value;
+    this.state.validation[name] = validation[name](value);
+
+    this.updateProceedButton();
+  }
+
   private onChangeRadio(e: Event) {
     const currentTarget = e.currentTarget as HTMLInputElement;
     const name = currentTarget.name as keyof Omit<
       CreditAssessmentHouseholdEconomyValidation,
-      'income' | 'householdChildren' | 'householdIncome' | 'householdHousingCost' | 'householdDebt'
+      | 'income'
+      | 'householdIncome'
+      | 'housingCost'
+      | 'householdChildren'
+      | 'debtSpecification.cardCredits'
+      | 'debtSpecification.carLoan'
+      | 'debtSpecification.collateral'
+      | 'debtSpecification.leasingFees'
+      | 'debtSpecification.privateLoan'
     >;
 
     const value = currentTarget.value;
     this.state.value[name] = value;
     this.state.validation[name] = validation[name](value);
+
+    if (name === 'housingType') {
+      if ((currentTarget.value as HousingType) === HousingType.SingleFamily) {
+        this.state.value.housingCost = '0';
+        this.state.validation.housingCost = validation.housingCost(this.state.value.housingCost);
+        this.render();
+      }
+      this.render();
+    }
 
     this.updateProceedButton();
   }
@@ -232,9 +324,13 @@ class CreditAssessment extends HtmlNode {
         !this.state.validation.income ||
         !this.state.validation.employment ||
         !this.state.validation.householdChildren ||
-        !this.state.validation.householdIncome ||
-        !this.state.validation.householdHousingCost ||
-        !this.state.validation.householdDebt
+        !this.state.validation.housingCost ||
+        !this.state.validation['debtSpecification.cardCredits'] ||
+        !this.state.validation['debtSpecification.carLoan'] ||
+        !this.state.validation['debtSpecification.collateral'] ||
+        !this.state.validation['debtSpecification.leasingFees'] ||
+        !this.state.validation['debtSpecification.privateLoan'] ||
+        !this.state.validation.housingType
     );
   }
 
@@ -455,11 +551,27 @@ class CreditAssessment extends HtmlNode {
       const price = paymentLookupResponse.price;
       const financialProductId = paymentLookupResponse.financialProductCode as string;
 
+      const householdEconomy: ICreditAssessmentHouseholdEconomy = {
+        employment: this.state.value.employment as Employment,
+        householdChildren: parseInt(this.state.value.householdChildren, 10),
+        housingCost: parseInt(this.state.value.housingCost || '0', 10),
+        housingType: this.state.value.housingType as HousingType,
+        income: parseInt(this.state.value.income || '0', 10),
+        maritalStatus: this.state.value.maritalStatus as MaritalStatus,
+        debtSpecification: {
+          cardCredits: parseInt(this.state.value['debtSpecification.cardCredits'] || '0', 10),
+          carLoan: parseInt(this.state.value['debtSpecification.carLoan'] || '0', 10),
+          collateral: parseInt(this.state.value['debtSpecification.collateral'] || '0', 10),
+          leasingFees: parseInt(this.state.value['debtSpecification.leasingFees'] || '0', 10),
+          privateLoan: parseInt(this.state.value['debtSpecification.privateLoan'] || '0', 10),
+        },
+      };
+
       const assessmentCase: ICreditAssessmentInquiry = {
         customer: {
           ...customer,
         },
-        householdEconomy: this.state.value as unknown as ICreditAssessmentHouseholdEconomy,
+        householdEconomy,
         externalId: loan.externalId as string,
         loan: {
           downPayment,
@@ -532,21 +644,67 @@ class CreditAssessment extends HtmlNode {
       </div>
       <div class="waykeecom-stack waykeecom-stack--3">
         <div class="waykeecom-stack waykeecom-stack--2">
-          <h5 class="waykeecom-heading waykeecom-heading--4 waykeecom-no-margin">Uppgifter om dig</h5>
+          <h5 class="waykeecom-heading waykeecom-heading--4 waykeecom-no-margin">Civilstatus</h5>
         </div>
         <div class="waykeecom-stack waykeecom-stack--2" id="${MARITAL_STATUS_NODE}"></div>
-        <div class="waykeecom-stack waykeecom-stack--2" id="${INCOME_NODE}"></div>
+      </div>
+
+      <div class="waykeecom-stack waykeecom-stack--3">
+        <div class="waykeecom-stack waykeecom-stack--2">
+          <h5 class="waykeecom-heading waykeecom-heading--4 waykeecom-no-margin">Sysselsättning</h5>
+        </div>
         <div class="waykeecom-stack waykeecom-stack--2" id="${EMPLOYMENT_NODE}"></div>
       </div>
 
       <div class="waykeecom-stack waykeecom-stack--3">
         <div class="waykeecom-stack waykeecom-stack--2">
-          <h5 class="waykeecom-heading waykeecom-heading--4 waykeecom-no-margin">Uppgifter om ditt hushåll</h5>
+          <h5 class="waykeecom-heading waykeecom-heading--4 waykeecom-no-margin">Barn</h5>
         </div>
         <div class="waykeecom-stack waykeecom-stack--2" id="${HOUSEHOLD_CHILDREN_NODE}"></div>
-        <div class="waykeecom-stack waykeecom-stack--2" id="${HOUSEHOLD_INCOME_NODE}"></div>
-        <div class="waykeecom-stack waykeecom-stack--2" id="${HOUSEHOLD_HOUSING_COST_NODE}"></div>
-        <div class="waykeecom-stack waykeecom-stack--2" id="${HOUSEHOLD_DEBT_NODE}"></div>
+      </div>
+
+      <div class="waykeecom-stack waykeecom-stack--3">
+        <div class="waykeecom-stack waykeecom-stack--2">
+          <h5 class="waykeecom-heading waykeecom-heading--4 waykeecom-no-margin">Inkomst</h5>
+        </div>
+        <div class="waykeecom-stack waykeecom-stack--2" id="${INCOME_NODE}"></div>
+      </div>
+
+      <div class="waykeecom-stack waykeecom-stack--3">
+        <div class="waykeecom-stack waykeecom-stack--2">
+          <h5 class="waykeecom-heading waykeecom-heading--4 waykeecom-no-margin">Boendeform</h5>
+          <div class="waykeecom-content">
+            <p class="waykeecom-content__p">Ange typ av boende.</p>
+          </div>
+        </div>
+        <div class="waykeecom-stack waykeecom-stack--2" id="${HOUSING_TYPE_NODE}"></div>
+      </div>
+
+      ${
+        this.state.value.housingType !== HousingType.SingleFamily
+          ? `
+          <div class="waykeecom-stack waykeecom-stack--3">
+            <div class="waykeecom-stack waykeecom-stack--2">
+              <h5 class="waykeecom-heading waykeecom-heading--4 waykeecom-no-margin">Boendekostnad</h5>
+            </div>
+            <div class="waykeecom-stack waykeecom-stack--2" id="${HOUSING_COST_NODE}"></div>
+          </div>
+          `
+          : ''
+      }
+
+      <div class="waykeecom-stack waykeecom-stack--3">
+        <div class="waykeecom-stack waykeecom-stack--2">
+          <h5 class="waykeecom-heading waykeecom-heading--4 waykeecom-no-margin">Skulder och Ansvarsförbindelser</h5>
+          <div class="waykeecom-content">
+            <p class="waykeecom-content__p">Ange eventuella skulder och ansvarsförbindelser inom respektive kategori.</p>
+          </div>
+        </div>
+        <div class="waykeecom-stack waykeecom-stack--2" id="${DEBT_SPECIFICATION_PRIVATE_LOAN_NODE}"></div>
+        <div class="waykeecom-stack waykeecom-stack--2" id="${DEBT_SPECIFICATION_CAR_LOAN_NODE}"></div>
+        <div class="waykeecom-stack waykeecom-stack--2" id="${DEBT_SPECIFICATION_LEASING_FEES_NODE}"></div>
+        <div class="waykeecom-stack waykeecom-stack--2" id="${DEBT_SPECIFICATION_CARD_CREDIT_NODE}"></div>
+        <div class="waykeecom-stack waykeecom-stack--2" id="${DEBT_SPECIFICATION_COLLATERAL_NODE}"></div>
       </div>
 
       <div class="waykeecom-stack waykeecom-stack--3">
@@ -618,10 +776,15 @@ class CreditAssessment extends HtmlNode {
             {
               id: `maritalStatus-${1}`,
               value: MaritalStatus.Married,
-              title: 'Gift eller sambo',
+              title: 'Gift/partnerskap',
             },
             {
               id: `maritalStatus-${2}`,
+              value: MaritalStatus.CommonLaw,
+              title: 'Sambo',
+            },
+            {
+              id: `maritalStatus-${3}`,
               value: MaritalStatus.Single,
               title: 'Ensamstående',
             },
@@ -658,7 +821,7 @@ class CreditAssessment extends HtmlNode {
             {
               id: `employment-${1}`,
               value: Employment.FullTimeEmployed,
-              title: 'Fast- eller tillsvidareanställd',
+              title: 'Fast eller tillsvidareanställd',
             },
             {
               id: `employment-${2}`,
@@ -690,6 +853,33 @@ class CreditAssessment extends HtmlNode {
         }
       );
 
+      this.contexts.housingType = new InputRadioGroup(
+        this.node.querySelector<HTMLDivElement>(`#${HOUSING_TYPE_NODE}`),
+        {
+          title: 'Boendeform',
+          checked: this.state.value.housingType as string,
+          name: 'housingType',
+          options: [
+            {
+              id: `housingType-${1}`,
+              value: HousingType.SingleFamily,
+              title: 'Villa',
+            },
+            {
+              id: `housingType-${2}`,
+              value: HousingType.Condominium,
+              title: 'Bostadsrätt',
+            },
+            {
+              id: `housingType-${3}`,
+              value: HousingType.Apartment,
+              title: 'Hyresrätt',
+            },
+          ],
+          onClick: (e) => this.onChangeRadio(e),
+        }
+      );
+
       this.contexts.income = new InputField(
         this.node.querySelector<HTMLDivElement>(`#${INCOME_NODE}`),
         {
@@ -703,103 +893,80 @@ class CreditAssessment extends HtmlNode {
           placeholder: '',
           unit: 'kr',
           type: 'number',
+          information: `
+          <div class="waykeecom-content waykeecom-content--inherit-size">
+            <p class="waykeecom-content__p"><span class="waykeecom-text waykeecom-text--font-medium">Inkomst per månad före skatt</span></p>
+            <p class="waykeecom-content__p">Lön och/eller pension, inte bidrag  eller studielån.</p>
+          </div>
+        `,
           onChange: (e) => this.onChange(e),
           onBlur: (e) => this.onBlur(e),
         }
       );
 
-      this.contexts.householdChildren = new InputField(
+      this.contexts.householdChildren = new InputSelect(
         this.node.querySelector<HTMLDivElement>(`#${HOUSEHOLD_CHILDREN_NODE}`),
         {
-          title: 'Antal hemmavarande barn',
+          title: 'Antal barn under 18 år',
           value: this.state.value.householdChildren,
-          id: HOUSEHOLD_CHILDREN,
-          error: this.state.interact.householdChildren && !this.state.validation.householdChildren,
-          errorMessage: 'Ange antal hemmavarande barn',
           name: 'householdChildren',
-          autocomplete: 'off',
-          placeholder: '',
-          type: 'number',
-          information: `
-            <div class="waykeecom-content waykeecom-content--inherit-size">
-              <p class="waykeecom-content__p"><span class="waykeecom-text waykeecom-text--font-medium">Hur många barn försörjer du?</span></p>
-              <p class="waykeecom-content__p">Fyll i antal barn som får barn- eller studiebidrag och som du försörjer. Barn som bor hemma och arbetar och kan försörja sig själva behöver inte räknas med.</p>
-              <p class="waykeecom-content__p">För dig som har delad vårdnad: ange samtliga barn som bor minst 50 % i hushållet.</p>
-            </div>
-          `,
-          onChange: (e) => this.onChange(e),
-          onBlur: (e) => this.onBlur(e),
-          onClickInformation: () => {
-            ecomEvent(
-              EcomView.MAIN,
-              EcomEvent.FINANCIAL_LOAN_HOUSEHOLD_CHILDREN_INFORMATION_TOGGLE,
-              EcomStep.FINANCIAL
-            );
-          },
+          options: [
+            {
+              value: '0',
+            },
+            {
+              value: '1',
+            },
+            {
+              value: '2',
+            },
+            {
+              value: '3',
+            },
+            {
+              value: '4',
+            },
+            {
+              value: '5',
+            },
+            {
+              value: '6',
+            },
+            {
+              value: '7',
+            },
+            {
+              value: '8',
+            },
+            {
+              value: '9',
+            },
+            {
+              value: '10',
+              title: '10 eller fler',
+            },
+          ],
+          onChange: (e) => this.onChangeSelect(e),
         }
       );
 
-      this.contexts.householdIncome = new InputField(
-        this.node.querySelector<HTMLDivElement>(`#${HOUSEHOLD_INCOME_NODE}`),
-        {
-          title: 'Hushållets inkomst per månad före skatt',
-          value: this.state.value.householdIncome,
-          id: HOUSEHOLD_INCOME,
-          error: this.state.interact.householdIncome && !this.state.validation.householdIncome,
-          errorMessage: 'Ange hushållets inkomst per månad före skatt',
-          name: 'householdIncome',
+      const housingCostNode = this.node.querySelector<HTMLDivElement>(`#${HOUSING_COST_NODE}`);
+      if (housingCostNode) {
+        this.contexts.housingCost = new InputField(housingCostNode, {
+          title: 'Boendekostnad',
+          value: this.state.value.housingCost,
+          id: HOUSING_COST,
+          error: this.state.interact.housingCost && !this.state.validation.housingCost,
+          errorMessage: 'Ange boendekostnader per månad',
+          name: 'housingCost',
           autocomplete: 'off',
           placeholder: '',
           unit: 'kr',
           type: 'number',
           information: `
             <div class="waykeecom-content waykeecom-content--inherit-size">
-              <p class="waykeecom-content__p"><span class="waykeecom-text waykeecom-text--font-medium">Hur stor inkomst har ert hushåll per månad före skatt?</span></p>
-              <p class="waykeecom-content__p">Ange hur stor hushållets totala inkomst är. Exempel på inkomster kan vara:</p>
-              <ul class="waykeecom-content__ul">
-                <li class="waykeecom-content__li">Lön</li>
-                <li class="waykeecom-content__li">Pension</li>
-                <li class="waykeecom-content__li">Kapitalinkomst</li>
-              </ul>
-            </div>
-          `,
-          onChange: (e) => this.onChange(e),
-          onBlur: (e) => this.onBlur(e),
-          onClickInformation: () => {
-            ecomEvent(
-              EcomView.MAIN,
-              EcomEvent.FINANCIAL_LOAN_HOUSEHOLD_INCOME_INFORMATION_TOGGLE,
-              EcomStep.FINANCIAL
-            );
-          },
-        }
-      );
-
-      this.contexts.householdHousingCost = new InputField(
-        this.node.querySelector<HTMLDivElement>(`#${HOUSEHOLD_HOUSING_COST_NODE}`),
-        {
-          title: 'Hushållets ungefärliga boendekostnader per månad',
-          value: this.state.value.householdHousingCost,
-          id: HOUSEHOLD_HOUSING_COST,
-          error:
-            this.state.interact.householdHousingCost && !this.state.validation.householdHousingCost,
-          errorMessage: 'Ange hushållets ungefärliga boendekostnader per månad',
-          name: 'householdHousingCost',
-          autocomplete: 'off',
-          placeholder: '',
-          unit: 'kr',
-          type: 'number',
-          information: `
-            <div class="waykeecom-content waykeecom-content--inherit-size">
-              <p class="waykeecom-content__p"><span class="waykeecom-text waykeecom-text--font-medium">Hur stora utgifter för ert boende har ditt hushåll varje månad?</span></p>
-              <p class="waykeecom-content__p">Ange hur stor hushållets ungefärliga boendekostnader är. Exempel på kostnader kan vara:</p>
-              <ul class="waykeecom-content__ul">
-                <li class="waykeecom-content__li">Hyra</li>
-                <li class="waykeecom-content__li">Avgift till förening</li>
-                <li class="waykeecom-content__li">Driftkostnader</li>
-                <li class="waykeecom-content__li">Räntekostnader</li>
-              </ul>
-              <p class="waykeecom-content__p"><span class="waykeecom-text waykeecom-text--italic">Amorteringskostnader ingår inte i beräkningen.</span></p>
+              <p class="waykeecom-content__p"><span class="waykeecom-text waykeecom-text--font-medium">Boendekostnad</span></p>
+              <p class="waykeecom-content__p">Exklusive ränta och amortering</p>
             </div>
           `,
           onChange: (e) => this.onChange(e),
@@ -811,33 +978,28 @@ class CreditAssessment extends HtmlNode {
               EcomStep.FINANCIAL
             );
           },
-        }
-      );
+        });
+      }
 
-      this.contexts.householdDebt = new InputField(
-        this.node.querySelector<HTMLDivElement>(`#${HOUSEHOLD_DEBT_NODE}`),
+      this.contexts['debtSpecification.cardCredits'] = new InputField(
+        this.node.querySelector<HTMLDivElement>(`#${DEBT_SPECIFICATION_CARD_CREDIT_NODE}`),
         {
-          title: 'Hushållets totala skulder',
-          value: this.state.value.householdDebt,
-          id: HOUSEHOLD_DEBT,
-          error: this.state.interact.householdDebt && !this.state.validation.householdDebt,
-          errorMessage: 'Ange hushållets totala skulder',
-          name: 'householdDebt',
+          title: 'Kortkrediter',
+          value: this.state.value['debtSpecification.cardCredits'],
+          id: DEBT_SPECIFICATION_CARD_CREDIT,
+          error:
+            this.state.interact['debtSpecification.cardCredits'] &&
+            !this.state.validation['debtSpecification.cardCredits'],
+          errorMessage: 'Ange kortkrediter eller lämna tomt',
+          name: 'debtSpecification.cardCredits',
           autocomplete: 'off',
           placeholder: '',
           unit: 'kr',
           type: 'number',
           information: `
             <div class="waykeecom-content waykeecom-content--inherit-size">
-              <p class="waykeecom-content__p"><span class="waykeecom-text waykeecom-text--font-medium">Hur mycket andra skulder har ert hushåll?</span></p>
-              <p class="waykeecom-content__p">Ange kostnaden för samtliga övriga lån och skulder som hushållet har. Exempel på andra lån och skulder kan vara:</p>
-              <ul class="waykeecom-content__ul">
-                <li class="waykeecom-content__li">Andra billån</li>
-                <li class="waykeecom-content__li">Bostadslån</li>
-                <li class="waykeecom-content__li">Studielån</li>
-                <li class="waykeecom-content__li">Blanco/privatlån</li>
-                <li class="waykeecom-content__li">Kortkredit</li>
-              </ul>
+              <p class="waykeecom-content__p"><span class="waykeecom-text waykeecom-text--font-medium">Kortkrediter</span></p>
+              <p class="waykeecom-content__p">Total skuld</p>
             </div>
           `,
           onChange: (e) => this.onChange(e),
@@ -845,7 +1007,139 @@ class CreditAssessment extends HtmlNode {
           onClickInformation: () => {
             ecomEvent(
               EcomView.MAIN,
-              EcomEvent.FINANCIAL_LOAN_HOUSEHOLD_COST_INFORMATION_TOGGLE,
+              EcomEvent.FINANCIAL_LOAN_DEBT_SPECIFICATION_CARD_CREDIT_INFORMATION_TOGGLE,
+              EcomStep.FINANCIAL
+            );
+          },
+        }
+      );
+
+      this.contexts['debtSpecification.carLoan'] = new InputField(
+        this.node.querySelector<HTMLDivElement>(`#${DEBT_SPECIFICATION_CAR_LOAN_NODE}`),
+        {
+          title: 'Billån',
+          value: this.state.value['debtSpecification.carLoan'],
+          id: DEBT_SPECIFICATION_CAR_LOAN,
+          error:
+            this.state.interact['debtSpecification.carLoan'] &&
+            !this.state.validation['debtSpecification.carLoan'],
+          errorMessage: 'Ange billån eller lämna tomt',
+          name: 'debtSpecification.carLoan',
+          autocomplete: 'off',
+          placeholder: '',
+          unit: 'kr',
+          type: 'number',
+          information: `
+            <div class="waykeecom-content waykeecom-content--inherit-size">
+              <p class="waykeecom-content__p"><span class="waykeecom-text waykeecom-text--font-medium">Billån</span></p>
+              <p class="waykeecom-content__p">Total skuld. Ange inte skuld för bil som ska ersättas.</p>
+            </div>
+          `,
+          onChange: (e) => this.onChange(e),
+          onBlur: (e) => this.onBlur(e),
+          onClickInformation: () => {
+            ecomEvent(
+              EcomView.MAIN,
+              EcomEvent.FINANCIAL_LOAN_DEBT_SPECIFICATION_CAR_LOAN_INFORMATION_TOGGLE,
+              EcomStep.FINANCIAL
+            );
+          },
+        }
+      );
+
+      this.contexts['debtSpecification.collateral'] = new InputField(
+        this.node.querySelector<HTMLDivElement>(`#${DEBT_SPECIFICATION_COLLATERAL_NODE}`),
+        {
+          title: 'Borgensåtagande ',
+          value: this.state.value['debtSpecification.collateral'],
+          id: DEBT_SPECIFICATION_COLLATERAL,
+          error:
+            this.state.interact['debtSpecification.collateral'] &&
+            !this.state.validation['debtSpecification.collateral'],
+          errorMessage: 'Ange borgensåtagande eller lämna tomt',
+          name: 'debtSpecification.collateral',
+          autocomplete: 'off',
+          placeholder: '',
+          unit: 'kr',
+          type: 'number',
+          information: `
+          <div class="waykeecom-content waykeecom-content--inherit-size">
+            <p class="waykeecom-content__p"><span class="waykeecom-text waykeecom-text--font-medium">Borgensåtagande</span></p>
+            <p class="waykeecom-content__p">Totalt belopp.</p>
+          </div>
+          `,
+          onChange: (e) => this.onChange(e),
+          onBlur: (e) => this.onBlur(e),
+          onClickInformation: () => {
+            ecomEvent(
+              EcomView.MAIN,
+              EcomEvent.FINANCIAL_LOAN_DEBT_SPECIFICATION_COLLATERAL_INFORMATION_TOGGLE,
+              EcomStep.FINANCIAL
+            );
+          },
+        }
+      );
+
+      this.contexts['debtSpecification.leasingFees'] = new InputField(
+        this.node.querySelector<HTMLDivElement>(`#${DEBT_SPECIFICATION_LEASING_FEES_NODE}`),
+        {
+          title: 'Billeasing ',
+          value: this.state.value['debtSpecification.leasingFees'],
+          id: DEBT_SPECIFICATION_LEASING_FEES,
+          error:
+            this.state.interact['debtSpecification.leasingFees'] &&
+            !this.state.validation['debtSpecification.leasingFees'],
+          errorMessage: 'Ang billeasingkostnader eller lämna tomt',
+          name: 'debtSpecification.leasingFees',
+          autocomplete: 'off',
+          placeholder: '',
+          unit: 'kr',
+          type: 'number',
+          information: `
+          <div class="waykeecom-content waykeecom-content--inherit-size">
+            <p class="waykeecom-content__p"><span class="waykeecom-text waykeecom-text--font-medium">Billeasing</span></p>
+            <p class="waykeecom-content__p">Ange inte månadskostnad för bil som skall ersättas</p>
+          </div>
+          `,
+          onChange: (e) => this.onChange(e),
+          onBlur: (e) => this.onBlur(e),
+          onClickInformation: () => {
+            ecomEvent(
+              EcomView.MAIN,
+              EcomEvent.FINANCIAL_LOAN_DEBT_SPECIFICATION_LEASING_FEES_INFORMATION_TOGGLE,
+              EcomStep.FINANCIAL
+            );
+          },
+        }
+      );
+
+      this.contexts['debtSpecification.privateLoan'] = new InputField(
+        this.node.querySelector<HTMLDivElement>(`#${DEBT_SPECIFICATION_PRIVATE_LOAN_NODE}`),
+        {
+          title: 'Privatlån (ej bolån)',
+          value: this.state.value['debtSpecification.privateLoan'],
+          id: DEBT_SPECIFICATION_PRIVATE_LOAN,
+          error:
+            this.state.interact['debtSpecification.privateLoan'] &&
+            !this.state.validation['debtSpecification.privateLoan'],
+          errorMessage: 'Ange privatlån eller lämna tomt',
+          name: 'debtSpecification.privateLoan',
+          autocomplete: 'off',
+          placeholder: '',
+          unit: 'kr',
+          type: 'number',
+          information: `
+          <div class="waykeecom-content waykeecom-content--inherit-size">
+            <p class="waykeecom-content__p"><span class="waykeecom-text waykeecom-text--font-medium">Privatlån (ej bolån)</span></p>
+            <p class="waykeecom-content__p">Total skuld, t.ex. blancolån och sms-lån</p>
+          </div>
+          `,
+          onChange: (e) => this.onChange(e),
+          onBlur: (e) => this.onBlur(e),
+          onClickInformation: () => {
+            ecomEvent(
+              EcomView.MAIN,
+              EcomEvent.FINANCIAL_LOAN_DEBT_SPECIFICATION_PRIVATE_LOAN_INFORMATION_TOGGLE,
               EcomStep.FINANCIAL
             );
           },
@@ -862,9 +1156,7 @@ class CreditAssessment extends HtmlNode {
             this.state.validation.income &&
             this.state.validation.employment &&
             this.state.validation.householdChildren &&
-            this.state.validation.householdIncome &&
-            this.state.validation.householdHousingCost &&
-            this.state.validation.householdDebt
+            this.state.validation.housingCost
           ),
           onClick: () => {
             this.view = 2;

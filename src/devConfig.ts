@@ -32,4 +32,7 @@ export const devConfig = {
   TEST: {
     id: 'b3b47770-5d88-40e4-849f-2c4bdd9051e2',
   },
+  LEASING2: {
+    id: '2c1ef517-9e6a-4211-b625-ae4f2f24bad6',
+  },
 };

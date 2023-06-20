@@ -41,10 +41,10 @@ export const validationMethods = {
 
     return number >= from && number <= to;
   },
-  requiredNumber: (s: string | number) => {
-    const number = parseInt(s.toString(), 10);
-    return !isNaN(number);
-  },
+  requiredNumber: (s?: string | number | null) =>
+    s !== null && s !== undefined && !Number.isNaN(+s),
+  optionalNumber: (s?: string | number | null) =>
+    s === null || s === undefined || !Number.isNaN(+s),
   requiredRegistrationNumber: (s?: string) => {
     if (!s) {
       return false;
@@ -78,5 +78,8 @@ export const validationMethods = {
       'temporarilyEmployed',
       'selfEmployed',
     ].includes(s || '');
+  },
+  requiredHousingType: (s?: string) => {
+    return ['singleFamily', 'condominium', 'apartment'].includes(s || '');
   },
 };
