@@ -306,7 +306,6 @@ class CreditAssessment extends HtmlNode {
       if ((currentTarget.value as HousingType) === HousingType.SingleFamily) {
         this.state.value.housingCost = '0';
         this.state.validation.housingCost = validation.housingCost(this.state.value.housingCost);
-        this.render();
       }
       this.render();
     }
@@ -953,7 +952,12 @@ class CreditAssessment extends HtmlNode {
       const housingCostNode = this.node.querySelector<HTMLDivElement>(`#${HOUSING_COST_NODE}`);
       if (housingCostNode) {
         this.contexts.housingCost = new InputField(housingCostNode, {
-          title: 'Boendekostnad',
+          title:
+            this.state.value.housingType === HousingType.Condominium
+              ? 'Min del av månadsavgiften'
+              : this.state.value.housingType === HousingType.Apartment
+              ? 'Min del av månadshyran'
+              : 'Boendekostnad',
           value: this.state.value.housingCost,
           id: HOUSING_COST,
           error: this.state.interact.housingCost && !this.state.validation.housingCost,
@@ -963,12 +967,15 @@ class CreditAssessment extends HtmlNode {
           placeholder: '',
           unit: 'kr',
           type: 'number',
-          information: `
+          information:
+            this.state.value.housingType === HousingType.Condominium
+              ? `
             <div class="waykeecom-content waykeecom-content--inherit-size">
-              <p class="waykeecom-content__p"><span class="waykeecom-text waykeecom-text--font-medium">Boendekostnad</span></p>
+              <p class="waykeecom-content__p"><span class="waykeecom-text waykeecom-text--font-medium">Min del av månadsavgiften</span></p>
               <p class="waykeecom-content__p">Exklusive ränta och amortering</p>
             </div>
-          `,
+          `
+              : undefined,
           onChange: (e) => this.onChange(e),
           onBlur: (e) => this.onBlur(e),
           onClickInformation: () => {
