@@ -1,7 +1,7 @@
-import * as esbuild from 'esbuild';
-import { sassPlugin } from 'esbuild-sass-plugin';
+const { sassPlugin } = require('esbuild-sass-plugin');
+const { build } = require('esbuild');
 
-const Shared = {
+const shared = {
   entryPoints: ['src/cdn.ts'],
   bundle: true,
   minify: true,
@@ -18,15 +18,8 @@ const Shared = {
   plugins: [sassPlugin()],
 };
 
-const ctx = esbuild.build({
-  ...Shared,
+build({
+  ...shared,
   outfile: 'dist-cdn/index.js',
   format: 'esm',
 });
-
-try {
-  await ctx;
-} catch (e) {
-  // eslint-disable-next-line
-  console.log('Error occured', e);
-}

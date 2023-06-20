@@ -9,7 +9,6 @@
     "skipLibCheck": true,
     "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
-    "typeRoots": ["./node_modules/@types", "./src/@types"],
-    "isolatedModules": true,
+    "typeRoots": ["./node_modules/@types", "./src/@types"]
   }
 }

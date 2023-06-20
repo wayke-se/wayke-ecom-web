@@ -1,4 +1,4 @@
-import HtmlNode from '../../../../../component-library/html-node';
+import HtmlNode from '../../../../Components/Extension/HtmlNode';
 
 class InsuracenAddonBox extends HtmlNode {
   constructor(element: HTMLElement | null) {

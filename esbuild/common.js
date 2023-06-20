@@ -1,6 +1,6 @@
-import { sassPlugin } from 'esbuild-sass-plugin';
+const { sassPlugin } = require('esbuild-sass-plugin');
 
-const Common = {
+module.exports = {
   entryPoints: ['src/index.ts'],
   bundle: true,
   outdir: 'build',
@@ -14,5 +14,3 @@ const Common = {
   },
   plugins: [sassPlugin()],
 };
-
-export default Common;

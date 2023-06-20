@@ -35,7 +35,7 @@ The component library will start on http://localhost:8000/.
 
 ### Add components
 
-All components should be documented in the component library. To add a new component to the library add a `html` file corresponding to the component name in `component-library/component`.
+All components should be documented in the component library. To add a new component to the library add a `html` file corresponding to the component name in `clip-ui/components`.
 
 The file name will be used as title for the component. To add a description - put a html comment on top of the file containing the description. See the example below.
 
