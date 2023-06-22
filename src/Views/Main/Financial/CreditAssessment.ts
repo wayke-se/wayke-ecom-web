@@ -115,15 +115,15 @@ interface CreditAssessmentHouseholdEconomyState {
 
 const validation = {
   maritalStatus: validationMethods.requiredAssessmentMaritalStatus,
-  income: validationMethods.requiredNumber,
+  income: validationMethods.requiredNumberGreaterOrEqualThanZero,
   employment: validationMethods.requiredAssessmentEmplyment,
-  householdChildren: validationMethods.requiredNumber,
-  housingCost: validationMethods.requiredNumber,
-  'debtSpecification.cardCredits': validationMethods.optionalNumber,
-  'debtSpecification.carLoan': validationMethods.optionalNumber,
-  'debtSpecification.collateral': validationMethods.optionalNumber,
-  'debtSpecification.leasingFees': validationMethods.optionalNumber,
-  'debtSpecification.privateLoan': validationMethods.optionalNumber,
+  householdChildren: validationMethods.requiredNumberGreaterOrEqualThanZero,
+  housingCost: validationMethods.requiredNumberGreaterOrEqualThanZero,
+  'debtSpecification.cardCredits': validationMethods.optionalNumberGreaterOrEqualThanZero,
+  'debtSpecification.carLoan': validationMethods.optionalNumberGreaterOrEqualThanZero,
+  'debtSpecification.collateral': validationMethods.optionalNumberGreaterOrEqualThanZero,
+  'debtSpecification.leasingFees': validationMethods.optionalNumberGreaterOrEqualThanZero,
+  'debtSpecification.privateLoan': validationMethods.optionalNumberGreaterOrEqualThanZero,
   housingType: validationMethods.requiredHousingType,
 };
 
@@ -967,6 +967,7 @@ class CreditAssessment extends HtmlNode {
           placeholder: '',
           unit: 'kr',
           type: 'number',
+          min: 0,
           information:
             this.state.value.housingType === HousingType.Condominium
               ? `
@@ -1003,6 +1004,7 @@ class CreditAssessment extends HtmlNode {
           placeholder: '',
           unit: 'kr',
           type: 'number',
+          min: 0,
           information: `
             <div class="waykeecom-content waykeecom-content--inherit-size">
               <p class="waykeecom-content__p"><span class="waykeecom-text waykeecom-text--font-medium">Kortkrediter</span></p>
@@ -1036,6 +1038,7 @@ class CreditAssessment extends HtmlNode {
           placeholder: '',
           unit: 'kr',
           type: 'number',
+          min: 0,
           information: `
             <div class="waykeecom-content waykeecom-content--inherit-size">
               <p class="waykeecom-content__p"><span class="waykeecom-text waykeecom-text--font-medium">Billån</span></p>
@@ -1069,6 +1072,7 @@ class CreditAssessment extends HtmlNode {
           placeholder: '',
           unit: 'kr',
           type: 'number',
+          min: 0,
           information: `
           <div class="waykeecom-content waykeecom-content--inherit-size">
             <p class="waykeecom-content__p"><span class="waykeecom-text waykeecom-text--font-medium">Borgensåtagande</span></p>
@@ -1102,6 +1106,7 @@ class CreditAssessment extends HtmlNode {
           placeholder: '',
           unit: 'kr',
           type: 'number',
+          min: 0,
           information: `
           <div class="waykeecom-content waykeecom-content--inherit-size">
             <p class="waykeecom-content__p"><span class="waykeecom-text waykeecom-text--font-medium">Billeasing</span></p>
@@ -1123,7 +1128,7 @@ class CreditAssessment extends HtmlNode {
       this.contexts['debtSpecification.privateLoan'] = new InputField(
         this.node.querySelector<HTMLDivElement>(`#${DEBT_SPECIFICATION_PRIVATE_LOAN_NODE}`),
         {
-          title: 'Privatlån (ej bolån)',
+          title: 'Privatlån (ej bolån och CSN)',
           value: this.state.value['debtSpecification.privateLoan'],
           id: DEBT_SPECIFICATION_PRIVATE_LOAN,
           error:
@@ -1135,9 +1140,10 @@ class CreditAssessment extends HtmlNode {
           placeholder: '',
           unit: 'kr',
           type: 'number',
+          min: 0,
           information: `
           <div class="waykeecom-content waykeecom-content--inherit-size">
-            <p class="waykeecom-content__p"><span class="waykeecom-text waykeecom-text--font-medium">Privatlån (ej bolån)</span></p>
+            <p class="waykeecom-content__p"><span class="waykeecom-text waykeecom-text--font-medium">Privatlån (ej bolån och CSN)</span></p>
             <p class="waykeecom-content__p">Total skuld, t.ex. blancolån och sms-lån</p>
           </div>
           `,
@@ -1199,7 +1205,7 @@ class CreditAssessment extends HtmlNode {
             <div class="waykeecom-hstack__item">Varför måste jag svara på allt detta?</div>
           </div>`,
         description: `<div class="waykeecom-content">
-            <p class="waykeecom-content__p">${loan?.name}, liksom alla banker i Sverige, är enligt lagen om åtgärder mot penningtvätt och finansiering av terrorism skyldiga att ha god kännedom om sina kunder. Därför måste vi ställa frågor om dig som kund. Den information vi får om dig behandlas konfidentiellt och omfattas av banksekretessen och GDPR.</p>
+            <p class="waykeecom-content__p">${loan?.name} måste ta in uppgifterna av kunden för att uppfylla bestämmelser i Konsumentkreditlagen (2010:1846) och Lag (2017:630) om åtgärder mot penningtvätt och finansiering av terrorism.</p>
             <p class="waykeecom-content__p"><a href="#" title="" target="_blank" rel="noopener norefferer" class="waykeecom-link">Läs mer om detta här</a></p>
           </div>`,
         onClick: () => {

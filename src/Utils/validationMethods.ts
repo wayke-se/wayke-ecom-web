@@ -43,6 +43,20 @@ export const validationMethods = {
   },
   requiredNumber: (s?: string | number | null) =>
     s !== null && s !== undefined && !Number.isNaN(+s),
+  requiredNumberGreaterOrEqualThanZero: (s?: string | number | null) => {
+    if (s === undefined || s === null) {
+      return false;
+    }
+    const f = parseInt(s.toString(), 10);
+    return !Number.isNaN(f) && f >= 0;
+  },
+  optionalNumberGreaterOrEqualThanZero: (s?: string | number | null) => {
+    if (s === undefined || s === null || (typeof s === 'string' && !s)) {
+      return true;
+    }
+    const f = parseInt(s.toString(), 10);
+    return !Number.isNaN(f) && f >= 0;
+  },
   optionalNumber: (s?: string | number | null) =>
     s === null || s === undefined || !Number.isNaN(+s),
   requiredRegistrationNumber: (s?: string) => {
@@ -67,7 +81,7 @@ export const validationMethods = {
     return ['VeryGood', 'Good', 'Ok'].includes(s || '');
   },
   requiredAssessmentMaritalStatus: (s?: string) => {
-    return ['married', 'single'].includes(s || '');
+    return ['married', 'single', 'commonLaw'].includes(s || '');
   },
   requiredAssessmentEmplyment: (s?: string) => {
     return [
