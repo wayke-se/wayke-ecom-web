@@ -265,6 +265,7 @@ class Financial extends HtmlNode {
           id: RADIO_FINANCIAL_LEASE,
           title: 'Privatleasing',
           value: PaymentType.Lease,
+          /*
           description: `
             <div class="waykeecom-box">
               <div class="waykeecom-content waykeecom-content--inherit-size">
@@ -273,7 +274,8 @@ class Financial extends HtmlNode {
                 </ul>
               </div>
             </div>`,
-          meta: `<div class="waykeecom-text waykeecom-text--font-bold">${prettyNumber(
+          */
+          meta: `<div class="waykeecom-text waykeecom-text--font-bold">Från ${prettyNumber(
             lease?.price,
             {
               postfix: lease.unit,
