@@ -131,7 +131,7 @@ const mock: ICreditAssessmentHouseholdEconomy = {
   maritalStatus: MaritalStatus.Married,
   income: 50000,
   employment: Employment.FullTimeEmployed,
-  householdChildren: 0,
+  householdChildren: -1,
   housingCost: 2000,
   debtSpecification: {
     cardCredits: 0,
@@ -154,7 +154,7 @@ const initalState = (
     maritalStatus: creditAssessmentHouseholdEconomy?.maritalStatus || '',
     income: creditAssessmentHouseholdEconomy?.income.toString() || '',
     employment: creditAssessmentHouseholdEconomy?.employment.toString() || '',
-    householdChildren: creditAssessmentHouseholdEconomy?.householdChildren.toString() || '',
+    householdChildren: creditAssessmentHouseholdEconomy?.householdChildren.toString() || '-1',
     housingCost: creditAssessmentHouseholdEconomy?.housingCost.toString() || '',
     'debtSpecification.cardCredits':
       creditAssessmentHouseholdEconomy?.debtSpecification.cardCredits.toString() || '',
@@ -768,7 +768,6 @@ class CreditAssessment extends HtmlNode {
       this.contexts.maritalStatus = new InputRadioGroup(
         this.node.querySelector<HTMLDivElement>(`#${MARITAL_STATUS_NODE}`),
         {
-          title: 'Civilstånd',
           checked: this.state.value.maritalStatus as string,
           name: 'maritalStatus',
           options: [
@@ -813,7 +812,6 @@ class CreditAssessment extends HtmlNode {
       this.contexts.employment = new InputRadioGroup(
         this.node.querySelector<HTMLDivElement>(`#${EMPLOYMENT_NODE}`),
         {
-          title: 'Sysselsättning',
           checked: this.state.value.employment as string,
           name: 'employment',
           options: [
@@ -909,7 +907,14 @@ class CreditAssessment extends HtmlNode {
           title: 'Antal barn under 18 år',
           value: this.state.value.householdChildren,
           name: 'householdChildren',
+          error: this.state.interact.householdChildren && !this.state.validation.householdChildren,
+          errorMessage: 'Välj antal barn',
           options: [
+            {
+              value: '-1',
+              title: 'Välj antal barn',
+              disabled: true,
+            },
             {
               value: '0',
             },

@@ -4,6 +4,7 @@ import InputError from './InputError';
 export interface SelectItem {
   value: string;
   title?: string;
+  disabled?: boolean;
 }
 
 interface InputSelectProps {
@@ -65,9 +66,11 @@ class InputSelect extends HtmlNode {
         ${options
           .map(
             (option) =>
-              `<option value="${option.value}" ${
-                option.value === value ? `selected="selected"` : ''
-              }>${option.title || option.value}</option>`
+              `<option
+                value="${option.value}"
+                ${option.disabled ? `disabled` : ''}
+                ${option.value === value ? `selected="selected"` : ''}
+                >${option.title || option.value}</option>`
           )
           .join('')}
       </select>
