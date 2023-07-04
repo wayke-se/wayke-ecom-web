@@ -290,7 +290,7 @@ class Financial extends HtmlNode {
             name: 'paymentType',
             information: `
               <div class="waykeecom-content waykeecom-content--inherit-size">
-                <p class="waykeecom-content__p">Du står inte som ägare på bilen utan betalar en avtalad månadsavgift där det mesta ingår. När avtalstiden går ut är det bara att lämna tillbaka bilen till bilhandlaren.</p>
+                <p class="waykeecom-content__p">När du privatleasar en bil äger du den inte själv utan betalar en månadsavgift under en avtalad tid och som täcker en viss körsträcka och andra avtalade tjänster.</p>
               </div>
             `,
             options: secondGroupOptions,
