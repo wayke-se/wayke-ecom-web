@@ -265,6 +265,7 @@ class Financial extends HtmlNode {
           id: RADIO_FINANCIAL_LEASE,
           title: 'Privatleasing',
           value: PaymentType.Lease,
+          /*
           description: `
             <div class="waykeecom-box">
               <div class="waykeecom-content waykeecom-content--inherit-size">
@@ -273,7 +274,8 @@ class Financial extends HtmlNode {
                 </ul>
               </div>
             </div>`,
-          meta: `<div class="waykeecom-text waykeecom-text--font-bold">${prettyNumber(
+          */
+          meta: `<div class="waykeecom-text waykeecom-text--font-bold">Från ${prettyNumber(
             lease?.price,
             {
               postfix: lease.unit,
@@ -288,7 +290,7 @@ class Financial extends HtmlNode {
             name: 'paymentType',
             information: `
               <div class="waykeecom-content waykeecom-content--inherit-size">
-                <p class="waykeecom-content__p">Du står inte som ägare på bilen utan betalar en avtalad månadsavgift där det mesta ingår. När avtalstiden går ut är det bara att lämna tillbaka bilen till bilhandlaren.</p>
+                <p class="waykeecom-content__p">När du privatleasar en bil äger du den inte själv utan betalar en månadsavgift under en avtalad tid och som täcker en viss körsträcka och andra avtalade tjänster.</p>
               </div>
             `,
             options: secondGroupOptions,

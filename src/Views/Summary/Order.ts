@@ -82,9 +82,9 @@ class Order extends StackNode {
                       <ul class="waykeecom-key-value-list">
                         ${KeyValueListItem({
                           key: 'Privatleasing',
-                          value: prettyNumber(paymentLease?.price, {
+                          value: `Från ${prettyNumber(paymentLease?.price, {
                             postfix: paymentLease?.unit,
-                          }),
+                          })}`,
                         })}
                       </ul>
                     </div>
