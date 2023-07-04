@@ -306,6 +306,9 @@ class CreditAssessment extends HtmlNode {
       if ((currentTarget.value as HousingType) === HousingType.SingleFamily) {
         this.state.value.housingCost = '0';
         this.state.validation.housingCost = validation.housingCost(this.state.value.housingCost);
+      } else {
+        this.state.value.housingCost = '';
+        this.state.validation.housingCost = validation.housingCost(this.state.value.housingCost);
       }
       this.render();
     }
@@ -607,7 +610,6 @@ class CreditAssessment extends HtmlNode {
     const loan = order?.paymentOptions.find((x) => x.type === PaymentType.Loan);
     const creditAmount = paymentLookupResponse.creditAmount;
     const branchName = order?.contactInformation?.name;
-
     if (this.view === 3 && this.creditAssessmentResponse) {
       new CreditAssessmentResult(createPortal(), {
         store,
