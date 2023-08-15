@@ -737,7 +737,7 @@ class CreditAssessment extends HtmlNode {
               ${Alert({
                 tone: 'error',
                 children: `Det gick inte att starta en låneansökan, försök igen.${
-                  this.caseError !== undefined ? this.caseError : ''
+                  this.caseError !== undefined ? ` ${this.caseError}` : ''
                 }`,
               })}
             </div>
