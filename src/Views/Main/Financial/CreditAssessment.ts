@@ -86,7 +86,7 @@ export interface CreditAssessmentHouseholdEconomyValidation {
   householdChildren: boolean;
   housingCost: boolean;
   'debtSpecification.cardCredits': boolean;
-  'debtSpecification.carLoan': boolean;
+  'debtSpecification.vehicleLoan': boolean;
   'debtSpecification.collateral': boolean;
   'debtSpecification.leasingFees': boolean;
   'debtSpecification.privateLoan': boolean;
@@ -100,7 +100,7 @@ interface CreditAssessmentHouseholdEconomy {
   householdChildren: string;
   housingCost: string;
   'debtSpecification.cardCredits': string;
-  'debtSpecification.carLoan': string;
+  'debtSpecification.vehicleLoan': string;
   'debtSpecification.collateral': string;
   'debtSpecification.leasingFees': string;
   'debtSpecification.privateLoan': string;
@@ -120,7 +120,7 @@ const validation = {
   householdChildren: validationMethods.requiredNumberGreaterOrEqualThanZero,
   housingCost: validationMethods.requiredNumberGreaterOrEqualThanZero,
   'debtSpecification.cardCredits': validationMethods.optionalNumberGreaterOrEqualThanZero,
-  'debtSpecification.carLoan': validationMethods.optionalNumberGreaterOrEqualThanZero,
+  'debtSpecification.vehicleLoan': validationMethods.optionalNumberGreaterOrEqualThanZero,
   'debtSpecification.collateral': validationMethods.optionalNumberGreaterOrEqualThanZero,
   'debtSpecification.leasingFees': validationMethods.optionalNumberGreaterOrEqualThanZero,
   'debtSpecification.privateLoan': validationMethods.optionalNumberGreaterOrEqualThanZero,
@@ -135,7 +135,7 @@ const mock: ICreditAssessmentHouseholdEconomy = {
   housingCost: 2000,
   debtSpecification: {
     cardCredits: 0,
-    carLoan: 0,
+    vehicleLoan: 0,
     collateral: 0,
     leasingFees: 0,
     privateLoan: 0,
@@ -158,8 +158,8 @@ const initalState = (
     housingCost: creditAssessmentHouseholdEconomy?.housingCost.toString() || '',
     'debtSpecification.cardCredits':
       creditAssessmentHouseholdEconomy?.debtSpecification.cardCredits.toString() || '',
-    'debtSpecification.carLoan':
-      creditAssessmentHouseholdEconomy?.debtSpecification.carLoan.toString() || '',
+    'debtSpecification.vehicleLoan':
+      creditAssessmentHouseholdEconomy?.debtSpecification.vehicleLoan.toString() || '',
     'debtSpecification.collateral':
       creditAssessmentHouseholdEconomy?.debtSpecification.collateral.toString() || '',
     'debtSpecification.leasingFees':
@@ -179,8 +179,8 @@ const initalState = (
       'debtSpecification.cardCredits': validation['debtSpecification.cardCredits'](
         value['debtSpecification.cardCredits']
       ),
-      'debtSpecification.carLoan': validation['debtSpecification.carLoan'](
-        value['debtSpecification.carLoan']
+      'debtSpecification.vehicleLoan': validation['debtSpecification.vehicleLoan'](
+        value['debtSpecification.vehicleLoan']
       ),
       'debtSpecification.collateral': validation['debtSpecification.collateral'](
         value['debtSpecification.collateral']
@@ -200,7 +200,7 @@ const initalState = (
       householdChildren: false,
       housingCost: false,
       'debtSpecification.cardCredits': false,
-      'debtSpecification.carLoan': false,
+      'debtSpecification.vehicleLoan': false,
       'debtSpecification.collateral': false,
       'debtSpecification.leasingFees': false,
       'debtSpecification.privateLoan': false,
@@ -229,7 +229,7 @@ class CreditAssessment extends HtmlNode {
     householdIncome?: InputField;
     housingCost?: InputField;
     'debtSpecification.cardCredits'?: InputField;
-    'debtSpecification.carLoan'?: InputField;
+    'debtSpecification.vehicleLoan'?: InputField;
     'debtSpecification.collateral'?: InputField;
     'debtSpecification.leasingFees'?: InputField;
     'debtSpecification.privateLoan'?: InputField;
@@ -292,7 +292,7 @@ class CreditAssessment extends HtmlNode {
       | 'housingCost'
       | 'householdChildren'
       | 'debtSpecification.cardCredits'
-      | 'debtSpecification.carLoan'
+      | 'debtSpecification.vehicleLoan'
       | 'debtSpecification.collateral'
       | 'debtSpecification.leasingFees'
       | 'debtSpecification.privateLoan'
@@ -328,7 +328,7 @@ class CreditAssessment extends HtmlNode {
         !this.state.validation.householdChildren ||
         !this.state.validation.housingCost ||
         !this.state.validation['debtSpecification.cardCredits'] ||
-        !this.state.validation['debtSpecification.carLoan'] ||
+        !this.state.validation['debtSpecification.vehicleLoan'] ||
         !this.state.validation['debtSpecification.collateral'] ||
         !this.state.validation['debtSpecification.leasingFees'] ||
         !this.state.validation['debtSpecification.privateLoan'] ||
@@ -562,7 +562,7 @@ class CreditAssessment extends HtmlNode {
         maritalStatus: this.state.value.maritalStatus as MaritalStatus,
         debtSpecification: {
           cardCredits: parseInt(this.state.value['debtSpecification.cardCredits'] || '0', 10),
-          carLoan: parseInt(this.state.value['debtSpecification.carLoan'] || '0', 10),
+          vehicleLoan: parseInt(this.state.value['debtSpecification.vehicleLoan'] || '0', 10),
           collateral: parseInt(this.state.value['debtSpecification.collateral'] || '0', 10),
           leasingFees: parseInt(this.state.value['debtSpecification.leasingFees'] || '0', 10),
           privateLoan: parseInt(this.state.value['debtSpecification.privateLoan'] || '0', 10),
@@ -1030,17 +1030,17 @@ class CreditAssessment extends HtmlNode {
         }
       );
 
-      this.contexts['debtSpecification.carLoan'] = new InputField(
+      this.contexts['debtSpecification.vehicleLoan'] = new InputField(
         this.node.querySelector<HTMLDivElement>(`#${DEBT_SPECIFICATION_CAR_LOAN_NODE}`),
         {
           title: 'Billån',
-          value: this.state.value['debtSpecification.carLoan'],
+          value: this.state.value['debtSpecification.vehicleLoan'],
           id: DEBT_SPECIFICATION_CAR_LOAN,
           error:
-            this.state.interact['debtSpecification.carLoan'] &&
-            !this.state.validation['debtSpecification.carLoan'],
+            this.state.interact['debtSpecification.vehicleLoan'] &&
+            !this.state.validation['debtSpecification.vehicleLoan'],
           errorMessage: 'Ange billån eller lämna tomt',
-          name: 'debtSpecification.carLoan',
+          name: 'debtSpecification.vehicleLoan',
           autocomplete: 'off',
           placeholder: '',
           unit: 'kr',
