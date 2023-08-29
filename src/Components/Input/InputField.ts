@@ -8,6 +8,7 @@ interface InputFieldProps {
   readonly name: string;
   readonly id: string;
   readonly unit?: string;
+  readonly min?: number;
   error?: boolean;
   errorMessage?: string;
   readonly placeholder?: string;
@@ -60,6 +61,7 @@ class InputField extends HtmlNode {
       title,
       type,
       name,
+      min,
       value,
       autocomplete,
       placeholder,
@@ -87,6 +89,7 @@ class InputField extends HtmlNode {
           ${inputmode ? `inputmode="${inputmode}"` : ''}
           value="${value}"
           name="${name}"
+          ${min !== undefined ? `min="${min}"` : ''}
           ${autocomplete ? `autocomplete="${autocomplete}"` : ''}
           ${placeholder ? `placeholder="${placeholder}"` : ''}
           class="waykeecom-input-text__input"
