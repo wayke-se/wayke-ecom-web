@@ -2,7 +2,7 @@ import { Customer, PartialCustomer } from '../../../@types/Customer';
 import ButtonArrowRight from '../../../Components/Button/ButtonArrowRight';
 import InputField from '../../../Components/Input/InputField';
 
-import { setContactAndPhone } from '../../../Redux/action';
+import { goTo, setContactAndPhone } from '../../../Redux/action';
 import { WaykeStore } from '../../../Redux/store';
 import KeyValueListItem from '../../../Templates/KeyValueListItem';
 import { validationMethods } from '../../../Utils/validationMethods';
@@ -114,6 +114,11 @@ class EmailAndPhone extends HtmlNode {
     })(this.props.store.dispatch);
   }
 
+  private onChangeContacts() {
+    ecomEvent(EcomView.MAIN, EcomEvent.CUSTOMER_EDIT, EcomStep.CUSTOMER_EMAIL_AND_PHONE);
+    goTo('main', 1)(this.props.store.dispatch);
+  }
+
   render() {
     const subStage = this.props.store.getState().navigation.subStage;
 
@@ -130,6 +135,16 @@ class EmailAndPhone extends HtmlNode {
           </ul>
         </div>
       `;
+
+      if (subStage <= 2) {
+        this.node.innerHTML += `
+          <div class="waykeecom-stack waykeecom-stack--2">
+            <div class="waykeecom-align waykeecom-align--end">
+              <button type="button" title="Ändra dina uppgifter" class="waykeecom-link" id="change-contacts">Ändra</button>
+            </div>
+          </div>
+        `;
+      }
     } else {
       this.node.innerHTML = `
       <div class="waykeecom-stack waykeecom-stack--3">
@@ -188,6 +203,10 @@ class EmailAndPhone extends HtmlNode {
         }
       );
     }
+
+    this.node
+      .querySelector('#change-contacts')
+      ?.addEventListener('click', () => this.onChangeContacts());
   }
 }
 
