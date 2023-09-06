@@ -1,6 +1,6 @@
 {
   "name": "@wayke-se/ecom-web",
-  "version": "1.5.0",
+  "version": "1.5.1",
   "description": "Wayke Ecom Web",
   "module": "dist/index.mjs",
   "main": "dist/index.js",
@@ -14,7 +14,7 @@
     "test": "npm run lint && npm run typecheck",
     "typecheck": "tsc -noEmit",
     "typecheck:watch": "tsc -noEmit -watch",
-    "lint": "eslint --ext .ts,.js 'src'",
+    "lint": "eslint --ext .ts,.js src",
     "lint:fix": "eslint --ext .ts,.js 'src' --fix",
     "stylelint": "stylelint '**/*.scss'",
     "prepare": "husky install"
