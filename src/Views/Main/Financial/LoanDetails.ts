@@ -136,9 +136,6 @@ class LoanDetails extends HtmlNode {
         <div class="waykeecom-shadow-box">
           <div class="waykeecom-stack waykeecom-stack--3">
             <div class="waykeecom-stack waykeecom-stack--1">
-              <h6 class="waykeecom-heading waykeecom-heading--5">${loanOrgName}</h6>
-            </div>
-            <div class="waykeecom-stack waykeecom-stack--1">
               <img src="${loanOrgLogo}" alt="${loanOrgName} logotyp" class="waykeecom-image waykeecom-image--loan-logo" />
             </div>
           </div>
