@@ -1186,7 +1186,7 @@ class CreditAssessment extends HtmlNode {
       );
 
       new Disclaimer(this.node.querySelector<HTMLDivElement>(`#${DISCLAIMER_NODE}`), {
-        text: `Genom att klicka på ”Genomför låneansökan” godkänner jag att ${loan?.name} gör en kreditupplysning på mig baserat på informationen ovan och jag bekräftar att jag läst <a href="#" title="" target="_blank" rel="noopener noreferrer" class="waykeecom-link">${loan?.name} dataskyddspolicy</a>.`,
+        text: `Genom att klicka på ”Genomför låneansökan” godkänner jag att ${loan?.name} gör en kreditupplysning på mig baserat på informationen ovan och jag bekräftar att jag läst <a href="${loan?.loanDetails?.privacyPolicyUrl}" title="" target="_blank" rel="noopener noreferrer" class="waykeecom-link">${loan?.name} dataskyddspolicy</a>.`,
       });
 
       new DisclaimerPadlock(this.node.querySelector<HTMLDivElement>(`#${DISCLAIMER_SAFE_NODE}`), {
@@ -1213,7 +1213,7 @@ class CreditAssessment extends HtmlNode {
           </div>`,
         description: `<div class="waykeecom-content">
             <p class="waykeecom-content__p">${loan?.name} måste ta in uppgifterna av kunden för att uppfylla bestämmelser i Konsumentkreditlagen (2010:1846) och Lag (2017:630) om åtgärder mot penningtvätt och finansiering av terrorism.</p>
-            <p class="waykeecom-content__p"><a href="${loan?.loanDetails?.privacyPolicyUrl}" title="" target="_blank" rel="noopener norefferer" class="waykeecom-link">Läs mer om detta här</a></p>
+            <p class="waykeecom-content__p"><a href="${loan?.loanDetails?.moneyLaunderingInformationURL}" title="" target="_blank" rel="noopener norefferer" class="waykeecom-link">Läs mer om detta här</a></p>
           </div>`,
         onClick: () => {
           ecomEvent(
