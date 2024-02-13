@@ -1213,7 +1213,7 @@ class CreditAssessment extends HtmlNode {
           </div>`,
         description: `<div class="waykeecom-content">
             <p class="waykeecom-content__p">${loan?.name} måste ta in uppgifterna av kunden för att uppfylla bestämmelser i Konsumentkreditlagen (2010:1846) och Lag (2017:630) om åtgärder mot penningtvätt och finansiering av terrorism.</p>
-            <p class="waykeecom-content__p"><a href="${loan?.loanDetails?.kalpUrl}" title="" target="_blank" rel="noopener norefferer" class="waykeecom-link">Läs mer om detta här</a></p>
+            <p class="waykeecom-content__p"><a href="${loan?.loanDetails?.moneyLaunderingInformationURL}" title="" target="_blank" rel="noopener norefferer" class="waykeecom-link">Läs mer om detta här</a></p>
           </div>`,
         onClick: () => {
           ecomEvent(

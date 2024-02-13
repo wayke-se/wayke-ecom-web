@@ -15,5 +15,5 @@ export interface PaymentLookup {
   creditAmount: number;
   hasPrivacyPolicy: boolean;
   privacyPolicyUrl: string | undefined;
-  kalpUrl: string | undefined;
+  moneyLaunderingInformationURL: string | undefined;
 }
