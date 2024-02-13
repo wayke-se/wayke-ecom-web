@@ -23,6 +23,7 @@ export const convertPaymentLookupResponse = (plr: PaymentLookupResponse): Paymen
     creditAmount: plr.getCreditAmount(),
     hasPrivacyPolicy: plr.hasPrivacyPolicy(),
     privacyPolicyUrl: plr.getPrivacyPolicyUrl(),
+    kalpUrl: plr.getKALPURL(),
   };
   return response;
 };
