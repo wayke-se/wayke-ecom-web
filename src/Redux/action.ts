@@ -114,6 +114,13 @@ export const setPaymentLookupResponse =
       paymentLookupResponse: convertPaymentLookupResponse(paymentLookupResponse),
     });
 
+export const RESET_PAYMENT_LOOKUP_RESPONSE = 'RESET_PAYMENT_LOOKUP_RESPONSE';
+export type RESET_PAYMENT_LOOKUP_RESPONSE_TYPE = BaseAction<typeof RESET_PAYMENT_LOOKUP_RESPONSE>;
+export const resetPaymentLookupResponse = () => (dispatch: Dispatch) =>
+  dispatch({
+    type: RESET_PAYMENT_LOOKUP_RESPONSE,
+  });
+
 export const SET_DRIVING_DISTANCE = 'SET_DRIVING_DISTANCE';
 export type SET_DRIVING_DISTANCE_TYPE = BaseAction<typeof SET_DRIVING_DISTANCE> & {
   drivingDistance: DrivingDistance;
@@ -218,6 +225,7 @@ export type Action =
   | SET_TRADE_IN_TYPE
   | SET_FINANCIAL_TYPE
   | SET_PAYMENT_LOOKUP_RESPONSE_TYPE
+  | RESET_PAYMENT_LOOKUP_RESPONSE_TYPE
   | SET_DRIVING_DISTANCE_TYPE
   | SET_OR_REMOVE_INSURANCE_ADDONS_TYPE
   | SET_OR_REMOVE_INSURANCE_TYPE

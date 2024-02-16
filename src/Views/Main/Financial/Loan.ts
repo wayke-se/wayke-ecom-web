@@ -68,7 +68,6 @@ class Loan extends HtmlNode {
     this.props = props;
     const loanDetails = this.props.loan.loanDetails;
     if (!loanDetails) throw 'err';
-
     this.paymentLookupResponse = this.props.paymentLookupResponse || loanDetails;
     this.paymentState = {
       vehicleId: this.props.vehicleId,
