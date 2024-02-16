@@ -4,13 +4,6 @@ import { sassPlugin } from 'esbuild-sass-plugin';
 import npmDts from 'npm-dts';
 import packageJson from '../package.json' assert { type: 'json' };
 
-/*
-const { sassPlugin } = require('esbuild-sass-plugin');
-const { Generator } = require('npm-dts');
-const { build } = require('esbuild');
-const { dependencies, peerDependencies } = require('../package.json');
-*/
-
 const shared = {
   entryPoints: ['src/index.ts'],
   bundle: true,
