@@ -23,10 +23,10 @@
   "license": "ISC",
   "devDependencies": {
     "@ourstudio/clip-ui": "^0.0.11",
-    "@types/marked": "^4.3.0",
     "@types/node": "^18.19.17",
     "@types/object-path": "^0.11.1",
     "@types/sanitize-html": "^2.6.2",
+    "@types/showdown": "^2.0.6",
     "@typescript-eslint/eslint-plugin": "^7.0.1",
     "@typescript-eslint/parser": "^7.0.1",
     "esbuild": "^0.15.10",
@@ -48,7 +48,8 @@
     "marked": "^4.3.0",
     "object-path": "^0.11.8",
     "redux": "^4.1.2",
-    "sanitize-html": "^2.7.0"
+    "sanitize-html": "^2.7.0",
+    "showdown": "^2.1.0"
   },
   "files": [
     "dist"
