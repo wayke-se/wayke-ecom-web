@@ -188,10 +188,10 @@ class Loan extends HtmlNode {
         <h5 class="waykeecom-heading waykeecom-heading--4">Billån</h5>
         <div class="waykeecom-content">
           <p class="waykeecom-content__p">Finansiera bilen med billån via ${loan?.name}.${
-      shouldUseCreditScoring
-        ? ` Gör din låneansökan här - och få besked direkt. Kom ihåg, köpet är inte bindande förrän du signerat det definitiva affärsförslaget som tas fram av ${name}.`
-        : ''
-    }</p>
+            shouldUseCreditScoring
+              ? ` Gör din låneansökan här - och få besked direkt. Kom ihåg, köpet är inte bindande förrän du signerat det definitiva affärsförslaget som tas fram av ${name}.`
+              : ''
+          }</p>
           <p class="waykeecom-content__p">Ange din tänkta kontantinsats och hur många månader du vill lägga upp ditt lån på.</p>
         </div>
       </div>

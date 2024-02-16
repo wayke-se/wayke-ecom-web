@@ -40,8 +40,8 @@ class TradeIn extends StackNode {
                 <span class="waykeecom-text waykeecom-text--font-medium">${
                   tradeInVehicle.manufacturer
                 } ${tradeInVehicle.modelSeries}</span> ${tradeInVehicle.modelName} ${
-                tradeInVehicle.modelYear
-              }
+                  tradeInVehicle.modelYear
+                }
               </div>
             </div>
             <div class="waykeecom-stack waykeecom-stack--2">

@@ -15,8 +15,8 @@ const KeyValueListItem = ({ key, value, image }: KeyValueListItemProps) => `
       image
         ? `<div class="waykeecom-key-value-list__key">
             <img src="${image.src}" ${image.srcSet ? `srcSet="${image.srcSet}"` : ''} alt="${
-            image.alt
-          }" class="waykeecom-key-value-list__key-image" />
+              image.alt
+            }" class="waykeecom-key-value-list__key-image" />
             <div class="waykeecom-key-value-list__key-label">${key}</div>
           </div>`
         : `<div class="waykeecom-key-value-list__key">${key}</div>`

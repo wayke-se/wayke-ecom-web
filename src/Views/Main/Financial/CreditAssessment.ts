@@ -219,7 +219,7 @@ interface CreditAssessmentProps {
 class CreditAssessment extends HtmlNode {
   private readonly props: CreditAssessmentProps;
   private state: CreditAssessmentHouseholdEconomyState;
-  private bankidStatusInterval?: NodeJS.Timer;
+  private bankidStatusInterval?: NodeJS.Timeout;
   private view: number = 1;
   private contexts: {
     maritalStatus?: InputRadioGroup;
@@ -399,7 +399,7 @@ class CreditAssessment extends HtmlNode {
         }
 
         if (status === 'signingFailed') {
-          clearInterval(this.bankidStatusInterval as NodeJS.Timer);
+          clearInterval(this.bankidStatusInterval as NodeJS.Timeout);
           this.contexts.bankId?.setFinalizing(false);
           this.contexts.bankId?.setErrorMessage('Ett fel uppstod');
           return;
@@ -423,7 +423,7 @@ class CreditAssessment extends HtmlNode {
           destroyPortal();
           this.render();
         } else if (response.hasScoringError()) {
-          clearInterval(this.bankidStatusInterval as NodeJS.Timer);
+          clearInterval(this.bankidStatusInterval as NodeJS.Timeout);
           this.contexts.bankId?.setFinalizing(false);
           this.contexts.bankId?.setErrorMessage(`Ett fel uppstod`);
         }
@@ -432,7 +432,7 @@ class CreditAssessment extends HtmlNode {
           this.contexts.bankId?.update(method, qrCode);
         }
       } catch (e) {
-        clearInterval(this.bankidStatusInterval as NodeJS.Timer);
+        clearInterval(this.bankidStatusInterval as NodeJS.Timeout);
         this.contexts.bankId?.setFinalizing(false);
         this.contexts.bankId?.setErrorMessage(
           'Det gick inte att hämta status kring nuvanrade BankId signering'
@@ -966,8 +966,8 @@ class CreditAssessment extends HtmlNode {
             this.state.value.housingType === HousingType.Condominium
               ? 'Min del av månadsavgiften'
               : this.state.value.housingType === HousingType.Apartment
-              ? 'Min del av månadshyran'
-              : 'Boendekostnad',
+                ? 'Min del av månadshyran'
+                : 'Boendekostnad',
           value: this.state.value.housingCost,
           id: HOUSING_COST,
           error: this.state.interact.housingCost && !this.state.validation.housingCost,

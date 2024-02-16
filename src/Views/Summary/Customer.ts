@@ -40,10 +40,10 @@ class Customer extends StackNode {
               key: 'Adress',
               value: `
                 ${maskText(state.address?.givenName || '')} ${maskText(
-                state.address?.surname || ''
-              )}<br />${state.address?.street}<br />${state.address?.postalCode} ${
-                state.address?.city
-              }
+                  state.address?.surname || ''
+                )}<br />${state.address?.street}<br />${state.address?.postalCode} ${
+                  state.address?.city
+                }
               `,
             })}
             ${KeyValueListItem({
