@@ -69,8 +69,8 @@ const Summary = ({ paymentType, loan, paymentLookupResponse, changeButtonId }: S
   const paymentTypeTitle = PaymentType.Cash
     ? 'Kontant'
     : PaymentType.Loan
-    ? 'Billån'
-    : 'Privatleasing';
+      ? 'Billån'
+      : 'Privatleasing';
   return `
   ${
     paymentType === PaymentType.Loan && loan && paymentLookupResponse

@@ -42,7 +42,7 @@ class VerifyByBankId extends HtmlNode {
   private readonly props: VerifyByBankIdProps;
   private bankidStatusInterval?: NodeJS.Timer;
   private bankidQrCodeInterval?: NodeJS.Timer;
-  private focusTimeout?: NodeJS.Timer;
+  private focusTimeout?: NodeJS.Timeout;
   private view: number = 1;
   private contexts: {
     buttonLinkToggle?: ButtonAsLink;
@@ -80,8 +80,8 @@ class VerifyByBankId extends HtmlNode {
   }
 
   private clearIntervals() {
-    clearInterval(this.bankidQrCodeInterval as NodeJS.Timer);
-    clearInterval(this.bankidStatusInterval as NodeJS.Timer);
+    clearInterval(this.bankidQrCodeInterval as NodeJS.Timeout);
+    clearInterval(this.bankidStatusInterval as NodeJS.Timeout);
   }
 
   private async onFocus() {

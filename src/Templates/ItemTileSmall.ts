@@ -34,8 +34,8 @@ const ItemTileSmall = ({ vehicle, order, cdnMedia }: ItemTileSmallProps) => {
       <div class="waykeecom-preview-card__seller">${sellerName}</div>
       <div class="waykeecom-preview-card__heading">
         <span class="waykeecom-preview-card__title">${vehicleTitle}</span> ${formatShortDescription(
-    vehicle
-  )}
+          vehicle
+        )}
       </div>
       <div class="waykeecom-preview-card__footer">
         <div class="waykeecom-preview-card__price">${price} kr</div>

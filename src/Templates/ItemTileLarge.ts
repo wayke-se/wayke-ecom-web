@@ -45,8 +45,8 @@ const ItemTileLarge = ({ vehicle, order, meta, cdnMedia }: ItemTileLargeProps) =
       </div>
       <div class="waykeecom-product-card__heading" aria-label="Modell">
         <span class="waykeecom-product-card__title">${vehicleTitle}</span> ${formatShortDescription(
-    vehicle
-  )}
+          vehicle
+        )}
       </div>
       <div class="waykeecom-product-card__footer">
         <div class="waykeecom-product-card__price" aria-label="Pris">${price} kr</div>
