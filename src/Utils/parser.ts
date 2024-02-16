@@ -1,8 +1,12 @@
-import { marked } from 'marked';
+import ShowdownService from 'showdown';
 import sanitizeHtml from 'sanitize-html';
 
+const showdownService = new ShowdownService.Converter({
+  openLinksInNewWindow: true,
+});
+
 export const asHtml = (s?: string) =>
-  sanitizeHtml(marked(s || ''), {
+  sanitizeHtml(showdownService.makeHtml(s || ''), {
     allowedTags: [...sanitizeHtml.defaults.allowedTags, 'img'],
     allowedAttributes: {
       ...sanitizeHtml.defaults.allowedAttributes,
