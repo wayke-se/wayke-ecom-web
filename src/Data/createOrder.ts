@@ -1,6 +1,7 @@
 import { customers, DeliveryType, orders, PaymentType, vehicles } from '@wayke-se/ecom';
 import { IOrderInsuranceRequest } from '@wayke-se/ecom/dist-types/orders/types';
 import { WaykeStore } from '../Redux/store';
+import { extractLoanIndex, extractPaymentType } from '../Views/Main/Financial/utils';
 
 export const createOrder = (store: WaykeStore) => {
   const state = store.getState();
@@ -16,9 +17,11 @@ export const createOrder = (store: WaykeStore) => {
     .withPhoneNumber(state.customer.phone)
     .build();
 
-  const paymentBuilder = orders.newPayment().withType(state.paymentType);
-  if (state.paymentType === PaymentType.Loan) {
-    const loan = state.order?.paymentOptions.find((x) => x.type === PaymentType.Loan);
+  const paymentType = extractPaymentType(state.paymentType)!;
+  const paymentBuilder = orders.newPayment().withType(paymentType);
+  if (paymentType === PaymentType.Loan) {
+    const index = extractLoanIndex(state.paymentType)!;
+    const loan = state.order?.paymentOptions.filter((x) => x.type === PaymentType.Loan)?.[index];
 
     const loanDetails = state.paymentLookupResponse || loan?.loanDetails;
 

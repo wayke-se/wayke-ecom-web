@@ -38,4 +38,7 @@ export const devConfig = {
   LEASING2: {
     id: '2c1ef517-9e6a-4211-b625-ae4f2f24bad6',
   },
+  MULTIPLE_FINANCING: {
+    id: 'ff1091be-9dcf-4c0c-a3ea-52fcd63df391',
+  },
 };
