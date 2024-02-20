@@ -4,6 +4,7 @@ import { WaykeStore } from '../../Redux/store';
 import ItemTileLarge from '../../Templates/ItemTileLarge';
 import KeyValueListItem from '../../Templates/KeyValueListItem';
 import { prettyNumber } from '../../Utils/format';
+import { extractPaymentType } from '../Main/Financial/utils';
 
 interface OrderProps {
   readonly store: WaykeStore;
@@ -26,6 +27,7 @@ class Order extends StackNode {
     const paymentLoan = state.order?.paymentOptions.find((x) => x.type === PaymentType.Loan);
     const paymentLookupResponse = state.paymentLookupResponse || paymentLoan?.loanDetails;
     const paymentLease = state.order?.paymentOptions.find((x) => x.type === PaymentType.Lease);
+    const paymentType = extractPaymentType(state.paymentType)!;
 
     this.node.innerHTML = `
       <div class="waykeecom-stack waykeecom-stack--2">
@@ -39,7 +41,7 @@ class Order extends StackNode {
           meta: `
             <div class="waykeecom-stack waykeecom-stack--2">
               ${
-                state.paymentType === PaymentType.Loan && paymentLoan
+                paymentType === PaymentType.Loan && paymentLoan
                   ? `
                   <div class="waykeecom-stack waykeecom-stack--05">
                     <div class="waykeecom-label">Betalsätt</div>
@@ -59,7 +61,7 @@ class Order extends StackNode {
                     </ul>
                   </div>
                 `
-                  : state.paymentType === PaymentType.Cash
+                  : paymentType === PaymentType.Cash
                   ? `
                     <div class="waykeecom-stack waykeecom-stack--05">
                       <div class="waykeecom-label">Betalsätt</div>
@@ -73,7 +75,7 @@ class Order extends StackNode {
                       </ul>
                     </div>
                   `
-                  : state.paymentType === PaymentType.Lease
+                  : paymentType === PaymentType.Lease
                   ? `
                     <div class="waykeecom-stack waykeecom-stack--05">
                       <div class="waykeecom-label">Betalsätt</div>
