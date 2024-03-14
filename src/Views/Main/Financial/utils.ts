@@ -17,6 +17,7 @@ export default createTerm;
 export const extractPaymentType = (s?: string): PaymentType | undefined => {
   if (!s) return undefined;
   const index = s.indexOf('-');
+  if (index === -1) return s as PaymentType;
   return s.slice(0, index) as PaymentType;
 };
 
