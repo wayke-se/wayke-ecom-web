@@ -11,7 +11,7 @@ window.addEventListener('DOMContentLoaded', (_) => {
   };
 
   const context = new WaykeEcomWeb({
-    ...devConfig.CREDIT_ASSESSMENT,
+    ...devConfig.CREDIT_ASSESSMENT_ZIKLO,
     ecomSdkConfig,
     rootId: 'custom-id',
     logo: 'https://placehold.jp/180x40.png',

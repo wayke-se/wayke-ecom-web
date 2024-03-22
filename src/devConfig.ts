@@ -14,6 +14,9 @@ export const devConfig = {
   CREDIT_ASSESSMENT: {
     id: '693ae9e4-3f7e-4471-a334-6090ee92f712',
   },
+  CREDIT_ASSESSMENT_ZIKLO: {
+    id: '16d55933-67f0-49b1-9e75-d7494bff3f04',
+  },
   LEASING: {
     id: '467a0c26-6540-417a-9904-f75b2beda9d5',
   },
