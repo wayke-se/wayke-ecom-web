@@ -101,6 +101,7 @@ class Loan extends HtmlNode {
         duration: this.paymentLookupResponse.durationSpec,
         residual: this.paymentLookupResponse.residualValueSpec,
       };
+
       setPaymentLookupResponse(response)(this.props.store.dispatch);
       this.update();
 

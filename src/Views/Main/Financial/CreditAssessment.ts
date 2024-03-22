@@ -539,10 +539,12 @@ class CreditAssessment extends HtmlNode {
 
   private async newCreditAssessmentCase() {
     try {
-      const { store, loan, paymentLookupResponse } = this.props;
+      const { store, loan, paymentLookupResponse: initialPaymentLookupResponse } = this.props;
 
       this.contexts.performApplicationButton?.disabled(true);
-      const { customer } = store.getState();
+      const { customer, paymentLookupResponse: updatePaymentLookupResponse } = store.getState();
+
+      const paymentLookupResponse = updatePaymentLookupResponse || initialPaymentLookupResponse;
 
       const { monthlyCost } = paymentLookupResponse.costs;
       const { interest } = paymentLookupResponse.interests;
@@ -602,10 +604,11 @@ class CreditAssessment extends HtmlNode {
   }
 
   private render(scrollIntoView?: boolean) {
-    const { store, paymentLookupResponse, onProceed } = this.props;
+    const { store, paymentLookupResponse: initialPaymentLookupResponse, onProceed } = this.props;
 
     const mobile = isMobile();
-    const { order } = store.getState();
+    const { order, paymentLookupResponse: updatePaymentLookupResponse } = store.getState();
+    const paymentLookupResponse = updatePaymentLookupResponse || initialPaymentLookupResponse;
 
     const loan = order?.paymentOptions.find((x) => x.type === PaymentType.Loan);
     const creditAmount = paymentLookupResponse.creditAmount;
