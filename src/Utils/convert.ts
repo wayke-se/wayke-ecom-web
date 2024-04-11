@@ -24,6 +24,7 @@ export const convertPaymentLookupResponse = (plr: PaymentLookupResponse): Paymen
     hasPrivacyPolicy: plr.hasPrivacyPolicy(),
     privacyPolicyUrl: plr.getPrivacyPolicyUrl(),
     moneyLaunderingInformationURL: plr.getMoneyLaunderingInformationURL(),
+    financialOptionId: plr.getFinancialOptionId(),
   };
   return response;
 };

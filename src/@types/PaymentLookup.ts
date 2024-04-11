@@ -16,4 +16,5 @@ export interface PaymentLookup {
   hasPrivacyPolicy: boolean;
   privacyPolicyUrl: string | undefined;
   moneyLaunderingInformationURL: string | undefined;
+  financialOptionId: string | undefined;
 }
