@@ -65,6 +65,7 @@ class Financial extends HtmlNode {
         break;
       case PaymentType.Lease:
         ecomEvent(EcomView.MAIN, EcomEvent.FINANCIAL_LEASE_SELECTED, EcomStep.FINANCIAL);
+        break;
       case PaymentType.Loan:
         ecomEvent(EcomView.MAIN, EcomEvent.FINANCIAL_LOAN_SELECTED, EcomStep.FINANCIAL);
       default:
@@ -80,6 +81,7 @@ class Financial extends HtmlNode {
           break;
         case PaymentType.Lease:
           ecomEvent(EcomView.MAIN, EcomEvent.FINANCIAL_LEASE_SET, EcomStep.FINANCIAL);
+          break;
         case PaymentType.Loan:
           ecomEvent(EcomView.MAIN, EcomEvent.FINANCIAL_LOAN_SET, EcomStep.FINANCIAL);
         default:
