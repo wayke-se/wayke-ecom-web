@@ -40,6 +40,7 @@ import {
   SET_CREDIT_ASSESSMENT_RESPONSE,
   SET_DEALER,
   SET_STATE,
+  RESET_PAYMENT_LOOKUP_RESPONSE,
 } from './action';
 
 let mock = {};
@@ -256,6 +257,9 @@ const reducer = (state = initialState, action: Action): ReducerState => {
         topNavigation,
         paymentType: action.paymentType,
       };
+
+    case RESET_PAYMENT_LOOKUP_RESPONSE:
+      return { ...next, paymentLookupResponse: undefined };
 
     case SET_PAYMENT_LOOKUP_RESPONSE:
       return { ...next, paymentLookupResponse: action.paymentLookupResponse };

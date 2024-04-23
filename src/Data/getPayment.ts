@@ -6,6 +6,7 @@ interface PaymentRequest {
   duration: number;
   residual?: number;
   dealerId?: string;
+  financialOptionId?: string;
 }
 
 export const getPayment = ({
@@ -14,12 +15,17 @@ export const getPayment = ({
   downPayment,
   duration,
   residual,
+  financialOptionId,
 }: PaymentRequest) => {
   const request = payments
     .newLookupRequest()
     .forVehicle(vehicleId)
     .withDownPayment(downPayment)
     .withDuration(duration);
+
+  if (financialOptionId) {
+    request.withFinancialOptionId(financialOptionId);
+  }
 
   if (residual !== undefined) {
     request.withResidualValue(residual);

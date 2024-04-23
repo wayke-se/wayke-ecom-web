@@ -37,6 +37,7 @@ interface PaymentState {
   downPayment: IPaymentRangeSpec;
   duration: IPaymentRangeSpec;
   residual: IPaymentRangeSpec;
+  financialOptionId?: string;
 }
 
 interface LoanProps {
@@ -68,14 +69,15 @@ class Loan extends HtmlNode {
     this.props = props;
     const loanDetails = this.props.loan.loanDetails;
     if (!loanDetails) throw 'err';
-
     this.paymentLookupResponse = this.props.paymentLookupResponse || loanDetails;
+
     this.paymentState = {
       vehicleId: this.props.vehicleId,
       dealerId: '',
       downPayment: this.paymentLookupResponse.downPaymentSpec,
       duration: this.paymentLookupResponse.durationSpec,
       residual: this.paymentLookupResponse.residualValueSpec,
+      financialOptionId: this.paymentLookupResponse.financialOptionId,
     };
     this.previousState = JSON.parse(JSON.stringify(this.paymentState));
 
@@ -93,6 +95,7 @@ class Loan extends HtmlNode {
         downPayment: this.paymentState.downPayment.current,
         duration: this.paymentState.duration.current,
         residual: this.paymentState.residual?.current,
+        financialOptionId: this.paymentState.financialOptionId,
       });
       this.previousState = JSON.parse(JSON.stringify(this.paymentState));
       this.paymentLookupResponse = convertPaymentLookupResponse(response);
@@ -101,6 +104,7 @@ class Loan extends HtmlNode {
         downPayment: this.paymentLookupResponse.downPaymentSpec,
         duration: this.paymentLookupResponse.durationSpec,
         residual: this.paymentLookupResponse.residualValueSpec,
+        financialOptionId: this.paymentLookupResponse.financialOptionId,
       };
 
       setPaymentLookupResponse(response)(this.props.store.dispatch);

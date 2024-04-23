@@ -2,7 +2,7 @@ import { PaymentType } from '@wayke-se/ecom';
 import ButtonArrowRight from '../../../Components/Button/ButtonArrowRight';
 import HtmlNode from '../../../Components/Extension/HtmlNode';
 import InputRadioGroup, { RadioItem } from '../../../Components/Input/InputRadioGroup';
-import { goTo, setFinancial } from '../../../Redux/action';
+import { goTo, resetPaymentLookupResponse, setFinancial } from '../../../Redux/action';
 import { WaykeStore } from '../../../Redux/store';
 import { Image } from '../../../Utils/constants';
 import { formatShortDescription, prettyNumber } from '../../../Utils/format';
@@ -11,6 +11,7 @@ import Loan from './Loan';
 import StageCompletedFinancial from './StageCompletedFinancial';
 import watch from '../../../Redux/watch';
 import ecomEvent, { EcomStep, EcomEvent, EcomView } from '../../../Utils/ecomEvent';
+import { extractLoanIndex, extractPaymentType } from './utils';
 
 const PROCEED = 'button-financial-proceed';
 const PROCEED_NODE = `${PROCEED}-node`;
@@ -55,11 +56,15 @@ class Financial extends HtmlNode {
   }
 
   private onChange(e: Event) {
+    resetPaymentLookupResponse()(this.props.store.dispatch);
     const currentTarget = e.currentTarget as HTMLInputElement;
     const value = currentTarget.value as PaymentType;
     this.paymentType = value;
+
     this.render(true);
-    switch (this.paymentType) {
+    const _paymentType = extractPaymentType(this.paymentType);
+
+    switch (_paymentType) {
       case PaymentType.Cash:
         ecomEvent(EcomView.MAIN, EcomEvent.FINANCIAL_CASH_SELECTED, EcomStep.FINANCIAL);
         break;
@@ -74,8 +79,9 @@ class Financial extends HtmlNode {
   }
 
   private onProceed() {
-    if (this.paymentType) {
-      switch (this.paymentType) {
+    const _paymentType = extractPaymentType(this.paymentType);
+    if (this.paymentType && _paymentType) {
+      switch (_paymentType) {
         case PaymentType.Cash:
           ecomEvent(EcomView.MAIN, EcomEvent.FINANCIAL_CASH_SET, EcomStep.FINANCIAL);
           break;
@@ -113,24 +119,24 @@ class Financial extends HtmlNode {
 
     const part = document.createElement('div');
 
+    const _paymentType = extractPaymentType(this.paymentType);
     if (
       (state.navigation.stage > this.props.index ||
         (completed && state.navigation.stage !== this.props.index)) &&
-      this.paymentType
+      _paymentType
     ) {
       const loan = paymentOptions.find((x) => x.type === PaymentType.Loan);
-
       new StageCompletedFinancial(content, {
         store: this.props.store,
         loan,
-        paymentType: this.paymentType,
+        paymentType: _paymentType,
         paymentLookupResponse: paymentLookupResponse || loan?.loanDetails,
         onEdit: !state.createdOrderId ? () => this.onEdit() : undefined,
       });
     } else if (state.navigation.stage === this.props.index) {
       const vehicle = state.order?.orderVehicle;
       const cash = paymentOptions.find((x) => x.type === PaymentType.Cash);
-      const loan = paymentOptions.find((x) => x.type === PaymentType.Loan);
+      const loans = paymentOptions.filter((x) => x.type === PaymentType.Loan);
       const lease = paymentOptions.find((x) => x.type === PaymentType.Lease);
 
       part.innerHTML = `
@@ -141,7 +147,7 @@ class Financial extends HtmlNode {
         </div>
 
         ${
-          cash || loan
+          cash || !!loans.length
             ? `<div class="waykeecom-stack waykeecom-stack--3" id="${FINANCIAL_OPTION_NODE}"></div>`
             : ''
         }
@@ -153,7 +159,7 @@ class Financial extends HtmlNode {
 
         <div class="waykeecom-stack waykeecom-stack--3" id="${PAYMENT_NODE}"></div>
         ${
-          this.paymentType !== PaymentType.Loan
+          _paymentType !== PaymentType.Loan
             ? `<div class="waykeecom-stack waykeecom-stack--3" id="${PROCEED_NODE}"></div>`
             : ''
         }
@@ -186,7 +192,7 @@ class Financial extends HtmlNode {
         });
       }
 
-      if (loan) {
+      loans.forEach((loan, index) => {
         const loanPrice = loan.price;
         const duration = loan.loanDetails?.durationSpec.default;
         const interest = loan.loanDetails?.interests.interest || NaN;
@@ -194,9 +200,9 @@ class Financial extends HtmlNode {
         const shouldUseCreditScoring = loan.loanDetails?.shouldUseCreditScoring;
 
         firstGroupOptions.push({
-          id: RADIO_FINANCIAL_LOAN,
-          value: PaymentType.Loan,
-          title: 'Billån',
+          id: `${RADIO_FINANCIAL_LOAN}-${index}`,
+          value: `${PaymentType.Loan}-${index}`,
+          title: loan.name,
           description: `
           <div class="waykeecom-box">
             <div class="waykeecom-stack waykeecom-stack--2">
@@ -241,9 +247,9 @@ class Financial extends HtmlNode {
             postfix: loan.unit,
           })}</div>`,
         });
-      }
+      });
 
-      if (cash || loan) {
+      if (cash || !!loans.length) {
         new InputRadioGroup(part.querySelector<HTMLDivElement>(`#${FINANCIAL_OPTION_NODE}`), {
           title: 'Köp bilen',
           checked: this.paymentType as string,
@@ -303,10 +309,13 @@ class Financial extends HtmlNode {
 
       const paymentNode = part.querySelector<HTMLDivElement>(`#${PAYMENT_NODE}`);
       if (paymentNode) {
-        if (loan && this.paymentType === PaymentType.Loan) {
+        const _paymentType = extractPaymentType(this.paymentType);
+        const loanIndex = extractLoanIndex(this.paymentType);
+
+        if (loans.length && _paymentType === PaymentType.Loan && loanIndex !== undefined) {
           new Loan(paymentNode, {
             store: this.props.store,
-            loan,
+            loan: JSON.parse(JSON.stringify(loans[loanIndex])),
             vehicleId: id,
             paymentLookupResponse,
             onProceed: () => this.onProceed(),
