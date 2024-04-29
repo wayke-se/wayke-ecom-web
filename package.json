@@ -1,6 +1,6 @@
 {
   "name": "@wayke-se/ecom-web",
-  "version": "1.7.0",
+  "version": "1.7.1",
   "description": "Wayke Ecom Web",
   "type": "module",
   "module": "dist/index.mjs",
@@ -46,7 +46,6 @@
   },
   "dependencies": {
     "@wayke-se/ecom": "^4.5.0",
-    "marked": "^4.3.0",
     "object-path": "^0.11.8",
     "redux": "^5.0.1",
     "sanitize-html": "^2.7.0",
