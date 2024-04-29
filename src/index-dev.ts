@@ -15,7 +15,7 @@ window.addEventListener('DOMContentLoaded', (_) => {
     ecomSdkConfig,
     rootId: 'custom-id',
     logo: 'https://placehold.jp/180x40.png',
-
+    id: 'd3255290-9afd-4091-bc28-9ca884d4a3b0',
     onEvent: (view: EcomView, event: EcomEvent, step?: EcomStep, data?: any) =>
       // eslint-disable-next-line
       console.log({ view, event, step, data }),
