@@ -62,7 +62,7 @@ class Order extends StackNode {
                   </div>
                 `
                   : paymentType === PaymentType.Cash
-                  ? `
+                    ? `
                     <div class="waykeecom-stack waykeecom-stack--05">
                       <div class="waykeecom-label">Betalsätt</div>
                     </div>
@@ -75,8 +75,8 @@ class Order extends StackNode {
                       </ul>
                     </div>
                   `
-                  : paymentType === PaymentType.Lease
-                  ? `
+                    : paymentType === PaymentType.Lease
+                      ? `
                     <div class="waykeecom-stack waykeecom-stack--05">
                       <div class="waykeecom-label">Betalsätt</div>
                     </div>
@@ -91,7 +91,7 @@ class Order extends StackNode {
                       </ul>
                     </div>
                   `
-                  : ''
+                      : ''
               }
             </div>
             ${

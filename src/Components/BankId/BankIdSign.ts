@@ -125,14 +125,14 @@ class BankIdSign extends HtmlNode {
     const methodTitle = title
       ? title
       : method === AuthMethod.QrCode
-      ? 'Öppna BankID och scanna QR-koden'
-      : 'Skriv in din säkerhetskod i BankID-appen';
+        ? 'Öppna BankID och scanna QR-koden'
+        : 'Skriv in din säkerhetskod i BankID-appen';
 
     const methodDescription = description
       ? description
       : method === AuthMethod.QrCode
-      ? descriptionQrCode
-      : descriptionSameDevice;
+        ? descriptionQrCode
+        : descriptionSameDevice;
 
     this.node.innerHTML = `
       <div class="waykeecom-text waykeecom-text--align-center">

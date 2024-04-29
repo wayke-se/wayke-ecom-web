@@ -228,8 +228,8 @@ class Financial extends HtmlNode {
                   <li class="waykeecom-content__li">Beräknat på ${prettyNumber(getCreditAmount, {
                     postfix: 'kr',
                   })}, ${duration} mån, ${prettyNumber(interest * 100, {
-            decimals: 2,
-          })}% ränta.</li>
+                    decimals: 2,
+                  })}% ränta.</li>
                 </ul>
               </div>
             </div>

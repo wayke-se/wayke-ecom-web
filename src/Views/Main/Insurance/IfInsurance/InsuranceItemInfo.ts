@@ -20,6 +20,17 @@ const BUTTON_INSURANCE_ADD_REMOVE_NODE = 'insurance-add-remove-node';
 const ADDONS_NODE = 'insurance-addons-node';
 const ACCORDION_NODE = 'insurance-accordion-node';
 
+const slugify = (text: string) => {
+  return text
+    .toString()
+    .toLowerCase()
+    .replace(/\s+/g, '-') // Replace spaces with -
+    .replace(/[^\w\-]+/g, '') // Remove all non-word characters
+    .replace(/\-\-+/g, '-') // Replace multiple - with single -
+    .replace(/^-+/, '') // Trim - from start of text
+    .replace(/-+$/, ''); // Trim - from end of text
+};
+
 interface InsuranceItemInfoProps {
   readonly store: WaykeStore;
   readonly insurance: IInsuranceOption;
@@ -65,7 +76,6 @@ class InsuranceItemInfo extends HtmlNode {
       Object.keys(this.contexts.checkboxes).forEach((key) => {
         this.contexts.checkboxes[key]?.disabled(false);
       });
-      this.contexts.checkboxes[name]?.checked(checked);
 
       if (checked) {
         ecomEvent(EcomView.MAIN, EcomEvent.INSURANCE_ADDON_SELECTED, EcomStep.INSURANCE_IF);
@@ -78,6 +88,8 @@ class InsuranceItemInfo extends HtmlNode {
         }
       }
 
+      this.contexts.checkboxes[name]?.checked(checked);
+
       [...new Set(this.addons.map((a) => a.exclude).flat())].forEach((exclude) =>
         this.contexts.checkboxes[exclude as string]?.disabled(true)
       );
@@ -85,6 +97,7 @@ class InsuranceItemInfo extends HtmlNode {
 
     const containChanges = InsuranceItemInfo.containChanges(this.initialAddons, this.addons);
     this.contexts.updateButton?.disabled(this.props.selected ? !containChanges : false);
+    this.render();
   }
 
   onUpdate() {
@@ -105,6 +118,10 @@ class InsuranceItemInfo extends HtmlNode {
     const addons = insurance.addOns;
 
     const containChanges = InsuranceItemInfo.containChanges(this.initialAddons, this.addons);
+
+    const price = this.addons.reduce((prev, curr) => {
+      return prev + curr.monthlyPrice;
+    }, insurance.price);
 
     this.node.innerHTML = `
       <div class="waykeecom-nav-banner" id="${BUTTON_TOP_LEFT_NODE}"></div>
@@ -128,7 +145,7 @@ class InsuranceItemInfo extends HtmlNode {
         </div>
       </div>
       <div class="waykeecom-stack waykeecom-stack--3">
-        <div class="waykeecom-text waykeecom-text--font-bold">${prettyNumber(insurance.price, {
+        <div class="waykeecom-text waykeecom-text--font-bold">${prettyNumber(price, {
           postfix: 'kr/mån',
         })}</div>
       </div>
@@ -181,7 +198,7 @@ class InsuranceItemInfo extends HtmlNode {
       addons.forEach((addon) => {
         const subNode = new InsuracenAddonBox(node);
         this.contexts.checkboxes[addon.name] = new InputCheckbox(subNode.render(), {
-          id: addon.name,
+          id: slugify(addon.name),
           name: addon.name,
           title: addon.title,
           meta: `<div class="waykeecom-text waykeecom-text--font-bold">${prettyNumber(
