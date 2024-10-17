@@ -2,6 +2,7 @@ import { IPaymentRangeSpec } from '@wayke-se/ecom';
 import { PaymentOption } from '../../../@types/OrderOptions';
 import { PaymentLookup } from '../../../@types/PaymentLookup';
 import ButtonArrowRight from '../../../Components/Button/ButtonArrowRight';
+import ErrorAlert from '../../../Components/ErrorAlert';
 import HtmlNode from '../../../Components/Extension/HtmlNode';
 import InputRange from '../../../Components/Input/InputRange';
 import { getPayment } from '../../../Data/getPayment';
@@ -11,7 +12,6 @@ import { convertPaymentLookupResponse } from '../../../Utils/convert';
 import ecomEvent, { EcomEvent, EcomView, EcomStep } from '../../../Utils/ecomEvent';
 import CreditAssessment from './CreditAssessment';
 import LoanDetails from './LoanDetails';
-import ErrorAlert from '../../../Components/ErrorAlert';
 
 const DOWNPAYMENT_RANGE_NODE = 'downpayment-range-node';
 const DOWNPAYMENT_RANGE = 'downpayment-range';
@@ -126,7 +126,7 @@ class Loan extends HtmlNode {
         this.paymentState.duration.min,
         this.paymentState.duration.max
       );
-    } catch (e) {
+    } catch (_e) {
       this.contexts.errorAlert?.update(`Ett fel uppstod, försök igen.`);
       this.contexts.downPayment?.disabled(false);
       this.contexts.duration?.disabled(false);

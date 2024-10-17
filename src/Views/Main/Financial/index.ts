@@ -4,13 +4,13 @@ import HtmlNode from '../../../Components/Extension/HtmlNode';
 import InputRadioGroup, { RadioItem } from '../../../Components/Input/InputRadioGroup';
 import { goTo, resetPaymentLookupResponse, setFinancial } from '../../../Redux/action';
 import { WaykeStore } from '../../../Redux/store';
-import { Image } from '../../../Utils/constants';
-import { formatShortDescription, prettyNumber } from '../../../Utils/format';
+import watch from '../../../Redux/watch';
 import ListItem from '../../../Templates/ListItem';
+import { Image } from '../../../Utils/constants';
+import ecomEvent, { EcomStep, EcomEvent, EcomView } from '../../../Utils/ecomEvent';
+import { formatShortDescription, prettyNumber } from '../../../Utils/format';
 import Loan from './Loan';
 import StageCompletedFinancial from './StageCompletedFinancial';
-import watch from '../../../Redux/watch';
-import ecomEvent, { EcomStep, EcomEvent, EcomView } from '../../../Utils/ecomEvent';
 import { extractLoanIndex, extractPaymentType } from './utils';
 
 const PROCEED = 'button-financial-proceed';
@@ -221,9 +221,7 @@ class Financial extends HtmlNode {
                   `
                     : ''
                 }
-                  <li class="waykeecom-content__li">Betalning sker hos ${
-                    contactInformation?.name
-                  } vid 
+                  <li class="waykeecom-content__li">Betalning sker hos ${contactInformation?.name} vid 
                   kontraktskrivning.</li>
                   <li class="waykeecom-content__li">Beräknat på ${prettyNumber(getCreditAmount, {
                     postfix: 'kr',

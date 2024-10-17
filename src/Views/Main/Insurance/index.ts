@@ -2,14 +2,14 @@ import HtmlNode from '../../../Components/Extension/HtmlNode';
 import StageCompleted from '../../../Components/StageCompleted';
 import { addOrRemoveInsurance, completeStage, goTo } from '../../../Redux/action';
 import { WaykeStore } from '../../../Redux/store';
-import { KeyValueListItemProps } from '../../../Templates/KeyValueListItem';
-import { translateDrivingDistance } from '../../../Utils/constants';
-import ListItem from '../../../Templates/ListItem';
 import watch from '../../../Redux/watch';
-import IfInsurance from './IfInsurance';
-import DefaultInsurance from './DefaultInsurance';
-import { prettyNumber } from '../../../Utils/format';
+import { KeyValueListItemProps } from '../../../Templates/KeyValueListItem';
+import ListItem from '../../../Templates/ListItem';
+import { translateDrivingDistance } from '../../../Utils/constants';
 import ecomEvent, { EcomStep, EcomEvent, EcomView } from '../../../Utils/ecomEvent';
+import { prettyNumber } from '../../../Utils/format';
+import DefaultInsurance from './DefaultInsurance';
+import IfInsurance from './IfInsurance';
 
 interface InsuranceProps {
   readonly store: WaykeStore;

@@ -2,14 +2,14 @@ import { DrivingDistance } from '@wayke-se/ecom';
 import ButtonArrowRight from '../../../../Components/Button/ButtonArrowRight';
 import ButtonSkip from '../../../../Components/Button/ButtonSkip';
 import Disclaimer from '../../../../Components/Disclaimer/Disclaimer';
-import Alert from '../../../../Templates/Alert';
 import HtmlNode from '../../../../Components/Extension/HtmlNode';
 import InputSelect from '../../../../Components/Input/InputSelect';
 import { setDrivingDistance } from '../../../../Redux/action';
 import { WaykeStore } from '../../../../Redux/store';
+import Alert from '../../../../Templates/Alert';
 import { translateDrivingDistance } from '../../../../Utils/constants';
-import InsuranceView from './InsuranceView';
 import ecomEvent, { EcomStep, EcomEvent, EcomView } from '../../../../Utils/ecomEvent';
+import InsuranceView from './InsuranceView';
 
 const DISTANCE = 'select-insurance-distance';
 const DISTANCE_NODE = `${DISTANCE}-node`;

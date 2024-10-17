@@ -1,13 +1,13 @@
 import { IAccessory } from '@wayke-se/ecom/dist-types/orders/types';
 import ButtonAddRemove from '../../../Components/Button/ButtonAddRemove';
-import ButtonClear from '../../../Components/Button/ButtonClear';
 import ButtonAsLinkArrowLeft from '../../../Components/Button/ButtonAsLinkArrowLeft';
+import ButtonClear from '../../../Components/Button/ButtonClear';
 import HtmlNode from '../../../Components/Extension/HtmlNode';
-import { prettyNumber } from '../../../Utils/format';
-import { scrollTop } from '../../../Utils/scroll';
 import Gallery from '../../../Components/Gallery/Gallery';
 import ecomEvent, { EcomEvent, EcomStep, EcomView } from '../../../Utils/ecomEvent';
+import { prettyNumber } from '../../../Utils/format';
 import { asHtml } from '../../../Utils/parser';
+import { scrollTop } from '../../../Utils/scroll';
 
 const BUTTON_TOP_LEFT_NODE = 'accessory-button-top-left-node';
 const BUTTON_BOTTOM_LEFT_NODE = 'accessory-button-bottom-left-node';

@@ -95,7 +95,7 @@ class InsuranceView extends HtmlNode {
       ecomEvent(EcomView.MAIN, EcomEvent.INSURANCE_GET_INSURANCES_SUCCEEDED, EcomStep.INSURANCE_IF);
       this.insurances = response.getInsuranceOptions();
       IF_INSURANCE_CACHE[cacheKey] = this.insurances;
-    } catch (e) {
+    } catch (_e) {
       ecomEvent(EcomView.MAIN, EcomEvent.INSURANCE_GET_INSURANCES_FAILED, EcomStep.INSURANCE_IF);
       this.requestError = true;
     } finally {

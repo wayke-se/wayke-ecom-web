@@ -1,5 +1,5 @@
-import HtmlNode from '../Extension/HtmlNode';
 import Alert from '../../Templates/Alert';
+import HtmlNode from '../Extension/HtmlNode';
 
 interface ErrorAlertProps {
   error?: string | Element;

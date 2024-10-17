@@ -5,8 +5,8 @@ import GridItem from '../../../../Components/OverflowGrid/OverflowGridItem';
 import { addOrRemoveFreeInsurance } from '../../../../Redux/action';
 import { WaykeStore } from '../../../../Redux/store';
 import watch from '../../../../Redux/watch';
-import { createPortal, destroyPortal } from '../../../../Utils/portal';
 import ecomEvent, { EcomStep, EcomEvent, EcomView } from '../../../../Utils/ecomEvent';
+import { createPortal, destroyPortal } from '../../../../Utils/portal';
 import InsuranceItemInfo from './InsuranceItemInfo';
 
 interface InsuranceItemProps {
