@@ -26,7 +26,7 @@ const shared = {
 
 const ctx = esbuild.build({
   ...shared,
-  outfile: 'dist/index.js',
+  outfile: 'dist/index.cjs',
   format: 'cjs',
 });
 await ctx;
