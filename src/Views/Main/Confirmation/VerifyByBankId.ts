@@ -1,27 +1,27 @@
 import { AuthMethod } from '@wayke-se/ecom';
 
-import ButtonBankId from '../../../Components/Button/ButtonBankId';
+import { BankIdAuthResponse } from '@wayke-se/ecom/dist-types/bankid/bankid-auth-response';
+import { BankIdCollectResponse } from '@wayke-se/ecom/dist-types/bankid/bankid-collect-response';
+import BankIdSign from '../../../Components/BankId/BankIdSign';
 import ButtonAsLink from '../../../Components/Button/ButtonAsLink';
+import ButtonBankId from '../../../Components/Button/ButtonBankId';
 import Disclaimer from '../../../Components/Disclaimer/Disclaimer';
 import DisclaimerPadlock from '../../../Components/Disclaimer/DisclaimerPadlock';
-import { getBankIdAuth } from '../../../Data/getBankIdAuth';
-import { getBankIdStatus } from '../../../Data/getBankIdStatus';
-import Alert from '../../../Templates/Alert';
-import { isMobile } from '../../../Utils/isMobile';
-import BankIdSign from '../../../Components/BankId/BankIdSign';
 import HtmlNode from '../../../Components/Extension/HtmlNode';
-import { validationMethods } from '../../../Utils/validationMethods';
-import { createPortal, destroyPortal } from '../../../Utils/portal';
-import { WaykeStore } from '../../../Redux/store';
-import { setCreatedOrderId } from '../../../Redux/action';
+import InputCheckbox from '../../../Components/Input/InputCheckbox';
 import { createOrder } from '../../../Data/createOrder';
 import { creditAssessmentAccept } from '../../../Data/creditAssessmentAccept';
-import ecomEvent, { EcomStep, EcomEvent, EcomView } from '../../../Utils/ecomEvent';
-import InputCheckbox from '../../../Components/Input/InputCheckbox';
-import { registerInterval } from '../../../Utils/intervals';
+import { getBankIdAuth } from '../../../Data/getBankIdAuth';
 import { getBankIdQrCode } from '../../../Data/getBankIdQrCode';
-import { BankIdCollectResponse } from '@wayke-se/ecom/dist-types/bankid/bankid-collect-response';
-import { BankIdAuthResponse } from '@wayke-se/ecom/dist-types/bankid/bankid-auth-response';
+import { getBankIdStatus } from '../../../Data/getBankIdStatus';
+import { setCreatedOrderId } from '../../../Redux/action';
+import { WaykeStore } from '../../../Redux/store';
+import Alert from '../../../Templates/Alert';
+import ecomEvent, { EcomStep, EcomEvent, EcomView } from '../../../Utils/ecomEvent';
+import { registerInterval } from '../../../Utils/intervals';
+import { isMobile } from '../../../Utils/isMobile';
+import { createPortal, destroyPortal } from '../../../Utils/portal';
+import { validationMethods } from '../../../Utils/validationMethods';
 
 const CONFIRM_CONDITIONS = 'confirm-conditions';
 const CONFIRM_CONDITIONS_NODE = `${CONFIRM_CONDITIONS}-node`;
@@ -91,7 +91,7 @@ class VerifyByBankId extends HtmlNode {
         try {
           const response = await getBankIdStatus(this.bankidRequestRef.reference);
           this.handleBankidStatusResponse(response, this.bankidRequestRef.method);
-        } catch (e) {
+        } catch (_e) {
           this.clearIntervals();
           this.contexts.bankId?.setErrorMessage(
             'Det gick inte att hämta status kring nuvanrade BankId signering.'
@@ -131,7 +131,7 @@ class VerifyByBankId extends HtmlNode {
           EcomEvent.CONFIRMATION_ACCEPT_CREDIT_ASSESSMENT_SUCCEEDED,
           EcomStep.CONFIRMATION
         );
-      } catch (e) {
+      } catch (_e) {
         ecomEvent(
           EcomView.MAIN,
           EcomEvent.CONFIRMATION_ACCEPT_CREDIT_ASSESSMENT_FAILED,
@@ -210,7 +210,8 @@ class VerifyByBankId extends HtmlNode {
           destroyPortal();
           this.render();
           return;
-        } else if (state.customer.socialId !== socialId) {
+        }
+        if (state.customer.socialId !== socialId) {
           ecomEvent(
             EcomView.MAIN,
             method === AuthMethod.SameDevice
@@ -241,7 +242,7 @@ class VerifyByBankId extends HtmlNode {
     try {
       const response = await getBankIdStatus(reference);
       this.handleBankidStatusResponse(response, AuthMethod.QrCode);
-    } catch (e) {
+    } catch (_e) {
       this.clearIntervals();
       this.contexts.bankId?.setErrorMessage(
         'Det gick inte att hämta status kring nuvanrade BankId signering.'
@@ -254,7 +255,7 @@ class VerifyByBankId extends HtmlNode {
       const response = await getBankIdQrCode(reference);
       const qrCode = response.getQrCode();
       this.contexts.bankId?.update(AuthMethod.QrCode, qrCode);
-    } catch (e) {
+    } catch (_e) {
       this.clearIntervals();
       this.contexts.bankId?.setErrorMessage(
         'Det gick inte att hämta ny QR-kod för BankId signering.'
@@ -335,7 +336,7 @@ class VerifyByBankId extends HtmlNode {
       } else {
         this.startBankidSameDevice(response, reference, supressTracking);
       }
-    } catch (e) {
+    } catch (_e) {
       ecomEvent(EcomView.MAIN, EcomEvent.CONFIRMATION_BANKID_INIT_FAILED, EcomStep.CONFIRMATION);
       this.contexts.bankId?.setErrorMessage(
         'Det gick tyvärr inte att initiera BankId. Vänligen försök igen.'

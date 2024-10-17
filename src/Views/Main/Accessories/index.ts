@@ -3,12 +3,12 @@ import ButtonSkip from '../../../Components/Button/ButtonSkip';
 import HtmlNode from '../../../Components/Extension/HtmlNode';
 import StageCompleted from '../../../Components/StageCompleted';
 
-import { goTo, completeStage } from '../../../Redux/action';
+import { completeStage, goTo } from '../../../Redux/action';
 import { WaykeStore } from '../../../Redux/store';
 import watch from '../../../Redux/watch';
 import ListItem from '../../../Templates/ListItem';
-import { prettyNumber } from '../../../Utils/format';
 import ecomEvent, { EcomStep, EcomEvent, EcomView } from '../../../Utils/ecomEvent';
+import { prettyNumber } from '../../../Utils/format';
 import AccessoryList from './AccessoryList';
 
 const PROCEED = 'button-accessories-proceed';

@@ -1,17 +1,17 @@
 import { IInsuranceAddon, IInsuranceOption } from '@wayke-se/ecom';
+import Accordion from '../../../../Components/Accordion';
+import ButtonAddRemove from '../../../../Components/Button/ButtonAddRemove';
 import ButtonAsLinkArrowLeft from '../../../../Components/Button/ButtonAsLinkArrowLeft';
 import ButtonClear from '../../../../Components/Button/ButtonClear';
+import ButtonSuccess from '../../../../Components/Button/ButtonSuccess';
 import HtmlNode from '../../../../Components/Extension/HtmlNode';
-import { prettyNumber } from '../../../../Utils/format';
-import { scrollTop } from '../../../../Utils/scroll';
-import Accordion from '../../../../Components/Accordion';
 import InputCheckbox from '../../../../Components/Input/InputCheckbox';
 import { addOrRemoveInsuranceAddon } from '../../../../Redux/action';
 import { WaykeStore } from '../../../../Redux/store';
-import ButtonSuccess from '../../../../Components/Button/ButtonSuccess';
-import ButtonAddRemove from '../../../../Components/Button/ButtonAddRemove';
-import InsuracenAddonBox from './InsuranceAddonBox';
 import ecomEvent, { EcomEvent, EcomView, EcomStep } from '../../../../Utils/ecomEvent';
+import { prettyNumber } from '../../../../Utils/format';
+import { scrollTop } from '../../../../Utils/scroll';
+import InsuracenAddonBox from './InsuranceAddonBox';
 
 const BUTTON_TOP_LEFT_NODE = 'insurance-button-top-left-node';
 const BUTTON_BOTTOM_LEFT_NODE = 'insurance-button-bottom-left-node';

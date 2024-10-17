@@ -1,14 +1,14 @@
+import HtmlNode from '../../Components/Extension/HtmlNode';
 import { WaykeStore } from '../../Redux/store';
-import TradeIn from './TradeIn';
+import watch from '../../Redux/watch';
+import ecomEvent, { EcomEvent, EcomView } from '../../Utils/ecomEvent';
+import { scrollTop } from '../../Utils/scroll';
+import CentralStorage from './CentralStorage';
+import Customer from './Customer';
+import Delivery from './Delivery';
 import Intro from './Intro';
 import Order from './Order';
-import Delivery from './Delivery';
-import Customer from './Customer';
-import HtmlNode from '../../Components/Extension/HtmlNode';
-import { scrollTop } from '../../Utils/scroll';
-import watch from '../../Redux/watch';
-import CentralStorage from './CentralStorage';
-import ecomEvent, { EcomEvent, EcomView } from '../../Utils/ecomEvent';
+import TradeIn from './TradeIn';
 
 const SUMMARY_NODE = 'summary-node';
 
