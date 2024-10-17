@@ -1,6 +1,6 @@
 {
   "name": "@wayke-se/ecom-web",
-  "version": "1.7.1",
+  "version": "1.7.2",
   "description": "Wayke Ecom Web",
   "type": "module",
   "module": "dist/index.mjs",
