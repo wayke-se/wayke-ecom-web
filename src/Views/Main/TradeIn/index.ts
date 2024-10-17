@@ -1,17 +1,17 @@
+import ButtonArrowRight from '../../../Components/Button/ButtonArrowRight';
+import ButtonAsLink from '../../../Components/Button/ButtonAsLink';
+import ButtonSkip from '../../../Components/Button/ButtonSkip';
+import HtmlNode from '../../../Components/Extension/HtmlNode';
 import { goTo, initTradeIn, setTradeIn } from '../../../Redux/action';
 import { WaykeStore } from '../../../Redux/store';
-import ListItem from '../../../Templates/ListItem';
-import PartTradeIn from './PartTradeIn';
-import Alert from '../../../Templates/Alert';
-import ButtonArrowRight from '../../../Components/Button/ButtonArrowRight';
-import ButtonSkip from '../../../Components/Button/ButtonSkip';
-import KeyValueListItem from '../../../Templates/KeyValueListItem';
-import ButtonAsLink from '../../../Components/Button/ButtonAsLink';
-import { prettyNumber } from '../../../Utils/format';
-import { translateTradeInCondition } from '../../../Utils/constants';
-import HtmlNode from '../../../Components/Extension/HtmlNode';
 import watch from '../../../Redux/watch';
+import Alert from '../../../Templates/Alert';
+import KeyValueListItem from '../../../Templates/KeyValueListItem';
+import ListItem from '../../../Templates/ListItem';
+import { translateTradeInCondition } from '../../../Utils/constants';
 import ecomEvent, { EcomStep, EcomEvent, EcomView } from '../../../Utils/ecomEvent';
+import { prettyNumber } from '../../../Utils/format';
+import PartTradeIn from './PartTradeIn';
 
 const TRADE_IN_YES = 'button-trade-in-yes';
 const TRADE_IN_YES_NODE = `${TRADE_IN_YES}-node`;

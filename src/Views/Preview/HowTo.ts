@@ -1,4 +1,4 @@
-import { PaymentType, IDeliveryOption } from '@wayke-se/ecom';
+import { IDeliveryOption, PaymentType } from '@wayke-se/ecom';
 import { OrderOptions, PaymentOption } from '../../@types/OrderOptions';
 import { StageTypes } from '../../@types/Stages';
 import TimelineItem from '../../Templates/TimelineItem';
@@ -41,17 +41,23 @@ const getFinancialDescription = (options?: PaymentOption[]) => {
 
   if (hasCash && hasLoan && hasLease) {
     return 'Denna bil kan du köpa kontant, privatleasa eller finansiera med ett billån.';
-  } else if (hasCash && hasLease) {
+  }
+  if (hasCash && hasLease) {
     return 'Denna bil kan du köpa kontant eller privatleasa.';
-  } else if (hasCash && hasLoan) {
+  }
+  if (hasCash && hasLoan) {
     return 'Denna bil kan du köpa kontant eller finansiera med ett billån';
-  } else if (hasLoan && hasLease) {
+  }
+  if (hasLoan && hasLease) {
     return 'Denna bil kan du privatleasa eller finansiera med ett billån';
-  } else if (hasCash) {
+  }
+  if (hasCash) {
     return 'Denna bil kan du köpa kontant.';
-  } else if (hasLoan) {
+  }
+  if (hasLoan) {
     return 'Denna bil kan du finansiera med ett billån';
-  } else if (hasLease) {
+  }
+  if (hasLease) {
     return 'Denna bil kan du privatleasa.';
   }
   return '???';
@@ -62,9 +68,11 @@ const getDeliveryDescription = (options?: IDeliveryOption[]) => {
   const hasHomeDelivery = options?.find((x) => x.type === 'Delivery');
   if (hasPickup && hasHomeDelivery) {
     return 'Hemleverans eller hämta hos handlaren.';
-  } else if (hasPickup) {
+  }
+  if (hasPickup) {
     return 'Hämta hos handlaren.';
-  } else if (hasHomeDelivery) {
+  }
+  if (hasHomeDelivery) {
     return 'Hemleverans.';
   }
   return '???';

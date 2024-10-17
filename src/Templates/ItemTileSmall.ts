@@ -22,10 +22,7 @@ const ItemTileSmall = ({ vehicle, order, cdnMedia }: ItemTileSmallProps) => {
     imageUrl
       ? `
     <div class="waykeecom-preview-card__media">
-      <img src="${toCdnMedia(
-        imageUrl,
-        cdnMedia
-      )}?spec=200x&format=webp" alt="" class="waykeecom-preview-card__image" />
+      <img src="${toCdnMedia(imageUrl, cdnMedia)}?spec=200x&format=webp" alt="" class="waykeecom-preview-card__image" />
     </div>
     `
       : ''

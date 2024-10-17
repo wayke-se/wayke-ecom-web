@@ -1,22 +1,22 @@
 import { TradeInCarData, TradeInCarDataPartial, VehicleCondition } from '../../../@types/TradeIn';
-import Alert from '../../../Templates/Alert';
+import { VehicleLookup } from '../../../@types/VehicleLookup';
+import ButtonArrowRight from '../../../Components/Button/ButtonArrowRight';
+import ButtonAsLink from '../../../Components/Button/ButtonAsLink';
+import ButtonSkip from '../../../Components/Button/ButtonSkip';
+import HtmlNode from '../../../Components/Extension/HtmlNode';
+import InputField from '../../../Components/Input/InputField';
+import InputRadioGroup, { RadioItem } from '../../../Components/Input/InputRadioGroup';
+import InputTextarea from '../../../Components/Input/InputTextarea';
 import { getTradeInVehicle } from '../../../Data/getTradeInVehicle';
 import { setTradeIn } from '../../../Redux/action';
 import { WaykeStore } from '../../../Redux/store';
-import { validationMethods } from '../../../Utils/validationMethods';
-import ButtonArrowRight from '../../../Components/Button/ButtonArrowRight';
-import InputField from '../../../Components/Input/InputField';
-import InputTextarea from '../../../Components/Input/InputTextarea';
-import ButtonSkip from '../../../Components/Button/ButtonSkip';
-import InputRadioGroup, { RadioItem } from '../../../Components/Input/InputRadioGroup';
-import HtmlNode from '../../../Components/Extension/HtmlNode';
-import { prettyNumber } from '../../../Utils/format';
+import Alert from '../../../Templates/Alert';
 import KeyValueListItem from '../../../Templates/KeyValueListItem';
 import { translateTradeInCondition } from '../../../Utils/constants';
-import ButtonAsLink from '../../../Components/Button/ButtonAsLink';
 import { convertVehicleLookupResponse } from '../../../Utils/convert';
-import { VehicleLookup } from '../../../@types/VehicleLookup';
 import ecomEvent, { EcomStep, EcomEvent, EcomView } from '../../../Utils/ecomEvent';
+import { prettyNumber } from '../../../Utils/format';
+import { validationMethods } from '../../../Utils/validationMethods';
 
 const REGISTRATION_NUMBER_ID = 'trade-in-registrationNumber';
 const REGISTRATION_NUMBER_NODE = `${REGISTRATION_NUMBER_ID}-node`;
@@ -183,7 +183,7 @@ class PartTradeIn extends HtmlNode {
         this.render();
         ecomEvent(EcomView.MAIN, EcomEvent.TRADE_IN_VALUATION_SUCCEEDED, EcomStep.TRADE_IN_DETAILS);
       }
-    } catch (e) {
+    } catch (_e) {
       this.requestError = true;
       this.render();
       ecomEvent(EcomView.MAIN, EcomEvent.TRADE_IN_VALUATION_FAILED, EcomStep.TRADE_IN_DETAILS);

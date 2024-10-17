@@ -1,5 +1,5 @@
-import ShowdownService from 'showdown';
 import sanitizeHtml from 'sanitize-html';
+import ShowdownService from 'showdown';
 
 const showdownService = new ShowdownService.Converter({
   openLinksInNewWindow: true,

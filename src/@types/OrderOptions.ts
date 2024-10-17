@@ -1,10 +1,10 @@
 import {
   IAccessory,
+  IAvailableInsuranceOption,
   IContactInformation,
   IDealerOption,
-  IOrderVehicle,
   IDeliveryOption,
-  IAvailableInsuranceOption,
+  IOrderVehicle,
   PaymentType,
 } from '@wayke-se/ecom/dist-types/orders/types';
 import { PaymentLookup } from './PaymentLookup';

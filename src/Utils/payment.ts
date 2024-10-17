@@ -1,7 +1,7 @@
 export const swedbankPayment = (url: string) => {
   const script = document.createElement('script');
   script.setAttribute('src', url);
-  script.onload = function () {
+  script.onload = () => {
     window.payex?.hostedView
       .paymentMenu({
         container: 'payment-menu',

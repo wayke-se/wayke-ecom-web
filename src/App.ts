@@ -1,26 +1,19 @@
 import './styles/styles.scss';
-import { config, IOrderOptionsResponse } from '@wayke-se/ecom';
+import { IOrderOptionsResponse, config } from '@wayke-se/ecom';
 
 import packageJson from '../package.json';
 
 import { Vehicle } from './@types/Vehicle';
-import { createStore, WaykeStore } from './Redux/store';
 import { reset, setId, setState } from './Redux/action';
+import { WaykeStore, createStore } from './Redux/store';
 
-import Preview from './Views/Preview';
-import Main from './Views/Main';
-import Summary from './Views/Summary';
-import OrderCallback from './Views/OrderCallback';
-import { StageMapKeys } from './Utils/stage';
+import { CallbackOrder } from './@types/CallbackOrder';
+import { EcomSdkConfig } from './@types/EcomSdkConfig';
 import { ViewTypes } from './@types/Navigation';
 import Modal from './Components/Modal/Modal';
-import { EcomSdkConfig } from './@types/EcomSdkConfig';
-import watch, { unregisterAllSubscriptions } from './Redux/watch';
-import ConfirmClose from './Views/ConfirmClose';
 import { creditAssessmentCancelSigning } from './Data/creditAssessmentCancelSigning';
-import { useVwListner } from './Utils/vw';
-import { CallbackOrder } from './@types/CallbackOrder';
 import { ReducerState } from './Redux/reducer';
+import watch, { unregisterAllSubscriptions } from './Redux/watch';
 import ecomEvent, {
   registerEventListner,
   EcomStep,
@@ -30,6 +23,13 @@ import ecomEvent, {
   getLastHistory,
 } from './Utils/ecomEvent';
 import { unregisterAllIntervals } from './Utils/intervals';
+import { StageMapKeys } from './Utils/stage';
+import { useVwListner } from './Utils/vw';
+import ConfirmClose from './Views/ConfirmClose';
+import Main from './Views/Main';
+import OrderCallback from './Views/OrderCallback';
+import Preview from './Views/Preview';
+import Summary from './Views/Summary';
 
 const OrderIdQueryString = 'order';
 const Payment3DSecurityCallback = 'wayke-ecom-web-payment';

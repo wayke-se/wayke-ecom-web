@@ -1,18 +1,18 @@
-import ItemTileLarge from '../../Templates/ItemTileLarge';
+import { StageTypes } from '../../@types/Stages';
+import { Vehicle } from '../../@types/Vehicle';
+import ButtonArrowRight from '../../Components/Button/ButtonArrowRight';
+import CheckList from '../../Components/Checklist/Checklist';
+import HtmlNode from '../../Components/Extension/HtmlNode';
 import { getOrder } from '../../Data/getOrder';
 import { goTo, setOrder, setStages } from '../../Redux/action';
 import { WaykeStore } from '../../Redux/store';
-import HowTo from './HowTo';
-import ButtonArrowRight from '../../Components/Button/ButtonArrowRight';
-import { StageTypes } from '../../@types/Stages';
-import { stageMap, StageMapKeys } from '../../Utils/stage';
-import Loader from '../../Templates/Loader';
-import { Vehicle } from '../../@types/Vehicle';
-import CheckList from '../../Components/Checklist/Checklist';
-import HtmlNode from '../../Components/Extension/HtmlNode';
 import Alert from '../../Templates/Alert';
+import ItemTileLarge from '../../Templates/ItemTileLarge';
+import Loader from '../../Templates/Loader';
 import { convertOrderOptionsResponse } from '../../Utils/convert';
 import ecomEvent, { EcomEvent, EcomView } from '../../Utils/ecomEvent';
+import { StageMapKeys, stageMap } from '../../Utils/stage';
+import HowTo from './HowTo';
 
 const PROCEED_BUTTON = 'preview-proceed';
 const PROCEED_BUTTON_NODE = `${PROCEED_BUTTON}-node`;

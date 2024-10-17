@@ -2,12 +2,12 @@ import { Customer, PartialCustomer } from '../../../@types/Customer';
 import ButtonArrowRight from '../../../Components/Button/ButtonArrowRight';
 import InputField from '../../../Components/Input/InputField';
 
+import HtmlNode from '../../../Components/Extension/HtmlNode';
 import { goTo, setContactAndPhone } from '../../../Redux/action';
 import { WaykeStore } from '../../../Redux/store';
 import KeyValueListItem from '../../../Templates/KeyValueListItem';
-import { validationMethods } from '../../../Utils/validationMethods';
-import HtmlNode from '../../../Components/Extension/HtmlNode';
 import ecomEvent, { EcomStep, EcomEvent, EcomView } from '../../../Utils/ecomEvent';
+import { validationMethods } from '../../../Utils/validationMethods';
 
 const EMAIL_NODE = 'contact-email-node';
 const EMAIL_INPUT_ID = 'contact-email';

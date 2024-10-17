@@ -27,10 +27,7 @@ const ItemTileLarge = ({ vehicle, order, meta, cdnMedia }: ItemTileLargeProps) =
               .map(
                 (imageUrl) => `
               <div class="waykeecom-product-card__media-item">
-                <img src="${toCdnMedia(
-                  imageUrl,
-                  cdnMedia
-                )}?spec=800x&format=webp" alt="" class="waykeecom-product-card__image" />
+                <img src="${toCdnMedia(imageUrl, cdnMedia)}?spec=800x&format=webp" alt="" class="waykeecom-product-card__image" />
               </div>
             `
               )

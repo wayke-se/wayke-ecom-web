@@ -1,7 +1,7 @@
 import HtmlNode from '../Extension/HtmlNode';
 import InputError from './InputError';
-import InputRadioField from './InputRadioField';
 import InputInformation from './InputInformation';
+import InputRadioField from './InputRadioField';
 
 export interface RadioItem {
   id: string;

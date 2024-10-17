@@ -1,9 +1,9 @@
-import ItemTileSmall from '../../Templates/ItemTileSmall';
-import { WaykeStore } from '../../Redux/store';
-import Confirmation from './Confirmation';
 import HtmlNode from '../../Components/Extension/HtmlNode';
+import { WaykeStore } from '../../Redux/store';
 import watch from '../../Redux/watch';
+import ItemTileSmall from '../../Templates/ItemTileSmall';
 import { stageMap } from '../../Utils/stage';
+import Confirmation from './Confirmation';
 
 interface MainProps {
   readonly store: WaykeStore;

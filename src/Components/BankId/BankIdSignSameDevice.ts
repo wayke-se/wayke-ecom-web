@@ -32,9 +32,7 @@ class BankIdSignSameDevice extends HtmlNode {
     this.node.innerHTML = `
       <div class="waykeecom-stack waykeecom-stack--4">
         <div class="waykeecom-align waykeecom-align--center">
-          <img src="${
-            Image.bankid
-          }" alt="BankID logotyp" class="waykeecom-image" style="width: 130px" />
+          <img src="${Image.bankid}" alt="BankID logotyp" class="waykeecom-image" style="width: 130px" />
         </div>
       </div>
       <div class="waykeecom-stack waykeecom-stack--4">${Loader()}</div>

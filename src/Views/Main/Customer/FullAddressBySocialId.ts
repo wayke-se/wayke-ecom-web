@@ -1,17 +1,17 @@
 import { Customer, CustomerSocialId } from '../../../@types/Customer';
 import ButtonArrowRight from '../../../Components/Button/ButtonArrowRight';
 import ButtonAsLink from '../../../Components/Button/ButtonAsLink';
-import InputField from '../../../Components/Input/InputField';
 import DisclaimerPadlock from '../../../Components/Disclaimer/DisclaimerPadlock';
+import HtmlNode from '../../../Components/Extension/HtmlNode';
+import InputField from '../../../Components/Input/InputField';
 import { getAddressBySsn } from '../../../Data/getAddress';
 import { setSocialIdAndAddress } from '../../../Redux/action';
 import { WaykeStore } from '../../../Redux/store';
 import Alert from '../../../Templates/Alert';
+import ecomEvent, { EcomStep, EcomEvent, EcomView } from '../../../Utils/ecomEvent';
+import { regexNumber } from '../../../Utils/regex';
 import { renderConditional } from '../../../Utils/render';
 import { validationMethods } from '../../../Utils/validationMethods';
-import HtmlNode from '../../../Components/Extension/HtmlNode';
-import { regexNumber } from '../../../Utils/regex';
-import ecomEvent, { EcomStep, EcomEvent, EcomView } from '../../../Utils/ecomEvent';
 
 const SOCIAL_ID_NODE = 'contact-socialId-node';
 const SOCIAL_ID_INPUT_ID = 'contact-socialId';
@@ -100,7 +100,7 @@ class FullAddressBySocialId extends HtmlNode {
         lastStage
       )(store.dispatch);
       ecomEvent(EcomView.MAIN, EcomEvent.CUSTOMER_ADDRESS_SET, EcomStep.CUSTOMER_ADDRESS);
-    } catch (e) {
+    } catch (_e) {
       this.requestError = true;
       ecomEvent(EcomView.MAIN, EcomEvent.CUSTOMER_ADDRESS_BY_SSN_FAILED, EcomStep.CUSTOMER_ADDRESS);
     } finally {

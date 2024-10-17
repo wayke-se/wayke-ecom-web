@@ -5,12 +5,12 @@ import InputRadioField from '../../../Components/Input/InputRadioField';
 import StageCompleted from '../../../Components/StageCompleted';
 import { goTo, setHomeDelivery } from '../../../Redux/action';
 import { WaykeStore } from '../../../Redux/store';
-import { getTotalDeliveryCost } from '../../../Utils/delivery';
-import { prettyNumber } from '../../../Utils/format';
-import ListItem from '../../../Templates/ListItem';
 import watch from '../../../Redux/watch';
-import ecomEvent, { EcomStep, EcomEvent, EcomView } from '../../../Utils/ecomEvent';
 import Alert from '../../../Templates/Alert';
+import ListItem from '../../../Templates/ListItem';
+import { getTotalDeliveryCost } from '../../../Utils/delivery';
+import ecomEvent, { EcomStep, EcomEvent, EcomView } from '../../../Utils/ecomEvent';
+import { prettyNumber } from '../../../Utils/format';
 
 const RADIO_HOME_TRUE = 'radio-home-delivery-true';
 const RADIO_HOME_TRUE_NODE = `${RADIO_HOME_TRUE}-node`;

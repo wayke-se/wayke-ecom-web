@@ -1,4 +1,4 @@
-import { insurances, DrivingDistance } from '@wayke-se/ecom';
+import { DrivingDistance, insurances } from '@wayke-se/ecom';
 import { WaykeStore } from '../Redux/store';
 
 export const getInsurances = (store: WaykeStore, drivingDistance: DrivingDistance) => {

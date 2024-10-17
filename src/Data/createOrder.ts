@@ -1,4 +1,4 @@
-import { customers, DeliveryType, orders, PaymentType, vehicles } from '@wayke-se/ecom';
+import { DeliveryType, PaymentType, customers, orders, vehicles } from '@wayke-se/ecom';
 import { IOrderInsuranceRequest } from '@wayke-se/ecom/dist-types/orders/types';
 import { WaykeStore } from '../Redux/store';
 import { extractLoanIndex, extractPaymentType } from '../Views/Main/Financial/utils';

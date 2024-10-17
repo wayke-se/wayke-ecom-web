@@ -29,7 +29,7 @@ class OrderCallback extends HtmlNode {
     try {
       const response = await fetch(this.props.callbackOrder.orderUrl);
       this.order = (await response.json()) as PaymentOrderResponse;
-    } catch (e) {
+    } catch (_e) {
       this.orderFetchFailed = true;
     } finally {
       this.render();

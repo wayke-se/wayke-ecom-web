@@ -5,9 +5,9 @@ import GridItem from '../../../Components/OverflowGrid/OverflowGridItem';
 import { addOrRemoveAccessory } from '../../../Redux/action';
 import { WaykeStore } from '../../../Redux/store';
 import watch from '../../../Redux/watch';
+import ecomEvent, { EcomStep, EcomEvent, EcomView } from '../../../Utils/ecomEvent';
 import { prettyNumber } from '../../../Utils/format';
 import { createPortal, destroyPortal } from '../../../Utils/portal';
-import ecomEvent, { EcomStep, EcomEvent, EcomView } from '../../../Utils/ecomEvent';
 import AccessoryItemInfo from './AccessoryItemInfo';
 
 interface AccessoryItemProps {
