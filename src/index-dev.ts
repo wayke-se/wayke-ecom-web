@@ -1,7 +1,7 @@
 import { EcomSdkConfig } from './@types/EcomSdkConfig';
 import WaykeEcomWeb from './App';
+import { EcomEvent, EcomStep, EcomView } from './Utils/ecomEvent';
 import { devConfig } from './devConfig';
-import { EcomStep, EcomEvent, EcomView } from './Utils/ecomEvent';
 
 window.addEventListener('DOMContentLoaded', (_) => {
   const ecomSdkConfig: EcomSdkConfig = {
@@ -16,9 +16,7 @@ window.addEventListener('DOMContentLoaded', (_) => {
     rootId: 'custom-id',
     logo: 'https://placehold.jp/180x40.png',
     id: 'd3255290-9afd-4091-bc28-9ca884d4a3b0',
-    onEvent: (view: EcomView, event: EcomEvent, step?: EcomStep, data?: any) =>
-      // eslint-disable-next-line
-      console.log({ view, event, step, data }),
+    onEvent: (_view: EcomView, _event: EcomEvent, _step?: EcomStep, _data?: any) => null,
   });
   context.start();
   const button = document.querySelector<HTMLButtonElement>('#button');

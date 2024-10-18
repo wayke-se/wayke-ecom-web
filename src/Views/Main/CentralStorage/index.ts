@@ -59,7 +59,7 @@ class CentralStorage extends HtmlNode {
       setDealer(selectedDealer, this.props.lastStage)(this.props.store.dispatch);
 
       this.contexts.proceedButton?.loading(false);
-    } catch (e) {
+    } catch (_e) {
       this.contexts.proceedButton?.loading(false);
       this.requestError = true;
       this.render();

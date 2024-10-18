@@ -1,10 +1,10 @@
 import {
   DrivingDistance,
   IAddress,
+  IAvailableInsuranceOption,
   IInsuranceOption,
   IVehicle,
   PaymentType,
-  IAvailableInsuranceOption,
 } from '@wayke-se/ecom';
 import { IAccessory, IOrderVehicle } from '@wayke-se/ecom/dist-types/orders/types';
 import { ICreditAssessmentStatus } from '../@types/CreditAssessmentStatus';
@@ -18,35 +18,35 @@ import { TradeInCarDataPartial } from '../@types/TradeIn';
 import { isSame } from '../Utils/compare';
 import {
   Action,
-  RESET,
-  SET_CONTACT_EMAIL_AND_PHONE,
-  SET_ORDER,
-  SET_SOCIAL_ID_AND_ADDRESS,
-  SET_HOME_DELIVERY,
-  SET_TRADE_IN,
-  SET_FINANCIAL,
-  INIT_TRADE_IN,
-  SET_PAYMENT_LOOKUP_RESPONSE,
-  SET_ID,
-  SET_STAGES,
-  GO_TO,
-  SET_OR_REMOVE_ACCESSORY,
-  SET_OR_REMOVE_INSURANCE,
-  SET_OR_REMOVE_INSURANCE_ADDONS,
-  SET_OR_REMOVE_FREE_INSURANCE,
-  SET_DRIVING_DISTANCE,
   COMPLETE_STAGE,
+  GO_TO,
+  INIT_TRADE_IN,
+  RESET,
+  RESET_PAYMENT_LOOKUP_RESPONSE,
+  SET_CONTACT_EMAIL_AND_PHONE,
   SET_CREATED_ORDER_ID,
   SET_CREDIT_ASSESSMENT_RESPONSE,
   SET_DEALER,
+  SET_DRIVING_DISTANCE,
+  SET_FINANCIAL,
+  SET_HOME_DELIVERY,
+  SET_ID,
+  SET_ORDER,
+  SET_OR_REMOVE_ACCESSORY,
+  SET_OR_REMOVE_FREE_INSURANCE,
+  SET_OR_REMOVE_INSURANCE,
+  SET_OR_REMOVE_INSURANCE_ADDONS,
+  SET_PAYMENT_LOOKUP_RESPONSE,
+  SET_SOCIAL_ID_AND_ADDRESS,
+  SET_STAGES,
   SET_STATE,
-  RESET_PAYMENT_LOOKUP_RESPONSE,
+  SET_TRADE_IN,
 } from './action';
 
 let mock = {};
 try {
   //mock = require('../../statemock.json');
-} catch (e) {
+} catch (_e) {
   mock = {};
 }
 

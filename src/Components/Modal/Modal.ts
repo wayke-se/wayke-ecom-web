@@ -4,8 +4,8 @@ import ModalCenter from './ModalCenter';
 import ModalClose from './ModalClose';
 import ModalContainer from './ModalContainer';
 import ModalDialog from './ModalDialog';
-import ModalHeader from './ModalHeader';
 import ModalFooter from './ModalFooter';
+import ModalHeader from './ModalHeader';
 
 interface ModalProps {
   readonly title: string;

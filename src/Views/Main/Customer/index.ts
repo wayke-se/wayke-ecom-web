@@ -2,12 +2,12 @@ import HtmlNode from '../../../Components/Extension/HtmlNode';
 import StageCompleted from '../../../Components/StageCompleted';
 import { goTo } from '../../../Redux/action';
 import { WaykeStore } from '../../../Redux/store';
-import { maskSSn, maskText } from '../../../Utils/mask';
+import watch from '../../../Redux/watch';
 import ListItem from '../../../Templates/ListItem';
+import ecomEvent, { EcomStep, EcomEvent, EcomView } from '../../../Utils/ecomEvent';
+import { maskSSn, maskText } from '../../../Utils/mask';
 import EmailAndPhone from './EmailAndPhone';
 import FullAddress from './FullAddress';
-import watch from '../../../Redux/watch';
-import ecomEvent, { EcomStep, EcomEvent, EcomView } from '../../../Utils/ecomEvent';
 
 interface CustomerProps {
   readonly store: WaykeStore;

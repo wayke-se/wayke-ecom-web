@@ -1,42 +1,42 @@
 import {
   AuthMethod,
   Employment,
-  MaritalStatus,
-  ICreditAssessmentInquiry,
-  PaymentType,
   HousingType,
   ICreditAssessmentHouseholdEconomy,
+  ICreditAssessmentInquiry,
+  MaritalStatus,
+  PaymentType,
 } from '@wayke-se/ecom';
+import { ICreditAssessmentStatus } from '../../../@types/CreditAssessmentStatus';
+import { PaymentOption } from '../../../@types/OrderOptions';
+import { PaymentLookup } from '../../../@types/PaymentLookup';
 import Accordion from '../../../Components/Accordion';
 import BankIdSign from '../../../Components/BankId/BankIdSign';
 import ButtonBankId from '../../../Components/Button/ButtonBankId';
+import Disclaimer from '../../../Components/Disclaimer/Disclaimer';
+import DisclaimerPadlock from '../../../Components/Disclaimer/DisclaimerPadlock';
 import HtmlNode from '../../../Components/Extension/HtmlNode';
 import InputField from '../../../Components/Input/InputField';
 import InputRadioGroup from '../../../Components/Input/InputRadioGroup';
-import Disclaimer from '../../../Components/Disclaimer/Disclaimer';
-import DisclaimerPadlock from '../../../Components/Disclaimer/DisclaimerPadlock';
+import InputSelect from '../../../Components/Input/InputSelect';
 import { creditAssessmentCancelSigning } from '../../../Data/creditAssessmentCancelSigning';
+import { creditAssessmentDecline } from '../../../Data/creditAssessmentDecline';
 import { creditAssessmentGetStatus } from '../../../Data/creditAssessmentGetStatus';
 import { creditAssessmentNewCase } from '../../../Data/creditAssessmentNewCase';
 import { creditAssessmentSignCase } from '../../../Data/creditAssessmentSignCase';
 import { setCreditAssessmentResponse } from '../../../Redux/action';
 import { WaykeStore } from '../../../Redux/store';
 import Alert from '../../../Templates/Alert';
+import { convertCreditAssessmentStatusResponse } from '../../../Utils/convert';
+import ecomEvent, { EcomStep, EcomEvent, EcomView } from '../../../Utils/ecomEvent';
 import { prettyNumber } from '../../../Utils/format';
+import { registerInterval } from '../../../Utils/intervals';
 import { isMobile } from '../../../Utils/isMobile';
 import { createPortal, destroyPortal } from '../../../Utils/portal';
 import { scrollTop } from '../../../Utils/scroll';
 import { validationMethods } from '../../../Utils/validationMethods';
 import CreditAssessmentResult from './CreditAssessmentResult';
 import createTerm from './utils';
-import { PaymentLookup } from '../../../@types/PaymentLookup';
-import { ICreditAssessmentStatus } from '../../../@types/CreditAssessmentStatus';
-import { convertCreditAssessmentStatusResponse } from '../../../Utils/convert';
-import { PaymentOption } from '../../../@types/OrderOptions';
-import ecomEvent, { EcomStep, EcomEvent, EcomView } from '../../../Utils/ecomEvent';
-import { registerInterval } from '../../../Utils/intervals';
-import { creditAssessmentDecline } from '../../../Data/creditAssessmentDecline';
-import InputSelect from '../../../Components/Input/InputSelect';
 
 const MARITAL_STATUS = `credit-assessment-martial-status`;
 const MARITAL_STATUS_NODE = `${MARITAL_STATUS}-node`;
@@ -431,7 +431,7 @@ class CreditAssessment extends HtmlNode {
           const qrCode = response.getQrCode() as string;
           this.contexts.bankId?.update(method, qrCode);
         }
-      } catch (e) {
+      } catch (_e) {
         clearInterval(this.bankidStatusInterval as NodeJS.Timeout);
         this.contexts.bankId?.setFinalizing(false);
         this.contexts.bankId?.setErrorMessage(
@@ -475,7 +475,7 @@ class CreditAssessment extends HtmlNode {
         const qrCode = response.getQrCode() as string;
         this.contexts.bankId?.update(method, qrCode);
       }
-    } catch (e) {
+    } catch (_e) {
       ecomEvent(
         EcomView.MAIN,
         EcomEvent.FINANCIAL_CREDIT_SCORING_BANKID_INIT_FAILED,
@@ -527,7 +527,7 @@ class CreditAssessment extends HtmlNode {
           setCreditAssessmentResponse(caseId)(store.dispatch);
           this.onStartBankIdAuth(method);
         }
-      } catch (e) {
+      } catch (_e) {
         ecomEvent(
           EcomView.MAIN,
           EcomEvent.FINANCIAL_CREDIT_SCORING_CREATE_CASE_FAILED,

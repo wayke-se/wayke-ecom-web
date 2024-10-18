@@ -1,11 +1,11 @@
 import {
   DrivingDistance,
   IAddress,
-  IInsuranceOption,
   IAvailableInsuranceOption,
+  IInsuranceAddon,
+  IInsuranceOption,
   IVehicle,
   PaymentType,
-  IInsuranceAddon,
 } from '@wayke-se/ecom';
 import { IAccessory } from '@wayke-se/ecom/dist-types/orders/types';
 import { PaymentLookupResponse } from '@wayke-se/ecom/dist-types/payments/payment-lookup-response';
