@@ -1,3 +1,4 @@
+import i18next from 'i18next';
 import HtmlNode from '../../../Components/Extension/HtmlNode';
 import StageCompleted from '../../../Components/StageCompleted';
 import { addOrRemoveInsurance, completeStage, goTo } from '../../../Redux/action';
@@ -58,7 +59,7 @@ class Insurance extends HtmlNode {
     }
     const content = ListItem(this.node, {
       completed,
-      title: 'Försäkring',
+      title: i18next.t('insurance.title'),
       active,
       id: 'insurance',
       index: index,
@@ -68,37 +69,37 @@ class Insurance extends HtmlNode {
       const keyValueOptions: KeyValueListItemProps[] = [];
       if (state.insurance) {
         keyValueOptions.push({
-          key: 'Uppskattad körsträcka',
+          key: i18next.t('insurance.estimatedMileage'),
           value: translateDrivingDistance[state.drivingDistance],
         });
         keyValueOptions.push({
           key: state.insurance.name,
-          value: prettyNumber(state.insurance.price, { postfix: 'kr/mån' }),
+          value: prettyNumber(state.insurance.price, { postfix: i18next.t('insurance.perMonth') }),
         });
 
         if (state.insuranceAddOns?.insurance === state.insurance.name) {
           state.insuranceAddOns.addOns.forEach((addon) =>
             keyValueOptions.push({
               key: addon.title,
-              value: prettyNumber(addon.monthlyPrice, { postfix: 'kr/mån' }),
+              value: prettyNumber(addon.monthlyPrice, { postfix: i18next.t('insurance.perMonth') }),
             })
           );
         }
       } else if (state.freeInsurance) {
         keyValueOptions.push({
-          key: 'Försäkring',
+          key: i18next.t('insurance.title'),
           value: state.freeInsurance.title,
         });
       } else {
         keyValueOptions.push({
-          key: 'Försäkring',
-          value: 'Ingen',
+          key: i18next.t('insurance.title'),
+          value: i18next.t('insurance.none'),
         });
       }
 
       new StageCompleted(content, {
         keyValueList: keyValueOptions,
-        changeButtonTitle: 'Ändra försäkring',
+        changeButtonTitle: i18next.t('insurance.changeButtonTitle'),
         onEdit: !state.createdOrderId ? () => this.onEdit() : undefined,
       });
     } else if (state.navigation.stage === index) {

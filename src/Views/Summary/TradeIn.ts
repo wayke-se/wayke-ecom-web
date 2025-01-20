@@ -1,3 +1,4 @@
+import i18next from 'i18next';
 import StackNode from '../../Components/Extension/StackNode';
 import { WaykeStore } from '../../Redux/store';
 import KeyValueListItem from '../../Templates/KeyValueListItem';
@@ -25,7 +26,7 @@ class TradeIn extends StackNode {
     this.node.innerHTML = `
       <div class="waykeecom-stack waykeecom-stack--4">
         <div class="waykeecom-stack waykeecom-stack--2">
-          <h4 class="waykeecom-heading waykeecom-heading--4 waykeecom-no-margin">Inbytesbil</h4>
+          <h4 class="waykeecom-heading waykeecom-heading--4 waykeecom-no-margin">${i18next.t('summary.tradeInTitle')}</h4>
         </div>
         
         ${
@@ -50,19 +51,19 @@ class TradeIn extends StackNode {
             <div class="waykeecom-stack waykeecom-stack--2">
               <ul class="waykeecom-key-value-list">
                 ${KeyValueListItem({
-                  key: 'Miltal',
+                  key: i18next.t('summary.mileage'),
                   value: `${tradeIn.mileage} mil`,
                 })}
                 ${KeyValueListItem({
-                  key: 'Beskrivning',
+                  key: i18next.t('summary.description'),
                   value: `${tradeIn.description}`,
                 })}
                 ${KeyValueListItem({
-                  key: 'Bilens skick',
+                  key: i18next.t('summary.condition'),
                   value: translateTradeInCondition[tradeIn.condition],
                 })}
                 ${KeyValueListItem({
-                  key: 'Ungefärligt värde',
+                  key: i18next.t('summary.estimatedValue'),
                   value: `~ ${prettyNumber(tradeInVehicle.valuation, { postfix: 'kr' })}`,
                 })}
               </ul>
@@ -72,8 +73,8 @@ class TradeIn extends StackNode {
             : `<div class="waykeecom-stack waykeecom-stack--2">
                 <ul class="waykeecom-key-value-list">
                   ${KeyValueListItem({
-                    key: 'Inbytesbil',
-                    value: 'Nej',
+                    key: i18next.t('summary.tradeInTitle'),
+                    value: i18next.t('summary.no'),
                   })}
                 </ul>
             </div>`

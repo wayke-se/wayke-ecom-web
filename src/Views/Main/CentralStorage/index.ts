@@ -1,3 +1,4 @@
+import i18next from 'i18next';
 import ButtonArrowRight from '../../../Components/Button/ButtonArrowRight';
 import HtmlNode from '../../../Components/Extension/HtmlNode';
 import InputRadioGroup, { RadioItem } from '../../../Components/Input/InputRadioGroup';
@@ -100,7 +101,7 @@ class CentralStorage extends HtmlNode {
     const content = ListItem(this.node, {
       completed,
       active,
-      title: 'Centrallager',
+      title: i18next.t('centralStorage.title'),
       id: 'central-storage',
       index: index,
     });
@@ -113,19 +114,19 @@ class CentralStorage extends HtmlNode {
       new StageCompleted(content, {
         keyValueList: [
           {
-            key: 'Val av anläggning',
+            key: i18next.t('centralStorage.dealerSelection'),
             value: dealer?.name || '',
           },
         ],
-        changeButtonTitle: 'Ändra',
+        changeButtonTitle: i18next.t('centralStorage.changeButtonTitle'),
         onEdit: !createdOrderId ? () => this.onEdit() : undefined,
       });
     } else if (navigation.stage === index) {
       content.innerHTML = `
       <div class="waykeecom-stack waykeecom-stack--3">
-        <h4 class="waykeecom-heading waykeecom-heading--4">Vilken anläggning vill du köpa ifrån?</h4>
+        <h4 class="waykeecom-heading waykeecom-heading--4">${i18next.t('centralStorage.heading')}</h4>
         <div class="waykeecom-content">
-          <p class="waykeecom-content__p">Detta fordon är en centrallagerbil och finns tillgängligt från flera anläggningar. Välj den anläggning du vill handla ifrån.</p>
+          <p class="waykeecom-content__p">${i18next.t('centralStorage.description')}</p>
         </div>
       </div>
 
@@ -135,7 +136,7 @@ class CentralStorage extends HtmlNode {
         this.requestError
           ? `<div class="waykeecom-stack waykeecom-stack--3">${Alert({
               tone: 'error',
-              children: `Ett fel uppstod och det gick inte att välja ovanstående anläggning. Försök igen.`,
+              children: i18next.t('centralStorage.errorMessage'),
             })}</div>`
           : ''
       }
@@ -146,7 +147,7 @@ class CentralStorage extends HtmlNode {
       const options: RadioItem[] = dealers.map((dealer) => {
         const address =
           !dealer.location?.address || !dealer.location?.city
-            ? 'Adress saknas'
+            ? i18next.t('centralStorage.addressMissing')
             : `${dealer.location?.address}, ${dealer.location?.city}`;
 
         return {
@@ -189,7 +190,7 @@ class CentralStorage extends HtmlNode {
       this.contexts.proceedButton = new ButtonArrowRight(
         content.querySelector<HTMLDivElement>(`#${PROCEED_NODE}`),
         {
-          title: 'Gå vidare',
+          title: i18next.t('centralStorage.proceedButton'),
           id: PROCEED,
           disabled: !this.selectedDealer,
           onClick: () => this.onProceed(),

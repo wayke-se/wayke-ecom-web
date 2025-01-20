@@ -1,3 +1,4 @@
+import i18next from 'i18next';
 import StackNode from '../../Components/Extension/StackNode';
 import { WaykeStore } from '../../Redux/store';
 
@@ -22,27 +23,26 @@ class Intro extends StackNode {
 
     if (createdOrderId) {
       this.node.innerHTML = `
-        <h3 class="waykeecom-heading waykeecom-heading--3">Tack för din order!</h3>
+        <h3 class="waykeecom-heading waykeecom-heading--3">${i18next.t('summary.thankYou')}</h3>
         <div class="waykeecom-stack waykeecom-stack--2">
           <div class="waykeecom-content">
             <p class="waykeecom-content__p">
-              <span class="waykeecom-text waykeecom-text--font-medium">Det här händer nu:</span>
+              <span class="waykeecom-text waykeecom-text--font-medium">${i18next.t('summary.whatHappensNext')}</span>
             </p>
             <ol class="waykeecom-content__ol">
-              <li class="waykeecom-content__li">En orderbekräftelse kommer att skickas till din e-postadress ${email}.*</li>
-              <li class="waykeecom-content__li">${contactInformation?.name} tar kontakt med dig för att gå igenom avtal, betalning och leverans.</li>
-              <li class="waykeecom-content__li">Klart! Kör försiktigt ute på vägarna.</li>
+              <li class="waykeecom-content__li">${i18next.t('summary.orderConfirmation', { email })}</li>
+              <li class="waykeecom-content__li">${i18next.t('summary.contactFromDealer', { contactName: contactInformation?.name })}</li>
+              <li class="waykeecom-content__li">${i18next.t('summary.driveSafely')}</li>
             </ol>
           </div>
         </div>
         <div class="waykeecom-stack waykeecom-stack--2">
-          <div class="waykeecom-disclaimer-text">*Orderbekräftelsen skickas normalt inom 10 minuter, men kan i undantagsfall dröja upp till 48 timmar.</div>
+          <div class="waykeecom-disclaimer-text">${i18next.t('summary.orderConfirmationDisclaimer')}</div>
         </div>
         <div class="waykeecom-stack waykeecom-stack--2">
-          <div class="waykeecom-heading waykeecom-heading--4">Ordernummer ${createdOrderId}</div>
+          <div class="waykeecom-heading waykeecom-heading--4">${i18next.t('summary.orderNumber', { createdOrderId })}</div>
         </div>
-
-    `;
+      `;
     }
   }
 }

@@ -1,4 +1,5 @@
 import { IInsuranceOption } from '@wayke-se/ecom';
+import i18next from 'i18next';
 import HtmlNode from '../../../../Components/Extension/HtmlNode';
 
 import GridItem from '../../../../Components/OverflowGrid/OverflowGridItem';
@@ -65,7 +66,7 @@ class InsuranceItem extends HtmlNode {
         ? state.insuranceAddOns.addOns.map((k) => {
             return {
               key: k?.title,
-              value: prettyNumber(k?.monthlyPrice, { postfix: 'kr/mån' }),
+              value: prettyNumber(k?.monthlyPrice, { postfix: i18next.t('insurance.perMonth') }),
             };
           })
         : undefined;
@@ -89,7 +90,7 @@ class InsuranceItem extends HtmlNode {
         id: key,
         title: insurance.name,
         description: insurance.description,
-        price: prettyNumber(insurance.price, { postfix: 'kr/mån' }),
+        price: prettyNumber(insurance.price, { postfix: i18next.t('insurance.perMonth') }),
         priceDetails: selectedAddons,
         onClick: () => this.onClick(),
         onInfo: () => this.onInfoOpen(),

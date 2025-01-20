@@ -1,4 +1,5 @@
 import { DeliveryType } from '@wayke-se/ecom';
+import i18next from 'i18next';
 import ButtonArrowRight from '../../../Components/Button/ButtonArrowRight';
 import HtmlNode from '../../../Components/Extension/HtmlNode';
 import InputRadioField from '../../../Components/Input/InputRadioField';
@@ -84,7 +85,7 @@ class Delivery extends HtmlNode {
     }
     const content = ListItem(this.node, {
       completed,
-      title: 'Leverans',
+      title: i18next.t('delivery.title'),
       active,
       id: 'delivery',
       index: index,
@@ -94,26 +95,27 @@ class Delivery extends HtmlNode {
       new StageCompleted(content, {
         keyValueList: [
           {
-            key: 'Leveranssätt',
-            value: state.homeDelivery ? 'Hemleverans' : 'Hämta hos handlaren',
+            key: i18next.t('delivery.deliveryMethod'),
+            value: state.homeDelivery
+              ? i18next.t('delivery.homeDelivery')
+              : i18next.t('delivery.pickup'),
           },
         ],
-        changeButtonTitle: 'Ändra leveranssätt',
+        changeButtonTitle: i18next.t('delivery.changeDeliveryMethod'),
         onEdit: !state.createdOrderId ? () => this.onEdit() : undefined,
       });
     } else if (state.navigation.stage === index) {
       const part = document.createElement('div');
       part.innerHTML = `
         <div class="waykeecom-stack waykeecom-stack--3">
-          <h4 class="waykeecom-heading waykeecom-heading--4">Hur vill du ha din bil levererad?</h4>
+          <h4 class="waykeecom-heading waykeecom-heading--4">${i18next.t('delivery.heading')}</h4>
           <div class="waykeecom-content">
-            <p class="waykeecom-content__p">Välj ifall du vill ha bilen levererad hem till dig eller ifall du vill hämta 
-            den hos ${contactInformation.name}.</p>
+            <p class="waykeecom-content__p">${i18next.t('delivery.description', { name: contactInformation.name })}</p>
           </div>
         </div>
 
         <div class="waykeecom-stack waykeecom-stack--3">
-          <fieldset class="waykeecom-input-group" role="radiogroup" aria-required="true" aria-label="Leveranssätt">
+          <fieldset class="waykeecom-input-group" role="radiogroup" aria-required="true" aria-label="${i18next.t('delivery.deliveryMethod')}">
             <div class="waykeecom-input-group__item" id="${RADIO_HOME_FALSE_NODE}"></div>
             <div class="waykeecom-input-group__item" id="${RADIO_HOME_TRUE_NODE}"></div>
           </fieldset>
@@ -132,7 +134,7 @@ class Delivery extends HtmlNode {
             new InputRadioField(part.querySelector<HTMLInputElement>(`#${RADIO_HOME_FALSE_NODE}`), {
               id: RADIO_HOME_TRUE,
               name: 'homeDelivery',
-              title: 'Hämta hos handlaren',
+              title: i18next.t('delivery.pickup'),
               value: 'false',
               description: `
                 <div class="waykeecom-box">
@@ -158,7 +160,7 @@ class Delivery extends HtmlNode {
               `,
               meta: `<div class="waykeecom-text waykeecom-text--font-bold">${
                 totalDeliveryCost === 0
-                  ? 'Gratis'
+                  ? i18next.t('delivery.free')
                   : prettyNumber(totalDeliveryCost, {
                       postfix: 'kr',
                     })
@@ -176,16 +178,16 @@ class Delivery extends HtmlNode {
             new InputRadioField(part.querySelector<HTMLInputElement>(`#${RADIO_HOME_TRUE_NODE}`), {
               id: RADIO_HOME_FALSE,
               name: 'homeDelivery',
-              title: 'Hemleverans',
+              title: i18next.t('delivery.homeDelivery'),
               value: 'true',
               disabled: tooFarAway,
               description: `<div class="waykeecom-box">
-                <div class="waykeecom-stack waykeecom-stack--2">Till din folkbokföringsadress</div>
+                <div class="waykeecom-stack waykeecom-stack--2">${i18next.t('delivery.toYourAddress')}</div>
                 ${
                   tooFarAway
                     ? `<div class="waykeecom-stack waykeecom-stack--2">${Alert({
                         tone: 'info',
-                        children: 'Tyvärr kan vi inte erbjuda hemleverans till din adress.',
+                        children: i18next.t('delivery.tooFarAway'),
                       })}</div>`
                     : ''
                 }</div>`,
@@ -206,7 +208,7 @@ class Delivery extends HtmlNode {
       });
 
       new ButtonArrowRight(part.querySelector<HTMLDivElement>(`#${PROCEED_NODE}`), {
-        title: 'Gå vidare',
+        title: i18next.t('delivery.proceedButton'),
         id: PROCEED,
         onClick: () => this.onProceed(),
       });

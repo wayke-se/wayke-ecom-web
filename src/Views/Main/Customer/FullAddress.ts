@@ -1,3 +1,4 @@
+import i18next from 'i18next';
 import { Customer } from '../../../@types/Customer';
 import HtmlNode from '../../../Components/Extension/HtmlNode';
 import { WaykeStore } from '../../../Redux/store';
@@ -27,7 +28,7 @@ class FullAddress extends HtmlNode {
     const subStage = store.getState().navigation.subStage;
     if (subStage > 2) {
       const keyValueItems: KeyValueListItemProps[] = [
-        { key: 'Personnummer', value: this.state.socialId },
+        { key: i18next.t('customer.socialId'), value: this.state.socialId },
       ];
 
       this.node.innerHTML = `

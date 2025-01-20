@@ -18,6 +18,7 @@ window.addEventListener('DOMContentLoaded', (_) => {
     logoX2: 'https://placehold.co/360x80',
     id: 'd3255290-9afd-4091-bc28-9ca884d4a3b0',
     onEvent: (_view: EcomView, _event: EcomEvent, _step?: EcomStep, _data?: any) => null,
+    marketCode: 'SE',
   });
   context.start();
   const button = document.querySelector<HTMLButtonElement>('#button');

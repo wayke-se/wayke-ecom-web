@@ -1,3 +1,4 @@
+import i18next from 'i18next';
 import { CallbackOrder } from '../../@types/CallbackOrder';
 import { PaymentOrderResponse } from '../../@types/PaymentOrderResponse';
 import HtmlNode from '../../Components/Extension/HtmlNode';
@@ -48,9 +49,9 @@ class OrderCallback extends HtmlNode {
 
     this.node.innerHTML = `
         <div class="waykeecom-content">
-          <p class="waykeecom-content__p">Tack för ditt köp</p>
-          <p class="waykeecom-content__p">Order id: ${callbackOrder.orderUrl}</p>
-          <p class="waykeecom-content__p">Wayke id: ${callbackOrder.id}</p>
+          <p class="waykeecom-content__p">${i18next.t('orderCallback.thankYou')}</p>
+          <p class="waykeecom-content__p">${i18next.t('orderCallback.orderId')}: ${callbackOrder.orderUrl}</p>
+          <p class="waykeecom-content__p">${i18next.t('orderCallback.waykeId')}: ${callbackOrder.id}</p>
         </div>
       `;
   }

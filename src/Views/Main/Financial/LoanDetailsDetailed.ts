@@ -1,3 +1,4 @@
+import i18next from 'i18next';
 import HtmlNode from '../../../Components/Extension/HtmlNode';
 import KeyValueListItem from '../../../Templates/KeyValueListItem';
 import { prettyNumber } from '../../../Utils/format';
@@ -56,8 +57,8 @@ class LoanDetailsDetailed extends HtmlNode {
           class="waykeecom-accordion__checkbox"
           ${this.showDetails ? `checked="true"` : ''}
         />
-        <label class="waykeecom-accordion__header" for="finance-details-accordion">
-          <div class="waykeecom-accordion__header-title">Detaljer</div>
+        <label class="waykeecom-accordion__header" for="finance-details-accordion" tabindex="0" aria-label="${i18next.t('loanDetails.showDetails')}">
+          <div class="waykeecom-accordion__header-title">${i18next.t('loanDetails.details')}</div>
           <div class="waykeecom-accordion__header-icon" aria-hidden="true">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -73,24 +74,24 @@ class LoanDetailsDetailed extends HtmlNode {
           <div class="waykeecom-stack waykeecom-stack--2">
             <ul class="waykeecom-key-value-list">
               ${KeyValueListItem({
-                key: 'Avbetalningsperoid',
-                value: `${duration} mån`,
+                key: i18next.t('loanDetails.repaymentPeriod'),
+                value: `${duration} ${i18next.t('loanDetails.months')}`,
               })}
 
               ${KeyValueListItem({
-                key: 'Ränta',
+                key: i18next.t('loanDetails.interest'),
                 value: prettyNumber(interest * 100, { postfix: '%', decimals: 2 }),
               })}
 
               ${KeyValueListItem({
-                key: 'Effektiv ränta',
+                key: i18next.t('loanDetails.effectiveInterest'),
                 value: prettyNumber(effectiveInterest * 100, { postfix: '%', decimals: 2 }),
               })}
 
               ${
                 setupFee !== undefined &&
                 KeyValueListItem({
-                  key: 'Uppläggningskostnad',
+                  key: i18next.t('loanDetails.setupFee'),
                   value: prettyNumber(setupFee, { postfix: 'kr' }),
                 })
               }
@@ -98,12 +99,12 @@ class LoanDetailsDetailed extends HtmlNode {
               ${
                 administrationFee !== undefined &&
                 KeyValueListItem({
-                  key: 'Administrativa kostnader',
+                  key: i18next.t('loanDetails.administrationFee'),
                   value: prettyNumber(administrationFee, { postfix: 'kr' }),
                 })
               }
               ${KeyValueListItem({
-                key: 'Total kreditkostnad',
+                key: i18next.t('loanDetails.totalCreditCost'),
                 value: prettyNumber(totalCreditCost, { postfix: 'kr' }),
               })}
             </ul>
@@ -111,8 +112,8 @@ class LoanDetailsDetailed extends HtmlNode {
           <div class="waykeecom-stack waykeecom-stack--2">
             <div class="waykeecom-disclaimer-text">
               <div class="waykeecom-content waykeecom-content--inherit-size">
-                <p class="waykeecom-content__p">*Det här är inte den slutgiltiga offerten. Räntan kan komma att ändras ifall det sker justeringar i initial amorteringsplan, tillägg i utrustning eller andra ändringar som påverkar det initiala prisförslaget.</p>
-                <p class="waykeecom-content__p">Om marknadsräntan förändras kan månadskostnaden komma att ändras i motsvarande mån. Månadskostnaden kan också komma att påverkas utifrån den kreditriskbedömning som görs efter en kreditupplysning.</p>
+                <p class="waykeecom-content__p">${i18next.t('loanDetails.disclaimerText1')}</p>
+                <p class="waykeecom-content__p">${i18next.t('loanDetails.disclaimerText2')}</p>
               </div>
             </div>
           </div>
@@ -122,12 +123,12 @@ class LoanDetailsDetailed extends HtmlNode {
                 <div class="waykeecom-stack waykeecom-stack--2">
                   <a
                     href="${publicUrl}"
-                    title="Visa mer information om ${loanOrgName}"
+                    title="${i18next.t('loanDetails.moreInfo', { loanOrgName })}"
                     rel="noopener noreferrer"
                     target="_blank"
                     class="waykeecom-link"
                   >
-                    Mer information om ${loanOrgName}
+                    ${i18next.t('loanDetails.moreInfo', { loanOrgName })}
                   </a>
                 </div>
               `

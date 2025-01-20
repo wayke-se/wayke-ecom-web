@@ -1,3 +1,4 @@
+import i18next from 'i18next';
 import HtmlNode from '../../Components/Extension/HtmlNode';
 import { WaykeStore } from '../../Redux/store';
 import watch from '../../Redux/watch';
@@ -41,7 +42,7 @@ class Main extends HtmlNode {
 
     const pageFormAside = document.createElement('aside');
     pageFormAside.className = 'waykeecom-cart';
-    pageFormAside.setAttribute('aria-label', 'Fordonsinformation');
+    pageFormAside.setAttribute('aria-label', i18next.t('vehicleInfo'));
     pageFormAside.innerHTML = ItemTileSmall({
       vehicle: state.vehicle,
       order: state.order,

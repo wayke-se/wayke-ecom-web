@@ -1,3 +1,4 @@
+import i18next from 'i18next';
 import HtmlNode from '../../../Components/Extension/HtmlNode';
 import { WaykeStore } from '../../../Redux/store';
 import watch from '../../../Redux/watch';
@@ -34,7 +35,9 @@ class Confirmation extends HtmlNode {
 
     const content = ListItem(this.node, {
       completed,
-      title: order?.isPaymentRequired ? 'Betalning' : 'Slutför ordern',
+      title: order?.isPaymentRequired
+        ? i18next.t('confirmation.paymentTitle')
+        : i18next.t('confirmation.title'),
       id: 'confirmation',
       active: navigation.stage === index,
       index: index,

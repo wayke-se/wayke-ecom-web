@@ -1,4 +1,5 @@
 import { CreditAssessmentRecommendation } from '@wayke-se/ecom';
+import i18next from 'i18next';
 import ButtonArrowRight from '../../../Components/Button/ButtonArrowRight';
 import ButtonClear from '../../../Components/Button/ButtonClear';
 import HtmlNode from '../../../Components/Extension/HtmlNode';
@@ -44,13 +45,13 @@ class CreditAssessmentAssessManually extends HtmlNode {
     });
 
     new ButtonArrowRight(this.node.querySelector(`#${PROCEED_NODE}`), {
-      title: 'Gå vidare',
+      title: i18next.t('creditAssessment.proceedButton'),
       id: PROCEED,
       onClick: () => onProceed(),
     });
 
     new ButtonClear(this.node.querySelector(`#${ABORT_NODE}`), {
-      title: 'Avbryt',
+      title: i18next.t('creditAssessment.abortButton'),
       id: ABORT,
       onClick: () => onGoBack(),
     });

@@ -1,6 +1,7 @@
 import { IAvailableInsuranceOption } from '@wayke-se/ecom';
 import HtmlNode from '../../../../Components/Extension/HtmlNode';
 
+import i18next from 'i18next';
 import GridItem from '../../../../Components/OverflowGrid/OverflowGridItem';
 import { addOrRemoveFreeInsurance } from '../../../../Redux/action';
 import { WaykeStore } from '../../../../Redux/store';
@@ -85,7 +86,7 @@ class InsuranceItem extends HtmlNode {
         id: key,
         title: freeInsurance.title,
         description: freeInsurance.description,
-        price: 'Gratis',
+        price: i18next.t('insurance.free'),
         selected,
         onClick: () => this.onClick(),
         onInfo: () => this.onInfoOpen(),

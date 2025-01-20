@@ -43,6 +43,7 @@
   },
   "dependencies": {
     "@wayke-se/ecom": "^4.5.0",
+    "i18next": "^24.2.1",
     "object-path": "^0.11.8",
     "redux": "^5.0.1",
     "sanitize-html": "^2.7.0",
