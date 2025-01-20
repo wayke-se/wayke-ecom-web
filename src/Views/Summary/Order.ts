@@ -1,4 +1,5 @@
 import { PaymentType } from '@wayke-se/ecom';
+import i18next from 'i18next';
 import StackNode from '../../Components/Extension/StackNode';
 import { WaykeStore } from '../../Redux/store';
 import ItemTileLarge from '../../Templates/ItemTileLarge';
@@ -31,7 +32,7 @@ class Order extends StackNode {
 
     this.node.innerHTML = `
       <div class="waykeecom-stack waykeecom-stack--2">
-        <h4 class="waykeecom-heading waykeecom-heading--4 waykeecom-no-margin">Din order</h4>
+        <h4 class="waykeecom-heading waykeecom-heading--4 waykeecom-no-margin">${i18next.t('summary.orderTitle')}</h4>
       </div>
       <div class="waykeecom-stack waykeecom-stack--2">
         ${ItemTileLarge({
@@ -44,7 +45,7 @@ class Order extends StackNode {
                 paymentType === PaymentType.Loan && paymentLoan
                   ? `
                   <div class="waykeecom-stack waykeecom-stack--05">
-                    <div class="waykeecom-label">Betalsätt</div>
+                    <div class="waykeecom-label">${i18next.t('summary.paymentMethod')}</div>
                   </div>
                   <div class="waykeecom-stack waykeecom-stack--05">
                     <ul class="waykeecom-key-value-list">
@@ -53,7 +54,7 @@ class Order extends StackNode {
                         ? KeyValueListItem({
                             key: paymentLoan.name || '???',
                             value: prettyNumber(paymentLookupResponse.costs.monthlyCost, {
-                              postfix: 'kr/mån',
+                              postfix: i18next.t('summary.perMonth'),
                             }),
                           })
                         : ``
@@ -64,12 +65,12 @@ class Order extends StackNode {
                   : paymentType === PaymentType.Cash
                     ? `
                     <div class="waykeecom-stack waykeecom-stack--05">
-                      <div class="waykeecom-label">Betalsätt</div>
+                      <div class="waykeecom-label">${i18next.t('summary.paymentMethod')}</div>
                     </div>
                     <div class="waykeecom-stack waykeecom-stack--05">
                       <ul class="waykeecom-key-value-list">
                         ${KeyValueListItem({
-                          key: 'Kontant',
+                          key: i18next.t('summary.cash'),
                           value: prettyNumber(state.vehicle?.price, { postfix: 'kr' }),
                         })}
                       </ul>
@@ -78,13 +79,13 @@ class Order extends StackNode {
                     : paymentType === PaymentType.Lease
                       ? `
                     <div class="waykeecom-stack waykeecom-stack--05">
-                      <div class="waykeecom-label">Betalsätt</div>
+                      <div class="waykeecom-label">${i18next.t('summary.paymentMethod')}</div>
                     </div>
                     <div class="waykeecom-stack waykeecom-stack--05">
                       <ul class="waykeecom-key-value-list">
                         ${KeyValueListItem({
-                          key: 'Privatleasing',
-                          value: `Från ${prettyNumber(paymentLease?.price, {
+                          key: i18next.t('summary.lease'),
+                          value: `${i18next.t('summary.from')} ${prettyNumber(paymentLease?.price, {
                             postfix: paymentLease?.unit,
                           })}`,
                         })}
@@ -99,7 +100,7 @@ class Order extends StackNode {
                 ? `
                   <div class="waykeecom-stack waykeecom-stack--2">
                     <div class="waykeecom-stack waykeecom-stack--05">
-                      <div class="waykeecom-label">Tillbehör</div>
+                      <div class="waykeecom-label">${i18next.t('summary.accessories')}</div>
                     </div>
                     <div class="waykeecom-stack waykeecom-stack--05">
                       <ul class="waykeecom-key-value-list">
@@ -124,13 +125,15 @@ class Order extends StackNode {
                     state.insurance
                       ? `
                       <div class="waykeecom-stack waykeecom-stack--05">
-                        <div class="waykeecom-label">Försäkring</div>
+                        <div class="waykeecom-label">${i18next.t('summary.insurance')}</div>
                       </div>
                       <div class="waykeecom-stack waykeecom-stack--05">
                         <ul class="waykeecom-key-value-list">
                           ${KeyValueListItem({
                             key: state.insurance.name,
-                            value: prettyNumber(state.insurance.price, { postfix: 'kr/mån' }),
+                            value: prettyNumber(state.insurance.price, {
+                              postfix: i18next.t('summary.perMonth'),
+                            }),
                           })}
                           ${
                             state.insuranceAddOns?.addOns.length &&
@@ -140,7 +143,7 @@ class Order extends StackNode {
                                     KeyValueListItem({
                                       key: addon.title,
                                       value: prettyNumber(addon.monthlyPrice, {
-                                        postfix: 'kr/mån',
+                                        postfix: i18next.t('summary.perMonth'),
                                       }),
                                     })
                                   )
@@ -156,13 +159,13 @@ class Order extends StackNode {
                     state.freeInsurance
                       ? `
                       <div class="waykeecom-stack waykeecom-stack--05">
-                        <div class="waykeecom-label">Försäkring</div>
+                        <div class="waykeecom-label">${i18next.t('summary.insurance')}</div>
                       </div>
                       <div class="waykeecom-stack waykeecom-stack--05">
                         <ul class="waykeecom-key-value-list">
                           ${KeyValueListItem({
                             key: state.freeInsurance.title,
-                            value: 'Gratis',
+                            value: i18next.t('summary.free'),
                           })}
                         </ul>
                       </div>

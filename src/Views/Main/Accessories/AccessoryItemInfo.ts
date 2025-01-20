@@ -1,4 +1,5 @@
 import { IAccessory } from '@wayke-se/ecom/dist-types/orders/types';
+import i18next from 'i18next';
 import ButtonAddRemove from '../../../Components/Button/ButtonAddRemove';
 import ButtonAsLinkArrowLeft from '../../../Components/Button/ButtonAsLinkArrowLeft';
 import ButtonClear from '../../../Components/Button/ButtonClear';
@@ -58,7 +59,7 @@ class AccessoryItemInfo extends HtmlNode {
           </div>
           <div class="waykeecom-hstack__item waykeecom-hstack__item--no-shrink">
             <div class="waykeecom-logo">
-              <img src="${logoUrl}" alt="Tillverkarens logotyp för ${name}" class="waykeecom-logo__image waykeecom-logo__image--right" />
+              <img src="${logoUrl}" alt="${i18next.t('accessoryItemInfo.logoAlt')} ${name}" class="waykeecom-logo__image waykeecom-logo__image--right" />
             </div>
           </div>
         </div>
@@ -105,12 +106,12 @@ class AccessoryItemInfo extends HtmlNode {
     });
 
     new ButtonAsLinkArrowLeft(this.node.querySelector(`#${BUTTON_TOP_LEFT_NODE}`), {
-      title: 'Tillbaka',
+      title: i18next.t('accessoryItemInfo.backButton'),
       onClick: () => onClose(),
     });
 
     new ButtonClear(this.node.querySelector(`#${BUTTON_BOTTOM_LEFT_NODE}`), {
-      title: 'Tillbaka',
+      title: i18next.t('accessoryItemInfo.backButton'),
       onClick: () => onClose(),
     });
 

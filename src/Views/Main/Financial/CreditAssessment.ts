@@ -7,6 +7,7 @@ import {
   MaritalStatus,
   PaymentType,
 } from '@wayke-se/ecom';
+import i18next from 'i18next';
 import { ICreditAssessmentStatus } from '../../../@types/CreditAssessmentStatus';
 import { PaymentOption } from '../../../@types/OrderOptions';
 import { PaymentLookup } from '../../../@types/PaymentLookup';
@@ -386,9 +387,11 @@ class CreditAssessment extends HtmlNode {
           );
 
           this.signed = true;
-          this.contexts.bankId?.setTitle(`Väntar på ${loan?.name}...`);
+          this.contexts.bankId?.setTitle(
+            i18next.t('creditAssessment.waitingFor', { name: loan?.name })
+          );
           this.contexts.bankId?.setDescription(
-            `Hämtar uppgifter från ${loan?.name}. Vänta kvar det kan ta några sekunder.`
+            i18next.t('creditAssessment.fetchingInfo', { name: loan?.name })
           );
           this.contexts.bankId?.setFinalizing(true);
           ecomEvent(
@@ -401,7 +404,7 @@ class CreditAssessment extends HtmlNode {
         if (status === 'signingFailed') {
           clearInterval(this.bankidStatusInterval as NodeJS.Timeout);
           this.contexts.bankId?.setFinalizing(false);
-          this.contexts.bankId?.setErrorMessage('Ett fel uppstod');
+          this.contexts.bankId?.setErrorMessage(i18next.t('creditAssessment.errorOccurred'));
           return;
         }
 
@@ -425,7 +428,7 @@ class CreditAssessment extends HtmlNode {
         } else if (response.hasScoringError()) {
           clearInterval(this.bankidStatusInterval as NodeJS.Timeout);
           this.contexts.bankId?.setFinalizing(false);
-          this.contexts.bankId?.setErrorMessage(`Ett fel uppstod`);
+          this.contexts.bankId?.setErrorMessage(i18next.t('creditAssessment.errorOccurred'));
         }
         if (!this.signed && method === AuthMethod.QrCode) {
           const qrCode = response.getQrCode() as string;
@@ -434,9 +437,7 @@ class CreditAssessment extends HtmlNode {
       } catch (_e) {
         clearInterval(this.bankidStatusInterval as NodeJS.Timeout);
         this.contexts.bankId?.setFinalizing(false);
-        this.contexts.bankId?.setErrorMessage(
-          'Det gick inte att hämta status kring nuvanrade BankId signering'
-        );
+        this.contexts.bankId?.setErrorMessage(i18next.t('creditAssessment.bankIdStatusError'));
       }
     }, 1000);
     registerInterval('bankidStatusInterval-credit', this.bankidStatusInterval as unknown as number);
@@ -626,9 +627,8 @@ class CreditAssessment extends HtmlNode {
     } else if (this.view === 2) {
       this.contexts.bankId = new BankIdSign(createPortal(), {
         method: mobile ? AuthMethod.SameDevice : AuthMethod.QrCode,
-        descriptionQrCode:
-          'För att hämta dina uppgifter, starta din BankID applikation på din andra enhet.',
-        descriptionSameDevice: 'För att hämta dina uppgifter, starta din BankID-applikation.',
+        descriptionQrCode: i18next.t('creditAssessment.descriptionQrCode'),
+        descriptionSameDevice: i18next.t('creditAssessment.descriptionSameDevice'),
         onAbort: () => this.onAbort(),
         onStart: (method: AuthMethod) => this.startBankId(method),
       });
@@ -636,11 +636,9 @@ class CreditAssessment extends HtmlNode {
     } else {
       this.node.innerHTML = `
       <div class="waykeecom-stack waykeecom-stack--3">
-        <h5 class="waykeecom-heading waykeecom-heading--4">Låneansökan</h5>
+        <h5 class="waykeecom-heading waykeecom-heading--4">${i18next.t('creditAssessment.loanApplication')}</h5>
         <div class="waykeecom-content">
-          <p class="waykeecom-content__p">För att besvara din förfrågan om billån behöver ${
-            loan?.name
-          } några fler uppgifter om dig och ditt hushåll. Frågorna tar bara någon minut att besvara. Bekräfta och signera sedan med BankID – därefter får du ditt lånebesked direkt på skärmen och kan gå vidare med ditt bilköp. Blir du godkänd så gäller lånebeskedet genom hela köpet så länge inga tillägg görs – men din ansökan är inte bindande.</p>
+          <p class="waykeecom-content__p">${i18next.t('creditAssessment.loanApplicationDescription', { name: loan?.name })}</p>
         </div>
       </div>
       <div class="waykeecom-stack waykeecom-stack--3">
@@ -648,37 +646,37 @@ class CreditAssessment extends HtmlNode {
       </div>
       <div class="waykeecom-stack waykeecom-stack--3">
         <div class="waykeecom-stack waykeecom-stack--2">
-          <h5 class="waykeecom-heading waykeecom-heading--4 waykeecom-no-margin">Civilstatus</h5>
+          <h5 class="waykeecom-heading waykeecom-heading--4 waykeecom-no-margin">${i18next.t('creditAssessment.maritalStatus')}</h5>
         </div>
         <div class="waykeecom-stack waykeecom-stack--2" id="${MARITAL_STATUS_NODE}"></div>
       </div>
 
       <div class="waykeecom-stack waykeecom-stack--3">
         <div class="waykeecom-stack waykeecom-stack--2">
-          <h5 class="waykeecom-heading waykeecom-heading--4 waykeecom-no-margin">Sysselsättning</h5>
+          <h5 class="waykeecom-heading waykeecom-heading--4 waykeecom-no-margin">${i18next.t('creditAssessment.employment')}</h5>
         </div>
         <div class="waykeecom-stack waykeecom-stack--2" id="${EMPLOYMENT_NODE}"></div>
       </div>
 
       <div class="waykeecom-stack waykeecom-stack--3">
         <div class="waykeecom-stack waykeecom-stack--2">
-          <h5 class="waykeecom-heading waykeecom-heading--4 waykeecom-no-margin">Barn</h5>
+          <h5 class="waykeecom-heading waykeecom-heading--4 waykeecom-no-margin">${i18next.t('creditAssessment.children')}</h5>
         </div>
         <div class="waykeecom-stack waykeecom-stack--2" id="${HOUSEHOLD_CHILDREN_NODE}"></div>
       </div>
 
       <div class="waykeecom-stack waykeecom-stack--3">
         <div class="waykeecom-stack waykeecom-stack--2">
-          <h5 class="waykeecom-heading waykeecom-heading--4 waykeecom-no-margin">Inkomst</h5>
+          <h5 class="waykeecom-heading waykeecom-heading--4 waykeecom-no-margin">${i18next.t('creditAssessment.income')}</h5>
         </div>
         <div class="waykeecom-stack waykeecom-stack--2" id="${INCOME_NODE}"></div>
       </div>
 
       <div class="waykeecom-stack waykeecom-stack--3">
         <div class="waykeecom-stack waykeecom-stack--2">
-          <h5 class="waykeecom-heading waykeecom-heading--4 waykeecom-no-margin">Boendeform</h5>
+          <h5 class="waykeecom-heading waykeecom-heading--4 waykeecom-no-margin">${i18next.t('creditAssessment.housingType')}</h5>
           <div class="waykeecom-content">
-            <p class="waykeecom-content__p">Ange typ av boende.</p>
+            <p class="waykeecom-content__p">${i18next.t('creditAssessment.housingTypeDescription')}</p>
           </div>
         </div>
         <div class="waykeecom-stack waykeecom-stack--2" id="${HOUSING_TYPE_NODE}"></div>
@@ -689,7 +687,7 @@ class CreditAssessment extends HtmlNode {
           ? `
           <div class="waykeecom-stack waykeecom-stack--3">
             <div class="waykeecom-stack waykeecom-stack--2">
-              <h5 class="waykeecom-heading waykeecom-heading--4 waykeecom-no-margin">Boendekostnad</h5>
+              <h5 class="waykeecom-heading waykeecom-heading--4 waykeecom-no-margin">${i18next.t('creditAssessment.housingCost')}</h5>
             </div>
             <div class="waykeecom-stack waykeecom-stack--2" id="${HOUSING_COST_NODE}"></div>
           </div>
@@ -699,9 +697,9 @@ class CreditAssessment extends HtmlNode {
 
       <div class="waykeecom-stack waykeecom-stack--3">
         <div class="waykeecom-stack waykeecom-stack--2">
-          <h5 class="waykeecom-heading waykeecom-heading--4 waykeecom-no-margin">Skulder och Ansvarsförbindelser</h5>
+          <h5 class="waykeecom-heading waykeecom-heading--4 waykeecom-no-margin">${i18next.t('creditAssessment.debtsAndLiabilities')}</h5>
           <div class="waykeecom-content">
-            <p class="waykeecom-content__p">Ange eventuella skulder och ansvarsförbindelser inom respektive kategori.</p>
+            <p class="waykeecom-content__p">${i18next.t('creditAssessment.debtsAndLiabilitiesDescription')}</p>
           </div>
         </div>
         <div class="waykeecom-stack waykeecom-stack--2" id="${DEBT_SPECIFICATION_PRIVATE_LOAN_NODE}"></div>
@@ -717,7 +715,7 @@ class CreditAssessment extends HtmlNode {
 
       <div class="waykeecom-stack waykeecom-stack--3 waykeecom-text waykeecom-text--align-center">
         <div class="waykeecom-stack waykeecom-stack--1">
-          <div class="waykeecom-text waykeecom-text--tone-alt waykeecom-text--size-small">Totalt lånebelopp</div>
+          <div class="waykeecom-text waykeecom-text--tone-alt waykeecom-text--size-small">${i18next.t('creditAssessment.totalLoanAmount')}</div>
         </div>
         <div class="waykeecom-stack waykeecom-stack--1">
           <div class="waykeecom-heading waykeecom-heading--2 waykeecom-no-margin">
@@ -729,7 +727,7 @@ class CreditAssessment extends HtmlNode {
       <div class="waykeecom-stack waykeecom-stack--3">
         ${Alert({
           tone: 'info',
-          children: `Du betalar inget i detta steg, detta är bara en låneansökan. Köpet slutförs sedan vid möte med ${branchName}.`,
+          children: i18next.t('creditAssessment.noPaymentInfo', { name: branchName }),
         })}
       </div>
 
@@ -739,9 +737,7 @@ class CreditAssessment extends HtmlNode {
             <div class="waykeecom-stack waykeecom-stack--3">
               ${Alert({
                 tone: 'error',
-                children: `Det gick inte att starta en låneansökan, försök igen.${
-                  this.caseError !== undefined ? ` ${this.caseError}` : ''
-                }`,
+                children: i18next.t('creditAssessment.caseError', { caseError: this.caseError }),
               })}
             </div>
           `
@@ -754,7 +750,7 @@ class CreditAssessment extends HtmlNode {
           <div class="waykeecom-stack waykeecom-stack--3">
             ${Alert({
               tone: 'error',
-              children: `Ett fel uppstod med BankId, försök igen.`,
+              children: i18next.t('creditAssessment.bankIdError'),
             })}
           </div>
           `
@@ -779,17 +775,17 @@ class CreditAssessment extends HtmlNode {
             {
               id: `maritalStatus-${1}`,
               value: MaritalStatus.Married,
-              title: 'Gift/partnerskap',
+              title: i18next.t('creditAssessment.married'),
             },
             {
               id: `maritalStatus-${2}`,
               value: MaritalStatus.CommonLaw,
-              title: 'Sambo',
+              title: i18next.t('creditAssessment.commonLaw'),
             },
             {
               id: `maritalStatus-${3}`,
               value: MaritalStatus.Single,
-              title: 'Ensamstående',
+              title: i18next.t('creditAssessment.single'),
             },
           ],
           onClick: (e) => this.onChangeRadio(e),
@@ -799,11 +795,11 @@ class CreditAssessment extends HtmlNode {
       this.contexts.income = new InputField(
         this.node.querySelector<HTMLDivElement>(`#${INCOME_NODE}`),
         {
-          title: 'Inkomst per månad före skatt',
+          title: i18next.t('creditAssessment.incomePerMonth'),
           value: this.state.value.income,
           id: INCOME,
           error: this.state.interact.income && !this.state.validation.income,
-          errorMessage: 'Ange din inkomst per år före skatt',
+          errorMessage: i18next.t('creditAssessment.incomeError'),
           name: 'income',
           autocomplete: 'off',
           unit: 'kr',
@@ -823,32 +819,32 @@ class CreditAssessment extends HtmlNode {
             {
               id: `employment-${1}`,
               value: Employment.FullTimeEmployed,
-              title: 'Fast eller tillsvidareanställd',
+              title: i18next.t('creditAssessment.fullTimeEmployed'),
             },
             {
               id: `employment-${2}`,
               value: Employment.TemporarilyEmployed,
-              title: 'Visstidsanställd',
+              title: i18next.t('creditAssessment.temporarilyEmployed'),
             },
             {
               id: `employment-${3}`,
               value: Employment.SelfEmployed,
-              title: 'Egen företagare',
+              title: i18next.t('creditAssessment.selfEmployed'),
             },
             {
               id: `employment-${4}`,
               value: Employment.Retired,
-              title: 'Pensionär',
+              title: i18next.t('creditAssessment.retired'),
             },
             {
               id: `employment-${5}`,
               value: Employment.Student,
-              title: 'Student',
+              title: i18next.t('creditAssessment.student'),
             },
             {
               id: `employment-${6}`,
               value: Employment.Other,
-              title: 'Annan',
+              title: i18next.t('creditAssessment.other'),
             },
           ],
           onClick: (e) => this.onChangeRadio(e),
@@ -858,24 +854,24 @@ class CreditAssessment extends HtmlNode {
       this.contexts.housingType = new InputRadioGroup(
         this.node.querySelector<HTMLDivElement>(`#${HOUSING_TYPE_NODE}`),
         {
-          title: 'Boendeform',
+          title: i18next.t('creditAssessment.housingType'),
           checked: this.state.value.housingType as string,
           name: 'housingType',
           options: [
             {
               id: `housingType-${1}`,
               value: HousingType.SingleFamily,
-              title: 'Villa',
+              title: i18next.t('creditAssessment.singleFamily'),
             },
             {
               id: `housingType-${2}`,
               value: HousingType.Condominium,
-              title: 'Bostadsrätt',
+              title: i18next.t('creditAssessment.condominium'),
             },
             {
               id: `housingType-${3}`,
               value: HousingType.Apartment,
-              title: 'Hyresrätt',
+              title: i18next.t('creditAssessment.apartment'),
             },
           ],
           onClick: (e) => this.onChangeRadio(e),
@@ -885,11 +881,11 @@ class CreditAssessment extends HtmlNode {
       this.contexts.income = new InputField(
         this.node.querySelector<HTMLDivElement>(`#${INCOME_NODE}`),
         {
-          title: 'Inkomst per månad före skatt',
+          title: i18next.t('creditAssessment.incomePerMonth'),
           value: this.state.value.income,
           id: INCOME,
           error: this.state.interact.income && !this.state.validation.income,
-          errorMessage: 'Ange din inkomst per år före skatt',
+          errorMessage: i18next.t('creditAssessment.incomeError'),
           name: 'income',
           autocomplete: 'off',
           placeholder: '',
@@ -897,8 +893,8 @@ class CreditAssessment extends HtmlNode {
           type: 'number',
           information: `
           <div class="waykeecom-content waykeecom-content--inherit-size">
-            <p class="waykeecom-content__p"><span class="waykeecom-text waykeecom-text--font-medium">Inkomst per månad före skatt</span></p>
-            <p class="waykeecom-content__p">Lön och/eller pension, inte bidrag  eller studielån.</p>
+            <p class="waykeecom-content__p"><span class="waykeecom-text waykeecom-text--font-medium">${i18next.t('creditAssessment.incomePerMonth')}</span></p>
+            <p class="waykeecom-content__p">${i18next.t('creditAssessment.incomeDescription')}</p>
           </div>
         `,
           onChange: (e) => this.onChange(e),
@@ -909,15 +905,15 @@ class CreditAssessment extends HtmlNode {
       this.contexts.householdChildren = new InputSelect(
         this.node.querySelector<HTMLDivElement>(`#${HOUSEHOLD_CHILDREN_NODE}`),
         {
-          title: 'Antal barn under 18 år',
+          title: i18next.t('creditAssessment.childrenUnder18'),
           value: this.state.value.householdChildren,
           name: 'householdChildren',
           error: this.state.interact.householdChildren && !this.state.validation.householdChildren,
-          errorMessage: 'Välj antal barn',
+          errorMessage: i18next.t('creditAssessment.childrenError'),
           options: [
             {
               value: '-1',
-              title: 'Välj antal barn',
+              title: i18next.t('creditAssessment.selectChildren'),
               disabled: true,
             },
             {
@@ -952,7 +948,7 @@ class CreditAssessment extends HtmlNode {
             },
             {
               value: '10',
-              title: '10 eller fler',
+              title: i18next.t('creditAssessment.tenOrMore'),
             },
           ],
           onChange: (e) => this.onChangeSelect(e),
@@ -964,14 +960,14 @@ class CreditAssessment extends HtmlNode {
         this.contexts.housingCost = new InputField(housingCostNode, {
           title:
             this.state.value.housingType === HousingType.Condominium
-              ? 'Min del av månadsavgiften'
+              ? i18next.t('creditAssessment.myPartOfMonthlyFee')
               : this.state.value.housingType === HousingType.Apartment
-                ? 'Min del av månadshyran'
-                : 'Boendekostnad',
+                ? i18next.t('creditAssessment.myPartOfMonthlyRent')
+                : i18next.t('creditAssessment.housingCost'),
           value: this.state.value.housingCost,
           id: HOUSING_COST,
           error: this.state.interact.housingCost && !this.state.validation.housingCost,
-          errorMessage: 'Ange boendekostnader per månad',
+          errorMessage: i18next.t('creditAssessment.housingCostError'),
           name: 'housingCost',
           autocomplete: 'off',
           placeholder: '',
@@ -982,8 +978,8 @@ class CreditAssessment extends HtmlNode {
             this.state.value.housingType === HousingType.Condominium
               ? `
             <div class="waykeecom-content waykeecom-content--inherit-size">
-              <p class="waykeecom-content__p"><span class="waykeecom-text waykeecom-text--font-medium">Min del av månadsavgiften</span></p>
-              <p class="waykeecom-content__p">Exklusive ränta och amortering</p>
+              <p class="waykeecom-content__p"><span class="waykeecom-text waykeecom-text--font-medium">${i18next.t('creditAssessment.myPartOfMonthlyFee')}</span></p>
+              <p class="waykeecom-content__p">${i18next.t('creditAssessment.excludingInterest')}</p>
             </div>
           `
               : undefined,
@@ -1002,13 +998,13 @@ class CreditAssessment extends HtmlNode {
       this.contexts['debtSpecification.cardCredits'] = new InputField(
         this.node.querySelector<HTMLDivElement>(`#${DEBT_SPECIFICATION_CARD_CREDIT_NODE}`),
         {
-          title: 'Kortkrediter',
+          title: i18next.t('creditAssessment.cardCredits'),
           value: this.state.value['debtSpecification.cardCredits'],
           id: DEBT_SPECIFICATION_CARD_CREDIT,
           error:
             this.state.interact['debtSpecification.cardCredits'] &&
             !this.state.validation['debtSpecification.cardCredits'],
-          errorMessage: 'Ange kortkrediter eller lämna tomt',
+          errorMessage: i18next.t('creditAssessment.cardCreditsError'),
           name: 'debtSpecification.cardCredits',
           autocomplete: 'off',
           placeholder: '',
@@ -1017,8 +1013,8 @@ class CreditAssessment extends HtmlNode {
           min: 0,
           information: `
             <div class="waykeecom-content waykeecom-content--inherit-size">
-              <p class="waykeecom-content__p"><span class="waykeecom-text waykeecom-text--font-medium">Kortkrediter</span></p>
-              <p class="waykeecom-content__p">Total skuld</p>
+              <p class="waykeecom-content__p"><span class="waykeecom-text waykeecom-text--font-medium">${i18next.t('creditAssessment.cardCredits')}</span></p>
+              <p class="waykeecom-content__p">${i18next.t('creditAssessment.totalDebt')}</p>
             </div>
           `,
           onChange: (e) => this.onChange(e),
@@ -1036,13 +1032,13 @@ class CreditAssessment extends HtmlNode {
       this.contexts['debtSpecification.vehicleLoan'] = new InputField(
         this.node.querySelector<HTMLDivElement>(`#${DEBT_SPECIFICATION_CAR_LOAN_NODE}`),
         {
-          title: 'Billån',
+          title: i18next.t('creditAssessment.vehicleLoan'),
           value: this.state.value['debtSpecification.vehicleLoan'],
           id: DEBT_SPECIFICATION_CAR_LOAN,
           error:
             this.state.interact['debtSpecification.vehicleLoan'] &&
             !this.state.validation['debtSpecification.vehicleLoan'],
-          errorMessage: 'Ange billån eller lämna tomt',
+          errorMessage: i18next.t('creditAssessment.vehicleLoanError'),
           name: 'debtSpecification.vehicleLoan',
           autocomplete: 'off',
           placeholder: '',
@@ -1051,8 +1047,8 @@ class CreditAssessment extends HtmlNode {
           min: 0,
           information: `
             <div class="waykeecom-content waykeecom-content--inherit-size">
-              <p class="waykeecom-content__p"><span class="waykeecom-text waykeecom-text--font-medium">Billån</span></p>
-              <p class="waykeecom-content__p">Total skuld. Ange inte skuld för bil som ska ersättas.</p>
+              <p class="waykeecom-content__p"><span class="waykeecom-text waykeecom-text--font-medium">${i18next.t('creditAssessment.vehicleLoan')}</span></p>
+              <p class="waykeecom-content__p">${i18next.t('creditAssessment.totalDebt')}</p>
             </div>
           `,
           onChange: (e) => this.onChange(e),
@@ -1070,13 +1066,13 @@ class CreditAssessment extends HtmlNode {
       this.contexts['debtSpecification.collateral'] = new InputField(
         this.node.querySelector<HTMLDivElement>(`#${DEBT_SPECIFICATION_COLLATERAL_NODE}`),
         {
-          title: 'Borgensåtagande ',
+          title: i18next.t('creditAssessment.collateral'),
           value: this.state.value['debtSpecification.collateral'],
           id: DEBT_SPECIFICATION_COLLATERAL,
           error:
             this.state.interact['debtSpecification.collateral'] &&
             !this.state.validation['debtSpecification.collateral'],
-          errorMessage: 'Ange borgensåtagande eller lämna tomt',
+          errorMessage: i18next.t('creditAssessment.collateralError'),
           name: 'debtSpecification.collateral',
           autocomplete: 'off',
           placeholder: '',
@@ -1085,8 +1081,8 @@ class CreditAssessment extends HtmlNode {
           min: 0,
           information: `
           <div class="waykeecom-content waykeecom-content--inherit-size">
-            <p class="waykeecom-content__p"><span class="waykeecom-text waykeecom-text--font-medium">Borgensåtagande</span></p>
-            <p class="waykeecom-content__p">Totalt belopp.</p>
+            <p class="waykeecom-content__p"><span class="waykeecom-text waykeecom-text--font-medium">${i18next.t('creditAssessment.collateral')}</span></p>
+            <p class="waykeecom-content__p">${i18next.t('creditAssessment.totalAmount')}</p>
           </div>
           `,
           onChange: (e) => this.onChange(e),
@@ -1104,13 +1100,13 @@ class CreditAssessment extends HtmlNode {
       this.contexts['debtSpecification.leasingFees'] = new InputField(
         this.node.querySelector<HTMLDivElement>(`#${DEBT_SPECIFICATION_LEASING_FEES_NODE}`),
         {
-          title: 'Billeasing ',
+          title: i18next.t('creditAssessment.leasingFees'),
           value: this.state.value['debtSpecification.leasingFees'],
           id: DEBT_SPECIFICATION_LEASING_FEES,
           error:
             this.state.interact['debtSpecification.leasingFees'] &&
             !this.state.validation['debtSpecification.leasingFees'],
-          errorMessage: 'Ang billeasingkostnader eller lämna tomt',
+          errorMessage: i18next.t('creditAssessment.leasingFeesError'),
           name: 'debtSpecification.leasingFees',
           autocomplete: 'off',
           placeholder: '',
@@ -1119,8 +1115,8 @@ class CreditAssessment extends HtmlNode {
           min: 0,
           information: `
           <div class="waykeecom-content waykeecom-content--inherit-size">
-            <p class="waykeecom-content__p"><span class="waykeecom-text waykeecom-text--font-medium">Billeasing</span></p>
-            <p class="waykeecom-content__p">Ange inte månadskostnad för bil som skall ersättas</p>
+            <p class="waykeecom-content__p"><span class="waykeecom-text waykeecom-text--font-medium">${i18next.t('creditAssessment.leasingFees')}</span></p>
+            <p class="waykeecom-content__p">${i18next.t('creditAssessment.totalAmount')}</p>
           </div>
           `,
           onChange: (e) => this.onChange(e),
@@ -1138,13 +1134,13 @@ class CreditAssessment extends HtmlNode {
       this.contexts['debtSpecification.privateLoan'] = new InputField(
         this.node.querySelector<HTMLDivElement>(`#${DEBT_SPECIFICATION_PRIVATE_LOAN_NODE}`),
         {
-          title: 'Privatlån (ej bolån och CSN)',
+          title: i18next.t('creditAssessment.privateLoan'),
           value: this.state.value['debtSpecification.privateLoan'],
           id: DEBT_SPECIFICATION_PRIVATE_LOAN,
           error:
             this.state.interact['debtSpecification.privateLoan'] &&
             !this.state.validation['debtSpecification.privateLoan'],
-          errorMessage: 'Ange privatlån eller lämna tomt',
+          errorMessage: i18next.t('creditAssessment.privateLoanError'),
           name: 'debtSpecification.privateLoan',
           autocomplete: 'off',
           placeholder: '',
@@ -1153,8 +1149,8 @@ class CreditAssessment extends HtmlNode {
           min: 0,
           information: `
           <div class="waykeecom-content waykeecom-content--inherit-size">
-            <p class="waykeecom-content__p"><span class="waykeecom-text waykeecom-text--font-medium">Privatlån (ej bolån och CSN)</span></p>
-            <p class="waykeecom-content__p">Total skuld, t.ex. blancolån och sms-lån</p>
+            <p class="waykeecom-content__p"><span class="waykeecom-text waykeecom-text--font-medium">${i18next.t('creditAssessment.privateLoan')}</span></p>
+            <p class="waykeecom-content__p">${i18next.t('creditAssessment.totalDebt')}</p>
           </div>
           `,
           onChange: (e) => this.onChange(e),
@@ -1172,7 +1168,7 @@ class CreditAssessment extends HtmlNode {
       this.contexts.performApplicationButton = new ButtonBankId(
         this.node.querySelector<HTMLDivElement>(`#${PERFORM_APPLICATION_NODE}`),
         {
-          title: 'Genomför låneansökan',
+          title: i18next.t('creditAssessment.performLoanApplication'),
           id: PERFORM_APPLICATION,
           disabled: !(
             this.state.validation.maritalStatus &&
@@ -1189,11 +1185,14 @@ class CreditAssessment extends HtmlNode {
       );
 
       new Disclaimer(this.node.querySelector<HTMLDivElement>(`#${DISCLAIMER_NODE}`), {
-        text: `Genom att klicka på ”Genomför låneansökan” godkänner jag att ${loan?.name} gör en kreditupplysning på mig baserat på informationen ovan och jag bekräftar att jag läst <a href="${loan?.loanDetails?.privacyPolicyUrl}" title="" target="_blank" rel="noopener noreferrer" class="waykeecom-link">${loan?.name} dataskyddspolicy</a>.`,
+        text: i18next.t('creditAssessment.disclaimer', {
+          name: loan?.name,
+          privacyPolicyUrl: loan?.loanDetails?.privacyPolicyUrl,
+        }),
       });
 
       new DisclaimerPadlock(this.node.querySelector<HTMLDivElement>(`#${DISCLAIMER_SAFE_NODE}`), {
-        text: 'Dina uppgifter lagras och sparas säkert.',
+        text: i18next.t('creditAssessment.disclaimerSafe'),
       });
 
       new Accordion(this.node.querySelector<HTMLDivElement>(`#${WHY_DESCRIPTION}`), {
@@ -1212,11 +1211,10 @@ class CreditAssessment extends HtmlNode {
                 </svg>
               </div>
             </div>
-            <div class="waykeecom-hstack__item">Varför måste jag svara på allt detta?</div>
+            <div class="waykeecom-hstack__item">${i18next.t('creditAssessment.whyAnswer')}</div>
           </div>`,
         description: `<div class="waykeecom-content">
-            <p class="waykeecom-content__p">${loan?.name} måste ta in uppgifterna av kunden för att uppfylla bestämmelser i Konsumentkreditlagen (2010:1846) och Lag (2017:630) om åtgärder mot penningtvätt och finansiering av terrorism.</p>
-            <p class="waykeecom-content__p"><a href="${loan?.loanDetails?.moneyLaunderingInformationURL}" title="" target="_blank" rel="noopener norefferer" class="waykeecom-link">Läs mer om detta här</a></p>
+            <p class="waykeecom-content__p">${i18next.t('creditAssessment.whyAnswerDescription', { name: loan?.name, moneyLaunderingInformationURL: loan?.loanDetails?.moneyLaunderingInformationURL })}</p>
           </div>`,
         onClick: () => {
           ecomEvent(

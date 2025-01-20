@@ -1,7 +1,7 @@
 import { AuthMethod } from '@wayke-se/ecom';
-
 import { BankIdAuthResponse } from '@wayke-se/ecom/dist-types/bankid/bankid-auth-response';
 import { BankIdCollectResponse } from '@wayke-se/ecom/dist-types/bankid/bankid-collect-response';
+import i18next from 'i18next';
 import BankIdSign from '../../../Components/BankId/BankIdSign';
 import ButtonAsLink from '../../../Components/Button/ButtonAsLink';
 import ButtonBankId from '../../../Components/Button/ButtonBankId';
@@ -93,9 +93,7 @@ class VerifyByBankId extends HtmlNode {
           this.handleBankidStatusResponse(response, this.bankidRequestRef.method);
         } catch (_e) {
           this.clearIntervals();
-          this.contexts.bankId?.setErrorMessage(
-            'Det gick inte att hämta status kring nuvanrade BankId signering.'
-          );
+          this.contexts.bankId?.setErrorMessage(i18next.t('confirmation.bankIdStatusError'));
         }
       }
     }, 500);
@@ -232,7 +230,7 @@ class VerifyByBankId extends HtmlNode {
             : EcomEvent.CONFIRMATION_BANKID_STATUS_QR_SUCCEEDED,
           EcomStep.CONFIRMATION
         );
-        this.contexts.bankId?.setDescription('Verifiering klar, ordern skapas nu...');
+        this.contexts.bankId?.setDescription(i18next.t('confirmation.bankIdCompletedMessage'));
         await this.onCreateOrder();
       }
     }
@@ -244,9 +242,7 @@ class VerifyByBankId extends HtmlNode {
       this.handleBankidStatusResponse(response, AuthMethod.QrCode);
     } catch (_e) {
       this.clearIntervals();
-      this.contexts.bankId?.setErrorMessage(
-        'Det gick inte att hämta status kring nuvanrade BankId signering.'
-      );
+      this.contexts.bankId?.setErrorMessage(i18next.t('confirmation.bankIdStatusError'));
     }
   };
 
@@ -257,9 +253,7 @@ class VerifyByBankId extends HtmlNode {
       this.contexts.bankId?.update(AuthMethod.QrCode, qrCode);
     } catch (_e) {
       this.clearIntervals();
-      this.contexts.bankId?.setErrorMessage(
-        'Det gick inte att hämta ny QR-kod för BankId signering.'
-      );
+      this.contexts.bankId?.setErrorMessage(i18next.t('confirmation.bankIdQrCodeErrorMessage'));
     }
   };
 
@@ -338,9 +332,7 @@ class VerifyByBankId extends HtmlNode {
       }
     } catch (_e) {
       ecomEvent(EcomView.MAIN, EcomEvent.CONFIRMATION_BANKID_INIT_FAILED, EcomStep.CONFIRMATION);
-      this.contexts.bankId?.setErrorMessage(
-        'Det gick tyvärr inte att initiera BankId. Vänligen försök igen.'
-      );
+      this.contexts.bankId?.setErrorMessage(i18next.t('confirmation.bankIdInitErrorMessage'));
     } finally {
       this.contexts.buttonLinkToggle?.disabled(false);
     }
@@ -371,9 +363,8 @@ class VerifyByBankId extends HtmlNode {
     if (this.view === 2) {
       this.contexts.bankId = new BankIdSign(createPortal(), {
         method: mobile ? AuthMethod.SameDevice : AuthMethod.QrCode,
-        descriptionQrCode:
-          'För att verifiera din identitet, starta din BankID applikation på din andra enhet.',
-        descriptionSameDevice: 'För att verifiera din identitet, starta din BankID-applikation.',
+        descriptionQrCode: i18next.t('confirmation.bankIdDescriptionQrCode'),
+        descriptionSameDevice: i18next.t('confirmation.bankIdDescriptionSameDevice'),
         onAbort: () => this.onAbort(),
         onStart: (method: AuthMethod) => this.onStartBankIdAuth(method),
         onSameDeviceClick: () => this.onSameDeviceClick(),
@@ -385,10 +376,10 @@ class VerifyByBankId extends HtmlNode {
 
       this.node.innerHTML = `
         <div class="waykeecom-stack waykeecom-stack--3">
-          <h4 class="waykeecom-heading waykeecom-heading--4">Strax klart!</h4>
+          <h4 class="waykeecom-heading waykeecom-heading--4">${i18next.t('confirmation.heading')}</h4>
           <div class="waykeecom-content">
-            <p class="waykeecom-content__p">För att reservera bilen åt dig behöver vi bara verifiera din identitet med BankID. Efter det kommer ${name} att kontakta dig för att slutföra köpet.
-            <p class="waykeecom-content__p">Köpet blir bindande först när du signerat det definitiva affärsförslaget med ${name}. Det är även då betalningen sker.</p>
+            <p class="waykeecom-content__p">${i18next.t('confirmation.description', { name })}</p>
+            <p class="waykeecom-content__p">${i18next.t('confirmation.description2', { name })}</p>
           </div>
         </div>
         ${
@@ -396,8 +387,7 @@ class VerifyByBankId extends HtmlNode {
             ? `
           <div class="waykeecom-stack waykeecom-stack--3">${Alert({
             tone: 'error',
-            children:
-              'Du måste vara över 18 år för att kunna fortsätta. Identifiering med BankId visar att du är under 18 år gammal.',
+            children: i18next.t('confirmation.ageError'),
           })}</div>
         `
             : ''
@@ -408,7 +398,7 @@ class VerifyByBankId extends HtmlNode {
             ? `
           <div class="waykeecom-stack waykeecom-stack--3">${Alert({
             tone: 'error',
-            children: 'Ett fel uppstod och det gick inte att skapa ordern, försök igen.',
+            children: i18next.t('confirmation.requestError'),
           })}</div>
         `
             : ''
@@ -419,7 +409,7 @@ class VerifyByBankId extends HtmlNode {
             ? `
           <div class="waykeecom-stack waykeecom-stack--3">${Alert({
             tone: 'error',
-            children: 'Den här bilen finns tyvärr inte längre tillgänglig.',
+            children: i18next.t('confirmation.notAvailable'),
           })}</div>
         `
             : ''
@@ -430,8 +420,7 @@ class VerifyByBankId extends HtmlNode {
             ? `
           <div class="waykeecom-stack waykeecom-stack--3">${Alert({
             tone: 'error',
-            children:
-              'Personnummret i första steget matchar inte med det som är kopplat mot bankid',
+            children: i18next.t('confirmation.socialIdNotMatchingError'),
           })}</div>
         `
             : ''
@@ -452,9 +441,10 @@ class VerifyByBankId extends HtmlNode {
           id: CONFIRM_CONDITIONS,
           disabled: this.notAvailable,
           name: 'confirmConditions',
-          title: `<div>Jag godkänner <a href="${conditionsPdfUri}" title="" target="_blank" rel="noopener noreferrer" class="waykeecom-link">köpvillkor och villkor för ångerrätt</a>${
+
+          title: `<div>${i18next.t('confirmation.confirmConditionsTitle', { conditionsPdfUri })}${
             insurance
-              ? ' <span class="waykeecom-text waykeecom-text--margin-left">samt har tagit del av information kring försäkringsförmedling</span>'
+              ? ` <span class="waykeecom-text waykeecom-text--margin-left">${i18next.t('confirmation.insuranceText')}</span>`
               : ''
           }.</div>`,
           value: 'confirmConditions',
@@ -465,7 +455,7 @@ class VerifyByBankId extends HtmlNode {
       this.contexts.startBankid = new ButtonBankId(
         this.node.querySelector<HTMLDivElement>(`#${BANKID_START_NODE}`),
         {
-          title: 'Reservera bilen',
+          title: i18next.t('confirmation.reserveButton'),
           id: BANKID_START,
           disabled: !this.confirmConditions || this.notAvailable,
           onClick: () => {
@@ -476,11 +466,11 @@ class VerifyByBankId extends HtmlNode {
       );
 
       new DisclaimerPadlock(this.node.querySelector<HTMLDivElement>(`#${DISCLAIMER_POLICY_NODE}`), {
-        text: `Dina personuppgifter behandlas och sparas i enlighet med vår <a href="${policy}" title="personuppgiftspolicy" target="_blank" rel="noopener noreferrer" class="waykeecom-link">personuppgiftspolicy</a>.`,
+        text: i18next.t('confirmation.policyText', { policy }),
       });
 
       new Disclaimer(this.node.querySelector<HTMLDivElement>(`#${DISCLAIMER_RESERVATION_NODE}`), {
-        text: 'Vi reserverar oss för eventuell ändring i tillgången av utbjudna bilar.',
+        text: i18next.t('confirmation.reservationDisclaimer'),
       });
 
       if (navigation.stage === this.props.index) {

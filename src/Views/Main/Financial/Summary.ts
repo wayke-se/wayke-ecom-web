@@ -1,4 +1,5 @@
 import { IPaymentOption, PaymentType } from '@wayke-se/ecom';
+import i18next from 'i18next';
 import { PaymentLookup } from '../../../@types/PaymentLookup';
 import Alert from '../../../Templates/Alert';
 import KeyValueListItem from '../../../Templates/KeyValueListItem';
@@ -17,9 +18,9 @@ const LoanSummary = ({ loan, paymentLookupResponse }: LoanSummaryProps) => {
 
   return `
     <div class="waykeecom-stack waykeecom-stack--2">
-      <h4 class="waykeecom-heading waykeecom-heading--4">Billån</h4>
+      <h4 class="waykeecom-heading waykeecom-heading--4">${i18next.t('loanSummary.title')}</h4>
       <div class="waykeecom-content">
-        <p class="waykeecom-content__p">Ordern är snart klar, här ser du ditt lånebesked:</p>
+        <p class="waykeecom-content__p">${i18next.t('loanSummary.description')}</p>
       </div>
     </div>
     <div class="waykeecom-stack waykeecom-stack--2">
@@ -27,8 +28,8 @@ const LoanSummary = ({ loan, paymentLookupResponse }: LoanSummaryProps) => {
         tone: 'success',
         children: `
           <div class="waykeecom-content waykeecom-content--inherit-size">
-            <p class="waykeecom-content__p"><span class="waykeecom-text waykeecom-text--font-medium">Grattis! Din låneansökan har beviljats av ${loan.name}.</span></p>
-            <p class="waykeecom-content__p">Bilen är inte reserverad ännu. Slutför ordern genom att klicka dig igenom nästkommande steg. Har du frågor under tiden? Kontakta [handlaren] på tel [telefonnummer].</p>
+            <p class="waykeecom-content__p"><span class="waykeecom-text waykeecom-text--font-medium">${i18next.t('loanSummary.successMessage', { loanName: loan.name })}</span></p>
+            <p class="waykeecom-content__p">${i18next.t('loanSummary.notReserved')}</p>
           </div>
         `,
       })}
@@ -37,22 +38,22 @@ const LoanSummary = ({ loan, paymentLookupResponse }: LoanSummaryProps) => {
       <div class="waykeecom-stack waykeecom-stack--1">
         <ul class="waykeecom-key-value-list">
           ${KeyValueListItem({
-            key: 'Kontantinsats',
+            key: i18next.t('loanSummary.downPayment'),
             value: prettyNumber(downPayment, { postfix: 'kr' }),
           })}
           ${KeyValueListItem({
-            key: 'Lånebelopp',
+            key: i18next.t('loanSummary.loanAmount'),
             value: prettyNumber(creditAmount, { postfix: 'kr' }),
           })}
-          ${KeyValueListItem({ key: 'Avbetalningsperoid', value: `${duration} mån` })}
+          ${KeyValueListItem({ key: i18next.t('loanSummary.repaymentPeriod'), value: `${duration} mån` })}
           ${KeyValueListItem({
-            key: 'Månadskostnad för lånet',
+            key: i18next.t('loanSummary.monthlyCost'),
             value: prettyNumber(monthlyCost, { postfix: 'kr*' }),
           })}
         </ul>
       </div>
       <div class="waykeecom-stack waykeecom-stack--1">
-        <div class="waykeecom-disclaimer-text">*Beräknat på X,XX % ränta (effektivt X,XX %). Den ränta du får sätts vid avtalskrivning.</div>
+        <div class="waykeecom-disclaimer-text">${i18next.t('loanSummary.disclaimer')}</div>
       </div>
     </div>
   `;
@@ -66,11 +67,12 @@ interface SummaryProps {
 }
 
 const Summary = ({ paymentType, loan, paymentLookupResponse, changeButtonId }: SummaryProps) => {
-  const paymentTypeTitle = PaymentType.Cash
-    ? 'Kontant'
-    : PaymentType.Loan
-      ? 'Billån'
-      : 'Privatleasing';
+  const paymentTypeTitle =
+    paymentType === PaymentType.Cash
+      ? i18next.t('summary.cash')
+      : paymentType === PaymentType.Loan
+        ? i18next.t('summary.loan')
+        : i18next.t('summary.leasing');
   return `
   ${
     paymentType === PaymentType.Loan && loan && paymentLookupResponse
@@ -83,7 +85,7 @@ const Summary = ({ paymentType, loan, paymentLookupResponse, changeButtonId }: S
         <div class="waykeecom-stack waykeecom-stack--1">
           <ul class="waykeecom-key-value-list">
             <li class="waykeecom-key-value-list__item">
-              <div class="waykeecom-key-value-list__key">Finansiering</div>
+              <div class="waykeecom-key-value-list__key">${i18next.t('summary.financing')}</div>
               <div class="waykeecom-key-value-list__value">${paymentTypeTitle}</div>
             </li>
           </ul>
@@ -92,7 +94,7 @@ const Summary = ({ paymentType, loan, paymentLookupResponse, changeButtonId }: S
   }
   <div class="waykeecom-stack waykeecom-stack--1">
     <div class="waykeecom-align waykeecom-align--end">
-      <button id="${changeButtonId}" title="Ändra finansiering" class="waykeecom-link">Ändra</button>
+      <button id="${changeButtonId}" title="${i18next.t('summary.changeButton')}" class="waykeecom-link">${i18next.t('summary.changeButton')}</button>
     </div>
   </div>
 `;

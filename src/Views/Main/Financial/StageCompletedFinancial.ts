@@ -1,4 +1,5 @@
 import { PaymentType } from '@wayke-se/ecom';
+import i18next from 'i18next';
 import { PaymentOption } from '../../../@types/OrderOptions';
 import { PaymentLookup } from '../../../@types/PaymentLookup';
 import HtmlNode from '../../../Components/Extension/HtmlNode';
@@ -44,39 +45,38 @@ class StageCompletedFinancial extends HtmlNode {
 
       const keyValueList: KeyValueListItemProps[] = [
         {
-          key: 'Kontantinsats',
+          key: i18next.t('stageCompletedFinancial.downPayment'),
           value: prettyNumber(downPayment, {
             postfix: 'kr',
           }),
         },
         {
-          key: 'Lånebelopp',
+          key: i18next.t('stageCompletedFinancial.loanAmount'),
           value: prettyNumber(creditAmount, {
             postfix: 'kr',
           }),
         },
         {
-          key: 'Avbetalningsperoid',
-          value: `${duration} mån`,
+          key: i18next.t('stageCompletedFinancial.repaymentPeriod'),
+          value: `${duration} ${i18next.t('stageCompletedFinancial.months')}`,
         },
         {
-          key: 'Månadskostnad för lånet',
+          key: i18next.t('stageCompletedFinancial.monthlyCost'),
           value: prettyNumber(monthlyCost, { postfix: 'kr*' }),
         },
       ];
 
       const decision = state.creditAssessmentResponse?.recommendation;
-      const disclaimerText = `*Beräknat på ${prettyNumber(interest * 100, {
-        decimals: 2,
-      })} % ränta (effektivt ${prettyNumber(effectiveInterest * 100, {
-        decimals: 2,
-      })} %). Den ränta du får sätts vid avtalskrivning.`;
+      const disclaimerText = i18next.t('stageCompletedFinancial.disclaimerText', {
+        interest: prettyNumber(interest * 100, { decimals: 2 }),
+        effectiveInterest: prettyNumber(effectiveInterest * 100, { decimals: 2 }),
+      });
 
       this.node.innerHTML = `
         <div class="waykeecom-stack waykeecom-stack--2">
           <h4 class="waykeecom-heading waykeecom-heading--4">${loan.name}</h4>
           <div class="waykeecom-content">
-            <p class="waykeecom-content__p">Ordern är snart klar, här ser du ditt lånebesked:</p>
+            <p class="waykeecom-content__p">${i18next.t('stageCompletedFinancial.orderAlmostReady')}</p>
           </div>
         </div>
         ${
@@ -96,7 +96,7 @@ class StageCompletedFinancial extends HtmlNode {
         </div>
         <div class="waykeecom-stack waykeecom-stack--1">
           <div class="waykeecom-align waykeecom-align--end">
-            <button type="button" title="Ändra finansiering" class="waykeecom-link">Ändra</button>
+            <button type="button" title="${i18next.t('stageCompletedFinancial.changeFinancing')}" class="waykeecom-link">${i18next.t('stageCompletedFinancial.changeFinancing')}</button>
           </div>
         </div>
       `;
@@ -115,8 +115,11 @@ class StageCompletedFinancial extends HtmlNode {
       <div class="waykeecom-stack waykeecom-stack--1">
         <ul class="waykeecom-key-value-list">
           ${KeyValueListItem({
-            key: 'Finansiering',
-            value: paymentType === PaymentType.Cash ? 'Kontant' : 'Privatleasing',
+            key: i18next.t('stageCompletedFinancial.financing'),
+            value:
+              paymentType === PaymentType.Cash
+                ? i18next.t('stageCompletedFinancial.cash')
+                : i18next.t('stageCompletedFinancial.lease'),
           })}
         </ul>
       </div>
@@ -125,7 +128,7 @@ class StageCompletedFinancial extends HtmlNode {
           ? `
           <div class="waykeecom-stack waykeecom-stack--1">
             <div class="waykeecom-align waykeecom-align--end">
-              <button type="button" title="Ändra finansiering" class="waykeecom-link">Ändra</button>
+              <button type="button" title="${i18next.t('stageCompletedFinancial.changeFinancing')}" class="waykeecom-link">${i18next.t('stageCompletedFinancial.changeFinancing')}</button>
             </div>
           </div>
           `

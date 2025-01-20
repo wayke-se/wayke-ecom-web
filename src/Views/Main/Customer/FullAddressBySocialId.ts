@@ -1,3 +1,4 @@
+import i18next from 'i18next';
 import { Customer, CustomerSocialId } from '../../../@types/Customer';
 import ButtonArrowRight from '../../../Components/Button/ButtonArrowRight';
 import ButtonAsLink from '../../../Components/Button/ButtonAsLink';
@@ -147,9 +148,9 @@ class FullAddressBySocialId extends HtmlNode {
       </div>
       <div class="waykeecom-stack waykeecom-stack--2">
         <div class="waykeecom-stack waykeecom-stack--3">
-          <h4 class="waykeecom-heading waykeecom-heading--4">Personuppgifter</h4>
+          <h4 class="waykeecom-heading waykeecom-heading--4">${i18next.t('customer.personalInfoTitle')}</h4>
           <div class="waykeecom-content">
-            <p class="waykeecom-content__p">Ange ditt personnummer för att hämta ditt namn och din adress.</p>
+            <p class="waykeecom-content__p">${i18next.t('customer.personalInfoDescription')}</p>
           </div>
         </div>
         <div class="waykeecom-stack waykeecom-stack--3" id="${SOCIAL_ID_NODE}"></div>
@@ -160,7 +161,7 @@ class FullAddressBySocialId extends HtmlNode {
           <div class="waykeecom-stack waykeecom-stack--3" id="${SOCIAL_ID_NODE}">
             ${Alert({
               tone: 'error',
-              children: 'Tyvärr fick vi ingen träff på personnumret du angav.',
+              children: i18next.t('customer.fetchErrorMessage'),
             })}
           </div>`
         )}
@@ -169,11 +170,8 @@ class FullAddressBySocialId extends HtmlNode {
             tone: 'info',
             children: `
               <div class="waykeecom-content waykeecom-content--inherit-size">
-                <p class="waykeecom-content__p">Vi kommer hämta följande uppgifter om dig:</p>
-                <ul class="waykeecom-content__ul">
-                  <li class="waykeecom-content__li">Namn</li>
-                  <li class="waykeecom-content__li">Folkbokföringsadress</li>
-                </ul>
+                <p class="waykeecom-content__p">${i18next.t('customer.fetchInfoMessage')}</p>
+                ${i18next.t('customer.fetchInfoList')}
               </div>
             `,
           })}
@@ -192,9 +190,9 @@ class FullAddressBySocialId extends HtmlNode {
         value: this.state.value.socialId,
         id: SOCIAL_ID_INPUT_ID,
         error: this.state.interact.socialId && !this.state.validation.socialId,
-        errorMessage: 'Ange personnummer i formatet ÅÅÅÅMMDD-XXXX. Måste vara över 18 år.',
+        errorMessage: i18next.t('customer.socialIdErrorMessage'),
         name: 'socialId',
-        placeholder: 'ÅÅÅÅMMDD-XXXX',
+        placeholder: i18next.t('customer.socialIdPlaceholder'),
         pattern: '[0-9]*',
         inputmode: 'numeric',
         onChange: (e) => this.onChange(e),
@@ -209,7 +207,7 @@ class FullAddressBySocialId extends HtmlNode {
     this.contexts.buttonFetch = new ButtonArrowRight(
       this.node.querySelector<HTMLDivElement>(`#${PROCEED_NODE}`),
       {
-        title: 'Hämta uppgifter',
+        title: i18next.t('customer.fetchButton'),
         id: PROCEED,
         disabled: !this.state.validation.socialId,
         onClick: () => this.onFetchAddress(),
@@ -217,7 +215,7 @@ class FullAddressBySocialId extends HtmlNode {
     );
 
     new DisclaimerPadlock(this.node.querySelector<HTMLDivElement>(`#${DISCLAIMER_NODE}`), {
-      text: `Dina personuppgifter behandlas och sparas i enlighet med vår <a href="${policy}" title="personuppgiftspolicy" target="_blank" rel="noopener noreferrer" class="waykeecom-link">personuppgiftspolicy</a>.`,
+      text: i18next.t('customer.policyText', { policy }),
     });
 
     this.updateProceedButton();

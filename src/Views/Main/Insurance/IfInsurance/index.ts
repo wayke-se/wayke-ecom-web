@@ -1,4 +1,5 @@
 import { DrivingDistance } from '@wayke-se/ecom';
+import i18next from 'i18next';
 import ButtonArrowRight from '../../../../Components/Button/ButtonArrowRight';
 import ButtonSkip from '../../../../Components/Button/ButtonSkip';
 import Disclaimer from '../../../../Components/Disclaimer/Disclaimer';
@@ -114,9 +115,9 @@ class IfInsurance extends HtmlNode {
     } else {
       this.node.innerHTML = `
         <div class="waykeecom-stack waykeecom-stack--3">
-          <h4 class="waykeecom-heading waykeecom-heading--4">Vill du teckna en försäkring på din nya bil?</h4>
+          <h4 class="waykeecom-heading waykeecom-heading--4">${i18next.t('insurance.heading')}</h4>
           <div class="waykeecom-content">
-            <p class="waykeecom-content__p">Ange din uppskattade körsträcka för att se din försäkringskostnad. Därefter presenterar vi förslag på försäkringar som passar dig och din nya bil. I både hel- och halvförsäkring ingår trafikförsäkring som är obligatoriskt att ha. Ifall du har valt att finansiera bilen med ett billån är priset du ser rabatterat.</p>
+            <p class="waykeecom-content__p">${i18next.t('insurance.ifDescription')}</p>
           </div>
         </div>
 
@@ -131,7 +132,7 @@ class IfInsurance extends HtmlNode {
       `;
       new InputSelect(this.node.querySelector<HTMLDivElement>(`#${DISTANCE_NODE}`), {
         id: DISTANCE,
-        title: 'Visa försäkringar',
+        title: i18next.t('insurance.showInsurances'),
         name: 'distance',
         value: state.drivingDistance,
         options: [
@@ -161,7 +162,7 @@ class IfInsurance extends HtmlNode {
 
       new ButtonArrowRight(this.node.querySelector<HTMLDivElement>(`#${SHOW_INSURANCES_NODE}`), {
         id: SHOW_INSURANCES,
-        title: 'Visa försäkringar',
+        title: i18next.t('insurance.showInsurances'),
         onClick: () => this.onShowInsurances(),
       });
 
@@ -169,20 +170,20 @@ class IfInsurance extends HtmlNode {
       if (insuranceInfoNode) {
         insuranceInfoNode.innerHTML = Alert({
           tone: 'info',
-          children: `Vi är anknutna försäkringsförmedlare till ${insuranceDisclaimerTitle}, If Skadeförsäkring. Försäkringsgivare är If Skadeförsäkring (publ). Vad detta innebär kan du läsa mer om på försäkringsförmedlarens hemsida.`,
+          children: i18next.t('insurance.ifAlert', { insuranceDisclaimerTitle }),
         });
       }
 
       new Disclaimer(
         this.node.querySelector<HTMLDivElement>(`#${SHOW_INSURANCES_DISCLAIMER_NODE}`),
         {
-          text: `Genom att du klickar på Visa försäkringar så godkänner du att vi skickar dina uppgifter vidare till ${insuranceDisclaimerTitle} för att de ska kunna ge dig ett pris på försäkring. Hur de hanterar dina personuppgifter kan du läsa om på deras hemsida.`,
+          text: i18next.t('insurance.ifDisclaimer', { insuranceDisclaimerTitle }),
         }
       );
 
       new ButtonSkip(this.node.querySelector<HTMLDivElement>(`#${SKIP_INSURANCES_NODE}`), {
         id: SKIP_INSURANCES,
-        title: 'Hoppa över detta steg',
+        title: i18next.t('insurance.skipButton'),
         onClick: () => onSkip(),
       });
     }
