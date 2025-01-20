@@ -1,3 +1,4 @@
+import i18next from 'i18next';
 import ButtonArrowRight from '../../../Components/Button/ButtonArrowRight';
 import ButtonAsLink from '../../../Components/Button/ButtonAsLink';
 import ButtonSkip from '../../../Components/Button/ButtonSkip';
@@ -72,7 +73,7 @@ class TradeIn extends HtmlNode {
       );
     }
     const content = ListItem(this.node, {
-      title: 'Inbytesbil',
+      title: i18next.t('tradeIn.title'),
       active,
       completed,
       id: 'trade-in',
@@ -85,15 +86,18 @@ class TradeIn extends HtmlNode {
       const keyValueItemsUpper: { key: string; value: string }[] = [];
 
       if (state.tradeIn && state.tradeInVehicle) {
-        keyValueItemsUpper.push({ key: 'Miltal', value: `${state.tradeIn.mileage} mil` });
+        keyValueItemsUpper.push({
+          key: i18next.t('tradeIn.mileage'),
+          value: `${state.tradeIn.mileage} mil`,
+        });
         if (state.tradeIn.description)
           keyValueItemsUpper.push({
-            key: 'Beskrivning',
+            key: i18next.t('tradeIn.description'),
             value: `${state.tradeIn.description}`,
           });
         if (state.tradeIn.condition)
           keyValueItemsUpper.push({
-            key: 'Bilens skick',
+            key: i18next.t('tradeIn.condition'),
             value: translateTradeInCondition[state.tradeIn.condition],
           });
 
@@ -132,7 +136,7 @@ class TradeIn extends HtmlNode {
               <div class="waykeecom-stack waykeecom-stack--2">
                 <ul class="waykeecom-key-value-list waykeecom-key-value-list--large-value">
                   ${KeyValueListItem({
-                    key: 'Ungefärligt värde',
+                    key: i18next.t('tradeIn.estimatedValue'),
                     value: `~ ${prettyNumber(state.tradeInVehicle.valuation, { postfix: 'kr' })}`,
                   })}
                 </ul>
@@ -140,8 +144,7 @@ class TradeIn extends HtmlNode {
               <div class="waykeecom-stack waykeecom-stack--2">
                ${Alert({
                  tone: 'info',
-                 children:
-                   '<span class="waykeecom-text waykeecom-text--font-medium">Vi skickar med uppgifter om din inbytesbil till bilhandlaren.</span> Observera att värderingen som utförs ger ett uppskattat inbytesvärde. Det slutgiltliga värdet avgörs när handlare kan bekräfta bilens skick.',
+                 children: `<span class="waykeecom-text waykeecom-text--font-medium">${i18next.t('tradeIn.infoText')}</span> ${i18next.t('tradeIn.infoDisclaimer')}`,
                })}
               </div>
             </div>
@@ -149,7 +152,10 @@ class TradeIn extends HtmlNode {
         `;
         part.querySelector(`#${CHANGE_BUTTON}`)?.addEventListener('click', () => this.onEdit());
       } else {
-        keyValueItemsUpper.push({ key: 'Inbytesbil', value: 'Nej' });
+        keyValueItemsUpper.push({
+          key: i18next.t('tradeIn.title'),
+          value: i18next.t('tradeIn.no'),
+        });
         part.innerHTML = `
           <div class="waykeecom-stack waykeecom-stack--1">
             <ul class="waykeecom-key-value-list">
@@ -170,7 +176,7 @@ class TradeIn extends HtmlNode {
       if (!state.createdOrderId) {
         new ButtonAsLink(part.querySelector(`#${CHANGE_BUTTON_NODE}`), {
           id: CHANGE_BUTTON,
-          title: 'Ändra',
+          title: i18next.t('tradeIn.changeButtonTitle'),
           onClick: () => this.onEdit(),
         });
       }
@@ -180,9 +186,9 @@ class TradeIn extends HtmlNode {
       } else {
         part.innerHTML = `
           <div class="waykeecom-stack waykeecom-stack--3">
-            <h4 class="waykeecom-heading waykeecom-heading--4">Har du en inbytesbil?</h4>
+            <h4 class="waykeecom-heading waykeecom-heading--4">${i18next.t('tradeIn.heading')}</h4>
             <div class="waykeecom-content">
-              <p class="waykeecom-content__p">Har du en bil du vill byta in när du köper din nya bil? Här får du ett uppskattat inköpspris av oss direkt online.</p>
+              <p class="waykeecom-content__p">${i18next.t('tradeIn.tradeInDescription')}</p>
             </div>
           </div>
           
@@ -194,13 +200,13 @@ class TradeIn extends HtmlNode {
 
         new ButtonArrowRight(part.querySelector<HTMLDivElement>(`#${TRADE_IN_YES_NODE}`), {
           id: TRADE_IN_YES,
-          title: 'Jag har inbytesbil',
+          title: i18next.t('tradeIn.yesButton'),
           onClick: () => this.onYesTradeIn(),
         });
 
         new ButtonSkip(part.querySelector<HTMLDivElement>(`#${TRADE_IN_NO_NODE}`), {
           id: TRADE_IN_NO,
-          title: 'Hoppa över detta steg',
+          title: i18next.t('tradeIn.skipButton'),
           onClick: () => this.onNoTradeIn(),
         });
       }

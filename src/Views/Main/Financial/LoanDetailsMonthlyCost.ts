@@ -1,3 +1,4 @@
+import i18next from 'i18next';
 import HtmlNode from '../../../Components/Extension/HtmlNode';
 import KeyValueListItem from '../../../Templates/KeyValueListItem';
 import { prettyNumber } from '../../../Utils/format';
@@ -26,9 +27,9 @@ class LoanDetailsMonthlyCost extends HtmlNode {
     this.node.innerHTML = `
       <ul class="waykeecom-key-value-list waykeecom-key-value-list--large-value">
         ${KeyValueListItem({
-          key: 'Månadskostnad för lånet',
+          key: i18next.t('loanDetailsMonthlyCost.monthlyCost'),
           value: prettyNumber(monthlyCost, {
-            postfix: 'kr/mån*',
+            postfix: i18next.t('loanDetailsMonthlyCost.perMonth'),
           }),
         })}
       </ul>

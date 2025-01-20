@@ -15,8 +15,9 @@ window.addEventListener('DOMContentLoaded', (_) => {
     ecomSdkConfig,
     rootId: 'custom-id',
     logo: 'https://placehold.jp/180x40.png',
-    id: 'd3255290-9afd-4091-bc28-9ca884d4a3b0',
+    id: '4a18e9a4-f7ee-458e-8bb4-9b6b8b778bbf',
     onEvent: (_view: EcomView, _event: EcomEvent, _step?: EcomStep, _data?: any) => null,
+    marketCode: 'SE',
   });
   context.start();
   const button = document.querySelector<HTMLButtonElement>('#button');

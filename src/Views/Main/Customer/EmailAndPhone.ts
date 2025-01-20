@@ -1,8 +1,8 @@
+import i18next from 'i18next';
 import { Customer, PartialCustomer } from '../../../@types/Customer';
 import ButtonArrowRight from '../../../Components/Button/ButtonArrowRight';
-import InputField from '../../../Components/Input/InputField';
-
 import HtmlNode from '../../../Components/Extension/HtmlNode';
+import InputField from '../../../Components/Input/InputField';
 import { goTo, setContactAndPhone } from '../../../Redux/action';
 import { WaykeStore } from '../../../Redux/store';
 import KeyValueListItem from '../../../Templates/KeyValueListItem';
@@ -124,8 +124,8 @@ class EmailAndPhone extends HtmlNode {
 
     if (subStage > 1) {
       const keyValueItems: { key: string; value: string }[] = [
-        { key: 'E-post', value: this.state.value.email },
-        { key: 'Telefonnummer', value: this.state.value.phone },
+        { key: i18next.t('customer.email'), value: this.state.value.email },
+        { key: i18next.t('customer.phone'), value: this.state.value.phone },
       ];
 
       this.node.innerHTML = `
@@ -140,7 +140,7 @@ class EmailAndPhone extends HtmlNode {
         this.node.innerHTML += `
           <div class="waykeecom-stack waykeecom-stack--2">
             <div class="waykeecom-align waykeecom-align--end">
-              <button type="button" title="Ändra dina uppgifter" class="waykeecom-link" id="change-contacts">Ändra</button>
+              <button type="button" title="${i18next.t('customer.changeContactsButton')}" class="waykeecom-link" id="change-contacts">${i18next.t('customer.changeContactsButton')}</button>
             </div>
           </div>
         `;
@@ -148,9 +148,9 @@ class EmailAndPhone extends HtmlNode {
     } else {
       this.node.innerHTML = `
       <div class="waykeecom-stack waykeecom-stack--3">
-        <h4 class="waykeecom-heading waykeecom-heading--4">Kontaktuppgifter</h4>
+        <h4 class="waykeecom-heading waykeecom-heading--4">${i18next.t('customer.contactInfoTitle')}</h4>
         <div class="waykeecom-content">
-          <p class="waykeecom-content__p">Ange din e-postadress och ditt telefonnummer.</p>
+          <p class="waykeecom-content__p">${i18next.t('customer.contactInfoDescription')}</p>
         </div>
       </div>
 
@@ -164,14 +164,14 @@ class EmailAndPhone extends HtmlNode {
       this.contexts.email = new InputField(
         this.node.querySelector<HTMLDivElement>(`#${EMAIL_NODE}`),
         {
-          title: 'E-post',
+          title: i18next.t('customer.email'),
           value: this.state.value.email,
           id: EMAIL_INPUT_ID,
           error: this.state.interact.email && !this.state.validation.email,
-          errorMessage: 'En giltig e-postadress måste anges',
+          errorMessage: i18next.t('customer.emailErrorMessage'),
           name: 'email',
           autocomplete: 'email',
-          placeholder: 'Ange din e-postadress',
+          placeholder: i18next.t('customer.emailPlaceholder'),
           onChange: (e) => this.onChange(e),
           onBlur: (e) => this.onBlur(e),
         }
@@ -180,14 +180,14 @@ class EmailAndPhone extends HtmlNode {
       this.contexts.phone = new InputField(
         this.node.querySelector<HTMLDivElement>(`#${PHONE_NODE}`),
         {
-          title: 'Telefonnummer',
+          title: i18next.t('customer.phone'),
           value: this.state.value.phone,
           id: PHONE_INPUT_ID,
           error: this.state.interact.phone && !this.state.validation.phone,
-          errorMessage: 'Ange ditt telefonnummer',
+          errorMessage: i18next.t('customer.phoneErrorMessage'),
           name: 'phone',
           autocomplete: 'tel',
-          placeholder: 'Ange ditt telefonnummer',
+          placeholder: i18next.t('customer.phonePlaceholder'),
           onChange: (e) => this.onChange(e),
           onBlur: (e) => this.onBlur(e),
         }
@@ -196,7 +196,7 @@ class EmailAndPhone extends HtmlNode {
       this.contexts.button = new ButtonArrowRight(
         this.node.querySelector<HTMLDivElement>(`#${PROCEED_NODE}`),
         {
-          title: 'Gå vidare',
+          title: i18next.t('customer.proceedButton'),
           id: PROCEED,
           disabled: !(this.state.validation.email && this.state.validation.phone),
           onClick: () => this.onProceed(),

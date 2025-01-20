@@ -1,37 +1,8 @@
 import { IDeliveryOption, PaymentType } from '@wayke-se/ecom';
+import i18next from 'i18next';
 import { OrderOptions, PaymentOption } from '../../@types/OrderOptions';
 import { StageTypes } from '../../@types/Stages';
 import TimelineItem from '../../Templates/TimelineItem';
-
-const TimelineItemByStage = {
-  customer: {
-    heading: 'Dina kunduppgifter',
-  },
-  centralStorage: {
-    heading: 'Välj anläggning',
-    description: 'Välj vilken anläggning du vill köpa bilen ifrån.',
-  },
-  delivery: {
-    heading: 'Välj leveranssätt',
-    description: '',
-  },
-  tradeIn: {
-    heading: 'Har du inbytesbil?',
-    description: 'Få den värderad direkt online.',
-  },
-  financial: {
-    heading: 'Ägandeform',
-    description: '',
-  },
-  insurance: {
-    heading: 'Vill du teckna en försäkring?',
-    description: 'Se förslag på försäkringar som passar din nya bil.',
-  },
-  accessories: {
-    heading: 'Tillbehör',
-    description: 'Beställ extra utrustning till din bil.',
-  },
-};
 
 const getFinancialDescription = (options?: PaymentOption[]) => {
   const paymentTypes = options?.map((x) => x.type) || [];
@@ -40,25 +11,25 @@ const getFinancialDescription = (options?: PaymentOption[]) => {
   const hasLoan = paymentTypes.find((x) => x === PaymentType.Loan);
 
   if (hasCash && hasLoan && hasLease) {
-    return 'Denna bil kan du köpa kontant, privatleasa eller finansiera med ett billån.';
+    return i18next.t('howTo.financialDescriptionAll');
   }
   if (hasCash && hasLease) {
-    return 'Denna bil kan du köpa kontant eller privatleasa.';
+    return i18next.t('howTo.financialDescriptionCashLease');
   }
   if (hasCash && hasLoan) {
-    return 'Denna bil kan du köpa kontant eller finansiera med ett billån';
+    return i18next.t('howTo.financialDescriptionCashLoan');
   }
   if (hasLoan && hasLease) {
-    return 'Denna bil kan du privatleasa eller finansiera med ett billån';
+    return i18next.t('howTo.financialDescriptionLoanLease');
   }
   if (hasCash) {
-    return 'Denna bil kan du köpa kontant.';
+    return i18next.t('howTo.financialDescriptionCash');
   }
   if (hasLoan) {
-    return 'Denna bil kan du finansiera med ett billån';
+    return i18next.t('howTo.financialDescriptionLoan');
   }
   if (hasLease) {
-    return 'Denna bil kan du privatleasa.';
+    return i18next.t('howTo.financialDescriptionLease');
   }
   return '???';
 };
@@ -67,13 +38,13 @@ const getDeliveryDescription = (options?: IDeliveryOption[]) => {
   const hasPickup = options?.find((x) => x.type === 'Pickup');
   const hasHomeDelivery = options?.find((x) => x.type === 'Delivery');
   if (hasPickup && hasHomeDelivery) {
-    return 'Hemleverans eller hämta hos handlaren.';
+    return i18next.t('howTo.deliveryDescriptionBoth');
   }
   if (hasPickup) {
-    return 'Hämta hos handlaren.';
+    return i18next.t('howTo.deliveryDescriptionPickup');
   }
   if (hasHomeDelivery) {
-    return 'Hemleverans.';
+    return i18next.t('howTo.deliveryDescriptionHome');
   }
   return '???';
 };
@@ -84,32 +55,59 @@ interface HowToProps {
 }
 
 const HowTo = ({ order, stageOrderList }: HowToProps) => {
-  const timelineItemByStage = TimelineItemByStage;
+  const timelineItemByStage = {
+    customer: {
+      heading: i18next.t('howTo.customerHeading'),
+    },
+    centralStorage: {
+      heading: i18next.t('howTo.centralStorageHeading'),
+      description: i18next.t('howTo.centralStorageDescription'),
+    },
+    delivery: {
+      heading: i18next.t('howTo.deliveryHeading'),
+      description: '',
+    },
+    tradeIn: {
+      heading: i18next.t('howTo.tradeInHeading'),
+      description: i18next.t('howTo.tradeInDescription'),
+    },
+    financial: {
+      heading: i18next.t('howTo.financialHeading'),
+      description: '',
+    },
+    insurance: {
+      heading: i18next.t('howTo.insuranceHeading'),
+      description: i18next.t('howTo.insuranceDescription'),
+    },
+    accessories: {
+      heading: i18next.t('howTo.accessoriesHeading'),
+      description: i18next.t('howTo.accessoriesDescription'),
+    },
+  };
   timelineItemByStage.financial.description = getFinancialDescription(order?.paymentOptions);
   timelineItemByStage.delivery.description = getDeliveryDescription(order?.deliveryOptions);
 
   return `
   <div class="waykeecom-stack waykeecom-stack--3">
-    <h4 class="waykeecom-heading waykeecom-heading--4">Så här köper du bilen online</h4>
+    <h4 class="waykeecom-heading waykeecom-heading--4">${i18next.t('howTo.heading')}</h4>
     <div class="waykeecom-content">
-      <p class="waykeecom-content__p">Hos oss kan du tryggt köpa din nästa bil online. Reservera bilen genom att klicka dig igenom vårt köpflöde med följande steg:</p>
+      <p class="waykeecom-content__p">${i18next.t('howTo.description')}</p>
     </div>
   </div>
   <div class="waykeecom-stack waykeecom-stack--3">
     <div class="waykeecom-p--2">
-      <ol class="waykeecom-timeline" aria-label="Tillvägagångssätt">
-        ${stageOrderList?.map((stage) => TimelineItem(TimelineItemByStage[stage.name])).join('')}
+      <ol class="waykeecom-timeline" aria-label="${i18next.t('howTo.timelineAriaLabel')}">
+        ${stageOrderList?.map((stage) => TimelineItem(timelineItemByStage[stage.name])).join('')}
         ${
           order?.isPaymentRequired
             ? TimelineItem({
-                heading: 'Genomför förskottsbetalning!',
-                description:
-                  'Genomför förskottskottsbetalning på 5% av bilens värde. (Genomför betalning av deposition motsvarande 5% av bilens värde.)',
+                heading: i18next.t('howTo.paymentHeading'),
+                description: i18next.t('howTo.paymentDescription'),
               })
             : ''
         }
         ${TimelineItem({
-          heading: 'Klart!',
+          heading: i18next.t('howTo.finalHeading'),
           final: true,
         })}
       </ol>
@@ -117,10 +115,9 @@ const HowTo = ({ order, stageOrderList }: HowToProps) => {
   </div>
   <div class="waykeecom-stack waykeecom-stack--3">
     <div class="waykeecom-content">
-      <p class="waykeecom-content__p">Efter att ordern är genomförd tar ${
-        order?.contactInformation?.name
-      } kontakt med dig så kommer ni 
-      tillsammans fram till detaljer kring betalning och skriver avtal.</p>
+      <p class="waykeecom-content__p">${i18next.t('howTo.finalDescription', {
+        contactName: order?.contactInformation?.name,
+      })}</p>
     </div>
   </div>
 `;
