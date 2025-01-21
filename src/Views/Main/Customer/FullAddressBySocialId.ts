@@ -171,7 +171,10 @@ class FullAddressBySocialId extends HtmlNode {
             children: `
               <div class="waykeecom-content waykeecom-content--inherit-size">
                 <p class="waykeecom-content__p">${i18next.t('customer.fetchInfoMessage')}</p>
-                ${i18next.t('customer.fetchInfoList')}
+                <ul class="waykeecom-content__ul">
+                  <li class="waykeecom-content__li">${i18next.t('customer.name')}</li>
+                  <li class="waykeecom-content__li">${i18next.t('customer.registeredAddress')}</li>
+                </ul>
               </div>
             `,
           })}
@@ -215,7 +218,10 @@ class FullAddressBySocialId extends HtmlNode {
     );
 
     new DisclaimerPadlock(this.node.querySelector<HTMLDivElement>(`#${DISCLAIMER_NODE}`), {
-      text: i18next.t('customer.policyText', { policy }),
+      text: i18next.t('customer.policyText', {
+        policy,
+        link: `<a href="${policy}" title="${i18next.t('confirmation.privacyPolicy')}" target="_blank" rel="noopener noreferrer" class="waykeecom-link">${i18next.t('confirmation.privacyPolicy')}}</a>`,
+      }),
     });
 
     this.updateProceedButton();

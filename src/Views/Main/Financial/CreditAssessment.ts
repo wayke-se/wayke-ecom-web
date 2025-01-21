@@ -1188,6 +1188,8 @@ class CreditAssessment extends HtmlNode {
         text: i18next.t('creditAssessment.disclaimer', {
           name: loan?.name,
           privacyPolicyUrl: loan?.loanDetails?.privacyPolicyUrl,
+          link: `<a href="${loan?.loanDetails?.privacyPolicyUrl}" title="" target="_blank" rel="noopener noreferrer" class="waykeecom-link">${i18next.t('creditAssessment.dataProtectionPolicy')}</a>`,
+          interpolation: { escapeValue: false },
         }),
       });
 
@@ -1214,7 +1216,7 @@ class CreditAssessment extends HtmlNode {
             <div class="waykeecom-hstack__item">${i18next.t('creditAssessment.whyAnswer')}</div>
           </div>`,
         description: `<div class="waykeecom-content">
-            <p class="waykeecom-content__p">${i18next.t('creditAssessment.whyAnswerDescription', { name: loan?.name, moneyLaunderingInformationURL: loan?.loanDetails?.moneyLaunderingInformationURL })}</p>
+            <p class="waykeecom-content__p">${i18next.t('creditAssessment.whyAnswerDescription', { name: loan?.name, link: `<a href="${loan?.loanDetails?.moneyLaunderingInformationURL}" title="" target="_blank" rel="noopener norefferer" class="waykeecom-link">${i18next.t('creditAssessment.readMore')}</a>` })}</p>
           </div>`,
         onClick: () => {
           ecomEvent(

@@ -442,7 +442,7 @@ class VerifyByBankId extends HtmlNode {
           disabled: this.notAvailable,
           name: 'confirmConditions',
 
-          title: `<div>${i18next.t('confirmation.confirmConditionsTitle', { conditionsPdfUri })}${
+          title: `<div>${i18next.t('confirmation.confirmConditionsTitle', { conditionsPdfUri, link: `<a href="${conditionsPdfUri}" title="${i18next.t('confirmation.purchaseTermsAndCancellationPolicy')}" target="_blank" rel="noopener noreferrer" class="waykeecom-link">${i18next.t('confirmation.purchaseTermsAndCancellationPolicy')}</a>`, interpolation: { escapeValue: false } })}${
             insurance
               ? ` <span class="waykeecom-text waykeecom-text--margin-left">${i18next.t('confirmation.insuranceText')}</span>`
               : ''
@@ -466,7 +466,10 @@ class VerifyByBankId extends HtmlNode {
       );
 
       new DisclaimerPadlock(this.node.querySelector<HTMLDivElement>(`#${DISCLAIMER_POLICY_NODE}`), {
-        text: i18next.t('confirmation.policyText', { policy }),
+        text: i18next.t('confirmation.policyText', {
+          link: `<a href="${policy}" title=${i18next.t('confirmation.privacyPolicy')} target="_blank" rel="noopener noreferrer" class="waykeecom-link">${i18next.t('confirmation.privacyPolicy')}</a>`,
+          interpolation: { escapeValue: false },
+        }),
       });
 
       new Disclaimer(this.node.querySelector<HTMLDivElement>(`#${DISCLAIMER_RESERVATION_NODE}`), {
