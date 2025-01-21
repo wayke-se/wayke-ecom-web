@@ -45,13 +45,10 @@ const svSE = {
     notAvailable: 'Den här bilen finns tyvärr inte längre tillgänglig.',
     socialIdNotMatchingError:
       'Personnummret i första steget matchar inte med det som är kopplat mot bankid',
-    confirmConditionsTitle:
-      'Jag godkänner <a href="{{conditionsPdfUri}}" title="" target="_blank" rel="noopener noreferrer" class="waykeecom-link">köpvillkor och villkor för ångerrätt</a>.',
-    insuranceText:
-      ' <span class="waykeecom-text waykeecom-text--margin-left">samt har tagit del av information kring försäkringsförmedling</span>',
+    confirmConditionsTitle: 'Jag godkänner {{link}}.',
+    insuranceText: 'samt har tagit del av information kring försäkringsförmedling',
     reserveButton: 'Reservera bilen',
-    policyText:
-      'Dina personuppgifter behandlas och sparas i enlighet med vår <a href="{{policy}}" title="personuppgiftspolicy" target="_blank" rel="noopener noreferrer" class="waykeecom-link">personuppgiftspolicy</a>.',
+    policyText: 'Dina personuppgifter behandlas och sparas i enlighet med vår {{link}}.',
     reservationDisclaimer:
       'Vi reserverar oss för eventuell ändring i tillgången av utbjudna bilar.',
     bankIdDescriptionQrCode:
@@ -76,6 +73,8 @@ const svSE = {
     paymentExpiryValue: '12/25',
     paymentCVC: 'CVC:',
     paymentCVCValue: '123',
+    privacyPolicy: 'personuppgiftspolicy',
+    purchaseTermsAndCancellationPolicy: 'köpvillkor och villkor för ångerrätt',
   },
   customer: {
     title: 'Dina uppgifter',
@@ -85,6 +84,7 @@ const svSE = {
     socialId: 'Personnummer',
     name: 'Namn',
     address: 'Adress',
+    registeredAddress: 'Folkbokföringsadress',
     postalCode: 'Postnummer',
     city: 'Stad',
     contactInfoTitle: 'Kontaktuppgifter',
@@ -101,14 +101,7 @@ const svSE = {
     fetchButton: 'Hämta uppgifter',
     fetchErrorMessage: 'Tyvärr fick vi ingen träff på personnumret du angav.',
     fetchInfoMessage: 'Vi kommer hämta följande uppgifter om dig:',
-    fetchInfoList: `
-      <ul class="waykeecom-content__ul">
-        <li class="waykeecom-content__li">Namn</li>
-        <li class="waykeecom-content__li">Folkbokföringsadress</li>
-      </ul>
-    `,
-    policyText:
-      'Dina personuppgifter behandlas och sparas i enlighet med vår <a href="{policy}" title="personuppgiftspolicy" target="_blank" rel="noopener noreferrer" class="waykeecom-link">personuppgiftspolicy</a>.',
+    policyText: 'Dina personuppgifter behandlas och sparas i enlighet med vår {{link}}.',
     changeContactsButton: 'Ändra',
   },
   delivery: {
@@ -146,11 +139,11 @@ const svSE = {
     bankIdError: 'Ett fel uppstod med BankId, försök igen.',
     performLoanApplication: 'Genomför låneansökan',
     disclaimer:
-      'Genom att klicka på ”Genomför låneansökan” godkänner jag att {{name}} gör en kreditupplysning på mig baserat på informationen ovan och jag bekräftar att jag läst <a href="{{privacyPolicyUrl}}" title="" target="_blank" rel="noopener noreferrer" class="waykeecom-link">{{name}} dataskyddspolicy</a>.',
+      'Genom att klicka på ”Genomför låneansökan” godkänner jag att {{name}} gör en kreditupplysning på mig baserat på informationen ovan och jag bekräftar att jag läst {{link}}.',
     disclaimerSafe: 'Dina uppgifter lagras och sparas säkert.',
     whyAnswer: 'Varför måste jag svara på allt detta?',
     whyAnswerDescription:
-      '{{name}} måste ta in uppgifterna av kunden för att uppfylla bestämmelser i Konsumentkreditlagen (2010:1846) och Lag (2017:630) om åtgärder mot penningtvätt och finansiering av terrorism. <a href="{{moneyLaunderingInformationURL}}" title="" target="_blank" rel="noopener norefferer" class="waykeecom-link">Läs mer om detta här</a>',
+      '{{name}} måste ta in uppgifterna av kunden för att uppfylla bestämmelser i Konsumentkreditlagen (2010:1846) och Lag (2017:630) om åtgärder mot penningtvätt och finansiering av terrorism. {{link}}',
     waitingFor: 'Väntar på {{name}}...',
     fetchingInfo: 'Hämtar uppgifter från {{name}}. Vänta kvar det kan ta några sekunder.',
     errorOccurred: 'Ett fel uppstod',
@@ -197,6 +190,8 @@ const svSE = {
     abortButton: 'Avbryt',
     assessManually:
       'Kreditupplysningen måste göras manuellt. Vänligen kontakta {{name}} för att fortsätta.',
+    dataProtectionPolicy: 'dataskyddspolicy',
+    readMore: 'Läs mer om detta här',
   },
   financial: {
     title: 'Finansiell information',
