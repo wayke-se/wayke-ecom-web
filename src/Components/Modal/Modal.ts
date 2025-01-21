@@ -1,3 +1,4 @@
+import { MarketCode } from '../../@types/MarketCode';
 import HtmlNode from '../Extension/HtmlNode';
 import ModalBody from './ModalBody';
 import ModalCenter from './ModalCenter';
@@ -13,6 +14,7 @@ interface ModalProps {
   readonly logo?: string;
   readonly logoX2?: string;
   readonly onClose?: () => void;
+  readonly marketCode: MarketCode;
 }
 
 class Modal extends HtmlNode {
@@ -49,12 +51,14 @@ class Modal extends HtmlNode {
       logoX2: this.props.logoX2,
       onClose,
       id: `${id}-header`,
+      marketCode: this.props.marketCode,
     });
     const body = new ModalBody(dialog.node, {
       id: `${id}-body`,
     });
     new ModalFooter(dialog.node, {
       id: `${id}-footer`,
+      marketCode: this.props.marketCode,
     });
     return body.node;
   }

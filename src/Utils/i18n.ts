@@ -7,8 +7,7 @@ const i18n = (marketCode?: MarketCode) => {
   const locale = getLanguage(marketCode);
 
   i18next.init({
-    lng: locale || 'sv-SE',
-    fallbackLng: 'sv-SE',
+    lng: locale,
     debug: true,
     resources: {
       'sv-SE': {
