@@ -1,3 +1,4 @@
+import i18next from 'i18next';
 import HtmlNode from '../Extension/HtmlNode';
 
 interface ArrowProps {
@@ -31,12 +32,12 @@ class Arrow extends HtmlNode {
     const { title, dataIcon, path } =
       this.props.direction === 'left'
         ? {
-            title: 'Visa föregående',
+            title: i18next.t('glossary.showPrevious'),
             dataIcon: 'Chevron left',
             path: '<path d="m5.4 7 5.2-5 1 1-5.2 5 5.2 5-1.1 1-5.2-5-1-1 1.1-1z" />',
           }
         : {
-            title: 'Visa nästa',
+            title: i18next.t('glossary.showNext'),
             dataIcon: 'Chevron right',
             path: '<path d="m10.5 9-5.2 5-1-1 5.2-5-5.2-5 1.1-1 5.2 5 1 1-1.1 1z" />',
           };

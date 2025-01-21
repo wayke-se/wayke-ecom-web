@@ -1,4 +1,23 @@
 const svSE = {
+  glossary: {
+    change: 'Ändra',
+    showPrevious: 'Visa föregående',
+    showNext: 'Visa nästa',
+    showPreviousImage: 'Visa föregående bild',
+    showNextImage: 'Visa nästa bild',
+    readMore: 'Läs mer',
+    closeModal: 'Stäng modalen',
+    homeUrl: 'https://www.wayke.se',
+    goToHome: 'Gå till wayke.se',
+    company: 'Wayke',
+    modalTitle: 'Wayke Ecom',
+    add: 'Lägg till',
+    chosen: 'Vald',
+    ourAdvantages: 'Fördelar med att köpa bilen online hos oss',
+    showHelp: 'Stäng hjälp',
+    closeHelp: 'Stäng hjälp',
+    whatDoesThisMean: 'Vad betyder detta?',
+  },
   confirmClose: {
     heading: 'Bilen är inte reserverad ännu',
     message:

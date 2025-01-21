@@ -1,4 +1,6 @@
+import i18next from 'i18next';
 import KeyValueListItem, { KeyValueListItemProps } from '../Templates/KeyValueListItem';
+import i18n from '../Utils/i18n';
 import HtmlNode from './Extension/HtmlNode';
 
 interface StageCompletedProps {
@@ -37,7 +39,7 @@ class StageCompleted extends HtmlNode {
           ? `
           <div class="waykeecom-stack waykeecom-stack--1">
             <div class="waykeecom-align waykeecom-align--end">
-              <button type="button" title="${changeButtonTitle}" class="waykeecom-link">Ändra</button>
+              <button type="button" title="${changeButtonTitle}" class="waykeecom-link">${i18next.t('glossary.change')}</button>
             </div>
           </div>
           `

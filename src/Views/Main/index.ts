@@ -1,4 +1,5 @@
 import i18next from 'i18next';
+import { MarketCode } from '../../@types/MarketCode';
 import HtmlNode from '../../Components/Extension/HtmlNode';
 import { WaykeStore } from '../../Redux/store';
 import watch from '../../Redux/watch';
@@ -9,6 +10,7 @@ import Confirmation from './Confirmation';
 interface MainProps {
   readonly store: WaykeStore;
   cdnMedia?: string;
+  marketCode: MarketCode;
 }
 
 class Main extends HtmlNode {
@@ -65,7 +67,12 @@ class Main extends HtmlNode {
         })
     );
 
-    new Confirmation(stepper, { store, index: (size || 0) + 1, lastStage: true });
+    new Confirmation(stepper, {
+      store,
+      index: (size || 0) + 1,
+      lastStage: true,
+      bypassBankId: this.props.marketCode === 'NO',
+    });
   }
 }
 

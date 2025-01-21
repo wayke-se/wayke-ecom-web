@@ -1,3 +1,4 @@
+import i18next from 'i18next';
 import ButtonClose from '../Button/ButtonClose';
 import HtmlNode from '../Extension/HtmlNode';
 
@@ -24,7 +25,10 @@ class ModalClose extends HtmlNode {
     this.node.innerHTML = '';
 
     if (onClose) {
-      new ButtonClose(this.node, { title: 'Stäng modalen', onClick: () => onClose() });
+      new ButtonClose(this.node, {
+        title: i18next.t('glossary.closeModal'),
+        onClick: () => onClose(),
+      });
     }
   }
 }

@@ -1,3 +1,4 @@
+import i18next from 'i18next';
 import Loader from '../../Templates/Loader';
 import HtmlNode from '../Extension/HtmlNode';
 
@@ -41,7 +42,7 @@ class ButtonAddRemove extends HtmlNode {
   render() {
     const { id, disabled, loading, selected, fullSize, onClick } = this.props;
 
-    const title = selected ? 'Vald' : 'Lägg till';
+    const title = selected ? i18next.t('glossary.chosen') : i18next.t('glossary.add');
 
     const buttonClassName = [
       'waykeecom-button',
