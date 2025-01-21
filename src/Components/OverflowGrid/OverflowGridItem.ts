@@ -1,3 +1,4 @@
+import i18next from 'i18next';
 import ButtonAddRemove from '../Button/ButtonAddRemove';
 import ButtonAsLink from '../Button/ButtonAsLink';
 import HtmlNode from '../Extension/HtmlNode';
@@ -97,7 +98,7 @@ class GridItem extends HtmlNode {
 
     if (onInfo) {
       new ButtonAsLink(this.node.querySelector(`#${onInfoId}`), {
-        title: 'Läs mer',
+        title: i18next.t('glossary.readMore'),
         onClick: () => onInfo(),
       });
     }

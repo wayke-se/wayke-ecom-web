@@ -3,6 +3,7 @@ import HtmlNode from '../../../Components/Extension/HtmlNode';
 import { WaykeStore } from '../../../Redux/store';
 import watch from '../../../Redux/watch';
 import ListItem from '../../../Templates/ListItem';
+import NoVerify from './NoVerify';
 import Payment from './Payment';
 import VerifyByBankId from './VerifyByBankId';
 
@@ -10,6 +11,7 @@ interface ConfirmationProps {
   readonly store: WaykeStore;
   readonly index: number;
   readonly lastStage: boolean;
+  readonly bypassBankId: boolean;
 }
 
 class Confirmation extends HtmlNode {
@@ -28,7 +30,7 @@ class Confirmation extends HtmlNode {
   }
 
   render() {
-    const { store, index } = this.props;
+    const { store, index, bypassBankId } = this.props;
     const { topNavigation, navigation, order } = store.getState();
 
     const completed = topNavigation.stage > index;
@@ -46,6 +48,8 @@ class Confirmation extends HtmlNode {
     if (navigation.stage === index) {
       if (navigation.subStage === 2) {
         new Payment(content, { store });
+      } else if (bypassBankId) {
+        new NoVerify(content, { store });
       } else {
         new VerifyByBankId(content, { lastStage: true, index, store: this.props.store });
       }

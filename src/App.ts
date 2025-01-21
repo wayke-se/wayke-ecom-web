@@ -7,6 +7,7 @@ import { Vehicle } from './@types/Vehicle';
 import { reset, setId, setState } from './Redux/action';
 import { WaykeStore, createStore } from './Redux/store';
 
+import i18next from 'i18next';
 import { CallbackOrder } from './@types/CallbackOrder';
 import { EcomSdkConfig } from './@types/EcomSdkConfig';
 import { MarketCode } from './@types/MarketCode';
@@ -83,11 +84,14 @@ class App {
   } = {
     store: createStore(),
   };
+  private marketCode: MarketCode;
 
   constructor(props: AppProps) {
     if (!props.id) throw 'Missing id';
     this.props = props;
-    i18n(props.marketCode || 'SE');
+    this.marketCode = props.marketCode || 'SE';
+    i18n(this.marketCode);
+
     if (!window.process) {
       window.process = {
         ...((window.process || {}) as NodeJS.Process),
@@ -223,10 +227,11 @@ class App {
     }
 
     this.contexts.modal = new Modal(this.root, {
-      title: 'Wayke Ecom',
+      title: i18next.t('glossary.modalTitle'),
       id: WAYKE_ECOM_MODAL_ID,
       logo: this.props.logo,
       logoX2: this.props.logoX2,
+      marketCode: this.marketCode,
     });
 
     const lastEvent = getLastHistory();
@@ -271,11 +276,12 @@ class App {
       this.contexts.unsubribeVwListner = useVwListner();
     }
     this.contexts.modal = new Modal(this.root, {
-      title: 'Wayke Ecom',
+      title: i18next.t('glossary.modalTitle'),
       id: WAYKE_ECOM_MODAL_ID,
       logo: this.props.logo,
       logoX2: this.props.logoX2,
       onClose: () => this.closeWithConfirm(),
+      marketCode: this.marketCode,
     });
 
     if (this.contexts.modal.content) {
@@ -307,6 +313,7 @@ class App {
           new Main(this.contexts.modal.content, {
             store: this.contexts.store,
             cdnMedia: this.cdnMedia,
+            marketCode: this.marketCode,
           });
           break;
         case 'summary':
