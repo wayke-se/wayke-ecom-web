@@ -1,5 +1,6 @@
 import { PaymentType } from '@wayke-se/ecom';
 import i18next from 'i18next';
+import { MarketCode } from '../../../@types/MarketCode';
 import ButtonArrowRight from '../../../Components/Button/ButtonArrowRight';
 import HtmlNode from '../../../Components/Extension/HtmlNode';
 import InputRadioGroup, { RadioItem } from '../../../Components/Input/InputRadioGroup';
@@ -33,6 +34,7 @@ interface FinancialProps {
   readonly store: WaykeStore;
   readonly index: number;
   readonly lastStage: boolean;
+  readonly marketCode: MarketCode;
 }
 
 class Financial extends HtmlNode {
@@ -137,7 +139,14 @@ class Financial extends HtmlNode {
     } else if (state.navigation.stage === this.props.index) {
       const vehicle = state.order?.orderVehicle;
       const cash = paymentOptions.find((x) => x.type === PaymentType.Cash);
-      const loans = paymentOptions.filter((x) => x.type === PaymentType.Loan);
+      const loans = paymentOptions.filter((x) => {
+        switch (this.props.marketCode) {
+          case 'NO':
+            return x.type === PaymentType.Loan && !x.loanDetails?.shouldUseCreditScoring;
+          default:
+            return x.type === PaymentType.Loan;
+        }
+      });
       const lease = paymentOptions.find((x) => x.type === PaymentType.Lease);
 
       part.innerHTML = `

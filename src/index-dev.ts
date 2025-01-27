@@ -11,7 +11,7 @@ window.addEventListener('DOMContentLoaded', (_) => {
     },
   };
 
-  const marketCode: MarketCode = 'NO';
+  const marketCode: MarketCode = 'SE';
 
   const context = new WaykeEcomWeb({
     ...devConfig.MULTIPLE_FINANCING,

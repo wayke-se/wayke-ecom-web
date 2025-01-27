@@ -96,4 +96,16 @@ export const validationMethods = {
   requiredHousingType: (s?: string) => {
     return ['singleFamily', 'condominium', 'apartment'].includes(s || '');
   },
+  requiredName: (s?: string) => {
+    return !!s;
+  },
+  requiredCity: (s?: string) => {
+    return !!s;
+  },
+  requiredStreet: (s?: string) => {
+    return !!s;
+  },
+  requiredStreet2: (_s?: string) => {
+    return true;
+  },
 };

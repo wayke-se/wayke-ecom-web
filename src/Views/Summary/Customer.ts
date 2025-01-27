@@ -1,4 +1,5 @@
 import i18next from 'i18next';
+import { MarketCode } from '../../@types/MarketCode';
 import StackNode from '../../Components/Extension/StackNode';
 import { WaykeStore } from '../../Redux/store';
 import KeyValueListItem from '../../Templates/KeyValueListItem';
@@ -6,6 +7,7 @@ import { maskSSn, maskText } from '../../Utils/mask';
 
 interface CustomerProps {
   readonly store: WaykeStore;
+  readonly marketCode: MarketCode;
 }
 
 class Customer extends StackNode {
