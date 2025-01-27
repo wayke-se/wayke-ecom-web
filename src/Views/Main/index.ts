@@ -64,6 +64,7 @@ class Main extends HtmlNode {
           store,
           index: index + 1,
           lastStage: false, //size === index + 1,
+          marketCode: this.props.marketCode,
         })
     );
 

@@ -1,4 +1,5 @@
 import i18next from 'i18next';
+import { MarketCode } from '../../../@types/MarketCode';
 import HtmlNode from '../../../Components/Extension/HtmlNode';
 import StageCompleted from '../../../Components/StageCompleted';
 import { goTo } from '../../../Redux/action';
@@ -14,6 +15,7 @@ interface CustomerProps {
   readonly store: WaykeStore;
   readonly index: number;
   readonly lastStage: boolean;
+  readonly marketCode: MarketCode;
 }
 
 class Customer extends HtmlNode {
@@ -68,12 +70,17 @@ class Customer extends HtmlNode {
       const keyValueList: { key: string; value: string }[] = [
         { key: i18next.t('customer.email'), value: state.customer.email },
         { key: i18next.t('customer.phone'), value: state.customer.phone },
-        { key: i18next.t('customer.socialId'), value: maskSSn(state.customer.socialId) },
+        ...(this.props.marketCode === 'SE'
+          ? [{ key: i18next.t('customer.socialId'), value: maskSSn(state.customer.socialId) }]
+          : []),
         ...(state.address
           ? [
               {
                 key: i18next.t('customer.name'),
-                value: `${maskText(state.address.givenName)} ${maskText(state.address.surname)}`,
+                value:
+                  this.props.marketCode === 'SE'
+                    ? `${maskText(state.address.givenName)} ${maskText(state.address.surname)}`
+                    : `${state.address.givenName} ${state.address.surname}`,
               },
               { key: i18next.t('customer.address'), value: state.address.street },
               { key: i18next.t('customer.postalCode'), value: state.address.postalCode },
@@ -89,7 +96,7 @@ class Customer extends HtmlNode {
     } else if (state.navigation.stage === index) {
       new EmailAndPhone(content, { store });
       if (state.navigation.subStage > 1) {
-        new FullAddress(content, { store, lastStage });
+        new FullAddress(content, { store, lastStage, marketCode: this.props.marketCode });
       }
     }
     if (state.navigation.stage === index) {

@@ -220,7 +220,8 @@ class FullAddressBySocialId extends HtmlNode {
     new DisclaimerPadlock(this.node.querySelector<HTMLDivElement>(`#${DISCLAIMER_NODE}`), {
       text: i18next.t('customer.policyText', {
         policy,
-        link: `<a href="${policy}" title="${i18next.t('confirmation.privacyPolicy')}" target="_blank" rel="noopener noreferrer" class="waykeecom-link">${i18next.t('confirmation.privacyPolicy')}}</a>`,
+        link: `<a href="${policy}" title="${i18next.t('confirmation.privacyPolicy')}" target="_blank" rel="noopener noreferrer" class="waykeecom-link">${i18next.t('confirmation.privacyPolicy')}</a>`,
+        interpolation: { escapeValue: false },
       }),
     });
 
