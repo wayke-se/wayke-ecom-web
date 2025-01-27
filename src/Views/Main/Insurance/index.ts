@@ -1,4 +1,5 @@
 import i18next from 'i18next';
+import { MarketCode } from '../../../@types/MarketCode';
 import HtmlNode from '../../../Components/Extension/HtmlNode';
 import StageCompleted from '../../../Components/StageCompleted';
 import { addOrRemoveInsurance, completeStage, goTo } from '../../../Redux/action';
@@ -16,6 +17,7 @@ interface InsuranceProps {
   readonly store: WaykeStore;
   readonly index: number;
   readonly lastStage: boolean;
+  readonly marketCode: MarketCode;
 }
 
 class Insurance extends HtmlNode {
@@ -106,7 +108,7 @@ class Insurance extends HtmlNode {
       const insuranceOptions = state.order?.insuranceOption;
       if (!insuranceOptions) throw 'Missing insurance';
 
-      switch (insuranceOptions?.institute) {
+      switch (this.props.marketCode === 'SE' && insuranceOptions?.institute) {
         case 'IF':
           new IfInsurance(content, {
             store,
@@ -114,7 +116,6 @@ class Insurance extends HtmlNode {
             onSkip: () => this.onSkipInsurances(),
           });
           break;
-
         default:
           new DefaultInsurance(content, {
             store,

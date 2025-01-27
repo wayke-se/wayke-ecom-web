@@ -59,6 +59,14 @@ export const setSocialIdAndAddress =
   (socialId: string, address: IAddress, lastStage: boolean) => (dispatch: Dispatch) =>
     dispatch({ type: SET_SOCIAL_ID_AND_ADDRESS, socialId, address, lastStage });
 
+export const SET_ADDRESS = 'SET_ADDRESS';
+export type SET_ADDRESS_TYPE = BaseAction<typeof SET_ADDRESS> & {
+  address: IAddress;
+  lastStage: boolean;
+};
+export const setAddress = (address: IAddress, lastStage: boolean) => (dispatch: Dispatch) =>
+  dispatch({ type: SET_ADDRESS, address, lastStage });
+
 export const SET_HOME_DELIVERY = 'SET_HOME_DELIVERY';
 export type SET_HOME_DELIVERY_TYPE = BaseAction<typeof SET_HOME_DELIVERY> & {
   homeDelivery: boolean;
@@ -219,6 +227,7 @@ export type Action =
   | SET_ID_TYPE
   | SET_CONTACT_EMAIL_AND_PHONE_TYPE
   | SET_SOCIAL_ID_AND_ADDRESS_TYPE
+  | SET_ADDRESS_TYPE
   | SET_HOME_DELIVERY_TYPE
   | SET_DEALER_TYPE
   | INIT_TRADE_IN_TYPE

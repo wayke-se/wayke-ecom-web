@@ -321,6 +321,7 @@ class App {
             store: this.contexts.store,
             cdnMedia: this.cdnMedia,
             onClose: () => this.close(),
+            marketCode: this.marketCode,
           });
           break;
         default:

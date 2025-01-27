@@ -1,13 +1,16 @@
 import i18next from 'i18next';
 import { Customer } from '../../../@types/Customer';
+import { MarketCode } from '../../../@types/MarketCode';
 import HtmlNode from '../../../Components/Extension/HtmlNode';
 import { WaykeStore } from '../../../Redux/store';
 import KeyValueListItem, { KeyValueListItemProps } from '../../../Templates/KeyValueListItem';
 import FullAddressBySocialId from './FullAddressBySocialId';
+import FullAddressForm from './FullAddressForm';
 
 interface FullAddressProps {
   readonly store: WaykeStore;
   readonly lastStage: boolean;
+  readonly marketCode: MarketCode;
 }
 class FullAddress extends HtmlNode {
   private readonly props: FullAddressProps;
@@ -38,9 +41,15 @@ class FullAddress extends HtmlNode {
           </ul>
         </div>
       `;
-    } else {
+    } else if (this.props.marketCode === 'SE') {
       this.node.innerHTML = '';
       new FullAddressBySocialId(this.node, {
+        store,
+        lastStage,
+      });
+    } else {
+      this.node.innerHTML = '';
+      new FullAddressForm(this.node, {
         store,
         lastStage,
       });
