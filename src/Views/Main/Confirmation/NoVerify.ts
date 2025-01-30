@@ -91,6 +91,7 @@ class NoVerify extends HtmlNode {
 
   render() {
     const { order, insurance } = this.props.store.getState();
+    const name = order?.contactInformation?.name;
 
     this.node.innerHTML = `
       <div class="confirmation">
