@@ -1,4 +1,4 @@
-import i18next from 'i18next';
+import i18next from '@i18n';
 import Loader from '../../Templates/Loader';
 import HtmlNode from '../Extension/HtmlNode';
 

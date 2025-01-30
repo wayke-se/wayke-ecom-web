@@ -1,7 +1,7 @@
 import { IAvailableInsuranceOption } from '@wayke-se/ecom';
 import HtmlNode from '../../../../Components/Extension/HtmlNode';
 
-import i18next from 'i18next';
+import i18next from '@i18n';
 import GridItem from '../../../../Components/OverflowGrid/OverflowGridItem';
 import { addOrRemoveFreeInsurance } from '../../../../Redux/action';
 import { WaykeStore } from '../../../../Redux/store';

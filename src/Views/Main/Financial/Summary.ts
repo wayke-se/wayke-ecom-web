@@ -1,5 +1,5 @@
+import i18next from '@i18n';
 import { IPaymentOption, PaymentType } from '@wayke-se/ecom';
-import i18next from 'i18next';
 import { PaymentLookup } from '../../../@types/PaymentLookup';
 import Alert from '../../../Templates/Alert';
 import KeyValueListItem from '../../../Templates/KeyValueListItem';

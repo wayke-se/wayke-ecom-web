@@ -1,4 +1,4 @@
-import i18next from 'i18next';
+import i18next from '@i18n';
 import { TradeInCarData, TradeInCarDataPartial, VehicleCondition } from '../../../@types/TradeIn';
 import { VehicleLookup } from '../../../@types/VehicleLookup';
 import ButtonArrowRight from '../../../Components/Button/ButtonArrowRight';

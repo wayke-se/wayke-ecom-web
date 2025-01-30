@@ -1,5 +1,5 @@
+import i18next from '@i18n';
 import { IInsuranceAddon, IInsuranceOption } from '@wayke-se/ecom';
-import i18next from 'i18next';
 import Accordion from '../../../../Components/Accordion';
 import ButtonAddRemove from '../../../../Components/Button/ButtonAddRemove';
 import ButtonAsLinkArrowLeft from '../../../../Components/Button/ButtonAsLinkArrowLeft';

@@ -1,7 +1,7 @@
-import { IInsuranceOption } from '@wayke-se/ecom';
-import i18next from 'i18next';
+import i18next from '@i18n';
 import HtmlNode from '../../../../Components/Extension/HtmlNode';
 
+import { IInsuranceOption } from '@wayke-se/ecom';
 import GridItem from '../../../../Components/OverflowGrid/OverflowGridItem';
 import { addOrRemoveInsurance } from '../../../../Redux/action';
 import { WaykeStore } from '../../../../Redux/store';

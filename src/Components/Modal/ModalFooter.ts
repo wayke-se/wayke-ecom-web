@@ -1,4 +1,4 @@
-import i18next from 'i18next';
+import i18next from '@i18n';
 import { MarketCode } from '../../@types/MarketCode';
 import { getSymbolLogotype } from '../../Templates/Logotype';
 import HtmlNode from '../Extension/HtmlNode';
