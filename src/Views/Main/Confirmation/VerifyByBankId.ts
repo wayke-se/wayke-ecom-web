@@ -1,7 +1,7 @@
+import i18next from '@i18n';
 import { AuthMethod } from '@wayke-se/ecom';
 import { BankIdAuthResponse } from '@wayke-se/ecom/dist-types/bankid/bankid-auth-response';
 import { BankIdCollectResponse } from '@wayke-se/ecom/dist-types/bankid/bankid-collect-response';
-import i18next from 'i18next';
 import BankIdSign from '../../../Components/BankId/BankIdSign';
 import ButtonAsLink from '../../../Components/Button/ButtonAsLink';
 import ButtonBankId from '../../../Components/Button/ButtonBankId';

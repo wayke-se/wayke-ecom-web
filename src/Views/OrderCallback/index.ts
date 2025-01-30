@@ -1,4 +1,4 @@
-import i18next from 'i18next';
+import i18next from '@i18n';
 import { CallbackOrder } from '../../@types/CallbackOrder';
 import { PaymentOrderResponse } from '../../@types/PaymentOrderResponse';
 import HtmlNode from '../../Components/Extension/HtmlNode';

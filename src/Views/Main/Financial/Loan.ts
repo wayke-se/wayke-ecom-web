@@ -1,5 +1,5 @@
+import i18next from '@i18n';
 import { IPaymentRangeSpec } from '@wayke-se/ecom';
-import i18next from 'i18next';
 import { PaymentOption } from '../../../@types/OrderOptions';
 import { PaymentLookup } from '../../../@types/PaymentLookup';
 import ButtonArrowRight from '../../../Components/Button/ButtonArrowRight';

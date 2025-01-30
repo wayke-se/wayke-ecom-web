@@ -1,4 +1,4 @@
-import i18next from 'i18next';
+import i18next from '@i18n';
 import { PaymentOption } from '../../../@types/OrderOptions';
 import { PaymentLookup } from '../../../@types/PaymentLookup';
 import PieChart from '../../../Components/Chart/PieChart';

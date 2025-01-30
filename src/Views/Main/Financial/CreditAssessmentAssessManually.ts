@@ -1,5 +1,5 @@
+import i18next from '@i18n';
 import { CreditAssessmentRecommendation } from '@wayke-se/ecom';
-import i18next from 'i18next';
 import ButtonArrowRight from '../../../Components/Button/ButtonArrowRight';
 import ButtonClear from '../../../Components/Button/ButtonClear';
 import HtmlNode from '../../../Components/Extension/HtmlNode';

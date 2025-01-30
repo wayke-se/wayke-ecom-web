@@ -1,5 +1,5 @@
+import i18next from '@i18n';
 import { IDeliveryOption, PaymentType } from '@wayke-se/ecom';
-import i18next from 'i18next';
 import { OrderOptions, PaymentOption } from '../../@types/OrderOptions';
 import { StageTypes } from '../../@types/Stages';
 import TimelineItem from '../../Templates/TimelineItem';

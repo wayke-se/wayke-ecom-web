@@ -1,6 +1,5 @@
-import i18next from 'i18next';
+import i18next from '@i18n';
 import KeyValueListItem, { KeyValueListItemProps } from '../Templates/KeyValueListItem';
-import i18n from '../Utils/i18n';
 import HtmlNode from './Extension/HtmlNode';
 
 interface StageCompletedProps {

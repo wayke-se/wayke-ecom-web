@@ -7,7 +7,7 @@ import { Vehicle } from './@types/Vehicle';
 import { reset, setId, setState } from './Redux/action';
 import { WaykeStore, createStore } from './Redux/store';
 
-import i18next from 'i18next';
+import i18next, { initializeI18N } from '@i18n';
 import { CallbackOrder } from './@types/CallbackOrder';
 import { EcomSdkConfig } from './@types/EcomSdkConfig';
 import { MarketCode } from './@types/MarketCode';
@@ -89,7 +89,7 @@ class App {
     if (!props.id) throw 'Missing id';
     this.props = props;
     this.marketCode = props.marketCode || 'SE';
-    i18n(this.marketCode);
+    initializeI18N(this.marketCode);
 
     if (!window.process) {
       window.process = {
