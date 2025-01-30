@@ -1,5 +1,5 @@
+import i18next from '@i18n';
 import { DrivingDistance } from '@wayke-se/ecom';
-import i18next from 'i18next';
 import ButtonArrowRight from '../../../../Components/Button/ButtonArrowRight';
 import ButtonSkip from '../../../../Components/Button/ButtonSkip';
 import Disclaimer from '../../../../Components/Disclaimer/Disclaimer';

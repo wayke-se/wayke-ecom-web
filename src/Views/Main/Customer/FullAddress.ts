@@ -1,4 +1,4 @@
-import i18next from 'i18next';
+import i18next from '@i18n';
 import { Customer } from '../../../@types/Customer';
 import { MarketCode } from '../../../@types/MarketCode';
 import HtmlNode from '../../../Components/Extension/HtmlNode';

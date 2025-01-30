@@ -1,4 +1,4 @@
-import i18next from 'i18next';
+import i18next from '@i18n';
 import ButtonAddRemove from '../Button/ButtonAddRemove';
 import ButtonAsLink from '../Button/ButtonAsLink';
 import HtmlNode from '../Extension/HtmlNode';

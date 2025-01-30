@@ -1,4 +1,4 @@
-import i18next from 'i18next';
+import i18next from '@i18n';
 import { title } from 'process';
 import Button from '../../../Components/Button/Button';
 import HtmlNode from '../../../Components/Extension/HtmlNode';

@@ -1,5 +1,5 @@
+import i18next from '@i18n';
 import { IAvailableInsuranceOption } from '@wayke-se/ecom';
-import i18next from 'i18next';
 import ButtonAddRemove from '../../../../Components/Button/ButtonAddRemove';
 import ButtonAsLinkArrowLeft from '../../../../Components/Button/ButtonAsLinkArrowLeft';
 import ButtonClear from '../../../../Components/Button/ButtonClear';
