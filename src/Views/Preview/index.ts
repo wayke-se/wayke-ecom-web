@@ -1,4 +1,4 @@
-import i18next from 'i18next';
+import i18next from '@i18n';
 import { StageTypes } from '../../@types/Stages';
 import { Vehicle } from '../../@types/Vehicle';
 import ButtonArrowRight from '../../Components/Button/ButtonArrowRight';

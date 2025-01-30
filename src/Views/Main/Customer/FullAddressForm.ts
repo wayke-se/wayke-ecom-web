@@ -1,5 +1,5 @@
+import i18next from '@i18n';
 import { IAddress } from '@wayke-se/ecom';
-import i18next from 'i18next';
 import ButtonArrowRight from '../../../Components/Button/ButtonArrowRight';
 import HtmlNode from '../../../Components/Extension/HtmlNode';
 import InputField from '../../../Components/Input/InputField';

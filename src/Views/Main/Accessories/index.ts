@@ -3,7 +3,7 @@ import ButtonSkip from '../../../Components/Button/ButtonSkip';
 import HtmlNode from '../../../Components/Extension/HtmlNode';
 import StageCompleted from '../../../Components/StageCompleted';
 
-import i18next from 'i18next';
+import i18next from '@i18n';
 import { completeStage, goTo } from '../../../Redux/action';
 import { WaykeStore } from '../../../Redux/store';
 import watch from '../../../Redux/watch';

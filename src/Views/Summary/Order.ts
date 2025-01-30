@@ -1,5 +1,5 @@
+import i18next from '@i18n';
 import { PaymentType } from '@wayke-se/ecom';
-import i18next from 'i18next';
 import StackNode from '../../Components/Extension/StackNode';
 import { WaykeStore } from '../../Redux/store';
 import ItemTileLarge from '../../Templates/ItemTileLarge';

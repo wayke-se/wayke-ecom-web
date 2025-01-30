@@ -1,3 +1,4 @@
+import i18next from '@i18n';
 import {
   AuthMethod,
   Employment,
@@ -7,7 +8,6 @@ import {
   MaritalStatus,
   PaymentType,
 } from '@wayke-se/ecom';
-import i18next from 'i18next';
 import { ICreditAssessmentStatus } from '../../../@types/CreditAssessmentStatus';
 import { PaymentOption } from '../../../@types/OrderOptions';
 import { PaymentLookup } from '../../../@types/PaymentLookup';

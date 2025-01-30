@@ -1,5 +1,5 @@
+import i18next from '@i18n';
 import { PaymentType } from '@wayke-se/ecom';
-import i18next from 'i18next';
 import { MarketCode } from '../../../@types/MarketCode';
 import ButtonArrowRight from '../../../Components/Button/ButtonArrowRight';
 import HtmlNode from '../../../Components/Extension/HtmlNode';

@@ -1,5 +1,5 @@
+import i18next from '@i18n';
 import { CreditAssessmentRecommendation } from '@wayke-se/ecom';
-import i18next from 'i18next';
 import Button from '../../../Components/Button/Button';
 import HtmlNode from '../../../Components/Extension/HtmlNode';
 import { WaykeStore } from '../../../Redux/store';

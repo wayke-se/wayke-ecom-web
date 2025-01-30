@@ -1,4 +1,4 @@
-import i18next from 'i18next';
+import i18next from '@i18n';
 import HtmlNode from '../../../Components/Extension/HtmlNode';
 import KeyValueListItem from '../../../Templates/KeyValueListItem';
 import { prettyNumber } from '../../../Utils/format';

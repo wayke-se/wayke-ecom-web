@@ -1,5 +1,5 @@
+import i18next from '@i18n';
 import { PaymentType } from '@wayke-se/ecom';
-import i18next from 'i18next';
 import { PaymentOption } from '../../../@types/OrderOptions';
 import { PaymentLookup } from '../../../@types/PaymentLookup';
 import HtmlNode from '../../../Components/Extension/HtmlNode';

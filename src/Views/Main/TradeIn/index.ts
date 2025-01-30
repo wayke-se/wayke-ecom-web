@@ -1,4 +1,4 @@
-import i18next from 'i18next';
+import i18next from '@i18n';
 import ButtonArrowRight from '../../../Components/Button/ButtonArrowRight';
 import ButtonAsLink from '../../../Components/Button/ButtonAsLink';
 import ButtonSkip from '../../../Components/Button/ButtonSkip';

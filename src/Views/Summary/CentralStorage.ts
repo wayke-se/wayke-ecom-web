@@ -1,4 +1,4 @@
-import i18next from 'i18next';
+import i18next from '@i18n';
 import StackNode from '../../Components/Extension/StackNode';
 import { WaykeStore } from '../../Redux/store';
 import KeyValueListItem from '../../Templates/KeyValueListItem';

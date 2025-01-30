@@ -1,4 +1,4 @@
-import i18next from 'i18next';
+import i18next from '@i18n';
 import ButtonArrowRight from '../../../Components/Button/ButtonArrowRight';
 import HtmlNode from '../../../Components/Extension/HtmlNode';
 import InputRadioGroup, { RadioItem } from '../../../Components/Input/InputRadioGroup';
