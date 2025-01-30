@@ -57,7 +57,7 @@ const nbNO = {
     description:
       'For å reservere bilen til deg trenger vi bare å verifisere din identitet med BankID. Etter det vil {{name}} kontakte deg for å fullføre kjøpet.',
     description2:
-      'Kjøpet blir bindende først når du har signert det endelige forslaget med {{name}}. Det er også da betalingen skjer.',
+      'Kjøpet blir først bindende etter signering av endelig tilbud fra {{name}}. Det er også da betalingen vil foregå.',
     ageError:
       'Du må være over 18 år for å kunne fortsette. Identifisering med BankID viser at du er under 18 år gammel.',
     requestError: 'En feil oppstod, og det var ikke mulig å opprette bestillingen, prøv igjen.',
@@ -110,7 +110,7 @@ const nbNO = {
     street2: 'Leilighet, etasje, etc.',
     registeredAddress: 'Registrert adresse',
     postalCode: 'Postnummer',
-    city: 'By',
+    city: 'Poststed',
     contactInfoTitle: 'Kontaktinformasjon',
     contactInfoDescription: 'Oppgi din e-postadresse og telefonnummer.',
     emailPlaceholder: 'Oppgi din e-postadresse',
@@ -127,8 +127,8 @@ const nbNO = {
     street2ErrorMessage: 'Leilighet, etasje, etc.',
     postalCodePlaceholder: 'Oppgi postnummeret ditt',
     postalCodeErrorMessage: 'Oppgi postnummeret ditt',
-    cityPlaceholder: 'Oppgi byen din',
-    cityErrorMessage: 'Oppgi byen din',
+    cityPlaceholder: 'Oppgi poststed',
+    cityErrorMessage: 'Oppgi poststed',
 
     proceedButton: 'Gå videre',
     personalInfoTitle: 'Personopplysninger',
@@ -246,7 +246,7 @@ const nbNO = {
     liabilitiesErrorMessage: 'Gyldig gjeld må oppgis',
     proceedButton: 'Gå videre',
     abortButton: 'Avbryt',
-    heading: 'Eieform',
+    heading: 'Finansiering',
     howToFinance: 'Hvordan vil du finansiere din {{vehicleTitle}} {{vehicleDescription}}?',
     buyCar: 'Kjøp bilen',
     buyCarDescription:
@@ -493,7 +493,7 @@ const nbNO = {
   howTo: {
     heading: 'Slik kjøper du bilen online',
     description:
-      'Hos oss kan du trygt kjøpe din neste bil online. Reserver bilen ved å klikke deg gjennom vårt kjøpsflyt med følgende trinn:',
+      'Hos oss kan du trygt kjøpe din neste bil online. Reserver bilen ved å klikke deg gjennom vår kjøpsflyt med følgende trinn:',
     timelineAriaLabel: 'Fremgangsmåte',
     customerHeading: 'Dine kundeopplysninger',
     centralStorageHeading: 'Velg anlegg',
@@ -501,7 +501,7 @@ const nbNO = {
     deliveryHeading: 'Velg leveringsmåte',
     tradeInHeading: 'Har du innbyttebil?',
     tradeInDescription: 'Få den vurdert direkte online.',
-    financialHeading: 'Eieform',
+    financialHeading: 'Finansiering',
     insuranceHeading: 'Vil du tegne en forsikring?',
     insuranceDescription: 'Se forslag på forsikringer som passer din nye bil.',
     accessoriesHeading: 'Tilbehør',
