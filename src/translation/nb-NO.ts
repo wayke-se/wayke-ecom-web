@@ -57,7 +57,7 @@ const nbNO = {
     description:
       'For å reservere bilen til deg trenger vi bare å verifisere din identitet med BankID. Etter det vil {{name}} kontakte deg for å fullføre kjøpet.',
     description2:
-      'Kjøpet blir først bindende etter signering av  endelig tilbudet fra {{name}}. Det er også da betalingen vil foregå.',
+      'Kjøpet blir først bindende etter signering av endelig tilbud fra {{name}}. Det er også da betalingen vil foregå.',
     ageError:
       'Du må være over 18 år for å kunne fortsette. Identifisering med BankID viser at du er under 18 år gammel.',
     requestError: 'En feil oppstod, og det var ikke mulig å opprette bestillingen, prøv igjen.',
@@ -127,8 +127,8 @@ const nbNO = {
     street2ErrorMessage: 'Leilighet, etasje, etc.',
     postalCodePlaceholder: 'Oppgi postnummeret ditt',
     postalCodeErrorMessage: 'Oppgi postnummeret ditt',
-    cityPlaceholder: 'Oppgi poststed din',
-    cityErrorMessage: 'Oppgi poststed din',
+    cityPlaceholder: 'Oppgi poststed',
+    cityErrorMessage: 'Oppgi poststed',
 
     proceedButton: 'Gå videre',
     personalInfoTitle: 'Personopplysninger',
@@ -501,7 +501,7 @@ const nbNO = {
     deliveryHeading: 'Velg leveringsmåte',
     tradeInHeading: 'Har du innbyttebil?',
     tradeInDescription: 'Få den vurdert direkte online.',
-    financialHeading: 'Eieform',
+    financialHeading: 'Finansiering',
     insuranceHeading: 'Vil du tegne en forsikring?',
     insuranceDescription: 'Se forslag på forsikringer som passer din nye bil.',
     accessoriesHeading: 'Tilbehør',
