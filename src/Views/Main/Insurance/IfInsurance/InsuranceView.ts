@@ -1,3 +1,4 @@
+import i18next from '@i18n';
 import { IInsuranceOption } from '@wayke-se/ecom';
 import ButtonArrowRight from '../../../../Components/Button/ButtonArrowRight';
 import ButtonAsLink from '../../../../Components/Button/ButtonAsLink';
@@ -125,23 +126,23 @@ class InsuranceView extends HtmlNode {
 
     this.node.innerHTML = `
       <div class="waykeecom-stack waykeecom-stack--3">
-        <h4 class="waykeecom-heading waykeecom-heading--4">Vill du teckna en försäkring på din nya bil?</h4>
+        <h4 class="waykeecom-heading waykeecom-heading--4">${i18next.t('insurance.heading')}</h4>
         <div class="waykeecom-content">
-          <p class="waykeecom-content__p">Nedan visas förslag på försäkringar som passar dig och din nya bil. I både hel- och halvförsäkring ingår trafikförsäkring som är obligatoriskt att ha. Ifall du har valt att finansiera bilen med ett billån är priset du ser rabatterat.</p>
+          <p class="waykeecom-content__p">${i18next.t('insurance.ifDescription')}</p>
         </div>
       </div>
       <div class="waykeecom-stack waykeecom-stack--3">
         <div class="waykeecom-stack waykeecom-stack--1">
           <ul class="waykeecom-key-value-list">
             ${KeyValueListItem({
-              key: 'Uppskattad körsträcka',
+              key: i18next.t('insurance.estimatedMileage'),
               value: translateDrivingDistance[drivingDistance],
             })}
           </ul>
         </div>
         <div class="waykeecom-stack waykeecom-stack--1">
           <div class="waykeecom-align waykeecom-align--end" id="${EDIT_DRIVING_DISTANCE_NODE}">
-            <button type="button" title="Ändra" class="waykeecom-link" >Ändra</button>
+            <button type="button" title="${i18next.t('insurance.edit')}" class="waykeecom-link" >${i18next.t('insurance.edit')}</button>
           </div>
         </div>
       </div>
@@ -159,8 +160,7 @@ class InsuranceView extends HtmlNode {
       if (this.requestError) {
         insuranceListNode.innerHTML = Alert({
           tone: 'error',
-          children:
-            'Det gick inte att hämta försäkringar. <button type="button" titlte="Försök igen" class="waykeecom-link waykeecom-link--align-baseline waykeecom-link--current-color">Klicka här för att försöka igen</button>.',
+          children: `${i18next.t('insurance.fetchError')} <button type="button" title="${i18next.t('insurance.retry')}" class="waykeecom-link waykeecom-link--align-baseline waykeecom-link--current-color">${i18next.t('insurance.retry')}</button>.`,
         });
         insuranceListNode
           .querySelector<HTMLButtonElement>('button')
@@ -177,7 +177,7 @@ class InsuranceView extends HtmlNode {
 
     new ButtonAsLink(this.node.querySelector<HTMLDivElement>(`#${EDIT_DRIVING_DISTANCE_NODE}`), {
       id: EDIT_DRIVING_DISTANCE,
-      title: 'Ändra',
+      title: i18next.t('insurance.edit'),
       onClick: () => this.onEditDrivingDistance(),
     });
 
@@ -186,14 +186,14 @@ class InsuranceView extends HtmlNode {
       {
         id: PROCEED_INSURANCE,
         disabled: !insurance,
-        title: 'Gå vidare',
+        title: i18next.t('insurance.proceedButton'),
         onClick: () => this.onProceed(),
       }
     );
 
     new ButtonSkip(this.node.querySelector<HTMLDivElement>(`#${SKIP_INSURANCES_NODE}`), {
       id: SKIP_INSURANCES,
-      title: 'Hoppa över detta steg',
+      title: i18next.t('insurance.skipButton'),
       onClick: () => this.onSkipInsurances(),
     });
   }

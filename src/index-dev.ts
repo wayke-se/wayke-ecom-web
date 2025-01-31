@@ -1,4 +1,5 @@
 import { EcomSdkConfig } from './@types/EcomSdkConfig';
+import { MarketCode } from './@types/MarketCode';
 import WaykeEcomWeb from './App';
 import { EcomEvent, EcomStep, EcomView } from './Utils/ecomEvent';
 import { devConfig } from './devConfig';
@@ -10,13 +11,16 @@ window.addEventListener('DOMContentLoaded', (_) => {
     },
   };
 
+  const marketCode: MarketCode = 'NO';
+
   const context = new WaykeEcomWeb({
     ...devConfig.MULTIPLE_FINANCING,
     ecomSdkConfig,
     rootId: 'custom-id',
     logo: 'https://placehold.jp/180x40.png',
-    id: 'd3255290-9afd-4091-bc28-9ca884d4a3b0',
+    id: '4a18e9a4-f7ee-458e-8bb4-9b6b8b778bbf',
     onEvent: (_view: EcomView, _event: EcomEvent, _step?: EcomStep, _data?: any) => null,
+    marketCode,
   });
   context.start();
   const button = document.querySelector<HTMLButtonElement>('#button');
@@ -27,6 +31,7 @@ window.addEventListener('DOMContentLoaded', (_) => {
   const context2 = new WaykeEcomWeb({
     ...devConfig.CREDIT_ASSESSMENT,
     ecomSdkConfig,
+    marketCode,
   });
   const button2 = document.querySelector<HTMLButtonElement>('#button2');
   if (button2) {
@@ -36,6 +41,7 @@ window.addEventListener('DOMContentLoaded', (_) => {
   const context3 = new WaykeEcomWeb({
     ...devConfig.CENTRAL_STORAGE,
     ecomSdkConfig,
+    marketCode,
   });
   const button3 = document.querySelector<HTMLButtonElement>('#button3');
   if (button3) {

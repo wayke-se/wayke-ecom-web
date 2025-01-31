@@ -1,3 +1,4 @@
+import i18next from '@i18n';
 import HtmlNode from '../../../Components/Extension/HtmlNode';
 import { WaykeStore } from '../../../Redux/store';
 import { swedbankPayment } from '../../../Utils/payment';
@@ -41,16 +42,16 @@ class Payment extends HtmlNode {
 
     this.node.innerHTML = `
       <div class="waykeecom-stack waykeecom-stack--3">
-        <h4 class="waykeecom-heading waykeecom-heading--4">Välj betalsätt</h4>
+        <h4 class="waykeecom-heading waykeecom-heading--4">${i18next.t('confirmation.paymentHeading')}</h4>
         <div class="waykeecom-content">
-          <p class="waykeecom-content__p">Genomför en förskottsbetalning på 5% av bilens pris (10 995 kr) för att reservera bilen. Välj hur du vill genomföra betalningen.</p>
-          <p class="waykeecom-content__p">Resterande del av kontantinsatsen 32 985 kr med eventuellt avdrag av värde för inbytesbil betalas hos ${name} vid kontraktskrivning. </p>
+          <p class="waykeecom-content__p">${i18next.t('confirmation.paymentDescription')}</p>
+          <p class="waykeecom-content__p">${i18next.t('confirmation.paymentDescription2', { name })}</p>
 
-          <p class="waykeecom-content__p">Korttyp <span class="waykeecom-text waykeecom-text--font-medium">Credit</span></p>
-          <p class="waykeecom-content__p">Kort utan 3d secure <span class="waykeecom-text waykeecom-text--font-medium">4925000000000004</span></p>
-          <p class="waykeecom-content__p">Kort med 3d secure <span class="waykeecom-text waykeecom-text--font-medium">4761739001010416</span></p>
-          <p class="waykeecom-content__p">MM/ÅÅ: <span class="waykeecom-text waykeecom-text--font-medium">12/25</span></p>
-          <p class="waykeecom-content__p">CVC: <span class="waykeecom-text waykeecom-text--font-medium">123</span></p>
+          <p class="waykeecom-content__p">${i18next.t('confirmation.paymentCardType')} <span class="waykeecom-text waykeecom-text--font-medium">${i18next.t('confirmation.paymentCardTypeValue')}</span></p>
+          <p class="waykeecom-content__p">${i18next.t('confirmation.paymentCardNo3DSecure')} <span class="waykeecom-text waykeecom-text--font-medium">${i18next.t('confirmation.paymentCardNo3DSecureValue')}</span></p>
+          <p class="waykeecom-content__p">${i18next.t('confirmation.paymentCard3DSecure')} <span class="waykeecom-text waykeecom-text--font-medium">${i18next.t('confirmation.paymentCard3DSecureValue')}</span></p>
+          <p class="waykeecom-content__p">${i18next.t('confirmation.paymentExpiry')} <span class="waykeecom-text waykeecom-text--font-medium">${i18next.t('confirmation.paymentExpiryValue')}</span></p>
+          <p class="waykeecom-content__p">${i18next.t('confirmation.paymentCVC')} <span class="waykeecom-text waykeecom-text--font-medium">${i18next.t('confirmation.paymentCVCValue')}</span></p>
         </div>
       </div>
       <div class="waykeecom-stack waykeecom-stack--3">

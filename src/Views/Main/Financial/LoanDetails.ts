@@ -1,3 +1,4 @@
+import i18next from '@i18n';
 import { PaymentOption } from '../../../@types/OrderOptions';
 import { PaymentLookup } from '../../../@types/PaymentLookup';
 import PieChart from '../../../Components/Chart/PieChart';
@@ -125,11 +126,10 @@ class LoanDetails extends HtmlNode {
       creditAmountPercentage,
     } = this.extractProps();
 
-    const disclaimerText = `*Beräknat på ${prettyNumber(interest * 100, {
-      decimals: 2,
-    })} % ränta (effektivt ${prettyNumber(effectiveInterest * 100, {
-      decimals: 2,
-    })} %). Den ränta du får sätts vid avtalskrivning.`;
+    const disclaimerText = i18next.t('loanDetails.disclaimerText', {
+      interest: prettyNumber(interest * 100, { decimals: 2 }),
+      effectiveInterest: prettyNumber(effectiveInterest * 100, { decimals: 2 }),
+    });
 
     this.node.innerHTML = `
       <div class="waykeecom-stepper__break">
