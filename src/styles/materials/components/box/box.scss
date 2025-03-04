@@ -5,4 +5,8 @@
   border: scss-var(border, width, main) solid color(border, main);
   border-radius: scss-var(border, radius, main);
   font-size: scss-var(font, size, xsmall);
+
+  & + & {
+    margin-top: size(1);
+  }
 }

@@ -1,3 +1,4 @@
+@use 'sass:color';
 @use '../../../helpers' as *;
 
 @mixin alert-tone($root, $bg, $text, $iconBg, $iconText) {
@@ -21,7 +22,7 @@
     $root,
     color(bg, alt),
     color(text, main),
-    darken(color(bg, alt), 5%),
+    color.scale(color(bg, alt), $lightness: -5%),
     color(text, main)
   );
 
