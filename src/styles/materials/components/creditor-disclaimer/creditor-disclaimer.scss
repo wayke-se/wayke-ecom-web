@@ -1,0 +1,35 @@
+@use "../../../helpers" as *;
+
+.#{$namespace}creditor-disclaimer {
+  display: flex;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: size(2);
+  font-size: scss-var(font, size, small);
+  line-height: 1.3;
+
+  &__icon {
+    flex-shrink: 0;
+
+    svg {
+      display: block;
+      width: auto;
+      height: 3lh;
+    }
+  }
+
+  &__body {
+    flex: 1 1 20ch;
+    display: flex;
+    flex-direction: column;
+    gap: size(0.25);
+
+    p {
+      margin: 0;
+    }
+  }
+
+  &__heading {
+    @include font-bold;
+  }
+}
