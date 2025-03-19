@@ -1,3 +1,4 @@
+@use 'sass:color';
 @use '../../../helpers' as *;
 @use 'sass:color';
 
@@ -22,7 +23,7 @@
     $root,
     color(bg, alt),
     color(text, main),
-    color.adjust(color(bg, alt), $lightness: -5%),
+    color.scale(color(bg, alt), $lightness: -5%),
     color(text, main)
   );
 

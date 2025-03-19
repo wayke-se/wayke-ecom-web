@@ -14,6 +14,10 @@
     }
   }
 
+  &__footer {
+    margin-top: size(2);
+  }
+
   // This component uses input-label for styling on the legend
   // This makes it possible to use input-label's help and share it's components
   .#{$namespace}input-label {

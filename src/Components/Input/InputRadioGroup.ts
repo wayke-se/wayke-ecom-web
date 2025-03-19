@@ -18,6 +18,7 @@ interface InputRadioGroupProps {
   readonly options: RadioItem[];
   error?: boolean;
   information?: string;
+  footer?: string;
   readonly errorMessage?: string;
   readonly onClick: (e: Event) => void;
   readonly onClickInformation?: (visible: boolean) => void;
@@ -62,6 +63,7 @@ class InputRadioGroup extends HtmlNode {
       error,
       errorMessage,
       information,
+      footer,
       onClick,
       onClickInformation,
     } = this.props;
@@ -75,6 +77,7 @@ class InputRadioGroup extends HtmlNode {
         ${options
           .map((option) => `<div class="waykeecom-input-group__item" id="${option.id}-node"></div>`)
           .join('')}
+          ${footer ? `<div class="waykeecom-input-group__footer">${footer}</div>` : ''}
       </fieldset>
     `;
 
