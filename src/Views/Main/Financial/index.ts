@@ -280,23 +280,29 @@ class Financial extends HtmlNode {
                     />
                   </svg>
                 </div>
-                <div class="waykeecom-creditor-disclaimer__body">
-                  <div class="waykeecom-creditor-disclaimer__heading">Att låna kostar pengar!</div>
-                  <p>
-                    Om du inte kan betala tillbaka skulden i tid riskerar du en betalningsanmärkning. Det kan
-                    leda till svårigheter att få hyra bostad, teckna abonnemang och få nya lån. För stöd, vänd
-                    dig till budget- och skuldrådgivningen i din kommun. Kontaktuppgifter finns på 
-                    <a
-                      href="https://www.konsumentverket.se/"
-                      title="Konsumentverket"
-                      target="_blank"
-                      rel="noopener noreferrer nofollow"
-                      class="waykeecom-link waykeecom-link--no-external-icon"
-                    >
-                      konsumentverket.se
-                    </a>.
-                  </p>
-                </div>
+                ${
+                  this.props.marketCode === 'SE'
+                    ? `
+                    <div class="waykeecom-creditor-disclaimer__body">
+                      <div class="waykeecom-creditor-disclaimer__heading">Att låna kostar pengar!</div>
+                      <p>
+                        Om du inte kan betala tillbaka skulden i tid riskerar du en betalningsanmärkning. Det kan
+                        leda till svårigheter att få hyra bostad, teckna abonnemang och få nya lån. För stöd, vänd
+                        dig till budget- och skuldrådgivningen i din kommun. Kontaktuppgifter finns på 
+                        <a
+                          href="https://www.konsumentverket.se/"
+                          title="Konsumentverket"
+                          target="_blank"
+                          rel="noopener noreferrer nofollow"
+                          class="waykeecom-link waykeecom-link--no-external-icon"
+                        >
+                          konsumentverket.se
+                        </a>.
+                      </p>
+                    </div>
+                `
+                    : ''
+                }
               </div>
             </div>
           `,
