@@ -40,13 +40,10 @@ class ModalHeader extends HtmlNode {
                   class="waykevaluation-image"
                 />
               `
-              : `
-                <span class="waykevaluation-sr-only" id="wayke-valuation-title">${title}</span>
-                ${getWordmarkLogotype({
+              : getWordmarkLogotype({
                   market: this.props.marketCode,
                   className: 'waykevaluation-header__logo--svg',
-                })}
-              `
+                })
           }
           </h2>
         </div>
