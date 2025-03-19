@@ -1,3 +1,4 @@
+import i18next from '@i18n';
 import { CreditAssessmentRecommendation } from '@wayke-se/ecom';
 import Button from '../../../Components/Button/Button';
 import HtmlNode from '../../../Components/Extension/HtmlNode';
@@ -36,7 +37,7 @@ class CreditAssessmentRejected extends HtmlNode {
     });
 
     new Button(this.node.querySelector(`#${ABORT_NODE}`), {
-      title: 'Gå tillbaka',
+      title: i18next.t('creditAssessment.abortButton'),
       id: ABORT,
       onClick: () => onGoBack(),
     });

@@ -14,3 +14,10 @@ export interface PartialCustomer {
 export interface CustomerSocialId {
   socialId: string;
 }
+
+export interface PartialCustomerAddress {
+  givenName: string;
+  address: string;
+  postalCode: string;
+  city: string;
+}

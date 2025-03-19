@@ -1,3 +1,4 @@
+import i18next from '@i18n';
 import { CreditAssessmentRecommendation } from '@wayke-se/ecom';
 import ButtonArrowRight from '../../../Components/Button/ButtonArrowRight';
 import ButtonAsLink from '../../../Components/Button/ButtonAsLink';
@@ -44,13 +45,13 @@ class CreditAssessmentApproved extends HtmlNode {
     });
 
     new ButtonArrowRight(this.node.querySelector<HTMLDivElement>(`#${PROCEED_NODE}`), {
-      title: 'Gå vidare',
+      title: i18next.t('creditAssessment.proceedButton'),
       id: PROCEED,
       onClick: () => onProceed(),
     });
 
     new ButtonAsLink(this.node.querySelector(`#${ABORT_NODE}`), {
-      title: 'Avbryt',
+      title: i18next.t('creditAssessment.abortButton'),
       id: ABORT,
       onClick: () => onGoBack(),
     });

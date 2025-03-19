@@ -1,3 +1,4 @@
+import i18next from '@i18n';
 import HtmlNode from '../Extension/HtmlNode';
 
 interface CheckListProps {
@@ -17,8 +18,8 @@ class CheckList extends HtmlNode {
 
   render() {
     this.node.innerHTML = `
-      <h3 class="waykeecom-heading waykeecom-heading--4">Köp online hos oss</h3>
-      <ul class="waykeecom-checklist" aria-label="Fördelar med att köpa bilen online hos oss">
+      <h3 class="waykeecom-heading waykeecom-heading--4">${i18next.t('glossary.buyOnline')}</h3>
+      <ul class="waykeecom-checklist" aria-label="${i18next.t('glossary.ourAdvantages')}">
         ${this.props.checklistItems
           .map((item) => ` <li class="waykeecom-checklist__item">${item}</li>`)
           .join('')}

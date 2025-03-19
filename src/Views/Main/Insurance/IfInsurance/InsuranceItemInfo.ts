@@ -1,3 +1,4 @@
+import i18next from '@i18n';
 import { IInsuranceAddon, IInsuranceOption } from '@wayke-se/ecom';
 import Accordion from '../../../../Components/Accordion';
 import ButtonAddRemove from '../../../../Components/Button/ButtonAddRemove';
@@ -136,7 +137,7 @@ class InsuranceItemInfo extends HtmlNode {
               ? `
           <div class="waykeecom-hstack__item waykeecom-hstack__item--no-shrink">
             <div class="waykeecom-logo">
-              <img src="${''}" alt="Tillverkarens logotyp för ${name}" class="waykeecom-logo__image waykeecom-logo__image--right" />
+              <img src="${''}" alt="${i18next.t('insurance.logoAlt', { title: name })}" class="waykeecom-logo__image waykeecom-logo__image--right" />
             </div>
           </div>
           `
@@ -146,7 +147,7 @@ class InsuranceItemInfo extends HtmlNode {
       </div>
       <div class="waykeecom-stack waykeecom-stack--3">
         <div class="waykeecom-text waykeecom-text--font-bold">${prettyNumber(price, {
-          postfix: 'kr/mån',
+          postfix: i18next.t('insurance.perMonth'),
         })}</div>
       </div>
       <div class="waykeecom-stack waykeecom-stack--3">
@@ -166,7 +167,7 @@ class InsuranceItemInfo extends HtmlNode {
         addons?.length
           ? `<div class="waykeecom-stack waykeecom-stack--3">
               <fieldset class="waykeecom-input-group">
-                <legend class="waykeecom-input-label"><div class="waykeecom-input-label__label">Tillval</div></legend>
+                <legend class="waykeecom-input-label"><div class="waykeecom-input-label__label">${i18next.t('insurance.addons')}</div></legend>
                 <div id="${ADDONS_NODE}"></div>
               </fieldset>
             </div>`
@@ -176,7 +177,7 @@ class InsuranceItemInfo extends HtmlNode {
         insuranceItems?.length
           ? `
             <div class="waykeecom-stack waykeecom-stack--3">
-              <h4 class="waykeecom-heading waykeecom-heading--4 waykeecom-no-margin">Försäkringen innehåller</h4>
+              <h4 class="waykeecom-heading waykeecom-heading--4 waykeecom-no-margin">${i18next.t('insurance.includes')}</h4>
             </div>
             <div class="waykeecom-stack waykeecom-stack--3" id="${ACCORDION_NODE}"></div>
           `
@@ -189,7 +190,7 @@ class InsuranceItemInfo extends HtmlNode {
     `;
 
     new ButtonAsLinkArrowLeft(this.node.querySelector(`#${BUTTON_TOP_LEFT_NODE}`), {
-      title: 'Tillbaka',
+      title: i18next.t('insurance.backButton'),
       onClick: () => onClose(),
     });
 
@@ -203,7 +204,7 @@ class InsuranceItemInfo extends HtmlNode {
           title: addon.title,
           meta: `<div class="waykeecom-text waykeecom-text--font-bold">${prettyNumber(
             addon.monthlyPrice,
-            { postfix: 'kr/mån' }
+            { postfix: i18next.t('insurance.perMonth') }
           )}</div>`,
           description: `<div class="waykeecom-text waykeecom-text--tone-alt">${addon.description}</div>`,
           append: true,
@@ -228,12 +229,12 @@ class InsuranceItemInfo extends HtmlNode {
     }
 
     new ButtonAsLinkArrowLeft(this.node.querySelector(`#${BUTTON_TOP_LEFT_NODE}`), {
-      title: 'Tillbaka',
+      title: i18next.t('insurance.backButton'),
       onClick: () => onClose(),
     });
 
     new ButtonClear(this.node.querySelector(`#${BUTTON_BOTTOM_LEFT_NODE}`), {
-      title: 'Tillbaka',
+      title: i18next.t('insurance.backButton'),
       onClick: () => onClose(),
     });
 
@@ -241,7 +242,7 @@ class InsuranceItemInfo extends HtmlNode {
       this.contexts.updateButton = new ButtonSuccess(
         this.node.querySelector(`#${BUTTON_INSURANCE_ADD_REMOVE_NODE}`),
         {
-          title: selected ? 'Uppdatera' : 'Välj',
+          title: selected ? i18next.t('insurance.update') : i18next.t('insurance.select'),
           disabled: selected ? !containChanges : undefined,
           onClick: () => this.onUpdate(),
         }
