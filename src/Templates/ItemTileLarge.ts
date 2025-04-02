@@ -36,18 +36,17 @@ const ItemTileLarge = ({ vehicle, order, meta, cdnMedia }: ItemTileLargeProps) =
         `
         : ''
     }
-    <div class="waykeecom-product-card__body">
-      <div class="waykeecom-product-card__seller" aria-label="Säljare">
-        ${sellerName}
-      </div>
-      <div class="waykeecom-product-card__heading" aria-label="Modell">
+    <dl class="waykeecom-product-card__body">
+      <dt class="waykeecom-sr-only">Säljare</dt>
+      <dd class="waykeecom-product-card__seller">${sellerName}</dd>
+      <dt class="waykeecom-sr-only">Modell</dt>
+      <dd class="waykeecom-product-card__heading">
         <span class="waykeecom-product-card__title">${vehicleTitle}</span> ${formatShortDescription(
           vehicle
         )}
-      </div>
-      <div class="waykeecom-product-card__footer">
-        <div class="waykeecom-product-card__price" aria-label="Pris">${price} kr</div>
-      </div>
+      </dd>
+      <dt class="waykeecom-sr-only">Pris</dt>
+      <dd class="waykeecom-product-card__price">${price} kr</dd>
       ${
         meta
           ? `
@@ -57,7 +56,7 @@ const ItemTileLarge = ({ vehicle, order, meta, cdnMedia }: ItemTileLargeProps) =
           `
           : ''
       }
-    </div>
+    </dl>
   </div>
 `;
 };

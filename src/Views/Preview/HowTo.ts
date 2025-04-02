@@ -97,7 +97,7 @@ const HowTo = ({ order, stageOrderList }: HowToProps) => {
   </div>
   <div class="waykeecom-stack waykeecom-stack--3">
     <div class="waykeecom-p--2">
-      <ol class="waykeecom-timeline" aria-label="Tillvägagångssätt">
+      <ol class="waykeecom-timeline">
         ${stageOrderList?.map((stage) => TimelineItem(TimelineItemByStage[stage.name])).join('')}
         ${
           order?.isPaymentRequired
