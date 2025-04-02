@@ -38,7 +38,7 @@ class Financial extends HtmlNode {
   private readonly props: FinancialProps;
   private paymentType?: PaymentType;
 
-  constructor(element: HTMLDivElement, props: FinancialProps) {
+  constructor(element: HTMLElement, props: FinancialProps) {
     super(element);
     this.props = props;
 
@@ -115,6 +115,7 @@ class Financial extends HtmlNode {
       title: 'Ägandeform',
       active: state.navigation.stage === this.props.index,
       id: 'financial',
+      index: this.props.index,
     });
 
     const part = document.createElement('div');

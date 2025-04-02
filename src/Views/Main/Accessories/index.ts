@@ -28,7 +28,7 @@ interface AccessoriesProps {
 class Accessories extends HtmlNode {
   private readonly props: AccessoriesProps;
 
-  constructor(element: HTMLDivElement, props: AccessoriesProps) {
+  constructor(element: HTMLElement, props: AccessoriesProps) {
     super(element);
     this.props = props;
 
@@ -62,6 +62,7 @@ class Accessories extends HtmlNode {
       title: 'Tillbehör',
       active,
       id: 'accessories',
+      index: index,
     });
 
     const part = document.createElement('div');

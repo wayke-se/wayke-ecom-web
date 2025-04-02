@@ -31,7 +31,7 @@ class Delivery extends HtmlNode {
   private readonly props: DeliveryProps;
   private homeDelivery: boolean;
 
-  constructor(element: HTMLDivElement, props: DeliveryProps) {
+  constructor(element: HTMLElement, props: DeliveryProps) {
     super(element);
     this.props = props;
 
@@ -87,6 +87,7 @@ class Delivery extends HtmlNode {
       title: 'Leverans',
       active,
       id: 'delivery',
+      index: index,
     });
 
     if (state.navigation.stage > index || (completed && state.navigation.stage !== index)) {

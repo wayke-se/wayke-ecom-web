@@ -49,7 +49,7 @@ class Main extends HtmlNode {
     });
     asideStepperWrapper.appendChild(pageFormAside);
 
-    const stepper = document.createElement('div');
+    const stepper = document.createElement('ol');
     stepper.className = 'waykeecom-stepper';
     asideStepperWrapper.appendChild(stepper);
 

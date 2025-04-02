@@ -20,8 +20,8 @@
     border-color: color(semantic, error, text);
   }
 
-  &:not(#{$root}--has-error):focus-within {
-    border-color: color.adjust(color(border, main), $lightness: -20%);
+  &:has(:focus-visible) {
+    @include focus-style;
   }
 
   &__input {
