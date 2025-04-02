@@ -26,11 +26,10 @@ class Accordion extends HtmlNode {
         type="checkbox"
         id="${this.props.id}"
         class="waykeecom-accordion__checkbox"
-        tabindex="-1"
       />
-      <label class="waykeecom-accordion__header" for="${this.props.id}" tabindex="0" aria-label="Lorem ipsum">
+      <label class="waykeecom-accordion__header" for="${this.props.id}">
         <div class="waykeecom-accordion__header-title">${title}</div>
-        <div class="waykeecom-accordion__header-icon">
+        <div class="waykeecom-accordion__header-icon" aria-hidden="true">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 16 16"
