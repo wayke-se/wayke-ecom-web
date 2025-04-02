@@ -14,7 +14,8 @@ window.addEventListener('DOMContentLoaded', (_) => {
     ...devConfig.MULTIPLE_FINANCING,
     ecomSdkConfig,
     rootId: 'custom-id',
-    logo: 'https://placehold.jp/180x40.png',
+    logo: 'https://placehold.co/180x40',
+    logoX2: 'https://placehold.co/360x80',
     id: 'd3255290-9afd-4091-bc28-9ca884d4a3b0',
     onEvent: (_view: EcomView, _event: EcomEvent, _step?: EcomStep, _data?: any) => null,
   });
