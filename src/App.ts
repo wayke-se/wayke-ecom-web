@@ -252,6 +252,13 @@ class App {
     this.render();
   }
 
+  private focusModal() {
+    if (this.contexts.modal?.content) {
+      this.contexts.modal.content.setAttribute('tabindex', '-1');
+      this.contexts.modal.content.focus();
+    }
+  }
+
   private render(callbackOrder?: CallbackOrder) {
     if (!this.contexts.lastTrigger) {
       this.contexts.lastTrigger = document.activeElement as HTMLElement;
@@ -276,6 +283,10 @@ class App {
           callbackOrder,
           onClose: () => this.close(),
         });
+
+        // Set focus to the modal to trap focus
+        this.focusModal();
+
         return;
       }
 
@@ -304,6 +315,9 @@ class App {
         default:
           throw 'Unknown view...';
       }
+
+      // Set focus to the modal to trap focus
+      this.focusModal();
     }
   }
 }
