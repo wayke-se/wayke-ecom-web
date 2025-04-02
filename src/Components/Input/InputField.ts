@@ -53,6 +53,15 @@ class InputField extends HtmlNode {
     }
     this.updateBorder();
     this.contexts.error?.setError(error);
+
+    const { id } = this.props;
+    if (error) {
+      document.getElementById(id)?.setAttribute('aria-invalid', 'true');
+      document.getElementById(id)?.setAttribute('aria-describedby', `${id}-error`);
+    } else {
+      document.getElementById(id)?.removeAttribute('aria-invalid');
+      document.getElementById(id)?.removeAttribute('aria-describedby');
+    }
   }
 
   private render() {
@@ -99,10 +108,12 @@ class InputField extends HtmlNode {
     `;
 
     this.updateBorder();
+
     if (errorMessage) {
       this.contexts.error = new InputError(this.node, {
         error,
         errorMessage,
+        id: `${id}-error`,
       });
     }
 

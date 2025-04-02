@@ -4,6 +4,7 @@ const errorInputClassName = 'waykeecom-input-error';
 
 interface InputErrorProps {
   error?: boolean;
+  id?: string;
   readonly errorMessage: string;
 }
 
@@ -33,9 +34,13 @@ class InputError extends HtmlNode {
       if (error) {
         const errorElement = document.createElement('div');
         errorElement.className = errorInputClassName;
-        errorElement.setAttribute('role', 'alert');
+        errorElement.setAttribute('aria-live', 'assertive');
         errorElement.innerHTML = errorMessage;
         this.node.appendChild(errorElement);
+
+        if (this.props.id) {
+          errorElement.id = this.props.id;
+        }
       }
     }
   }
