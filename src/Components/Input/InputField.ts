@@ -17,6 +17,7 @@ interface InputFieldProps {
   readonly autocomplete?: string;
   readonly pattern?: string;
   readonly inputmode?: string;
+  readonly help?: string;
   readonly onChange?: (e: Event) => void;
   readonly onBlur?: (e: Event) => void;
   readonly onClickInformation?: (visible: boolean) => void;
@@ -80,6 +81,7 @@ class InputField extends HtmlNode {
       information,
       pattern,
       inputmode,
+      help,
       onChange,
       onBlur,
       onClickInformation,
@@ -101,10 +103,12 @@ class InputField extends HtmlNode {
           ${min !== undefined ? `min="${min}"` : ''}
           ${autocomplete ? `autocomplete="${autocomplete}"` : ''}
           ${placeholder ? `placeholder="${placeholder}"` : ''}
+          ${help ? `aria-describedby="${id}-help"` : ''}
           class="waykeecom-input-text__input"
         />
         ${unit ? `<div class="waykeecom-input-text__unit">${unit}</div>` : ''}
       </div>
+      ${help ? `<div class="waykeecom-input-help" id="${id}-help">${help}</div>` : ''}
     `;
 
     this.updateBorder();

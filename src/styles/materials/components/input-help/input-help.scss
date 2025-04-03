@@ -1,0 +1,7 @@
+@use '../../../helpers' as *;
+
+.#{$namespace}input-help {
+  margin-top: size(0.5);
+  color: color(text, alt);
+  font-size: scss-var(font, size, xsmall);
+}

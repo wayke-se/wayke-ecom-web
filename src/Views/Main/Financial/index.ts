@@ -9,6 +9,7 @@ import ListItem from '../../../Templates/ListItem';
 import { Image } from '../../../Utils/constants';
 import ecomEvent, { EcomStep, EcomEvent, EcomView } from '../../../Utils/ecomEvent';
 import { formatShortDescription, prettyNumber } from '../../../Utils/format';
+import { DISCLAIMER_WRAPPER_NODE } from './CreditAssessment';
 import Loan from './Loan';
 import StageCompletedFinancial from './StageCompletedFinancial';
 import { extractLoanIndex, extractPaymentType } from './utils';
@@ -27,6 +28,7 @@ const RADIO_FINANCIAL_LOAN = 'radio-financial-loan';
 const RADIO_FINANCIAL_LEASE = 'radio-financial-lease';
 
 const PAYMENT_NODE = 'payment-node';
+const PAYMENT_NODE_DISCLAIMER = DISCLAIMER_WRAPPER_NODE;
 
 interface FinancialProps {
   readonly store: WaykeStore;
@@ -158,7 +160,7 @@ class Financial extends HtmlNode {
             : ''
         }
 
-        <div class="waykeecom-stack waykeecom-stack--3" id="${PAYMENT_NODE}"></div>
+        <div class="waykeecom-stack waykeecom-stack--3" role="form" id="${PAYMENT_NODE}" aria-describedby="${PAYMENT_NODE_DISCLAIMER}"></div>
         ${
           _paymentType !== PaymentType.Loan
             ? `<div class="waykeecom-stack waykeecom-stack--3" id="${PROCEED_NODE}"></div>`
