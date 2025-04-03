@@ -262,9 +262,9 @@ class Financial extends HtmlNode {
             </div>
           `,
           footer: `
-            <div class="waykeecom-box">
+            <div class="waykeecom-box" role="status" aria-live="polite">
               <div class="waykeecom-creditor-disclaimer">
-                <div class="waykeecom-creditor-disclaimer__icon">
+                <div class="waykeecom-creditor-disclaimer__icon" aria-hidden="true">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="59"
