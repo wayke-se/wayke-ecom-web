@@ -34,19 +34,9 @@
     border-color: color(semantic, error, text);
   }
 
-  &:not(#{$root}--has-error) {
-    @include focus {
-      border-color: color.adjust(color(border, main), $lightness: -20%);
-    }
-  }
-
   &[disabled] {
     opacity: 0.37;
     cursor: not-allowed;
-  }
-
-  &:focus {
-    outline: none;
   }
 
   &::-ms-expand {

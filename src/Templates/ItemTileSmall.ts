@@ -27,17 +27,18 @@ const ItemTileSmall = ({ vehicle, order, cdnMedia }: ItemTileSmallProps) => {
     `
       : ''
   }
-    <div class="waykeecom-preview-card__body">
-      <div class="waykeecom-preview-card__seller">${sellerName}</div>
-      <div class="waykeecom-preview-card__heading">
+    <dl class="waykeecom-preview-card__body">
+      <dt class="waykeecom-sr-only">Säljare</dt>
+      <dd class="waykeecom-preview-card__seller">${sellerName}</dd>
+      <dt class="waykeecom-sr-only">Modell</dt>
+      <dd class="waykeecom-preview-card__heading">
         <span class="waykeecom-preview-card__title">${vehicleTitle}</span> ${formatShortDescription(
           vehicle
         )}
-      </div>
-      <div class="waykeecom-preview-card__footer">
-        <div class="waykeecom-preview-card__price">${price} kr</div>
-      </div>
-    </div>
+      </dd>
+      <dt class="waykeecom-sr-only">Pris</dt>
+      <dd class="waykeecom-preview-card__price">${price} kr</dd>
+    </dl>
   </div>
 `;
 };

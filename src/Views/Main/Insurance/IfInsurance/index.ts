@@ -169,6 +169,7 @@ class IfInsurance extends HtmlNode {
       if (insuranceInfoNode) {
         insuranceInfoNode.innerHTML = Alert({
           tone: 'info',
+          polite: true,
           children: `Vi är anknutna försäkringsförmedlare till ${insuranceDisclaimerTitle}, If Skadeförsäkring. Försäkringsgivare är If Skadeförsäkring (publ). Vad detta innebär kan du läsa mer om på försäkringsförmedlarens hemsida.`,
         });
       }

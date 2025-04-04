@@ -17,6 +17,7 @@ interface InputFieldProps {
   readonly autocomplete?: string;
   readonly pattern?: string;
   readonly inputmode?: string;
+  readonly help?: string;
   readonly onChange?: (e: Event) => void;
   readonly onBlur?: (e: Event) => void;
   readonly onClickInformation?: (visible: boolean) => void;
@@ -53,6 +54,15 @@ class InputField extends HtmlNode {
     }
     this.updateBorder();
     this.contexts.error?.setError(error);
+
+    const { id } = this.props;
+    if (error) {
+      document.getElementById(id)?.setAttribute('aria-invalid', 'true');
+      document.getElementById(id)?.setAttribute('aria-describedby', `${id}-error`);
+    } else {
+      document.getElementById(id)?.removeAttribute('aria-invalid');
+      document.getElementById(id)?.removeAttribute('aria-describedby');
+    }
   }
 
   private render() {
@@ -71,6 +81,7 @@ class InputField extends HtmlNode {
       information,
       pattern,
       inputmode,
+      help,
       onChange,
       onBlur,
       onClickInformation,
@@ -92,17 +103,21 @@ class InputField extends HtmlNode {
           ${min !== undefined ? `min="${min}"` : ''}
           ${autocomplete ? `autocomplete="${autocomplete}"` : ''}
           ${placeholder ? `placeholder="${placeholder}"` : ''}
+          ${help ? `aria-describedby="${id}-help"` : ''}
           class="waykeecom-input-text__input"
         />
         ${unit ? `<div class="waykeecom-input-text__unit">${unit}</div>` : ''}
       </div>
+      ${help ? `<div class="waykeecom-input-help" id="${id}-help">${help}</div>` : ''}
     `;
 
     this.updateBorder();
+
     if (errorMessage) {
       this.contexts.error = new InputError(this.node, {
         error,
         errorMessage,
+        id: `${id}-error`,
       });
     }
 

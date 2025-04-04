@@ -3,10 +3,11 @@ type Tones = 'success' | 'warning' | 'error' | 'info';
 interface AlertProps {
   tone?: Tones;
   children?: string | Element;
+  polite?: boolean;
 }
 
-const Alert = ({ tone, children }: AlertProps) => `
-  <div class="waykeecom-alert ${tone ? `waykeecom-alert--${tone}` : ''}" role="alert">
+const Alert = ({ tone, children, polite }: AlertProps) => `
+  <div class="waykeecom-alert ${tone ? `waykeecom-alert--${tone}` : ''}" role="${polite ? 'status' : 'alert'}" ${polite ? 'aria-live="polite"' : ''}>
     <div class="waykeecom-alert__icon">
       <div class="waykeecom-alert__icon-badge">
         <svg

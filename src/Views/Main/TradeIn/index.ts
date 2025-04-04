@@ -31,7 +31,7 @@ interface TradeInProps {
 class TradeIn extends HtmlNode {
   private readonly props: TradeInProps;
 
-  constructor(element: HTMLDivElement, props: TradeInProps) {
+  constructor(element: HTMLElement, props: TradeInProps) {
     super(element);
     this.props = props;
 
@@ -76,6 +76,7 @@ class TradeIn extends HtmlNode {
       active,
       completed,
       id: 'trade-in',
+      index: index,
     });
     content.innerHTML = '';
 
