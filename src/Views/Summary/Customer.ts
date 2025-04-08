@@ -22,6 +22,11 @@ class Customer extends StackNode {
     const { store } = this.props;
     const state = store.getState();
 
+    const customerName =
+      this.props.marketCode === 'SE'
+        ? `${maskText(state.address?.givenName || '')} ${maskText(state.address?.surname || '')}`
+        : `${state.address?.givenName} ${state.address?.surname || ''}`;
+
     this.node.innerHTML = `
       <div class="waykeecom-stack waykeecom-stack--2">
         <h4 class="waykeecom-heading waykeecom-heading--4 waykeecom-no-margin">${i18next.t('summary.customerTitle')}</h4>
@@ -31,20 +36,20 @@ class Customer extends StackNode {
           <ul class="waykeecom-key-value-list">
             ${KeyValueListItem({
               key: i18next.t('summary.customerName'),
-              value: `${maskText(state.address?.givenName || '')} ${maskText(
-                state.address?.surname || ''
-              )}`,
+              value: customerName,
             })}
-            ${KeyValueListItem({
-              key: i18next.t('summary.customerSSN'),
-              value: maskSSn(state.customer.socialId),
-            })}
+            ${
+              this.props.marketCode === 'SE'
+                ? KeyValueListItem({
+                    key: i18next.t('summary.customerSSN'),
+                    value: maskSSn(state.customer.socialId),
+                  })
+                : ''
+            }
             ${KeyValueListItem({
               key: i18next.t('summary.customerAddress'),
               value: `
-                ${maskText(state.address?.givenName || '')} ${maskText(
-                  state.address?.surname || ''
-                )}<br />${state.address?.street}<br />${state.address?.postalCode} ${
+                ${customerName}<br />${state.address?.street}<br />${state.address?.postalCode} ${
                   state.address?.city
                 }
               `,
