@@ -151,6 +151,7 @@ class FullAddressForm extends HtmlNode {
       {
         givenName: this.state.value.givenName.trim(),
         surname: this.state.value.surname.trim(),
+        name: `${this.state.value.givenName.trim()} ${this.state.value.surname.trim()}`,
         street: this.state.value.street.trim(),
         street2: this.state.value.street2.trim(),
         postalCode: this.state.value.postalCode.trim(),
