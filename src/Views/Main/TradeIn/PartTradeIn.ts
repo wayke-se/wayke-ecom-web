@@ -1,4 +1,5 @@
 import i18next from '@i18n';
+import { MarketCode } from '../../../@types/MarketCode';
 import { TradeInCarData, TradeInCarDataPartial, VehicleCondition } from '../../../@types/TradeIn';
 import { VehicleLookup } from '../../../@types/VehicleLookup';
 import ButtonArrowRight from '../../../Components/Button/ButtonArrowRight';
@@ -71,9 +72,12 @@ type INPUT_RADIO_KEYS = keyof Omit<
 
 // const TRADE_IN_CACHE: { [key: string]: IVehicle | undefined } = {};
 
-const initalState = (tradeIn?: TradeInCarDataPartial): PartTradeInState => {
+const initalState = (
+  tradeIn?: TradeInCarDataPartial,
+  marketCode?: MarketCode
+): PartTradeInState => {
   const value = {
-    registrationNumber: tradeIn?.registrationNumber || '',
+    registrationNumber: marketCode === 'SE' ? tradeIn?.registrationNumber || '' : '',
     mileage: tradeIn?.mileage || '',
     description: tradeIn?.description || '',
     condition: tradeIn?.condition,
@@ -81,7 +85,7 @@ const initalState = (tradeIn?: TradeInCarDataPartial): PartTradeInState => {
   return {
     value,
     validation: {
-      registrationNumber: validation.registrationNumber(value.registrationNumber),
+      registrationNumber: validation.registrationNumber(value.registrationNumber, marketCode),
       mileage: validation.mileage(value.mileage),
       description: validation.description(value.description),
       condition: validation.condition(value.condition),
@@ -93,6 +97,7 @@ const initalState = (tradeIn?: TradeInCarDataPartial): PartTradeInState => {
 interface PartTradeInProps {
   readonly store: WaykeStore;
   readonly lastStage: boolean;
+  readonly marketCode: MarketCode;
 }
 
 class PartTradeIn extends HtmlNode {
@@ -369,13 +374,25 @@ class PartTradeIn extends HtmlNode {
           name: 'registrationNumber',
           autocomplete: 'off',
           placeholder: i18next.t('tradeIn.registrationNumberPlaceholder'),
-          unit: `
-          <svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 34" class="waykeecom-input-text__unit-regnr-icon" aria-hidden="true">
-            <rect width="22" height="34" rx="1" fill="#458BDD"/>
-            <circle cx="11" cy="10" r="5.5" stroke="#FFF500" stroke-linejoin="round" stroke-dasharray="1 2"/>
-            <path d="M10.6707 21.692c1.392 0 2.04.564 2.28.996h1.644c-.264-1.08-1.248-2.364-3.924-2.364-2.028 0-3.408.912-3.408 2.436 0 1.536 1.2 2.34 2.904 2.508l1.512.156c.876.108 1.476.372 1.476 1.188 0 .684-.684 1.176-1.98 1.176-1.56 0-2.244-.72-2.472-1.26h-1.716c.336 1.224 1.404 2.628 4.188 2.628 2.412 0 3.624-1.116 3.624-2.652 0-1.8-1.308-2.448-3.012-2.616-.576-.06-.972-.108-1.5-.156-.888-.108-1.392-.444-1.392-1.02 0-.624.612-1.02 1.776-1.02Z" fill="#fff"/>
-          </svg>
-        `,
+          unit:
+            this.props.marketCode === 'SE'
+              ? `
+                <svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 34" class="waykeecom-input-text__unit-regnr-icon" aria-hidden="true">
+                  <rect width="22" height="34" rx="1" fill="#458BDD"/>
+                  <circle cx="11" cy="10" r="5.5" stroke="#FFF500" stroke-linejoin="round" stroke-dasharray="1 2"/>
+                  <path d="M10.6707 21.692c1.392 0 2.04.564 2.28.996h1.644c-.264-1.08-1.248-2.364-3.924-2.364-2.028 0-3.408.912-3.408 2.436 0 1.536 1.2 2.34 2.904 2.508l1.512.156c.876.108 1.476.372 1.476 1.188 0 .684-.684 1.176-1.98 1.176-1.56 0-2.244-.72-2.472-1.26h-1.716c.336 1.224 1.404 2.628 4.188 2.628 2.412 0 3.624-1.116 3.624-2.652 0-1.8-1.308-2.448-3.012-2.616-.576-.06-.972-.108-1.5-.156-.888-.108-1.392-.444-1.392-1.02 0-.624.612-1.02 1.776-1.02Z" fill="#fff"/>
+                </svg>
+              `
+              : `
+                <svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 34" class="waykeecom-input-text__unit-regnr-icon" aria-hidden="true">
+                  <rect width="22" height="34" rx="1" fill="#003399"/>
+                  <rect x="4" y="5" width="14" height="10" fill="#ef2b2d"/>
+                  <rect x="7.5" y="5" width="2.5" height="10" fill="#ffffff"/>
+                  <rect x="4" y="8.75" width="14" height="2.5" fill="#ffffff"/>
+                  <rect x="8.25" y="5" width="1" height="10" fill="#002868"/>
+                  <rect x="4" y="9.5" width="14" height="1" fill="#002868"/>
+                  <path d="M7.75 21.692v6h1.5v-4.5l3 4.5h1.5v-6h-1.5v4.5l-3-4.5h-1.5Z" fill="#fff"/>
+                </svg>`,
           onChange: (e) => this.onChange(e),
           onBlur: (e) => this.onBlur(e),
         }

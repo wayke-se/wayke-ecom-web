@@ -1,4 +1,5 @@
 import i18next from '@i18n';
+import { MarketCode } from '../../../@types/MarketCode';
 import ButtonArrowRight from '../../../Components/Button/ButtonArrowRight';
 import ButtonAsLink from '../../../Components/Button/ButtonAsLink';
 import ButtonSkip from '../../../Components/Button/ButtonSkip';
@@ -27,6 +28,7 @@ interface TradeInProps {
   readonly store: WaykeStore;
   readonly index: number;
   readonly lastStage: boolean;
+  readonly marketCode: MarketCode;
 }
 
 class TradeIn extends HtmlNode {
@@ -183,7 +185,7 @@ class TradeIn extends HtmlNode {
       }
     } else if (state.navigation.stage === index) {
       if (state.wantTradeIn && state.tradeIn) {
-        new PartTradeIn(part, { store, lastStage });
+        new PartTradeIn(part, { store, lastStage, marketCode: this.props.marketCode });
       } else {
         part.innerHTML = `
           <div class="waykeecom-stack waykeecom-stack--3">

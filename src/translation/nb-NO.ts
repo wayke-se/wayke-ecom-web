@@ -471,8 +471,7 @@ const nbNO = {
     detailsDescription:
       'Oppgi registreringsnummeret og aktuell kjørelengde for din innbyttebil så får du en estimert innkjøpspris av oss.',
     registrationNumber: 'Registreringsnummer',
-    registrationNumberError:
-      'Et gyldig registreringsnummer i formatet ABC123 eller ABC12A må oppgis',
+    registrationNumberError: 'Et gyldig registreringsnummer i formatet AB12345 må oppgis',
     registrationNumberPlaceholder: 'Oppgi registreringsnummer',
     mileageError: 'En kjørelengde mellom 0 til 80 000 km må oppgis',
     mileagePlaceholder: 'Oppgi bilens kjørelengde',
