@@ -1,0 +1,11 @@
+/// Reset styling on the dl element
+
+@use '../../helpers' as *;
+
+:where(
+  #{$root-element} dl,
+  #{$root-element} dt,
+  #{$root-element} dd
+) {
+  margin: 0;
+}

@@ -23,7 +23,7 @@ interface InsuranceProps {
 class Insurance extends HtmlNode {
   private readonly props: InsuranceProps;
 
-  constructor(element: HTMLDivElement, props: InsuranceProps) {
+  constructor(element: HTMLElement, props: InsuranceProps) {
     super(element);
     this.props = props;
 
@@ -64,6 +64,7 @@ class Insurance extends HtmlNode {
       title: i18next.t('insurance.title'),
       active,
       id: 'insurance',
+      index: index,
     });
 
     if (state.navigation.stage > index || (completed && state.navigation.stage !== index)) {

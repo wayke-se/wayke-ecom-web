@@ -56,11 +56,10 @@ class LoanDetailsDetailed extends HtmlNode {
           id="finance-details-accordion"
           class="waykeecom-accordion__checkbox"
           ${this.showDetails ? `checked="true"` : ''}
-          tabindex="-1"
         />
         <label class="waykeecom-accordion__header" for="finance-details-accordion" tabindex="0" aria-label="${i18next.t('loanDetails.showDetails')}">
           <div class="waykeecom-accordion__header-title">${i18next.t('loanDetails.details')}</div>
-          <div class="waykeecom-accordion__header-icon">
+          <div class="waykeecom-accordion__header-icon" aria-hidden="true">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 16 16"

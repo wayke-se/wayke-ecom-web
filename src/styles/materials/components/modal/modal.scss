@@ -109,6 +109,16 @@
     transform-origin: 50% 50%;
     transition: transform 200ms ease;
 
+    @include focus {
+      outline: none;
+
+      &::before {
+        @include focus-style;
+        
+        opacity: 1;
+      }
+    }
+
     &::before,
     &::after {
       content: '';

@@ -1,4 +1,5 @@
 import { MarketCode } from '../../@types/MarketCode';
+import { trapFocus } from '../../Utils/trapFocus';
 import HtmlNode from '../Extension/HtmlNode';
 import ModalBody from './ModalBody';
 import ModalCenter from './ModalCenter';
@@ -37,6 +38,7 @@ class Modal extends HtmlNode {
     });
     this.props = props;
     this.content = this.render();
+    trapFocus(this.node); // Trap focus within the modal
   }
 
   render() {
@@ -60,6 +62,7 @@ class Modal extends HtmlNode {
       id: `${id}-footer`,
       marketCode: this.props.marketCode,
     });
+
     return body.node;
   }
 }

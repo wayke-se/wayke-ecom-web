@@ -18,7 +18,7 @@ class Confirmation extends HtmlNode {
   private readonly props: ConfirmationProps;
   private view = 1;
 
-  constructor(element: HTMLDivElement, props: ConfirmationProps) {
+  constructor(element: HTMLElement, props: ConfirmationProps) {
     super(element);
     this.props = props;
 
@@ -42,6 +42,7 @@ class Confirmation extends HtmlNode {
         : i18next.t('confirmation.title'),
       id: 'confirmation',
       active: navigation.stage === index,
+      index: index,
     });
 
     if (navigation.stage === index) {

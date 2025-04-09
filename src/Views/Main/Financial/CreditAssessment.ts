@@ -75,6 +75,7 @@ const HOUSING_TYPE_NODE = `${HOUSING_TYPE}-node`;
 const PERFORM_APPLICATION = `credit-assessment-perform-application`;
 const PERFORM_APPLICATION_NODE = `${PERFORM_APPLICATION}-node`;
 
+export const DISCLAIMER_WRAPPER_NODE = `credit-assessment-disclaimer`;
 const DISCLAIMER_NODE = `disclaimer-node`;
 const DISCLAIMER_SAFE_NODE = `disclaimer-safe-node`;
 
@@ -713,20 +714,15 @@ class CreditAssessment extends HtmlNode {
         <hr class="waykeecom-separator" />
       </div>
 
-      <div class="waykeecom-stack waykeecom-stack--3 waykeecom-text waykeecom-text--align-center">
-        <div class="waykeecom-stack waykeecom-stack--1">
-          <div class="waykeecom-text waykeecom-text--tone-alt waykeecom-text--size-small">${i18next.t('creditAssessment.totalLoanAmount')}</div>
-        </div>
-        <div class="waykeecom-stack waykeecom-stack--1">
-          <div class="waykeecom-heading waykeecom-heading--2 waykeecom-no-margin">
-            ${prettyNumber(creditAmount, { postfix: 'kr' })}
-          </div>
-        </div>
-      </div>
+      <dl class="waykeecom-stack waykeecom-stack--3 waykeecom-text waykeecom-text--align-center">
+        <dt class="waykeecom-stack waykeecom-stack--1 waykeecom-text waykeecom-text--tone-alt waykeecom-text--size-small">${i18next.t('creditAssessment.totalLoanAmount')}</dt>
+        <dd class="waykeecom-stack waykeecom-stack--1 waykeecom-heading waykeecom-heading--2 waykeecom-no-margin">${prettyNumber(creditAmount, { postfix: 'kr' })}</dd>
+      </dl>
 
       <div class="waykeecom-stack waykeecom-stack--3">
         ${Alert({
           tone: 'info',
+          polite: true,
           children: i18next.t('creditAssessment.noPaymentInfo', { name: branchName }),
         })}
       </div>
@@ -759,7 +755,7 @@ class CreditAssessment extends HtmlNode {
       
       <div class="waykeecom-stack waykeecom-stack--3">
         <div class="waykeecom-stack waykeecom-stack--2" id="${PERFORM_APPLICATION_NODE}"></div>
-        <div class="waykeecom-stack waykeecom-stack--2">
+        <div class="waykeecom-stack waykeecom-stack--2" id="${DISCLAIMER_WRAPPER_NODE}">
           <div class="waykeecom-stack waykeecom-stack--1" id="${DISCLAIMER_NODE}"></div>
           <div class="waykeecom-stack waykeecom-stack--1" id="${DISCLAIMER_SAFE_NODE}"></div>
         </div>
@@ -891,12 +887,7 @@ class CreditAssessment extends HtmlNode {
           placeholder: '',
           unit: 'kr',
           type: 'number',
-          information: `
-          <div class="waykeecom-content waykeecom-content--inherit-size">
-            <p class="waykeecom-content__p"><span class="waykeecom-text waykeecom-text--font-medium">${i18next.t('creditAssessment.incomePerMonth')}</span></p>
-            <p class="waykeecom-content__p">${i18next.t('creditAssessment.incomeDescription')}</p>
-          </div>
-        `,
+          help: i18next.t('creditAssessment.incomeDescription'),
           onChange: (e) => this.onChange(e),
           onBlur: (e) => this.onBlur(e),
         }
@@ -974,15 +965,7 @@ class CreditAssessment extends HtmlNode {
           unit: 'kr',
           type: 'number',
           min: 0,
-          information:
-            this.state.value.housingType === HousingType.Condominium
-              ? `
-            <div class="waykeecom-content waykeecom-content--inherit-size">
-              <p class="waykeecom-content__p"><span class="waykeecom-text waykeecom-text--font-medium">${i18next.t('creditAssessment.myPartOfMonthlyFee')}</span></p>
-              <p class="waykeecom-content__p">${i18next.t('creditAssessment.excludingInterest')}</p>
-            </div>
-          `
-              : undefined,
+          help: i18next.t('creditAssessment.excludingInterest'),
           onChange: (e) => this.onChange(e),
           onBlur: (e) => this.onBlur(e),
           onClickInformation: () => {
@@ -1011,12 +994,7 @@ class CreditAssessment extends HtmlNode {
           unit: 'kr',
           type: 'number',
           min: 0,
-          information: `
-            <div class="waykeecom-content waykeecom-content--inherit-size">
-              <p class="waykeecom-content__p"><span class="waykeecom-text waykeecom-text--font-medium">${i18next.t('creditAssessment.cardCredits')}</span></p>
-              <p class="waykeecom-content__p">${i18next.t('creditAssessment.totalDebt')}</p>
-            </div>
-          `,
+          help: i18next.t('creditAssessment.totalDebt'),
           onChange: (e) => this.onChange(e),
           onBlur: (e) => this.onBlur(e),
           onClickInformation: () => {
@@ -1045,12 +1023,7 @@ class CreditAssessment extends HtmlNode {
           unit: 'kr',
           type: 'number',
           min: 0,
-          information: `
-            <div class="waykeecom-content waykeecom-content--inherit-size">
-              <p class="waykeecom-content__p"><span class="waykeecom-text waykeecom-text--font-medium">${i18next.t('creditAssessment.vehicleLoan')}</span></p>
-              <p class="waykeecom-content__p">${i18next.t('creditAssessment.totalDebt')}</p>
-            </div>
-          `,
+          help: i18next.t('creditAssessment.totalDebt'),
           onChange: (e) => this.onChange(e),
           onBlur: (e) => this.onBlur(e),
           onClickInformation: () => {
@@ -1079,12 +1052,7 @@ class CreditAssessment extends HtmlNode {
           unit: 'kr',
           type: 'number',
           min: 0,
-          information: `
-          <div class="waykeecom-content waykeecom-content--inherit-size">
-            <p class="waykeecom-content__p"><span class="waykeecom-text waykeecom-text--font-medium">${i18next.t('creditAssessment.collateral')}</span></p>
-            <p class="waykeecom-content__p">${i18next.t('creditAssessment.totalAmount')}</p>
-          </div>
-          `,
+          help: i18next.t('creditAssessment.totalAmount'),
           onChange: (e) => this.onChange(e),
           onBlur: (e) => this.onBlur(e),
           onClickInformation: () => {
@@ -1113,12 +1081,7 @@ class CreditAssessment extends HtmlNode {
           unit: 'kr',
           type: 'number',
           min: 0,
-          information: `
-          <div class="waykeecom-content waykeecom-content--inherit-size">
-            <p class="waykeecom-content__p"><span class="waykeecom-text waykeecom-text--font-medium">${i18next.t('creditAssessment.leasingFees')}</span></p>
-            <p class="waykeecom-content__p">${i18next.t('creditAssessment.totalAmount')}</p>
-          </div>
-          `,
+          help: i18next.t('creditAssessment.totalAmount'),
           onChange: (e) => this.onChange(e),
           onBlur: (e) => this.onBlur(e),
           onClickInformation: () => {
@@ -1147,12 +1110,7 @@ class CreditAssessment extends HtmlNode {
           unit: 'kr',
           type: 'number',
           min: 0,
-          information: `
-          <div class="waykeecom-content waykeecom-content--inherit-size">
-            <p class="waykeecom-content__p"><span class="waykeecom-text waykeecom-text--font-medium">${i18next.t('creditAssessment.privateLoan')}</span></p>
-            <p class="waykeecom-content__p">${i18next.t('creditAssessment.totalDebt')}</p>
-          </div>
-          `,
+          help: i18next.t('creditAssessment.totalDebt'),
           onChange: (e) => this.onChange(e),
           onBlur: (e) => this.onBlur(e),
           onClickInformation: () => {

@@ -32,7 +32,7 @@ class CentralStorage extends HtmlNode {
     proceedButton?: ButtonArrowRight;
   } = {};
 
-  constructor(element: HTMLDivElement, props: CentralStorageProps) {
+  constructor(element: HTMLElement, props: CentralStorageProps) {
     super(element);
     this.props = props;
     watch(this.props.store, 'navigation', () => {
@@ -103,6 +103,7 @@ class CentralStorage extends HtmlNode {
       active,
       title: i18next.t('centralStorage.title'),
       id: 'central-storage',
+      index: index,
     });
 
     if (

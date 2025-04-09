@@ -3,26 +3,32 @@ interface ListItemProps {
   active?: boolean;
   completed?: boolean;
   id: string;
+  index: number;
 }
 
 const ListItem = (element: HTMLElement, props: ListItemProps) => {
   const { title, active, completed, id } = props;
   const existingListItem = document.getElementById(id);
 
-  const item = existingListItem ? existingListItem : document.createElement('section');
-  item.setAttribute('aria-label', title);
+  const item = existingListItem ? existingListItem : document.createElement('li');
+  //item.setAttribute('aria-label', title);
 
   if (!existingListItem) {
     item.setAttribute('id', id);
   }
 
   const className = ['waykeecom-stepper__item'];
+  item.removeAttribute('aria-current');
+  item.removeAttribute('aria-disabled');
+
   if (active) {
     className.push('waykeecom-stepper__item--is-active');
+    item.setAttribute('aria-current', 'step');
   } else if (completed) {
     className.push('waykeecom-stepper__item--is-complete');
   } else {
     className.push('waykeecom-stepper__item--is-disabled');
+    item.setAttribute('aria-disabled', 'true');
   }
 
   item.className = className.join(' ');
@@ -41,10 +47,11 @@ const ListItem = (element: HTMLElement, props: ListItemProps) => {
         </div>
       </div>
       <h3 class="waykeecom-heading waykeecom-heading--3 waykeecom-no-margin">
-        <span class="waykeecom-stepper__stage" aria-hidden="true">
-          Steg <span class="waykeecom-stepper__stage-count"></span> –
+        <span class="waykeecom-stepper__stage">
+          Steg ${props.index} –
         </span>
         ${title}
+        ${completed ? '<span class="waykeecom-sr-only">(Färdigställt)</span>' : ''}
       </h3>
     </header>
     <div class="waykeecom-stepper__body"></div>

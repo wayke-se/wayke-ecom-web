@@ -48,13 +48,10 @@
     @include font-bold;
   }
 
-  &__footer {
-    margin-top: size(0.5);
-  }
-
   &__price {
     @include font-medium;
 
+    margin-top: size(0.5);
     font-size: scss-var(font, size, small);
   }
 }

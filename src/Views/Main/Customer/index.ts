@@ -21,7 +21,7 @@ interface CustomerProps {
 class Customer extends HtmlNode {
   private readonly props: CustomerProps;
 
-  constructor(element: HTMLDivElement, props: CustomerProps) {
+  constructor(element: HTMLElement, props: CustomerProps) {
     super(element);
     this.props = props;
 
@@ -58,6 +58,7 @@ class Customer extends HtmlNode {
       title: i18next.t('customer.title'),
       active,
       id: 'customer',
+      index: index,
     });
     content.innerHTML = '';
 

@@ -79,6 +79,7 @@ class App {
   private readonly contexts: {
     store: WaykeStore;
     modal?: Modal;
+    lastTrigger?: HTMLElement; // The element that triggered the modal
     unsubribeVwListner?: () => void;
   } = {
     store: createStore(),
@@ -203,6 +204,12 @@ class App {
     if (this.props.onEvent) {
       unregisterEventListner(this.props.onEvent);
     }
+
+    // Set focus back to the element that triggered the modal
+    if (this.contexts.lastTrigger) {
+      this.contexts.lastTrigger.focus();
+      this.contexts.lastTrigger = undefined;
+    }
   }
 
   destroy() {
@@ -254,7 +261,17 @@ class App {
     this.render();
   }
 
+  private focusModal() {
+    if (this.contexts.modal?.content) {
+      this.contexts.modal.content.setAttribute('tabindex', '-1');
+      this.contexts.modal.content.focus();
+    }
+  }
+
   private render(callbackOrder?: CallbackOrder) {
+    if (!this.contexts.lastTrigger) {
+      this.contexts.lastTrigger = document.activeElement as HTMLElement;
+    }
     if (!this.contexts.unsubribeVwListner) {
       this.contexts.unsubribeVwListner = useVwListner();
     }
@@ -276,6 +293,10 @@ class App {
           callbackOrder,
           onClose: () => this.close(),
         });
+
+        // Set focus to the modal to trap focus
+        this.focusModal();
+
         return;
       }
 
@@ -306,6 +327,9 @@ class App {
         default:
           throw 'Unknown view...';
       }
+
+      // Set focus to the modal to trap focus
+      this.focusModal();
     }
   }
 }

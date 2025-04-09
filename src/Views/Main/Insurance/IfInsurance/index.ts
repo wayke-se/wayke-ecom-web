@@ -170,6 +170,7 @@ class IfInsurance extends HtmlNode {
       if (insuranceInfoNode) {
         insuranceInfoNode.innerHTML = Alert({
           tone: 'info',
+          polite: true,
           children: i18next.t('insurance.ifAlert', { insuranceDisclaimerTitle }),
         });
       }

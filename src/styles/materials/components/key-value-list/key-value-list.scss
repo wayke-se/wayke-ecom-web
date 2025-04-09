@@ -1,7 +1,7 @@
 @use '../../../helpers' as *;
 
 .#{$namespace}key-value-list {
-  --#{$namespace}key-font-size: #{scss-var(font, size, xsmall)};
+  --#{$namespace}key-font-size: #{scss-var(font, size, small)};
   --#{$namespace}value-font-size: #{scss-var(font, size, small)};
 
   $root: &;
@@ -28,7 +28,7 @@
   &__key {
     @include font-medium;
 
-    flex-shrink: 0; 
+    flex-shrink: 0;
     display: flex;
     align-items: center;
     max-width: 80%;

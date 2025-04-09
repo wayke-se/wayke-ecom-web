@@ -3,11 +3,11 @@
 .#{$namespace}stepper {
   $root: &;
 
-  counter-reset: #{$namespace}stepper-stage;
+  margin: 0;
+  padding: 0;
+  list-style: none;
 
   &__item {
-    counter-increment: #{$namespace}stepper-stage;
-
     // Current stage
     // &--is-active {}
 
@@ -50,12 +50,6 @@
     display: none;
     flex-shrink: 0;
     margin-right: size(1.5);
-  }
-
-  &__stage-count {
-    &::before {
-      content: counter(#{$namespace}stepper-stage);
-    }
   }
 
   &__body {
