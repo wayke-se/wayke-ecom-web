@@ -24,7 +24,6 @@ import ecomEvent, {
   EcomView,
   getLastHistory,
 } from './Utils/ecomEvent';
-import i18n from './Utils/i18n';
 import { unregisterAllIntervals } from './Utils/intervals';
 import { StageMapKeys } from './Utils/stage';
 import { useVwListner } from './Utils/vw';

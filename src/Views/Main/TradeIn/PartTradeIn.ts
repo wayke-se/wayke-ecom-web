@@ -117,7 +117,7 @@ class PartTradeIn extends HtmlNode {
     this.props = props;
 
     const state = this.props.store.getState();
-    this.state = initalState(state.tradeIn);
+    this.state = initalState(state.tradeIn, props.marketCode);
     this.render();
   }
 
