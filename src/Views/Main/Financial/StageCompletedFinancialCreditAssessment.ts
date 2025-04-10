@@ -1,3 +1,4 @@
+import i18next from '@i18n';
 import { CreditAssessmentRecommendation, PaymentType } from '@wayke-se/ecom';
 import HtmlNode from '../../../Components/Extension/HtmlNode';
 import { WaykeStore } from '../../../Redux/store';
@@ -30,8 +31,8 @@ class StageCompletedFinancialCreditAssessment extends HtmlNode {
         tone: 'success',
         children: `
           <div class="waykeecom-content waykeecom-content--inherit-size">
-            <p class="waykeecom-content__p"><string>Grattis! Din låneansökan har beviljats av ${loan?.name}.</strong></p>
-            <p class="waykeecom-content__p">Slutför ordern genom att klicka dig igenom nästkommande steg. Har du frågor under tiden? Kontakta ${contactInformation?.name} på tel ${contactInformation?.phone}.</p>
+            <p class="waykeecom-content__p"><strong>${i18next.t('stageCompletedFinancialCreditAssessment.approved', { loanName: loan?.name })}</strong></p>
+            <p class="waykeecom-content__p">${i18next.t('stageCompletedFinancialCreditAssessment.approvedDescription', { contactName: contactInformation?.name, contactPhone: contactInformation?.phone })}</p>
           </div>
         `,
       })}
@@ -42,8 +43,8 @@ class StageCompletedFinancialCreditAssessment extends HtmlNode {
         tone: 'warning',
         children: `
           <div class="waykeecom-content waykeecom-content--inherit-size">
-            <p class="waykeecom-content__p"><span class="waykeecom-text waykeecom-text--font-medium">När ordern är slutförd kommer vi att gå igenom ditt ärende och återkoppla till dig med ett lånebesked.</span></p>
-            <p class="waykeecom-content__p">Din bil är fortfarande inte reserverad. Gå vidare till nästa steg för att slutföra ordern, men det är inte säkert att ditt lån kommer att beviljas. Har du frågor under tiden? Kontakta ${contactInformation?.name} på tel ${contactInformation?.phone}.</p>
+            <p class="waykeecom-content__p"><span class="waykeecom-text waykeecom-text--font-medium">${i18next.t('stageCompletedFinancialCreditAssessment.assessManually')}</span></p>
+            <p class="waykeecom-content__p">${i18next.t('stageCompletedFinancialCreditAssessment.assessManuallyDescription', { contactName: contactInformation?.name, contactPhone: contactInformation?.phone })}</p>
           </div>
         `,
       })}
@@ -54,10 +55,10 @@ class StageCompletedFinancialCreditAssessment extends HtmlNode {
           tone: 'error',
           children: `
             <div class="waykeecom-content waykeecom-content--inherit-size">
-              <p class="waykeecom-content__p"><span class="waykeecom-text waykeecom-text--font-medium">Vi kan tyvärr inte bevilja din ansökan om billån.</span></p>
-              <p class="waykeecom-content__p">Det kan finnas olika skäl till att en ansökan nekas. Du kommer inom kort få ett brev med bekräftelse och mer information om just din ansökan.</p>
-              <p class="waykeecom-content__p">Ditt redan påbörjade köp kan fortfarande genomföras och avslutas, för att gå vidare kan du välja ett annat betalsätt.</p>
-              <p class="waykeecom-content__p">Har du frågor under tiden? Kontakta ${contactInformation?.name} på tel ${contactInformation?.phone}.</p>
+              <p class="waykeecom-content__p"><span class="waykeecom-text waykeecom-text--font-medium">${i18next.t('stageCompletedFinancialCreditAssessment.declined')}</span></p>
+              <p class="waykeecom-content__p">${i18next.t('stageCompletedFinancialCreditAssessment.declinedDescription')}</p>
+              <p class="waykeecom-content__p">${i18next.t('stageCompletedFinancialCreditAssessment.declinedNextSteps')}</p>
+              <p class="waykeecom-content__p">${i18next.t('stageCompletedFinancialCreditAssessment.contactInfo', { contactName: contactInformation?.name, contactPhone: contactInformation?.phone })}</p>
             </div>
           `,
         })}

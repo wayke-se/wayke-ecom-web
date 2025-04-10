@@ -1,3 +1,5 @@
+import i18next from '@i18n';
+import { MarketCode } from '../../@types/MarketCode';
 import StackNode from '../../Components/Extension/StackNode';
 import { WaykeStore } from '../../Redux/store';
 import KeyValueListItem from '../../Templates/KeyValueListItem';
@@ -5,6 +7,7 @@ import { maskSSn, maskText } from '../../Utils/mask';
 
 interface CustomerProps {
   readonly store: WaykeStore;
+  readonly marketCode: MarketCode;
 }
 
 class Customer extends StackNode {
@@ -19,39 +22,44 @@ class Customer extends StackNode {
     const { store } = this.props;
     const state = store.getState();
 
+    const customerName =
+      this.props.marketCode === 'SE'
+        ? `${maskText(state.address?.givenName || '')} ${maskText(state.address?.surname || '')}`
+        : `${state.address?.givenName} ${state.address?.surname || ''}`;
+
     this.node.innerHTML = `
       <div class="waykeecom-stack waykeecom-stack--2">
-        <h4 class="waykeecom-heading waykeecom-heading--4 waykeecom-no-margin">Kunduppgifter</h4>
+        <h4 class="waykeecom-heading waykeecom-heading--4 waykeecom-no-margin">${i18next.t('summary.customerTitle')}</h4>
       </div>
       <div class="waykeecom-stack waykeecom-stack--2">
         <div class="waykeecom-stack waykeecom-stack--1">
           <ul class="waykeecom-key-value-list">
             ${KeyValueListItem({
-              key: 'För- och efternamn',
-              value: `${maskText(state.address?.givenName || '')} ${maskText(
-                state.address?.surname || ''
-              )}`,
+              key: i18next.t('summary.customerName'),
+              value: customerName,
             })}
+            ${
+              this.props.marketCode === 'SE'
+                ? KeyValueListItem({
+                    key: i18next.t('summary.customerSSN'),
+                    value: maskSSn(state.customer.socialId),
+                  })
+                : ''
+            }
             ${KeyValueListItem({
-              key: 'Personnummer',
-              value: maskSSn(state.customer.socialId),
-            })}
-            ${KeyValueListItem({
-              key: 'Adress',
+              key: i18next.t('summary.customerAddress'),
               value: `
-                ${maskText(state.address?.givenName || '')} ${maskText(
-                  state.address?.surname || ''
-                )}<br />${state.address?.street}<br />${state.address?.postalCode} ${
+                ${customerName}<br />${state.address?.street}<br />${state.address?.postalCode} ${
                   state.address?.city
                 }
               `,
             })}
             ${KeyValueListItem({
-              key: 'E-post',
+              key: i18next.t('summary.customerEmail'),
               value: state.customer.email,
             })}
             ${KeyValueListItem({
-              key: 'Telefonnummer',
+              key: i18next.t('summary.customerPhone'),
               value: state.customer.phone,
             })}
           </ul>

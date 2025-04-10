@@ -59,6 +59,7 @@ The associated css is injected into head by default once a `new WaykeEcomWeb(...
 new WaykeEcomWeb({
   id: '36364808-671a-49da-b69a-5e0fc4cfe83e',
   rootId: 'random-element-id',
+  marketCode: 'SE',
   vehicle: {
     title: 'Lorem ipsum',
     shortDescription: 'Lorem ipsum',
@@ -104,6 +105,7 @@ Instance contains three public methods, `.start()`, `.close()` and `.destroy()`.
 ### Optional
 
 - `rootId` Choose the element, id, that WakeEcomWeb should append to, by default it will be appended to the body.
+- `marketCode` Used to specify which market to operate in (`'SE'` or `'NO'`), defaults to `'SE'` if unspecified.
 - `vehicle` Used to override specific vehicle data properties provided from Wayke.
 - `ecomSdkConfig.bankIdThumbprint` By default Wayke's BankId certificate is used to verify customer identity. There is an optional configuration property `bankIdThumbprint` which allows for dealers to use their own BankId certificate. If the certificate's thumbprint is set that certificate will be used instead, given that it is correctly setup in the Dealer back-office.
 - `logo` Logo to be displayed in the header of the modal.

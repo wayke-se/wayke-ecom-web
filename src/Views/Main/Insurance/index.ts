@@ -1,3 +1,5 @@
+import i18next from '@i18n';
+import { MarketCode } from '../../../@types/MarketCode';
 import HtmlNode from '../../../Components/Extension/HtmlNode';
 import StageCompleted from '../../../Components/StageCompleted';
 import { addOrRemoveInsurance, completeStage, goTo } from '../../../Redux/action';
@@ -15,6 +17,7 @@ interface InsuranceProps {
   readonly store: WaykeStore;
   readonly index: number;
   readonly lastStage: boolean;
+  readonly marketCode: MarketCode;
 }
 
 class Insurance extends HtmlNode {
@@ -58,7 +61,7 @@ class Insurance extends HtmlNode {
     }
     const content = ListItem(this.node, {
       completed,
-      title: 'Försäkring',
+      title: i18next.t('insurance.title'),
       active,
       id: 'insurance',
       index: index,
@@ -68,44 +71,44 @@ class Insurance extends HtmlNode {
       const keyValueOptions: KeyValueListItemProps[] = [];
       if (state.insurance) {
         keyValueOptions.push({
-          key: 'Uppskattad körsträcka',
+          key: i18next.t('insurance.estimatedMileage'),
           value: translateDrivingDistance[state.drivingDistance],
         });
         keyValueOptions.push({
           key: state.insurance.name,
-          value: prettyNumber(state.insurance.price, { postfix: 'kr/mån' }),
+          value: prettyNumber(state.insurance.price, { postfix: i18next.t('insurance.perMonth') }),
         });
 
         if (state.insuranceAddOns?.insurance === state.insurance.name) {
           state.insuranceAddOns.addOns.forEach((addon) =>
             keyValueOptions.push({
               key: addon.title,
-              value: prettyNumber(addon.monthlyPrice, { postfix: 'kr/mån' }),
+              value: prettyNumber(addon.monthlyPrice, { postfix: i18next.t('insurance.perMonth') }),
             })
           );
         }
       } else if (state.freeInsurance) {
         keyValueOptions.push({
-          key: 'Försäkring',
+          key: i18next.t('insurance.title'),
           value: state.freeInsurance.title,
         });
       } else {
         keyValueOptions.push({
-          key: 'Försäkring',
-          value: 'Ingen',
+          key: i18next.t('insurance.title'),
+          value: i18next.t('insurance.none'),
         });
       }
 
       new StageCompleted(content, {
         keyValueList: keyValueOptions,
-        changeButtonTitle: 'Ändra försäkring',
+        changeButtonTitle: i18next.t('insurance.changeButtonTitle'),
         onEdit: !state.createdOrderId ? () => this.onEdit() : undefined,
       });
     } else if (state.navigation.stage === index) {
       const insuranceOptions = state.order?.insuranceOption;
       if (!insuranceOptions) throw 'Missing insurance';
 
-      switch (insuranceOptions?.institute) {
+      switch (this.props.marketCode === 'SE' && insuranceOptions?.institute) {
         case 'IF':
           new IfInsurance(content, {
             store,
@@ -113,7 +116,6 @@ class Insurance extends HtmlNode {
             onSkip: () => this.onSkipInsurances(),
           });
           break;
-
         default:
           new DefaultInsurance(content, {
             store,

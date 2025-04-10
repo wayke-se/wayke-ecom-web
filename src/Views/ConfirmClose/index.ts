@@ -1,3 +1,4 @@
+import i18next from '@i18n';
 import Button from '../../Components/Button/Button';
 import ButtonAlt from '../../Components/Button/ButtonAlt';
 import HtmlNode from '../../Components/Extension/HtmlNode';
@@ -39,13 +40,13 @@ class ConfirmClose extends HtmlNode {
               </div>
             </div>
             <div class="waykeecom-hstack__item">
-              <h3 class="waykeecom-heading waykeecom-heading--3 waykeecom-no-margin">Bilen är inte reserverad ännu</h3>
+              <h3 class="waykeecom-heading waykeecom-heading--3 waykeecom-no-margin">${i18next.t('confirmClose.heading')}</h3>
             </div>
           </div>
         </div>
         <div class="waykeecom-stack waykeecom-stack--2">
           <div class="waykeecom-content">
-            <p class="waykeecom-content__p">Du har inte klickat dig igenom alla steg som krävs för att ordern ska slutföras och bilen ska reserveras till dig. Är du säker på att du vill avsluta din order?</p>
+            <p class="waykeecom-content__p">${i18next.t('confirmClose.message')}</p>
           </div>
         </div>
       </div>
@@ -56,12 +57,12 @@ class ConfirmClose extends HtmlNode {
     `;
 
     new Button(this.node.querySelector<HTMLDivElement>(`#${ABORT_CLOSE_NODE}`), {
-      title: 'Fortsätt min order',
+      title: i18next.t('confirmClose.abortButton'),
       onClick: () => onAbortClose(),
     });
 
     new ButtonAlt(this.node.querySelector<HTMLDivElement>(`#${CONFIRM_CLOSE_NODE}`), {
-      title: 'Avbryt min order',
+      title: i18next.t('confirmClose.confirmButton'),
       onClick: () => onConfirmClose(),
     });
   }
