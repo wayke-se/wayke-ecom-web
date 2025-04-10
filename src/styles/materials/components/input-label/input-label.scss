@@ -51,7 +51,7 @@
     transition: color 200ms ease;
 
     &:hover {
-      color: color.adjust(color(primary, main), $lightness: -5%);
+      color: color-mix(in srgb, color(primary, main), black 5%);
     }
 
     // Increase hitbox of button to increase accessibility

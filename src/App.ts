@@ -1,3 +1,4 @@
+import './styles/helpers/color/theme.module.css';
 import './styles/styles.scss';
 import { IOrderOptionsResponse, config } from '@wayke-se/ecom';
 
@@ -24,7 +25,6 @@ import ecomEvent, {
   EcomView,
   getLastHistory,
 } from './Utils/ecomEvent';
-import i18n from './Utils/i18n';
 import { unregisterAllIntervals } from './Utils/intervals';
 import { StageMapKeys } from './Utils/stage';
 import { useVwListner } from './Utils/vw';
@@ -298,6 +298,10 @@ class App {
         this.focusModal();
 
         return;
+      }
+
+      if (this.marketCode === 'NO') {
+        document.documentElement.setAttribute('data-theme', 'NO');
       }
 
       switch (this.view) {

@@ -19,7 +19,7 @@ window.addEventListener('DOMContentLoaded', (_) => {
     rootId: 'custom-id',
     logo: 'https://placehold.co/180x40',
     logoX2: 'https://placehold.co/360x80',
-    id: 'd3255290-9afd-4091-bc28-9ca884d4a3b0',
+    id: '3c71f1d5-2161-4f2c-8602-855d4fbf99fa',
     onEvent: (_view: EcomView, _event: EcomEvent, _step?: EcomStep, _data?: any) => null,
     marketCode,
   });

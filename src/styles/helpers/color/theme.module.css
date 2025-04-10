@@ -1,0 +1,159 @@
+/* Base color definitions as CSS variables */
+:root {
+  /* Base colors */
+  --color-black: #424240;
+  --color-white: #fff;
+  --color-gray: #ececeb;
+  --color-gray-light: #f4f4f4;
+  --color-gray-dark: #757575;
+  --color-blue: #00b6d3;
+  --color-blue-light: #e5f7fa;
+  --color-blue-semantic: #005fcc;
+  --color-red: #ea566c;
+  --color-red-extra-light: #fceef0;
+  --color-red-light: #fad2d2;
+  --color-green: #00a997;
+
+  /* Semantic colors */
+  --color-semantic-green: #c2e2db;
+  --color-semantic-green-light: #dff4ef;
+  --color-semantic-green-dark: #00a997;
+  --color-semantic-red: #fad2d2;
+  --color-semantic-red-light: #fceef0;
+  --color-semantic-red-dark: #b0031d;
+  --color-semantic-yellow: #f9dbb6;
+  --color-semantic-yellow-light: #fcf2e2;
+  --color-semantic-yellow-dark: #f0a648;
+  --color-semantic-blue: #bbe2ee;
+  --color-semantic-blue-light: #e5f7fa;
+  --color-semantic-blue-dark: #00b6d3;
+
+  /* Theme color assignments */
+  --color-primary-main: var(--color-blue);
+  --color-primary-alt: var(--color-blue-light);
+  --color-primary-text: var(--color-white);
+
+  --color-action-main: var(--color-red);
+  --color-action-alt: var(--color-red-extra-light);
+  --color-action-text: var(--color-white);
+
+  --color-bg-main: var(--color-white);
+  --color-bg-alt: var(--color-gray-light);
+  --color-bg-contrast: var(--color-black);
+
+  --color-text-main: var(--color-black);
+  --color-text-alt: var(--color-gray-dark);
+  --color-text-inverted: var(--color-white);
+
+  --color-link-main: var(--color-blue);
+
+  --color-border-main: var(--color-gray);
+  --color-border-alt: var(--color-gray-dark);
+
+  --color-focus-main: var(--color-blue-semantic);
+
+  --color-disabled-bg: var(--color-gray-light);
+  --color-disabled-text: var(--color-gray-dark);
+
+  --color-overlay-main: var(--color-black);
+
+  --color-chart-primary: var(--color-green);
+  --color-chart-secondary: var(--color-red-light);
+
+  --color-semantic-success-main: var(--color-semantic-green);
+  --color-semantic-success-alt: var(--color-semantic-green-light);
+  --color-semantic-success-text: var(--color-semantic-green-dark);
+
+  --color-semantic-error-main: var(--color-semantic-red);
+  --color-semantic-error-alt: var(--color-semantic-red-light);
+  --color-semantic-error-text: var(--color-semantic-red-dark);
+
+  --color-semantic-warning-main: var(--color-semantic-yellow);
+  --color-semantic-warning-alt: var(--color-semantic-yellow-light);
+  --color-semantic-warning-text: var(--color-semantic-yellow-dark);
+
+  --color-semantic-info-main: var(--color-semantic-blue);
+  --color-semantic-info-alt: var(--color-semantic-blue-light);
+  --color-semantic-info-text: var(--color-semantic-blue-dark);
+}
+
+:root[data-theme="NO"] {
+  /* Base colors */
+  --color-black: #282828;
+  --color-white: #fff;
+  --color-gray: #ddd;
+  --color-gray-light: #f6f6f6;
+  --color-gray-dark: #707070;
+  
+  /* Primary colors */
+  --color-blue: #0057ff;
+  --color-blue-light: #ecf6ff;
+  --color-blue-semantic: #0057ff;
+  --color-red: #f6432b;
+  --color-red-extra-light: #fff3f1;
+  --color-red-light: #ffdeda;
+  --color-green: #00a962;
+  
+  /* Semantic colors */
+  --color-semantic-green: #ddf8eb;
+  --color-semantic-green-light: #f1fbf6;
+  --color-semantic-green-dark: #00a962;
+  --color-semantic-red: #ffdeda;
+  --color-semantic-red-light: #fff3f1;
+  --color-semantic-red-dark: #980812;
+  --color-semantic-yellow: #fff3c9;
+  --color-semantic-yellow-light: #fffae9;
+  --color-semantic-yellow-dark: #ea8c00;
+  --color-semantic-blue: #d5edff;
+  --color-semantic-blue-light: #ecf6ff;
+  --color-semantic-blue-dark: #0057ff;
+  
+  /* Theme color assignments */
+  --color-primary-main: var(--color-blue);
+  --color-primary-alt: var(--color-blue-light);
+  --color-primary-text: var(--color-white);
+  
+  --color-action-main: var(--color-blue);
+  --color-action-alt: var(--color-blue-light);
+  --color-action-text: var(--color-white);
+  
+  --color-bg-main: var(--color-white);
+  --color-bg-alt: var(--color-gray-light);
+  --color-bg-contrast: var(--color-black);
+  
+  --color-text-main: var(--color-black);
+  --color-text-alt: var(--color-gray-dark);
+  --color-text-inverted: var(--color-white);
+  
+  --color-link-main: var(--color-blue);
+  
+  --color-border-main: var(--color-gray);
+  --color-border-alt: var(--color-gray-dark);
+  
+  --color-focus-main: var(--color-blue-semantic);
+  
+  --color-disabled-bg: var(--color-gray-light);
+  --color-disabled-text: var(--color-gray-dark);
+  
+  --color-overlay-main: var(--color-black);
+  
+  --color-chart-primary: var(--color-green);
+  --color-chart-secondary: var(--color-red-light);
+  
+  /* Semantic color assignments */
+  --color-semantic-success-main: var(--color-semantic-green);
+  --color-semantic-success-alt: var(--color-semantic-green-light);
+  --color-semantic-success-text: var(--color-semantic-green-dark);
+  
+  --color-semantic-error-main: var(--color-semantic-red);
+  --color-semantic-error-alt: var(--color-semantic-red-light);
+  --color-semantic-error-text: var(--color-semantic-red-dark);
+  
+  --color-semantic-warning-main: var(--color-semantic-yellow);
+  --color-semantic-warning-alt: var(--color-semantic-yellow-light);
+  --color-semantic-warning-text: var(--color-semantic-yellow-dark);
+  
+  --color-semantic-info-main: var(--color-semantic-blue);
+  --color-semantic-info-alt: var(--color-semantic-blue-light);
+  --color-semantic-info-text: var(--color-semantic-blue-dark);
+}
