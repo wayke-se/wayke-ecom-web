@@ -24,7 +24,7 @@
 
   &:enabled {
     &:hover {
-      background-color: color.adjust($icon-button-color, $lightness: -5%);
+      background-color: color-mix(in srgb, $icon-button-color, black 5%);
     }
   }
 

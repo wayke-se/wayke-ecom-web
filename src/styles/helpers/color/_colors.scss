@@ -7,67 +7,68 @@
 
 // This map is used to declare variables to use for colors
 $colors: (
+  // Use theme-based colors instead of direct color references
   primary: (
-    main: color-defs(blue),
-    alt: color-defs(blue-light),
-    text: color-defs(white),
+    main: color-defs(theme, primary, main),
+    alt: color-defs(theme, primary, alt),
+    text: color-defs(theme, primary, text),
   ),
   action: (
-    main: color-defs(red),
-    alt: color-defs(red-extra-light),
-    text: color-defs(white),
+    main: color-defs(theme, action, main),
+    alt: color-defs(theme, action, alt),
+    text: color-defs(theme, action, text),
   ),
   bg: (
-    main: color-defs(white),
-    alt: color-defs(gray-light),
-    contrast: color-defs(black),
+    main: color-defs(theme, bg, main),
+    alt: color-defs(theme, bg, alt),
+    contrast: color-defs(theme, bg, contrast),
   ),
   text: (
-    main: color-defs(black),
-    alt: color-defs(gray-dark),
-    inverted: color-defs(white),
+    main: color-defs(theme, text, main),
+    alt: color-defs(theme, text, alt),
+    inverted: color-defs(theme, text, inverted),
   ),
   link: (
-    main: color-defs(blue),
+    main: color-defs(theme, link, main),
   ),
   border: (
-    main: color-defs(gray),
-    alt: color-defs(gray-dark),
+    main: color-defs(theme, border, main),
+    alt: color-defs(theme, border, alt),
   ),
   focus: (
-    main: color-defs(blue-semantic),
+    main: color-defs(theme, focus, main),
   ),
   disabled: (
-    bg: color-defs(gray-light),
-    text: color-defs(gray-dark),
+    bg: color-defs(theme, disabled, bg),
+    text: color-defs(theme, disabled, text),
   ),
   overlay: (
-    main: color-defs(black),
+    main: color-defs(theme, overlay, main),
   ),
   chart: (
-    primary: color-defs(green),
-    secondary: color-defs(red-light),
+    primary: color-defs(theme, chart, primary),
+    secondary: color-defs(theme, chart, secondary),
   ),
   semantic: (
     success: (
-      main: color-defs(semantic, green),
-      alt: color-defs(semantic, green-light),
-      text: color-defs(semantic, green-dark),
+      main: color-defs(semantic-func, success, main),
+      alt: color-defs(semantic-func, success, alt),
+      text: color-defs(semantic-func, success, text),
     ),
     error: (
-      main: color-defs(semantic, red),
-      alt: color-defs(semantic, red-light),
-      text: color-defs(semantic, red-dark),
+      main: color-defs(semantic-func, error, main),
+      alt: color-defs(semantic-func, error, alt),
+      text: color-defs(semantic-func, error, text),
     ),
     warning: (
-      main: color-defs(semantic, yellow),
-      alt: color-defs(semantic, yellow-light),
-      text: color-defs(semantic, yellow-dark),
+      main: color-defs(semantic-func, warning, main),
+      alt: color-defs(semantic-func, warning, alt),
+      text: color-defs(semantic-func, warning, text),
     ),
     info: (
-      main: color-defs(semantic, blue),
-      alt: color-defs(semantic, blue-light),
-      text: color-defs(semantic, blue-dark),
+      main: color-defs(semantic-func, info, main),
+      alt: color-defs(semantic-func, info, alt),
+      text: color-defs(semantic-func, info, text),
     ),
   ),
 );

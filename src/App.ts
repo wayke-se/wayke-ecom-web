@@ -1,3 +1,4 @@
+import './styles/helpers/color/theme.module.css';
 import './styles/styles.scss';
 import { IOrderOptionsResponse, config } from '@wayke-se/ecom';
 
@@ -297,6 +298,10 @@ class App {
         this.focusModal();
 
         return;
+      }
+
+      if (this.marketCode === 'NO') {
+        document.documentElement.setAttribute('data-theme', 'NO');
       }
 
       switch (this.view) {

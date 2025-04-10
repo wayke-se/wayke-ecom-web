@@ -8,7 +8,7 @@
 
   &:not([disabled]) {
     @include hover {
-      background-color: color.adjust($bg, $lightness: -5%);
+      background-color: color-mix(in srgb, $bg, black 5%);
     }
   }
 }
@@ -37,7 +37,7 @@
   }
 
   &--primary {
-    @include button-tone(color(primary, main), color(primary, text));
+    @include button-tone(var(--color-primary-main), color(primary, text));
   }
 
   &--action {
@@ -69,7 +69,7 @@
   &__content {
     display: block;
 
-    & + & {
+    &+& {
       margin-left: size(1);
       user-select: none;
     }

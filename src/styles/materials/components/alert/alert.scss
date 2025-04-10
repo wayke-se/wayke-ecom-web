@@ -22,7 +22,7 @@
     $root,
     color(bg, alt),
     color(text, main),
-    color.scale(color(bg, alt), $lightness: -5%),
+    color-mix(in srgb, color(bg, alt), black 5%),
     color(text, main)
   );
 
