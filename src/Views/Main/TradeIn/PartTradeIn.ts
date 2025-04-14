@@ -136,7 +136,9 @@ class PartTradeIn extends HtmlNode {
         this.state.validation.condition
       ) {
         const value = this.state.value as TradeInCarData;
-        const _response = await getTradeInVehicle(value);
+        const scandinavianMileage =
+          this.props.marketCode === 'SE' ? value.mileage : String(Number(value.mileage) / 10);
+        const _response = await getTradeInVehicle({ ...value, mileage: scandinavianMileage });
         const response = convertVehicleLookupResponse(_response);
         this.response = response;
         this.render();
@@ -407,7 +409,7 @@ class PartTradeIn extends HtmlNode {
         name: 'mileage',
         autocomplete: 'off',
         placeholder: i18next.t('tradeIn.mileagePlaceholder'),
-        unit: 'mil',
+        unit: this.props.marketCode === 'SE' ? 'mil' : 'km',
         pattern: '[0-9]*',
         inputmode: 'numeric',
         onChange: (e) => this.onChange(e),

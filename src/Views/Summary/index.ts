@@ -56,7 +56,7 @@ class Summary extends HtmlNode {
       new Intro(content, { store });
       new Order(content, { store, cdnMedia });
       if (stages?.find((x) => x.name === 'tradeIn')) {
-        new TradeIn(content, { store });
+        new TradeIn(content, { store, marketCode: this.props.marketCode });
       }
 
       if (stages?.find((x) => x.name === 'centralStorage')) {
