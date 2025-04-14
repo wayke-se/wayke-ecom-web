@@ -91,7 +91,7 @@ class TradeIn extends HtmlNode {
       if (state.tradeIn && state.tradeInVehicle) {
         keyValueItemsUpper.push({
           key: i18next.t('tradeIn.mileage'),
-          value: `${state.tradeIn.mileage} mil`,
+          value: `${state.tradeIn.mileage} ${this.props.marketCode === 'SE' ? 'mil' : 'km'}`,
         });
         if (state.tradeIn.description)
           keyValueItemsUpper.push({
