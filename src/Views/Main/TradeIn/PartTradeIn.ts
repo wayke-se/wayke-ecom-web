@@ -257,7 +257,7 @@ class PartTradeIn extends HtmlNode {
       const tradeInVehicle = this.response.vehicle;
       keyValueItemsUpper.push({
         key: i18next.t('tradeIn.mileage'),
-        value: `${this.state.value.mileage} mil`,
+        value: `${this.state.value.mileage} ${this.props.marketCode === 'SE' ? 'mil' : 'km'}`,
       });
       if (this.state.value.description) {
         keyValueItemsUpper.push({

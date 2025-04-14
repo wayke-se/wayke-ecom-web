@@ -54,10 +54,7 @@ class TradeIn extends StackNode {
               <ul class="waykeecom-key-value-list">
                 ${KeyValueListItem({
                   key: i18next.t('summary.mileage'),
-                  value:
-                    this.props.marketCode === 'SE'
-                      ? `${tradeIn.mileage} mil`
-                      : `${Number(tradeIn.mileage) * 10} km`,
+                  value: `${tradeIn.mileage} ${this.props.marketCode === 'SE' ? 'mil' : 'km'}`,
                 })}
                 ${KeyValueListItem({
                   key: i18next.t('summary.description'),
