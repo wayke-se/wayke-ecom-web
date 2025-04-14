@@ -1,4 +1,5 @@
 import i18next from '@i18n';
+import { MarketCode } from '../../@types/MarketCode';
 import StackNode from '../../Components/Extension/StackNode';
 import { WaykeStore } from '../../Redux/store';
 import KeyValueListItem from '../../Templates/KeyValueListItem';
@@ -7,6 +8,7 @@ import { prettyNumber } from '../../Utils/format';
 
 interface TradeInProps {
   readonly store: WaykeStore;
+  readonly marketCode: MarketCode;
 }
 
 class TradeIn extends StackNode {
@@ -52,7 +54,10 @@ class TradeIn extends StackNode {
               <ul class="waykeecom-key-value-list">
                 ${KeyValueListItem({
                   key: i18next.t('summary.mileage'),
-                  value: `${tradeIn.mileage} mil`,
+                  value:
+                    this.props.marketCode === 'SE'
+                      ? `${tradeIn.mileage} mil`
+                      : `${Number(tradeIn.mileage) * 10} km`,
                 })}
                 ${KeyValueListItem({
                   key: i18next.t('summary.description'),
