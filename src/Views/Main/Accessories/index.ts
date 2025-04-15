@@ -3,6 +3,7 @@ import ButtonSkip from '../../../Components/Button/ButtonSkip';
 import HtmlNode from '../../../Components/Extension/HtmlNode';
 import StageCompleted from '../../../Components/StageCompleted';
 
+import i18next from '@i18n';
 import { completeStage, goTo } from '../../../Redux/action';
 import { WaykeStore } from '../../../Redux/store';
 import watch from '../../../Redux/watch';
@@ -59,7 +60,7 @@ class Accessories extends HtmlNode {
     }
     const content = ListItem(this.node, {
       completed,
-      title: 'Tillbehör',
+      title: i18next.t('accessories.title'),
       active,
       id: 'accessories',
       index: index,
@@ -83,11 +84,11 @@ class Accessories extends HtmlNode {
             }))
           : [
               {
-                key: 'Tillbehör',
-                value: 'Inga valda',
+                key: i18next.t('accessories.title'),
+                value: i18next.t('accessories.noSelected'),
               },
             ],
-        changeButtonTitle: 'Ändra tillbehör',
+        changeButtonTitle: i18next.t('accessories.changeButtonTitle'),
         onEdit: !state.createdOrderId ? () => this.onEdit() : undefined,
       });
     } else if (state.navigation.stage === index) {
@@ -96,9 +97,9 @@ class Accessories extends HtmlNode {
       part.innerHTML = `
         <div class="waykeecom-stack waykeecom-stack--3">
           <div class="waykeecom-stack waykeecom-stack--2">
-            <h4 class="waykeecom-heading waykeecom-heading--4">Vill du köpa till ett tillbehör till din nya bil?</h4>
+            <h4 class="waykeecom-heading waykeecom-heading--4">${i18next.t('accessories.heading')}</h4>
             <div class="waykeecom-content">
-              <p class="waykeecom-content__p">Här visar vi några av de tillbehör som passar din nya bil.</p>
+              <p class="waykeecom-content__p">${i18next.t('accessories.description')}</p>
             </div>
           </div>
         </div>
@@ -118,12 +119,12 @@ class Accessories extends HtmlNode {
 
       new ButtonArrowRight(part.querySelector(`#${PROCEED_NODE}`), {
         id: PROCEED,
-        title: 'Gå vidare',
+        title: i18next.t('accessories.proceedButton'),
         onClick: () => this.onProceed(),
       });
 
       new ButtonSkip(part.querySelector<HTMLDivElement>(`#${SKIP_NODE}`), {
-        title: 'Hoppa över detta steg',
+        title: i18next.t('accessories.skipButton'),
         onClick: () => this.onProceed(),
       });
     }

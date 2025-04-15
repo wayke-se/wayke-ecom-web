@@ -1,4 +1,6 @@
+import i18next from '@i18n';
 import { PaymentType } from '@wayke-se/ecom';
+import { MarketCode } from '../../../@types/MarketCode';
 import ButtonArrowRight from '../../../Components/Button/ButtonArrowRight';
 import HtmlNode from '../../../Components/Extension/HtmlNode';
 import InputRadioGroup, { RadioItem } from '../../../Components/Input/InputRadioGroup';
@@ -34,6 +36,7 @@ interface FinancialProps {
   readonly store: WaykeStore;
   readonly index: number;
   readonly lastStage: boolean;
+  readonly marketCode: MarketCode;
 }
 
 class Financial extends HtmlNode {
@@ -114,7 +117,7 @@ class Financial extends HtmlNode {
     const completed = state.topNavigation.stage > this.props.index;
     const content = ListItem(this.node, {
       completed,
-      title: 'Ägandeform',
+      title: i18next.t('financial.heading'),
       active: state.navigation.stage === this.props.index,
       id: 'financial',
       index: this.props.index,
@@ -139,14 +142,19 @@ class Financial extends HtmlNode {
     } else if (state.navigation.stage === this.props.index) {
       const vehicle = state.order?.orderVehicle;
       const cash = paymentOptions.find((x) => x.type === PaymentType.Cash);
-      const loans = paymentOptions.filter((x) => x.type === PaymentType.Loan);
+      const loans = paymentOptions.filter((x) => {
+        switch (this.props.marketCode) {
+          case 'NO':
+            return x.type === PaymentType.Loan && !x.loanDetails?.shouldUseCreditScoring;
+          default:
+            return x.type === PaymentType.Loan;
+        }
+      });
       const lease = paymentOptions.find((x) => x.type === PaymentType.Lease);
 
       part.innerHTML = `
         <div class="waykeecom-stack waykeecom-stack--3">
-          <h4 class="waykeecom-heading waykeecom-heading--4 waykeecom-no-margin">Hur vill du finansiera din ${
-            vehicle?.title
-          } ${formatShortDescription(vehicle)}?</h4>
+          <h4 class="waykeecom-heading waykeecom-heading--4 waykeecom-no-margin">${i18next.t('financial.howToFinance', { vehicleTitle: vehicle?.title, vehicleDescription: formatShortDescription(vehicle) })}</h4>
         </div>
 
         ${
@@ -178,14 +186,12 @@ class Financial extends HtmlNode {
         firstGroupOptions.push({
           id: RADIO_FINANCIAL_CASH,
           value: PaymentType.Cash,
-          title: 'Kontant',
+          title: i18next.t('financial.cash'),
           description: `
             <div class="waykeecom-box">
               <div class="waykeecom-content waykeecom-content--inherit-size">
                 <ul class="waykeecom-content__ul">
-                  <li class="waykeecom-content__li">Betalning sker hos ${contactInformation?.name} vid 
-                  kontraktskrivning.</li>
-                  <li class="waykeecom-content__li">Inga kostnader tillkommer.</li>
+                  <li class="waykeecom-content__li">${i18next.t('financial.cashDescription', { contactName: contactInformation?.name })}</li>
                 </ul>
               </div>
             </div>`,
@@ -216,21 +222,16 @@ class Financial extends HtmlNode {
                     ? `
                   <li class="waykeecom-content__li">
                     <div>
-                      <span class="waykeecom-text waykeecom-text--valign-middle">Låneansökan online med BankID </span>
+                      <span class="waykeecom-text waykeecom-text--valign-middle">${i18next.t('financial.loanApplicationOnline')} </span>
                       <img src="${Image.bankid}" alt="BankID logotyp" class="waykeecom-image waykeecom-image--inline" aria-hidden="true" />
-                      <span class="waykeecom-text waykeecom-text--valign-middle"> – svar direkt!</span>
+                      <span class="waykeecom-text waykeecom-text--valign-middle">${i18next.t('financial.loanApplicationResponse')}</span>
                     </div>
                   </li>
                   `
                     : ''
                 }
-                  <li class="waykeecom-content__li">Betalning sker hos ${contactInformation?.name} vid 
-                  kontraktskrivning.</li>
-                  <li class="waykeecom-content__li">Beräknat på ${prettyNumber(getCreditAmount, {
-                    postfix: 'kr',
-                  })}, ${duration} mån, ${prettyNumber(interest * 100, {
-                    decimals: 2,
-                  })}% ränta.</li>
+                  <li class="waykeecom-content__li">${i18next.t('financial.paymentAtContract', { contactName: contactInformation?.name })}</li>
+                  <li class="waykeecom-content__li">${i18next.t('financial.calculatedOn', { creditAmount: prettyNumber(getCreditAmount, { postfix: 'kr' }), duration, interest: prettyNumber(interest * 100, { decimals: 2 }) })}</li>
                 </ul>
               </div>
             </div>
@@ -253,16 +254,18 @@ class Financial extends HtmlNode {
 
       if (cash || !!loans.length) {
         new InputRadioGroup(part.querySelector<HTMLDivElement>(`#${FINANCIAL_OPTION_NODE}`), {
-          title: 'Köp bilen',
+          title: i18next.t('financial.buyCar'),
           checked: this.paymentType as string,
           name: 'paymentType',
           information: `
             <div class="waykeecom-content waykeecom-content--inherit-size">
-              <p class="waykeecom-content__p">Du köper bilen och äger den själv, antingen genom att betala hela bilen med egna medel eller genom ett billån. Du ansvarar själv för försäljningen av bilen och väljer såklart helt fritt när den ska äga rum.</p>
+              <p class="waykeecom-content__p">${i18next.t('financial.buyCarDescription')}</p>
             </div>
           `,
-          footer: `
-            <div class="waykeecom-box" role="status" aria-live="polite">
+          footer:
+            this.props.marketCode === 'SE'
+              ? `
+              <div class="waykeecom-box" role="status" aria-live="polite">
               <div class="waykeecom-creditor-disclaimer">
                 <div class="waykeecom-creditor-disclaimer__icon" aria-hidden="true">
                   <svg
@@ -301,7 +304,8 @@ class Financial extends HtmlNode {
                 </div>
               </div>
             </div>
-          `,
+          `
+              : '',
           options: firstGroupOptions,
           onClick: (e) => this.onChange(e),
           onClickInformation: () => {
@@ -314,19 +318,9 @@ class Financial extends HtmlNode {
       if (lease) {
         secondGroupOptions.push({
           id: RADIO_FINANCIAL_LEASE,
-          title: 'Privatleasing',
+          title: i18next.t('financial.privateLeasing'),
           value: PaymentType.Lease,
-          /*
-          description: `
-            <div class="waykeecom-box">
-              <div class="waykeecom-content waykeecom-content--inherit-size">
-                <ul class="waykeecom-content__ul">
-                  <li class="waykeecom-content__li">Inkl. 1 500 mil/år, 36 mån.</li>
-                </ul>
-              </div>
-            </div>`,
-          */
-          meta: `<div class="waykeecom-text waykeecom-text--font-bold">Från ${prettyNumber(
+          meta: `<div class="waykeecom-text waykeecom-text--font-bold">${i18next.t('financial.from')} ${prettyNumber(
             lease?.price,
             {
               postfix: lease.unit,
@@ -336,12 +330,12 @@ class Financial extends HtmlNode {
         new InputRadioGroup(
           part.querySelector<HTMLDivElement>(`#${FINANCIAL_OPTION_SECOND_NODE}`),
           {
-            title: 'Leasa bilen',
+            title: i18next.t('financial.leaseCar'),
             checked: this.paymentType as string,
             name: 'paymentType',
             information: `
               <div class="waykeecom-content waykeecom-content--inherit-size">
-                <p class="waykeecom-content__p">När du privatleasar en bil äger du den inte själv utan betalar en månadsavgift under en avtalad tid och som täcker en viss körsträcka och andra avtalade tjänster.</p>
+                <p class="waykeecom-content__p">${i18next.t('financial.leaseCarDescription')}</p>
               </div>
             `,
             options: secondGroupOptions,
@@ -365,7 +359,7 @@ class Financial extends HtmlNode {
           });
         } else {
           new ButtonArrowRight(part.querySelector<HTMLDivElement>(`#${PROCEED_NODE}`), {
-            title: 'Gå vidare',
+            title: i18next.t('financial.proceed'),
             id: PROCEED,
             disabled: !this.paymentType,
             onClick: () => this.onProceed(),

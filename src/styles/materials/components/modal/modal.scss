@@ -28,7 +28,7 @@
     bottom: 0;
     left: 0;
     right: 0;
-    background-color: rgba(color(overlay, main), 0.4);
+    background-color: color-mix(in srgb, color(overlay, main) 40%, transparent);
     z-index: -1;
     animation: #{$namespace}no-transform 400ms ease;
   }
@@ -66,7 +66,7 @@
 
   &__footer {
     @include font-regular;
-    
+
     display: flex;
     justify-content: center;
     padding: var(--#{$namespace}modal-gutter);
@@ -78,6 +78,11 @@
     display: block;
     width: size(5);
     fill: currentColor;
+
+  }
+
+  &__norway-footer-logo {
+    width: size(3)
   }
 
   &__close {
@@ -114,7 +119,7 @@
 
       &::before {
         @include focus-style;
-        
+
         opacity: 1;
       }
     }

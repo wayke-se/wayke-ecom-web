@@ -6,31 +6,103 @@
 
 // This map is used to define all colors used in this project
 $color-defs: (
-  black: #424240,
-  white: #fff,
-  gray: #ececeb,
-  gray-light: #f4f4f4,
-  gray-dark: #757575,
-  blue: #00b6d3,
-  blue-light: #e5f7fa,
-  blue-semantic: #005fcc,
-  red: #ea566c,
-  red-extra-light: #fceef0,
-  red-light: #fad2d2,
-  green: #00a997,
+  // Base colors - keeping these for backward compatibility
+  black: var(--color-black),
+  white: var(--color-white),
+  gray: var(--color-gray),
+  gray-light: var(--color-gray-light),
+  gray-dark: var(--color-gray-dark),
+  blue: var(--color-blue),
+  blue-light: var(--color-blue-light),
+  blue-semantic: var(--color-blue-semantic),
+  red: var(--color-red),
+  red-extra-light: var(--color-red-extra-light),
+  red-light: var(--color-red-light),
+  green: var(--color-green),
+  
+  // Theme-based color definitions
+  theme: (
+    primary: (
+      main: var(--color-primary-main),
+      alt: var(--color-primary-alt),
+      text: var(--color-primary-text),
+    ),
+    action: (
+      main: var(--color-action-main),
+      alt: var(--color-action-alt),
+      text: var(--color-action-text),
+    ),
+    bg: (
+      main: var(--color-bg-main),
+      alt: var(--color-bg-alt),
+      contrast: var(--color-bg-contrast),
+    ),
+    text: (
+      main: var(--color-text-main),
+      alt: var(--color-text-alt),
+      inverted: var(--color-text-inverted),
+    ),
+    link: (
+      main: var(--color-link-main),
+    ),
+    border: (
+      main: var(--color-border-main),
+      alt: var(--color-border-alt),
+    ),
+    focus: (
+      main: var(--color-focus-main),
+    ),
+    disabled: (
+      bg: var(--color-disabled-bg),
+      text: var(--color-disabled-text),
+    ),
+    overlay: (
+      main: var(--color-overlay-main),
+    ),
+    chart: (
+      primary: var(--color-chart-primary),
+      secondary: var(--color-chart-secondary),
+    ),
+  ),
+  
+  // Semantic colors
   semantic: (
-    green: #c2e2db,
-    green-light: #dff4ef,
-    green-dark: #00a997,
-    red: #fad2d2,
-    red-light: #fceef0,
-    red-dark: #b0031d,
-    yellow: #f9dbb6,
-    yellow-light: #fcf2e2,
-    yellow-dark: #f0a648,
-    blue: #bbE2ee,
-    blue-light: #e5f7fa,
-    blue-dark: #00b6d3,
+    green: var(--color-semantic-green),
+    green-light: var(--color-semantic-green-light),
+    green-dark: var(--color-semantic-green-dark),
+    red: var(--color-semantic-red),
+    red-light: var(--color-semantic-red-light),
+    red-dark: var(--color-semantic-red-dark),
+    yellow: var(--color-semantic-yellow),
+    yellow-light: var(--color-semantic-yellow-light),
+    yellow-dark: var(--color-semantic-yellow-dark),
+    blue: var(--color-semantic-blue),
+    blue-light: var(--color-semantic-blue-light),
+    blue-dark: var(--color-semantic-blue-dark),
+  ),
+  
+  // Semantic functional colors
+  semantic-func: (
+    success: (
+      main: var(--color-semantic-success-main),
+      alt: var(--color-semantic-success-alt),
+      text: var(--color-semantic-success-text),
+    ),
+    error: (
+      main: var(--color-semantic-error-main),
+      alt: var(--color-semantic-error-alt),
+      text: var(--color-semantic-error-text),
+    ),
+    warning: (
+      main: var(--color-semantic-warning-main),
+      alt: var(--color-semantic-warning-alt),
+      text: var(--color-semantic-warning-text),
+    ),
+    info: (
+      main: var(--color-semantic-info-main),
+      alt: var(--color-semantic-info-alt),
+      text: var(--color-semantic-info-text),
+    ),
   ),
 );
 

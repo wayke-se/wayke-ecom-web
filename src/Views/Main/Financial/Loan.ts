@@ -1,3 +1,4 @@
+import i18next from '@i18n';
 import { IPaymentRangeSpec } from '@wayke-se/ecom';
 import { PaymentOption } from '../../../@types/OrderOptions';
 import { PaymentLookup } from '../../../@types/PaymentLookup';
@@ -127,7 +128,7 @@ class Loan extends HtmlNode {
         this.paymentState.duration.max
       );
     } catch (_e) {
-      this.contexts.errorAlert?.update(`Ett fel uppstod, försök igen.`);
+      this.contexts.errorAlert?.update(i18next.t('loan.errorOccurred'));
       this.contexts.downPayment?.disabled(false);
       this.contexts.duration?.disabled(false);
       this.contexts.residual?.disabled(false);
@@ -185,14 +186,12 @@ class Loan extends HtmlNode {
         <hr class="waykeecom-separator" />
       </div>
       <div class="waykeecom-stack waykeecom-stack--3">
-        <h5 class="waykeecom-heading waykeecom-heading--4">Billån</h5>
+        <h5 class="waykeecom-heading waykeecom-heading--4">${i18next.t('loan.title')}</h5>
         <div class="waykeecom-content">
-          <p class="waykeecom-content__p">Finansiera bilen med billån via ${loan?.name}.${
-            shouldUseCreditScoring
-              ? ` Gör din låneansökan här - och få besked direkt. Kom ihåg, köpet är inte bindande förrän du signerat det definitiva affärsförslaget som tas fram av ${name}.`
-              : ''
+          <p class="waykeecom-content__p">${i18next.t('loan.description', { name: loan?.name })}${
+            shouldUseCreditScoring ? ` ${i18next.t('loan.creditScoringInfo', { name })}` : ''
           }</p>
-          <p class="waykeecom-content__p">Ange din tänkta kontantinsats och hur många månader du vill lägga upp ditt lån på.</p>
+          <p class="waykeecom-content__p">${i18next.t('loan.instruction')}</p>
         </div>
       </div>
       <div class="waykeecom-stack waykeecom-stack--3">
@@ -215,7 +214,7 @@ class Loan extends HtmlNode {
     this.contexts.downPayment = new InputRange(
       this.node.querySelector<HTMLDivElement>(`#${DOWNPAYMENT_RANGE_NODE}`),
       {
-        title: 'Kontantinsats',
+        title: i18next.t('loan.downPaymentTitle'),
         value: this.paymentState.downPayment.current,
         id: DOWNPAYMENT_RANGE,
         name: 'downPayment',
@@ -225,9 +224,8 @@ class Loan extends HtmlNode {
         unit: 'kr',
         information: `
           <div class="waykeecom-content waykeecom-content--inherit-size">
-            <p class="waykeecom-content__p"><span class="waykeecom-text waykeecom-text--font-medium">Hur mycket av dina egna pengar vill du lägga?</span></p>
-            <p class="waykeecom-content__p">Kontantinsatsen är en del av bilens pris som du betalar med egna pengar. Den behöver vara minst 20% av priset på bilen. Kontantinsatsen betalar du senare i samband med avtalsskrivning hos ${name}.</p>
-            <p class="waykeecom-content__p">Ifall du har en inbytesbil kan du betala kontantinsatsen med den. Detta kommer du överens om tillsammans med ${name} vid avtalsskrivning. </p>
+            <p class="waykeecom-content__p"><span class="waykeecom-text waykeecom-text--font-medium">${i18next.t('loan.downPaymentInfoTitle')}</span></p>
+            <p class="waykeecom-content__p">${i18next.t('loan.downPaymentInfoDescription', { name })}</p>
           </div>
         `,
         onClickInformation: () => {
@@ -243,7 +241,7 @@ class Loan extends HtmlNode {
     this.contexts.duration = new InputRange(
       this.node.querySelector<HTMLDivElement>(`#${DURATION_RANGE_NODE}`),
       {
-        title: 'Avbetalning',
+        title: i18next.t('loan.durationTitle'),
         value: this.paymentState.duration.current,
         id: DURATION_RANGE,
         name: 'duration',
@@ -259,7 +257,7 @@ class Loan extends HtmlNode {
       this.contexts.residual = new InputRange(
         this.node.querySelector<HTMLDivElement>(`#${RESIDUAL_RANGE_NODE}`),
         {
-          title: 'Restvärde',
+          title: i18next.t('loan.residualTitle'),
           value: parseInt(`${this.paymentState.residual.current * 100}`, 10),
           id: RESIDUAL_RANGE,
           name: 'residual',
@@ -296,7 +294,7 @@ class Loan extends HtmlNode {
       this.contexts.proceedButton = new ButtonArrowRight(
         this.node.querySelector<HTMLDivElement>(`#${PROCEED_NODE}`),
         {
-          title: 'Gå vidare',
+          title: i18next.t('loan.proceedButton'),
           id: PROCEED,
           onClick: () => onProceed(),
         }

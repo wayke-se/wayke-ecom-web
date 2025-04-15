@@ -1,9 +1,11 @@
+import { MarketCode } from '../@types/MarketCode';
 import {
   regexEmail,
   regexNumber,
   regexPersonalNumber,
   regexPhoneNumberVariant,
-  regexRegistrationNumber,
+  regexRegistrationNumberNorway,
+  regexRegistrationNumberSweden,
   regexZip,
 } from './regex';
 
@@ -59,15 +61,18 @@ export const validationMethods = {
   },
   optionalNumber: (s?: string | number | null) =>
     s === null || s === undefined || !Number.isNaN(+s),
-  requiredRegistrationNumber: (s?: string) => {
+  requiredRegistrationNumber: (s?: string, marketCode?: MarketCode) => {
     if (!s) {
       return false;
     }
 
     const trimmed = s.replace(' ', '');
 
-    const hasCorrectLength = trimmed.length === 6;
-    const isRegexMatch = regexRegistrationNumber.test(trimmed);
+    const hasCorrectLength = marketCode === 'SE' ? trimmed.length === 6 : trimmed.length === 7;
+    const isRegexMatch =
+      marketCode === 'SE'
+        ? regexRegistrationNumberSweden.test(trimmed)
+        : regexRegistrationNumberNorway.test(trimmed);
 
     return hasCorrectLength && isRegexMatch;
   },
@@ -95,5 +100,17 @@ export const validationMethods = {
   },
   requiredHousingType: (s?: string) => {
     return ['singleFamily', 'condominium', 'apartment'].includes(s || '');
+  },
+  requiredName: (s?: string) => {
+    return !!s;
+  },
+  requiredCity: (s?: string) => {
+    return !!s;
+  },
+  requiredStreet: (s?: string) => {
+    return !!s;
+  },
+  requiredStreet2: (_s?: string) => {
+    return true;
   },
 };

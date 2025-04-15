@@ -1,3 +1,4 @@
+import i18next from '@i18n';
 import StackNode from '../../Components/Extension/StackNode';
 import { WaykeStore } from '../../Redux/store';
 import KeyValueListItem from '../../Templates/KeyValueListItem';
@@ -24,13 +25,13 @@ class Delivery extends StackNode {
 
     this.node.innerHTML = `
       <div class="waykeecom-stack waykeecom-stack--2">
-        <h4 class="waykeecom-heading waykeecom-heading--4 waykeecom-no-margin">Centrallager</h4>
+        <h4 class="waykeecom-heading waykeecom-heading--4 waykeecom-no-margin">${i18next.t('summary.centralStorageTitle')}</h4>
       </div>
       <div class="waykeecom-stack waykeecom-stack--2">
         <div class="waykeecom-stack waykeecom-stack--1">
           <ul class="waykeecom-key-value-list">
             ${KeyValueListItem({
-              key: 'Val av handlare',
+              key: i18next.t('summary.dealerSelection'),
               value: dealerName || '',
             })}
           </ul>

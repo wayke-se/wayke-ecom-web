@@ -1,3 +1,4 @@
+import i18next from '@i18n';
 import { IAvailableInsuranceOption } from '@wayke-se/ecom';
 import ButtonAddRemove from '../../../../Components/Button/ButtonAddRemove';
 import ButtonAsLinkArrowLeft from '../../../../Components/Button/ButtonAsLinkArrowLeft';
@@ -40,13 +41,13 @@ class InsuranceItemInfo extends HtmlNode {
           </div>
           <div class="waykeecom-hstack__item waykeecom-hstack__item--no-shrink">
             <div class="waykeecom-logo">
-              <img src="${logo}" alt="Tillverkarens logotyp för ${title}" class="waykeecom-logo__image waykeecom-logo__image--right" />
+              <img src="${logo}" alt="${i18next.t('insurance.logoAlt', { title })}" class="waykeecom-logo__image waykeecom-logo__image--right" />
             </div>
           </div>
         </div>
       </div>
       <div class="waykeecom-stack waykeecom-stack--3">
-        <div class="waykeecom-text waykeecom-text--font-bold">Gratis</div>
+        <div class="waykeecom-text waykeecom-text--font-bold">${i18next.t('insurance.free')}</div>
       </div>
       <div class="waykeecom-stack waykeecom-stack--3">
         <div class="waykeecom-content waykeecom-text waykeecom-text--font-medium">
@@ -71,12 +72,12 @@ class InsuranceItemInfo extends HtmlNode {
     `;
 
     new ButtonAsLinkArrowLeft(this.node.querySelector(`#${BUTTON_TOP_LEFT_NODE}`), {
-      title: 'Tillbaka',
+      title: i18next.t('insurance.backButton'),
       onClick: () => onClose(),
     });
 
     new ButtonClear(this.node.querySelector(`#${BUTTON_BOTTOM_LEFT_NODE}`), {
-      title: 'Tillbaka',
+      title: i18next.t('insurance.backButton'),
       onClick: () => onClose(),
     });
 

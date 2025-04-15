@@ -1,3 +1,4 @@
+import './styles/helpers/color/theme.module.css';
 import './styles/styles.scss';
 import { IOrderOptionsResponse, config } from '@wayke-se/ecom';
 
@@ -7,8 +8,10 @@ import { Vehicle } from './@types/Vehicle';
 import { reset, setId, setState } from './Redux/action';
 import { WaykeStore, createStore } from './Redux/store';
 
+import i18next, { initializeI18N } from '@i18n';
 import { CallbackOrder } from './@types/CallbackOrder';
 import { EcomSdkConfig } from './@types/EcomSdkConfig';
+import { MarketCode } from './@types/MarketCode';
 import { ViewTypes } from './@types/Navigation';
 import Modal from './Components/Modal/Modal';
 import { creditAssessmentCancelSigning } from './Data/creditAssessmentCancelSigning';
@@ -64,6 +67,7 @@ interface AppProps {
   logo?: string;
   logoX2?: string;
   onEvent?: (view: EcomView, event: EcomEvent, currentStep?: EcomStep, data?: any) => void;
+  marketCode?: MarketCode;
 }
 
 class App {
@@ -80,10 +84,14 @@ class App {
   } = {
     store: createStore(),
   };
+  private marketCode: MarketCode;
 
   constructor(props: AppProps) {
     if (!props.id) throw 'Missing id';
     this.props = props;
+    this.marketCode = props.marketCode || 'SE';
+    initializeI18N(this.marketCode);
+
     if (!window.process) {
       window.process = {
         ...((window.process || {}) as NodeJS.Process),
@@ -219,10 +227,11 @@ class App {
     }
 
     this.contexts.modal = new Modal(this.root, {
-      title: 'Wayke Ecom',
+      title: i18next.t('glossary.modalTitle'),
       id: WAYKE_ECOM_MODAL_ID,
       logo: this.props.logo,
       logoX2: this.props.logoX2,
+      marketCode: this.marketCode,
     });
 
     const lastEvent = getLastHistory();
@@ -267,11 +276,12 @@ class App {
       this.contexts.unsubribeVwListner = useVwListner();
     }
     this.contexts.modal = new Modal(this.root, {
-      title: 'Wayke Ecom',
+      title: i18next.t('glossary.modalTitle'),
       id: WAYKE_ECOM_MODAL_ID,
       logo: this.props.logo,
       logoX2: this.props.logoX2,
       onClose: () => this.closeWithConfirm(),
+      marketCode: this.marketCode,
     });
 
     if (this.contexts.modal.content) {
@@ -290,6 +300,10 @@ class App {
         return;
       }
 
+      if (this.marketCode === 'NO') {
+        document.getElementById(WAYKE_ECOM_MODAL_ID)?.setAttribute('data-theme', 'drive');
+      }
+
       switch (this.view) {
         case 'preview':
           new Preview(this.contexts.modal.content, {
@@ -303,6 +317,7 @@ class App {
           new Main(this.contexts.modal.content, {
             store: this.contexts.store,
             cdnMedia: this.cdnMedia,
+            marketCode: this.marketCode,
           });
           break;
         case 'summary':
@@ -310,6 +325,7 @@ class App {
             store: this.contexts.store,
             cdnMedia: this.cdnMedia,
             onClose: () => this.close(),
+            marketCode: this.marketCode,
           });
           break;
         default:

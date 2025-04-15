@@ -1,3 +1,4 @@
+import { MarketCode } from '../../@types/MarketCode';
 import HtmlNode from '../../Components/Extension/HtmlNode';
 import { WaykeStore } from '../../Redux/store';
 import watch from '../../Redux/watch';
@@ -16,6 +17,7 @@ interface SummaryProps {
   readonly store: WaykeStore;
   readonly cdnMedia?: string;
   readonly onClose: () => void;
+  readonly marketCode: MarketCode;
 }
 
 class Summary extends HtmlNode {
@@ -54,14 +56,14 @@ class Summary extends HtmlNode {
       new Intro(content, { store });
       new Order(content, { store, cdnMedia });
       if (stages?.find((x) => x.name === 'tradeIn')) {
-        new TradeIn(content, { store });
+        new TradeIn(content, { store, marketCode: this.props.marketCode });
       }
 
       if (stages?.find((x) => x.name === 'centralStorage')) {
         new CentralStorage(content, { store });
       }
       new Delivery(content, { store });
-      new Customer(content, { store });
+      new Customer(content, { store, marketCode: this.props.marketCode });
     }
   }
 }

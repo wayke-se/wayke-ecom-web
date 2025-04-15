@@ -23,6 +23,7 @@ import {
   INIT_TRADE_IN,
   RESET,
   RESET_PAYMENT_LOOKUP_RESPONSE,
+  SET_ADDRESS,
   SET_CONTACT_EMAIL_AND_PHONE,
   SET_CREATED_ORDER_ID,
   SET_CREDIT_ASSESSMENT_RESPONSE,
@@ -177,6 +178,19 @@ const reducer = (state = initialState, action: Action): ReducerState => {
         topNavigation,
         address: action.address,
         customer: { ...state.customer, socialId: action.socialId },
+      };
+
+      return next;
+    case SET_ADDRESS:
+      navigation = getNextNavigationState(next.navigation.stage, action.lastStage);
+      topNavigation = getNextTopNavigationState(next.topNavigation, navigation);
+
+      next = {
+        ...state,
+        navigation,
+        topNavigation,
+        address: action.address,
+        customer: { ...state.customer },
       };
 
       return next;

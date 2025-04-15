@@ -1,3 +1,5 @@
+import i18next from '@i18n';
+import { MarketCode } from '../../../@types/MarketCode';
 import { TradeInCarData, TradeInCarDataPartial, VehicleCondition } from '../../../@types/TradeIn';
 import { VehicleLookup } from '../../../@types/VehicleLookup';
 import ButtonArrowRight from '../../../Components/Button/ButtonArrowRight';
@@ -70,56 +72,12 @@ type INPUT_RADIO_KEYS = keyof Omit<
 
 // const TRADE_IN_CACHE: { [key: string]: IVehicle | undefined } = {};
 
-const RadioElements: RadioItem[] = [
-  {
-    id: `radio-${VehicleCondition.VeryGood}`,
-    value: VehicleCondition.VeryGood,
-    title: 'Mycket bra skick',
-    description: `
-    <div class="waykeecom-box">
-      <div class="waykeecom-content waykeecom-content--inherit-size">
-        <ul class="waykeecom-content__ul">
-          <li class="waykeecom-content__li">Inga repor eller skador</li>
-          <li class="waykeecom-content__li">Servad vid varje tillfälle med stämplar i serviceboken</li>
-          <li class="waykeecom-content__li">Däck med väldigt bra mönsterdjup (5-8 mm)</li>
-        </ul>
-      </div>
-    </div>`,
-  },
-  {
-    id: `radio-${VehicleCondition.Good}`,
-    value: VehicleCondition.Good,
-    title: 'Bra skick',
-    description: `
-    <div class="waykeecom-box">
-      <div class="waykeecom-content waykeecom-content--inherit-size">
-        <ul class="waykeecom-content__ul">
-          <li class="waykeecom-content__li">Några mindre repor och/eller skador</li>
-          <li class="waykeecom-content__li">Servad vid varje tillfälle med stämplar i serviceboken</li>
-          <li class="waykeecom-content__li">Däck som inte behöver bytas (mönsterdjup om 3-5 mm)</li>
-        </ul>
-      </div>
-    </div>`,
-  },
-  {
-    id: `radio-${VehicleCondition.Ok}`,
-    value: VehicleCondition.Ok,
-    title: 'Helt okej skick',
-    description: `
-    <div class="waykeecom-box">
-      <div class="waykeecom-content waykeecom-content--inherit-size">
-        <ul class="waykeecom-content__ul">
-          <li class="waykeecom-content__li">Finns en del repor och skador</li>
-          <li class="waykeecom-content__li">Inte servad vid varje tillfälle</li>
-          <li class="waykeecom-content__li">Däck som behöver bytas (mönsterdjup under 3 mm)</li>
-        </ul>
-      </div>
-    </div>`,
-  },
-];
-const initalState = (tradeIn?: TradeInCarDataPartial): PartTradeInState => {
+const initalState = (
+  tradeIn?: TradeInCarDataPartial,
+  marketCode?: MarketCode
+): PartTradeInState => {
   const value = {
-    registrationNumber: tradeIn?.registrationNumber || '',
+    registrationNumber: marketCode === 'SE' ? tradeIn?.registrationNumber || '' : '',
     mileage: tradeIn?.mileage || '',
     description: tradeIn?.description || '',
     condition: tradeIn?.condition,
@@ -127,7 +85,7 @@ const initalState = (tradeIn?: TradeInCarDataPartial): PartTradeInState => {
   return {
     value,
     validation: {
-      registrationNumber: validation.registrationNumber(value.registrationNumber),
+      registrationNumber: validation.registrationNumber(value.registrationNumber, marketCode),
       mileage: validation.mileage(value.mileage),
       description: validation.description(value.description),
       condition: validation.condition(value.condition),
@@ -139,6 +97,7 @@ const initalState = (tradeIn?: TradeInCarDataPartial): PartTradeInState => {
 interface PartTradeInProps {
   readonly store: WaykeStore;
   readonly lastStage: boolean;
+  readonly marketCode: MarketCode;
 }
 
 class PartTradeIn extends HtmlNode {
@@ -158,7 +117,7 @@ class PartTradeIn extends HtmlNode {
     this.props = props;
 
     const state = this.props.store.getState();
-    this.state = initalState(state.tradeIn);
+    this.state = initalState(state.tradeIn, props.marketCode);
     this.render();
   }
 
@@ -177,7 +136,9 @@ class PartTradeIn extends HtmlNode {
         this.state.validation.condition
       ) {
         const value = this.state.value as TradeInCarData;
-        const _response = await getTradeInVehicle(value);
+        const scandinavianMileage =
+          this.props.marketCode === 'SE' ? value.mileage : String(Number(value.mileage) / 10);
+        const _response = await getTradeInVehicle({ ...value, mileage: scandinavianMileage });
         const response = convertVehicleLookupResponse(_response);
         this.response = response;
         this.render();
@@ -294,17 +255,20 @@ class PartTradeIn extends HtmlNode {
       const keyValueItemsUpper: { key: string; value: string }[] = [];
 
       const tradeInVehicle = this.response.vehicle;
-      keyValueItemsUpper.push({ key: 'Miltal', value: `${this.state.value.mileage} mil` });
+      keyValueItemsUpper.push({
+        key: i18next.t('tradeIn.mileage'),
+        value: `${this.state.value.mileage} ${this.props.marketCode === 'SE' ? 'mil' : 'km'}`,
+      });
       if (this.state.value.description) {
         keyValueItemsUpper.push({
-          key: 'Beskrivning',
+          key: i18next.t('tradeIn.description'),
           value: `${this.state.value.description}`,
         });
       }
 
       if (this.state.value.condition) {
         keyValueItemsUpper.push({
-          key: 'Bilens skick',
+          key: i18next.t('tradeIn.condition'),
           value: translateTradeInCondition[this.state.value.condition],
         });
       }
@@ -335,7 +299,7 @@ class PartTradeIn extends HtmlNode {
           </div>
           <div class="waykeecom-stack waykeecom-stack--3 waykeecom-text waykeecom-text--align-center">
             <div class="waykeecom-stack waykeecom-stack--1">
-              <div class="waykeecom-text waykeecom-text--tone-alt waykeecom-text--size-small">Ungefärligt värde</div>
+              <div class="waykeecom-text waykeecom-text--tone-alt waykeecom-text--size-small">${i18next.t('tradeIn.estimatedValue')}</div>
             </div>
             <div class="waykeecom-stack waykeecom-stack--1">
               <div class="waykeecom-heading waykeecom-heading--2 waykeecom-no-margin">
@@ -346,8 +310,7 @@ class PartTradeIn extends HtmlNode {
           <div class="waykeecom-stack waykeecom-stack--3">
             ${Alert({
               tone: 'info',
-              children:
-                '<span class="waykeecom-text waykeecom-text--font-medium">Vi skickar med uppgifter om din inbytesbil till bilhandlaren.</span> Observera att värderingen som utförs ger ett uppskattat inbytesvärde. Det slutgiltliga värdet avgörs när handlare kan bekräfta bilens skick.',
+              children: `<span class="waykeecom-text waykeecom-text--font-medium">${i18next.t('tradeIn.infoText')}</span> ${i18next.t('tradeIn.infoDisclaimer')}`,
             })}
           </div>
           <div class="waykeecom-stack waykeecom-stack--3">
@@ -358,27 +321,27 @@ class PartTradeIn extends HtmlNode {
 
       new ButtonAsLink(this.node.querySelector(`#${CHANGE_BUTTON_NODE}`), {
         id: CHANGE_BUTTON,
-        title: 'Ändra',
+        title: i18next.t('tradeIn.changeButtonTitle'),
         onClick: () => this.onEdit(),
       });
 
       new ButtonArrowRight(this.node.querySelector(`#${PROCEED_NODE}`), {
-        title: 'Använd och gå vidare',
+        title: i18next.t('tradeIn.proceedButton'),
         onClick: () => this.onProceed(),
       });
 
       new ButtonSkip(this.node.querySelector(`#${TRADE_IN_NO_NODE}`), {
         id: TRADE_IN_NO,
-        title: 'Hoppa över detta steg',
+        title: i18next.t('tradeIn.skipButton'),
         onClick: () => this.onNoTradeIn(),
       });
       this.node.parentElement?.parentElement?.scrollIntoView();
     } else {
       this.node.innerHTML = `
       <div class="waykeecom-stack waykeecom-stack--3">
-        <h4 class="waykeecom-heading waykeecom-heading--4">Uppgifter om din inbytesbil</h4>
+        <h4 class="waykeecom-heading waykeecom-heading--4">${i18next.t('tradeIn.detailsHeading')}</h4>
         <div class="waykeecom-content">
-          <p class="waykeecom-content__p">Ange registreringsnumret och aktuellt miltal för din inbytesbil så får du ett uppskattat inköpspris av oss. </p>
+          <p class="waykeecom-content__p">${i18next.t('tradeIn.detailsDescription')}</p>
         </div>
       </div>
       <div class="waykeecom-stack waykeecom-stack--3">
@@ -391,8 +354,7 @@ class PartTradeIn extends HtmlNode {
         this.requestError
           ? `<div class="waykeecom-stack waykeecom-stack--3">${Alert({
               tone: 'error',
-              children:
-                'Tyvärr fick vi ingen träff på registreringsnummret du angav. Vänligen kontrollera att registreringsnummret stämmer.',
+              children: i18next.t('tradeIn.fetchError'),
             })}</div>`
           : ''
       }
@@ -405,37 +367,49 @@ class PartTradeIn extends HtmlNode {
       this.contexts.registrationNumber = new InputField(
         this.node.querySelector(`#${REGISTRATION_NUMBER_NODE}`),
         {
-          title: 'Registreringsnummer',
+          title: i18next.t('tradeIn.registrationNumber'),
           value: this.state.value.registrationNumber,
           id: REGISTRATION_NUMBER_ID,
           error:
             this.state.interact.registrationNumber && !this.state.validation.registrationNumber,
-          errorMessage: 'Ett giltig registreringsnummer i formatet ABC123 eller ABC12A måste anges',
+          errorMessage: i18next.t('tradeIn.registrationNumberError'),
           name: 'registrationNumber',
           autocomplete: 'off',
-          placeholder: 'Ange registreringsnummer',
-          unit: `
-          <svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 34" class="waykeecom-input-text__unit-regnr-icon" aria-hidden="true">
-            <rect width="22" height="34" rx="1" fill="#458BDD"/>
-            <circle cx="11" cy="10" r="5.5" stroke="#FFF500" stroke-linejoin="round" stroke-dasharray="1 2"/>
-            <path d="M10.6707 21.692c1.392 0 2.04.564 2.28.996h1.644c-.264-1.08-1.248-2.364-3.924-2.364-2.028 0-3.408.912-3.408 2.436 0 1.536 1.2 2.34 2.904 2.508l1.512.156c.876.108 1.476.372 1.476 1.188 0 .684-.684 1.176-1.98 1.176-1.56 0-2.244-.72-2.472-1.26h-1.716c.336 1.224 1.404 2.628 4.188 2.628 2.412 0 3.624-1.116 3.624-2.652 0-1.8-1.308-2.448-3.012-2.616-.576-.06-.972-.108-1.5-.156-.888-.108-1.392-.444-1.392-1.02 0-.624.612-1.02 1.776-1.02Z" fill="#fff"/>
-          </svg>
-        `,
+          placeholder: i18next.t('tradeIn.registrationNumberPlaceholder'),
+          unit:
+            this.props.marketCode === 'SE'
+              ? `
+                <svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 34" class="waykeecom-input-text__unit-regnr-icon" aria-hidden="true">
+                  <rect width="22" height="34" rx="1" fill="#458BDD"/>
+                  <circle cx="11" cy="10" r="5.5" stroke="#FFF500" stroke-linejoin="round" stroke-dasharray="1 2"/>
+                  <path d="M10.6707 21.692c1.392 0 2.04.564 2.28.996h1.644c-.264-1.08-1.248-2.364-3.924-2.364-2.028 0-3.408.912-3.408 2.436 0 1.536 1.2 2.34 2.904 2.508l1.512.156c.876.108 1.476.372 1.476 1.188 0 .684-.684 1.176-1.98 1.176-1.56 0-2.244-.72-2.472-1.26h-1.716c.336 1.224 1.404 2.628 4.188 2.628 2.412 0 3.624-1.116 3.624-2.652 0-1.8-1.308-2.448-3.012-2.616-.576-.06-.972-.108-1.5-.156-.888-.108-1.392-.444-1.392-1.02 0-.624.612-1.02 1.776-1.02Z" fill="#fff"/>
+                </svg>
+              `
+              : `
+                <svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 34" class="waykeecom-input-text__unit-regnr-icon" aria-hidden="true">
+                  <rect width="22" height="34" rx="1" fill="#003399"/>
+                  <rect x="4" y="5" width="14" height="10" fill="#ef2b2d"/>
+                  <rect x="7.5" y="5" width="2.5" height="10" fill="#ffffff"/>
+                  <rect x="4" y="8.75" width="14" height="2.5" fill="#ffffff"/>
+                  <rect x="8.25" y="5" width="1" height="10" fill="#002868"/>
+                  <rect x="4" y="9.5" width="14" height="1" fill="#002868"/>
+                  <path d="M7.75 21.692v6h1.5v-4.5l3 4.5h1.5v-6h-1.5v4.5l-3-4.5h-1.5Z" fill="#fff"/>
+                </svg>`,
           onChange: (e) => this.onChange(e),
           onBlur: (e) => this.onBlur(e),
         }
       );
 
       this.contexts.mileage = new InputField(this.node.querySelector(`#${MILEAGE_NODE}`), {
-        title: 'Miltal',
+        title: i18next.t('tradeIn.mileage'),
         value: this.state.value.mileage,
         id: MILEAGE_ID,
         error: this.state.interact.mileage && !this.state.validation.mileage,
-        errorMessage: 'Ett miltal mellan 0 till 80 000 mil måste anges',
+        errorMessage: i18next.t('tradeIn.mileageError'),
         name: 'mileage',
         autocomplete: 'off',
-        placeholder: 'Ange bilens miltal',
-        unit: 'mil',
+        placeholder: i18next.t('tradeIn.mileagePlaceholder'),
+        unit: this.props.marketCode === 'SE' ? 'mil' : 'km',
         pattern: '[0-9]*',
         inputmode: 'numeric',
         onChange: (e) => this.onChange(e),
@@ -445,29 +419,75 @@ class PartTradeIn extends HtmlNode {
       this.contexts.description = new InputTextarea(
         this.node.querySelector(`#${DESCRIPTION_NODE}`),
         {
-          title: 'Beskrivning (valfritt)',
+          title: i18next.t('tradeIn.descriptionOptional'),
           value: this.state.value.description,
           id: DESCRIPTION_ID,
           error: this.state.interact.description && !this.state.validation.description,
-          errorMessage: '????',
+          errorMessage: i18next.t('tradeIn.descriptionError'),
           name: 'description',
           autocomplete: 'off',
-          placeholder: 'Beskriv bilen',
+          placeholder: i18next.t('tradeIn.descriptionPlaceholder'),
           onChange: (e) => this.onChange(e),
           onBlur: (e) => this.onBlur(e),
         }
       );
 
       new InputRadioGroup(this.node.querySelector(`#${CONDITION_NODE}`), {
-        title: 'Bilens skick',
+        title: i18next.t('tradeIn.condition'),
         checked: this.state.value.condition as string,
         name: 'condition',
-        options: RadioElements,
+        options: [
+          {
+            id: `radio-${VehicleCondition.VeryGood}`,
+            value: VehicleCondition.VeryGood,
+            title: i18next.t('tradeIn.veryGoodCondition'),
+            description: `
+            <div class="waykeecom-box">
+              <div class="waykeecom-content waykeecom-content--inherit-size">
+                <ul class="waykeecom-content__ul">
+                  <li class="waykeecom-content__li">${i18next.t('tradeIn.noScratches')}</li>
+                  <li class="waykeecom-content__li">${i18next.t('tradeIn.serviced')}</li>
+                  <li class="waykeecom-content__li">${i18next.t('tradeIn.goodTires')}</li>
+                </ul>
+              </div>
+            </div>`,
+          },
+          {
+            id: `radio-${VehicleCondition.Good}`,
+            value: VehicleCondition.Good,
+            title: i18next.t('tradeIn.goodCondition'),
+            description: `
+            <div class="waykeecom-box">
+              <div class="waykeecom-content waykeecom-content--inherit-size">
+                <ul class="waykeecom-content__ul">
+                  <li class="waykeecom-content__li">${i18next.t('tradeIn.someScratches')}</li>
+                  <li class="waykeecom-content__li">${i18next.t('tradeIn.serviced')}</li>
+                  <li class="waykeecom-content__li">${i18next.t('tradeIn.okTires')}</li>
+                </ul>
+              </div>
+            </div>`,
+          },
+          {
+            id: `radio-${VehicleCondition.Ok}`,
+            value: VehicleCondition.Ok,
+            title: i18next.t('tradeIn.okCondition'),
+            description: `
+            <div class="waykeecom-box">
+              <div class="waykeecom-content waykeecom-content--inherit-size">
+                <ul class="waykeecom-content__ul">
+                  <li class="waykeecom-content__li">${i18next.t('tradeIn.manyScratches')}</li>
+                  <li class="waykeecom-content__li">${i18next.t('tradeIn.notServiced')}</li>
+                  <li class="waykeecom-content__li">${i18next.t('tradeIn.badTires')}</li>
+                </ul>
+              </div>
+            </div>`,
+          },
+        ],
         onClick: (e) => this.onChangeRadio(e),
       });
 
       this.contexts.buttonFetch = new ButtonArrowRight(this.node.querySelector(`#${FETCH_NODE}`), {
-        title: 'Hämta uppskattat värde',
+        title: i18next.t('tradeIn.fetchValue'),
         id: FETCH,
         disabled: !(
           this.state.validation.registrationNumber &&
@@ -479,7 +499,7 @@ class PartTradeIn extends HtmlNode {
 
       new ButtonSkip(this.node.querySelector(`#${TRADE_IN_NO_NODE}`), {
         id: TRADE_IN_NO,
-        title: 'Hoppa över detta steg',
+        title: i18next.t('tradeIn.skipButton'),
         onClick: () => this.onNoTradeIn(),
       });
     }

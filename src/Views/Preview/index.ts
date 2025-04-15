@@ -1,3 +1,4 @@
+import i18next from '@i18n';
 import { StageTypes } from '../../@types/Stages';
 import { Vehicle } from '../../@types/Vehicle';
 import ButtonArrowRight from '../../Components/Button/ButtonArrowRight';
@@ -84,7 +85,7 @@ class Preview extends HtmlNode {
           this.requestError
             ? Alert({
                 tone: 'error',
-                children: `Ett fel uppstod och det gick inte att initiera modulen. Försök igen.`,
+                children: i18next.t('preview.error'),
               })
             : Loader()
         }
@@ -94,7 +95,7 @@ class Preview extends HtmlNode {
 
     this.node.innerHTML = `
       <div class="waykeecom-stack waykeecom-stack--3">
-        <h3 class="waykeecom-heading waykeecom-heading--3 waykeecom-no-margin">Vad roligt att du vill köpa denna bil!</h3>
+        <h3 class="waykeecom-heading waykeecom-heading--3 waykeecom-no-margin">${i18next.t('preview.heading')}</h3>
       </div>
       <div class="waykeecom-stack waykeecom-stack--3">
         ${ItemTileLarge({
@@ -112,19 +113,19 @@ class Preview extends HtmlNode {
       document.querySelector<HTMLDivElement>(`#${PROCEED_BUTTON_NODE}`),
       {
         id: PROCEED_BUTTON,
-        title: 'Gå vidare',
+        title: i18next.t('preview.proceedButton'),
         onClick: () => this.onProceed(),
       }
     );
 
     new CheckList(document.querySelector<HTMLDivElement>(`#${PREVIEW_CHECKLIST_NODE}`), {
-      title: 'Köp online hos Wayke',
-      ariaLabel: 'Fördelar med att köpa bilen online hos Wayke',
+      title: i18next.t('preview.checklistTitle'),
+      ariaLabel: i18next.t('preview.checklistAriaLabel'),
       checklistItems: [
-        'Trygg hantering av personuppgifter',
-        'Reservera bilen nu – betalning och avtalsskrivning sker senare med handlaren',
-        'Inte bindande förrän avtal skrivits ihop med handlaren',
-        'Bara kontrollerade bilar',
+        i18next.t('preview.checklistItem1'),
+        i18next.t('preview.checklistItem2'),
+        i18next.t('preview.checklistItem3'),
+        i18next.t('preview.checklistItem4'),
       ],
     });
   }

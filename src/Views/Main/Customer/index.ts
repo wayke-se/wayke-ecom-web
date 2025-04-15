@@ -1,3 +1,5 @@
+import i18next from '@i18n';
+import { MarketCode } from '../../../@types/MarketCode';
 import HtmlNode from '../../../Components/Extension/HtmlNode';
 import StageCompleted from '../../../Components/StageCompleted';
 import { goTo } from '../../../Redux/action';
@@ -13,6 +15,7 @@ interface CustomerProps {
   readonly store: WaykeStore;
   readonly index: number;
   readonly lastStage: boolean;
+  readonly marketCode: MarketCode;
 }
 
 class Customer extends HtmlNode {
@@ -52,7 +55,7 @@ class Customer extends HtmlNode {
     }
     const content = ListItem(this.node, {
       completed,
-      title: 'Dina uppgifter',
+      title: i18next.t('customer.title'),
       active,
       id: 'customer',
       index: index,
@@ -66,30 +69,35 @@ class Customer extends HtmlNode {
 
     if (state.navigation.stage > index || (completed && state.navigation.stage !== index)) {
       const keyValueList: { key: string; value: string }[] = [
-        { key: 'E-post', value: state.customer.email },
-        { key: 'Telefonnummer', value: state.customer.phone },
-        { key: 'Personnummer', value: maskSSn(state.customer.socialId) },
+        { key: i18next.t('customer.email'), value: state.customer.email },
+        { key: i18next.t('customer.phone'), value: state.customer.phone },
+        ...(this.props.marketCode === 'SE'
+          ? [{ key: i18next.t('customer.socialId'), value: maskSSn(state.customer.socialId) }]
+          : []),
         ...(state.address
           ? [
               {
-                key: 'Namn',
-                value: `${maskText(state.address.givenName)} ${maskText(state.address.surname)}`,
+                key: i18next.t('customer.name'),
+                value:
+                  this.props.marketCode === 'SE'
+                    ? `${maskText(state.address.givenName)} ${maskText(state.address.surname)}`
+                    : `${state.address.givenName} ${state.address.surname}`,
               },
-              { key: 'Adress', value: state.address.street },
-              { key: 'Postnummer', value: state.address.postalCode },
-              { key: 'Stad', value: state.address.city },
+              { key: i18next.t('customer.address'), value: state.address.street },
+              { key: i18next.t('customer.postalCode'), value: state.address.postalCode },
+              { key: i18next.t('customer.city'), value: state.address.city },
             ]
           : []),
       ];
       new StageCompleted(content, {
         keyValueList,
-        changeButtonTitle: 'Ändra dina uppgifter',
+        changeButtonTitle: i18next.t('customer.changeButtonTitle'),
         onEdit: !state.createdOrderId ? () => this.onChange() : undefined,
       });
     } else if (state.navigation.stage === index) {
       new EmailAndPhone(content, { store });
       if (state.navigation.subStage > 1) {
-        new FullAddress(content, { store, lastStage });
+        new FullAddress(content, { store, lastStage, marketCode: this.props.marketCode });
       }
     }
     if (state.navigation.stage === index) {

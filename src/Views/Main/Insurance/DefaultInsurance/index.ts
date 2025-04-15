@@ -1,3 +1,4 @@
+import i18next from '@i18n';
 import { IAvailableInsuranceOption } from '@wayke-se/ecom';
 import ButtonArrowRight from '../../../../Components/Button/ButtonArrowRight';
 import HtmlNode from '../../../../Components/Extension/HtmlNode';
@@ -44,9 +45,9 @@ class DefaultInsurance extends HtmlNode {
     const { store, insurance } = this.props;
     this.node.innerHTML = `
       <div class="waykeecom-stack waykeecom-stack--3">
-        <h4 class="waykeecom-heading waykeecom-heading--4">Vill du teckna en försäkring på din nya bil?</h4>
+        <h4 class="waykeecom-heading waykeecom-heading--4">${i18next.t('insurance.heading')}</h4>
         <div class="waykeecom-content">
-          <p class="waykeecom-content__p">Nedan visas förslag på försäkringar som passar dig och din nya bil.</p>
+          <p class="waykeecom-content__p">${i18next.t('insurance.description')}</p>
         </div>
       </div>
       <div class="waykeecom-stack waykeecom-stack--3" id="${INSURANCE_GRID_LIST_NODE}"></div>
@@ -63,7 +64,7 @@ class DefaultInsurance extends HtmlNode {
 
     new ButtonArrowRight(this.node.querySelector<HTMLElement>(`#${PROCEED_INSURANCE_NODE}`), {
       id: PROCEED_INSURANCE,
-      title: 'Gå vidare',
+      title: i18next.t('insurance.proceedButton'),
       onClick: () => this.onProceed(),
     });
   }
