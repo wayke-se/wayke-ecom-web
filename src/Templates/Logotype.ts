@@ -74,7 +74,7 @@ export const getSymbolLogotype = ({ market, className }: LogotypeProps) => {
       `;
     case 'NO':
       return `
-        <svg ${!!className ? `class="${className}"` : ''} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 37 38">
+        <svg ${!!className ? `class="${className} waykeecom-modal__norway-footer-logo"` : ''} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 37 38">
           <title>Drive</title>
           <path d="M19.27 0H5.348L2.126 22.838h8.445l2.126-15.241h5.479c6.83 0 11.086 4.886 10.156 11.4a13.292 13.292 0 0 1-4.537 8.195 13.441 13.441 0 0 1-8.84 3.206H1.063L0 38h13.919c11.74 0 21.349-8.41 22.88-19.018C38.328 8.373 31.01 0 19.27 0Z" />
         </svg>
