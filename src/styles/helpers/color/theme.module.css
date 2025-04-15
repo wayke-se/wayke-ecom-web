@@ -77,7 +77,7 @@
   --color-semantic-info-text: var(--color-semantic-blue-dark);
 }
 
-#wayke-ecom-modal[data-theme="NO"] {
+#wayke-ecom-modal[data-theme="drive"] {
   /* Base colors */
   --color-black: #272a2f;
   --color-white: #fff;
