@@ -301,7 +301,7 @@ class App {
       }
 
       if (this.marketCode === 'NO') {
-        document.documentElement.setAttribute('data-theme', 'NO');
+        document.getElementById(WAYKE_ECOM_MODAL_ID)?.setAttribute('data-theme', 'NO');
       }
 
       switch (this.view) {

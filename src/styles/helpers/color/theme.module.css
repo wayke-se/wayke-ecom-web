@@ -1,5 +1,5 @@
 /* Base color definitions as CSS variables */
-:root {
+#wayke-ecom-modal {
   /* Base colors */
   --color-black: #424240;
   --color-white: #fff;
@@ -77,36 +77,36 @@
   --color-semantic-info-text: var(--color-semantic-blue-dark);
 }
 
-:root[data-theme="NO"] {
+#wayke-ecom-modal[data-theme="NO"] {
   /* Base colors */
-  --color-black: #282828;
+  --color-black: #272a2f;
   --color-white: #fff;
-  --color-gray: #ddd;
-  --color-gray-light: #f6f6f6;
-  --color-gray-dark: #707070;
+  --color-gray: #e0e0e0;
+  --color-gray-light: #f1f1f1;
+  --color-gray-dark: #505862;
   
   /* Primary colors */
-  --color-blue: #0057ff;
-  --color-blue-light: #ecf6ff;
-  --color-blue-semantic: #0057ff;
-  --color-red: #f6432b;
-  --color-red-extra-light: #fff3f1;
-  --color-red-light: #ffdeda;
-  --color-green: #00a962;
+  --color-blue: #f36c3b;
+  --color-blue-light: #fce7d7;
+  --color-blue-semantic: #3b76e7;
+  --color-red: #dd4c38;
+  --color-red-extra-light: #f6edec;
+  --color-red-light: #f2d8d5;
+  --color-green: #4e9862;
   
   /* Semantic colors */
-  --color-semantic-green: #ddf8eb;
-  --color-semantic-green-light: #f1fbf6;
-  --color-semantic-green-dark: #00a962;
-  --color-semantic-red: #ffdeda;
-  --color-semantic-red-light: #fff3f1;
-  --color-semantic-red-dark: #980812;
-  --color-semantic-yellow: #fff3c9;
-  --color-semantic-yellow-light: #fffae9;
-  --color-semantic-yellow-dark: #ea8c00;
-  --color-semantic-blue: #d5edff;
-  --color-semantic-blue-light: #ecf6ff;
-  --color-semantic-blue-dark: #0057ff;
+  --color-semantic-green: #bce1c6;
+  --color-semantic-green-light: #e8f8ec;
+  --color-semantic-green-dark: #4e9862;
+  --color-semantic-red: #f2d8d5;
+  --color-semantic-red-light: #f6edec;
+  --color-semantic-red-dark: #8e0f02;
+  --color-semantic-yellow: #f6e3b2;
+  --color-semantic-yellow-light: #fff7e1;
+  --color-semantic-yellow-dark: #eabf52;
+  --color-semantic-blue: #b2d4f3;
+  --color-semantic-blue-light: #e1f1ff;
+  --color-semantic-blue-dark: #3b76e7;
   
   /* Theme color assignments */
   --color-primary-main: var(--color-blue);
@@ -125,7 +125,7 @@
   --color-text-alt: var(--color-gray-dark);
   --color-text-inverted: var(--color-white);
   
-  --color-link-main: var(--color-blue);
+  --color-link-main: #2d72a8; /* Changed to match --palette-accent-01-500 like in the root theme */
   
   --color-border-main: var(--color-gray);
   --color-border-alt: var(--color-gray-dark);
