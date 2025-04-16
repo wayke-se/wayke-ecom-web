@@ -3,72 +3,72 @@
 /// an abstract name in $colors. The colors are then fetched using the color() function.
 
 @use 'sass:map';
-@use '_definitions' as *;
+@use '../variable' as *;
 
 // This map is used to declare variables to use for colors
 $colors: (
   // Use theme-based colors instead of direct color references
   primary: (
-    main: color-defs(theme, primary, main),
-    alt: color-defs(theme, primary, alt),
-    text: color-defs(theme, primary, text),
+    main: var(--#{$namespace}-color-primary-main),
+    alt: var(--#{$namespace}-color-primary-alt),
+    text: var(--#{$namespace}-color-primary-text),
   ),
   action: (
-    main: color-defs(theme, action, main),
-    alt: color-defs(theme, action, alt),
-    text: color-defs(theme, action, text),
+    main: var(--#{$namespace}-color-action-main),
+    alt: var(--#{$namespace}-color-action-alt),
+    text: var(--#{$namespace}-color-action-text),
   ),
   bg: (
-    main: color-defs(theme, bg, main),
-    alt: color-defs(theme, bg, alt),
-    contrast: color-defs(theme, bg, contrast),
+    main: var(--#{$namespace}-color-bg-main),
+    alt: var(--#{$namespace}-color-bg-alt),
+    contrast: var(--#{$namespace}-color-bg-contrast),
   ),
   text: (
-    main: color-defs(theme, text, main),
-    alt: color-defs(theme, text, alt),
-    inverted: color-defs(theme, text, inverted),
+    main: var(--#{$namespace}-color-text-main),
+    alt: var(--#{$namespace}-color-text-alt),
+    inverted: var(--#{$namespace}-color-text-inverted),
   ),
   link: (
-    main: color-defs(theme, link, main),
+    main: var(--#{$namespace}-color-link-main),
   ),
   border: (
-    main: color-defs(theme, border, main),
-    alt: color-defs(theme, border, alt),
+    main: var(--#{$namespace}-color-border-main),
+    alt: var(--#{$namespace}-color-border-alt),
   ),
   focus: (
-    main: color-defs(theme, focus, main),
+    main: var(--#{$namespace}-color-focus-main),
   ),
   disabled: (
-    bg: color-defs(theme, disabled, bg),
-    text: color-defs(theme, disabled, text),
+    bg: var(--#{$namespace}-color-disabled-bg),
+    text: var(--#{$namespace}-color-disabled-text),
   ),
   overlay: (
-    main: color-defs(theme, overlay, main),
+    main: var(--#{$namespace}-color-overlay-main),
   ),
   chart: (
-    primary: color-defs(theme, chart, primary),
-    secondary: color-defs(theme, chart, secondary),
+    primary: var(--#{$namespace}-color-chart-primary),
+    secondary: var(--#{$namespace}-color-chart-secondary),
   ),
   semantic: (
     success: (
-      main: color-defs(semantic-func, success, main),
-      alt: color-defs(semantic-func, success, alt),
-      text: color-defs(semantic-func, success, text),
+      main: var(--#{$namespace}-color-semantic-success-main),
+      alt: var(--#{$namespace}-color-semantic-success-alt),
+      text: var(--#{$namespace}-color-semantic-success-text),
     ),
     error: (
-      main: color-defs(semantic-func, error, main),
-      alt: color-defs(semantic-func, error, alt),
-      text: color-defs(semantic-func, error, text),
+      main: var(--#{$namespace}-color-semantic-error-main),
+      alt: var(--#{$namespace}-color-semantic-error-alt),
+      text: var(--#{$namespace}-color-semantic-error-text),
     ),
     warning: (
-      main: color-defs(semantic-func, warning, main),
-      alt: color-defs(semantic-func, warning, alt),
-      text: color-defs(semantic-func, warning, text),
+      main: var(--#{$namespace}-color-semantic-warning-main),
+      alt: var(--#{$namespace}-color-semantic-warning-alt),
+      text: var(--#{$namespace}-color-semantic-warning-text),
     ),
     info: (
-      main: color-defs(semantic-func, info, main),
-      alt: color-defs(semantic-func, info, alt),
-      text: color-defs(semantic-func, info, text),
+      main: var(--#{$namespace}-color-semantic-info-main),
+      alt: var(--#{$namespace}-color-semantic-info-alt),
+      text: var(--#{$namespace}-color-semantic-info-text),
     ),
   ),
 );

@@ -1,4 +1,3 @@
-import './styles/helpers/color/theme.module.css';
 import './styles/styles.scss';
 import { IOrderOptionsResponse, config } from '@wayke-se/ecom';
 
@@ -103,6 +102,11 @@ class App {
     this.cdnMedia = resolveCdnMedia(props.ecomSdkConfig.api.address);
     const createdRoot = document.createElement('div');
     createdRoot.className = 'waykeecom-root';
+
+    if (this.marketCode === 'NO') {
+      createdRoot.setAttribute('data-theme', 'drive');
+    }
+
     this.root = createdRoot;
     if (this.props.rootId) {
       const rootNode = document.getElementById(this.props.rootId);
@@ -298,10 +302,6 @@ class App {
         this.focusModal();
 
         return;
-      }
-
-      if (this.marketCode === 'NO') {
-        document.getElementById(WAYKE_ECOM_MODAL_ID)?.setAttribute('data-theme', 'drive');
       }
 
       switch (this.view) {
