@@ -8,4 +8,103 @@
   $modal-gutter-y: size(4);
 
   @include create-modal-gutter($modal-gutter-x, $modal-gutter-y);
+
+  // Colors
+
+  // Color definition
+  // NOTE: These shold only be assigned to theme colors and not used directly
+  --#{$namespace}-palette-black: #424240;
+  --#{$namespace}-palette-white: #fff;
+  --#{$namespace}-palette-gray: #ececeb;
+  --#{$namespace}-palette-gray-light: #f4f4f4;
+  --#{$namespace}-palette-gray-dark: #757575;
+  --#{$namespace}-palette-blue: #00b6d3;
+  --#{$namespace}-palette-blue-light: #e5f7fa;
+  --#{$namespace}-palette-red: #ea566c;
+  --#{$namespace}-palette-red-extra-light: #fceef0;
+  --#{$namespace}-palette-red-light: #fad2d2;
+  --#{$namespace}-palette-green: #00a997;
+
+  --#{$namespace}-palette-semantic-green: #c2e2db;
+  --#{$namespace}-palette-semantic-green-light: #dff4ef;
+  --#{$namespace}-palette-semantic-green-dark: #00a997;
+  --#{$namespace}-palette-semantic-red: #fad2d2;
+  --#{$namespace}-palette-semantic-red-light: #fceef0;
+  --#{$namespace}-palette-semantic-red-dark: #b0031d;
+  --#{$namespace}-palette-semantic-yellow: #f9dbb6;
+  --#{$namespace}-palette-semantic-yellow-light: #fcf2e2;
+  --#{$namespace}-palette-semantic-yellow-dark: #f0a648;
+  --#{$namespace}-palette-semantic-blue: #bbe2ee;
+  --#{$namespace}-palette-semantic-blue-light: #e5f7fa;
+  --#{$namespace}-palette-semantic-blue-dark: #00b6d3;
+
+  --#{$namespace}-palette-accessibility-blue: #005fcc;
+
+  // Theme colors  
+  --#{$namespace}-color-primary-main: var(--#{$namespace}-palette-blue);
+  --#{$namespace}-color-primary-alt: var(--#{$namespace}-palette-blue-light);
+  --#{$namespace}-color-primary-text: var(--#{$namespace}-palette-white);
+  --#{$namespace}-color-action-main: var(--#{$namespace}-palette-red);
+  --#{$namespace}-color-action-alt: var(--#{$namespace}-palette-red-extra-light);
+  --#{$namespace}-color-action-text: var(--#{$namespace}-palette-white);
+  --#{$namespace}-color-bg-main: var(--#{$namespace}-palette-white);
+  --#{$namespace}-color-bg-alt: var(--#{$namespace}-palette-gray-light);
+  --#{$namespace}-color-bg-contrast: var(--#{$namespace}-palette-black);
+  --#{$namespace}-color-text-main: var(--#{$namespace}-palette-black);
+  --#{$namespace}-color-text-alt: var(--#{$namespace}-palette-gray-dark);
+  --#{$namespace}-color-text-inverted: var(--#{$namespace}-palette-white);
+  --#{$namespace}-color-link-main: var(--#{$namespace}-palette-blue);
+  --#{$namespace}-color-border-main: var(--#{$namespace}-palette-gray);
+  --#{$namespace}-color-border-alt: var(--#{$namespace}-palette-gray-dark);
+  --#{$namespace}-color-focus-main: var(--#{$namespace}-palette-accessibility-blue);
+  --#{$namespace}-color-disabled-bg: var(--#{$namespace}-palette-gray-light);
+  --#{$namespace}-color-disabled-text: var(--#{$namespace}-palette-gray-dark);
+  --#{$namespace}-color-overlay-main: var(--#{$namespace}-palette-black);
+
+  --#{$namespace}-color-chart-primary: var(--#{$namespace}-palette-green);
+  --#{$namespace}-color-chart-secondary: var(--#{$namespace}-palette-red-light);
+
+  --#{$namespace}-color-semantic-success-main: var(--#{$namespace}-palette-semantic-green);
+  --#{$namespace}-color-semantic-success-alt: var(--#{$namespace}-palette-semantic-green-light);
+  --#{$namespace}-color-semantic-success-text: var(--#{$namespace}-palette-semantic-green-dark);
+  --#{$namespace}-color-semantic-error-main: var(--#{$namespace}-palette-semantic-red);
+  --#{$namespace}-color-semantic-error-alt: var(--#{$namespace}-palette-semantic-red-light);
+  --#{$namespace}-color-semantic-error-text: var(--#{$namespace}-palette-semantic-red-dark);
+  --#{$namespace}-color-semantic-warning-main: var(--#{$namespace}-palette-semantic-yellow);
+  --#{$namespace}-color-semantic-warning-alt: var(--#{$namespace}-palette-semantic-yellow-light);
+  --#{$namespace}-color-semantic-warning-text: var(--#{$namespace}-palette-semantic-yellow-dark);
+  --#{$namespace}-color-semantic-info-main: var(--#{$namespace}-palette-semantic-blue);
+  --#{$namespace}-color-semantic-info-alt: var(--#{$namespace}-palette-semantic-blue-light);
+  --#{$namespace}-color-semantic-info-text: var(--#{$namespace}-palette-semantic-blue-dark);
+
+
+  &[data-theme="drive"] {
+    // Color definition
+    // NOTE: These shold only be assigned to theme colors and not used directly
+    --#{$namespace}-palette-black: #272a2f;
+    --#{$namespace}-palette-gray: #e0e0e0;
+    --#{$namespace}-palette-gray-light: #f1f1f1;
+    --#{$namespace}-palette-gray-dark: #505862;
+    --#{$namespace}-palette-orange: #f36c3b;
+    --#{$namespace}-palette-orange-light: #fce7d7;
+    --#{$namespace}-palette-blue: #2d72a8;
+    --#{$namespace}-palette-semantic-green: #bce1c6;
+    --#{$namespace}-palette-semantic-green-light: #e8f8ec;
+    --#{$namespace}-palette-semantic-green-dark: #4e9862;
+    --#{$namespace}-palette-semantic-red: #f2d8d5;
+    --#{$namespace}-palette-semantic-red-light: #f6edec;
+    --#{$namespace}-palette-semantic-red-dark: #8e0f02;
+    --#{$namespace}-palette-semantic-yellow: #f6e3b2;
+    --#{$namespace}-palette-semantic-yellow-light: #fff7e1;
+    --#{$namespace}-palette-semantic-yellow-dark: #eabf52;
+    --#{$namespace}-palette-semantic-blue: #b2d4f3;
+    --#{$namespace}-palette-semantic-blue-light: #e1f1ff;
+    --#{$namespace}-palette-semantic-blue-dark: #3b76e7;
+
+    // Theme colors 
+    --#{$namespace}-color-primary-main: var(--#{$namespace}-palette-orange);
+    --#{$namespace}-color-primary-alt: var(--#{$namespace}-palette-orange-light);
+    --#{$namespace}-color-action-main: var(--#{$namespace}-palette-orange);
+    --#{$namespace}-color-action-alt: var(--#{$namespace}-palette-orange-extra-light);
+  }
 }
