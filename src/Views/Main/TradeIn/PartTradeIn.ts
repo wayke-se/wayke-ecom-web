@@ -215,7 +215,10 @@ class PartTradeIn extends HtmlNode {
     const value = currentTarget.value;
 
     this.state.value[name] = value;
-    this.state.validation[name] = validation[name](value);
+    this.state.validation[name] =
+      name === 'registrationNumber'
+        ? validation[name](value, this.props.marketCode)
+        : validation[name](value);
     this.updateUiError(name);
     this.updateProceedButton();
   }
@@ -225,7 +228,10 @@ class PartTradeIn extends HtmlNode {
     const name = currentTarget.name as INPUT_STRING_KEYS;
 
     this.state.interact[name] = true;
-    this.state.validation[name] = validation[name](this.state.value[name]);
+    this.state.validation[name] =
+      name === 'registrationNumber'
+        ? validation[name](this.state.value[name], this.props.marketCode)
+        : validation[name](this.state.value[name]);
     this.updateUiError(name);
     this.updateProceedButton();
   }
