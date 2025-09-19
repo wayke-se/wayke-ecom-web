@@ -47,9 +47,6 @@ class InsuranceItemInfo extends HtmlNode {
         </div>
       </div>
       <div class="waykeecom-stack waykeecom-stack--3">
-        <div class="waykeecom-text waykeecom-text--font-bold">${i18next.t('insurance.free')}</div>
-      </div>
-      <div class="waykeecom-stack waykeecom-stack--3">
         <div class="waykeecom-content waykeecom-text waykeecom-text--font-medium">
           <p class="waykeecom-content__p">${description}</p>
         </div>

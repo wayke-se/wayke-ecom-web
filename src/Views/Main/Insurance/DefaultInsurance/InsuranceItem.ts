@@ -86,7 +86,6 @@ class InsuranceItem extends HtmlNode {
         id: key,
         title: freeInsurance.title,
         description: freeInsurance.description,
-        price: i18next.t('insurance.free'),
         selected,
         onClick: () => this.onClick(),
         onInfo: () => this.onInfoOpen(),

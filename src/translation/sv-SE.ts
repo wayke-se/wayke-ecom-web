@@ -419,7 +419,6 @@ const svSE = {
     heading: 'Vill du teckna en försäkring på din nya bil?',
     description: 'Nedan visas förslag på försäkringar som passar dig och din nya bil.',
     proceedButton: 'Gå vidare',
-    free: 'Gratis',
     backButton: 'Tillbaka',
     logoAlt: 'Tillverkarens logotyp för {{title}}',
     ifDescription:
