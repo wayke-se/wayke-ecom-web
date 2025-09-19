@@ -74,7 +74,7 @@ class GridItem extends HtmlNode {
               </div>
             </div>
           </div>
-          <div class="waykeecom-tile__price">${price}</div>
+          ${price ? `<div class="waykeecom-tile__price">${price}</div>` : ''}
           ${
             priceDetails?.length
               ? `<div class="waykeecom-tile__price-disclaimer">+ ${priceDetails
