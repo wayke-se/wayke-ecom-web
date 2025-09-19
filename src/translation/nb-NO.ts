@@ -416,7 +416,6 @@ const nbNO = {
     heading: 'Vil du tegne en forsikring på din nye bil?',
     description: 'Nedenfor vises forslag på forsikringer som passer deg og din nye bil.',
     proceedButton: 'Gå videre',
-    free: 'Gratis',
     backButton: 'Tilbake',
     logoAlt: 'Produsentens logo for {{title}}',
     ifDescription:
