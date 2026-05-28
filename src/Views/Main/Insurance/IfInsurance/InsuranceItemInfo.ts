@@ -9,7 +9,7 @@ import HtmlNode from '../../../../Components/Extension/HtmlNode';
 import InputCheckbox from '../../../../Components/Input/InputCheckbox';
 import { addOrRemoveInsuranceAddon } from '../../../../Redux/action';
 import { WaykeStore } from '../../../../Redux/store';
-import ecomEvent, { EcomEvent, EcomView, EcomStep } from '../../../../Utils/ecomEvent';
+import ecomEvent, { EcomEvent, EcomStep, EcomView } from '../../../../Utils/ecomEvent';
 import { prettyNumber } from '../../../../Utils/format';
 import { scrollTop } from '../../../../Utils/scroll';
 import InsuracenAddonBox from './InsuranceAddonBox';

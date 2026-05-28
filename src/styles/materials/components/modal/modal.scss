@@ -9,10 +9,7 @@
   $modal-close-btn-size: size(2);
 
   position: fixed;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
+  inset: 0;
   width: 100%;
   min-height: 100%;
   text-align: left;
@@ -24,11 +21,8 @@
   &::before {
     content: '';
     position: fixed;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background-color: color-mix(in srgb, color(overlay, main) 40%, transparent);
+    inset: 0;
+    background-color: color-mix(in sRGB, color(overlay, main) 40%, transparent);
     z-index: -1;
     animation: #{$namespace}no-transform 400ms ease;
   }
@@ -128,10 +122,7 @@
     &::after {
       content: '';
       position: absolute;
-      top: size(-2);
-      bottom: size(-2);
-      left: size(-2);
-      right: size(-2);
+      inset: size(-2);
       border-radius: 50%;
     }
 

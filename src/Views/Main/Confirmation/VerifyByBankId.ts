@@ -17,7 +17,7 @@ import { getBankIdStatus } from '../../../Data/getBankIdStatus';
 import { setCreatedOrderId } from '../../../Redux/action';
 import { WaykeStore } from '../../../Redux/store';
 import Alert from '../../../Templates/Alert';
-import ecomEvent, { EcomStep, EcomEvent, EcomView } from '../../../Utils/ecomEvent';
+import ecomEvent, { EcomEvent, EcomStep, EcomView } from '../../../Utils/ecomEvent';
 import { registerInterval } from '../../../Utils/intervals';
 import { isMobile } from '../../../Utils/isMobile';
 import { createPortal, destroyPortal } from '../../../Utils/portal';

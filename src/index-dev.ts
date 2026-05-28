@@ -1,8 +1,8 @@
 import { EcomSdkConfig } from './@types/EcomSdkConfig';
 import { MarketCode } from './@types/MarketCode';
 import WaykeEcomWeb from './App';
-import { EcomEvent, EcomStep, EcomView } from './Utils/ecomEvent';
 import { devConfig } from './devConfig';
+import { EcomEvent, EcomStep, EcomView } from './Utils/ecomEvent';
 
 window.addEventListener('DOMContentLoaded', (_) => {
   const ecomSdkConfig: EcomSdkConfig = {

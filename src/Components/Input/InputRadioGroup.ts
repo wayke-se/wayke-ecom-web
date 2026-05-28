@@ -73,7 +73,7 @@ class InputRadioGroup extends HtmlNode {
          title
            ? `<legend class="waykeecom-input-label"><div class="waykeecom-input-label__label">${title}</div></legend>`
            : ''
-       }
+}
         ${options
           .map((option) => `<div class="waykeecom-input-group__item" id="${option.id}-node"></div>`)
           .join('')}

@@ -45,11 +45,8 @@
     align-items: center;
     justify-content: center;
     position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background-color: rgba(color(overlay, main), 0.3);
+    inset: 0;
+    background-color: rgb(color(overlay, main), 0.3);
     color: color(text, inverted);
     font-size: scss-var(font, size, large);
     user-select: none;

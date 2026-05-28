@@ -8,7 +8,7 @@
 
   &:not([disabled]) {
     @include hover {
-      background-color: color-mix(in srgb, $bg, black 5%);
+      background-color: color-mix(in sRGB, $bg, black 5%);
     }
   }
 }

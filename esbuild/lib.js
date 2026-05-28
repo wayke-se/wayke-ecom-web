@@ -1,7 +1,6 @@
 /* eslint-disable no-console */
 import * as esbuild from 'esbuild';
 import { sassPlugin } from 'esbuild-sass-plugin';
-import npmDts from 'npm-dts';
 import packageJson from '../package.json' with {type: 'json'};
 
 const shared = {
@@ -37,20 +36,3 @@ const ctx2 = esbuild.build({
   format: 'esm',
 });
 await ctx2;
-
-const timetaken = '⚡ Generating types done in';
-console.time(timetaken);
-const generator = new npmDts.Generator({
-  entry: 'src/index.ts',
-  output: 'dist/index.d.ts',
-  help: true,
-  logLevel: 'debug',
-});
-
-try {
-  await generator.generate();
-} catch (e) {
-  console.log('Error occured while generating types');
-} finally {
-  console.timeEnd(timetaken);
-}

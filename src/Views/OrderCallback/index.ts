@@ -3,6 +3,7 @@ import { CallbackOrder } from '../../@types/CallbackOrder';
 import { PaymentOrderResponse } from '../../@types/PaymentOrderResponse';
 import HtmlNode from '../../Components/Extension/HtmlNode';
 import { WaykeStore } from '../../Redux/store';
+
 // import Loader from '../../Templates/Loader';
 // import Summary from '../Summary';
 interface OrderCallbackProps {

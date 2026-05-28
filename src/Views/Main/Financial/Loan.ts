@@ -10,7 +10,7 @@ import { getPayment } from '../../../Data/getPayment';
 import { setPaymentLookupResponse } from '../../../Redux/action';
 import { WaykeStore } from '../../../Redux/store';
 import { convertPaymentLookupResponse } from '../../../Utils/convert';
-import ecomEvent, { EcomEvent, EcomView, EcomStep } from '../../../Utils/ecomEvent';
+import ecomEvent, { EcomEvent, EcomStep, EcomView } from '../../../Utils/ecomEvent';
 import CreditAssessment, { DISCLAIMER_WRAPPER_NODE } from './CreditAssessment';
 import LoanDetails from './LoanDetails';
 

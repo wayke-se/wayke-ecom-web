@@ -10,7 +10,7 @@ import watch from '../../../Redux/watch';
 import Alert from '../../../Templates/Alert';
 import ListItem from '../../../Templates/ListItem';
 import { getTotalDeliveryCost } from '../../../Utils/delivery';
-import ecomEvent, { EcomStep, EcomEvent, EcomView } from '../../../Utils/ecomEvent';
+import ecomEvent, { EcomEvent, EcomStep, EcomView } from '../../../Utils/ecomEvent';
 import { prettyNumber } from '../../../Utils/format';
 
 const RADIO_HOME_TRUE = 'radio-home-delivery-true';

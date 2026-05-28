@@ -1,10 +1,9 @@
 {
-  "$schema": "https://biomejs.dev/schemas/1.9.3/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.4.16/schema.json",
   "vcs": { "enabled": false, "clientKind": "git", "useIgnoreFile": false },
   "files": {
     "ignoreUnknown": false,
-    "ignore": [],
-    "include": ["src/**/*.js", "src/**/*.ts"]
+    "includes": ["**/src/**/*.js", "**/src/**/*.ts"]
   },
   "formatter": {
     "enabled": true,
@@ -17,7 +16,7 @@
     "attributePosition": "auto",
     "bracketSpacing": true
   },
-  "organizeImports": { "enabled": true },
+  "assist": { "actions": { "source": { "organizeImports": "on" } } },
   "linter": {
     "enabled": true,
     "rules": {
@@ -30,7 +29,6 @@
       "security": { "noGlobalEval": "error" },
       "style": {
         "noUselessElse": "error",
-        "noVar": "error",
         "useBlockStatements": "off",
         "useConst": "error",
         "useSingleVarDeclarator": "error",
@@ -40,7 +38,8 @@
         "noConsole": "error",
         "noDebugger": "error",
         "noDuplicateCase": "error",
-        "noEmptyBlockStatements": "error"
+        "noEmptyBlockStatements": "error",
+        "noVar": "error"
       }
     }
   },

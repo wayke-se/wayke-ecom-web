@@ -29,7 +29,7 @@ import { setCreditAssessmentResponse } from '../../../Redux/action';
 import { WaykeStore } from '../../../Redux/store';
 import Alert from '../../../Templates/Alert';
 import { convertCreditAssessmentStatusResponse } from '../../../Utils/convert';
-import ecomEvent, { EcomStep, EcomEvent, EcomView } from '../../../Utils/ecomEvent';
+import ecomEvent, { EcomEvent, EcomStep, EcomView } from '../../../Utils/ecomEvent';
 import { prettyNumber } from '../../../Utils/format';
 import { registerInterval } from '../../../Utils/intervals';
 import { isMobile } from '../../../Utils/isMobile';

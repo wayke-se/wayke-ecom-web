@@ -6,7 +6,7 @@ import { goTo } from '../../../Redux/action';
 import { WaykeStore } from '../../../Redux/store';
 import watch from '../../../Redux/watch';
 import ListItem from '../../../Templates/ListItem';
-import ecomEvent, { EcomStep, EcomEvent, EcomView } from '../../../Utils/ecomEvent';
+import ecomEvent, { EcomEvent, EcomStep, EcomView } from '../../../Utils/ecomEvent';
 import { maskSSn, maskText } from '../../../Utils/mask';
 import EmailAndPhone from './EmailAndPhone';
 import FullAddress from './FullAddress';

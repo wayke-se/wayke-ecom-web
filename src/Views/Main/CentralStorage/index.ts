@@ -10,7 +10,7 @@ import watch from '../../../Redux/watch';
 import Alert from '../../../Templates/Alert';
 import ListItem from '../../../Templates/ListItem';
 import { convertOrderOptionsResponse } from '../../../Utils/convert';
-import ecomEvent, { EcomStep, EcomEvent, EcomView } from '../../../Utils/ecomEvent';
+import ecomEvent, { EcomEvent, EcomStep, EcomView } from '../../../Utils/ecomEvent';
 
 const PROCEED = 'button-central-storage-proceed';
 const PROCEED_NODE = `${PROCEED}-node`;

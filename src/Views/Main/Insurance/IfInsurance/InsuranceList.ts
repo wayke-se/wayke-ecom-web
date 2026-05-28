@@ -2,7 +2,7 @@ import { IInsuranceOption } from '@wayke-se/ecom';
 import HtmlNode from '../../../../Components/Extension/HtmlNode';
 import OverflowGridList from '../../../../Components/OverflowGrid/OverflowGridList';
 import { WaykeStore } from '../../../../Redux/store';
-import ecomEvent, { EcomEvent, EcomView, EcomStep } from '../../../../Utils/ecomEvent';
+import ecomEvent, { EcomEvent, EcomStep, EcomView } from '../../../../Utils/ecomEvent';
 import InsuranceItem from './InsuranceItem';
 
 interface InsuranceListProps {
