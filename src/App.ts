@@ -1,28 +1,26 @@
 import './styles/styles.scss';
-import { IOrderOptionsResponse, config } from '@wayke-se/ecom';
-
-import packageJson from '../package.json';
-
-import { Vehicle } from './@types/Vehicle';
-import { reset, setId, setState } from './Redux/action';
-import { WaykeStore, createStore } from './Redux/store';
 
 import i18next, { initializeI18N } from '@i18n';
+import { config, IOrderOptionsResponse } from '@wayke-se/ecom';
+import packageJson from '../package.json';
 import { CallbackOrder } from './@types/CallbackOrder';
 import { EcomSdkConfig } from './@types/EcomSdkConfig';
 import { MarketCode } from './@types/MarketCode';
 import { ViewTypes } from './@types/Navigation';
+import { Vehicle } from './@types/Vehicle';
 import Modal from './Components/Modal/Modal';
 import { creditAssessmentCancelSigning } from './Data/creditAssessmentCancelSigning';
+import { reset, setId, setState } from './Redux/action';
 import { ReducerState } from './Redux/reducer';
+import { createStore, WaykeStore } from './Redux/store';
 import watch, { unregisterAllSubscriptions } from './Redux/watch';
 import ecomEvent, {
-  registerEventListner,
-  EcomStep,
-  unregisterEventListner,
   EcomEvent,
+  EcomStep,
   EcomView,
   getLastHistory,
+  registerEventListner,
+  unregisterEventListner,
 } from './Utils/ecomEvent';
 import { unregisterAllIntervals } from './Utils/intervals';
 import { StageMapKeys } from './Utils/stage';

@@ -16,7 +16,7 @@ import Alert from '../../../Templates/Alert';
 import KeyValueListItem from '../../../Templates/KeyValueListItem';
 import { translateTradeInCondition } from '../../../Utils/constants';
 import { convertVehicleLookupResponse } from '../../../Utils/convert';
-import ecomEvent, { EcomStep, EcomEvent, EcomView } from '../../../Utils/ecomEvent';
+import ecomEvent, { EcomEvent, EcomStep, EcomView } from '../../../Utils/ecomEvent';
 import { prettyNumber } from '../../../Utils/format';
 import { validationMethods } from '../../../Utils/validationMethods';
 

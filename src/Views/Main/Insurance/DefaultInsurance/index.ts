@@ -4,7 +4,7 @@ import ButtonArrowRight from '../../../../Components/Button/ButtonArrowRight';
 import HtmlNode from '../../../../Components/Extension/HtmlNode';
 import { completeStage } from '../../../../Redux/action';
 import { WaykeStore } from '../../../../Redux/store';
-import ecomEvent, { EcomStep, EcomEvent, EcomView } from '../../../../Utils/ecomEvent';
+import ecomEvent, { EcomEvent, EcomStep, EcomView } from '../../../../Utils/ecomEvent';
 import InsuranceList from './InsuranceList';
 
 const INSURANCE_GRID_LIST_NODE = 'insurance-grid-list-node';

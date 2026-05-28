@@ -1,6 +1,3 @@
-declare module '*.svg';
-declare module '*.png';
-
 interface PayexHostedView {
   paymentMenu: (settings: { container: string; culture: string }) => PayexHostedView;
   open: () => void;

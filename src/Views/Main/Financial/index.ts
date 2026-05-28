@@ -9,7 +9,7 @@ import { WaykeStore } from '../../../Redux/store';
 import watch from '../../../Redux/watch';
 import ListItem from '../../../Templates/ListItem';
 import { Image } from '../../../Utils/constants';
-import ecomEvent, { EcomStep, EcomEvent, EcomView } from '../../../Utils/ecomEvent';
+import ecomEvent, { EcomEvent, EcomStep, EcomView } from '../../../Utils/ecomEvent';
 import { formatShortDescription, prettyNumber } from '../../../Utils/format';
 import { DISCLAIMER_WRAPPER_NODE } from './CreditAssessment';
 import Loan from './Loan';

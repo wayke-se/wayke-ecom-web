@@ -6,7 +6,7 @@ import InputField from '../../../Components/Input/InputField';
 import { goTo, setContactAndPhone } from '../../../Redux/action';
 import { WaykeStore } from '../../../Redux/store';
 import KeyValueListItem from '../../../Templates/KeyValueListItem';
-import ecomEvent, { EcomStep, EcomEvent, EcomView } from '../../../Utils/ecomEvent';
+import ecomEvent, { EcomEvent, EcomStep, EcomView } from '../../../Utils/ecomEvent';
 import { validationMethods } from '../../../Utils/validationMethods';
 
 const EMAIL_NODE = 'contact-email-node';

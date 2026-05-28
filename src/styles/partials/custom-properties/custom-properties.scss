@@ -24,7 +24,6 @@
   --#{$namespace}-palette-red-extra-light: #fceef0;
   --#{$namespace}-palette-red-light: #fad2d2;
   --#{$namespace}-palette-green: #00a997;
-
   --#{$namespace}-palette-semantic-green: #c2e2db;
   --#{$namespace}-palette-semantic-green-light: #dff4ef;
   --#{$namespace}-palette-semantic-green-dark: #00a997;
@@ -37,7 +36,6 @@
   --#{$namespace}-palette-semantic-blue: #bbe2ee;
   --#{$namespace}-palette-semantic-blue-light: #e5f7fa;
   --#{$namespace}-palette-semantic-blue-dark: #00b6d3;
-
   --#{$namespace}-palette-accessibility-blue: #005fcc;
 
   // Theme colors  
@@ -60,10 +58,8 @@
   --#{$namespace}-color-disabled-bg: var(--#{$namespace}-palette-gray-light);
   --#{$namespace}-color-disabled-text: var(--#{$namespace}-palette-gray-dark);
   --#{$namespace}-color-overlay-main: var(--#{$namespace}-palette-black);
-
   --#{$namespace}-color-chart-primary: var(--#{$namespace}-palette-green);
   --#{$namespace}-color-chart-secondary: var(--#{$namespace}-palette-red-light);
-
   --#{$namespace}-color-semantic-success-main: var(--#{$namespace}-palette-semantic-green);
   --#{$namespace}-color-semantic-success-alt: var(--#{$namespace}-palette-semantic-green-light);
   --#{$namespace}-color-semantic-success-text: var(--#{$namespace}-palette-semantic-green-dark);

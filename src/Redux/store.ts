@@ -1,4 +1,4 @@
-import { Store, createStore as createReduxStore } from 'redux';
+import { createStore as createReduxStore, Store } from 'redux';
 import { Action } from './action';
 
 import reducers, { ReducerState } from './reducer';

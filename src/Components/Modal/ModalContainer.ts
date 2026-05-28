@@ -1,4 +1,5 @@
 import HtmlNode from '../Extension/HtmlNode';
+
 interface ModalContainerProps {
   id: string;
 }

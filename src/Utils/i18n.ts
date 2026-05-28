@@ -5,7 +5,7 @@ import { getLanguage } from './market';
 
 const i18next: typeof _i18next = _i18next.createInstance();
 
-export const t = (key: string, options?: any) => i18next?.t(key, options);
+export const t = (key: string, options?: any): string => i18next?.t(key, options) as string;
 
 export const initializeI18N = (marketCode?: MarketCode) => {
   const locale = getLanguage(marketCode);

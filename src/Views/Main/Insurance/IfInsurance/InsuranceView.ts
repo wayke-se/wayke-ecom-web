@@ -12,7 +12,7 @@ import Alert from '../../../../Templates/Alert';
 import KeyValueListItem from '../../../../Templates/KeyValueListItem';
 import Loader from '../../../../Templates/Loader';
 import { translateDrivingDistance } from '../../../../Utils/constants';
-import ecomEvent, { EcomEvent, EcomView, EcomStep } from '../../../../Utils/ecomEvent';
+import ecomEvent, { EcomEvent, EcomStep, EcomView } from '../../../../Utils/ecomEvent';
 import InsuranceList from './InsuranceList';
 
 const INSURANCE_GRID_LIST_NODE = 'insurance-grid-list-node';

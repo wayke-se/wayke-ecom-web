@@ -1,12 +1,11 @@
 import i18next from '@i18n';
-import HtmlNode from '../../../../Components/Extension/HtmlNode';
-
 import { IInsuranceOption } from '@wayke-se/ecom';
+import HtmlNode from '../../../../Components/Extension/HtmlNode';
 import GridItem from '../../../../Components/OverflowGrid/OverflowGridItem';
 import { addOrRemoveInsurance } from '../../../../Redux/action';
 import { WaykeStore } from '../../../../Redux/store';
 import watch from '../../../../Redux/watch';
-import ecomEvent, { EcomEvent, EcomView, EcomStep } from '../../../../Utils/ecomEvent';
+import ecomEvent, { EcomEvent, EcomStep, EcomView } from '../../../../Utils/ecomEvent';
 import { prettyNumber } from '../../../../Utils/format';
 import { createPortal, destroyPortal } from '../../../../Utils/portal';
 import InsuranceItemInfo from './InsuranceItemInfo';

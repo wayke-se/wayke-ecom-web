@@ -9,7 +9,7 @@ import { setDrivingDistance } from '../../../../Redux/action';
 import { WaykeStore } from '../../../../Redux/store';
 import Alert from '../../../../Templates/Alert';
 import { translateDrivingDistance } from '../../../../Utils/constants';
-import ecomEvent, { EcomStep, EcomEvent, EcomView } from '../../../../Utils/ecomEvent';
+import ecomEvent, { EcomEvent, EcomStep, EcomView } from '../../../../Utils/ecomEvent';
 import InsuranceView from './InsuranceView';
 
 const DISTANCE = 'select-insurance-distance';

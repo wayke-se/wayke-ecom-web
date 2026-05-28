@@ -8,7 +8,7 @@ import watch from '../../../Redux/watch';
 import { KeyValueListItemProps } from '../../../Templates/KeyValueListItem';
 import ListItem from '../../../Templates/ListItem';
 import { translateDrivingDistance } from '../../../Utils/constants';
-import ecomEvent, { EcomStep, EcomEvent, EcomView } from '../../../Utils/ecomEvent';
+import ecomEvent, { EcomEvent, EcomStep, EcomView } from '../../../Utils/ecomEvent';
 import { prettyNumber } from '../../../Utils/format';
 import DefaultInsurance from './DefaultInsurance';
 import IfInsurance from './IfInsurance';

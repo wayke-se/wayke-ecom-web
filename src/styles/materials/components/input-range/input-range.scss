@@ -69,6 +69,7 @@
     height: $track-height;
     margin: 0;
     background-color: color(bg, alt);
+    /* stylelint-disable-next-line custom-property-pattern -- --percentage is set from JS, not a namespaced theme token */
     background-image: linear-gradient(to right, color(primary, main) var(--percentage, 0%), color(bg, alt) var(--percentage, 0%));
     cursor: pointer;
 
