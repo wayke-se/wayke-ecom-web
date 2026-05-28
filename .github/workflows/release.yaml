@@ -1,21 +1,25 @@
 on:
   push:
     branches:
+      - main
       - test
 
-name: Test - Build and Deploy
+name: Release
 
 jobs:
   build-and-deploy:
-    environment: test
     runs-on: ubuntu-latest
+    environment: ${{ github.ref_name == 'main' && 'production' || 'test' }}
+    permissions:
+      id-token: write
+      contents: read
     steps:
-      - uses: actions/checkout@main
+      - uses: actions/checkout@v4
 
-      - name: Use Node 20
+      - name: Use Node 24
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '24'
           registry-url: 'https://registry.npmjs.org'
 
       - name: Cache dependencies
@@ -30,20 +34,15 @@ jobs:
         run: npm ci --ignore-scripts
 
       - name: Build Javascript
-        run: |
-          npm run build
+        run: npm run build
 
       - name: Publish package to npm
-        run: |
-          npm ci
-          npm publish --access public --tag next
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npm publish --access public --provenance --tag ${{ github.ref_name == 'main' && 'latest' || 'next' }}
 
       - name: Use Python 3.12
         uses: actions/setup-python@v4
         with:
-          python-version: "3.12"
+          python-version: '3.12'
 
       - name: Install Python packages
         run: |
@@ -51,8 +50,7 @@ jobs:
           pip install aiohttp
 
       - name: Execute py script and upload files
-        run: |
-          python3 deploy/deploy.py
+        run: python3 deploy/deploy.py
         env:
           BLOB_STORAGE_CONNECTION_STRING: ${{ secrets.BLOB_STORAGE_CONNECTION_STRING }}
-          UPLOAD_MAP_FILES: true
+          UPLOAD_MAP_FILES: ${{ github.ref_name == 'main' && 'false' || 'true' }}

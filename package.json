@@ -1,12 +1,16 @@
 {
   "name": "@wayke-se/ecom-web",
-  "version": "1.8.4",
+  "version": "1.8.5",
   "description": "Wayke Ecom Web",
   "type": "module",
   "module": "dist/index.mjs",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "homepage": "https://github.com/wayke-se/wayke-ecom-web",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wayke-se/wayke-ecom-web.git"
+  },
   "scripts": {
     "start": "node ./esbuild/start.js",
     "clip": "node ./esbuild/clip-ui.js && node ./clip-ui/start.js",
@@ -30,7 +34,7 @@
   "devDependencies": {
     "@biomejs/biome": "^1.9.3",
     "@ourstudio/clip-ui": "^0.0.11",
-    "@types/node": "^22.7.6",
+    "@types/node": "^24.12.4",
     "@types/object-path": "^0.11.1",
     "@types/sanitize-html": "^2.6.2",
     "@types/showdown": "^2.0.6",
