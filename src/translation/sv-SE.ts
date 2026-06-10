@@ -536,6 +536,9 @@ const svSE = {
     checklistItem3: 'Inte bindande förrän avtal skrivits ihop med handlaren',
     checklistItem4: 'Bara kontrollerade bilar',
     error: 'Ett fel uppstod och det gick inte att initiera modulen. Försök igen.',
+    reserved:
+      'Bilen är tyvärr reserverad av en annan köpare och kan därför inte reserveras just nu.',
+    unavailable: 'Bilen är tyvärr inte längre tillgänglig och kan därför inte reserveras.',
   },
 };
 

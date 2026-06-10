@@ -532,6 +532,9 @@ const nbNO = {
     checklistItem3: 'Ikke bindende før avtale er signert med forhandleren',
     checklistItem4: 'Kun kontrollerte biler',
     error: 'En feil oppstod og det var ikke mulig å initiere modulen. Prøv igjen.',
+    reserved:
+      'Bilen er dessverre reservert av en annen kjøper og kan derfor ikke reserveres akkurat nå.',
+    unavailable: 'Bilen er dessverre ikke lenger tilgjengelig og kan derfor ikke reserveres.',
   },
 };
 

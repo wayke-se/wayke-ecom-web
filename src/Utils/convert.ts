@@ -69,6 +69,7 @@ export const convertOrderOptionsResponse = (cOOR: OrderOptionsResponse) => {
     contactInformation: cOOR.getContactInformation(),
     allowsTradeIn: cOOR.allowsTradeIn(),
     isUnavailable: cOOR.isUnavailable(),
+    isReserved: cOOR.isReserved(),
     isPaymentRequired: cOOR.isPaymentRequired(),
   };
   return response;
