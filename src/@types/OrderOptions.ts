@@ -33,5 +33,6 @@ export interface OrderOptions {
   contactInformation: IContactInformation | undefined;
   allowsTradeIn: boolean;
   isUnavailable: boolean;
+  isReserved: boolean;
   isPaymentRequired: boolean;
 }
