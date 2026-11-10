@@ -8,6 +8,7 @@ import { goTo, resetPaymentLookupResponse, setFinancial } from '../../../Redux/a
 import { WaykeStore } from '../../../Redux/store';
 import watch from '../../../Redux/watch';
 import ListItem from '../../../Templates/ListItem';
+import { waykeImage } from '../../../Utils/cdn';
 import { Image } from '../../../Utils/constants';
 import ecomEvent, { EcomEvent, EcomStep, EcomView } from '../../../Utils/ecomEvent';
 import { formatShortDescription, prettyNumber } from '../../../Utils/format';
@@ -239,7 +240,7 @@ class Financial extends HtmlNode {
               loan.logo
                 ? `<div class="waykeecom-stack waykeecom-stack--2">
                   <div class="waykeecom-align waykeecom-align--center">
-                    <img src="${loan.logo}" alt="${loan.name} logotyp" class="waykeecom-image waykeecom-image--loan-logo" />
+                    <img src="${waykeImage(loan.logo, { format: 'png' })}" alt="${loan.name} logotyp" class="waykeecom-image waykeecom-image--loan-logo" />
                   </div>
                 </div>`
                 : ''

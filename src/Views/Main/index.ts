@@ -9,7 +9,6 @@ import Confirmation from './Confirmation';
 
 interface MainProps {
   readonly store: WaykeStore;
-  cdnMedia?: string;
   marketCode: MarketCode;
 }
 
@@ -31,7 +30,7 @@ class Main extends HtmlNode {
   }
 
   render() {
-    const { store, cdnMedia } = this.props;
+    const { store } = this.props;
     const state = store.getState();
     const { order, stages } = state;
     if (!order) throw 'No order available';
@@ -48,7 +47,6 @@ class Main extends HtmlNode {
     pageFormAside.innerHTML = ItemTileSmall({
       vehicle: state.vehicle,
       order: state.order,
-      cdnMedia,
     });
     asideStepperWrapper.appendChild(pageFormAside);
 

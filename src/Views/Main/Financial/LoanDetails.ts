@@ -3,6 +3,7 @@ import { PaymentOption } from '../../../@types/OrderOptions';
 import { PaymentLookup } from '../../../@types/PaymentLookup';
 import PieChart from '../../../Components/Chart/PieChart';
 import HtmlNode from '../../../Components/Extension/HtmlNode';
+import { waykeImage } from '../../../Utils/cdn';
 import { prettyNumber } from '../../../Utils/format';
 import LoanDetailsBasic from './LoanDetailsBasic';
 import LoanDetailsDetailed from './LoanDetailsDetailed';
@@ -63,7 +64,7 @@ class LoanDetails extends HtmlNode {
       publicUrl,
       monthlyCost,
       loanOrgName: loan.name,
-      loanOrgLogo: loan.logo,
+      loanOrgLogo: waykeImage(loan.logo, { format: 'png' }),
       downPaymentPercentage,
       creditAmountPercentage,
     };

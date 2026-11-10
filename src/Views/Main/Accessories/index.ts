@@ -7,6 +7,7 @@ import { completeStage, goTo } from '../../../Redux/action';
 import { WaykeStore } from '../../../Redux/store';
 import watch from '../../../Redux/watch';
 import ListItem from '../../../Templates/ListItem';
+import { waykeImage } from '../../../Utils/cdn';
 import ecomEvent, { EcomEvent, EcomStep, EcomView } from '../../../Utils/ecomEvent';
 import { prettyNumber } from '../../../Utils/format';
 import AccessoryList from './AccessoryList';
@@ -74,8 +75,8 @@ class Accessories extends HtmlNode {
               key: accessory.name,
               image: accessory.media[0]
                 ? {
-                    src: `${accessory.media[0].url}?w=32&h=32`,
-                    srcSet: `${accessory.media[0].url}?w=64&h=64 2x`,
+                    src: waykeImage(accessory.media[0].url, { width: 64 }),
+                    srcSet: `${waykeImage(accessory.media[0].url, { width: 128 })} 2x`,
                     alt: accessory.name,
                   }
                 : undefined,
