@@ -5,6 +5,7 @@ import GridItem from '../../../Components/OverflowGrid/OverflowGridItem';
 import { addOrRemoveAccessory } from '../../../Redux/action';
 import { WaykeStore } from '../../../Redux/store';
 import watch from '../../../Redux/watch';
+import { waykeImage } from '../../../Utils/cdn';
 import ecomEvent, { EcomEvent, EcomStep, EcomView } from '../../../Utils/ecomEvent';
 import { prettyNumber } from '../../../Utils/format';
 import { createPortal, destroyPortal } from '../../../Utils/portal';
@@ -110,8 +111,8 @@ class AccessoryItem extends HtmlNode {
         id: accessory.id,
         title: accessory.name,
         description: accessory.shortDescription,
-        logo: accessory.logoUrl,
-        image: accessory.media?.[0]?.url,
+        logo: waykeImage(accessory.logoUrl, { format: 'png' }),
+        image: waykeImage(accessory.media?.[0]?.url),
         price: prettyNumber(accessory.price, { postfix: 'kr' }),
         selected,
         onClick: () => this.onClick(),

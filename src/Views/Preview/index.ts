@@ -24,7 +24,6 @@ interface PreviewProps {
   readonly store: WaykeStore;
   readonly stageOrderList: StageMapKeys[];
   readonly vehicle?: Vehicle;
-  readonly cdnMedia?: string;
 }
 
 class Preview extends HtmlNode {
@@ -76,7 +75,7 @@ class Preview extends HtmlNode {
   }
 
   render() {
-    const { store, cdnMedia } = this.props;
+    const { store } = this.props;
     const state = store.getState();
 
     if (!state.order) {
@@ -104,7 +103,6 @@ class Preview extends HtmlNode {
           ${ItemTileLarge({
             vehicle: state.vehicle,
             order: state.order,
-            cdnMedia,
           })}
         </div>
         <div class="waykeecom-stack waykeecom-stack--3">
@@ -127,7 +125,6 @@ class Preview extends HtmlNode {
         ${ItemTileLarge({
           vehicle: state.vehicle,
           order: state.order,
-          cdnMedia,
         })}
       </div>
       ${HowTo({ order: state.order, stageOrderList: state.stages })}

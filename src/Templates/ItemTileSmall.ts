@@ -1,15 +1,14 @@
 import { OrderOptions } from '../@types/OrderOptions';
 import { Vehicle } from '../@types/Vehicle';
-import { toCdnMedia } from '../Utils/cdn';
+import { waykeImage } from '../Utils/cdn';
 import { formatShortDescription, prettyNumber } from '../Utils/format';
 
 interface ItemTileSmallProps {
   vehicle?: Vehicle;
   order?: OrderOptions;
-  cdnMedia?: string;
 }
 
-const ItemTileSmall = ({ vehicle, order, cdnMedia }: ItemTileSmallProps) => {
+const ItemTileSmall = ({ vehicle, order }: ItemTileSmallProps) => {
   const imageUrl = vehicle?.imageUrls?.[0];
   const vehicleTitle = vehicle?.title;
   const price = prettyNumber(vehicle?.price || NaN);
@@ -22,7 +21,7 @@ const ItemTileSmall = ({ vehicle, order, cdnMedia }: ItemTileSmallProps) => {
     imageUrl
       ? `
     <div class="waykeecom-preview-card__media">
-      <img src="${toCdnMedia(imageUrl, cdnMedia)}?spec=200x&format=webp" alt="" class="waykeecom-preview-card__image" />
+      <img src="${waykeImage(imageUrl, { width: 225, format: 'webp' })}" alt="" class="waykeecom-preview-card__image" />
     </div>
     `
       : ''

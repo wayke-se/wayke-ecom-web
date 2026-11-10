@@ -5,6 +5,7 @@ import ButtonAsLinkArrowLeft from '../../../Components/Button/ButtonAsLinkArrowL
 import ButtonClear from '../../../Components/Button/ButtonClear';
 import HtmlNode from '../../../Components/Extension/HtmlNode';
 import Gallery from '../../../Components/Gallery/Gallery';
+import { waykeImage } from '../../../Utils/cdn';
 import ecomEvent, { EcomEvent, EcomStep, EcomView } from '../../../Utils/ecomEvent';
 import { prettyNumber } from '../../../Utils/format';
 import { asHtml } from '../../../Utils/parser';
@@ -59,7 +60,7 @@ class AccessoryItemInfo extends HtmlNode {
           </div>
           <div class="waykeecom-hstack__item waykeecom-hstack__item--no-shrink">
             <div class="waykeecom-logo">
-              <img src="${logoUrl}" alt="${i18next.t('accessoryItemInfo.logoAlt')} ${name}" class="waykeecom-logo__image waykeecom-logo__image--right" />
+              <img src="${waykeImage(logoUrl, { format: 'png' })}" alt="${i18next.t('accessoryItemInfo.logoAlt')} ${name}" class="waykeecom-logo__image waykeecom-logo__image--right" />
             </div>
           </div>
         </div>
@@ -101,7 +102,7 @@ class AccessoryItemInfo extends HtmlNode {
 
     new Gallery(this.node.querySelector(`#${ACCESSORY_GALLERY_NODE}`), {
       id: `gallery-${accessory.id}`,
-      media: media.map((m, i) => ({ url: m.url, alt: `Bild ${i + 1}` })),
+      media: media.map((m, i) => ({ url: waykeImage(m.url), alt: `Bild ${i + 1}` })),
       onGalleryImagePaging: () => this.onGalleryImagePaging(),
     });
 

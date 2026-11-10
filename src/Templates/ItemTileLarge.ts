@@ -1,16 +1,15 @@
 import { IOrderVehicle } from '@wayke-se/ecom/dist-types/orders/types';
 import { OrderOptions } from '../@types/OrderOptions';
-import { toCdnMedia } from '../Utils/cdn';
+import { waykeImage } from '../Utils/cdn';
 import { formatShortDescription, prettyNumber } from '../Utils/format';
 
 interface ItemTileLargeProps {
   vehicle?: IOrderVehicle;
   order?: OrderOptions;
   meta?: string;
-  cdnMedia?: string;
 }
 
-const ItemTileLarge = ({ vehicle, order, meta, cdnMedia }: ItemTileLargeProps) => {
+const ItemTileLarge = ({ vehicle, order, meta }: ItemTileLargeProps) => {
   const imageUrls = vehicle?.imageUrls;
   const vehicleTitle = vehicle?.title;
   const price = prettyNumber(vehicle?.price || NaN);
@@ -27,7 +26,7 @@ const ItemTileLarge = ({ vehicle, order, meta, cdnMedia }: ItemTileLargeProps) =
               .map(
                 (imageUrl) => `
               <div class="waykeecom-product-card__media-item">
-                <img src="${toCdnMedia(imageUrl, cdnMedia)}?spec=800x&format=webp" alt="" class="waykeecom-product-card__image" />
+                <img src="${waykeImage(imageUrl, { width: 800, format: 'webp' })}" alt="" class="waykeecom-product-card__image" />
               </div>
             `
               )
