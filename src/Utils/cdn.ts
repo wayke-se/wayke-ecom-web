@@ -26,7 +26,8 @@ interface WaykeImageOptions {
 /**
  * A Wayke media image (blob storage, a CDN's /media or /cfit) as cfit/v3 on the CDN.
  * `/media/<id>?w=` went to the legacy resizer and blob storage served the original
- * straight from storage; both are being retired. Any other URL is returned as is.
+ * straight from storage; both are being retired. A cfit URL keeps its own query (see
+ * below). Any other URL is returned as is.
  */
 export function waykeImage(url: string, options?: WaykeImageOptions): string;
 export function waykeImage(
@@ -48,7 +49,11 @@ export function waykeImage(
   const path = parsed.pathname.match(MEDIA_PATH)?.[1];
   if (!cdn || !path) return url;
 
-  const params = new URLSearchParams();
+  // A cfit URL's own query says what the image service draws on the image: the dealer's
+  // frames (`overlay`), the AI marker (`aimark`, "AI-modifierad") and the revision (`r`).
+  // It stays, and only the size and format asked for here are set on top of it. A /media
+  // query was the legacy resizer's and means nothing to cfit/v3: dropped.
+  const params = new URLSearchParams(parsed.pathname.startsWith('/cfit/') ? parsed.search : '');
   if (width) params.set('w', String(width));
   if (format) params.set('format', format);
   const query = params.toString();
