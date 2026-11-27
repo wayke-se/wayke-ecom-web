@@ -51,11 +51,19 @@ interface LoanProps {
 
 type LoanNames = 'downPayment' | 'duration' | 'residual';
 
+/** Which values the dealer's financing packaging has locked. */
+interface LockedFields {
+  downPayment: boolean;
+  duration: boolean;
+  residual: boolean;
+}
+
 class Loan extends HtmlNode {
   private readonly props: LoanProps;
   private paymentState: PaymentState;
   private previousState: PaymentState;
   private paymentLookupResponse: PaymentLookup;
+  private readonly locked: LockedFields;
   private contexts: {
     downPayment?: InputRange;
     duration?: InputRange;
@@ -71,6 +79,14 @@ class Loan extends HtmlNode {
     const loanDetails = this.props.loan.loanDetails;
     if (!loanDetails) throw 'err';
     this.paymentLookupResponse = this.props.paymentLookupResponse || loanDetails;
+
+    // Read from the option as it was loaded, never from a recalculation: the payment endpoint
+    // does not know which packaging the option came from and answers `fixed: false`.
+    this.locked = {
+      downPayment: !!loanDetails.downPaymentSpec?.fixed,
+      duration: !!loanDetails.durationSpec?.fixed,
+      residual: !!loanDetails.residualValueSpec?.fixed,
+    };
 
     this.paymentState = {
       vehicleId: this.props.vehicleId,
@@ -191,7 +207,11 @@ class Loan extends HtmlNode {
           <p class="waykeecom-content__p">${i18next.t('loan.description', { name: loan?.name })}${
             shouldUseCreditScoring ? ` ${i18next.t('loan.creditScoringInfo', { name })}` : ''
           }</p>
-          <p class="waykeecom-content__p">${i18next.t('loan.instruction')}</p>
+          ${
+            this.locked.downPayment && this.locked.duration
+              ? ''
+              : `<p class="waykeecom-content__p">${i18next.t('loan.instruction')}</p>`
+          }
         </div>
       </div>
       <div class="waykeecom-stack waykeecom-stack--3">
@@ -211,49 +231,55 @@ class Loan extends HtmlNode {
       }
     `;
 
-    this.contexts.downPayment = new InputRange(
-      this.node.querySelector<HTMLDivElement>(`#${DOWNPAYMENT_RANGE_NODE}`),
-      {
-        title: i18next.t('loan.downPaymentTitle'),
-        value: this.paymentState.downPayment.current,
-        id: DOWNPAYMENT_RANGE,
-        name: 'downPayment',
-        onChange: (e) => this.onChange(e),
-        min: this.paymentState.downPayment.min,
-        max: this.paymentState.downPayment.max,
-        unit: 'kr',
-        information: `
+    // A locked value gets no control at all. Disabling it is not enough: `payment()` enables
+    // every control again once a recalculation has finished.
+    if (!this.locked.downPayment) {
+      this.contexts.downPayment = new InputRange(
+        this.node.querySelector<HTMLDivElement>(`#${DOWNPAYMENT_RANGE_NODE}`),
+        {
+          title: i18next.t('loan.downPaymentTitle'),
+          value: this.paymentState.downPayment.current,
+          id: DOWNPAYMENT_RANGE,
+          name: 'downPayment',
+          onChange: (e) => this.onChange(e),
+          min: this.paymentState.downPayment.min,
+          max: this.paymentState.downPayment.max,
+          unit: 'kr',
+          information: `
           <div class="waykeecom-content waykeecom-content--inherit-size">
             <p class="waykeecom-content__p"><span class="waykeecom-text waykeecom-text--font-medium">${i18next.t('loan.downPaymentInfoTitle')}</span></p>
             <p class="waykeecom-content__p">${i18next.t('loan.downPaymentInfoDescription', { name })}</p>
           </div>
         `,
-        onClickInformation: () => {
-          ecomEvent(
-            EcomView.MAIN,
-            EcomEvent.FINANCIAL_LOAN_DOWNPAYMENT_INFORMATION_TOGGLE,
-            EcomStep.FINANCIAL
-          );
-        },
-      }
-    );
+          onClickInformation: () => {
+            ecomEvent(
+              EcomView.MAIN,
+              EcomEvent.FINANCIAL_LOAN_DOWNPAYMENT_INFORMATION_TOGGLE,
+              EcomStep.FINANCIAL
+            );
+          },
+        }
+      );
+    }
 
-    this.contexts.duration = new InputRange(
-      this.node.querySelector<HTMLDivElement>(`#${DURATION_RANGE_NODE}`),
-      {
-        title: i18next.t('loan.durationTitle'),
-        value: this.paymentState.duration.current,
-        id: DURATION_RANGE,
-        name: 'duration',
-        onChange: (e) => this.onChange(e),
-        min: this.paymentState.duration.min,
-        max: this.paymentState.duration.max,
-        step: this.paymentState.duration.step,
-        unit: 'mån',
-      }
-    );
+    if (!this.locked.duration) {
+      this.contexts.duration = new InputRange(
+        this.node.querySelector<HTMLDivElement>(`#${DURATION_RANGE_NODE}`),
+        {
+          title: i18next.t('loan.durationTitle'),
+          value: this.paymentState.duration.current,
+          id: DURATION_RANGE,
+          name: 'duration',
+          onChange: (e) => this.onChange(e),
+          min: this.paymentState.duration.min,
+          max: this.paymentState.duration.max,
+          step: this.paymentState.duration.step,
+          unit: 'mån',
+        }
+      );
+    }
 
-    if (this.paymentState.residual) {
+    if (this.paymentState.residual && !this.locked.residual) {
       this.contexts.residual = new InputRange(
         this.node.querySelector<HTMLDivElement>(`#${RESIDUAL_RANGE_NODE}`),
         {
