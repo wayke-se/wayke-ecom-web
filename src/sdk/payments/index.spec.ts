@@ -1,6 +1,6 @@
-jest.mock('../http/apis/payments');
-
-const fixtures = require('../../test/fixtures');
+import { vi } from 'vitest';
+import * as fixtures from '../../test/fixtures';
+vi.mock('../http/apis/payments');
 
 import Configuration from '../config';
 import * as api from '../http/apis/payments';
@@ -39,7 +39,7 @@ describe('Payment Functions', () => {
       expect(err).toBeInstanceOf(Error);
     });
     it('validates the provided request', async () => {
-      const spy = jest.spyOn(PaymentLookupRequestBuilder, 'validateRequest');
+      const spy = vi.spyOn(PaymentLookupRequestBuilder, 'validateRequest');
       const request = fixture('IPaymentLookupRequest');
 
       (api.lookup as any).mockImplementation(

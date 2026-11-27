@@ -1,5 +1,4 @@
-const fixtures = require('../../test/fixtures');
-
+import * as fixtures from '../../test/fixtures';
 import { PaymentLookupResponse } from './payment-lookup-response';
 import { IPaymentLookupResponse, IPaymentLookupResponseData } from './types';
 

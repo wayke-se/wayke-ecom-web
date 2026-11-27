@@ -1,6 +1,6 @@
-jest.mock('../http/apis/vehicles');
-
-const fixtures = require('../../test/fixtures');
+import { vi } from 'vitest';
+import * as fixtures from '../../test/fixtures';
+vi.mock('../http/apis/vehicles');
 
 import Configuration from '../config';
 import * as api from '../http/apis/vehicles';
@@ -54,7 +54,7 @@ describe('Vehicle Functions', () => {
       expect(err).toBeInstanceOf(Error);
     });
     it('validates the provided request', async () => {
-      const spy = jest.spyOn(VehicleLookupRequestBuilder, 'validateRequest');
+      const spy = vi.spyOn(VehicleLookupRequestBuilder, 'validateRequest');
       const request = fixture('IVehicleLookupRequest');
 
       (api.lookup as any).mockImplementation(

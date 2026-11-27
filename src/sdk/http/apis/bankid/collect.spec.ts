@@ -1,9 +1,9 @@
-const fixtures = require('../../../../test/fixtures');
+import * as fixtures from '../../../../test/fixtures';
+import * as http from '../../';
 const fixture = (name: string): any => fixtures.create(name);
 
 import { getUrl } from './collect';
 import Configuration from '../../../config';
-const http = require('../../');
 
 describe('BankId Collect', () => {
   let host: string;

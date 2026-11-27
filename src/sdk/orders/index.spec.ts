@@ -1,6 +1,6 @@
-jest.mock('../http/apis/orders');
-
-const fixtures = require('../../test/fixtures');
+import { vi } from 'vitest';
+import * as fixtures from '../../test/fixtures';
+vi.mock('../http/apis/orders');
 
 import Configuration from '../config';
 import * as api from '../http/apis/orders';
@@ -99,7 +99,7 @@ describe('Order Functions', () => {
       expect(err).toBeInstanceOf(Error);
     });
     it('validates the provided request', async () => {
-      const spy = jest.spyOn(OrderCreateRequestBuilder, 'validateRequest');
+      const spy = vi.spyOn(OrderCreateRequestBuilder, 'validateRequest');
       const request = fixture('IOrderCreateRequest');
 
       (api.create as any).mockImplementation(
@@ -140,7 +140,7 @@ describe('Order Functions', () => {
       expect(err).toBeInstanceOf(Error);
     });
     it('validates the provided request', async () => {
-      const spy = jest.spyOn(OrderOptionsRequestBuilder, 'validateRequest');
+      const spy = vi.spyOn(OrderOptionsRequestBuilder, 'validateRequest');
       const request = fixture('IOrderOptionsRequest');
 
       (api.init as any).mockImplementation(

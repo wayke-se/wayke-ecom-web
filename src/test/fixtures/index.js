@@ -1,24 +1,30 @@
-const factory = require('autofixture');
+import {
+  asArray,
+  asBoolean,
+  asConstant,
+  asListOfFixtures,
+  asNumber,
+  fromFixture,
+  pickFrom,
+  create,
+  define,
+} from './factory.js';
 
-factory.define('IApiConfiguration', ['address']);
+define('IApiConfiguration', ['address']);
 
-factory.define('IOriginConfiguration', ['topic', 'channel']);
+define('IOriginConfiguration', ['topic', 'channel']);
 
-factory.define('IConfiguration', [
-  'api'.fromFixture('IApiConfiguration'),
-  'origin'.fromFixture('IOriginConfiguration'),
+define('IConfiguration', [
+  fromFixture('api', 'IApiConfiguration'),
+  fromFixture('origin', 'IOriginConfiguration'),
   'bankIdThumbprint',
 ]);
 
-factory.define('IApiResponse', ['successful'.asBoolean(), 'response', 'requestForgeryToken']);
+define('IApiResponse', [asBoolean('successful'), 'response', 'requestForgeryToken']);
 
-factory.define('IApiErrorResponse', [
-  'successful'.asConstant(false),
-  'errorCode'.asNumber(),
-  'message',
-]);
+define('IApiErrorResponse', [asConstant('successful', false), asNumber('errorCode'), 'message']);
 
-factory.define('IDistance', ['value'.asNumber(), 'unit'.pickFrom(['m', 'km'])]);
+define('IDistance', [asNumber('value'), pickFrom('unit', ['m', 'km'])]);
 
 const IAddress = [
   'city',
@@ -26,50 +32,50 @@ const IAddress = [
   'postalCode',
   'street',
   'street2',
-  'distance'.fromFixture('IDistance'),
+  fromFixture('distance', 'IDistance'),
 ];
-factory.define('IAddress', IAddress);
+define('IAddress', IAddress);
 
-factory.define('ICustomer', [
+define('ICustomer', [
   'name',
   'personalNumber',
   'email',
   'phoneNumber',
-  'address'.fromFixture('IAddress'),
+  fromFixture('address', 'IAddress'),
 ]);
 
-factory.define('IOrderUrls', ['redirect', 'payment']);
+define('IOrderUrls', ['redirect', 'payment']);
 
-factory.define('IAddressLookupRequest', ['personalNumber']);
-factory.define('IAddressLookupResponse', [].concat(IAddress));
+define('IAddressLookupRequest', ['personalNumber']);
+define('IAddressLookupResponse', [].concat(IAddress));
 
-factory.define('IInsuranceOptionsResponse.IInsuranceOption', [
+define('IInsuranceOptionsResponse.IInsuranceOption', [
   'name',
-  'price'.asNumber(),
+  asNumber('price'),
   'unit',
-  'includesFinancingInPrice'.asBoolean(),
-  'addons'.asListOfFixtures('IInsuranceOptionsResponse.AddOn', 3),
+  asBoolean('includesFinancingInPrice'),
+  asListOfFixtures('addons', 'IInsuranceOptionsResponse.AddOn', 3),
   'description',
   'branding',
-  'insuranceItems'.asListOfFixtures('IInsuranceOptionsResponse.Item', 3),
+  asListOfFixtures('insuranceItems', 'IInsuranceOptionsResponse.Item', 3),
   'legalUrl',
   'legalDescription',
 ]);
 
-factory.define('IInsuranceOptionsResponse.AddOn', [
+define('IInsuranceOptionsResponse.AddOn', [
   'title',
   'name',
   'description',
-  'monthlyPrice'.asNumber(),
-  'exclude'.asArray(1),
+  asNumber('monthlyPrice'),
+  asArray('exclude', 1),
 ]);
 
-factory.define('IInsuranceOptionsResponse.Item', ['name', 'description']);
+define('IInsuranceOptionsResponse.Item', ['name', 'description']);
 
-factory.define('IInsuranceOptionsRequest', [
+define('IInsuranceOptionsRequest', [
   'id',
   'personalNumber',
-  'drivingDistance'.pickFrom([
+  pickFrom('drivingDistance', [
     'Between0And1000',
     'Between1000And1500',
     'Between1500And2000',
@@ -78,101 +84,88 @@ factory.define('IInsuranceOptionsRequest', [
   ]),
 ]);
 
-factory.define('IInsuranceOptionsResponse', [
-  'insurances'.asListOfFixtures('IInsuranceOptionsResponse.IInsuranceOption', 2),
+define('IInsuranceOptionsResponse', [
+  asListOfFixtures('insurances', 'IInsuranceOptionsResponse.IInsuranceOption', 2),
 ]);
 
-factory.define('IContactInformation', [
-  'address',
-  'city',
-  'email',
-  'homePage',
-  'name',
-  'phone',
-  'zip',
-]);
-factory.define('IOrderDelivery', [
-  'type'.pickFrom(['Pickup', 'Delivery']),
+define('IContactInformation', ['address', 'city', 'email', 'homePage', 'name', 'phone', 'zip']);
+define('IOrderDelivery', [
+  pickFrom('type', ['Pickup', 'Delivery']),
   'deliveryTime',
-  'startupCost'.asNumber(),
-  'unitPrice'.asNumber(),
-  'unit'.pickFrom(['km']),
-  'minQuantity'.asNumber(),
-  'maxQuantity'.asNumber(),
+  asNumber('startupCost'),
+  asNumber('unitPrice'),
+  pickFrom('unit', ['km']),
+  asNumber('minQuantity'),
+  asNumber('maxQuantity'),
 ]);
-factory.define('IOrderInsurance', ['description', 'logo', 'title', 'url', 'ecomInsuranceText']);
+define('IOrderInsurance', ['description', 'logo', 'title', 'url', 'ecomInsuranceText']);
 
-factory.define('IOrderPayment', [
-  'loanDetails'.fromFixture('IPaymentLookupResponse'),
+define('IOrderPayment', [
+  fromFixture('loanDetails', 'IPaymentLookupResponse'),
   'logo',
   'name',
-  'price'.asNumber(),
-  'type'.pickFrom(['Cash', 'Lease', 'Loan']),
+  asNumber('price'),
+  pickFrom('type', ['Cash', 'Lease', 'Loan']),
   'unit',
   'externalId',
 ]);
 
-factory.define('IVehicleTrade', [
+define('IVehicleTrade', [
   'registrationNumber',
-  'mileage'.asNumber(),
-  'condition'.pickFrom(['VeryGood', 'Good', 'Ok']),
+  asNumber('mileage'),
+  pickFrom('condition', ['VeryGood', 'Good', 'Ok']),
   'comments',
 ]);
-factory.define('IOrderInsuranceRequest', [
+define('IOrderInsuranceRequest', [
   'personalNumber',
-  'drivingDistance'.pickFrom([
+  pickFrom('drivingDistance', [
     'Between0And1000',
     'Between1000And1500',
     'Between1500And2000',
     'Between2000And2500',
     'Over2500',
   ]),
-  'addons'.asArray(2),
+  asArray('addons', 2),
 ]);
-factory.define('IOrderCreditAssessment', [
-  'scoreId',
-  'financialProductCode',
-  'recommendation',
-  'decision',
-]);
-factory.define('IOrderPaymentRequest', [
-  'type'.pickFrom(['Cash', 'Lease', 'Loan']),
-  'months'.asNumber(),
-  'downPayment'.asNumber(),
-  'residualValue'.asNumber(),
+define('IOrderCreditAssessment', ['scoreId', 'financialProductCode', 'recommendation', 'decision']);
+define('IOrderPaymentRequest', [
+  pickFrom('type', ['Cash', 'Lease', 'Loan']),
+  asNumber('months'),
+  asNumber('downPayment'),
+  asNumber('residualValue'),
   'externalId',
-  'creditAssessment'.fromFixture('IOrderCreditAssessment'),
+  fromFixture('creditAssessment', 'IOrderCreditAssessment'),
 ]);
-factory.define('IOrderCreateRequest', [
+define('IOrderCreateRequest', [
   'id',
-  'tradein'.fromFixture('IVehicleTrade'),
-  'insurance'.fromFixture('IOrderInsuranceRequest'),
-  'payment'.fromFixture('IOrderPaymentRequest'),
-  'deliveryType'.pickFrom('Pickup', 'Delivery'),
-  'customer'.fromFixture('ICustomer'),
-  'urls'.fromFixture('IOrderUrls'),
+  fromFixture('tradein', 'IVehicleTrade'),
+  fromFixture('insurance', 'IOrderInsuranceRequest'),
+  fromFixture('payment', 'IOrderPaymentRequest'),
+  pickFrom('deliveryType', 'Pickup', 'Delivery'),
+  fromFixture('customer', 'ICustomer'),
+  fromFixture('urls', 'IOrderUrls'),
 ]);
-factory.define('IOrderCreateResponse', ['id', 'payment'.fromFixture('IPaymentResponse')]);
+define('IOrderCreateResponse', ['id', fromFixture('payment', 'IPaymentResponse')]);
 
-factory.define('IOrderOptionsRequest', ['id', 'branchId']);
-factory.define('IOrderOptionsResponse', [
+define('IOrderOptionsRequest', ['id', 'branchId']);
+define('IOrderOptionsResponse', [
   'vehicle',
-  'accessories'.asListOfFixtures('IAccessory', 2),
-  'dealers'.asListOfFixtures('IDealerOption', 2),
+  asListOfFixtures('accessories', 'IAccessory', 2),
+  asListOfFixtures('dealers', 'IDealerOption', 2),
   'conditions',
   'returnConditions',
   'conditionsPdfUri',
-  'contactInformation'.fromFixture('IContactInformation'),
-  'delivery'.asListOfFixtures('IOrderDelivery', 2),
-  'insurance'.fromFixture('IOrderInsurance'),
-  'payment'.asListOfFixtures('IOrderPayment', 2),
-  'tradeIn'.asBoolean(),
-  'unavailable'.asBoolean(),
-  'reserved'.asBoolean(),
-  'paymentRequired'.asBoolean(),
+  fromFixture('contactInformation', 'IContactInformation'),
+  asListOfFixtures('delivery', 'IOrderDelivery', 2),
+  fromFixture('insurance', 'IOrderInsurance'),
+  asListOfFixtures('payment', 'IOrderPayment', 2),
+  asBoolean('tradeIn'),
+  asBoolean('unavailable'),
+  asBoolean('reserved'),
+  asBoolean('paymentRequired'),
 ]);
 
-factory.define('IAccessory', [
+define('IAccessory', [
   'id',
   'articleNumber',
   'logoUrl',
@@ -181,86 +174,86 @@ factory.define('IAccessory', [
   'manufacturer',
   'model',
   'name',
-  'price'.asNumber(),
-  'assemblyPrice'.asNumber(),
-  'salePrice'.asNumber(),
+  asNumber('price'),
+  asNumber('assemblyPrice'),
+  asNumber('salePrice'),
   'productPageLink',
   'productPageLinkText',
-  'media'.asListOfFixtures('IAccessoryMedia', 2),
+  asListOfFixtures('media', 'IAccessoryMedia', 2),
 ]);
 
-factory.define('IAccessoryMedia', ['externalId', 'sortOrder'.asNumber(), 'url']);
+define('IAccessoryMedia', ['externalId', asNumber('sortOrder'), 'url']);
 
-factory.define('IDealerOption', ['id', 'name', 'location'.fromFixture('ILocation')]);
+define('IDealerOption', ['id', 'name', fromFixture('location', 'ILocation')]);
 
-factory.define('ILocation', ['address', 'city', 'latitude'.asNumber(), 'longitude'.asNumber()]);
+define('ILocation', ['address', 'city', asNumber('latitude'), asNumber('longitude')]);
 
-factory.define('IPaymentCosts', ['monthlyCost'.asNumber(), 'totalCreditCost'.asNumber()]);
-factory.define('IPaymentFees', ['setupFee'.asNumber(), 'administrationFee'.asNumber()]);
-factory.define('IPaymentInterests', ['interest'.asNumber(), 'effectiveInterest'.asNumber()]);
-factory.define('IPaymentRangeSpec', [
-  'min'.asNumber(),
-  'max'.asNumber(),
-  'step'.asNumber(),
-  'default'.asNumber(),
-  'current'.asNumber(),
+define('IPaymentCosts', [asNumber('monthlyCost'), asNumber('totalCreditCost')]);
+define('IPaymentFees', [asNumber('setupFee'), asNumber('administrationFee')]);
+define('IPaymentInterests', [asNumber('interest'), asNumber('effectiveInterest')]);
+define('IPaymentRangeSpec', [
+  asNumber('min'),
+  asNumber('max'),
+  asNumber('step'),
+  asNumber('default'),
+  asNumber('current'),
 ]);
-factory.define('IPaymentLookupRequest', [
+define('IPaymentLookupRequest', [
   'id',
   'branchId',
-  'duration'.asNumber(),
-  'downPayment'.asNumber(),
+  asNumber('duration'),
+  asNumber('downPayment'),
   'financialOptionId',
 ]);
-factory.define('IPaymentLookupResponse', [
-  'monthlyCost'.asNumber(),
-  'interest'.asNumber(),
-  'effectiveInterest'.asNumber(),
-  'setupFee'.asNumber(),
-  'administrationFee'.asNumber(),
-  'totalCreditCost'.asNumber(),
-  'residual'.fromFixture('IPaymentRangeSpec'),
-  'duration'.fromFixture('IPaymentRangeSpec'),
-  'downPayment'.fromFixture('IPaymentRangeSpec'),
-  'totalResidualValue'.asNumber(),
+define('IPaymentLookupResponse', [
+  asNumber('monthlyCost'),
+  asNumber('interest'),
+  asNumber('effectiveInterest'),
+  asNumber('setupFee'),
+  asNumber('administrationFee'),
+  asNumber('totalCreditCost'),
+  fromFixture('residual', 'IPaymentRangeSpec'),
+  fromFixture('duration', 'IPaymentRangeSpec'),
+  fromFixture('downPayment', 'IPaymentRangeSpec'),
+  asNumber('totalResidualValue'),
   'link',
-  'vehiclePrice'.asNumber(),
-  'loanAmount'.asNumber(),
-  'useCreditScoring'.asBoolean(),
+  asNumber('vehiclePrice'),
+  asNumber('loanAmount'),
+  asBoolean('useCreditScoring'),
   'financialProductCode',
   'privacyPolicyUrl',
   'moneyLaunderingInformationUrl',
   'financialOptionId',
 ]);
 
-factory.define('IVehicleLookupRequest', [
+define('IVehicleLookupRequest', [
   'registrationNumber',
-  'mileage'.asNumber(),
-  'condition'.pickFrom(['Ok', 'Good', 'VeryGood']),
+  asNumber('mileage'),
+  pickFrom('condition', ['Ok', 'Good', 'VeryGood']),
 ]);
-factory.define('IVehicleLookupResponse', [
+define('IVehicleLookupResponse', [
   'manufacturer',
   'modelName',
   'modelSeries',
-  'modelYear'.asNumber(),
-  'valuation'.asNumber(),
+  asNumber('modelYear'),
+  asNumber('valuation'),
 ]);
 
-factory.define('IBankIdAuthRequest', ['method'.pickFrom(['SameDevice', 'QrCode'])]);
+define('IBankIdAuthRequest', [pickFrom('method', ['SameDevice', 'QrCode'])]);
 
-factory.define('IBankIdAuthApiResponse', [
+define('IBankIdAuthApiResponse', [
   'orderRef',
-  'method'.pickFrom(['SameDevice', 'QrCode']),
+  pickFrom('method', ['SameDevice', 'QrCode']),
   'qrCodeAsBase64',
   'autoLaunchUrl',
 ]);
 
-factory.define('IBankIdCollectRequest', ['orderRef']);
+define('IBankIdCollectRequest', ['orderRef']);
 
-factory.define('IBankIdCollectApiResponse', [
+define('IBankIdCollectApiResponse', [
   'orderRef',
-  'status'.pickFrom(['pending', 'failed', 'complete']),
-  'hintCode'.pickFrom([
+  pickFrom('status', ['pending', 'failed', 'complete']),
+  pickFrom('hintCode', [
     'outstandingTransaction',
     'noClient',
     'started',
@@ -272,45 +265,45 @@ factory.define('IBankIdCollectApiResponse', [
     'startFailed',
     '',
   ]),
-  'completionData'.fromFixture('IBankIdCompletionData'),
+  fromFixture('completionData', 'IBankIdCompletionData'),
 ]);
-factory.define('IBankIdCompletionData', [
+define('IBankIdCompletionData', [
   'signature',
   'ocspResponse',
   'personalNumber',
-  'address'.fromFixture('IAddress'),
+  fromFixture('address', 'IAddress'),
 ]);
 
-factory.define('IBankIdCancelRequest', ['orderRef']);
+define('IBankIdCancelRequest', ['orderRef']);
 
-factory.define('IBankIdQrCodeRequest', ['orderRef']);
+define('IBankIdQrCodeRequest', ['orderRef']);
 
-factory.define('IBankIdQrCodeApiResponse', ['orderRef', 'qrCodeAsBase64']);
+define('IBankIdQrCodeApiResponse', ['orderRef', 'qrCodeAsBase64']);
 
-factory.define('ICreditAssessmentCustomer', ['socialId', 'email', 'phone', 'signerIp']);
+define('ICreditAssessmentCustomer', ['socialId', 'email', 'phone', 'signerIp']);
 
-factory.define('ICreditAssessmentLoan', [
+define('ICreditAssessmentLoan', [
   'financialProductId',
-  'price'.asNumber(),
-  'downPayment'.asNumber(),
-  'credit'.asNumber(),
-  'interestRate'.asNumber(),
-  'monthlyCost'.asNumber(),
+  asNumber('price'),
+  asNumber('downPayment'),
+  asNumber('credit'),
+  asNumber('interestRate'),
+  asNumber('monthlyCost'),
   'term',
 ]);
 
-factory.define('ICreditAssessmentDebtSpecification', [
-  'privateLoan'.asNumber(),
-  'vehicleLoan'.asNumber(),
-  'leasingFees'.asNumber(),
-  'cardCredits'.asNumber(),
-  'collateral'.asNumber(),
+define('ICreditAssessmentDebtSpecification', [
+  asNumber('privateLoan'),
+  asNumber('vehicleLoan'),
+  asNumber('leasingFees'),
+  asNumber('cardCredits'),
+  asNumber('collateral'),
 ]);
 
-factory.define('ICreditAssessmentHouseholdEconomy', [
-  'maritalStatus'.pickFrom(['married', 'commonLaw', 'single']),
-  'income'.asNumber(),
-  'employment'.pickFrom([
+define('ICreditAssessmentHouseholdEconomy', [
+  pickFrom('maritalStatus', ['married', 'commonLaw', 'single']),
+  asNumber('income'),
+  pickFrom('employment', [
     'other',
     'retired',
     'fullTimeEmployed',
@@ -318,23 +311,23 @@ factory.define('ICreditAssessmentHouseholdEconomy', [
     'temporarilyEmployed',
     'selfEmployed',
   ]),
-  'householdChildren'.asNumber(),
-  'housingType'.pickFrom(['singleFamily', 'condominium', 'apartment']),
-  'housingCost'.asNumber(),
-  'debtSpecification'.fromFixture('ICreditAssessmentDebtSpecification'),
+  asNumber('householdChildren'),
+  pickFrom('housingType', ['singleFamily', 'condominium', 'apartment']),
+  asNumber('housingCost'),
+  fromFixture('debtSpecification', 'ICreditAssessmentDebtSpecification'),
 ]);
 
-factory.define('ICreditAssessmentInquiry', [
+define('ICreditAssessmentInquiry', [
   'externalId',
-  'customer'.fromFixture('ICreditAssessmentCustomer'),
-  'loan'.fromFixture('ICreditAssessmentLoan'),
-  'householdEconomy'.fromFixture('ICreditAssessmentHouseholdEconomy'),
+  fromFixture('customer', 'ICreditAssessmentCustomer'),
+  fromFixture('loan', 'ICreditAssessmentLoan'),
+  fromFixture('householdEconomy', 'ICreditAssessmentHouseholdEconomy'),
 ]);
 
-factory.define('ICreditAssessmentCase', ['caseId']);
+define('ICreditAssessmentCase', ['caseId']);
 
-factory.define('ICreditAssessmentStatusApiResponse', [
-  'status'.pickFrom([
+define('ICreditAssessmentStatusApiResponse', [
+  pickFrom('status', [
     'received',
     'signingInitiated',
     'signingFailed',
@@ -352,13 +345,10 @@ factory.define('ICreditAssessmentStatusApiResponse', [
   'decision',
   'qrCode',
 ]);
-factory.define('ICreditAssessmentSignRequest', [
-  'method'.pickFrom(['SameDevice', 'QrCode']),
-  'caseId',
-]);
+define('ICreditAssessmentSignRequest', [pickFrom('method', ['SameDevice', 'QrCode']), 'caseId']);
 
-factory.define('ICreditAssessmentSignApiResponse', ['qrCodeAsBase64', 'autoLaunchUrl']);
+define('ICreditAssessmentSignApiResponse', ['qrCodeAsBase64', 'autoLaunchUrl']);
 
-factory.define('IPaymentResponse', ['payment', 'url']);
+define('IPaymentResponse', ['payment', 'url']);
 
-module.exports = factory;
+export { create };

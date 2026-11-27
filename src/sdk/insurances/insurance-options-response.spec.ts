@@ -1,5 +1,4 @@
-const fixtures = require('../../test/fixtures');
-
+import * as fixtures from '../../test/fixtures';
 import { resolveNaptr } from 'dns';
 import { InsuranceOptionsResponse } from './insurance-options-response';
 

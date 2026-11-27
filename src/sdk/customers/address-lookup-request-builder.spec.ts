@@ -1,5 +1,4 @@
-const fixtures = require('../../test/fixtures');
-
+import * as fixtures from '../../test/fixtures';
 import { AddressLookupRequestBuilder } from './address-lookup-request-builder';
 
 const fixture = (id: string): any => fixtures.create(id);

@@ -1,4 +1,7 @@
-const fixtures = require('../../test/fixtures');
+import { vi } from 'vitest';
+import * as fixtures from '../../test/fixtures';
+import * as api from '../http/apis/bankid';
+import { mockExport } from '../../test/mock-export';
 const fixture = (name: string): any => fixtures.create(name);
 
 import { BankIdAuthRequestBuilder } from './bankid-auth-request-builder';
@@ -6,8 +9,6 @@ import { IBankIdAuthRequest, AuthMethod, IBankIdCollectRequest } from './types';
 import * as bankid from '.';
 import { BankIdCollectRequestBuilder } from './bankid-collect-request-builder';
 import { BankIdCancelRequestBuilder } from './bankid-cancel-request-builder';
-
-const api = require('../http/apis/bankid');
 
 describe('BankId Functions', () => {
   describe(':newAuthRequest()', () => {
@@ -59,7 +60,7 @@ describe('BankId Functions', () => {
     let request: IBankIdAuthRequest;
 
     beforeAll(() => {
-      api.auth = jest.fn().mockImplementation(
+      mockExport(api, 'auth').mockImplementation(
         () =>
           new Promise((resolve) => {
             const response = fixture('IBankIdAuthApiResponse');
@@ -71,7 +72,7 @@ describe('BankId Functions', () => {
     });
 
     it('Should validate request', async () => {
-      const spy = jest.spyOn(BankIdAuthRequestBuilder, 'validate');
+      const spy = vi.spyOn(BankIdAuthRequestBuilder, 'validate');
       await bankid.auth(request);
 
       expect(spy).toHaveBeenCalledWith(request);
@@ -89,7 +90,7 @@ describe('BankId Functions', () => {
 
   describe(':collect()', () => {
     beforeAll(() => {
-      api.collect = jest.fn().mockImplementation(
+      mockExport(api, 'collect').mockImplementation(
         () =>
           new Promise((resolve) => {
             const response = fixture('IBankIdCollectApiResponse');
@@ -100,7 +101,7 @@ describe('BankId Functions', () => {
 
     it('Should validate request', async () => {
       const request = fixture('IBankIdCollectRequest');
-      const spy = jest.spyOn(BankIdCollectRequestBuilder, 'validate');
+      const spy = vi.spyOn(BankIdCollectRequestBuilder, 'validate');
 
       await bankid.collect(request);
 
@@ -114,12 +115,12 @@ describe('BankId Functions', () => {
 
   describe(':cancel()', () => {
     beforeAll(() => {
-      api.cancel = jest.fn().mockImplementation(() => new Promise((resolve) => resolve(true)));
+      mockExport(api, 'cancel').mockImplementation(() => new Promise((resolve) => resolve(true)));
     });
 
     it('Should validate request', async () => {
       const request = fixture('IBankIdCancelRequest');
-      const spy = jest.spyOn(BankIdCancelRequestBuilder, 'validate');
+      const spy = vi.spyOn(BankIdCancelRequestBuilder, 'validate');
 
       await bankid.cancel(request);
 

@@ -1,5 +1,6 @@
-const fixtures = require('../../../test/fixtures');
-
+import * as fixtures from '../../../test/fixtures';
+import * as http from '..';
+import { mockExport } from '../../../test/mock-export';
 import Configuration from '../../config';
 import { lookup } from './payments';
 
@@ -12,9 +13,10 @@ describe('API: Payments', () => {
       const fake = fixture('IConfiguration');
       const config = Configuration.bind(fake);
 
-      const http = require('..');
-      http.context = jest.fn(() => ({ requestForgeryToken: '-' }));
-      http.json = jest.fn(
+      mockExport(http, 'context', () => ({ requestForgeryToken: '-' }));
+      mockExport(
+        http,
+        'json',
         () =>
           new Promise((resolve) => {
             const data = fixture('IPaymentLookupResponse');
@@ -35,9 +37,10 @@ describe('API: Payments', () => {
     it('throws error if response was unsuccessful', async () => {
       const config = Configuration.bind(fixture('IConfiguration'));
 
-      const http = require('..');
-      http.context = jest.fn(() => ({ requestForgeryToken: '-' }));
-      http.json = jest.fn(
+      mockExport(http, 'context', () => ({ requestForgeryToken: '-' }));
+      mockExport(
+        http,
+        'json',
         () =>
           new Promise((resolve) => {
             const response = fixture('IApiResponse', {
@@ -59,9 +62,10 @@ describe('API: Payments', () => {
     it('throws error if data validation fails', async () => {
       const config = Configuration.bind(fixture('IConfiguration'));
 
-      const http = require('..');
-      http.context = jest.fn(() => ({ requestForgeryToken: '-' }));
-      http.json = jest.fn(
+      mockExport(http, 'context', () => ({ requestForgeryToken: '-' }));
+      mockExport(
+        http,
+        'json',
         () =>
           new Promise((resolve) => {
             const response = fixture('IApiResponse', {

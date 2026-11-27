@@ -1,4 +1,4 @@
-const fixtures = require('../../../../test/fixtures');
+import * as fixtures from '../../../../test/fixtures';
 const fixture = (name: string): any => fixtures.create(name);
 
 import { getUrl } from './qrcode';

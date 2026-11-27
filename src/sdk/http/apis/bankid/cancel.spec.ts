@@ -1,16 +1,17 @@
-const fixtures = require('../../../../test/fixtures');
+import * as fixtures from '../../../../test/fixtures';
+import * as http from '../../';
+import { mockExport } from '../../../../test/mock-export';
 const fixture = (name: string): any => fixtures.create(name);
 
 import { getUrl, cancel } from './cancel';
 import Configuration from '../../../config';
-const http = require('../../');
 
 describe('BankId Cancel', () => {
   let host: string;
 
   beforeAll(() => {
     const response = fixture('IApiResponse');
-    http.context = jest.fn(() => ({
+    mockExport(http, 'context', () => ({
       requestForgeryToken: response.requestForgeryToken,
     }));
 
@@ -31,7 +32,7 @@ describe('BankId Cancel', () => {
 
   describe(':cancel()', () => {
     beforeAll(() => {
-      http.raw = jest.fn();
+      mockExport(http, 'raw');
     });
 
     it('Should call http.raw with defined parameters', () => {

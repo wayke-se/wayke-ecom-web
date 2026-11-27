@@ -1,6 +1,6 @@
-jest.mock('../http/apis/insurances');
-
-const fixtures = require('../../test/fixtures');
+import { vi } from 'vitest';
+import * as fixtures from '../../test/fixtures';
+vi.mock('../http/apis/insurances');
 
 import Configuration from '../config';
 import * as api from '../http/apis/insurances';
@@ -39,7 +39,7 @@ describe('Insurance Functions', () => {
       expect(err).toBeInstanceOf(Error);
     });
     it('validates the provided request', async () => {
-      const spy = jest.spyOn(InsuranceOptionsRequestBuilder, 'validateRequest');
+      const spy = vi.spyOn(InsuranceOptionsRequestBuilder, 'validateRequest');
       const request = fixture('IInsuranceOptionsRequest');
 
       (api.find as any).mockImplementation(

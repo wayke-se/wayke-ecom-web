@@ -1,15 +1,17 @@
-const fixtures = require('../../../test/fixtures');
+import * as fixtures from '../../../test/fixtures';
+import * as http from '..';
+import { mockExport } from '../../../test/mock-export';
 const fixture = (name: string, withValues: any = undefined): any =>
   fixtures.create(name, withValues);
-
-const http = require('..');
 
 import { accept, cancelSigning, decline, getStatus, newCase, signCase } from './credit-assessment';
 
 describe('API: Credit Assessment', () => {
   describe('Given unsuccessful request', () => {
     beforeAll(() => {
-      http.json = jest.fn(
+      mockExport(
+        http,
+        'json',
         () =>
           new Promise((resolve) => {
             const response = fixture('IApiResponse', {
@@ -18,7 +20,7 @@ describe('API: Credit Assessment', () => {
             resolve(response);
           })
       );
-      http.raw = jest.fn(() => {
+      mockExport(http, 'raw', () => {
         throw new Error();
       });
     });

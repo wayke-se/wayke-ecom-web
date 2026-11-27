@@ -1,6 +1,6 @@
+import * as fixtures from '../../test/fixtures';
 import theoretically from 'jest-theories';
 
-const fixtures = require('../../test/fixtures');
 const fixture = (name: string): any => fixtures.create(name);
 
 import resolve from './message-resolver';

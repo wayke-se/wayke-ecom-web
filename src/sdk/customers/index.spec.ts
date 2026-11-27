@@ -1,6 +1,6 @@
-jest.mock('../http/apis/customers');
-
-const fixtures = require('../../test/fixtures');
+import { vi } from 'vitest';
+import * as fixtures from '../../test/fixtures';
+vi.mock('../http/apis/customers');
 
 import Configuration from '../config';
 import * as api from '../http/apis/customers';
@@ -54,7 +54,7 @@ describe('Customer Functions', () => {
       expect(err).toBeInstanceOf(Error);
     });
     it('validates the provided request', async () => {
-      const spy = jest.spyOn(AddressLookupRequestBuilder, 'validateRequest');
+      const spy = vi.spyOn(AddressLookupRequestBuilder, 'validateRequest');
       const request = fixture('IAddressLookupRequest');
 
       (api.lookupAddress as any).mockImplementation(

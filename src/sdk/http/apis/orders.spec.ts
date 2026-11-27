@@ -1,5 +1,6 @@
-const fixtures = require('../../../test/fixtures');
-
+import * as fixtures from '../../../test/fixtures';
+import * as http from '..';
+import { mockExport } from '../../../test/mock-export';
 import Configuration from '../../config';
 import { create, init } from './orders';
 
@@ -12,8 +13,9 @@ describe('API: Orders', () => {
       const fake = fixture('IConfiguration');
       const config = Configuration.bind(fake);
 
-      const http = require('..');
-      http.json = jest.fn(
+      mockExport(
+        http,
+        'json',
         () =>
           new Promise((resolve) => {
             const data = fixture('IOrderOptionsResponse');
@@ -36,8 +38,9 @@ describe('API: Orders', () => {
       const fake = fixture('IConfiguration');
       const config = Configuration.bind(fake);
 
-      const http = require('..');
-      http.json = jest.fn(
+      mockExport(
+        http,
+        'json',
         () =>
           new Promise((resolve) => {
             const data = fixture('IOrderOptionsResponse');
@@ -61,14 +64,15 @@ describe('API: Orders', () => {
       const expected = 'rf-token';
       const httpContext = { requestForgeryToken: undefined };
 
-      const http = require('..');
-      http.captureStateContext = jest.fn((promise) => {
+      mockExport(http, 'captureStateContext', (promise) => {
         return promise.then((response: any) => {
           httpContext.requestForgeryToken = response.requestForgeryToken;
           return response;
         });
       });
-      http.json = jest.fn(
+      mockExport(
+        http,
+        'json',
         () =>
           new Promise((resolve) => {
             const data = fixture('IOrderOptionsResponse');
@@ -88,8 +92,9 @@ describe('API: Orders', () => {
     it('throws error if response was unsuccessful', async () => {
       const config = Configuration.bind(fixture('IConfiguration'));
 
-      const http = require('..');
-      http.json = jest.fn(
+      mockExport(
+        http,
+        'json',
         () =>
           new Promise((resolve) => {
             const response = fixture('IApiResponse', {
@@ -111,8 +116,9 @@ describe('API: Orders', () => {
     it('throws error if data validation fails', async () => {
       const config = Configuration.bind(fixture('IConfiguration'));
 
-      const http = require('..');
-      http.json = jest.fn(
+      mockExport(
+        http,
+        'json',
         () =>
           new Promise((resolve) => {
             const response = fixture('IApiResponse', {
@@ -139,9 +145,10 @@ describe('API: Orders', () => {
       const fake = fixture('IConfiguration');
       const config = Configuration.bind(fake);
 
-      const http = require('..');
-      http.context = jest.fn(() => ({ requestForgeryToken: '-' }));
-      http.json = jest.fn(
+      mockExport(http, 'context', () => ({ requestForgeryToken: '-' }));
+      mockExport(
+        http,
+        'json',
         () =>
           new Promise((resolve) => {
             const data = fixture('IOrderCreateResponse');
@@ -163,9 +170,10 @@ describe('API: Orders', () => {
       const config = Configuration.bind(fixture('IConfiguration'));
 
       const expected = 'rf-token';
-      const http = require('..');
-      http.context = jest.fn(() => ({ requestForgeryToken: expected }));
-      http.json = jest.fn(
+      mockExport(http, 'context', () => ({ requestForgeryToken: expected }));
+      mockExport(
+        http,
+        'json',
         () =>
           new Promise((resolve) => {
             const data = fixture('IOrderCreateResponse');
@@ -186,9 +194,10 @@ describe('API: Orders', () => {
     it('throws error if response was unsuccessful', async () => {
       const config = Configuration.bind(fixture('IConfiguration'));
 
-      const http = require('..');
-      http.context = jest.fn(() => ({ requestForgeryToken: '-' }));
-      http.json = jest.fn(
+      mockExport(http, 'context', () => ({ requestForgeryToken: '-' }));
+      mockExport(
+        http,
+        'json',
         () =>
           new Promise((resolve) => {
             const response = fixture('IApiResponse', {
@@ -210,9 +219,10 @@ describe('API: Orders', () => {
     it('throws error if data validation fails', async () => {
       const config = Configuration.bind(fixture('IConfiguration'));
 
-      const http = require('..');
-      http.context = jest.fn(() => ({ requestForgeryToken: '-' }));
-      http.json = jest.fn(
+      mockExport(http, 'context', () => ({ requestForgeryToken: '-' }));
+      mockExport(
+        http,
+        'json',
         () =>
           new Promise((resolve) => {
             const response = fixture('IApiResponse', {
@@ -235,9 +245,10 @@ describe('API: Orders', () => {
     it("doesn't populate `insurance` property if not set", async () => {
       const config = Configuration.bind(fixture('IConfiguration'));
 
-      const http = require('..');
-      http.context = jest.fn(() => ({ requestForgeryToken: '-' }));
-      http.json = jest.fn(
+      mockExport(http, 'context', () => ({ requestForgeryToken: '-' }));
+      mockExport(
+        http,
+        'json',
         () =>
           new Promise((resolve) => {
             const data = fixture('IOrderCreateResponse');
@@ -260,9 +271,10 @@ describe('API: Orders', () => {
     it('populates request with personal number from customer, if not available on insurance', async () => {
       const config = Configuration.bind(fixture('IConfiguration'));
 
-      const http = require('..');
-      http.context = jest.fn(() => ({ requestForgeryToken: '-' }));
-      http.json = jest.fn(
+      mockExport(http, 'context', () => ({ requestForgeryToken: '-' }));
+      mockExport(
+        http,
+        'json',
         () =>
           new Promise((resolve) => {
             const data = fixture('IOrderCreateResponse');
@@ -288,9 +300,10 @@ describe('API: Orders', () => {
     it('populates request with origin from config', async () => {
       const config = Configuration.bind(fixture('IConfiguration'));
 
-      const http = require('..');
-      http.context = jest.fn(() => ({ requestForgeryToken: '-' }));
-      http.json = jest.fn(
+      mockExport(http, 'context', () => ({ requestForgeryToken: '-' }));
+      mockExport(
+        http,
+        'json',
         () =>
           new Promise((resolve) => {
             const data = fixture('IOrderCreateResponse');

@@ -1,5 +1,4 @@
-const fixtures = require('../../test/fixtures');
-
+import * as fixtures from '../../test/fixtures';
 import { CustomerBuilder } from './customer-builder';
 import { IAddress, ICustomer } from './types';
 

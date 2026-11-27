@@ -1,5 +1,5 @@
-const fixtures = require('../../test/fixtures');
-
+import { vi } from 'vitest';
+import * as fixtures from '../../test/fixtures';
 import Configuration, { IOriginConfiguration, IConfigurationRoot } from '.';
 
 const fixture = (id: string): any => fixtures.create(id);
@@ -8,7 +8,7 @@ describe('Configuration', () => {
   const env = process.env;
 
   beforeEach(() => {
-    jest.resetModules();
+    vi.resetModules();
     Configuration.destroy();
     process.env = {};
   });

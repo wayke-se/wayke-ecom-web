@@ -1,5 +1,4 @@
-const fixtures = require('../../test/fixtures');
-
+import * as fixtures from '../../test/fixtures';
 import { VehicleLookupResponse } from './vehicle-lookup-response';
 
 const fixture = (name: string, withData: any = undefined) => fixtures.create(name, withData);

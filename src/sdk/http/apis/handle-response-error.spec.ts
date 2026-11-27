@@ -1,4 +1,4 @@
-const fixtures = require('../../../test/fixtures');
+import * as fixtures from '../../../test/fixtures';
 const fixture = (name: string, withValues: any = undefined): any =>
   fixtures.create(name, withValues);
 

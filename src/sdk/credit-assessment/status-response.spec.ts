@@ -1,4 +1,5 @@
-const fixtures = require('../../test/fixtures');
+import { vi } from 'vitest';
+import * as fixtures from '../../test/fixtures';
 const fixture = (name: string, withValues: any = undefined): any =>
   fixtures.create(name, withValues);
 
@@ -35,7 +36,7 @@ describe('Create credit assessment status response', () => {
     let response: ICreditAssessmentStatusResponse;
 
     beforeAll(() => {
-      asStatusMock = jest.spyOn(convertStatusMock, 'default');
+      asStatusMock = vi.spyOn(convertStatusMock, 'default');
       asStatusMock.mockReturnValue(CreditAssessmentStatus.Received);
 
       const apiResponse = fixture('ICreditAssessmentStatusApiResponse');
@@ -80,7 +81,7 @@ describe('Create credit assessment status response', () => {
     let response: ICreditAssessmentStatusResponse;
 
     beforeAll(() => {
-      asStatusMock = jest.spyOn(convertStatusMock, 'default');
+      asStatusMock = vi.spyOn(convertStatusMock, 'default');
       asStatusMock.mockReturnValue(CreditAssessmentStatus.SigningInitiated);
 
       const apiResponse = fixture('ICreditAssessmentStatusApiResponse');
@@ -103,7 +104,7 @@ describe('Create credit assessment status response', () => {
     let asStatusMock: any;
 
     beforeAll(() => {
-      asStatusMock = jest.spyOn(convertStatusMock, 'default');
+      asStatusMock = vi.spyOn(convertStatusMock, 'default');
       asStatusMock.mockReturnValue(CreditAssessmentStatus.SigningFailed);
     });
 
@@ -167,7 +168,7 @@ describe('Create credit assessment status response', () => {
     let response: ICreditAssessmentStatusResponse;
 
     beforeAll(() => {
-      asStatusMock = jest.spyOn(convertStatusMock, 'default');
+      asStatusMock = vi.spyOn(convertStatusMock, 'default');
       asStatusMock.mockReturnValue(CreditAssessmentStatus.Signed);
 
       const apiResponse = fixture('ICreditAssessmentStatusApiResponse');
@@ -196,7 +197,7 @@ describe('Create credit assessment status response', () => {
     let response: ICreditAssessmentStatusResponse;
 
     beforeAll(() => {
-      asStatusMock = jest.spyOn(convertStatusMock, 'default');
+      asStatusMock = vi.spyOn(convertStatusMock, 'default');
       asStatusMock.mockReturnValue(CreditAssessmentStatus.ScoringInitiated);
 
       const apiResponse = fixture('ICreditAssessmentStatusApiResponse');
@@ -225,7 +226,7 @@ describe('Create credit assessment status response', () => {
     let response: ICreditAssessmentStatusResponse;
 
     beforeAll(() => {
-      asStatusMock = jest.spyOn(convertStatusMock, 'default');
+      asStatusMock = vi.spyOn(convertStatusMock, 'default');
       asStatusMock.mockReturnValue(CreditAssessmentStatus.Scored);
 
       const apiResponse = fixture('ICreditAssessmentStatusApiResponse');
@@ -258,7 +259,7 @@ describe('Create credit assessment status response', () => {
     let response: ICreditAssessmentStatusResponse;
 
     beforeAll(() => {
-      asStatusMock = jest.spyOn(convertStatusMock, 'default');
+      asStatusMock = vi.spyOn(convertStatusMock, 'default');
       asStatusMock.mockReturnValue(CreditAssessmentStatus.Accepted);
 
       const apiResponse = fixture('ICreditAssessmentStatusApiResponse');
@@ -287,7 +288,7 @@ describe('Create credit assessment status response', () => {
     let response: ICreditAssessmentStatusResponse;
 
     beforeAll(() => {
-      asStatusMock = jest.spyOn(convertStatusMock, 'default');
+      asStatusMock = vi.spyOn(convertStatusMock, 'default');
       asStatusMock.mockReturnValue(CreditAssessmentStatus.NotScored);
 
       const apiResponse = fixture('ICreditAssessmentStatusApiResponse');
@@ -316,7 +317,7 @@ describe('Create credit assessment status response', () => {
     const expectedMessage = 'Lorem ipsum...';
 
     beforeAll(() => {
-      resolveMessageMock = jest.spyOn(messageResolverMock, 'default');
+      resolveMessageMock = vi.spyOn(messageResolverMock, 'default');
       resolveMessageMock.mockReturnValue(expectedMessage);
     });
 

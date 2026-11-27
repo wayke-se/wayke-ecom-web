@@ -1,16 +1,17 @@
-const fixtures = require('../../test/fixtures');
+import { vi } from 'vitest';
+import * as fixtures from '../../test/fixtures';
+import * as validator from './validator';
+import * as api from '../http/apis/credit-assessment';
+import { mockExport } from '../../test/mock-export';
 const fixture = (name: string): any => fixtures.create(name);
 
 import { newCase } from './index';
 import { ICreditAssessmentStatusApiResponse } from './types';
 
-const validator = require('./validator');
-const api = require('../http/apis/credit-assessment');
-
 describe('Credit assessment functions', () => {
   describe(':newCase()', () => {
     beforeAll(() => {
-      api.newCase = jest.fn().mockImplementation(
+      mockExport(api, 'newCase').mockImplementation(
         () =>
           new Promise((resolve) => {
             const assessmentCase = fixture('ICreditAssessmentCase');
@@ -21,12 +22,12 @@ describe('Credit assessment functions', () => {
 
     describe('Given valid inquiry', () => {
       beforeAll(() => {
-        validator.validateInquiry = jest.fn();
+        mockExport(validator, 'validateInquiry');
       });
 
       it('Should validate inquiry', async () => {
         const inquiry = fixture('ICreditAssessmentInquiry');
-        const spy = jest.spyOn(validator, 'validateInquiry');
+        const spy = vi.spyOn(validator, 'validateInquiry');
 
         await newCase(inquiry);
 
@@ -40,7 +41,7 @@ describe('Credit assessment functions', () => {
 
     describe('Given invalid inquiry', () => {
       beforeAll(() => {
-        validator.validateInquiry = jest.fn().mockImplementation(() => {
+        mockExport(validator, 'validateInquiry').mockImplementation(() => {
           throw new TypeError('Invalid inquiry');
         });
       });
@@ -74,7 +75,7 @@ describe('Credit assessment functions', () => {
       beforeAll(() => {
         expectedStatus = fixture('ICreditAssessmentStatusApiResponse');
 
-        api.getStatus = jest.fn().mockImplementation(
+        mockExport(api, 'getStatus').mockImplementation(
           () =>
             new Promise((resolve) => {
               resolve(expectedStatus);

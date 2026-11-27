@@ -1,8 +1,9 @@
-const fixtures = require('../../../../test/fixtures');
+import * as fixtures from '../../../../test/fixtures';
+import * as http from '../../';
+import { mockExport } from '../../../../test/mock-export';
 const fixture = (name: string): any => fixtures.create(name);
 
 import Configuration from '../../../config';
-const http = require('../../');
 import { requestNewCase } from './new-case';
 
 describe('New credit assessment', () => {
@@ -10,11 +11,11 @@ describe('New credit assessment', () => {
 
   beforeAll(() => {
     const response = fixture('IApiResponse');
-    http.context = jest.fn(() => ({
+    mockExport(http, 'context', () => ({
       requestForgeryToken: response.requestForgeryToken,
     }));
-    http.captureStateContext = jest.fn();
-    http.json = jest.fn();
+    mockExport(http, 'captureStateContext');
+    mockExport(http, 'json');
 
     const fake = fixture('IConfiguration');
     const config = Configuration.bind(fake);

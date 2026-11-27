@@ -1,5 +1,4 @@
-const fixtures = require('../../test/fixtures');
-
+import * as fixtures from '../../test/fixtures';
 import { InsuranceOptionsRequestBuilder } from './insurance-options-request-builder';
 import { DrivingDistance } from './types';
 

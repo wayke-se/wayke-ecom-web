@@ -1,4 +1,4 @@
-const fixtures = require('../../test/fixtures');
+import * as fixtures from '../../test/fixtures';
 const fixture = (id: string): any => fixtures.create(id);
 
 import { OrderCreditAssessmentBuilder } from './order-credit-assessment-builder';

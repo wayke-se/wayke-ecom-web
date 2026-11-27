@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { mockResponse } from '../../test/mocks/fetch';
 
 import * as http from './index';
@@ -42,9 +43,9 @@ describe('HTTP helpers', () => {
       mockResponse(undefined, 500, false);
 
       const spyContainer = {
-        catcher: jest.fn(),
+        catcher: vi.fn(),
       };
-      const spy = jest.spyOn(spyContainer, 'catcher');
+      const spy = vi.spyOn(spyContainer, 'catcher');
 
       const response = await http
         .json('https://www.test.com', {

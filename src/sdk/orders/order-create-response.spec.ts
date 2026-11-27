@@ -1,5 +1,4 @@
-const fixtures = require('../../test/fixtures');
-
+import * as fixtures from '../../test/fixtures';
 import { OrderCreateResponse } from './order-create-response';
 
 const fixture = (name: string, withData: any = undefined): any => fixtures.create(name, withData);

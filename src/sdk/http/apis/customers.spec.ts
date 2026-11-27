@@ -1,5 +1,6 @@
-const fixtures = require('../../../test/fixtures');
-
+import * as fixtures from '../../../test/fixtures';
+import * as http from '..';
+import { mockExport } from '../../../test/mock-export';
 import Configuration from '../../config';
 import { lookupAddress } from './customers';
 
@@ -11,9 +12,10 @@ describe('API: Customers', () => {
       const fake = fixture('IConfiguration');
       const config = Configuration.bind(fake);
 
-      const http = require('..');
-      http.context = jest.fn(() => ({ requestForgeryToken: '-' }));
-      http.json = jest.fn(
+      mockExport(http, 'context', () => ({ requestForgeryToken: '-' }));
+      mockExport(
+        http,
+        'json',
         () =>
           new Promise((resolve) => {
             const data = fixture('IAddressLookupResponse');
@@ -35,9 +37,10 @@ describe('API: Customers', () => {
       const config = Configuration.bind(fixture('IConfiguration'));
 
       const expected = 'rf-token';
-      const http = require('..');
-      http.context = jest.fn(() => ({ requestForgeryToken: expected }));
-      http.json = jest.fn(
+      mockExport(http, 'context', () => ({ requestForgeryToken: expected }));
+      mockExport(
+        http,
+        'json',
         () =>
           new Promise((resolve) => {
             const data = fixture('IAddressLookupResponse');
@@ -61,14 +64,15 @@ describe('API: Customers', () => {
       const expected = 'rf-token';
       const httpContext = { requestForgeryToken: undefined };
 
-      const http = require('..');
-      http.captureStateContext = jest.fn((promise) => {
+      mockExport(http, 'captureStateContext', (promise) => {
         return promise.then((response: any) => {
           httpContext.requestForgeryToken = response.requestForgeryToken;
           return response;
         });
       });
-      http.json = jest.fn(
+      mockExport(
+        http,
+        'json',
         () =>
           new Promise((resolve) => {
             const data = fixture('IAddressLookupResponse');
@@ -88,9 +92,10 @@ describe('API: Customers', () => {
     it('throws error if response was unsuccessful', async () => {
       const config = Configuration.bind(fixture('IConfiguration'));
 
-      const http = require('..');
-      http.context = jest.fn(() => ({ requestForgeryToken: '-' }));
-      http.json = jest.fn(
+      mockExport(http, 'context', () => ({ requestForgeryToken: '-' }));
+      mockExport(
+        http,
+        'json',
         () =>
           new Promise((resolve) => {
             const response = fixture('IApiResponse', {
@@ -112,9 +117,10 @@ describe('API: Customers', () => {
     it('throws error if data validation fails', async () => {
       const config = Configuration.bind(fixture('IConfiguration'));
 
-      const http = require('..');
-      http.context = jest.fn(() => ({ requestForgeryToken: '-' }));
-      http.json = jest.fn(
+      mockExport(http, 'context', () => ({ requestForgeryToken: '-' }));
+      mockExport(
+        http,
+        'json',
         () =>
           new Promise((resolve) => {
             const response = fixture('IApiResponse', {

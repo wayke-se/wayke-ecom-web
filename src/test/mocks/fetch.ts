@@ -1,10 +1,7 @@
-interface IFetchGlobal extends NodeJS.Global {
-  fetch: any;
-}
+import { vi } from 'vitest';
 
 export const mockResponse = (useBody?: string, useStatusCode?: number, useOK?: boolean) => {
-  const g: IFetchGlobal = global as IFetchGlobal;
-  g.fetch = jest.fn().mockImplementationOnce(
+  globalThis.fetch = vi.fn().mockImplementationOnce(
     () =>
       new Promise((resolve) =>
         resolve({

@@ -1,13 +1,10 @@
-const fixtures = require('../../../test/fixtures');
+import * as fixtures from '../../../test/fixtures';
+import * as http from '..';
+import Configuration from '../../config';
+import * as bankidApiUtils from './bankid/utils';
+import { mockExport } from '../../../test/mock-export';
 const fixture = (name: string, withValues: any = undefined): any =>
   fixtures.create(name, withValues);
-
-const http = require('..');
-const authApi = require('./bankid/auth');
-const collectApi = require('./bankid/collect');
-const cancelApi = require('./bankid/cancel');
-const qrcodeApi = require('./bankid/qrcode');
-const bankidApiUtils = require('./bankid/utils');
 
 import {
   IBankIdAuthApiResponse,
@@ -18,16 +15,17 @@ import { auth, collect, cancel, qrcode } from './bankid';
 
 describe('API: BankId', () => {
   beforeAll(() => {
-    bankidApiUtils.createRequest = jest.fn();
-    authApi.getUrl = jest.fn();
-    collectApi.getUrl = jest.fn();
-    cancelApi.getUrl = jest.fn();
-    qrcodeApi.getUrl = jest.fn();
+    mockExport(bankidApiUtils, 'createRequest');
+    // The request modules build their URL with their own getUrl, which an ES module's caller
+    // cannot replace (under jest the spec mocked it); give it a configuration to build from.
+    Configuration.bind(fixture('IConfiguration'));
   });
 
   describe('Given unsuccessful request', () => {
     beforeAll(() => {
-      http.json = jest.fn(
+      mockExport(
+        http,
+        'json',
         () =>
           new Promise((resolve) => {
             const response = fixture('IApiResponse', {
@@ -36,7 +34,7 @@ describe('API: BankId', () => {
             resolve(response);
           })
       );
-      http.raw = jest.fn(() => {
+      mockExport(http, 'raw', () => {
         throw new Error();
       });
     });
@@ -113,7 +111,9 @@ describe('API: BankId', () => {
 
       beforeAll(() => {
         expectedResponse = fixture('IBankIdAuthApiResponse');
-        http.json = jest.fn(
+        mockExport(
+          http,
+          'json',
           () =>
             new Promise((resolve) => {
               const apiResponse = fixture('IApiResponse', {
@@ -143,7 +143,9 @@ describe('API: BankId', () => {
 
       beforeAll(() => {
         expectedResponse = fixture('IBankIdCollectApiResponse');
-        http.json = jest.fn(
+        mockExport(
+          http,
+          'json',
           () =>
             new Promise((resolve) => {
               const apiResponse = fixture('IApiResponse', {
@@ -173,7 +175,9 @@ describe('API: BankId', () => {
 
       beforeAll(() => {
         expectedResponse = fixture('IBankIdQrCodeApiResponse');
-        http.json = jest.fn(
+        mockExport(
+          http,
+          'json',
           () =>
             new Promise((resolve) => {
               const apiResponse = fixture('IApiResponse', {

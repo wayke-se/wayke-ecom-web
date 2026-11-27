@@ -1,5 +1,4 @@
-const fixtures = require('../../test/fixtures');
-
+import * as fixtures from '../../test/fixtures';
 import { VehicleLookupRequestBuilder } from './vehicle-lookup-request-builder';
 import { VehicleCondition } from './types';
 

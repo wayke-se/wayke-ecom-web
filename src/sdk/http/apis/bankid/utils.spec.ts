@@ -1,11 +1,12 @@
-const fixtures = require('../../../../test/fixtures');
+import * as fixtures from '../../../../test/fixtures';
+import * as http from '../../';
+import { mockExport } from '../../../../test/mock-export';
 const fixture = (name: string): any => fixtures.create(name);
 
 import { createRequest } from './utils';
 
 import Configuration, { IConfigurationRoot } from '../../../config';
 import { BANK_ID_THUMBPRINT_HEADER } from '../../http-request-builder';
-const http = require('../../');
 
 describe(':createRequest()', () => {
   describe('Given bank id thumbprint configured', () => {
@@ -14,7 +15,7 @@ describe(':createRequest()', () => {
 
     beforeAll(() => {
       const response = fixture('IApiResponse');
-      http.context = jest.fn(() => ({ requestForgeryToken }));
+      mockExport(http, 'context', () => ({ requestForgeryToken }));
       requestForgeryToken = response.requestForgeryToken;
 
       configSpecification = fixture('IConfiguration');
