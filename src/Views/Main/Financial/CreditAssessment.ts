@@ -25,7 +25,6 @@ import {
   ICreditAssessmentHouseholdEconomy,
   ICreditAssessmentInquiry,
   MaritalStatus,
-  PaymentType,
 } from '../../../sdk';
 import Alert from '../../../Templates/Alert';
 import { convertCreditAssessmentStatusResponse } from '../../../Utils/convert';
@@ -371,9 +370,7 @@ class CreditAssessment extends HtmlNode {
         EcomStep.FINANCIAL_CREDIT_SCORING
       );
     }
-    const loan = this.props.store
-      .getState()
-      .order?.paymentOptions.find((x) => x.type === PaymentType.Loan);
+    const { loan } = this.props;
     this.bankidStatusInterval = setInterval(async () => {
       try {
         const response = await creditAssessmentGetStatus(caseId);
@@ -606,13 +603,17 @@ class CreditAssessment extends HtmlNode {
   }
 
   private render(scrollIntoView?: boolean) {
-    const { store, paymentLookupResponse: initialPaymentLookupResponse, onProceed } = this.props;
+    const {
+      store,
+      loan,
+      paymentLookupResponse: initialPaymentLookupResponse,
+      onProceed,
+    } = this.props;
 
     const mobile = isMobile();
     const { order, paymentLookupResponse: updatePaymentLookupResponse } = store.getState();
     const paymentLookupResponse = updatePaymentLookupResponse || initialPaymentLookupResponse;
 
-    const loan = order?.paymentOptions.find((x) => x.type === PaymentType.Loan);
     const creditAmount = paymentLookupResponse.creditAmount;
     const branchName = order?.contactInformation?.name;
     if (this.view === 3 && this.creditAssessmentResponse) {

@@ -15,7 +15,7 @@ import { formatShortDescription, prettyNumber } from '../../../Utils/format';
 import { DISCLAIMER_WRAPPER_NODE } from './CreditAssessment';
 import Loan from './Loan';
 import StageCompletedFinancial from './StageCompletedFinancial';
-import { extractLoanIndex, extractPaymentType } from './utils';
+import { extractLoanIndex, extractPaymentType, findSelectedLoan } from './utils';
 
 const PROCEED = 'button-financial-proceed';
 const PROCEED_NODE = `${PROCEED}-node`;
@@ -132,7 +132,7 @@ class Financial extends HtmlNode {
         (completed && state.navigation.stage !== this.props.index)) &&
       _paymentType
     ) {
-      const loan = paymentOptions.find((x) => x.type === PaymentType.Loan);
+      const loan = findSelectedLoan(paymentOptions, this.paymentType);
       new StageCompletedFinancial(content, {
         store: this.props.store,
         loan,
