@@ -13,7 +13,6 @@
   },
   "scripts": {
     "start": "node ./esbuild/start.js",
-    "clip": "node ./esbuild/clip-ui.js && node ./clip-ui/start.js",
     "build": "npm run clean && node ./esbuild/lib.js && node ./esbuild/cdn.js && npm run build:types",
     "build:types": "tsc --project tsconfig.build.json --declaration --emitDeclarationOnly --outDir dist",
     "clean": "rimraf build && rimraf dist && rimraf dist-cdn",
@@ -35,7 +34,6 @@
   },
   "devDependencies": {
     "@biomejs/biome": "2.6.9",
-    "@ourstudio/clip-ui": "^0.0.11",
     "@types/node": "^26.6.11",
     "@types/object-path": "^0.11.4",
     "@types/sanitize-html": "^2.16.2",
