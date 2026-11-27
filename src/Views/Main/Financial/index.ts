@@ -1,5 +1,4 @@
 import i18next from '@i18n';
-import { PaymentType } from '@wayke-se/ecom';
 import { MarketCode } from '../../../@types/MarketCode';
 import ButtonArrowRight from '../../../Components/Button/ButtonArrowRight';
 import HtmlNode from '../../../Components/Extension/HtmlNode';
@@ -7,14 +6,16 @@ import InputRadioGroup, { RadioItem } from '../../../Components/Input/InputRadio
 import { goTo, resetPaymentLookupResponse, setFinancial } from '../../../Redux/action';
 import { WaykeStore } from '../../../Redux/store';
 import watch from '../../../Redux/watch';
+import { PaymentType } from '../../../sdk';
 import ListItem from '../../../Templates/ListItem';
+import { waykeImage } from '../../../Utils/cdn';
 import { Image } from '../../../Utils/constants';
 import ecomEvent, { EcomEvent, EcomStep, EcomView } from '../../../Utils/ecomEvent';
 import { formatShortDescription, prettyNumber } from '../../../Utils/format';
 import { DISCLAIMER_WRAPPER_NODE } from './CreditAssessment';
 import Loan from './Loan';
 import StageCompletedFinancial from './StageCompletedFinancial';
-import { extractLoanIndex, extractPaymentType } from './utils';
+import { extractLoanIndex, extractPaymentType, findSelectedLoan } from './utils';
 
 const PROCEED = 'button-financial-proceed';
 const PROCEED_NODE = `${PROCEED}-node`;
@@ -131,7 +132,7 @@ class Financial extends HtmlNode {
         (completed && state.navigation.stage !== this.props.index)) &&
       _paymentType
     ) {
-      const loan = paymentOptions.find((x) => x.type === PaymentType.Loan);
+      const loan = findSelectedLoan(paymentOptions, this.paymentType);
       new StageCompletedFinancial(content, {
         store: this.props.store,
         loan,
@@ -239,7 +240,7 @@ class Financial extends HtmlNode {
               loan.logo
                 ? `<div class="waykeecom-stack waykeecom-stack--2">
                   <div class="waykeecom-align waykeecom-align--center">
-                    <img src="${loan.logo}" alt="${loan.name} logotyp" class="waykeecom-image waykeecom-image--loan-logo" />
+                    <img src="${waykeImage(loan.logo, { format: 'png' })}" alt="${loan.name} logotyp" class="waykeecom-image waykeecom-image--loan-logo" />
                   </div>
                 </div>`
                 : ''

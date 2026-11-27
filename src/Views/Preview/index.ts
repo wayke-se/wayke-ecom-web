@@ -24,7 +24,6 @@ interface PreviewProps {
   readonly store: WaykeStore;
   readonly stageOrderList: StageMapKeys[];
   readonly vehicle?: Vehicle;
-  readonly cdnMedia?: string;
 }
 
 class Preview extends HtmlNode {
@@ -76,7 +75,7 @@ class Preview extends HtmlNode {
   }
 
   render() {
-    const { store, cdnMedia } = this.props;
+    const { store } = this.props;
     const state = store.getState();
 
     if (!state.order) {
@@ -93,6 +92,31 @@ class Preview extends HtmlNode {
       return;
     }
 
+    const notOrderable = state.order.isReserved || state.order.isUnavailable;
+
+    if (notOrderable) {
+      this.node.innerHTML = `
+        <div class="waykeecom-stack waykeecom-stack--3">
+          <h3 class="waykeecom-heading waykeecom-heading--3 waykeecom-no-margin">${i18next.t('preview.heading')}</h3>
+        </div>
+        <div class="waykeecom-stack waykeecom-stack--3">
+          ${ItemTileLarge({
+            vehicle: state.vehicle,
+            order: state.order,
+          })}
+        </div>
+        <div class="waykeecom-stack waykeecom-stack--3">
+          ${Alert({
+            tone: 'warning',
+            children: i18next.t(
+              state.order.isReserved ? 'preview.reserved' : 'preview.unavailable'
+            ),
+          })}
+        </div>
+      `;
+      return;
+    }
+
     this.node.innerHTML = `
       <div class="waykeecom-stack waykeecom-stack--3">
         <h3 class="waykeecom-heading waykeecom-heading--3 waykeecom-no-margin">${i18next.t('preview.heading')}</h3>
@@ -101,7 +125,6 @@ class Preview extends HtmlNode {
         ${ItemTileLarge({
           vehicle: state.vehicle,
           order: state.order,
-          cdnMedia,
         })}
       </div>
       ${HowTo({ order: state.order, stageOrderList: state.stages })}

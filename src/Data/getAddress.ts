@@ -1,4 +1,4 @@
-import { customers } from '@wayke-se/ecom';
+import { customers } from '../sdk';
 
 export const getAddressBySsn = (ssn: string) => {
   const request = customers.newAddressLookupRequest().forCustomer(ssn).build();

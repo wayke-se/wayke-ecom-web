@@ -1,9 +1,9 @@
 import i18next from '@i18n';
-import { IAvailableInsuranceOption } from '@wayke-se/ecom';
 import ButtonArrowRight from '../../../../Components/Button/ButtonArrowRight';
 import HtmlNode from '../../../../Components/Extension/HtmlNode';
 import { completeStage } from '../../../../Redux/action';
 import { WaykeStore } from '../../../../Redux/store';
+import { IAvailableInsuranceOption } from '../../../../sdk';
 import ecomEvent, { EcomEvent, EcomStep, EcomView } from '../../../../Utils/ecomEvent';
 import InsuranceList from './InsuranceList';
 

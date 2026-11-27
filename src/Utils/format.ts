@@ -14,8 +14,8 @@ const formatDecimals = (value: number, decimals: number) => {
   return (Math.round(value * upper) / upper).toFixed(decimals);
 };
 
-export const prettyNumber = (value: number | undefined, settings?: PrettyNumberSettings) => {
-  if (value === undefined) return '???';
+export const prettyNumber = (value: number | null | undefined, settings?: PrettyNumberSettings) => {
+  if (value === undefined || value === null) return '???';
   const formattedValue = formatDecimals(
     value,
     settings?.decimals !== undefined ? settings.decimals : 0

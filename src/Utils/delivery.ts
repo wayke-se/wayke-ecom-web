@@ -1,4 +1,4 @@
-import { IDeliveryOption, IDistance } from '@wayke-se/ecom';
+import { IDeliveryOption, IDistance } from '../sdk';
 
 export const getDeliveryDistance = (
   distance: IDistance | null | undefined,

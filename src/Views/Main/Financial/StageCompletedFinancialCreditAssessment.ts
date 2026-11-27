@@ -1,8 +1,9 @@
 import i18next from '@i18n';
-import { CreditAssessmentRecommendation, PaymentType } from '@wayke-se/ecom';
 import HtmlNode from '../../../Components/Extension/HtmlNode';
 import { WaykeStore } from '../../../Redux/store';
+import { CreditAssessmentRecommendation } from '../../../sdk';
 import Alert from '../../../Templates/Alert';
+import { findSelectedLoan } from './utils';
 
 interface StageCompletedFinancialCreditAssessmentProps {
   readonly store: WaykeStore;
@@ -22,7 +23,7 @@ class StageCompletedFinancialCreditAssessment extends HtmlNode {
     const { store, decision } = this.props;
     const state = store.getState();
     const { order } = state;
-    const loan = order?.paymentOptions.find((x) => x.type === PaymentType.Loan);
+    const loan = findSelectedLoan(order?.paymentOptions, state.paymentType);
     const contactInformation = order?.contactInformation;
 
     if (decision === CreditAssessmentRecommendation.Approve) {

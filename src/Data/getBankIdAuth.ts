@@ -1,4 +1,4 @@
-import { AuthMethod, bankid } from '@wayke-se/ecom';
+import { AuthMethod, bankid } from '../sdk';
 
 export const getBankIdAuth = (method: AuthMethod) => {
   const request = bankid.newAuthRequest().withMethod(method).build();

@@ -1,11 +1,11 @@
-import { ICreditAssessmentStatusResponse } from '@wayke-se/ecom';
-import { OrderOptionsResponse } from '@wayke-se/ecom/dist-types/orders/order-options-response';
-import { PaymentLookupResponse } from '@wayke-se/ecom/dist-types/payments/payment-lookup-response';
-import { VehicleLookupResponse } from '@wayke-se/ecom/dist-types/vehicles/vehicle-lookup-response';
 import { ICreditAssessmentStatus } from '../@types/CreditAssessmentStatus';
 import { OrderOptions } from '../@types/OrderOptions';
 import { PaymentLookup } from '../@types/PaymentLookup';
 import { VehicleLookup } from '../@types/VehicleLookup';
+import { ICreditAssessmentStatusResponse } from '../sdk';
+import { OrderOptionsResponse } from '../sdk/orders/order-options-response';
+import { PaymentLookupResponse } from '../sdk/payments/payment-lookup-response';
+import { VehicleLookupResponse } from '../sdk/vehicles/vehicle-lookup-response';
 
 export const convertPaymentLookupResponse = (plr: PaymentLookupResponse): PaymentLookup => {
   const response: PaymentLookup = {
@@ -69,6 +69,7 @@ export const convertOrderOptionsResponse = (cOOR: OrderOptionsResponse) => {
     contactInformation: cOOR.getContactInformation(),
     allowsTradeIn: cOOR.allowsTradeIn(),
     isUnavailable: cOOR.isUnavailable(),
+    isReserved: cOOR.isReserved(),
     isPaymentRequired: cOOR.isPaymentRequired(),
   };
   return response;

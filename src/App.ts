@@ -1,7 +1,6 @@
 import './styles/styles.scss';
 
 import i18next, { initializeI18N } from '@i18n';
-import { config, IOrderOptionsResponse } from '@wayke-se/ecom';
 import packageJson from '../package.json';
 import { CallbackOrder } from './@types/CallbackOrder';
 import { EcomSdkConfig } from './@types/EcomSdkConfig';
@@ -14,6 +13,7 @@ import { reset, setId, setState } from './Redux/action';
 import { ReducerState } from './Redux/reducer';
 import { createStore, WaykeStore } from './Redux/store';
 import watch, { unregisterAllSubscriptions } from './Redux/watch';
+import { config, IOrderOptionsResponse } from './sdk';
 import ecomEvent, {
   EcomEvent,
   EcomStep,
@@ -37,20 +37,6 @@ const OrderWaykeIdQueryString = 'wayke-ecom-web-id';
 
 export const WAYKE_ECOM_MODAL_ID = 'wayke-ecom-modal';
 
-const TEST_HOST = 'ecom.wayketech.se';
-const PROD_HOST = 'ecom.wayke.se';
-const resolveCdnMedia = (url: string) => {
-  const _url = new URL(url);
-  switch (_url.host) {
-    case PROD_HOST:
-      return 'https://cdn.wayke.se';
-    case TEST_HOST:
-      return 'https://test-cdn.wayketech.se';
-    default:
-      return undefined;
-  }
-};
-
 export interface AppState {
   stage: number;
   order?: IOrderOptionsResponse;
@@ -72,7 +58,6 @@ class App {
   private readonly props: AppProps;
   private view: ViewTypes;
   private stageOrderList: StageMapKeys[];
-  private readonly cdnMedia?: string;
   private readonly contexts: {
     store: WaykeStore;
     modal?: Modal;
@@ -97,7 +82,6 @@ class App {
     }
 
     config.bind(props.ecomSdkConfig);
-    this.cdnMedia = resolveCdnMedia(props.ecomSdkConfig.api.address);
     const createdRoot = document.createElement('div');
     createdRoot.className = 'waykeecom-root';
 
@@ -308,20 +292,17 @@ class App {
             store: this.contexts.store,
             stageOrderList: this.stageOrderList,
             vehicle: this.props.vehicle,
-            cdnMedia: this.cdnMedia,
           });
           break;
         case 'main':
           new Main(this.contexts.modal.content, {
             store: this.contexts.store,
-            cdnMedia: this.cdnMedia,
             marketCode: this.marketCode,
           });
           break;
         case 'summary':
           new Summary(this.contexts.modal.content, {
             store: this.contexts.store,
-            cdnMedia: this.cdnMedia,
             onClose: () => this.close(),
             marketCode: this.marketCode,
           });

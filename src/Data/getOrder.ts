@@ -1,4 +1,4 @@
-import { orders } from '@wayke-se/ecom';
+import { orders } from '../sdk';
 
 export const getOrder = (id: string, dealer?: string) => {
   const request = dealer

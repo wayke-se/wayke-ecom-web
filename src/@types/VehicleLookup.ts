@@ -1,4 +1,4 @@
-import { IVehicle } from '@wayke-se/ecom';
+import { IVehicle } from '../sdk';
 
 export interface VehicleLookup {
   vehicle: IVehicle;

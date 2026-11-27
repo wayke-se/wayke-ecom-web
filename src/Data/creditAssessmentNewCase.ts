@@ -1,4 +1,4 @@
-import { creditAssessment, ICreditAssessmentInquiry } from '@wayke-se/ecom';
+import { creditAssessment, ICreditAssessmentInquiry } from '../sdk';
 
 export const creditAssessmentNewCase = (inquiry: ICreditAssessmentInquiry) => {
   const request = creditAssessment.newCase(inquiry);

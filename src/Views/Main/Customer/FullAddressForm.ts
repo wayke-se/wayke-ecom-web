@@ -1,10 +1,10 @@
 import i18next from '@i18n';
-import { IAddress } from '@wayke-se/ecom';
 import ButtonArrowRight from '../../../Components/Button/ButtonArrowRight';
 import HtmlNode from '../../../Components/Extension/HtmlNode';
 import InputField from '../../../Components/Input/InputField';
 import { goTo, setAddress, setContactAndPhone } from '../../../Redux/action';
 import { WaykeStore } from '../../../Redux/store';
+import { IAddress } from '../../../sdk';
 import KeyValueListItem from '../../../Templates/KeyValueListItem';
 import ecomEvent, { EcomEvent, EcomStep, EcomView } from '../../../Utils/ecomEvent';
 import { validationMethods } from '../../../Utils/validationMethods';

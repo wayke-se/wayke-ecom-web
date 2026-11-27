@@ -6,7 +6,7 @@ import {
   IDeliveryOption,
   IOrderVehicle,
   PaymentType,
-} from '@wayke-se/ecom/dist-types/orders/types';
+} from '../sdk/orders/types';
 import { PaymentLookup } from './PaymentLookup';
 
 export interface PaymentOption {
@@ -33,5 +33,6 @@ export interface OrderOptions {
   contactInformation: IContactInformation | undefined;
   allowsTradeIn: boolean;
   isUnavailable: boolean;
+  isReserved: boolean;
   isPaymentRequired: boolean;
 }

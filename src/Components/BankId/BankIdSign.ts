@@ -1,4 +1,4 @@
-import { AuthMethod } from '@wayke-se/ecom';
+import { AuthMethod } from '../../sdk';
 import Loader from '../../Templates/Loader';
 import { isMobile } from '../../Utils/isMobile';
 import { scrollTop } from '../../Utils/scroll';

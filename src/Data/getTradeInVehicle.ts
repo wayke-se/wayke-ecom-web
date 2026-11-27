@@ -1,5 +1,5 @@
-import { vehicles } from '@wayke-se/ecom';
 import { TradeInCarData } from '../@types/TradeIn';
+import { vehicles } from '../sdk';
 
 export const getTradeInVehicle = (data: TradeInCarData) => {
   const request = vehicles

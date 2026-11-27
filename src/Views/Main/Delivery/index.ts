@@ -1,5 +1,4 @@
 import i18next from '@i18n';
-import { DeliveryType } from '@wayke-se/ecom';
 import ButtonArrowRight from '../../../Components/Button/ButtonArrowRight';
 import HtmlNode from '../../../Components/Extension/HtmlNode';
 import InputRadioField from '../../../Components/Input/InputRadioField';
@@ -7,6 +6,7 @@ import StageCompleted from '../../../Components/StageCompleted';
 import { goTo, setHomeDelivery } from '../../../Redux/action';
 import { WaykeStore } from '../../../Redux/store';
 import watch from '../../../Redux/watch';
+import { DeliveryType } from '../../../sdk';
 import Alert from '../../../Templates/Alert';
 import ListItem from '../../../Templates/ListItem';
 import { getTotalDeliveryCost } from '../../../Utils/delivery';

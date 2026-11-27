@@ -1,4 +1,4 @@
-import { payments } from '@wayke-se/ecom';
+import { payments } from '../sdk';
 
 interface PaymentRequest {
   vehicleId: string;

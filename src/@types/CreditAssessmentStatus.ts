@@ -3,7 +3,7 @@ import {
   CreditAssessmentRecommendation,
   CreditAssessmentStatus,
   IAddress,
-} from '@wayke-se/ecom';
+} from '../sdk';
 
 export interface ICreditAssessmentStatus {
   status: CreditAssessmentStatus;

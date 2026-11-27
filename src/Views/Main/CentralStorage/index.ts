@@ -28,6 +28,7 @@ class CentralStorage extends HtmlNode {
   private readonly props: CentralStorageProps;
   private selectedDealer?: string;
   private requestError = false;
+  private notOrderable?: 'reserved' | 'unavailable';
   private contexts: {
     proceedButton?: ButtonArrowRight;
   } = {};
@@ -54,9 +55,18 @@ class CentralStorage extends HtmlNode {
       this.contexts.proceedButton?.loading(true);
 
       const order = await getOrder(id, selectedDealer);
+      const convertedOrder = convertOrderOptionsResponse(order);
+
+      if (convertedOrder.isReserved || convertedOrder.isUnavailable) {
+        this.notOrderable = convertedOrder.isReserved ? 'reserved' : 'unavailable';
+        this.contexts.proceedButton?.loading(false);
+        this.render();
+        return;
+      }
+      this.notOrderable = undefined;
 
       ecomEvent(EcomView.MAIN, EcomEvent.CENTRAL_STORAGE_SET, EcomStep.CENTRAL_STORAGE);
-      setOrder(convertOrderOptionsResponse(order), vehicle);
+      setOrder(convertedOrder, vehicle);
       setDealer(selectedDealer, this.props.lastStage)(this.props.store.dispatch);
 
       this.contexts.proceedButton?.loading(false);
@@ -137,6 +147,17 @@ class CentralStorage extends HtmlNode {
           ? `<div class="waykeecom-stack waykeecom-stack--3">${Alert({
               tone: 'error',
               children: i18next.t('centralStorage.errorMessage'),
+            })}</div>`
+          : ''
+      }
+
+      ${
+        this.notOrderable
+          ? `<div class="waykeecom-stack waykeecom-stack--3">${Alert({
+              tone: 'warning',
+              children: i18next.t(
+                this.notOrderable === 'reserved' ? 'preview.reserved' : 'preview.unavailable'
+              ),
             })}</div>`
           : ''
       }

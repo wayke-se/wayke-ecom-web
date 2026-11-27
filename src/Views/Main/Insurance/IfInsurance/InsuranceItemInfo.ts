@@ -1,5 +1,4 @@
 import i18next from '@i18n';
-import { IInsuranceAddon, IInsuranceOption } from '@wayke-se/ecom';
 import Accordion from '../../../../Components/Accordion';
 import ButtonAddRemove from '../../../../Components/Button/ButtonAddRemove';
 import ButtonAsLinkArrowLeft from '../../../../Components/Button/ButtonAsLinkArrowLeft';
@@ -9,6 +8,7 @@ import HtmlNode from '../../../../Components/Extension/HtmlNode';
 import InputCheckbox from '../../../../Components/Input/InputCheckbox';
 import { addOrRemoveInsuranceAddon } from '../../../../Redux/action';
 import { WaykeStore } from '../../../../Redux/store';
+import { IInsuranceAddon, IInsuranceOption } from '../../../../sdk';
 import ecomEvent, { EcomEvent, EcomStep, EcomView } from '../../../../Utils/ecomEvent';
 import { prettyNumber } from '../../../../Utils/format';
 import { scrollTop } from '../../../../Utils/scroll';

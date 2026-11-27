@@ -1,7 +1,4 @@
 import i18next from '@i18n';
-import { AuthMethod } from '@wayke-se/ecom';
-import { BankIdAuthResponse } from '@wayke-se/ecom/dist-types/bankid/bankid-auth-response';
-import { BankIdCollectResponse } from '@wayke-se/ecom/dist-types/bankid/bankid-collect-response';
 import BankIdSign from '../../../Components/BankId/BankIdSign';
 import ButtonAsLink from '../../../Components/Button/ButtonAsLink';
 import ButtonBankId from '../../../Components/Button/ButtonBankId';
@@ -16,6 +13,9 @@ import { getBankIdQrCode } from '../../../Data/getBankIdQrCode';
 import { getBankIdStatus } from '../../../Data/getBankIdStatus';
 import { setCreatedOrderId } from '../../../Redux/action';
 import { WaykeStore } from '../../../Redux/store';
+import { AuthMethod } from '../../../sdk';
+import { BankIdAuthResponse } from '../../../sdk/bankid/bankid-auth-response';
+import { BankIdCollectResponse } from '../../../sdk/bankid/bankid-collect-response';
 import Alert from '../../../Templates/Alert';
 import ecomEvent, { EcomEvent, EcomStep, EcomView } from '../../../Utils/ecomEvent';
 import { registerInterval } from '../../../Utils/intervals';

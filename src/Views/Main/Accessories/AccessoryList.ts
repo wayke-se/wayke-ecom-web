@@ -1,8 +1,7 @@
-import { IAccessory } from '@wayke-se/ecom/dist-types/orders/types';
 import HtmlNode from '../../../Components/Extension/HtmlNode';
-
 import OverflowGridList from '../../../Components/OverflowGrid/OverflowGridList';
 import { WaykeStore } from '../../../Redux/store';
+import { IAccessory } from '../../../sdk/orders/types';
 import ecomEvent, { EcomEvent, EcomStep, EcomView } from '../../../Utils/ecomEvent';
 import AccessoryItem from './AccessoryItem';
 

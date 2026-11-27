@@ -12,7 +12,6 @@ export const initializeI18N = (marketCode?: MarketCode) => {
 
   i18next.init({
     lng: locale,
-    debug: true,
     resources: {
       'sv-SE': {
         translation: svSE,
