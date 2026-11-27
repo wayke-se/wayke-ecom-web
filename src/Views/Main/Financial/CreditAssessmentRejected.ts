@@ -1,8 +1,8 @@
 import i18next from '@i18n';
-import { CreditAssessmentRecommendation } from '@wayke-se/ecom';
 import Button from '../../../Components/Button/Button';
 import HtmlNode from '../../../Components/Extension/HtmlNode';
 import { WaykeStore } from '../../../Redux/store';
+import { CreditAssessmentRecommendation } from '../../../sdk';
 import StageCompletedFinancialCreditAssessment from './StageCompletedFinancialCreditAssessment';
 
 const RESULT = 'assessment-rejected-result';

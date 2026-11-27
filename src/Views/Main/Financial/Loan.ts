@@ -1,5 +1,4 @@
 import i18next from '@i18n';
-import { IPaymentRangeSpec } from '@wayke-se/ecom';
 import { PaymentOption } from '../../../@types/OrderOptions';
 import { PaymentLookup } from '../../../@types/PaymentLookup';
 import ButtonArrowRight from '../../../Components/Button/ButtonArrowRight';
@@ -9,6 +8,7 @@ import InputRange from '../../../Components/Input/InputRange';
 import { getPayment } from '../../../Data/getPayment';
 import { setPaymentLookupResponse } from '../../../Redux/action';
 import { WaykeStore } from '../../../Redux/store';
+import { IPaymentRangeSpec } from '../../../sdk';
 import { convertPaymentLookupResponse } from '../../../Utils/convert';
 import ecomEvent, { EcomEvent, EcomStep, EcomView } from '../../../Utils/ecomEvent';
 import CreditAssessment, { DISCLAIMER_WRAPPER_NODE } from './CreditAssessment';

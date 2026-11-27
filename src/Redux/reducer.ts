@@ -1,12 +1,3 @@
-import {
-  DrivingDistance,
-  IAddress,
-  IAvailableInsuranceOption,
-  IInsuranceOption,
-  IVehicle,
-  PaymentType,
-} from '@wayke-se/ecom';
-import { IAccessory, IOrderVehicle } from '@wayke-se/ecom/dist-types/orders/types';
 import { ICreditAssessmentStatus } from '../@types/CreditAssessmentStatus';
 import { Customer } from '../@types/Customer';
 import { Insurance } from '../@types/Insurance';
@@ -15,6 +6,15 @@ import { OrderOptions, PaymentOption } from '../@types/OrderOptions';
 import { PaymentLookup } from '../@types/PaymentLookup';
 import { StageTypes } from '../@types/Stages';
 import { TradeInCarDataPartial } from '../@types/TradeIn';
+import {
+  DrivingDistance,
+  IAddress,
+  IAvailableInsuranceOption,
+  IInsuranceOption,
+  IVehicle,
+  PaymentType,
+} from '../sdk';
+import { IAccessory, IOrderVehicle } from '../sdk/orders/types';
 import { isSame } from '../Utils/compare';
 import {
   Action,

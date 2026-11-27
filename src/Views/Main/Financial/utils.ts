@@ -1,4 +1,4 @@
-import { PaymentType } from '@wayke-se/ecom';
+import { PaymentType } from '../../../sdk';
 
 const createTerm = (months: number) => {
   const isPositive = months > 0;

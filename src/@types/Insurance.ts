@@ -1,4 +1,4 @@
-import { IInsuranceAddon } from '@wayke-se/ecom';
+import { IInsuranceAddon } from '../sdk';
 
 export interface Insurance {
   insurance: string;

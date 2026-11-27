@@ -17,6 +17,21 @@
     "bracketSpacing": true
   },
   "assist": { "actions": { "source": { "organizeImports": "on" } } },
+  "overrides": [
+    {
+      "includes": ["**/src/sdk/**", "**/src/test/**"],
+      "assist": { "actions": { "source": { "organizeImports": "off" } } }
+    },
+    {
+      "includes": ["**/src/sdk/**/*.spec.ts", "**/src/test/**"],
+      "linter": {
+        "rules": {
+          "correctness": { "noUnusedVariables": "off" },
+          "suspicious": { "noVar": "off" }
+        }
+      }
+    }
+  ],
   "linter": {
     "enabled": true,
     "rules": {

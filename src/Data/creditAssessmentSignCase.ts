@@ -1,4 +1,4 @@
-import { creditAssessment, ICreditAssessmentSignRequest } from '@wayke-se/ecom';
+import { creditAssessment, ICreditAssessmentSignRequest } from '../sdk';
 
 export const creditAssessmentSignCase = (creditAssessmentCase: ICreditAssessmentSignRequest) => {
   const request = creditAssessment.signCase(creditAssessmentCase);

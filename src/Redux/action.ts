@@ -1,14 +1,3 @@
-import {
-  DrivingDistance,
-  IAddress,
-  IAvailableInsuranceOption,
-  IInsuranceAddon,
-  IInsuranceOption,
-  IVehicle,
-  PaymentType,
-} from '@wayke-se/ecom';
-import { IAccessory } from '@wayke-se/ecom/dist-types/orders/types';
-import { PaymentLookupResponse } from '@wayke-se/ecom/dist-types/payments/payment-lookup-response';
 import { Dispatch } from 'redux';
 import { BaseAction } from '../@types/BaseAction';
 import { ICreditAssessmentStatus } from '../@types/CreditAssessmentStatus';
@@ -19,6 +8,17 @@ import { PaymentLookup } from '../@types/PaymentLookup';
 import { StageTypes } from '../@types/Stages';
 import { TradeInCarData } from '../@types/TradeIn';
 import { Vehicle } from '../@types/Vehicle';
+import {
+  DrivingDistance,
+  IAddress,
+  IAvailableInsuranceOption,
+  IInsuranceAddon,
+  IInsuranceOption,
+  IVehicle,
+  PaymentType,
+} from '../sdk';
+import { IAccessory } from '../sdk/orders/types';
+import { PaymentLookupResponse } from '../sdk/payments/payment-lookup-response';
 import { convertPaymentLookupResponse } from '../Utils/convert';
 import { ReducerState } from './reducer';
 

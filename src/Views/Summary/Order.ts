@@ -1,7 +1,7 @@
 import i18next from '@i18n';
-import { PaymentType } from '@wayke-se/ecom';
 import StackNode from '../../Components/Extension/StackNode';
 import { WaykeStore } from '../../Redux/store';
+import { PaymentType } from '../../sdk';
 import ItemTileLarge from '../../Templates/ItemTileLarge';
 import KeyValueListItem from '../../Templates/KeyValueListItem';
 import { prettyNumber } from '../../Utils/format';

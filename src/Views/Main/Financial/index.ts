@@ -1,5 +1,4 @@
 import i18next from '@i18n';
-import { PaymentType } from '@wayke-se/ecom';
 import { MarketCode } from '../../../@types/MarketCode';
 import ButtonArrowRight from '../../../Components/Button/ButtonArrowRight';
 import HtmlNode from '../../../Components/Extension/HtmlNode';
@@ -7,6 +6,7 @@ import InputRadioGroup, { RadioItem } from '../../../Components/Input/InputRadio
 import { goTo, resetPaymentLookupResponse, setFinancial } from '../../../Redux/action';
 import { WaykeStore } from '../../../Redux/store';
 import watch from '../../../Redux/watch';
+import { PaymentType } from '../../../sdk';
 import ListItem from '../../../Templates/ListItem';
 import { waykeImage } from '../../../Utils/cdn';
 import { Image } from '../../../Utils/constants';

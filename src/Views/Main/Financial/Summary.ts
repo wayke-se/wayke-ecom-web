@@ -1,6 +1,6 @@
 import i18next from '@i18n';
-import { IPaymentOption, PaymentType } from '@wayke-se/ecom';
 import { PaymentLookup } from '../../../@types/PaymentLookup';
+import { IPaymentOption, PaymentType } from '../../../sdk';
 import Alert from '../../../Templates/Alert';
 import KeyValueListItem from '../../../Templates/KeyValueListItem';
 import { prettyNumber } from '../../../Utils/format';

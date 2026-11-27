@@ -1,5 +1,5 @@
-import { IOrderVehicle } from '@wayke-se/ecom/dist-types/orders/types';
 import { OrderOptions } from '../@types/OrderOptions';
+import { IOrderVehicle } from '../sdk/orders/types';
 import { waykeImage } from '../Utils/cdn';
 import { formatShortDescription, prettyNumber } from '../Utils/format';
 

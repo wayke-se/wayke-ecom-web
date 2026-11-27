@@ -1,13 +1,4 @@
 import i18next from '@i18n';
-import {
-  AuthMethod,
-  Employment,
-  HousingType,
-  ICreditAssessmentHouseholdEconomy,
-  ICreditAssessmentInquiry,
-  MaritalStatus,
-  PaymentType,
-} from '@wayke-se/ecom';
 import { ICreditAssessmentStatus } from '../../../@types/CreditAssessmentStatus';
 import { PaymentOption } from '../../../@types/OrderOptions';
 import { PaymentLookup } from '../../../@types/PaymentLookup';
@@ -27,6 +18,15 @@ import { creditAssessmentNewCase } from '../../../Data/creditAssessmentNewCase';
 import { creditAssessmentSignCase } from '../../../Data/creditAssessmentSignCase';
 import { setCreditAssessmentResponse } from '../../../Redux/action';
 import { WaykeStore } from '../../../Redux/store';
+import {
+  AuthMethod,
+  Employment,
+  HousingType,
+  ICreditAssessmentHouseholdEconomy,
+  ICreditAssessmentInquiry,
+  MaritalStatus,
+  PaymentType,
+} from '../../../sdk';
 import Alert from '../../../Templates/Alert';
 import { convertCreditAssessmentStatusResponse } from '../../../Utils/convert';
 import ecomEvent, { EcomEvent, EcomStep, EcomView } from '../../../Utils/ecomEvent';

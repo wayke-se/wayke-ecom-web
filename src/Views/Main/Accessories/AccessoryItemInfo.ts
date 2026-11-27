@@ -1,10 +1,10 @@
 import i18next from '@i18n';
-import { IAccessory } from '@wayke-se/ecom/dist-types/orders/types';
 import ButtonAddRemove from '../../../Components/Button/ButtonAddRemove';
 import ButtonAsLinkArrowLeft from '../../../Components/Button/ButtonAsLinkArrowLeft';
 import ButtonClear from '../../../Components/Button/ButtonClear';
 import HtmlNode from '../../../Components/Extension/HtmlNode';
 import Gallery from '../../../Components/Gallery/Gallery';
+import { IAccessory } from '../../../sdk/orders/types';
 import { waykeImage } from '../../../Utils/cdn';
 import ecomEvent, { EcomEvent, EcomStep, EcomView } from '../../../Utils/ecomEvent';
 import { prettyNumber } from '../../../Utils/format';

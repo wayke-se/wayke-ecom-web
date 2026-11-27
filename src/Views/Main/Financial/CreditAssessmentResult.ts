@@ -1,7 +1,7 @@
-import { CreditAssessmentRecommendation } from '@wayke-se/ecom';
 import { ICreditAssessmentStatus } from '../../../@types/CreditAssessmentStatus';
 import HtmlNode from '../../../Components/Extension/HtmlNode';
 import { WaykeStore } from '../../../Redux/store';
+import { CreditAssessmentRecommendation } from '../../../sdk';
 import CreditAssessmentApproved from './CreditAssessmentApproved';
 import CreditAssessmentAssessManually from './CreditAssessmentAssessManually';
 import CreditAssessmentRejected from './CreditAssessmentRejected';

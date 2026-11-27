@@ -1,10 +1,9 @@
-import { IAccessory } from '@wayke-se/ecom/dist-types/orders/types';
 import HtmlNode from '../../../Components/Extension/HtmlNode';
-
 import GridItem from '../../../Components/OverflowGrid/OverflowGridItem';
 import { addOrRemoveAccessory } from '../../../Redux/action';
 import { WaykeStore } from '../../../Redux/store';
 import watch from '../../../Redux/watch';
+import { IAccessory } from '../../../sdk/orders/types';
 import { waykeImage } from '../../../Utils/cdn';
 import ecomEvent, { EcomEvent, EcomStep, EcomView } from '../../../Utils/ecomEvent';
 import { prettyNumber } from '../../../Utils/format';

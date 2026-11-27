@@ -1,4 +1,4 @@
-import { IPaymentCosts, IPaymentFees, IPaymentInterests, IPaymentRangeSpec } from '@wayke-se/ecom';
+import { IPaymentCosts, IPaymentFees, IPaymentInterests, IPaymentRangeSpec } from '../sdk';
 
 /**
  * A range the customer may adjust. `fixed` is set by commerce when the dealer's financing

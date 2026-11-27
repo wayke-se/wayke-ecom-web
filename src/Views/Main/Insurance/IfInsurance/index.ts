@@ -1,5 +1,4 @@
 import i18next from '@i18n';
-import { DrivingDistance } from '@wayke-se/ecom';
 import ButtonArrowRight from '../../../../Components/Button/ButtonArrowRight';
 import ButtonSkip from '../../../../Components/Button/ButtonSkip';
 import Disclaimer from '../../../../Components/Disclaimer/Disclaimer';
@@ -7,6 +6,7 @@ import HtmlNode from '../../../../Components/Extension/HtmlNode';
 import InputSelect from '../../../../Components/Input/InputSelect';
 import { setDrivingDistance } from '../../../../Redux/action';
 import { WaykeStore } from '../../../../Redux/store';
+import { DrivingDistance } from '../../../../sdk';
 import Alert from '../../../../Templates/Alert';
 import { translateDrivingDistance } from '../../../../Utils/constants';
 import ecomEvent, { EcomEvent, EcomStep, EcomView } from '../../../../Utils/ecomEvent';

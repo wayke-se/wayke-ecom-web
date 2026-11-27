@@ -1,6 +1,6 @@
-import { customers, DeliveryType, orders, PaymentType, vehicles } from '@wayke-se/ecom';
-import { IOrderInsuranceRequest } from '@wayke-se/ecom/dist-types/orders/types';
 import { WaykeStore } from '../Redux/store';
+import { customers, DeliveryType, orders, PaymentType, vehicles } from '../sdk';
+import { IOrderInsuranceRequest } from '../sdk/orders/types';
 import { extractLoanIndex, extractPaymentType } from '../Views/Main/Financial/utils';
 
 export const createOrder = (store: WaykeStore) => {

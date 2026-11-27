@@ -6,7 +6,7 @@ import {
   IDeliveryOption,
   IOrderVehicle,
   PaymentType,
-} from '@wayke-se/ecom/dist-types/orders/types';
+} from '../sdk/orders/types';
 import { PaymentLookup } from './PaymentLookup';
 
 export interface PaymentOption {
