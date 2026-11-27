@@ -1,7 +1,6 @@
 import './styles/styles.scss';
 
 import i18next, { initializeI18N } from '@i18n';
-import { config, IOrderOptionsResponse } from '@wayke-se/ecom';
 import packageJson from '../package.json';
 import { CallbackOrder } from './@types/CallbackOrder';
 import { EcomSdkConfig } from './@types/EcomSdkConfig';
@@ -14,6 +13,7 @@ import { reset, setId, setState } from './Redux/action';
 import { ReducerState } from './Redux/reducer';
 import { createStore, WaykeStore } from './Redux/store';
 import watch, { unregisterAllSubscriptions } from './Redux/watch';
+import { config, IOrderOptionsResponse } from './sdk';
 import ecomEvent, {
   EcomEvent,
   EcomStep,

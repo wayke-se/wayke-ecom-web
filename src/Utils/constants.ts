@@ -1,5 +1,5 @@
-import { DrivingDistance } from '@wayke-se/ecom';
 import { VehicleCondition } from '../@types/TradeIn';
+import { DrivingDistance } from '../sdk';
 
 export const Image = {
   bankid: 'https://cdn.wayke.se/public-assets/bankid-logo.svg',

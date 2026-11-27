@@ -1,5 +1,4 @@
 import i18next from '@i18n';
-import { IInsuranceOption } from '@wayke-se/ecom';
 import ButtonArrowRight from '../../../../Components/Button/ButtonArrowRight';
 import ButtonAsLink from '../../../../Components/Button/ButtonAsLink';
 import ButtonSkip from '../../../../Components/Button/ButtonSkip';
@@ -8,6 +7,7 @@ import { getInsurances } from '../../../../Data/getInsurances';
 import { addOrRemoveInsurance, completeStage } from '../../../../Redux/action';
 import { WaykeStore } from '../../../../Redux/store';
 import watch from '../../../../Redux/watch';
+import { IInsuranceOption } from '../../../../sdk';
 import Alert from '../../../../Templates/Alert';
 import KeyValueListItem from '../../../../Templates/KeyValueListItem';
 import Loader from '../../../../Templates/Loader';

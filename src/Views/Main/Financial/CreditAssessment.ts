@@ -1,13 +1,4 @@
 import i18next from '@i18n';
-import {
-  AuthMethod,
-  Employment,
-  HousingType,
-  ICreditAssessmentHouseholdEconomy,
-  ICreditAssessmentInquiry,
-  MaritalStatus,
-  PaymentType,
-} from '@wayke-se/ecom';
 import { ICreditAssessmentStatus } from '../../../@types/CreditAssessmentStatus';
 import { PaymentOption } from '../../../@types/OrderOptions';
 import { PaymentLookup } from '../../../@types/PaymentLookup';
@@ -27,6 +18,14 @@ import { creditAssessmentNewCase } from '../../../Data/creditAssessmentNewCase';
 import { creditAssessmentSignCase } from '../../../Data/creditAssessmentSignCase';
 import { setCreditAssessmentResponse } from '../../../Redux/action';
 import { WaykeStore } from '../../../Redux/store';
+import {
+  AuthMethod,
+  Employment,
+  HousingType,
+  ICreditAssessmentHouseholdEconomy,
+  ICreditAssessmentInquiry,
+  MaritalStatus,
+} from '../../../sdk';
 import Alert from '../../../Templates/Alert';
 import { convertCreditAssessmentStatusResponse } from '../../../Utils/convert';
 import ecomEvent, { EcomEvent, EcomStep, EcomView } from '../../../Utils/ecomEvent';
@@ -371,9 +370,7 @@ class CreditAssessment extends HtmlNode {
         EcomStep.FINANCIAL_CREDIT_SCORING
       );
     }
-    const loan = this.props.store
-      .getState()
-      .order?.paymentOptions.find((x) => x.type === PaymentType.Loan);
+    const { loan } = this.props;
     this.bankidStatusInterval = setInterval(async () => {
       try {
         const response = await creditAssessmentGetStatus(caseId);
@@ -606,13 +603,17 @@ class CreditAssessment extends HtmlNode {
   }
 
   private render(scrollIntoView?: boolean) {
-    const { store, paymentLookupResponse: initialPaymentLookupResponse, onProceed } = this.props;
+    const {
+      store,
+      loan,
+      paymentLookupResponse: initialPaymentLookupResponse,
+      onProceed,
+    } = this.props;
 
     const mobile = isMobile();
     const { order, paymentLookupResponse: updatePaymentLookupResponse } = store.getState();
     const paymentLookupResponse = updatePaymentLookupResponse || initialPaymentLookupResponse;
 
-    const loan = order?.paymentOptions.find((x) => x.type === PaymentType.Loan);
     const creditAmount = paymentLookupResponse.creditAmount;
     const branchName = order?.contactInformation?.name;
     if (this.view === 3 && this.creditAssessmentResponse) {

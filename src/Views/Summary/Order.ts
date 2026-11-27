@@ -1,11 +1,11 @@
 import i18next from '@i18n';
-import { PaymentType } from '@wayke-se/ecom';
 import StackNode from '../../Components/Extension/StackNode';
 import { WaykeStore } from '../../Redux/store';
+import { PaymentType } from '../../sdk';
 import ItemTileLarge from '../../Templates/ItemTileLarge';
 import KeyValueListItem from '../../Templates/KeyValueListItem';
 import { prettyNumber } from '../../Utils/format';
-import { extractPaymentType } from '../Main/Financial/utils';
+import { extractPaymentType, findSelectedLoan } from '../Main/Financial/utils';
 
 interface OrderProps {
   readonly store: WaykeStore;
@@ -24,7 +24,7 @@ class Order extends StackNode {
     const { store } = this.props;
     const state = store.getState();
 
-    const paymentLoan = state.order?.paymentOptions.find((x) => x.type === PaymentType.Loan);
+    const paymentLoan = findSelectedLoan(state.order?.paymentOptions, state.paymentType);
     const paymentLookupResponse = state.paymentLookupResponse || paymentLoan?.loanDetails;
     const paymentLease = state.order?.paymentOptions.find((x) => x.type === PaymentType.Lease);
     const paymentType = extractPaymentType(state.paymentType)!;

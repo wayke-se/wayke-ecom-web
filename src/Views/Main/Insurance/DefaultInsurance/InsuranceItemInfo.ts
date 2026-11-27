@@ -1,9 +1,9 @@
 import i18next from '@i18n';
-import { IAvailableInsuranceOption } from '@wayke-se/ecom';
 import ButtonAddRemove from '../../../../Components/Button/ButtonAddRemove';
 import ButtonAsLinkArrowLeft from '../../../../Components/Button/ButtonAsLinkArrowLeft';
 import ButtonClear from '../../../../Components/Button/ButtonClear';
 import HtmlNode from '../../../../Components/Extension/HtmlNode';
+import { IAvailableInsuranceOption } from '../../../../sdk';
 import { asHtml } from '../../../../Utils/parser';
 import { scrollTop } from '../../../../Utils/scroll';
 

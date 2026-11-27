@@ -1,4 +1,4 @@
-import { creditAssessment } from '@wayke-se/ecom';
+import { creditAssessment } from '../sdk';
 
 export const creditAssessmentDecline = (caseId: string) => {
   const request = creditAssessment.decline(caseId);

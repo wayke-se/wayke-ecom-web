@@ -1,7 +1,7 @@
 import i18next from '@i18n';
-import { IDeliveryOption, PaymentType } from '@wayke-se/ecom';
 import { OrderOptions, PaymentOption } from '../../@types/OrderOptions';
 import { StageTypes } from '../../@types/Stages';
+import { IDeliveryOption, PaymentType } from '../../sdk';
 import TimelineItem from '../../Templates/TimelineItem';
 
 const getFinancialDescription = (options?: PaymentOption[]) => {
