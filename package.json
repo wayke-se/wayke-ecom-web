@@ -65,5 +65,10 @@
   },
   "volta": {
     "node": "24"
+  },
+  "allowScripts": {
+    "esbuild": false,
+    "@parcel/watcher": false,
+    "fsevents": false
   }
 }
